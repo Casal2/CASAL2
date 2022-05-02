@@ -622,28 +622,64 @@ class Latex:
 
         for i in range(0, 3):
             if Globals.operating_system_ != "windows":
-                # Create CASAL2.aux
-                if os.system('pdflatex --interaction=nonstopmode CASAL2') != EX_OK:
+                ########################################################################
+                # WINDOWS - Age based models
+                ########################################################################
+                # Create CASAL2_Age.aux
+                if os.system('pdflatex --interaction=nonstopmode CASAL2_Age') != EX_OK:
                     return False
                 # Create the bibliography
-                if os.system('bibtex CASAL2') != EX_OK:
+                if os.system('bibtex CASAL2_Age') != EX_OK:
                     return False
                 # Fix the references/citations
-                if os.system('pdflatex --halt-on-error --interaction=nonstopmode CASAL2') != EX_OK:
+                if os.system('pdflatex --halt-on-error --interaction=nonstopmode CASAL2_Age') != EX_OK:
                     return False
-                if os.system('makeindex CASAL2') != EX_OK:
+                if os.system('makeindex CASAL2_Age') != EX_OK:
                     return False
-                if not os.path.exists('CASAL2.pdf'):
+                if not os.path.exists('CASAL2_Age.pdf'):
                     return False
             else:
-                if os.system('pdflatex.exe --enable-installer CASAL2') != EX_OK:
+                ########################################################################
+                # LINUX - Age based models
+                ########################################################################
+                if os.system('pdflatex.exe --enable-installer CASAL2_Age') != EX_OK:
                     return Globals.PrintError('pdflatex failed')
-                if os.system('bibtex.exe CASAL2') != EX_OK:
+                if os.system('bibtex.exe CASAL2_Age') != EX_OK:
                     return Globals.PrintError('bibtex failed')
-                if os.system('pdflatex.exe --halt-on-error --enable-installer CASAL2') != EX_OK:
+                if os.system('pdflatex.exe --halt-on-error --enable-installer CASAL2_Age') != EX_OK:
                     return Globals.PrintError('pdflatex failed')
-                if os.system('makeindex.exe CASAL2') != EX_OK:
+                if os.system('makeindex.exe CASAL2_Age') != EX_OK:
                     return Globals.PrintError('makeindex failed')
-        print('-- Built the Casal2 User Manual')
-
+            print('-- Built the Casal2_Age User Manual')
+        for i in range(0, 3):
+            if Globals.operating_system_ != "windows":
+                ########################################################################
+                # WINDOWS - Length based models
+                ########################################################################
+                # Create CASAL2_Length.aux
+                if os.system('pdflatex --interaction=nonstopmode CASAL2_Length') != EX_OK:
+                    return False
+                # Create the bibliography
+                if os.system('bibtex CASAL2_Length') != EX_OK:
+                    return False
+                # Fix the references/citations
+                if os.system('pdflatex --halt-on-error --interaction=nonstopmode CASAL2_Length') != EX_OK:
+                    return False
+                if os.system('makeindex CASAL2_Length') != EX_OK:
+                    return False
+                if not os.path.exists('CASAL2_Length.pdf'):
+                    return False
+            else:
+                ########################################################################
+                # LINUX - Length based models
+                ########################################################################
+                if os.system('pdflatex.exe --enable-installer CASAL2_Length') != EX_OK:
+                    return Globals.PrintError('pdflatex failed')
+                if os.system('bibtex.exe CASAL2_Length') != EX_OK:
+                    return Globals.PrintError('bibtex failed')
+                if os.system('pdflatex.exe --halt-on-error --enable-installer CASAL2_Length') != EX_OK:
+                    return Globals.PrintError('pdflatex failed')
+                if os.system('makeindex.exe CASAL2_Length') != EX_OK:
+                    return Globals.PrintError('makeindex failed')
+            print('-- Built the Casal2_Length User Manual')
         return True

@@ -24,6 +24,12 @@
 \defSub{mu}{The lognormal prior mean (mu) parameter}
 \defSub{cv}{The lognormal CV parameter}
 
+\commandlabsubarg{Additional\_Prior}{type}{Ratio}
+
+\defSub{second\_parameter}{The name of the parameter on the denominator}
+\defSub{mu}{The lognormal prior mean (mu) of the ratio}
+\defSub{cv}{The lognormal CV parameter for the ratio}
+
 \commandlabsubarg{Additional\_Prior}{type}{Uniform\_Log}
 
 
@@ -59,6 +65,11 @@
 
 \commandlabsubarg{Addressable\_Transformation}{type}{Log\_Sum}
 
+
+\commandlabsubarg{Addressable\_Transformation}{type}{Logistic}
+
+\defSub{lower\_bound}{Lower bound of parameter space}
+\defSub{upper\_bound}{Upper bound of parameter space}
 
 \commandlabsubarg{Addressable\_Transformation}{type}{Orthogonal}
 
@@ -157,6 +168,7 @@
 
 \defSub{value}{Expected value of the objective function}
 \defSub{error\_type}{Report assert failures as either an error or warning}
+\defSub{tolerance}{Tolerance}
 
 \commandlabsubarg{Assert}{type}{Partition}
 
@@ -184,6 +196,7 @@
 \defSub{format}{The format that the category names use}
 \defSub{names}{The names of the categories}
 \defSub{age\_lengths}{The age-length relationship labels for each category}
+\defSub{growth\_increment}{The growth increment model label for each category}
 
 \defComLab{Derived\_Quantity}{Define an object of type \emph{Derived\_Quantity}}
 
@@ -405,7 +418,7 @@
 \defSub{evaluations}{The maximum number of evaluations}
 \defSub{tolerance}{The tolerance of the gradient for convergence}
 \defSub{step\_size}{The minimum step size before minimisation fails}
-\defSub{parameter\_transformation}{The choice to scale parameters for ADOLC optimation}
+\defSub{parameter\_transformation}{The choice of parametrisation used to scale the parameters for ADOLC}
 
 \commandlabsubarg{Minimiser}{type}{Beta\_Diff}
 
@@ -490,12 +503,13 @@
 \defSub{max\_age}{The maximum age}
 \defSub{plus\_group}{Is the maximum age the age plus group}
 \defSub{time\_step}{The label of time-step that the observation occurs in}
-\defSub{tolerance}{The tolerance}
 \defSub{years}{The years for which there are observations}
 \defSub{process\_errors}{The label of process error to use}
 \defSub{ageing\_error}{The label of the ageing error to use}
 \defSub{method\_of\_removal}{The label of the observed method of removals}
 \defSub{mortality\_instantaneous\_process}{The label of the mortality instantaneous process for the observation}
+\defSub{simulated\_data\_sum\_to\_one}{Whether simulated data is discrete or scaled by totals to be proportions for each year}
+\defSub{sum\_to\_one}{Scale year (row) observed values by the total, so they sum = 1}
 
 \commandlabsubarg{Observation}{type}{Process\_Removals\_By\_Age\_Retained}
 
@@ -503,12 +517,13 @@
 \defSub{max\_age}{The maximum age}
 \defSub{plus\_group}{Is the maximum age the age plus group?}
 \defSub{time\_step}{The label of the time step that the observation occurs in}
-\defSub{tolerance}{The tolerance}
 \defSub{years}{The years for which there are observations}
 \defSub{process\_errors}{The label of the process error to use}
 \defSub{ageing\_error}{The label of the ageing error to use}
 \defSub{method\_of\_removal}{The label of observed method of removals}
 \defSub{mortality\_instantaneous\_process}{The label of the mortality instantaneous process for the observation}
+\defSub{simulated\_data\_sum\_to\_one}{Whether simulated data is discrete or scaled by totals to be proportions for each year}
+\defSub{sum\_to\_one}{Scale year (row) observed values by the total, so they sum = 1}
 
 \commandlabsubarg{Observation}{type}{Process\_Removals\_By\_Age\_Retained\_Total}
 
@@ -516,52 +531,55 @@
 \defSub{max\_age}{The maximum age}
 \defSub{plus\_group}{Is the maximum age the age plus group?}
 \defSub{time\_step}{The label of the time step that the observation occurs in}
-\defSub{tolerance}{The tolerance}
 \defSub{years}{The years for which there are observations}
 \defSub{process\_errors}{The label of the process error to use}
 \defSub{ageing\_error}{The label of the ageing error to use}
 \defSub{method\_of\_removal}{The label of observed method of removals}
 \defSub{mortality\_instantaneous\_process}{The label of the mortality instantaneous process for the observation}
+\defSub{simulated\_data\_sum\_to\_one}{Whether simulated data is discrete or scaled by totals to be proportions for each year}
+\defSub{sum\_to\_one}{Scale year (row) observed values by the total, so they sum = 1}
 
 \commandlabsubarg{Observation}{type}{Process\_Removals\_By\_Length}
 
 \defSub{time\_step}{The time step to execute in}
-\defSub{tolerance}{The tolerance for rescaling proportions}
 \defSub{years}{The years for which there are observations}
 \defSub{process\_errors}{The process error}
 \defSub{method\_of\_removal}{The label of observed method of removals}
 \defSub{length\_bins}{The length bins}
-\defSub{length\_plus}{Is the last length bin a plus group? (defaults to @model value)}
+\defSub{plus\_group}{Is the last length bin a plus group? (defaults to @model value)}
 \defSub{mortality\_instantaneous\_process}{The label of the mortality instantaneous process for the observation}
+\defSub{simulated\_data\_sum\_to\_one}{Whether simulated data is discrete or scaled by totals to be proportions for each year}
+\defSub{sum\_to\_one}{Scale year (row) observed values by the total, so they sum = 1}
 
 \commandlabsubarg{Observation}{type}{Process\_Removals\_By\_Length\_Retained}
 
 \defSub{time\_step}{The time step to execute in}
-\defSub{tolerance}{The tolerance for rescaling proportions}
 \defSub{years}{The years for which there are observations}
 \defSub{process\_errors}{The process error}
 \defSub{method\_of\_removal}{The label of observed method of removals}
 \defSub{length\_bins}{The length bins}
-\defSub{length\_plus}{Is the last length bin a plus group? (defaults to @model value)}
+\defSub{plus\_group}{Is the last length bin a plus group? (defaults to @model value)}
 \defSub{mortality\_instantaneous\_process}{The label of the mortality instantaneous process for the observation}
+\defSub{simulated\_data\_sum\_to\_one}{Whether simulated data is discrete or scaled by totals to be proportions for each year}
+\defSub{sum\_to\_one}{Scale year (row) observed values by the total, so they sum = 1}
 
 \commandlabsubarg{Observation}{type}{Process\_Removals\_By\_Length\_Retained\_Total}
 
 \defSub{time\_step}{The time step to execute in}
-\defSub{tolerance}{The tolerance for rescaling proportions}
 \defSub{years}{The years for which there are observations}
 \defSub{process\_errors}{The process error}
 \defSub{method\_of\_removal}{The label of observed method of removals}
 \defSub{length\_bins}{The length bins}
-\defSub{length\_plus}{Is the last length bin a plus group? (defaults to @model value)}
+\defSub{plus\_group}{Is the last length bin a plus group? (defaults to @model value)}
 \defSub{mortality\_instantaneous\_process}{The label of the mortality instantaneous process for the observation}
+\defSub{simulated\_data\_sum\_to\_one}{Whether simulated data is discrete or scaled by totals to be proportions for each year}
+\defSub{sum\_to\_one}{Scale year (row) observed values by the total, so they sum = 1}
 
 \commandlabsubarg{Observation}{type}{Process\_Removals\_By\_Weight}
 
 \defSub{mortality\_instantaneous\_process}{The label of the mortality instantaneous process for the observation}
 \defSub{method\_of\_removal}{The label of observed method of removals}
 \defSub{time\_step}{The time step to execute in}
-\defSub{tolerance}{The tolerance for rescaling proportions}
 \defSub{years}{The years for which there are observations}
 \defSub{process\_errors}{The process error}
 \defSub{length\_weight\_cv}{The CV for the length-weight relationship}
@@ -578,20 +596,21 @@
 \defSub{max\_age}{The maximum age}
 \defSub{plus\_group}{Is the maximum age the age plus group?}
 \defSub{time\_step}{The label of the time step that the observation occurs in}
-\defSub{tolerance}{The tolerance on the constraint that for each year the sum of proportions in each age must equal 1, e.g., if tolerance = 0.1 then 1 - Sum(Proportions) can be as great as 0.1}
 \defSub{years}{The years of the observed values}
 \defSub{selectivities}{The labels of the selectivities}
 \defSub{process\_errors}{The process error}
 \defSub{ageing\_error}{The label of ageing error to use}
+\defSub{simulated\_data\_sum\_to\_one}{Whether simulated data is discrete or scaled by totals to be proportions for each year}
+\defSub{sum\_to\_one}{Scale year (row) observed values by the total, so they sum = 1}
 
 \commandlabsubarg{Observation}{type}{Proportions\_At\_Length}
 
 \defSub{time\_step}{The label of the time step that the observation occurs in}
-\defSub{tolerance}{The tolerance for rescaling proportions}
 \defSub{years}{The years for which there are observations}
 \defSub{selectivities}{The labels of the selectivities}
 \defSub{process\_errors}{The process error}
 \defSub{length\_bins}{The length bins}
+\defSub{sum\_to\_one}{Scale year (row) observed values by the total, so they sum = 1}
 
 \commandlabsubarg{Observation}{type}{Proportions\_By\_Category}
 
@@ -632,10 +651,10 @@
 \defSub{max\_age}{The maximum age}
 \defSub{plus\_group}{Is the maximum age the age plus group?}
 \defSub{years}{The years for which there are observations}
-\defSub{categories2}{The available categories in the partition}
+\defSub{tagged\_categories}{The categories of tagged individuals for the observation}
 \defSub{selectivities}{The labels of the selectivities}
 \defSub{time\_step}{The label of the time step that the observation occurs in}
-\defSub{selectivities2}{The categories of tagged individuals for the observation}
+\defSub{tagged\_selectivities}{The categories of tagged individuals for the observation}
 \defSub{detection}{The probability of detecting a recaptured individual}
 \defSub{time\_step\_proportion}{The proportion through the mortality block of the time step when the observation is evaluated}
 
@@ -740,6 +759,7 @@
 \defSub{categories}{The categories for instantaneous mortality}
 \defSub{m}{The natural mortality rates for each category}
 \defSub{time\_step\_proportions}{The time step proportions for natural mortality}
+\defSub{biomass}{Indicator to denote if the catches are as biomass (true) or abundance (false)}
 \defSub{relative\_m\_by\_age}{The M-by-age ogives to apply to each category for natural mortality}
 
 \commandlabsubarg{Process}{type}{Mortality\_Instantaneous\_Retained}
@@ -826,7 +846,6 @@
 \defSub{initial\_mortality\_selectivity}{The initial mortality selectivity label}
 \defSub{selectivities}{The selectivity labels}
 \defSub{n}{N}
-\defSub{tolerance}{Tolerance for checking the specificed proportions sum to one}
 
 \commandlabsubarg{Process}{type}{Tag\_By\_Length}
 
@@ -856,6 +875,7 @@
 \defSub{to}{The categories to transition to}
 \defSub{proportions}{The proportions to transition for each category}
 \defSub{selectivities}{The selectivities to apply to each proportion}
+\defSub{proportions}{}
 
 \commandlabsubarg{Process}{type}{Transition\_Category\_By\_Age}
 
@@ -927,6 +947,7 @@
 
 \commandlabsubarg{Report}{type}{Addressable\_Transformation}
 
+\defSub{parameter\_transformation}{The parameter\_transformation label that is reported}
 
 \commandlabsubarg{Report}{type}{Age\_Length}
 
@@ -963,6 +984,7 @@
 \defSub{projects}{Report projects}
 \defSub{selectivities}{Report selectivities}
 \defSub{parameter\_transformations}{Report parameters transformations}
+\defSub{time\_varying}{Report Time-Varying objects}
 
 \commandlabsubarg{Report}{type}{Derived\_Quantity}
 
@@ -985,9 +1007,6 @@
 
 
 \commandlabsubarg{Report}{type}{Initialisation\_Partition}
-
-
-\commandlabsubarg{Report}{type}{Initialisation\_Partition\_Mean\_Weight}
 
 
 \commandlabsubarg{Report}{type}{MCMCCovariance}
@@ -1021,15 +1040,15 @@
 
 \commandlabsubarg{Report}{type}{Partition\_Biomass}
 
-\defSub{time\_step}{The time step label}
-\defSub{years}{The years for the report}
-
-\commandlabsubarg{Report}{type}{Partition\_Year\_Cross\_Age\_Matrix}
-
+\defSub{time\_step}{Time Step label}
+\defSub{years}{Years}
 
 \commandlabsubarg{Report}{type}{Process}
 
 \defSub{process}{The process label that is reported}
+
+\commandlabsubarg{Report}{type}{Profile}
+
 
 \commandlabsubarg{Report}{type}{Project}
 
@@ -1041,6 +1060,13 @@
 \commandlabsubarg{Report}{type}{Selectivity}
 
 \defSub{selectivity}{Selectivity name}
+\defSub{length\_values}{Length values to evaluate the a length-based selectivity in an age based model.}
+
+\commandlabsubarg{Report}{type}{Selectivity\_By\_Year}
+
+\defSub{selectivity}{Selectivity label}
+\defSub{years}{Years}
+\defSub{time\_step}{Time Step when to print the selectivity}
 
 \commandlabsubarg{Report}{type}{Simulated\_Observation}
 
@@ -1069,6 +1095,42 @@
 \defSub{h}{The high value (H)}
 \defSub{v}{The v parameter}
 
+\commandlabsubarg{Selectivity}{type}{Compound\_All}
+
+\defSub{a50}{The mean (mu)}
+\defSub{ato95}{The sigma L parameter}
+\defSub{a\_min}{The sigma R parameter}
+\defSub{alpha}{The maximum value of the selectivity}
+
+\commandlabsubarg{Selectivity}{type}{Compound\_Left}
+
+\defSub{a50}{The mean (mu)}
+\defSub{ato95}{The sigma L parameter}
+\defSub{a\_min}{The sigma R parameter}
+\defSub{left\_mean}{The maximum value of the selectivity}
+\defSub{sigma}{The maximum value of the selectivity}
+\defSub{alpha}{The maximum value of the selectivity}
+
+\commandlabsubarg{Selectivity}{type}{Compound\_Middle}
+
+\defSub{a50}{The mean (mu)}
+\defSub{ato95}{The sigma L parameter}
+\defSub{a\_min}{The sigma R parameter}
+\defSub{left\_mean}{The maximum value of the selectivity}
+\defSub{to\_right\_mean}{The maximum value of the selectivity}
+\defSub{sigma}{The maximum value of the selectivity}
+\defSub{alpha}{The maximum value of the selectivity}
+
+\commandlabsubarg{Selectivity}{type}{Compound\_Right}
+
+\defSub{a50}{The mean (mu)}
+\defSub{ato95}{The sigma L parameter}
+\defSub{a\_min}{The sigma R parameter}
+\defSub{left\_mean}{The maximum value of the selectivity}
+\defSub{to\_right\_mean}{The maximum value of the selectivity}
+\defSub{sigma}{The maximum value of the selectivity}
+\defSub{alpha}{The maximum value of the selectivity}
+
 \commandlabsubarg{Selectivity}{type}{Constant}
 
 \defSub{c}{The constant value}
@@ -1091,6 +1153,26 @@
 \defSub{mu}{The mean (mu)}
 \defSub{sigma\_l}{The sigma L parameter}
 \defSub{sigma\_r}{The sigma R parameter}
+\defSub{alpha}{The maximum value of the selectivity}
+
+\commandlabsubarg{Selectivity}{type}{Double\_Normal\_Plateau}
+
+\defSub{sigma\_l}{The sigma L parameter}
+\defSub{sigma\_r}{The sigma R parameter}
+\defSub{a1}{The a1 parameter}
+\defSub{a2}{The a2 parameter}
+\defSub{alpha}{The maximum value of the selectivity}
+
+\commandlabsubarg{Selectivity}{type}{Double\_Normal\_SS3}
+
+\defSub{peak}{beginning size (or age) for the plateau (in cm or year).}
+\defSub{y0}{Selectivity at first bin, as logistic between 0 and 1}
+\defSub{y1}{Selectivity at last bin, as logistic between 0 and 1}
+\defSub{ascending}{Ascending width: parameter value is ln(width).}
+\defSub{descending}{Descending width: parameter value is ln(width).}
+\defSub{width}{width of plateau, as logistic between peak and maximum length (or age)}
+\defSub{l}{The low value (L)}
+\defSub{h}{The high value (H)}
 \defSub{alpha}{The maximum value of the selectivity}
 
 \commandlabsubarg{Selectivity}{type}{Increasing}
