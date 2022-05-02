@@ -54,6 +54,7 @@ private:
   bool              simplex_input_supplied_ = false;
   Estimate*         simplex_estimate_;
   Double            delta_ = 1e-6;
+  int               Km1_;
 };
 
 } /* namespace addressabletransformations */

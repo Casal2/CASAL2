@@ -131,6 +131,8 @@ void AddressableTransformation::Validate() {
           restore_function_ = &AddressableTransformation::set_vector_values;
         }
         addressable_vectors_.push_back(target->GetAddressableVector(parameter));
+        LOG_FINE() << "elements in  kVector = " << indexes.size();
+
         if (indexes.size() != 0) {
           // users given subset
           for (string string_index : indexes) {
@@ -160,6 +162,7 @@ void AddressableTransformation::Validate() {
           restore_function_ = &AddressableTransformation::set_map_values;
         }
         addressable_maps_.push_back(target->GetAddressableUMap(parameter));
+        LOG_FINE() << "elements in  kUnsignedMap = " << indexes.size();
         if (indexes.size() != 0) {
           // users given subset
           for (string string_index : indexes) {
@@ -183,6 +186,7 @@ void AddressableTransformation::Validate() {
         break;
       case addressable::kStringMap:
         LOG_FINE() << "kStringMap()";
+        LOG_FINE() << "elements in  kVector = " << indexes.size();
         addressable_string_maps_.push_back(target->GetAddressableSMap(parameter));
         if (parameter_labels_.size() > 1) {
           restore_function_ = &AddressableTransformation::set_single_values_for_multiple_string_maps;
@@ -190,6 +194,7 @@ void AddressableTransformation::Validate() {
           restore_function_ = &AddressableTransformation::set_map_string_values;
         }
         if (indexes.size() != 0) {
+          LOG_FINE() << "calculate subset";
           // users given subset
           for (string string_index : indexes) {
             if (addressable_string_maps_[param_counter]->find(index) == addressable_string_maps_[param_counter]->end())
@@ -199,6 +204,7 @@ void AddressableTransformation::Validate() {
             ++n_params_;
           }
         } else {
+          LOG_FINE() << "use entire container";
           for (auto iter : (*addressable_string_maps_[param_counter])) {
             string_map_indicies_[param_counter].push_back(iter.first);
             init_values_.push_back((*addressable_string_maps_[param_counter])[iter.first]);
@@ -211,6 +217,7 @@ void AddressableTransformation::Validate() {
                                       << " is not a parameter of a type that is supported";
         break;
     }
+    LOG_FINE() << "found " << n_params_ << " elements in parameter";
     // save Target Object variable. Useful for Verifying later on.
     target_objects_.push_back(target);
     parameter_lookup_for_verify_.push_back(parameter);

@@ -96,7 +96,7 @@ void TransitionCategory::DoValidate() {
     }
   }
 
-  for (unsigned i = 0; i < from_category_names_.size(); ++i) {
+  for (unsigned i = 0; i < to_category_names_.size(); ++i) {
     proportions_by_category_[to_category_names_[i]] = proportions_[i];
     LOG_FINE() << "i = " << i <<  " from  category = " <<  from_category_names_[i] << " to = " << to_category_names_[i] << " selectivity = " << selectivity_names_[i] << " prop = " <<  proportions_[i];
   }
@@ -160,6 +160,7 @@ void TransitionCategory::DoExecute() {
   for (unsigned i = 0; from_iter != from_partition_.end() && to_iter != to_partition_.end(); ++from_iter, ++to_iter, ++i) {
     LOG_FINEST() << "category = " << (*from_iter)->name_ << " to category = " << (*to_iter)->name_ << " i = " << i << " prop = " << proportions_by_category_[(*to_iter)->name_];
     for (unsigned offset = 0; offset < (*from_iter)->data_.size(); ++offset) {
+      LOG_FINEST() << "before = " <<  (*from_iter)->data_[offset];
       (*from_iter)->data_[offset] -= abundance_to_move_categories_[i][offset];
       (*to_iter)->data_[offset] += abundance_to_move_categories_[i][offset];
       LOG_FINEST() << "age-ndx - " << offset  <<  " Moving " << abundance_to_move_categories_[i][offset] << " number of individuals, from number " << (*from_iter)->data_[offset] << " to  = " << (*to_iter)->data_[offset];
@@ -173,7 +174,11 @@ void TransitionCategory::DoExecute() {
  * Reset the maturation rates
  */
 void TransitionCategory::DoReset() {
-
+  // reset proportions based on map
+  // Estiamting proportions_by_category_ but process report reports proportions_
+  for (unsigned i = 0; i < to_category_names_.size(); ++i) {
+    proportions_[i] = proportions_by_category_[to_category_names_[i]];
+  }
 }
 
 } /* namespace age */

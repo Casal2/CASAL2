@@ -62,6 +62,10 @@ void StandardHeader::PrintTop(GlobalConfiguration& global_config) {
   t = time(NULL);
   header << ctime(&t);
   /**
+   *  Print the Seed number
+   */
+  header << "Seed: " << global_config.random_seed() << endl;
+  /**
    * Version information
    */
   header << "Version: v" << VERSION << endl;

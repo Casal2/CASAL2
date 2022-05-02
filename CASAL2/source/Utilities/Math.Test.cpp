@@ -62,6 +62,17 @@ TEST(Math, Test_UnscalingValue_Math) {
   EXPECT_DOUBLE_EQ(4.8909675978793405449, unscaled_value);
 }
 
+/**
+ * @brief test logit and invlogit fun
+ *
+ */
+TEST(Math, Test_logit_invlogit) {
+  double value  = -3.1571787457745337235;
+  double invlogit_value = invlogit(value);
+  EXPECT_NEAR(invlogit_value, 0.040809, 1e-4); //plogis( -3.1571787457745337235) // from R
+  EXPECT_NEAR(logit(invlogit_value), value, 1e-4); // back convert to check
+
+}
 
 /**
  * @brief
@@ -103,6 +114,71 @@ TEST(Math, LnGamma) {
   EXPECT_NEAR(6.213457, LnGamma(0.002), 0.0001);
   EXPECT_NEAR(15756.25, LnGamma(2333), 0.005); // not as precise for big values
 }
+
+/**
+ * @brief
+ * test Cholesky decomposition passes for known solution
+ * R version 4.0.2 (2020-06-22)
+ * Platform: x86_64-w64-mingw32/x64 (64-bit)
+ * Running under: Windows 10 x64 (build 18363)
+ * The near test shows expected precision, the old CASAL (pnorm) is not as accurate
+ # R code to reproduce test result
+  my_Sigma1 <- matrix(c(10, 5, 3, 7), ncol = 2)
+  chol(my_Sigma1)
+ */
+ /*
+TEST(Math, chol_success) {
+  std::vector<std::vector<double>> covar(2);
+  std::vector<std::vector<double>> chol_covar(2);
+  covar[0].resize(2, 0.0);
+  covar[1].resize(2, 0.0);
+  chol_covar[0].resize(2, 0.0);
+  chol_covar[1].resize(2, 0.0);
+  covar[0][0] = 10;
+  covar[0][1] = 3;
+  covar[1][0] = 5;
+  covar[1][1] = 7;
+  
+  int result = chol(covar, chol_covar);
+  EXPECT_EQ(1, result);
+  // values of decompositon
+  EXPECT_NEAR(3.162278, chol_covar[0][0], 0.005) << " " << chol_covar[0][0];
+  EXPECT_NEAR(0.9486833, chol_covar[0][1], 0.005) << " " << chol_covar[0][1];
+  EXPECT_NEAR(0.0, chol_covar[1][0], 0.005) << " " << chol_covar[1][0];
+  EXPECT_NEAR(2.469817, chol_covar[1][1], 0.005) << " " << chol_covar[1][1];
+}
+*/
+/**
+ * @brief
+ * test Cholesky decomposition fails for known solution
+ * R version 4.0.2 (2020-06-22)
+ * Platform: x86_64-w64-mingw32/x64 (64-bit)
+ * Running under: Windows 10 x64 (build 18363)
+ * The near test shows expected precision, the old CASAL (pnorm) is not as accurate
+ # R code to reproduce test result
+  E <- matrix( c( 1, 2, 0, 2, 1, 2, 0, 2, 1 ), nrow=3, byrow=TRUE )
+  chol(my_Sigma1)
+ */
+ /*
+TEST(Math, chol_fail) {
+  std::vector<std::vector<double>> covar(4);
+  std::vector<std::vector<double>> chol_covar(4);
+
+  covar[0] = {18, 22, 54, 42};
+  covar[1] = {22, 70, 86, 62};
+  covar[2] = {54, 86, 174, 134};
+  covar[3] = {42, 62, 134, 106};
+
+  chol_covar[0].resize(4, 0.0);
+  chol_covar[1].resize(4, 0.0);
+  chol_covar[2].resize(4, 0.0);
+  chol_covar[3].resize(4, 0.0);
+
+  int result = chol(covar, chol_covar);
+  EXPECT_EQ(0, result);
+
+}
+*/
 
 }  // namespace niwa::utilities::math
 #endif

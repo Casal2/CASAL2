@@ -45,7 +45,7 @@ constexpr double ZERO      = 1e-15;
 constexpr double CLOSE     = 1e-5;
 constexpr double DELTA     = 1e-11;
 constexpr double PI        = 3.14159265358979323846264338327950288;
-
+//constexpr double DBL_EPSILON = 2.220446049250313e-16; 
 inline bool IsZero(const Double& value) {
   return (value < ZERO && value > -ZERO);
 }
@@ -158,13 +158,53 @@ inline Double qlognorm(const Double& q,const Double& mu,const Double& sigma){
 
 
 // transform a parameter X which has parameter space 0-1 and transform it to -inf -> inf using logit transformation
-inline Double logit(Double &x) {
+inline Double logit(Double x) {
   return log(x / (1.0 - x));
 }
 // transform a parameter Y which has parameter space -inf -> inf and transform it to into a parameter space 0-1
-inline Double invlogit(Double &y) {
-  return 1.0/(1.0 + exp(-y));
+inline Double invlogit(Double y) {
+  return 1.0 / (1 + exp(-y));
 }
+
+/**
+ * Calculates the log of 1 plus the exponential of the specified
+ * value without overflow.
+ *
+ * This function is related to other special functions by:
+ *
+ * <code>log1p_exp(x) </code>
+ *
+ * <code> = log1p(exp(a))</code>
+ *
+ * <code> = log(1 + exp(x))</code>
+ *
+ * <code> = log_sum_exp(0, x)</code>.
+ *
+   \f[
+   \mbox{log1p\_exp}(x) =
+   \begin{cases}
+     \ln(1+\exp(x)) & \mbox{if } -\infty\leq x \leq \infty \\[6pt]
+     \textrm{NaN} & \mbox{if } x = \textrm{NaN}
+   \end{cases}
+   \f]
+
+   \f[
+   \frac{\partial\, \mbox{log1p\_exp}(x)}{\partial x} =
+   \begin{cases}
+     \frac{\exp(x)}{1+\exp(x)} & \mbox{if } -\infty\leq x\leq \infty \\[6pt]
+     \textrm{NaN} & \mbox{if } x = \textrm{NaN}
+   \end{cases}
+   \f]
+ *
+ */
+inline Double log1p_exp(Double a) {
+  // like log_sum_exp below with b=0.0; prevents underflow
+  if (a > 0.0) {
+    return a + log(1.0 + exp(-a)); // log1p is from std::
+  }
+  return log(1.0 + exp(a));
+}
+
 
 // transform a parameter X which has parameter space lb-ub and transform it to -inf -> inf using logit transformation
 inline Double logit_bounds(Double &x,Double &lb, Double &ub) {
@@ -175,8 +215,6 @@ inline Double logit_bounds(Double &x,Double &lb, Double &ub) {
 inline Double invlogit_bounds(Double &y, Double &lb, Double &ub) {
   return lb + (ub - lb)* invlogit(y);
 }
-
-
 //************************************
 // These are distributional functions taken from CASAL, some will wont to be updated
 //************************************

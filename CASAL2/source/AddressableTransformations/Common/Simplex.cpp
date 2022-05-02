@@ -40,7 +40,9 @@ Simplex::Simplex(shared_ptr<Model> model) : AddressableTransformation(model) {
 void Simplex::DoValidate() {
   LOG_FINE() << "Build values allocate memory";
   LOG_FINE() << "init_values_.size() " << init_values_.size() << " n-params " << n_params_;
-
+  if(n_params_ <= 1) {
+    LOG_FATAL_P(PARAM_PARAMETERS) << "simplex transformation needs a parameter with more than one element. Found " << n_params_ << " elements.";
+  }
   LOG_FINE() << "cached values";
   restored_values_.resize(n_params_, 0.0);
   unit_vector_.resize(n_params_, 0.0);
@@ -49,17 +51,18 @@ void Simplex::DoValidate() {
 
   n_param_double_ = (Double)n_params_;
   Double count = 1.0;
+  Km1_ = n_params_ - 1;
   if(prior_applies_to_restored_parameters_) {
     simplex_parameter_.resize(n_params_, 0.0);  // need to account for dummy estimate to apply prior to the nth parameter
     cached_simplex_values_for_objective_function_restore_.resize(n_params_, 0.0);
   } else {
-    simplex_parameter_.resize(n_params_ - 1, 0.0);
+    simplex_parameter_.resize(Km1_, 0.0);
   }
 
-  cache_log_k_value_.resize(n_params_ - 1, 0.0);
-  for(unsigned i = 0; i < cache_log_k_value_.size(); i++, count++) {
-    cache_log_k_value_[i] = log(1.0 / (n_param_double_ - count));
-    LOG_FINE( ) << " index = " << i << " count = " << count << " K = " << n_param_double_ << " cache K = " << cache_log_k_value_[i];
+  cache_log_k_value_.resize(Km1_, 0.0);
+  for(unsigned k = 0; k < cache_log_k_value_.size(); k++, count++) {
+    cache_log_k_value_[k] = log(Km1_ - k);
+    LOG_FINE( ) << " index = " << k << " count = " << count << " K = " << n_param_double_ << " cache K = " << cache_log_k_value_[k];
   }
 
   LOG_FINE() << "exit validate";
@@ -101,25 +104,23 @@ void Simplex::DoBuild() {
   }
 
   // check if parameter has been supplied by -i or -i Files
-  if (IsAddressableUsedFor(PARAM_SIMPLEX_PARAMETER, addressable::kInputRun))
+  if (IsAddressableUsedFor(PARAM_SIMPLEX_PARAMETER, addressable::kInputRun)) {
     simplex_input_supplied_ = true;
-  LOG_FINE() << "simplex param given in -i " << simplex_input_supplied_;
-
+    LOG_FINE() << "simplex param given in -i " << simplex_input_supplied_;
+  } else {
+    LOG_FINE() << "simplex calculated using input config values";
+  }
   // if given -i check they have supplied all the values otherwise error out.
   if(simplex_input_supplied_) {
     // calculated restored values
-    for (unsigned i = 0; i < zk_.size(); ++i) {
-      zk_[i] = 1.0 / (1.0 + exp(-1.0 * (simplex_parameter_[i] + cache_log_k_value_[i])));
-    }
-    // Translate zk_ -> restore_values_
-    sub_total_ = 0;
-    for (unsigned i = 0; i < zk_.size(); ++i) {
-      cumulative_simplex_k_[i] = sub_total_;
-      unit_vector_[i] = (1 - sub_total_) * zk_[i];
-      sub_total_ += unit_vector_[i];
+    Double stick_length = 1.0;
+    for (unsigned k = 0; k < zk_.size(); ++k) {
+      zk_[k] = utilities::math::invlogit(simplex_parameter_[k] - cache_log_k_value_[k]);
+      unit_vector_[k] = stick_length * zk_[k];
+      stick_length -= unit_vector_[k];
     }
     // plus group
-    unit_vector_[unit_vector_.size() - 1] = 1.0 - sub_total_;
+    unit_vector_[unit_vector_.size() - 1] = stick_length;
 
     if(not sum_to_one_) {
       for(unsigned i = 0; i < restored_values_.size(); ++i) 
@@ -149,23 +150,27 @@ void Simplex::DoBuild() {
         }
         total_ = n_param_double_;
       } else {
-        for(unsigned i = 0; i < init_values_.size(); ++i) 
+        for(unsigned i = 0; i < init_values_.size(); ++i) {
           unit_vector_[i] = init_values_[i] / total_;
+          LOG_FINE() << unit_vector_[i];
+        }
       }
     }
 
-    // Translate xk_ -> zk_ 
-    sub_total_ = 0.0;
-    Double denominator = 0.0;
-    for (unsigned i = 0; i < zk_.size(); ++i) {
-      denominator = (1.0 - sub_total_);
-      denominator = utilities::math::ZeroFun(denominator, delta_);
-      zk_[i] = unit_vector_[i] / denominator;
-      sub_total_ += unit_vector_[i];
-      simplex_parameter_[i] = log(zk_[i] / (1 - zk_[i])) - cache_log_k_value_[i];
-      LOG_FINE() << "zk = " << zk_[i] << " yk (simplex) = " <<  simplex_parameter_[i] << " cache k " << cache_log_k_value_[i] << " unit vector " << unit_vector_[i];
+    
+    Double stick_length = unit_vector_[Km1_];
+    LOG_FINE() << "Km1 = " << Km1_ << " stick length = " << stick_length;
+    for (int k = Km1_; --k >= 0; ) {
+      LOG_FINE() << "k = " << k;
+      stick_length += unit_vector_[k];
+      zk_[k] = unit_vector_[k] / stick_length;
+      LOG_FINE() << "k = " << k << " zk_[k] " << zk_[k] << " stick length = " << stick_length << " cache_log_k_value_[k] = " << cache_log_k_value_[k];
+      simplex_parameter_[k] =  utilities::math::logit(zk_[k]) + cache_log_k_value_[k];
+      LOG_FINE() << "k = " << k;
+      LOG_FINE() << "simplex = " << simplex_parameter_[k];
     }
   }
+  LOG_FINE() << "exit Build";
 }
 /**
  * Restore
@@ -173,40 +178,36 @@ void Simplex::DoBuild() {
  */
 void Simplex::DoRestore() {
   LOG_FINE() << label_;
-  fill(cumulative_simplex_k_.begin(), cumulative_simplex_k_.end(), 0.0);
   // calculated restored values
-  for (unsigned i = 0; i < zk_.size(); ++i) {
-    zk_[i] = 1.0 / (1.0 + exp(-1.0 * (simplex_parameter_[i] + cache_log_k_value_[i])));
-    LOG_FINE() << "zk " << zk_[i] << " simplex = " << simplex_parameter_[i] << " cached log " << cache_log_k_value_[i];
+  Double stick_length = 1.0;
+  Double adj_y_k = 0.0;
+  jacobian_ = 0.0;
+  // also calculates the log - jacobian in this step
+  // see https://discourse.mc-stan.org/t/jacobian-of-the-unit-simplex-transform-and-transforms-between-spaces-of-unequal-dimensions/9934
+  // For details on how the jacobian from Stan manual tranlates to the code below.
+  for (int k = 0; k < Km1_; ++k) {
+    adj_y_k = simplex_parameter_[k] - cache_log_k_value_[k];
+    zk_[k] = utilities::math::invlogit(adj_y_k);
+    LOG_FINE() << "k = " << k << " zk_[k] " << zk_[k] << " yk = " << simplex_parameter_[k] << " stick length = " << stick_length << " cache_log_k_value_[k] = " << cache_log_k_value_[k] << " adj_y_k = " << adj_y_k;
+    // This will calculate the log-probability for the jacobian
+    jacobian_ += log(stick_length);
+    jacobian_ -= utilities::math::log1p_exp(-adj_y_k);
+    jacobian_ -= utilities::math::log1p_exp(adj_y_k);
+    //LOG_FINE() << "log jacobian " << jacobian_;
+    unit_vector_[k] = stick_length * zk_[k];
+    stick_length -= unit_vector_[k];
   }
-  // Translate zk_ -> restore_values_
-  sub_total_ = 0;
-  Double denominator = 0.0;
-  for (unsigned i = 0; i < zk_.size(); ++i) {
-    denominator = (1.0 - sub_total_);
-    denominator = utilities::math::ZeroFun(denominator, delta_);
-    cumulative_simplex_k_[i] = sub_total_;
-    unit_vector_[i] = denominator * zk_[i];
-    sub_total_ += unit_vector_[i];
-    LOG_FINE() << "unit vec = " << unit_vector_[i] << " cumulative k = " << cumulative_simplex_k_[i];
-  }
-  denominator = (1.0 - sub_total_);
-  denominator = utilities::math::ZeroFun(denominator, delta_);
   // plus group
-  unit_vector_[unit_vector_.size() - 1] = denominator;
-
+  unit_vector_[unit_vector_.size() - 1] = stick_length;
   if(not sum_to_one_) {
     for(unsigned i = 0; i < restored_values_.size(); ++i) {
       restored_values_[i] = unit_vector_[i] * total_;
-      LOG_FINE() << restored_values_[i];
+      LOG_FINE() << unit_vector_[i] << "  " << restored_values_[i];
     }
     (this->*restore_function_)(restored_values_);
   } else {
     (this->*restore_function_)(unit_vector_);
   }
-    
-  
-
 }
 
 /**
@@ -216,14 +217,9 @@ Double Simplex::GetScore() {
   LOG_TRACE();
   if(not prior_applies_to_restored_parameters_)
     return 0.0;
-  jacobian_ = 0.0;
+  // The jacobian is calculate in the DoRestore();
   LOG_FINE() << jacobian_;
-  for (unsigned i = 0; i < zk_.size(); ++i) {
-    jacobian_ += zk_[i] * ( 1.0 - zk_[i]) * (1 - cumulative_simplex_k_[i]);
-    LOG_FINE() << "zk = " << zk_[i] << "  cumulative_simplex_k_ " <<  cumulative_simplex_k_[i] << " jacobian = " << jacobian_;
-  }
-  LOG_FINE() << jacobian_;
-  return -1.0 * log(jacobian_); // return negative log-likelihood
+  return -1.0 * jacobian_; // return negative log-likelihood
 }
 /**
  * PrepareForObjectiveFunction
@@ -261,7 +257,7 @@ void Simplex::FillReportCache(ostringstream& cache) {
     cache << parameter_labels_[i] << " ";
   cache << REPORT_EOL;
   cache << "simplex_values: ";
-  for(unsigned i = 0; i < zk_.size(); ++i)
+  for(unsigned i = 0; i < simplex_parameter_.size(); ++i)
     cache << simplex_parameter_[i] << " ";
   cache << REPORT_EOL;
   cache << "parameter_values: ";
