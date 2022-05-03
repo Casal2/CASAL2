@@ -62,7 +62,8 @@ using std::endl;
 Model::Model() {
   LOG_TRACE();
 
-  parameters_.Bind<string>(PARAM_TYPE, &type_, "Type of model (only type=age is currently implemented)", "", PARAM_AGE)->set_allowed_values({PARAM_AGE, PARAM_PI_APPROX, PARAM_LENGTH});
+  parameters_.Bind<string>(PARAM_TYPE, &type_, "Type of model (only type=age is currently implemented)", "", PARAM_AGE)
+      ->set_allowed_values({PARAM_AGE, PARAM_PI_APPROX, PARAM_LENGTH});
   // was: ->set_allowed_values({PARAM_AGE, PARAM_LENGTH, PARAM_HYBRID, PARAM_MULTIVARIATE, PARAM_PI_APPROX});
   parameters_
       .Bind<string>(PARAM_BASE_UNITS, &base_weight_units_,
@@ -926,7 +927,7 @@ bool Model::are_length_bin_compatible_with_model_length_bins(vector<double>& len
   return true;
 }
 /**
- * A utility function to help make age-length transition matrix effecient, for different resolution model bins we just sum over the colums save recalculting the age-length matrix
+ * A utility function to help make age-length transition matrix efficient, for different resolution model bins we just sum over the column save recalculating the age-length matrix
  * should only be called in validate or build by processes or observations that want to use the age-length transition and allow for different bin sizes to that on the model.
  * @return a vector of column of indicies that map the process or observations length bins to the global length bins, so we can do a simple
  * summation over the global age-length matrix when we are asked for different values other than the model length bin resolution
@@ -936,14 +937,14 @@ vector<int> Model::get_map_for_bespoke_length_bins_to_global_length_bins(vector<
   unsigned    number_of_bespoke_length_bins = plus_group ? length_bins.size() : length_bins.size() - 1;
   vector<int> ndx(number_of_model_length_bins_, 0);
   int         ndx_store = 0;
-  int max_ndx           = 0;
-  int start_ndx         = 1;
+  int         max_ndx   = 0;
+  int         start_ndx = 1;
 
-  if((length_bins[0] > model_length_bins_[0])) {
+  if ((length_bins[0] > model_length_bins_[0])) {
     LOG_FINE() << "length_bins[0] " << length_bins[0] << " model_length_bins_[0] " << model_length_bins_[0];
     for (unsigned i = 0; i < number_of_model_length_bins_; ++i, ++start_ndx) {
-      LOG_FINE() << i <<  " model_length_bins_[i] " << model_length_bins_[i];
-      if(model_length_bins_[i] < length_bins[0]) {
+      LOG_FINE() << i << " model_length_bins_[i] " << model_length_bins_[i];
+      if (model_length_bins_[i] < length_bins[0]) {
         ndx[i] = -9999;
       } else {
         break;
@@ -954,7 +955,7 @@ vector<int> Model::get_map_for_bespoke_length_bins_to_global_length_bins(vector<
   LOG_FINE() << "start_ndx = " << start_ndx << " should be = 1 if not min_plus_group";
   for (unsigned i = start_ndx; i < number_of_model_length_bins_; ++i) {
     for (unsigned j = 0; j < length_bins.size(); ++j) {
-      //LOG_FINE() << "j = " << j;
+      // LOG_FINE() << "j = " << j;
       if (!plus_group & (model_length_bins_[i] >= length_bins[length_bins.size() - 1])) {
         ndx_store = -9999;
         break;
@@ -976,8 +977,7 @@ vector<int> Model::get_map_for_bespoke_length_bins_to_global_length_bins(vector<
 
   if (max_ndx != (int)(number_of_bespoke_length_bins - 1)) {
     for (unsigned i = 0; i < ndx.size(); ++i) LOG_FINE() << ndx[i];
-    LOG_CODE_ERROR() << "this function has failed. there should be a maxiumum element = " << number_of_bespoke_length_bins - 1
-                     << " but the maxiumum value calculated = " << max_ndx;
+    LOG_CODE_ERROR() << "this function has failed. there should be a maximum element = " << number_of_bespoke_length_bins - 1 << " but the maximum value calculated = " << max_ndx;
   }
   return ndx;
 }
@@ -985,10 +985,10 @@ vector<int> Model::get_map_for_bespoke_length_bins_to_global_length_bins(vector<
  * A utility function to check length bins for a given process or observation are a subset of the model length bins.
  */
 unsigned Model::get_length_bin_ndx(Double value) {
-  for(unsigned i = 1; i < number_of_model_length_bins_; ++i) {
-    if(value <  model_length_bins_[i])
+  for (unsigned i = 1; i < number_of_model_length_bins_; ++i) {
+    if (value < model_length_bins_[i])
       return i - 1;
   }
-  return number_of_model_length_bins_ - 1; // return the last value if larger than the last length bin
+  return number_of_model_length_bins_ - 1;  // return the last value if larger than the last length bin
 }
 } /* namespace niwa */

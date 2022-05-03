@@ -3,13 +3,14 @@ Readme.txt for Casal2
 
 Thank you for downloading Casal2. 
 
-Casal2 is a generalised age-structured population dynamics 
-modelling package that allows a great deal of flexibility in 
-specifying the population dynamics, parameter estimation, 
-and model outputs. 
+Casal2 is a generalised age- or length-structured population 
+dynamics modelling package that allows a great deal of 
+flexibility in specifying the population dynamics, parameter 
+estimation, and model outputs. 
 
-See the Casal2 user manuals for more information. There are two manuals one for age-based models (Casal2_Age.pdf)
-and another for length-based models (Casal2_Length.pdf).
+See the Casal2 user manuals for more information. There are 
+two manuals one for age-based models (Casal2_Age.pdf) and 
+another for length-based models (Casal2_Length.pdf).
 
 Casal2 is an open source development and contributions to 
 the package are encouraged. 

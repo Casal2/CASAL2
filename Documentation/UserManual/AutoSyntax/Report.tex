@@ -44,7 +44,10 @@
 \defRef{sec:Report-AddressableTransformation}
 \label{syntax:Report-AddressableTransformation}
 
-The Addressable\_Transformation type has no additional subcommands.
+\defSub{parameter\_transformation}{The parameter\_transformation label that is reported}
+\defType{String}
+\defDefault{No default}
+
 \subsubsection{Report of type Age\_Length}
 \commandlabsubarg{Report}{type}{Age\_Length}.
 \defRef{sec:Report-AgeLength}
@@ -137,6 +140,10 @@ The Covariance\_Matrix type has no additional subcommands.
 \defType{Boolean}
 \defDefault{false}
 
+\defSub{time\_varying}{Report Time-Varying objects}
+\defType{Boolean}
+\defDefault{false}
+
 \subsubsection{Report of type Derived\_Quantity}
 \commandlabsubarg{Report}{type}{Derived\_Quantity}.
 \defRef{sec:Report-DerivedQuantity}
@@ -185,12 +192,6 @@ The Hessian\_Matrix type has no additional subcommands.
 \label{syntax:Report-InitialisationPartition}
 
 The Initialisation\_Partition type has no additional subcommands.
-\subsubsection{Report of type Initialisation\_Partition\_Mean\_Weight}
-\commandlabsubarg{Report}{type}{Initialisation\_Partition\_Mean\_Weight}.
-\defRef{sec:Report-InitialisationPartitionMeanWeight}
-\label{syntax:Report-InitialisationPartitionMeanWeight}
-
-The Initialisation\_Partition\_Mean\_Weight type has no additional subcommands.
 \subsubsection{Report of type MCMCCovariance}
 \commandlabsubarg{Report}{type}{MCMCCovariance}.
 \defRef{sec:Report-MCMCCovariance}
@@ -262,20 +263,14 @@ The Output\_Parameters type has no additional subcommands.
 \defRef{sec:Report-PartitionBiomass}
 \label{syntax:Report-PartitionBiomass}
 
-\defSub{time\_step}{The time step label}
+\defSub{time\_step}{Time Step label}
 \defType{String}
 \defDefault{No default}
 
-\defSub{years}{The years for the report}
+\defSub{years}{Years}
 \defType{Vector of non-negative integers}
 \defDefault{true}
 
-\subsubsection{Report of type Partition\_Year\_Cross\_Age\_Matrix}
-\commandlabsubarg{Report}{type}{Partition\_Year\_Cross\_Age\_Matrix}.
-\defRef{sec:Report-PartitionYearCrossAgeMatrix}
-\label{syntax:Report-PartitionYearCrossAgeMatrix}
-
-The Partition\_Year\_Cross\_Age\_Matrix type has no additional subcommands.
 \subsubsection{Report of type Process}
 \commandlabsubarg{Report}{type}{Process}.
 \defRef{sec:Report-Process}
@@ -285,6 +280,12 @@ The Partition\_Year\_Cross\_Age\_Matrix type has no additional subcommands.
 \defType{String}
 \defDefault{No default}
 
+\subsubsection{Report of type Profile}
+\commandlabsubarg{Report}{type}{Profile}.
+\defRef{sec:Report-Profile}
+\label{syntax:Report-Profile}
+
+The Profile type has no additional subcommands.
 \subsubsection{Report of type Project}
 \commandlabsubarg{Report}{type}{Project}.
 \defRef{sec:Report-Project}
@@ -306,6 +307,27 @@ The Random\_Number\_Seed type has no additional subcommands.
 \label{syntax:Report-Selectivity}
 
 \defSub{selectivity}{Selectivity name}
+\defType{String}
+\defDefault{No default}
+
+\defSub{length\_values}{Length values to evaluate the a length-based selectivity in an age based model.}
+\defType{Vector of real numbers}
+\defDefault{true}
+
+\subsubsection{Report of type Selectivity\_By\_Year}
+\commandlabsubarg{Report}{type}{Selectivity\_By\_Year}.
+\defRef{sec:Report-SelectivityByYear}
+\label{syntax:Report-SelectivityByYear}
+
+\defSub{selectivity}{Selectivity label}
+\defType{String}
+\defDefault{No default}
+
+\defSub{years}{Years}
+\defType{Vector of non-negative integers}
+\defDefault{true}
+
+\defSub{time\_step}{Time Step when to print the selectivity}
 \defType{String}
 \defDefault{No default}
 

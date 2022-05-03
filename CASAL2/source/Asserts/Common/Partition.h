@@ -33,6 +33,7 @@ private:
   // members
   string         category_label_ = "";
   vector<Double> values_;
+
 };  // class
 
 } /* namespace asserts */

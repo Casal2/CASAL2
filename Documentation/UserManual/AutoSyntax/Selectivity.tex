@@ -52,6 +52,142 @@
 \defType{Vector of real numbers (estimable)}
 \defDefault{No default}
 
+\subsubsection{Selectivity of type Compound\_All}
+\commandlabsubarg{Selectivity}{type}{Compound\_All}.
+\defRef{sec:Selectivity-CompoundAll}
+\label{syntax:Selectivity-CompoundAll}
+
+\defSub{a50}{The mean (mu)}
+\defType{Real number (estimable)}
+\defDefault{No default}
+
+\defSub{ato95}{The sigma L parameter}
+\defType{Real number (estimable)}
+\defDefault{No default}
+\defLowerBound{0.0 (exclusive)}
+
+\defSub{a\_min}{The sigma R parameter}
+\defType{Real number (estimable)}
+\defDefault{No default}
+\defLowerBound{0.0 (exclusive)}
+
+\defSub{alpha}{The maximum value of the selectivity}
+\defType{Real number (estimable)}
+\defDefault{1.0}
+\defLowerBound{0.0 (exclusive)}
+
+\subsubsection{Selectivity of type Compound\_Left}
+\commandlabsubarg{Selectivity}{type}{Compound\_Left}.
+\defRef{sec:Selectivity-CompoundLeft}
+\label{syntax:Selectivity-CompoundLeft}
+
+\defSub{a50}{The mean (mu)}
+\defType{Real number (estimable)}
+\defDefault{No default}
+
+\defSub{ato95}{The sigma L parameter}
+\defType{Real number (estimable)}
+\defDefault{No default}
+\defLowerBound{0.0 (exclusive)}
+
+\defSub{a\_min}{The sigma R parameter}
+\defType{Real number (estimable)}
+\defDefault{No default}
+\defLowerBound{0.0 (exclusive)}
+
+\defSub{left\_mean}{The maximum value of the selectivity}
+\defType{Real number (estimable)}
+\defDefault{1.0}
+\defLowerBound{0.0 (exclusive)}
+
+\defSub{sigma}{The maximum value of the selectivity}
+\defType{Real number (estimable)}
+\defDefault{1.0}
+\defLowerBound{0.0 (exclusive)}
+
+\defSub{alpha}{The maximum value of the selectivity}
+\defType{Real number (estimable)}
+\defDefault{1.0}
+\defLowerBound{0.0 (exclusive)}
+
+\subsubsection{Selectivity of type Compound\_Middle}
+\commandlabsubarg{Selectivity}{type}{Compound\_Middle}.
+\defRef{sec:Selectivity-CompoundMiddle}
+\label{syntax:Selectivity-CompoundMiddle}
+
+\defSub{a50}{The mean (mu)}
+\defType{Real number (estimable)}
+\defDefault{No default}
+
+\defSub{ato95}{The sigma L parameter}
+\defType{Real number (estimable)}
+\defDefault{No default}
+\defLowerBound{0.0 (exclusive)}
+
+\defSub{a\_min}{The sigma R parameter}
+\defType{Real number (estimable)}
+\defDefault{No default}
+\defLowerBound{0.0 (exclusive)}
+
+\defSub{left\_mean}{The maximum value of the selectivity}
+\defType{Real number (estimable)}
+\defDefault{1.0}
+\defLowerBound{0.0 (exclusive)}
+
+\defSub{to\_right\_mean}{The maximum value of the selectivity}
+\defType{Real number (estimable)}
+\defDefault{1.0}
+\defLowerBound{0.0 (exclusive)}
+
+\defSub{sigma}{The maximum value of the selectivity}
+\defType{Real number (estimable)}
+\defDefault{1.0}
+\defLowerBound{0.0 (exclusive)}
+
+\defSub{alpha}{The maximum value of the selectivity}
+\defType{Real number (estimable)}
+\defDefault{1.0}
+\defLowerBound{0.0 (exclusive)}
+
+\subsubsection{Selectivity of type Compound\_Right}
+\commandlabsubarg{Selectivity}{type}{Compound\_Right}.
+\defRef{sec:Selectivity-CompoundRight}
+\label{syntax:Selectivity-CompoundRight}
+
+\defSub{a50}{The mean (mu)}
+\defType{Real number (estimable)}
+\defDefault{No default}
+
+\defSub{ato95}{The sigma L parameter}
+\defType{Real number (estimable)}
+\defDefault{No default}
+\defLowerBound{0.0 (exclusive)}
+
+\defSub{a\_min}{The sigma R parameter}
+\defType{Real number (estimable)}
+\defDefault{No default}
+\defLowerBound{0.0 (exclusive)}
+
+\defSub{left\_mean}{The maximum value of the selectivity}
+\defType{Real number (estimable)}
+\defDefault{1.0}
+\defLowerBound{0.0 (exclusive)}
+
+\defSub{to\_right\_mean}{The maximum value of the selectivity}
+\defType{Real number (estimable)}
+\defDefault{1.0}
+\defLowerBound{0.0 (exclusive)}
+
+\defSub{sigma}{The maximum value of the selectivity}
+\defType{Real number (estimable)}
+\defDefault{1.0}
+\defLowerBound{0.0 (exclusive)}
+
+\defSub{alpha}{The maximum value of the selectivity}
+\defType{Real number (estimable)}
+\defDefault{1.0}
+\defLowerBound{0.0 (exclusive)}
+
 \subsubsection{Selectivity of type Constant}
 \commandlabsubarg{Selectivity}{type}{Constant}.
 \defRef{sec:Selectivity-Constant}
@@ -127,6 +263,85 @@ The Constant.Mock type has no additional subcommands.
 \defType{Real number (estimable)}
 \defDefault{1.0}
 \defLowerBound{0.0 (exclusive)}
+
+\subsubsection{Selectivity of type Double\_Normal\_Plateau}
+\commandlabsubarg{Selectivity}{type}{Double\_Normal\_Plateau}.
+\defRef{sec:Selectivity-DoubleNormalPlateau}
+\label{syntax:Selectivity-DoubleNormalPlateau}
+
+\defSub{sigma\_l}{The sigma L parameter}
+\defType{Real number (estimable)}
+\defDefault{No default}
+\defLowerBound{0.0 (exclusive)}
+
+\defSub{sigma\_r}{The sigma R parameter}
+\defType{Real number (estimable)}
+\defDefault{No default}
+\defLowerBound{0.0 (exclusive)}
+
+\defSub{a1}{The a1 parameter}
+\defType{Real number (estimable)}
+\defDefault{No default}
+\defLowerBound{0.0 (exclusive)}
+
+\defSub{a2}{The a2 parameter}
+\defType{Real number (estimable)}
+\defDefault{No default}
+\defLowerBound{0.0 (exclusive)}
+
+\defSub{alpha}{The maximum value of the selectivity}
+\defType{Real number (estimable)}
+\defDefault{1.0}
+\defLowerBound{0.0 (inclusive)}
+
+\subsubsection{Selectivity of type Double\_Normal\_SS3}
+\commandlabsubarg{Selectivity}{type}{Double\_Normal\_SS3}.
+\defRef{sec:Selectivity-DoubleNormalSS3}
+\label{syntax:Selectivity-DoubleNormalSS3}
+
+\defSub{peak}{beginning size (or age) for the plateau (in cm or year).}
+\defType{Real number (estimable)}
+\defDefault{No default}
+\defLowerBound{0.0 (exclusive)}
+
+\defSub{y0}{Selectivity at first bin, as logistic between 0 and 1}
+\defType{Real number (estimable)}
+\defDefault{No default}
+\defLowerBound{-20 (inclusive)}
+\defUpperBound{0.0 (inclusive)}
+
+\defSub{y1}{Selectivity at last bin, as logistic between 0 and 1}
+\defType{Real number (estimable)}
+\defDefault{No default}
+\defLowerBound{-20 (inclusive)}
+\defUpperBound{10.0 (inclusive)}
+
+\defSub{ascending}{Ascending width: parameter value is ln(width).}
+\defType{Real number (estimable)}
+\defDefault{No default}
+
+\defSub{descending}{Descending width: parameter value is ln(width).}
+\defType{Real number (estimable)}
+\defDefault{No default}
+
+\defSub{width}{width of plateau, as logistic between peak and maximum length (or age)}
+\defType{Real number (estimable)}
+\defDefault{No default}
+
+\defSub{l}{The low value (L)}
+\defType{Real number (estimable)}
+\defDefault{No default}
+\defLowerBound{0.0 (exclusive)}
+
+\defSub{h}{The high value (H)}
+\defType{Real number (estimable)}
+\defDefault{No default}
+\defLowerBound{1.0 (exclusive)}
+
+\defSub{alpha}{The maximum value of the selectivity}
+\defType{Real number (estimable)}
+\defDefault{1.0}
+\defLowerBound{0.0 (inclusive)}
 
 \subsubsection{Selectivity of type Increasing}
 \commandlabsubarg{Selectivity}{type}{Increasing}.

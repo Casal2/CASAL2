@@ -148,7 +148,7 @@ end_table
 \defType{Non-negative integer}
 \defDefault{No default}
 
-\defSub{sum\_to\_one}{Scale year (row) observed values by the total, so they sum = 1}
+\defSub{sum\_to\_one}{Scale year (row) observed values by the total so they sum to equal 1}
 \defType{Boolean}
 \defDefault{false}
 
@@ -229,7 +229,7 @@ end_table
 \defDefault{No default}
 
 
-\defSub{sum\_to\_one}{Scale year (row) observed values by the total, so they sum = 1}
+\defSub{sum\_to\_one}{Scale the year (row) observed values by the total, so they sum to 1}
 \defType{Boolean}
 \defDefault{false}
 
@@ -301,7 +301,7 @@ end_table
 \defDefault{No default}
 
 
-\defSub{sum\_to\_one}{Scale year (row) observed values by the total, so they sum = 1}
+\defSub{sum\_to\_one}{Scale the year (row) observed values by the total, so they sum to 1}
 \defType{Boolean}
 \defDefault{false}
 
@@ -378,7 +378,7 @@ end_table
 \defDefault{No default}
 
 
-\defSub{sum\_to\_one}{Scale year (row) observed values by the total, so they sum = 1}
+\defSub{sum\_to\_one}{Scale the year (row) observed values by the total, so they sum to 1}
 \defType{Boolean}
 \defDefault{false}
 
@@ -441,8 +441,7 @@ end_table
 \defType{Vector of real numbers (estimable)}
 \defDefault{No default}
 
-
-\defSub{sum\_to\_one}{Scale year (row) observed values by the total, so they sum = 1}
+\defSub{sum\_to\_one}{Scale the year (row) observed values by the total, so they sum to 1}
 \defType{Boolean}
 \defDefault{false}
 
@@ -480,6 +479,7 @@ table error_values
 1994 343
 end_table
 \end{verbatim}
+
 \subsubsection{Observation of type Process Removals By Length Retained Total}
 \commandlabsubarg{observation}{type}{Process\_Removals\_By\_Length\_Retained\_Total}.
 \defRef{sec:Observation-ProcessRemovalsByLengthRetainedTotal}
@@ -510,7 +510,7 @@ end_table
 \defDefault{model}
 
 
-\defSub{sum\_to\_one}{Scale year (row) observed values by the total, so they sum = 1}
+\defSub{sum\_to\_one}{Scale the year (row) observed values by the total, so they sum to 1}
 \defType{Boolean}
 \defDefault{false}
 
@@ -544,6 +544,7 @@ table error_values
 1994 343
 end_table
 \end{verbatim}
+
 \subsubsection{Observation of type Process Removals By Weight}
 \commandlabsubarg{observation}{type}{Process\_Removals\_By\_Weight}.
 \defRef{sec:Observation-ProcessRemovalsByWeight}
@@ -637,7 +638,7 @@ end_table
 \defType{String}
 \defDefault{No default}
 
-\defSub{sum\_to\_one}{Scale year (row) observed values by the total, so they sum = 1}
+\defSub{sum\_to\_one}{Scale the year (row) observed values by the total, so they sum to 1}
 \defType{Boolean}
 \defDefault{false}
 
@@ -668,6 +669,7 @@ table error_values
 1994 343
 end_table
 \end{verbatim}
+
 \subsubsection{Observation of type Proportions At Length}
 \commandlabsubarg{observation}{type}{Proportions\_At\_Length}.
 \defRef{sec:Observation-ProportionsAtLength}
@@ -693,14 +695,13 @@ end_table
 \defType{Vector of real numbers (estimable)}
 \defDefault{true}
 
-\defSub{sum\_to\_one}{Scale year (row) observed values by the total, so they sum = 1}
+\defSub{sum\_to\_one}{Scale the year (row) observed values by the total, so they sum to 1}
 \defType{Boolean}
 \defDefault{false}
 
 \defSub{simulated\_data\_sum\_to\_one}{Whether simulated data is discrete or scaled by totals to be proportions for each year}
 \defType{Boolean}
 \defDefault{true}
-
 
 \defSub{table obs}{The table of data specifying the observed values}
 \defType{Data table with label = obs}

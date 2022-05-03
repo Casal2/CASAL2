@@ -13,6 +13,8 @@
 // Headers
 #include "CommandLineParser.h"
 
+#include <time.h>
+
 #include <boost/algorithm/string/join.hpp>
 #include <boost/algorithm/string/replace.hpp>
 #include <boost/algorithm/string/split.hpp>
@@ -243,9 +245,9 @@ void CommandLineParser::Parse(int argc, char* argv[], RunParameters& options) {
   }
   // Deal with verify options
   if (parameters.count("verifylevel")) {
-    if(parameters["verifylevel"].as<string>() ==  PARAM_WARNING) {
+    if (parameters["verifylevel"].as<string>() == PARAM_WARNING) {
       options.continue_pass_verify_ = true;
-    } else if (parameters["verifylevel"].as<string>()==  PARAM_ERROR) {
+    } else if (parameters["verifylevel"].as<string>() == PARAM_ERROR) {
       options.continue_pass_verify_ = false;
     } else {
       LOG_FATAL() << "verifylevel (or -V) has only two options, " << PARAM_WARNING << " and " << PARAM_ERROR;
@@ -257,6 +259,10 @@ void CommandLineParser::Parse(int argc, char* argv[], RunParameters& options) {
   if (parameters.count("seed")) {
     options.override_rng_seed_value_     = parameters["seed"].as<unsigned>();
     options.override_random_number_seed_ = true;
+  } else {
+    long iSeed                  = time(0);
+    iSeed                       = (unsigned)(iSeed - (floor((double)iSeed / 100000) * 100000));
+    options.random_number_seed_ = iSeed;
   }
 }
 

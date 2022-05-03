@@ -38,7 +38,7 @@ private:
   string                parameter_ = "";
   vector<unsigned>      years_;
   string                time_step_label_ = "";
-  vector<unsigned>      values_;
+  vector<Double>        values_;
   map<unsigned, Double> year_values_;
   Double*               addressable_ = nullptr;
 };

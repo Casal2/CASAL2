@@ -260,9 +260,13 @@ The Load\_Partition type has no additional subcommands.
 
 \defSub{time\_step\_proportions}{The time step proportions for natural mortality}
 \defType{Vector of real numbers}
-\defDefault{true}
+\defDefault{false}
 \defLowerBound{0.0 (inclusive)}
 \defUpperBound{1.0 (inclusive)}
+
+\defSub{biomass}{Indicator to denote if the catches are as biomass (true) or abundance (false)}
+\defType{Boolean}
+\defDefault{true}
 
 \defSub{relative\_m\_by\_age}{The M-by-age ogives to apply to each category for natural mortality}
 \defType{Vector of strings}
@@ -582,12 +586,6 @@ The Nop type has no additional subcommands.
 \defType{Vector of real numbers (estimable)}
 \defDefault{true}
 
-\defSub{tolerance}{Tolerance for checking the specificed proportions sum to one}
-\defType{Real number}
-\defDefault{1e-5}
-\defLowerBound{0 (inclusive)}
-\defUpperBound{1.0 (inclusive)}
-
 \subsubsection{Process of type Tag\_By\_Length}
 \commandlabsubarg{Process}{type}{Tag\_By\_Length}.
 \defRef{sec:Process-TagByLength}
@@ -685,13 +683,17 @@ The Nop type has no additional subcommands.
 \defDefault{No default}
 
 \defSub{proportions}{The proportions to transition for each category}
-\defType{Real number (estimable)}
+\defType{Addressable}
 \defDefault{No default}
 \defLowerBound{0.0 (inclusive)}
 \defUpperBound{1.0 (inclusive)}
 
 \defSub{selectivities}{The selectivities to apply to each proportion}
 \defType{Vector of strings}
+\defDefault{No default}
+
+\defSub{proportions}{}
+\defType{Addressable}
 \defDefault{No default}
 
 \subsubsection{Process of type Transition\_Category\_By\_Age}

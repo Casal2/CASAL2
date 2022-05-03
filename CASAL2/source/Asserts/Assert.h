@@ -46,6 +46,7 @@ protected:
   // members
   shared_ptr<Model> model_ = nullptr;
   string            error_type_;
+  Double            tol_ = 1e-5;
 };
 } /* namespace niwa */
 

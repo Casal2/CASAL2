@@ -47,7 +47,7 @@ enum Type {
   kExecute,                 // execute the object
   kIterationComplete,       // a single iteration of the model is complete
   kReset,                   // called between iterations to ensure objects caches are reset
-  kInputIterationComplete,  // a single run of the mode is complete using an input file to set estimables
+  kInputIterationComplete,  // a single run of the model is complete using an input file to set estimables
   kFinalise                 // the model is finished
 };
 }
@@ -100,7 +100,7 @@ public:
   virtual PartitionType         partition_type() const { return partition_type_; }
   virtual const vector<double>& length_bins() const { return model_length_bins_; }
   virtual bool                  length_plus() const { return length_plus_; }
-  virtual const vector<double>& length_bin_mid_points() const { return model_length_bin_mid_points_;}
+  virtual const vector<double>& length_bin_mid_points() const { return model_length_bin_mid_points_; }
   virtual double                length_plus_group() const { return length_plus_group_; }
   unsigned                      get_number_of_length_bins() const { return number_of_model_length_bins_; }
   bool                          are_length_bin_compatible_with_model_length_bins(vector<double>& length_bins);
@@ -144,19 +144,19 @@ protected:
   virtual void DoValidate(){};
 
   // Members
-  unsigned             id_                      = 0;
-  bool                 is_primary_thread_model_ = false;
-  unsigned             threads_                 = 1;
-  RunMode::Type        run_mode_                = RunMode::kInvalid;
-  State::Type          state_                   = State::kStartUp;
-  unsigned             start_year_              = 0;
-  unsigned             final_year_              = 0;
-  unsigned             projection_final_year_   = 0;
-  unsigned             current_year_            = 0;
-  unsigned             min_age_                 = 0;
-  unsigned             max_age_                 = 0;
-  string               base_weight_units_       = "";
-  unsigned             number_of_model_length_bins_   = 0;
+  unsigned             id_                          = 0;
+  bool                 is_primary_thread_model_     = false;
+  unsigned             threads_                     = 1;
+  RunMode::Type        run_mode_                    = RunMode::kInvalid;
+  State::Type          state_                       = State::kStartUp;
+  unsigned             start_year_                  = 0;
+  unsigned             final_year_                  = 0;
+  unsigned             projection_final_year_       = 0;
+  unsigned             current_year_                = 0;
+  unsigned             min_age_                     = 0;
+  unsigned             max_age_                     = 0;
+  string               base_weight_units_           = "";
+  unsigned             number_of_model_length_bins_ = 0;
   map<string, Double>  b0_;
   map<string, Double>  binitial_;
   map<string, bool>    b0_initialised_;

@@ -35,8 +35,6 @@ namespace asserts {
 Partition::Partition(shared_ptr<Model> model) : Assert(model) {
   parameters_.Bind<string>(PARAM_CATEGORY, &category_label_, "Category to check population values for", "", "");
   parameters_.Bind<Double>(PARAM_VALUES, &values_, "Values expected in the partition", "");
-  parameters_.Bind<string>(PARAM_ERROR_TYPE, &error_type_, "Report assert failures as either an error or warning", "", PARAM_ERROR)
-      ->set_allowed_values({PARAM_ERROR, PARAM_WARNING});
 }
 
 /**
@@ -55,7 +53,7 @@ void Partition::DoValidate() {
  * Obtain smart_pointers to any objects that will be used by this object.
  */
 void Partition::DoBuild() {
-  model_->Subscribe(State::kFinalise, this);
+  model_->Subscribe(State::kFinalise, this);  // Note this compares the partition at the end of the model run, i.e., the final state
 
   if (!model_->categories()->IsValid(category_label_))
     LOG_FATAL_P(PARAM_CATEGORY) << " category " << category_label_ << " is not a valid category";
@@ -72,14 +70,14 @@ void Partition::Execute() {
     LOG_FATAL_P(PARAM_VALUES) << ": number of values provided (" << values_.size() << ") does not match partition size (" << data.size() << ")";
 
   for (unsigned i = 0; i < values_.size(); ++i) {
-    if (!utilities::math::IsBasicallyEqual(values_[i], data[i])) {
+    if (!utilities::math::IsBasicallyEqual(values_[i], data[i], tol_)) {
       std::streamsize prec = std::cout.precision();
       std::cout.precision(12);
 
       Double diff = values_[i] - data[i];
       if (error_type_ == PARAM_ERROR) {
-        LOG_ERROR() << "Assert Failure: The Partition.Category " << category_label_ << " has value " << data[i] << ", when " << values_[i] << " was expected for element "
-                    << i + 1 << ". The difference was " << diff;
+        LOG_ERROR() << "Assert Failure: The Partition.Category " << category_label_ << " has value " << data[i] << ", when " << values_[i] << " was expected for element " << i + 1
+                    << ". The difference was " << diff;
       } else {
         LOG_WARNING() << "Assert Failure: The Partition.Category " << category_label_ << " has value " << data[i] << ", when " << values_[i] << " was expected for element "
                       << i + 1 << ". The difference was " << diff;

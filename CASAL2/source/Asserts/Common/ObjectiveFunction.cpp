@@ -33,9 +33,6 @@ namespace asserts {
  */
 ObjectiveFunction::ObjectiveFunction(shared_ptr<Model> model) : Assert(model) {
   parameters_.Bind<Double>(PARAM_VALUE, &value_, "Expected value of the objective function", "");
-  parameters_.Bind<string>(PARAM_ERROR_TYPE, &error_type_, "Report assert failures as either an error or warning", "", PARAM_ERROR)
-      ->set_allowed_values({PARAM_ERROR, PARAM_WARNING});
-  parameters_.Bind<Double>(PARAM_TOLERANCE, &tol_, "Tolerance", "", 1e-5);
 }
 
 /**
@@ -51,7 +48,7 @@ void ObjectiveFunction::DoBuild() {
  */
 void ObjectiveFunction::Execute() {
   niwa::ObjectiveFunction& obj = model_->objective_function();
-  if (fabs(AS_DOUBLE(value_) - AS_DOUBLE(obj.score())) > tol_) {
+  if (!utilities::math::IsBasicallyEqual(AS_DOUBLE(value_), AS_DOUBLE(obj.score()), tol_)) {
     std::streamsize prec = std::cout.precision();
     std::cout.precision(9);
     if (error_type_ == PARAM_ERROR) {

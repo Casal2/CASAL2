@@ -10,6 +10,14 @@
 \defType{String}
 \defDefault{No default}
 
+\defSub{tolerance}{Tolerance}
+\defType{Real number (estimable)}
+\defDefault{1e-5}
+
+\defSub{error\_type}{Report assert failures as either an error or warning}
+\defType{String}
+\defDefault{error}
+
 \subsubsection{Assert of type Addressable}
 \commandlabsubarg{Assert}{type}{Addressable}.
 \defRef{sec:Assert-Addressable}
@@ -28,12 +36,8 @@
 \defDefault{No default}
 
 \defSub{values}{The values to check against the addressable}
-\defType{Vector of non-negative integers}
+\defType{Vector of real numbers (estimable)}
 \defDefault{No default}
-
-\defSub{error\_type}{Report assert failures as either an error or warning}
-\defType{String}
-\defDefault{error}
 
 \subsubsection{Assert of type Objective\_Function}
 \commandlabsubarg{Assert}{type}{Objective\_Function}.
@@ -43,10 +47,6 @@
 \defSub{value}{Expected value of the objective function}
 \defType{Real number (estimable)}
 \defDefault{No default}
-
-\defSub{error\_type}{Report assert failures as either an error or warning}
-\defType{String}
-\defDefault{error}
 
 \subsubsection{Assert of type Partition}
 \commandlabsubarg{Assert}{type}{Partition}.
@@ -60,8 +60,4 @@
 \defSub{values}{Values expected in the partition}
 \defType{Vector of real numbers (estimable)}
 \defDefault{No default}
-
-\defSub{error\_type}{Report assert failures as either an error or warning}
-\defType{String}
-\defDefault{error}
 

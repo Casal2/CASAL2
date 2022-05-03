@@ -64,6 +64,9 @@ inline bool IsEqual(Double A, Double B) {
 inline bool IsBasicallyEqual(Double A, Double B) {
   return (((A - B) < CLOSE) && ((A - B) > -CLOSE));
 }
+inline bool IsBasicallyEqual(Double A, Double B, Double TOLERANCE) {
+  return (((A - B) < TOLERANCE) && ((A - B) > -TOLERANCE));
+}
 
 inline niwa::utilities::Double ZeroFun(Double x) {
   if (x >= ZERO)

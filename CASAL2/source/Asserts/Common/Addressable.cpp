@@ -33,9 +33,7 @@ Addressable::Addressable(shared_ptr<Model> model) : Assert(model) {
   parameters_.Bind<string>(PARAM_PARAMETER, &parameter_, "The addressable to check", "", "");
   parameters_.Bind<unsigned>(PARAM_YEARS, &years_, "The years to check addressable", "");
   parameters_.Bind<string>(PARAM_TIME_STEP, &time_step_label_, "The time step to execute after", "");
-  parameters_.Bind<unsigned>(PARAM_VALUES, &values_, "The values to check against the addressable", "");
-  parameters_.Bind<string>(PARAM_ERROR_TYPE, &error_type_, "Report assert failures as either an error or warning", "", PARAM_ERROR)
-      ->set_allowed_values({PARAM_ERROR, PARAM_WARNING});
+  parameters_.Bind<Double>(PARAM_VALUES, &values_, "The values to check against the addressable", "");
 }
 
 /**
@@ -85,12 +83,16 @@ void Addressable::DoBuild() {
  * Execute/Run/Process the object.
  */
 void Addressable::Execute() {
-  Double expected = year_values_[model_->current_year()];
-  if (*addressable_ != expected) {
-    if (error_type_ == PARAM_ERROR) {
-      LOG_ERROR() << "Assert Failure: The Addressable " << parameter_ << " has value " << *addressable_ << ", when " << expected << "was expected";
-    } else {
-      LOG_WARNING() << "Assert Failure: The Addressable " << parameter_ << " has value " << *addressable_ << ", when " << expected << "was expected";
+  if (model_->run_mode() == RunMode::kBasic) {
+    Double expected = year_values_[model_->current_year()];
+    if (!utilities::math::IsBasicallyEqual(*addressable_, expected, tol_)) {
+      Double diff = *addressable_ - expected;
+      if (error_type_ == PARAM_ERROR) {
+        LOG_ERROR() << "Assert Failure: The Addressable " << parameter_ << " has value " << *addressable_ << ", when " << expected << " was expected. The difference was " << diff;
+      } else {
+        LOG_WARNING() << "Assert Failure: The Addressable " << parameter_ << " has value " << *addressable_ << ", when " << expected << " was expected. The difference was "
+                      << diff;
+      }
     }
   }
 }

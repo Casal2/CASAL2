@@ -155,6 +155,8 @@
 
 \defSub{label}{The label for the assert}
 \defSub{type}{The type of the assert}
+\defSub{tolerance}{Tolerance}
+\defSub{error\_type}{Report assert failures as either an error or warning}
 
 \commandlabsubarg{Assert}{type}{Addressable}
 
@@ -162,19 +164,15 @@
 \defSub{years}{The years to check addressable}
 \defSub{time\_step}{The time step to execute after}
 \defSub{values}{The values to check against the addressable}
-\defSub{error\_type}{Report assert failures as either an error or warning}
 
 \commandlabsubarg{Assert}{type}{Objective\_Function}
 
 \defSub{value}{Expected value of the objective function}
-\defSub{error\_type}{Report assert failures as either an error or warning}
-\defSub{tolerance}{Tolerance}
 
 \commandlabsubarg{Assert}{type}{Partition}
 
 \defSub{category}{Category to check population values for}
 \defSub{values}{Values expected in the partition}
-\defSub{error\_type}{Report assert failures as either an error or warning}
 
 \defComLab{Catchability}{Define an object of type \emph{Catchability}}
 

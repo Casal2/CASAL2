@@ -27,6 +27,9 @@ namespace niwa {
 Assert::Assert(shared_ptr<Model> model) : model_(model) {
   parameters_.Bind<string>(PARAM_LABEL, &label_, "The label for the assert", "");
   parameters_.Bind<string>(PARAM_TYPE, &type_, "The type of the assert", "")->set_allowed_values({PARAM_ADDRESSABLE, PARAM_OBJECTIVE_FUNCTION, PARAM_PARTITION});
+  parameters_.Bind<Double>(PARAM_TOLERANCE, &tol_, "Tolerance", "", 1e-5);
+  parameters_.Bind<string>(PARAM_ERROR_TYPE, &error_type_, "Report assert failures as either an error or warning", "", PARAM_ERROR)
+      ->set_allowed_values({PARAM_ERROR, PARAM_WARNING});
 }
 
 /**
