@@ -103,7 +103,7 @@ void Object::SetAddressableIsUsed(const string& label, const addressable::Usage&
 bool Object::IsAddressableUsedFor(const string& label, const addressable::Usage& usage) {
   if (actual_addressable_usage_.find(label) == actual_addressable_usage_.end())
     return false;
-
+  LOG_FINE() << "IsAddressableUsedFor: " << label << " usage = " << usage;
   return usage == (addressable::Usage)(actual_addressable_usage_[label] & usage);
 }
 

@@ -48,6 +48,7 @@ public:
   // methods
   virtual ~Objects() = default;
   virtual bool                        VerifyAddressableForUse(const string& parameter_absolute_name, addressable::Usage usage, string& error);
+  virtual bool                        IsParameterUsedFor(const string& parameter_absolute_name, addressable::Usage usage);
   virtual addressable::Type           GetAddressableType(const string& parameter_absolute_name);
   virtual Double*                     GetAddressable(const string& addressable_absolute_name);
   virtual vector<Double*>*            GetAddressables(const string& addressable_absolute_name);

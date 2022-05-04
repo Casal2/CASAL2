@@ -84,11 +84,48 @@ bool Objects::VerifyAddressableForUse(const string& parameter_absolute_name, add
     error = parameter + " on " + type + "." + label + " cannot be used for this purpose due to usage restrictions";
     return false;
   }
-
+  LOG_FINE() << "set addressable for parameter = " << parameter << " = " << usage;
   // Flag that we're now using the addressable so that we can verify this later
   object->SetAddressableIsUsed(parameter, usage);
 
   return true;
+}
+
+
+/**
+ * This method will locate an object and ask it if it is being used for usage
+ *
+ * @param parameter_absolute_name The absolute name for the addressable (e.g., 'block[label].variable{index}')
+ * @param usage The intended usage for this addressable
+ * @return True if parameter_absolute_name is being used with usage
+ */
+bool Objects::IsParameterUsedFor(const string& parameter_absolute_name, addressable::Usage usage) {
+  LOG_TRACE();
+  string type      = "";
+  string label     = "";
+  string parameter = "";
+  string index     = "";
+  string error            = "";
+
+  ostringstream str;
+
+  ExplodeString(parameter_absolute_name, type, label, parameter, index);
+  if (type == "" || label == "" || parameter == "") {
+    str << "The syntax for " << parameter_absolute_name << " is invalid. The correct syntax is 'block[label].variable{index}'";
+    error = str.str();
+    return false;
+  }
+
+  base::Object* object = this->FindObjectOrNull(parameter_absolute_name);
+  if (!object) {
+    str << "Parent object for " << parameter_absolute_name << " is not valid.";
+    error = str.str();
+    return false;
+  }
+
+  LOG_FINE() << "set addressable for parameter = " << parameter << " = " << usage;
+  // Flag that we're now using the addressable so that we can verify this later
+  return object->IsAddressableUsedFor(parameter, usage);
 }
 
 /**
