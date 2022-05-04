@@ -44,6 +44,9 @@ Profile* Manager::GetProfile() {
 void Manager::Verify(shared_ptr<Model> model) {
   LOG_FINE() << "Verify profile";
   verification::DoVerification(model);
+  for (auto profile : objects_) 
+    profile->Verify(model);
+
 }
 } /* namespace profiles */
 } /* namespace niwa */

@@ -36,7 +36,7 @@ public:
   virtual ~Profile() = default;
   void Validate();
   void Build();
-  void Verify(shared_ptr<Model> model){};
+  void Verify(shared_ptr<Model> model);
   void Reset(){};
   void FirstStep();
   void NextStep();

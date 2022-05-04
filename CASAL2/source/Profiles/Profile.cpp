@@ -46,8 +46,9 @@ void Profile::Validate() {
 void Profile::Build() {
   string error = "";
   if (!model_->objects().VerifyAddressableForUse(parameter_, addressable::kProfile, error)) {
-    LOG_FATAL_P(PARAM_PARAMETER) << "could not be verified for use in a @profile block. Error: " << error;
+    LOG_FATAL_P(PARAM_PARAMETER) << "This parameter cannot be used in an @profile block. Error: " << error;
   }
+
 
   target_         = model_->objects().GetAddressable(parameter_);
   original_value_ = *target_;
@@ -59,7 +60,7 @@ void Profile::Build() {
    */
   if (same_parameter_ != "") {
     if (!model_->objects().VerifyAddressableForUse(same_parameter_, addressable::kProfile, error)) {
-      LOG_FATAL_P(PARAM_SAME) << "could not be verified for use in the @profile block. Error: " << error;
+      LOG_FATAL_P(PARAM_SAME) << "This parameter cannot be used in an @profile block. Error: " << error;
     }
 
     same_target_         = model_->objects().GetAddressable(same_parameter_);
@@ -67,7 +68,16 @@ void Profile::Build() {
     LOG_MEDIUM() << "start_value for same parameter: " << same_original_value_;
   }
 }
-
+/**
+ * Verify
+ */
+void Profile::Verify(shared_ptr<Model> model){
+  LOG_MEDIUM() << "Verify ";
+  LOG_FINE() << "check if used for transformation";
+  if (model->objects().IsParameterUsedFor(parameter_ , addressable::kTransformation)) {
+    LOG_FATAL_P(PARAM_PARAMETER) << "Found an @parameter_transformation block for " << parameter_ << ". You need to profile the transformed parameter or remove the transformation block.";
+  }
+}
 /**
  * Set up the first step of the profile by initialising the object to the lower bound
  */
