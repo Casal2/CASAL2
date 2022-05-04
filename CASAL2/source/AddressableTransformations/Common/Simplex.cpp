@@ -75,8 +75,7 @@ void Simplex::DoBuild() {
   // get estimate label
   string estimate_label = "";
   // iterate over the 
-  estimate_label = "parameter_transformation[" + label_ + "].simplex{1}";
-  LOG_FINE() << "looking for " << estimate_label;
+
   // iterate over the simplex estiamtes and check they are active, 
   // if prior applies to restored value, turn the last estimate to not estimate
   // but contribute to the objective function.

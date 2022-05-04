@@ -242,6 +242,17 @@ TEST_F(InternalEmptyModel, AddressableTransformations_simplex_validate_simplex_c
   // cas2 = extract.mpd(file = "run.out", path = "testmodel")
   // Then those results were generated as
   // write.table(x = round(t(simplex(input_ycs_vals, sum_to_one  = F) ), 4), row.names = F, col.names = F, quote = F, "result_values.txt", sep = ", ")
+  /*
+    pars = c(1.3464, 1.3797, 1.4091, 1.4315, 1.4447, 1.4468, 1.4345, 1.4047, 1.3708, 1.3502, 0.5748, 0.6419, 0.7007, 0.5146, 0.7098, 0.5994, 0.9078, 1.3517, 1.0249, 0.8798, 0.7981, 0.6579, 0.4325, 0.4085, 0.2981, 0.4483, 0.2961, 0.4426, 1.2456, 0.7079, 0.5855, 0.2521, 0.4138, 0.3496, 0.3109, 0.3503, 4.0392, 4.0392) 
+    log_sigma = function (cv) {
+      sigma = sqrt(log(cv^2 + 1))
+      return(sigma)
+    }
+    sigma = log_sigma(1)
+
+    log(pars) + 0.5 * (log(pars) / sigma + (0.5*sigma))^2
+  */
+  
   EXPECT_EQ((*simplex).size(), result.size() + 1);
 
   for(unsigned i = 0; i < result.size(); ++i) {
