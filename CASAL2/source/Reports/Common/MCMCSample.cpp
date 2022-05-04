@@ -38,6 +38,13 @@ void MCMCSample::DoBuild(shared_ptr<Model> model) {
   mcmc_ = model->managers()->mcmc()->active_mcmc();
   if (!mcmc_)
     LOG_CODE_ERROR() << "mcmc_ = model_->managers()->mcmc()->active_mcmc();";
+  if (!parameters_.Get(PARAM_WRITE_MODE)->has_been_defined()) {
+    write_mode_ = PARAM_INCREMENTAL_SUFFIX;
+  }
+  if (!parameters_.Get(PARAM_FILE_NAME)->has_been_defined()) {
+    LOG_INFO() << "no " << PARAM_FILE_NAME << " setting mcmc_samples report to samples";
+    file_name_ = "samples";
+  }
 }
 
 /**
