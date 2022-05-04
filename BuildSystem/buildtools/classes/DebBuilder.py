@@ -1,3 +1,6 @@
+
+
+
 import os
 import sys
 import subprocess
@@ -51,7 +54,8 @@ class DebBuilder:
     os.makedirs(folder + '/usr/local/share/doc/README')
     os.makedirs(folder + '/usr/local/share/doc/R-library/')
     os.makedirs(folder + '/usr/local/share/doc/Examples')
-    subprocess.call('cp ../Documentation/UserManual/CASAL2.pdf ' + folder + '/usr/local/share/doc/casal2/', shell=True)
+    subprocess.call('cp ../Documentation/UserManual/CASAL2_Age.pdf ' + folder + '/usr/local/share/doc/casal2/', shell=True)
+    subprocess.call('cp ../Documentation/UserManual/CASAL2_Length.pdf ' + folder + '/usr/local/share/doc/casal2/', shell=True)
     subprocess.call('cp ../Documentation/ContributorsManual/ContributorsGuide.pdf ' + folder + '/usr/local/share/doc/ContributorsGuide/', shell=True)
     subprocess.call('cp ../Documentation/GettingStartedGuide/GettingStartedGuide.pdf ' + folder + '/usr/local/share/doc/GettingStartedGuide/', shell=True)
     subprocess.call('cp ../README.txt ' + folder + '/usr/local/share/doc/README/', shell=True)
