@@ -49,19 +49,56 @@ void EstimateValue::DoExecute(shared_ptr<Model> model) {
     if (format_ == PARAM_R) {
       cache_ << ReportHeader(type_, label_, format_);
       cache_ << "values " << REPORT_R_DATAFRAME << REPORT_EOL;
-      for (Estimate* estimate : estimates) cache_ << estimate->parameter() << " ";
-      cache_ << REPORT_EOL;
-      for (Estimate* estimate : estimates) cache_ << AS_DOUBLE(estimate->value()) << " ";
-      cache_ << REPORT_EOL;
+      for (Estimate* estimate : estimates) 
+        cache_ << estimate->parameter() << " ";
+ 
+      if(model->run_mode() == RunMode::kProfiling) {
+        LOG_FINE() << "profileing";
+        for (Profile* profile : profiles) 
+          cache_ << profile->parameter() << " ";
+        cache_ << REPORT_EOL;
+      } else {
+        cache_ << REPORT_EOL;
+      }
+      for (Estimate* estimate : estimates) 
+        cache_ << AS_DOUBLE(estimate->value()) << " ";
+      if(model->run_mode() == RunMode::kProfiling) {
+        LOG_FINE() << "profileing";
+        for (Profile* profile : profiles) {
+          cache_ << AS_DOUBLE(profile->value()) << " ";
+          LOG_FINE() << AS_DOUBLE(profile->value());
+        }
+        cache_ << REPORT_EOL;
+      } else {
+        cache_ << REPORT_EOL;
+      }
     } else if (format_ == PARAM_NONE) {
       skip_tags_ = true;
       if (first_run_) {
-        for (Estimate* estimate : estimates) cache_ << estimate->parameter() << " ";
-        cache_ << REPORT_EOL;
+        for (Estimate* estimate : estimates) 
+          cache_ << estimate->parameter() << " ";
+        if(model->run_mode() == RunMode::kProfiling) {
+          LOG_FINE() << "profileing";
+          for (Profile* profile : profiles) 
+            cache_ << profile->parameter() << " ";
+          cache_ << REPORT_EOL;
+        } else {
+          cache_ << REPORT_EOL;
+        }
         first_run_ = false;
       }
-      for (Estimate* estimate : estimates) cache_ << AS_DOUBLE(estimate->value()) << " ";
-      cache_ << REPORT_EOL;
+      for (Estimate* estimate : estimates) 
+        cache_ << AS_DOUBLE(estimate->value()) << " ";
+      if(model->run_mode() == RunMode::kProfiling) {
+        LOG_FINE() << "profileing";
+        for (Profile* profile : profiles) {
+          cache_ << AS_DOUBLE(profile->value()) << " ";
+          LOG_FINE() << AS_DOUBLE(profile->value());
+        }
+        cache_ << REPORT_EOL;
+      } else {
+        cache_ << REPORT_EOL;
+      }
     } else
       LOG_FATAL() << "Report format type (" << format_ << ") not known";
 
