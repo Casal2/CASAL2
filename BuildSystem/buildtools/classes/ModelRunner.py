@@ -36,6 +36,7 @@ class ModelRunner:
     simulate_dash_i_dir_list = {"ORH3B"} # if you change this you will need to formulate the report or python code below, not very general.
     run_dash_i_dir_list = {"Complex_input","TwoSex_input"}
     resume_mcmc_from_mpd_dir_list = {"mcmc_start_mpd_mcmc_fixed","mcmc_start_mpd"}
+    resume_mcmc_dir_list = {"mcmc_resume"}
     run_dash_I_dir_list = {"SingleSexTagByLength_input"}
     dir_list = os.listdir("../TestModels/")
     cwd = os.path.normpath(os.getcwd())  
@@ -53,6 +54,8 @@ class ModelRunner:
       	continue
       if folder in resume_mcmc_from_mpd_dir_list:
       	continue
+      if folder in resume_mcmc_dir_list:
+      	continue
       if folder in simulate_dash_i_dir_list:
         continue
       if folder in run_dash_i_dir_list:
@@ -63,6 +66,7 @@ class ModelRunner:
         continue
       if folder.startswith("DO NOT"):
         continue
+		
       os.chdir("../TestModels/" + folder)
       
       start = time.time()
@@ -160,6 +164,20 @@ class ModelRunner:
       else:
         elapsed = time.time() - start
         print('[OK] - ' + folder + ' -M mpd.log run in ' + str(round(elapsed, 2)) + ' seconds')
+        success_count += 1
+      os.chdir(cwd)
+    # test -R mpd.log 
+    for folder in resume_mcmc_dir_list:
+      os.chdir("../TestModels/" + folder)
+      if os.system(f"{exe_path} -R mpd.log --objective-file objectives.1 --sample-file samples.1 > mcmc.log 2>&1") != EX_OK:
+        elapsed = time.time() - start
+        print('[FAILED] - ' + folder + ' -R run in ' + str(round(elapsed, 2)) + ' seconds')
+        #print("--> Printing last 20 lines of run.log")
+        #os.system("tail -n20 mcmc.log")        
+        fail_count += 1
+      else:
+        elapsed = time.time() - start
+        print('[OK] - ' + folder + ' -R run in ' + str(round(elapsed, 2)) + ' seconds')
         success_count += 1
       os.chdir(cwd)
     # test -e functionality

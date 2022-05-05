@@ -1,0 +1,15 @@
+@report obj
+type objective_function
+
+@report rec
+type process
+process Recruitment
+
+@report estimate_value
+type estimate_value
+
+@report mcmc_samples
+type mcmc_sample
+
+@report mcmc_objectives
+type mcmc_objective
