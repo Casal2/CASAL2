@@ -110,7 +110,7 @@ void MCMC::Validate() {
 void MCMC::Build() {
   LOG_TRACE();
 
-  estimates_ = model_->managers()->estimate()->GetIsMCMCd();
+  estimates_ = model_->managers()->estimate()->GetIsEstimated();
 
   estimate_count_ = estimates_.size();
   if (estimate_count_ == 0)
@@ -160,8 +160,9 @@ void MCMC::Execute(shared_ptr<ThreadPool> thread_pool) {
 
   LOG_MEDIUM() << "First iteration estimates";
   for (unsigned i = 0; i < estimate_count_; ++i) {
-    LOG_MEDIUM() << estimates_[i]->label() << " : " << candidates_[i];
-    estimates_[i]->set_value(candidates_[i]);
+    LOG_MEDIUM() << estimates_[i]->label() << " : " << candidates_[i] << " is fixed " << estimates_[i]->mcmc_fixed();
+    if(!estimates_[i]->mcmc_fixed())
+      estimates_[i]->set_value(candidates_[i]);
   }
 
   model_->FullIteration();
@@ -305,7 +306,8 @@ void MCMC::FillMultivariateNormal(double step_size) {
     for (unsigned j = 0; j < estimate_count_; ++j) {
       dv[i] += covariance_matrix_lt(i, j) * normals[j];
     }
-    candidates_[i] += dv[i] * step_size;
+    if(!estimates_[i]->mcmc_fixed())
+      candidates_[i] += dv[i] * step_size;
   }
 }
 
@@ -330,8 +332,8 @@ void MCMC::FillMultivariateT(double step_size) {
     for (unsigned j = 0; j < estimate_count_; ++j) {
       row_sum += covariance_matrix_lt(i, j) * normals[j] * chisquares[j];
     }
-
-    candidates_[i] += row_sum * step_size;
+    if(!estimates_[i]->mcmc_fixed())
+      candidates_[i] += row_sum * step_size;
   }
 }
 

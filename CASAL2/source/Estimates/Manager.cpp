@@ -218,7 +218,7 @@ vector<Estimate*> Manager::GetInObjectiveFunction() {
  * @brief Get a vector of estimate pointers to estimates that
  * will be used during an MCMC run.
  *
- * Any estimates that have flagged mcmc_fixed as true,
+ * Any estimates that have flagged mcmc_fixed as true will be returned. The covariance will be supplied for them so we need them
  * or having matching lower and upper bounds will not be returned
  *
  * @return vector<Estimate*>
@@ -227,7 +227,7 @@ vector<Estimate*> Manager::GetIsMCMCd() {
   vector<Estimate*> result;
 
   for (Estimate* estimate : objects_) {
-    if (estimate->estimated() && !estimate->mcmc_fixed() && !math::IsEqual(estimate->lower_bound(), estimate->upper_bound()))
+    if (estimate->estimated() && !math::IsEqual(estimate->lower_bound(), estimate->upper_bound()))
       result.push_back(estimate);
   }
 

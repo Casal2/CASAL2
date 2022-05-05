@@ -55,7 +55,7 @@ protected:
   string                  prior_label_;
   vector<string>          same_labels_;
   string                  estimation_phase_;
-  string                  mcmc_fixed_;
+  bool                    mcmc_fixed_;
   vector<niwa::Estimate*> estimates_;
 };
 

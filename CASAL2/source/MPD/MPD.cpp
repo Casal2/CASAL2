@@ -152,7 +152,8 @@ void MPD::ParseFile() {
     LOG_FATAL() << "The file " << file_name_ << " is not a valid MPD file. The second line of MPD data must be 'covariance_matrix:'";
 
   // now we load the covariance matrix data
-  auto estimate_count = model_->managers()->estimate()->GetIsEstimatedCount();
+  auto estimates_available_in_mcmc = model_->managers()->estimate()->GetIsEstimated();
+  auto estimate_count = estimates_available_in_mcmc.size();
   auto active_mcmc    = model_->managers()->mcmc()->active_mcmc();
   if (active_mcmc == nullptr)
     LOG_FATAL() << "No active MCMC to set covariance matrix on";

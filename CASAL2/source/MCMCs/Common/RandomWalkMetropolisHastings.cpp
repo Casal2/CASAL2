@@ -75,8 +75,11 @@ void RandomWalkMetropolisHastings::DoExecute(shared_ptr<ThreadPool> thread_pool)
       ++jumps_;
       ++jumps_since_adapt_;
 
-      for (unsigned i = 0; i < candidates_.size(); ++i)
-        estimates_[i]->set_value(candidates_[i]);
+      for (unsigned i = 0; i < candidates_.size(); ++i) {
+        // only change values for estimates not fixed.
+        if(!estimates_[i]->mcmc_fixed())
+          estimates_[i]->set_value(candidates_[i]);
+      }
 
       model_->FullIteration();
       obj_function.CalculateScore();
