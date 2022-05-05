@@ -35,6 +35,7 @@ class ModelRunner:
     estimation_adolc_dir_list = {"TwoSex", "SBW", "Simple", "SexedLengthBased"}     # requires a config-adolc.csl2 file
     simulate_dash_i_dir_list = {"ORH3B"} # if you change this you will need to formulate the report or python code below, not very general.
     run_dash_i_dir_list = {"Complex_input","TwoSex_input"}
+    resume_mcmc_from_mpd_dir_list = {"mcmc_start_mpd_mcmc_fixed","mcmc_start_mpd"}
     run_dash_I_dir_list = {"SingleSexTagByLength_input"}
     dir_list = os.listdir("../TestModels/")
     cwd = os.path.normpath(os.getcwd())  
@@ -49,6 +50,8 @@ class ModelRunner:
       if folder in estimation_gammadiff_dir_list:
       	continue
       if folder in estimation_adolc_dir_list:
+      	continue
+      if folder in resume_mcmc_from_mpd_dir_list:
       	continue
       if folder in simulate_dash_i_dir_list:
         continue
@@ -134,7 +137,31 @@ class ModelRunner:
       if not os.path.exists("sim/Obs_Andes_LF.3_05"):
         print('[FAILED] - ' + folder + ' -s run in ' + str(round(elapsed, 2)) + ' expected simulated file sim/Obs_Andes_LF.3_05')
         fail_count += 1			
-      os.chdir(cwd) 	  
+      os.chdir(cwd)
+    # test -M mpd.log functionality 
+    for folder in resume_mcmc_from_mpd_dir_list:
+      os.chdir("../TestModels/" + folder)
+      if os.system(f"{exe_path} -E mpd.log > estimate.log 2>&1") != EX_OK:
+        elapsed = time.time() - start
+        print('[FAILED] - ' + folder + ' -E mpd.log run in ' + str(round(elapsed, 2)) + ' seconds')
+        #print("--> Printing last 20 lines of run.log")
+        #os.system("tail -n20 mcmc.log")        
+        fail_count += 1
+      else:
+        elapsed = time.time() - start
+        print('[OK] - ' + folder + ' -E mpd.log run in ' + str(round(elapsed, 2)) + ' seconds')
+        success_count += 1
+      if os.system(f"{exe_path} -M mpd.log > mcmc.log 2>&1") != EX_OK:
+        elapsed = time.time() - start
+        print('[FAILED] - ' + folder + ' -M mpd.log run in ' + str(round(elapsed, 2)) + ' seconds')
+        #print("--> Printing last 20 lines of run.log")
+        #os.system("tail -n20 mcmc.log")        
+        fail_count += 1
+      else:
+        elapsed = time.time() - start
+        print('[OK] - ' + folder + ' -M mpd.log run in ' + str(round(elapsed, 2)) + ' seconds')
+        success_count += 1
+      os.chdir(cwd)
     # test -e functionality
     for folder in estimation_betadiff_dir_list:
       os.chdir("../TestModels/" + folder)
@@ -174,8 +201,7 @@ class ModelRunner:
         elapsed = time.time() - start
         print('[OK] - ' + folder + ' adolc estimation in ' + str(round(elapsed, 2)) + ' seconds')
         success_count += 1
-      os.chdir(cwd) 
-      
+      os.chdir(cwd)  
     print('')
     print('Total Models: ' + str(success_count + fail_count))
     print('Failed Models: ' + str(fail_count))
