@@ -80,7 +80,7 @@ void ObjectiveFunction::CalculateScore() {
   penalties_ = 0.0;
 
   for (auto penalty : model_->managers()->penalty()->objects()) {
-    if (penalty->has_score()) {
+    //if (penalty->has_score()) {
       objective::Score new_score;
 
       new_score.label_ = PARAM_PENALTY + string("->") + penalty->label();
@@ -90,12 +90,12 @@ void ObjectiveFunction::CalculateScore() {
       score_list_.push_back(new_score);
       score_ += new_score.score_;
       penalties_ += new_score.score_;
-    }
+    //}
   }
 
   /**
    * Go through the flagged penalties
-   */
+   
   const vector<penalties::Info>& penalties = model_->managers()->penalty()->flagged_penalties();
   for (penalties::Info penalty : penalties) {
     objective::Score new_score;
@@ -108,7 +108,7 @@ void ObjectiveFunction::CalculateScore() {
     score_ += new_score.score_;
     penalties_ += new_score.score_;
   }
-
+  */
   /**
    * Get the scores from each of the estimate priors
    */
