@@ -156,7 +156,7 @@ void Selectivity::DoPrepareTabular(shared_ptr<Model> model) {
             selectivity_by_age_label = "selectivity[" + object->label() + "]." + age;
             cache_ << selectivity_by_age_label << " ";
           }
-          cache_ << REPORT_EOL;
+
         }
       } else if(model->partition_type() == PartitionType::kLength) {
         string length, selectivity_by_length_label;
@@ -166,9 +166,9 @@ void Selectivity::DoPrepareTabular(shared_ptr<Model> model) {
           selectivity_by_length_label = "selectivity[" + object->label() + "]." + length;
           cache_ << selectivity_by_length_label << " ";
         }
-        cache_ << REPORT_EOL;
       }
     }
+    cache_ << REPORT_EOL;
   }
 }
 
@@ -199,15 +199,14 @@ void Selectivity::DoExecuteTabular(shared_ptr<Model> model) {
           for (unsigned i = model->min_age(); i <= model->max_age(); ++i) {
             cache_ << AS_DOUBLE(object->GetAgeResult(i, nullptr)) << " ";
           }
-          cache_ << REPORT_EOL;
         }
       } else if(model->partition_type() == PartitionType::kLength) {
         for (unsigned i = 0; i < model->get_number_of_length_bins(); ++i) {
           cache_ << AS_DOUBLE(object->GetLengthResult(i)) << " ";
         }
-        cache_ << REPORT_EOL;
       }
     }
+    cache_ << REPORT_EOL;
   }
 }
 
