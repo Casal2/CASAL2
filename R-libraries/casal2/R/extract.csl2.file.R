@@ -13,7 +13,7 @@
   ## if no path specified look in current directory
   if (missing(path))
     path <- ""
-  ## get the list that lins subcommands to their type.
+  ## get the list that lines subcommands to their type.
   casal2_list = get.casal2.unique_subcommands_list()
   filename = make.filename(path = path, file = file)
   file = convert.to.lines(filename, fileEncoding = fileEncoding, quiet = quiet)
@@ -40,7 +40,7 @@
   file <- ifelse(regexpr("#", file) > 0, substring(file, 1, regexpr("#", file) - 1), file)
   file <- file[file != ""]
   if (substring(file[1], 1, 1) != "@")
-    stop(paste("Error in the file ", filename, ". Cannot find a '@' at the begining of the file", sep = ""))
+    stop(paste("Error in the file ", filename, ". Cannot find a '@' at the beginning of the file", sep = ""))
 
   ## utility function for stripping tabs and spaces out ot input values
 
@@ -50,13 +50,13 @@
   ## create a labels for blocks that do not take a label following the @block statement
   exception_blocks <- c("model", "categories")
   ## a list of tables that don't have headers
-  non_header_tables <- c("obs", "data", "error_values", "table")
+  non_header_tables <- c("obs", "data", "scanned", "recaptured", "error_values", "table")
   ## there are three types of tables, 1) tables with headers (Instant mortality) 2) tables with row labels (observations and error values) and 3)tables that are just a matrix (ageing error)
   ans <- list()
   if(!quiet)
-    print(paste("The 'csl' input parameter file has", length(file[substring(file, 1, 1) == "@"]), "commands, and", length(file), "lines"))
+    print(paste("The 'csl2' input parameter file has", length(file[substring(file, 1, 1) == "@"]), "commands, and", length(file), "lines"))
   CommandCount <- 0
-  ## A global variable to tell us if we are still inputing a table
+  ## A global variable to tell us if we are still inputting a table
   in_table <- FALSE
   label_name <- 1
   file <- file[file != ""]
@@ -126,7 +126,7 @@
       }
       ans[[Command]][[new_string[1]]] <- list("value" = new_string[-1])
     } else if ((type == "table_label") || in_table) {
-      ## deal with a table input. the biggest pain in ithe ass
+      ## deal with a table input. the biggest pain in the ***
       in_table <- TRUE
       if (header == 1) {
         Label <- temp[2]
@@ -137,7 +137,7 @@
         if (header == 2 && !Label %in% non_header_tables) {
           ## We need to read in the header labels for the table
           Colnames <- temp;
-          ## intialise temp list object for storing info into the table
+          ## initialise temp list object for storing info into the table
         } else if ((header > 2 && temp[1] != "end_table") || (Label %in% non_header_tables && temp[1] != "end_table")) {
           ## create a temp list which will be the same as
           if (!Label %in% non_header_tables) {
