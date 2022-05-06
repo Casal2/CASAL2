@@ -560,6 +560,11 @@ void MCMC::UpdateCovarianceMatrix() {
     vector<double> mean_var(n_params, 1.0);
 
     for (int i = 0; i < n_params; ++i) {
+      if(estimates_[i]->mcmc_fixed()) {
+        temp_covariance(i, i) = 1.0;
+        continue;
+      }
+
       double sx = 0.0;
       for (int k = 0; k < n_iter; ++k) {
         sx += (chain_[k].values_[i]);
