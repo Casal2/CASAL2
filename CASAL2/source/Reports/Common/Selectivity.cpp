@@ -195,7 +195,7 @@ void Selectivity::DoExecuteTabular(shared_ptr<Model> model) {
     selectivities::Manager& SelectivityManager = *model->managers()->selectivity();
     for (auto object : SelectivityManager.objects()) {
       if(model->partition_type() == PartitionType::kAge) {
-        if (!object->IsSelectivityLengthBased()) {;
+        if (!object->IsSelectivityLengthBased()) {
           for (unsigned i = model->min_age(); i <= model->max_age(); ++i) {
             cache_ << AS_DOUBLE(object->GetAgeResult(i, nullptr)) << " ";
           }
