@@ -132,6 +132,7 @@ Each type of observation requires a set of subcommands and arguments specific to
 \subsection{\I{Likelihoods}}
 \input{IncludedSyntax/Likelihood}
 
+\ifAgeBased
 \subsection{\I{Defining ageing error}}\label{syntax:AgeingError}
 
 The methods for including ageing error into estimation for observations are:
@@ -146,9 +147,9 @@ The methods for including ageing error into estimation for observations are:
 Each type of ageing error has a set of subcommands and arguments specific to its type.
 
 \input{IncludedSyntax/AgeingError}
-
-\subsection{\I{Simulating observations}}
-\input{IncludedSyntax/Simulate}
+\fi % end if
+%\subsection{\I{Simulating observations}}
+%\input{IncludedSyntax/Simulate}
 
 \section{Report command and subcommand syntax\label{syntax:Reports}}
 
