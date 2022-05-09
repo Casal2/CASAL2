@@ -47,6 +47,7 @@ public:
   // accessors
   string                 parameter() { return parameter_; };
   map<unsigned, Double>& projected_parameters() { return projected_values_; };
+  vector<unsigned> & years() { return years_; };
 
 protected:
   // methods
