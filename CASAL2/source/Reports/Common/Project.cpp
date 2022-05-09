@@ -37,21 +37,25 @@ Project::Project() {
  * Validate object
  */
 void Project::DoValidate(shared_ptr<Model> model) {
-  if (project_label_ == "")
-    project_label_ = label_;
+  if(!model->global_configuration().print_tabular()) {
+    if (project_label_ == "") 
+      project_label_ = label_;
+  }
 }
 
 /**
  * Build the relationships between this object and other objects
  */
 void Project::DoBuild(shared_ptr<Model> model) {
-  project_ = model->managers()->project()->GetProject(project_label_);
-  if (!project_) {
-#ifndef TESTMODE
-    LOG_WARNING() << "The report for " << PARAM_PROJECT << " with label '" << project_label_ << "' was requested. This " << PARAM_PROJECT
-                  << " was not found in the input configuration file. The report will not be generated";
-#endif
-    is_valid_ = false;
+  if (project_label_ != "")  {
+    project_ = model->managers()->project()->GetProject(project_label_);
+    if (!project_) {
+  #ifndef TESTMODE
+      LOG_WARNING() << "The report for " << PARAM_PROJECT << " with label '" << project_label_ << "' was requested. This " << PARAM_PROJECT
+                    << " was not found in the input configuration file. The report will not be generated";
+  #endif
+      is_valid_ = false;
+    }
   }
 }
 
@@ -75,8 +79,69 @@ void Project::DoExecute(shared_ptr<Model> model) {
 }
 
 void Project::DoPrepareTabular(shared_ptr<Model> model) {
-  LOG_INFO() << "Tabular mode for reports of type " << PARAM_PROJECT << " has not been implemented";
+  if (!is_valid())
+    return;
+  LOG_FINE() << "label = " << project_label_;
+  cache_ << ReportHeader(type_, label_, format_);
+  cache_ << "values " << REPORT_R_DATAFRAME << REPORT_EOL;
+  if (project_label_ != "") { 
+    LOG_FINE() << "specific project = " << label_;
+
+    // single catchability provided not recommended
+    string label = project_->label();
+    map<unsigned, Double>& values = project_->projected_parameters();
+    for (auto value : values) {
+      cache_ <<  "project[" << label << "]." << value.first << " ";
+    }
+  } else {
+    LOG_FINE() << "print all project = " << label_;
+    projects::Manager& ProjectManager = *model->managers()->project();
+    for (auto object : ProjectManager.objects()) {
+      string label        = object->label();
+      LOG_FINE() << "project = " << label;
+
+      auto values = object->years();
+      for (auto value : values) {
+        cache_ <<  "project[" << label << "]." << value << " ";
+        LOG_FINE() << " year = " <<value;
+      }
+    }
+  }
+  cache_ << REPORT_EOL;
 }
+
+/**
+ * Execute this report
+ */
+void Project::DoExecuteTabular(shared_ptr<Model> model) {
+  if (!is_valid())
+    return;
+  if (project_label_ != "") { 
+    // single catchability provided not recommended
+    string label = project_->label();
+    map<unsigned, Double>& values = project_->projected_parameters();
+    for (auto value : values) {
+      cache_ <<  value.second << " ";
+    }
+  } else {
+    projects::Manager& ProjectManager = *model->managers()->project();
+    for (auto object : ProjectManager.objects()) {
+      map<unsigned, Double>& values = object->projected_parameters();
+      for (auto value : values) {
+        cache_ <<  value.second << " ";
+      }
+    }
+  }
+  cache_ << REPORT_EOL;
+}
+
+void Project::DoFinaliseTabular(shared_ptr<Model> model) {
+  if (!is_valid())
+    return;
+
+  ready_for_writing_ = true;
+}
+
 
 } /* namespace reports */
 } /* namespace niwa */
