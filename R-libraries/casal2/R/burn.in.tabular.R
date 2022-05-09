@@ -6,15 +6,19 @@
 #' @author Craig Marsh
 #' @param tab_object casal2TAB object you want to burn-in
 #' @param Row number to burn in from, note this is not the iteration but the row that corresponds to your iteration that you want to burn-in from. if keep > 1 then the iteration and row will be different
+#' @param verbose print extra info.
 #' @return a 'casal2TAB' object which has been manipulated.
 #' @export
 #'
-"burn.in.tabular" <- function(tab_object, Row) {
+"burn.in.tabular" <- function(tab_object, Row, verbose = F) {
   if (class(tab_object) != "casal2TAB") {
     stop(paste0("The tab_object must be class 'casal2TAB', but the parsed object is class '", class(tab_object), "'"))
   }
   for (i in 1:length(names(tab_object))) {
     this_list <- get(names(tab_object)[i], tab_object)
+    if(!"values" %in% names(this_list))
+      next;
+    
     if (Row >= nrow(this_list$values)) {
       stop(paste0("Row = ", Row, ", which is larger than the number of rows in the casl2TAB object('", nrow(this_list$values), "). The Row value is the ith sample after Casal2 has thinned the sample"))
     }
