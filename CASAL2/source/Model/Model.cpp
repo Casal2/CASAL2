@@ -712,10 +712,10 @@ void Model::RunProfiling() {
  *
  */
 void Model::RunSimulation() {
-  LOG_FINE() << "Entering the Simulation Sub-System";
+  LOG_MEDIUM() << "Entering the Simulation Sub-System";
 
   AddressableInputLoader& addressable_inputs = *managers_->addressable_input_loader();
-  LOG_FINE() << "estimable values count: " << addressable_values_count_;
+  LOG_MEDIUM() << "estimable values count: " << addressable_values_count_;
 
   niwa::partition::accessors::All all_view(pointer());
 
@@ -731,7 +731,7 @@ void Model::RunSimulation() {
   unsigned init_diff;
   unsigned second_diff;
   for (unsigned i = 0; i < addressable_values_count_; ++i) {
-    LOG_FINE() << "addressable i = " << i + 1;
+    LOG_MEDIUM() << "addressable i = " << i + 1;
     LOG_FINE() << "Model: State change to Initialise";
     state_        = State::kInitialise;
     current_year_ = start_year_;
@@ -752,7 +752,7 @@ void Model::RunSimulation() {
     agelengths::Manager&  age_length_manager   = *managers_->age_length();
 
     for (current_year_ = start_year_; current_year_ <= final_year_; ++current_year_) {
-      LOG_FINE() << "Iteration year: " << current_year_;
+      LOG_MEDIUM() << "Iteration year: " << current_year_;
       age_length_manager.UpdateDataType();  // this only does something if we have data type age-length
       time_varying_manager.Update(current_year_);
       managers_->simulate()->Update(current_year_);
@@ -760,7 +760,7 @@ void Model::RunSimulation() {
     }
     // model finish running given this set of -i
     for (int s = 0; s < simulation_candidates; ++s) {
-      LOG_FINE() << "simulation s = " << s;
+      LOG_MEDIUM() << "simulation s = " << s;
       string report_suffix = ".";
       s_width              = (unsigned)(floor(log10((s + 1))) + 1);
       second_diff          = second_suffix_width - s_width;
@@ -789,7 +789,7 @@ void Model::RunProjection() {
   LOG_TRACE();
   int projection_candidates = global_configuration_->projection_candidates();
   if (projection_candidates < 1) {
-    LOG_FATAL() << "The number of projections specified at the command line parser must be at least one";
+    LOG_FATAL() << "The number of projections specified in the command line must be at least one";
   }
   AddressableInputLoader& addressable_inputs = *managers_->addressable_input_loader();
   vector<Double*>         estimable_targets;
@@ -847,6 +847,8 @@ void Model::RunProjection() {
       LOG_FINE() << "Starting projection years";
       for (; current_year_ <= projection_final_year_; ++current_year_) {
         LOG_FINE() << "Iteration year: " << current_year_;
+        age_length_manager.UpdateDataType();  // this only does something if we have data type age-length
+        time_varying_manager.Update(current_year_);
         project_manager.Update(current_year_);
         time_step_manager.Execute(current_year_);
       }
