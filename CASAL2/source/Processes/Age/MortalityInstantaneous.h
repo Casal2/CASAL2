@@ -50,6 +50,7 @@ class MortalityInstantaneous : public Process {
     map<unsigned, Double> catches_;
     map<unsigned, Double> actual_catches_;
     map<unsigned, Double> exploitation_by_year_;
+    map<unsigned, Double> uobs_by_year_;
 
     Double  vulnerability_;
     Double  uobs_fishery_;
