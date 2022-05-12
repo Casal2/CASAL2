@@ -13,7 +13,7 @@ In length based models a growth transition matrix describes the probability of f
 \subsubsection{The `none' model}\index{Growth Increment!None}\label{sec:GrowthIncrement-None}
 All individuals have a mean length increment of 1 regardless of where they are in the length partition.
 
-\subsubsection{The Exponential model}\index{Growth Incrrement!Exponential}\label{sec:GrowthIncrement-Exponential}
+\subsubsection{The Exponential model}\index{Growth Increment!Exponential}\label{sec:GrowthIncrement-Exponential}
 
 \begin{equation}
 \mu_i = g_\alpha \left(\frac{g_\beta}{g_\alpha} \right)^{\frac{(lm_i - l_\alpha)}{(l_\beta - l_\alpha)}}
@@ -24,6 +24,29 @@ All individuals have a mean length increment of 1 regardless of where they are i
 \begin{equation}
 \mu_i = g_\alpha + (g_\beta - g_\alpha) \frac{lm_i - l_\alpha}{l_\beta - l_\alpha}
 \end{equation}
+
+
+%
+%\subsubsection{The Schnute model}\index{Schnute Increment!Exponential}\label{sec:GrowthIncrement-Schnute}
+%This is derived from \cite{haist2009multi} and doesn't look to be working as expected. It has estimable parameter \(g_{diff}\), \(g_{\alpha}\) and \(\gamma\). The generalised Schnute model applies grows individuals from time-step \(t\) to time-step \(t+1\) as
+%
+%\begin{equation}
+%l_{t+1} = \left(l_t \exp(-\kappa\Delta t) + \zeta^{\gamma} \left(1 - \exp(-\kappa\Delta t)\right)\right)^{1/\gamma}
+%\end{equation}
+%%
+%where, \(\Delta t\) is the proportion of annual growth between time-steps and other derived parameters are described below. The expected increment becomes
+%\[
+%\mu_{t} | l_t = l_{t+1} - l_t
+%\]
+%\begin{align*}
+%	\kappa &= -\log\left(1 - \frac{a - b}{l_{\alpha}^{\gamma} - l_{\beta}^{\gamma}} \right)\\
+%	\zeta &= \frac{l_{\alpha}^{\gamma} - l_{\alpha}^{\gamma}(b/a)}{1 - (b/a)}\\
+%	a &= (l_{\alpha} + g_{\alpha})^{\gamma} - l_{\alpha}^{\gamma}\\	
+%	b &= (l_{\beta} + g_{\beta})^{\gamma} - l_{\beta}^{\gamma}\\
+%	g_{\beta} & = g_{diff} g_{\alpha}
+%\end{align*}
+%%
+%here, \(l_{\alpha}\) and \(l_{\beta}\) are lengths that correspond to the parameters \(g_{\alpha}\) \(g_{\beta}\) which describe expected length increments for those reference lengths.  
 
 \subsubsection{Growth transition matrix}\index{Growth Increment!Growth Transition Matrix}\label{sec:GrowthIncrement-GrowthMatrix}
 

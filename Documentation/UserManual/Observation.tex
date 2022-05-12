@@ -865,19 +865,19 @@ A list of \texttt{types} that are associated with this set of observations are:
 
 \subsection{\I{Likelihoods}\index{sec:Likelihoods}}\label{sec:Likelihood}
 
-\subsubsection{Likelihoods for proportions-at-age observations}
+\subsubsection{Likelihoods for composition observations}
 
-\CNAME\ implements three likelihoods for proportions-at-age observations, the multinomial likelihood, the Dirichlet, and the lognormal likelihood.
+\CNAME\ has a range of likelihoods for composition observations, these include the multinomial, Dirichlet, Dirichlet-Multinomial, and the lognormal likelihood. Composition observations consist of proportions at age or length. The following notation uses \(b\) to denote a composition bin which can be interpreted as an age or length bin.
 
 \subsubsection*{The multinomial likelihood\index{Multinomial likelihood}}
 
-For the observed proportions at age $O_i$ for age classes $i$, with sample size $N$, and the expected proportions at the same age classes $E_i$, the negative log-likelihood is:
+For the observed proportions at age $O_b$ for composition bin $b$ (age or length), with sample size $N$, and the expected proportions for the same bin denoted by $E_b$, the negative log-likelihood is:
 
 \begin{equation}
--\log \left(L \right) =  -\log \left(N! \right) + \sum\limits_i \log \left( \left(NO_i \right)! \right) - NO_i \log \left(Z \left(E_i,\delta \right) \right)
+-\log \left(L \right) =  -\log \left(N! \right) + \sum\limits_b\log \left( \left(NO_b \right)! \right) - NO_b \log \left(Z \left(E_b,\delta \right) \right)
 \end{equation}
 
-where $\sum\limits_i O_i = 1$ and $\sum\limits_i E_i = 1$. $Z \left(\theta,\delta \right)$ is a robustifying function to prevent division by zero errors, with parameter $\delta>0$.
+where $\sum\limits_b O_b = 1$ and $\sum\limits_b E_b = 1$. $Z \left(\theta,\delta \right)$ is a robustifying function to prevent division by zero errors, with parameter $\delta>0$.
 
 \begin{equation}
 Z \left(\theta,\delta \right) = \begin{cases}
@@ -890,13 +890,13 @@ The default value of $\delta$ is $1 \times 10^{-11}$.
 
 \subsubsection*{The Dirichlet likelihood\index{Dirichlet likelihood}}
 
-For the observed proportions at age $O_i$ for age classes $i$, with sample size $N$, and the expected proportions at the same age classes $E_i$, the negative log-likelihood is:
+For the observed proportions at age $O_b$ for composition bin $b$ (age or length), with sample size $N$, and the expected proportions for the same bin denoted by $E_b$, the negative log-likelihood is:
 
 \begin{equation}
--\log \left(L \right) = -\log(\Gamma \sum\limits_i (\alpha_i)) + \sum\limits_i \log(\Gamma (\alpha_i)) - \sum\limits_i (\alpha_i-1) \log(Z(O_i,\delta))
+-\log \left(L \right) = -\log(\Gamma \sum\limits_b (\alpha_b)) + \sum\limits_b \log(\Gamma (\alpha_b)) - \sum\limits_b (\alpha_b-1) \log(Z(O_b,\delta))
 \end{equation}
 
-where $\alpha_i = Z \left(N E_i,\delta \right)$, $\sum\limits_i O_i = 1$, and $\sum\limits_i E_i = 1$. $Z \left(\theta,\delta \right)$ is a robustifying function to prevent division by zero errors, with parameter $\delta>0$.
+where $\alpha_b = Z \left(N E_b,\delta \right)$, $\sum\limits_b O_b = 1$, and $\sum\limits_b E_b = 1$. $Z \left(\theta,\delta \right)$ is a robustifying function to prevent division by zero errors, with parameter $\delta>0$.
 
 \begin{equation}
 Z \left(\theta,\delta \right) = \begin{cases}
@@ -907,21 +907,40 @@ Z \left(\theta,\delta \right) = \begin{cases}
 
 The default value of $\delta$ is $1 \times 10^{-11}$.
 
+%\subsubsection*{The dirichlet-multinomial likelihood\index{Multinomial likelihood}}
+%The Dirichlet-Mulitnomial follows from \citep{thorson2017model}. For the observed proportions at age $O_b$ for composition bin $b$ (age or length), with sample size $N$, and the expected proportions for the same bin denoted by $E_b$, the negative log-likelihood is:
+%
+%\begin{equation}
+%-\log \left(L \right) =  -\log \left(N! \right) + \sum\limits_b \log \left( \left(NO_b \right)! \right) - NO_b \log \left(Z \left(E_b,\delta \right) \right)
+%\end{equation}
+%
+%where $\sum\limits_b O_b = 1$ and $\sum\limits_b E_b = 1$. $Z \left(\theta,\delta \right)$ is a robustifying function to prevent division by zero errors, with parameter $\delta>0$.
+%
+%\begin{equation}
+%Z \left(\theta,\delta \right) = \begin{cases}
+%\theta, & \text{where $\theta \ge r$} \\
+%\delta/\left( 2-\theta/\delta \right), & \text{otherwise} \\
+%\end{cases}
+%\end{equation}
+%
+%The default value of $\delta$ is $1 \times 10^{-11}$.
+
+
 \subsubsection*{The lognormal likelihood\index{Lognormal likelihood}}
 
-For the observed proportions at age $O_i$ for age classes $i$, with c.v. $c_i$, and the expected proportions at the same age classes $E_i$, the negative log-likelihood is defined as;
+For the observed proportions at age $O_b$ for bin $b$, with c.v. $c_b$, and the expected proportions at the same age classes $E_b$, the negative log-likelihood is defined as;
 
 \begin{equation}
-- \log \left(L \right) = \sum\limits_i \left( \log \left( \sigma _i \right) + 0.5\left( \frac{\log \left(O_i / Z \left(E_i,\delta \right) \right)}{\sigma_i} + 0.5 \sigma_i \right)^2 \right)
+- \log \left(L \right) = \sum\limits_b \left( \log \left( \sigma_b \right) + 0.5\left( \frac{\log \left(O_b / Z \left(E_b,\delta \right) \right)}{\sigma_b} + 0.5 \sigma_b \right)^2 \right)
 \end{equation}
 
 where
 
 \begin{equation}
-\sigma_i  = \sqrt{\log \left(1+c_i^2 \right)}
+\sigma_b  = \sqrt{\log \left(1+c_b^2 \right)}
 \end{equation}
 
-and the $c_i$'s are the c.v.s for each age class $i$, and $Z \left(\theta,\delta \right)$ is a robustifying function to prevent division by zero errors, with parameter $\delta>0$.
+and the $c_b$'s are the c.v.s for each composition bin $b$, and $Z \left(\theta,\delta \right)$ is a robustifying function to prevent division by zero errors, with parameter $\delta>0$.
 
 \begin{equation}
 Z \left(\theta,\delta \right) = \begin{cases}
