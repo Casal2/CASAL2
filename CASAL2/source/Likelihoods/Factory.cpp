@@ -5,9 +5,11 @@
  * @date 22/03/2013
  * @section LICENSE
  *
- * Copyright NIWA Science ©2013 - www.niwa.co.nz
+ * Copyright NIWA Science ï¿½2013 - www.niwa.co.nz
  *
  * $Date: 2008-03-04 16:33:32 +1300 (Tue, 04 Mar 2008) $
+ * Note: when adding a new likelihood please add the type to the Validate check in Likelihood.cpp
+ * this prevents users from creating likelihood objects with labels the same as types.
  */
 
 // Headers
@@ -16,6 +18,7 @@
 #include "../Likelihoods/Common/Binomial.h"
 #include "../Likelihoods/Common/BinomialApprox.h"
 #include "../Likelihoods/Common/Dirichlet.h"
+#include "../Likelihoods/Common/DirichletMultinomial.h"
 #include "../Likelihoods/Common/LogNormal.h"
 #include "../Likelihoods/Common/LogNormalWithQ.h"
 #include "../Likelihoods/Common/Multinomial.h"
@@ -44,6 +47,8 @@ Likelihood* Factory::Create(shared_ptr<Model> model, const string& object_type, 
     result = new BinomialApprox(model);
   else if (sub_type == PARAM_DIRICHLET)
     result = new Dirichlet(model);
+  else if (sub_type == PARAM_DIRICHLET_MULTINOMIAL)
+    result = new DirichletMultinomial(model);
   else if (sub_type == PARAM_LOGNORMAL)
     result = new LogNormal(model);
   else if (sub_type == PARAM_LOGNORMAL_WITH_Q)

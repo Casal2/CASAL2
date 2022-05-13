@@ -53,6 +53,7 @@ ProportionsAtAge::ProportionsAtAge(shared_ptr<Model> model) : Observation(model)
   allowed_likelihood_types_.push_back(PARAM_LOGNORMAL);
   allowed_likelihood_types_.push_back(PARAM_MULTINOMIAL);
   allowed_likelihood_types_.push_back(PARAM_DIRICHLET);
+  allowed_likelihood_types_.push_back(PARAM_DIRICHLET_MULTINOMIAL);
   allowed_likelihood_types_.push_back(PARAM_LOGISTIC_NORMAL);
 }
 

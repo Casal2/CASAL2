@@ -23,6 +23,7 @@
 #include "../GrowthIncrements/Manager.h"
 #include "../InitialisationPhases/Manager.h"
 #include "../LengthWeights/Manager.h"
+#include "../Likelihoods/Manager.h"
 #include "../Model/Managers.h"
 #include "../Model/Model.h"
 #include "../Observations/Manager.h"
@@ -278,7 +279,9 @@ base::Object* Objects::FindObjectOrNull(const string& parameter_absolute_name) {
 
   } else if (type == PARAM_OBSERVATION) {
     result = model_->managers()->observation()->GetObservation(label);
-    
+
+  } else if (type == PARAM_LIKELIHOOD) {
+    result = model_->managers()->likelihood()->GetLikelihood(label);
   } else if (type == PARAM_GROWTH_INCREMENT) {
     result = model_->managers()->growth_increment()->GetGrowthIncrement(label);
 
