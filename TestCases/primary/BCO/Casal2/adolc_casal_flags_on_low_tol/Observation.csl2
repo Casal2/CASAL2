@@ -122,7 +122,7 @@ time_step 1
 time_step_proportion 0.5
 selectivities potFSel*2  #all removals
 years 2010
-length_plus false
+plus_group false
 #ageing_error Ageing_error
 length_bins 13 14 15 16 17 18 19 20 21 22 23 24 25 26 27 28 29 30 31 32 33 34 35 36 37 38 39 40 41 42 43 44 45 46 47 48 49 50 51 52 53 54 55 56 57 58 59
 likelihood multinomial
@@ -148,7 +148,7 @@ time_step 1
 time_step_proportion 0.5
 selectivities recFSel*2
 years 2010
-length_plus false
+plus_group false
 #ageing_error Ageing_error
 length_bins 13 14 15 16 17 18 19 20 21 22 23 24 25 26 27 28 29 30 31 32 33 34 35 36 37 38 39 40 41 42 43 44 45 46 47 48 49 50 51 52 53 54 55 56 57 58 59
 #13 14 15 16 17 18 19 20 21 22 23 24 25 26 27 28 29 30 31 32 33 34 35 36 37 38 39 40 41 42 43 44 45 46 47 48 49

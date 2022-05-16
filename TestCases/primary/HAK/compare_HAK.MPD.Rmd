@@ -204,10 +204,11 @@ plot_legend()
 ages <- seq(1, 30)
 
 # omit the 'category' column
-c2_mat <- array(0, dim=c(num_C2_models, dim(as.matrix(cas2_mpd[[1]]$Init$values[,-1]))))
+# 'category' column is no longer output by Casal2 as of 2022-05-16
+c2_mat <- array(0, dim=c(num_C2_models, dim(as.matrix(cas2_mpd[[1]]$Init$values))))
 for (c in 1:num_C2_models)
 {
-    c2_mat[c,,] <- as.matrix(cas2_mpd[[c]]$Init$values[,-1])
+    c2_mat[c,,] <- as.matrix(cas2_mpd[[c]]$Init$values)
 }
 
 # plot initial numbers
