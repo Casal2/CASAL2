@@ -153,35 +153,38 @@ void DefaultReports::DoBuild(shared_ptr<Model> model) {
         model->managers()->report()->AddInternalObject(report);
       }
     }
-    if (report_projects_) {
-      if(model->global_configuration().print_tabular()) {
-        reports::Project* report = new reports::Project();
-        string report_label = "__projections__";
-        LOG_INFO() << "Creating default report for projections " << report_label;
-        report->set_is_default(true);
-        report->set_block_type(PARAM_REPORT);
-        report->set_defined_file_name(__FILE__);
-        report->set_defined_line_number(__LINE__);
-        report->parameters().Add(PARAM_LABEL, report_label, __FILE__, __LINE__);
-        report->parameters().Add(PARAM_TYPE, PARAM_PROJECT, __FILE__, __LINE__);
-        model->managers()->report()->AddInternalObject(report);
-      } else {
-        projects::Manager& ProjectManager = *model->managers()->project();
-
-        auto project = ProjectManager.objects();
-        for (auto object : project) {
-          string label        = object->label();
-          string report_label = "__" + label + "__";
-          LOG_INFO() << "Creating default report for project " << label;
+    // only run in projection mode
+    if(model->run_mode() == RunMode::kProjection) {
+      if (report_projects_) {
+        if(model->global_configuration().print_tabular()) {
           reports::Project* report = new reports::Project();
+          string report_label = "__projections__";
+          LOG_INFO() << "Creating default report for projections " << report_label;
           report->set_is_default(true);
           report->set_block_type(PARAM_REPORT);
           report->set_defined_file_name(__FILE__);
           report->set_defined_line_number(__LINE__);
           report->parameters().Add(PARAM_LABEL, report_label, __FILE__, __LINE__);
           report->parameters().Add(PARAM_TYPE, PARAM_PROJECT, __FILE__, __LINE__);
-          report->parameters().Add(PARAM_PROJECT, label, __FILE__, __LINE__);
           model->managers()->report()->AddInternalObject(report);
+        } else {
+          projects::Manager& ProjectManager = *model->managers()->project();
+
+          auto project = ProjectManager.objects();
+          for (auto object : project) {
+            string label        = object->label();
+            string report_label = "__" + label + "__";
+            LOG_INFO() << "Creating default report for project " << label;
+            reports::Project* report = new reports::Project();
+            report->set_is_default(true);
+            report->set_block_type(PARAM_REPORT);
+            report->set_defined_file_name(__FILE__);
+            report->set_defined_line_number(__LINE__);
+            report->parameters().Add(PARAM_LABEL, report_label, __FILE__, __LINE__);
+            report->parameters().Add(PARAM_TYPE, PARAM_PROJECT, __FILE__, __LINE__);
+            report->parameters().Add(PARAM_PROJECT, label, __FILE__, __LINE__);
+            model->managers()->report()->AddInternalObject(report);
+          }
         }
       }
     }
