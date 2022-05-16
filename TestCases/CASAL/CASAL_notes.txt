@@ -1,10 +1,19 @@
-Notes on the CASAL executables, 2021-08-11
+Notes on the CASAL executables, 2022-05-16
 
 The CASAL executables includes bug fixes for:
  - an issue with tagging length bins (Craig Marsh)
  - an issue with two subcommands available for 'abundance' but not available for 'relative_abundance' (Alistair Dunn)
  - a bug with the sex-specific Schnute age-length relationship, which was previously using the female-specific relationship for both males and females
- - an issue with the covariance matrix and the maximum correlation check and increasing the buffer sizes in the BetaDiff ADOL-C library
+ - an issue with the covariance matrix and the maximum correlation check
+ - an issue with increasing the buffer sizes in the BetaDiff ADOL-C library to match the buffer size used by the BetaDiff ADOL-C library in Casal2
+ - an issue with disease mortality being applied in the wrong timestep(s) (Craig Marsh)
+
+The CASAL executables have an additional selectivity ogive, "double_normal_stock_synthesis", which is similar to the 6-parameter Stock Synthesis double normal ogive.
+The CASAL ogive has 9 parameters, 6 that match the Stock Synthesis implementation, and 3 more for the minimum bin value ("min_x_val", for age or size),
+the maximum bin value ("max_x_val", for age or size), and the bin width ("bin_width", which is usually 1 for age).
+
+The Windows executable, casal.Rtools.MinGW.exe, has been compiled on Windows 10 with Rtools 4.0 MinGW:
+https://cran.stat.auckland.ac.nz/bin/windows/Rtools/rtools40.html
 
 Please contact the Casal2 Development Team at casal2@niwa.co.nz for more information.
 
