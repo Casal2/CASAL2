@@ -1,4 +1,4 @@
-![Validation Pass](https://github.com/NIWAFisheriesModelling/CASAL2/actions/workflows/pull_request.yml/badge.svg)
+![Validation Pass](https://github.com/NIWAFisheriesModelling/CASAL2/actions/workflows/Casal2_testsuite_modelrunner_archive.yml/badge.svg)
 
 Casal2
 ======
