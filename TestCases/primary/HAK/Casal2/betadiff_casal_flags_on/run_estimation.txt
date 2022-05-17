@@ -5,7 +5,7 @@ Seed: 64447
 Version: v22.05 (2022-05-12)
 Copyright (c) 2017-2022, NIWA (www.niwa.co.nz)
 c2user
- Machine=c2computer.niwa.local (Linux 3.10.0-1160.62.1.el7.x86_64 x86_64)
+ Machine=c2computercal (Linux 3.10.0-1160.62.1.el7.x86_64 x86_64)
  PID=10132
 
 
