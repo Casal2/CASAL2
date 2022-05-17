@@ -1,6 +1,6 @@
 #' Model configuration write function
 #'
-#' This function will write a Casal2 configuration file based on a list object in R. Ususally this function
+#' This function will write a Casal2 configuration file based on a list object in R. Usually this function
 #' is used once a model has been read into R using extract.csl2.file and modified. This function will then
 #' output the configuration to a new file where it can be rerun in Casal2
 #'
@@ -23,7 +23,7 @@
   exception_commands <- c("model", "categories")
 
   ## a list of tables that don't have headers
-  non_header_tables <- c("obs", "data", "error_values", "table")
+  non_header_tables <- c("obs", "data", "error_values", "table", "recaptured", "scanned")
 
   for (i in 1:length(object)) {
     Command <- names(object)[i]
