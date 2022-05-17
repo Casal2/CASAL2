@@ -28,6 +28,24 @@
   filename <- make.filename(path = path, file = file)
   file <- convert.to.lines(filename, fileEncoding = fileEncoding, quiet = quiet)
 
+  result <- list()
+  if (substring(file[1], 1, 6) == "Casal2") {
+    header <- list()
+    header$call <- file[2]
+    header$date <- file[3]
+    header$seed <- file[4]
+    header$version <- file[5]
+    header$environment <- file[7]
+    result[["header"]]<-header
+    temp <- substr(result[["header"]]$version, 11, 15)
+    if (temp != casal2.binary.version()) {
+      cat("WARNING: The output file was generated with a different version than the R libray being used to read the output.\n")
+      cat("This may cause compatibility issues. Please update the R package to be consistent with the version of Casal2 used to generate the output.\n")
+      cat("The output was generated with Casal2 v", temp, "\n", sep = "")
+      cat("The Casal2 R package is compatible with Casal2 v", casal2.binary.version(), "\n\n", sep = "")
+    }
+  }
+
   ## Check this isn't a tabular report by looking at the Call:
   if (grepl(pattern = "--tabular", x = file[2]) | grepl(pattern = "-t", x = file[2]))
     stop("This model was run with the command '--tabular' or '-t'. Please use the extract.tabular() function to import this model run.")
@@ -56,7 +74,6 @@
 
 
     multi_year_reports <- c("partition", "Partition", "partition_biomass", "PartitionBiomass", "partition_mean_weight", "PartitionMeanWeight", "age_length", "growth_increment", "selectivity_by_year")
-    result <- list()
     for (i in 1:counter) {
       header <- split.header(temp[i])
       label <- header[1]

@@ -337,6 +337,7 @@ m
 max_age
 max_correlation
 max_generations
+mcmc_fixed
 mean
 method
 method_of_removal
