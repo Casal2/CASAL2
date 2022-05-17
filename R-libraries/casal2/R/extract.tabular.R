@@ -1,7 +1,7 @@
 #' @title extract Tabular function for readin in Casal2 output that has been generated from a -r, -e, -f, -p run mode with the --tabular.
 #'
 #' @description
-#' An extract function that reads Casal2 output that are produced from a '-r' or '-e' or '-f' or '-p' model run. This funciton
+#' An extract function that reads Casal2 output that are produced from a '-r' or '-e' or '-f' or '-p' model run. This function
 #' also create a 'casal2TAB' class which can be used in plotting and summary functions. See the casal2 manual for more information.
 #'
 #' @author Craig Marsh
@@ -106,7 +106,7 @@ function(file, path = "", fileEncoding = "", quiet = FALSE) {
           #file_all_white_space[global_line_counter + 1 + length(report) - 2]
           #print(file_all_white_space[global_line_counter])
           if(file_all_white_space[global_line_counter + 1] == "*end") {
-            ## some reports are empty, particularly for processess
+            ## some reports are empty, particularly for processes
             line_no = length(report) + 1
             next;
           }
@@ -116,6 +116,8 @@ function(file, path = "", fileEncoding = "", quiet = FALSE) {
             Data = Data[,-ncol(Data)]
           header = string.to.vector.of.words(file_all_white_space[global_line_counter + 1])
           # Data = Data[, - ncol(Data)]
+          if(!is.data.frame(Data)) 
+            Data <- as.data.frame(Data)
           colnames(Data) = header
           # temp_result$values = Data
           temp_result$values = Data
