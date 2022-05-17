@@ -72,11 +72,11 @@ class ModelRunner:
       start = time.time()
       
       result = False 
-      if os.system(f"{exe_path} -r > run.log 2>&1") != EX_OK:
+      if os.system(f"{exe_path} -r > run.log 2> run.err") != EX_OK:
         elapsed = time.time() - start
         print('[FAILED] - ' + folder + ' in ' + str(round(elapsed, 2)) + ' seconds')
-        print("--> Printing last 20 lines of run.log")
-        os.system("tail -n20 run.log")
+        print("--> Printing last 20 lines of run.err")
+        os.system("tail -n20 run.err")
         fail_count += 1
       else:
         elapsed = time.time() - start
@@ -86,7 +86,7 @@ class ModelRunner:
     # test -i functionality 
     for folder in run_dash_i_dir_list:
       os.chdir("../TestModels/" + folder)
-      if os.system(f"{exe_path} -r -i pars.out > run.log 2>&1") != EX_OK:
+      if os.system(f"{exe_path} -r -i pars.out > run.log 2> run.err") != EX_OK:
         elapsed = time.time() - start
         print('[FAILED] - ' + folder + ' -i run in ' + str(round(elapsed, 2)) + ' seconds')
         #print("--> Printing last 20 lines of run.log")
@@ -100,7 +100,7 @@ class ModelRunner:
     # test -I functionality 
     for folder in run_dash_I_dir_list:
       os.chdir("../TestModels/" + folder)
-      if os.system(f"{exe_path} -r -I pars.out > run.log 2>&1") != EX_OK:
+      if os.system(f"{exe_path} -r -I pars.out > run.log 2> run.err") != EX_OK:
         elapsed = time.time() - start
         print('[FAILED] - ' + folder + ' -I run in ' + str(round(elapsed, 2)) + ' seconds')
         #print("--> Printing last 20 lines of run.log")
@@ -145,7 +145,7 @@ class ModelRunner:
     # test -M mpd.log functionality 
     for folder in resume_mcmc_from_mpd_dir_list:
       os.chdir("../TestModels/" + folder)
-      if os.system(f"{exe_path} -E mpd.log > estimate.log 2>&1") != EX_OK:
+      if os.system(f"{exe_path} -E mpd.log > estimate.log 2> esimate.err") != EX_OK:
         elapsed = time.time() - start
         print('[FAILED] - ' + folder + ' -E mpd.log run in ' + str(round(elapsed, 2)) + ' seconds')
         #print("--> Printing last 20 lines of run.log")
@@ -155,7 +155,7 @@ class ModelRunner:
         elapsed = time.time() - start
         print('[OK] - ' + folder + ' -E mpd.log run in ' + str(round(elapsed, 2)) + ' seconds')
         success_count += 1
-      if os.system(f"{exe_path} -M mpd.log > mcmc.log 2>&1") != EX_OK:
+      if os.system(f"{exe_path} -M mpd.log > mcmc.log 2> mcmc.err ") != EX_OK:
         elapsed = time.time() - start
         print('[FAILED] - ' + folder + ' -M mpd.log run in ' + str(round(elapsed, 2)) + ' seconds')
         #print("--> Printing last 20 lines of run.log")
@@ -183,7 +183,7 @@ class ModelRunner:
     # test -e functionality
     for folder in estimation_betadiff_dir_list:
       os.chdir("../TestModels/" + folder)
-      if os.system(f"{exe_path} -e -g 20 -c config_betadiff.csl2 > estimate_betadiff.log 2>&1") != EX_OK:
+      if os.system(f"{exe_path} -e -g 20 -c config_betadiff.csl2 > estimate_betadiff.log 2> estimate_betadiff.err") != EX_OK:
         elapsed = time.time() - start
         print('[FAILED] - ' + folder + ' betadiff estimation in ' + str(round(elapsed, 2)) + ' seconds')
         #print("--> Printing last 20 lines of estimate_betadiff.log")
@@ -196,7 +196,7 @@ class ModelRunner:
       os.chdir(cwd) 	  
     for folder in estimation_gammadiff_dir_list:
       os.chdir("../TestModels/" + folder)
-      if os.system(f"{exe_path} -e -g 20 -c config_gammadiff.csl2 > estimate_gammadiff.log 2>&1") != EX_OK:
+      if os.system(f"{exe_path} -e -g 20 -c config_gammadiff.csl2 > estimate_gammadiff.log 2> estimate_gammadiff.err") != EX_OK:
         elapsed = time.time() - start
         print('[FAILED] - ' + folder + ' gammadiff estimation in ' + str(round(elapsed, 2)) + ' seconds')
         #print("--> Printing last 20 lines of estimate_gammadiff.log")
@@ -209,7 +209,7 @@ class ModelRunner:
       os.chdir(cwd) 	  
     for folder in estimation_adolc_dir_list:
       os.chdir("../TestModels/" + folder)
-      if os.system(f"{exe_path} -e -g 20 --config config_adolc.csl2 > estimate_adolc.log 2>&1") != EX_OK:
+      if os.system(f"{exe_path} -e -g 20 --config config_adolc.csl2 > estimate_adolc.log 2> estimate_adolc.err") != EX_OK:
         elapsed = time.time() - start
         print('[FAILED] - ' + folder + ' adolc estimation in ' + str(round(elapsed, 2)) + ' seconds')
         #print("--> Printing last 20 lines of estimate_adolc.log")
