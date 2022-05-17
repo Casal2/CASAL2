@@ -9,3 +9,10 @@ processes true
 observations true
 derived_quantities true
 selectivities true 
+
+
+@report estimate_value
+type estimate_value
+
+@report objective_function
+type objective_function
