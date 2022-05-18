@@ -13,6 +13,7 @@
 #include "Data.h"
 
 #include "../../Utilities/To.h"
+#include "../../Utilities/math.h"
 
 // namespaces
 namespace niwa {
@@ -29,9 +30,10 @@ namespace ageingerrors {
  * Note: The constructor is parsed to generate LaTeX for the documentation.
  */
 Data::Data(shared_ptr<Model> model) : AgeingError(model) {
-  data_table_ = new parameters::Table(PARAM_TABLE);
+  parameters_.Bind<Double>(PARAM_TOLERANCE, &tol_, "Tolerance of the row sum check for the misclassification matrix table", "", 1e-5)->set_lower_bound(0.0, false);
 
-  parameters_.BindTable(PARAM_TABLE, data_table_, "The table of data specifying the ageing misclassification matrix", "", false);
+  data_table_ = new parameters::Table(PARAM_DATA);
+  parameters_.BindTable(PARAM_DATA, data_table_, "The table of data specifying the ageing misclassification matrix", "", false);
 }
 
 /**
@@ -47,21 +49,35 @@ Data::~Data() {
 void Data::DoBuild() {
   auto data = data_table_->data();
   if (data.size() != age_spread_) {
-    LOG_ERROR_P(PARAM_TABLE) << "The number of rows provided " << data.size() << " does not match the age range of the model " << age_spread_;
+    LOG_ERROR_P(PARAM_DATA) << "The number of rows provided " << data.size() << " does not match the age range of the model " << age_spread_;
     return;
   }
   if (data[0].size() != age_spread_) {
-    LOG_ERROR_P(PARAM_TABLE) << "The number of columns provided " << data.size() << " does not match the age range of the model " << age_spread_;
+    LOG_ERROR_P(PARAM_DATA) << "The number of columns provided " << data.size() << " does not match the age range of the model " << age_spread_;
     return;
   }
 
-  Double value = 0.0;
-  for (unsigned i = 0; i < data.size(); ++i) {
-    for (unsigned j = 0; j < data[i].size(); ++j) {
+  Double value  = 0.0;
+  Double RowSum = 0.0;
+
+  for (unsigned i = 0; i < data.size(); ++i) {  // rows
+    RowSum = 0.0;
+    for (unsigned j = 0; j < data[i].size(); ++j) {  // columns
       if (!utilities::To<string, Double>(data[i][j], value))
-        LOG_ERROR_P(PARAM_TABLE) << "Could not convert the value " << data[i][j] << " to a Double";
+        LOG_ERROR_P(PARAM_DATA) << "Could not convert the value " << data[i][j] << " to a Double";
+      if (value < 0.0) {
+        LOG_ERROR_P(PARAM_DATA) << ": The misclassification value (" << data[i][j] << ") cannot be less than 0.0";
+      }
+      RowSum += value;
 
       mis_matrix_[i][j] = value;
+    }
+    if (plus_group_) {
+      if (!utilities::math::IsBasicallyEqual(RowSum, 1.0, tol_)) {
+        LOG_ERROR_P(PARAM_DATA) << ": The sum of values in the misclassification matrix in row " << i + 1 << " was '" << RowSum << "'. These should sum to 1.0 ";
+      }
+    } else if (RowSum > (1.0 + tol_)) {
+      LOG_ERROR_P(PARAM_DATA) << ": The sum of values in the misclassification matrix in row " << i + 1 << " was '" << RowSum << "'. These should be less than or equal to 1.0";
     }
   }
 }
