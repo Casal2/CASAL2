@@ -12,8 +12,8 @@
 // headers
 #include "Data.h"
 
+#include "../../Utilities/Math.h"
 #include "../../Utilities/To.h"
-#include "../../Utilities/math.h"
 
 // namespaces
 namespace niwa {
@@ -52,9 +52,11 @@ void Data::DoBuild() {
     LOG_ERROR_P(PARAM_DATA) << "The number of rows provided " << data.size() << " does not match the age range of the model " << age_spread_;
     return;
   }
-  if (data[0].size() != age_spread_) {
-    LOG_ERROR_P(PARAM_DATA) << "The number of columns provided " << data.size() << " does not match the age range of the model " << age_spread_;
-    return;
+  for (unsigned i = 0; i < data.size(); ++i) {
+    if (data[i].size() != age_spread_) {
+      LOG_ERROR_P(PARAM_DATA) << "The number of columns provided in row" << i + 1 << " does not match the age range of the model " << age_spread_;
+      return;
+    }
   }
 
   Double value  = 0.0;
