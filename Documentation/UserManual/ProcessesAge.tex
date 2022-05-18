@@ -834,6 +834,17 @@ For example, to specify a simple spawning migration of mature males from a weste
 
 where \texttt{MatureSel} is a selectivity that describes the proportion of age or length classes that are mature and thus move to the eastern area.
 
+
+If you want to estimate the proportion parameter, the parameter is addressed using the the \texttt{to} category. For example using the above process the estimate for the proportion parameter would follow
+
+{\small{\begin{verbatim}
+		@estimate proportion_male_spawning
+		parameter process[Spawning_migration].proportions{East.males}
+		...
+\end{verbatim}}}
+
+
+
 \paragraph{Transition by category by age}\label{sec:Process-TransitionCategoryByAge}
 
 A special process type is the transition by category by age process, which allows a transition to occur for a specific subset of ages in specific years only, where each year can have a different number that are moved between categories.

@@ -286,6 +286,14 @@ For example, to specify a simple spawning migration of mature males from a weste
 
 where \texttt{MatureSel} is a selectivity that describes the proportion of length or length classes that are mature and thus move to the eastern area.
 
+If you want to estimate the proportion parameter, the parameter is addressed using the the \texttt{to} category. For example using the above process the estimate for the proportion parameter would follow
+
+{\small{\begin{verbatim}
+		@estimate proportion_male_spawning
+		parameter process[Spawning_migration].proportions{East.males}
+		...
+		\end{verbatim}}}
+
 
 \subsubsection{\I{Tagging}}\label{sec:Process-Tagging} 
 Tag release events (also known as mark-recapture events or tag-release events) allow \CNAME\ to incorporate tagging data into the model.
