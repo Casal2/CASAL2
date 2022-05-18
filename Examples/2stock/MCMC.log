@@ -1,14 +1,16 @@
 Casal2
 Call: ..\..\BuildSystem\Casal2\casal2 -M MPD.dat -g 0 
-Date: Tue Nov 16 11:42:17 2021
-Version: v21.11 (2021-11-15)
-Copyright (c) 2017-2021, NIWA (www.niwa.co.nz)
-Environment: User=alist Machine=QUIET-5950X OS=Windows_NT PID=16128
+Date: Wed May 18 15:57:39 2022
+Seed: 123
+Version: v22.05 (2022-05-18)
+Copyright (c) 2017-2022, NIWA (www.niwa.co.nz)
+Environment: User=alist Machine=QUIET-5950X OS=Windows_NT PID=12308
 
 
 *info[messages_encountered]
 Values {string}
 Setting the random number seed to 0
+Estimable parameters were loaded from the free parameter file: 
 Creating default report for catchability CSacous
 Creating default report for catchability WCacous
 Creating default report for catchability CRsum
@@ -16,6 +18,7 @@ Creating default report for catchability SAsum
 Creating default report for catchability SAaut
 Creating default report for derived quantity SSB_E
 Creating default report for derived quantity SSB_W
+Creating default report for addressable transformations log_sum_b0
 Creating default report for observation CSacous
 Creating default report for observation WCacous
 Creating default report for observation CRsumbio
@@ -43,12 +46,12 @@ Creating default report for process recruit_E
 Creating default report for process Instant_mortality
 Creating default report for selectivity M_male
 Creating default report for selectivity M_female
-Creating default report for selectivity Enspsl
-Creating default report for selectivity Wnspsl
-Creating default report for selectivity Espsl
-Creating default report for selectivity Wspsl
-Creating default report for selectivity CRsl
-Creating default report for selectivity SAsl
+skipping the default report for Enspsl this is a length based selectivity. Create a seperate report for this
+skipping the default report for Wnspsl this is a length based selectivity. Create a seperate report for this
+skipping the default report for Espsl this is a length based selectivity. Create a seperate report for this
+skipping the default report for Wspsl this is a length based selectivity. Create a seperate report for this
+skipping the default report for CRsl this is a length based selectivity. Create a seperate report for this
+skipping the default report for SAsl this is a length based selectivity. Create a seperate report for this
 Creating default report for selectivity sel_Whome
 Creating default report for selectivity sel_Espmg_Male
 Creating default report for selectivity sel_Espmg_Female
@@ -69,12 +72,92 @@ MCMC execution complete
 
 *warnings[messages_encountered]
 Values {string}
+obs sum total (1) for year (1989) doesn't sum to 1.0
+obs sum total (1) for year (1990) doesn't sum to 1.0
+obs sum total (0.999999) for year (1991) doesn't sum to 1.0
+obs sum total (1) for year (1994) doesn't sum to 1.0
+obs sum total (1) for year (1995) doesn't sum to 1.0
+obs sum total (1) for year (1996) doesn't sum to 1.0
+obs sum total (1) for year (1998) doesn't sum to 1.0
+obs sum total (1) for year (1999) doesn't sum to 1.0
+obs sum total (0.999999) for year (2001) doesn't sum to 1.0
+obs sum total (1) for year (2002) doesn't sum to 1.0
+obs sum total (1) for year (2003) doesn't sum to 1.0
+obs sum total (0.999998) for year (2004) doesn't sum to 1.0
+obs sum total (0.999998) for year (2005) doesn't sum to 1.0
+obs sum total (1) for year (2006) doesn't sum to 1.0
+obs sum total (1) for year (2007) doesn't sum to 1.0
+obs sum total (1) for year (2008) doesn't sum to 1.0
+obs sum total (1) for year (2009) doesn't sum to 1.0
+obs sum total (1) for year (2010) doesn't sum to 1.0
+obs sum total (1) for year (2015) doesn't sum to 1.0
+obs sum total (1) for year (1988) doesn't sum to 1.0
+obs sum total (0.999999) for year (1989) doesn't sum to 1.0
+obs sum total (0.999998) for year (1990) doesn't sum to 1.0
+obs sum total (1) for year (1991) doesn't sum to 1.0
+obs sum total (0.999999) for year (1992) doesn't sum to 1.0
+obs sum total (1) for year (1998) doesn't sum to 1.0
+obs sum total (1) for year (1999) doesn't sum to 1.0
+obs sum total (1) for year (2000) doesn't sum to 1.0
+obs sum total (1) for year (2002) doesn't sum to 1.0
+obs sum total (0.999999) for year (2003) doesn't sum to 1.0
+obs sum total (1) for year (2004) doesn't sum to 1.0
+obs sum total (1) for year (2005) doesn't sum to 1.0
+obs sum total (0.999999) for year (2006) doesn't sum to 1.0
+obs sum total (1) for year (2007) doesn't sum to 1.0
+obs sum total (1) for year (2008) doesn't sum to 1.0
+obs sum total (1) for year (2009) doesn't sum to 1.0
+obs sum total (0.999999) for year (2011) doesn't sum to 1.0
+obs sum total (1) for year (2014) doesn't sum to 1.0
+obs sum total (1) for year (2015) doesn't sum to 1.0
+obs sum total (1) for year (1998) doesn't sum to 1.0
+obs sum total (0.999999) for year (1999) doesn't sum to 1.0
+obs sum total (0.999999) for year (2000) doesn't sum to 1.0
+obs sum total (0.999999) for year (2001) doesn't sum to 1.0
+obs sum total (1) for year (2003) doesn't sum to 1.0
+obs sum total (1) for year (2004) doesn't sum to 1.0
+obs sum total (0.999999) for year (2007) doesn't sum to 1.0
+obs sum total (1) for year (2009) doesn't sum to 1.0
+obs sum total (1) for year (2010) doesn't sum to 1.0
+obs sum total (1) for year (2011) doesn't sum to 1.0
+obs sum total (1) for year (2012) doesn't sum to 1.0
+obs sum total (1) for year (2014) doesn't sum to 1.0
+obs sum total (1) for year (2015) doesn't sum to 1.0
+obs sum total (1) for year (1993) doesn't sum to 1.0
+obs sum total (1) for year (1996) doesn't sum to 1.0
+obs sum total (0.999999) for year (1999) doesn't sum to 1.0
+obs sum total (0.999999) for year (2001) doesn't sum to 1.0
+obs sum total (0.999999) for year (2003) doesn't sum to 1.0
+obs sum total (1) for year (2004) doesn't sum to 1.0
+obs sum total (0.999997) for year (2006) doesn't sum to 1.0
+obs sum total (0.999999) for year (2009) doesn't sum to 1.0
+obs sum total (1) for year (2010) doesn't sum to 1.0
+obs sum total (1) for year (2011) doesn't sum to 1.0
+obs sum total (1) for year (2012) doesn't sum to 1.0
+obs sum total (1) for year (2013) doesn't sum to 1.0
+obs sum total (1) for year (1992) doesn't sum to 1.0
+obs sum total (0.999998) for year (1994) doesn't sum to 1.0
+obs sum total (0.999999) for year (1995) doesn't sum to 1.0
+obs sum total (0.999999) for year (1999) doesn't sum to 1.0
+obs sum total (0.999999) for year (2004) doesn't sum to 1.0
+obs sum total (1) for year (2005) doesn't sum to 1.0
+obs sum total (0.999999) for year (2006) doesn't sum to 1.0
+obs sum total (1) for year (2007) doesn't sum to 1.0
+obs sum total (0.999999) for year (2010) doesn't sum to 1.0
+obs sum total (0.999996) for year (2012) doesn't sum to 1.0
+obs sum total (1) for year (2013) doesn't sum to 1.0
+obs sum total (0.999999) for year (2014) doesn't sum to 1.0
+obs sum total (0.999999) for year (2016) doesn't sum to 1.0
+obs sum total (0.999999) for year (1992) doesn't sum to 1.0
+obs sum total (0.999998) for year (1993) doesn't sum to 1.0
+obs sum total (0.999999) for year (2001) doesn't sum to 1.0
+obs sum total (0.999998) for year (2004) doesn't sum to 1.0
+obs sum total (1) for year (2006) doesn't sum to 1.0
+obs sum total (0.999999) for year (2007) doesn't sum to 1.0
+obs sum total (1) for year (2009) doesn't sum to 1.0
+obs sum total (1) for year (2012) doesn't sum to 1.0
+obs sum total (0.999999) for year (2013) doesn't sum to 1.0
+obs sum total (1) for year (1998) doesn't sum to 1.0
 Estimates were removed because of matching lower and upper bounds. Originally had 150 estimates, now have 149
-Cannot report the length-based selectivity values. This report (__Enspsl__) is being ignored. This can be done using the Casal2 R package. See the User Manual for more information
-Cannot report the length-based selectivity values. This report (__Wnspsl__) is being ignored. This can be done using the Casal2 R package. See the User Manual for more information
-Cannot report the length-based selectivity values. This report (__Espsl__) is being ignored. This can be done using the Casal2 R package. See the User Manual for more information
-Cannot report the length-based selectivity values. This report (__Wspsl__) is being ignored. This can be done using the Casal2 R package. See the User Manual for more information
-Cannot report the length-based selectivity values. This report (__CRsl__) is being ignored. This can be done using the Casal2 R package. See the User Manual for more information
-Cannot report the length-based selectivity values. This report (__SAsl__) is being ignored. This can be done using the Casal2 R package. See the User Manual for more information
 *end
 

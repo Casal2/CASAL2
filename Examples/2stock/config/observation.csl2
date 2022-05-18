@@ -654,7 +654,7 @@ end_table
 ## This is the ageing error matrix from CASAL
 @ageing_error Ageing_error
 type data
-table table
+table data
 0.98 0.02 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
 0.03 0.94 0.03 0 0 0 0 0 0 0 0 0 0 0 0 0 0
 0 0.05 0.9 0.05 0 0 0 0 0 0 0 0 0 0 0 0 0
