@@ -94,6 +94,7 @@ void Manager::Validate(shared_ptr<Model> model) {
  */
 void Manager::Build() {
   LOG_CODE_ERROR() << "This method is not supported";
+
 }
 
 /**
@@ -103,6 +104,29 @@ void Manager::Build(shared_ptr<Model> model) {
   LOG_TRACE();
   for (auto estimate : objects_) {
     estimate->Build();
+  }
+  // Check there are no repeat parameters in @estimates or same
+  vector<string> param_labels_to_check;
+  vector<string> param_locations;
+  for (auto estimate : objects_) {
+    LOG_FINE() << "checking estimate with param " << estimate->parameter() ;
+    // check parameter 
+    auto iter = find(param_labels_to_check.begin(), param_labels_to_check.end(), estimate->parameter());
+    if(iter !=  param_labels_to_check.end()) {
+      LOG_ERROR() << estimate->location() << ": this @estimate has parameter " << estimate->parameter() << ". This was found in @estimate block at " << param_locations[distance(param_labels_to_check.begin(), iter)];
+    }
+    param_labels_to_check.push_back(estimate->parameter());
+    param_locations.push_back(estimate->location());
+    for(auto same_param : estimate->same_labels()) {
+      LOG_FINE() << "checking same param " << same_param ;
+      auto same_iter = find(param_labels_to_check.begin(), param_labels_to_check.end(), same_param);
+
+      if(same_iter !=  param_labels_to_check.end()) {
+        LOG_ERROR() << estimate->location() << ": this @estimate has 'same' parameter " << same_param << ". This was found in @estimate block at " << param_locations[distance(param_labels_to_check.begin(), same_iter)];
+      }
+      param_labels_to_check.push_back(same_param);
+      param_locations.push_back(estimate->location());
+    }
   }
 
   LOG_FINEST() << "Finished building all estimates";

@@ -135,55 +135,7 @@ lower_bound 0.01
 upper_bound   10
 type uniform
 
-# AreaA Selectivity
-@estimate
-parameter selectivity[AreaAM].mu
-lower_bound 1
-upper_bound 50
-type uniform
-
-@estimate
-parameter selectivity[AreaAM].sigma_l
-lower_bound 1
-upper_bound 50
-type uniform
-
-@estimate
-parameter selectivity[AreaAM].sigma_r
-lower_bound 1
-upper_bound 500
-type uniform
-
-@estimate 
-parameter selectivity[AreaAM].alpha
-lower_bound 1
-upper_bound 1
-type uniform
-
-@estimate
-parameter selectivity[AreaAF].mu
-lower_bound 1
-upper_bound 50
-type uniform
-
-@estimate
-parameter selectivity[AreaAF].sigma_l
-lower_bound 1
-upper_bound 50
-type uniform
-
-@estimate
-parameter selectivity[AreaAF].sigma_r
-lower_bound 1
-upper_bound 500
-type uniform
-
-@estimate AreaAF
-parameter selectivity[AreaAF].alpha
-lower_bound 0.01
-upper_bound   10
-type uniform
-
+# Area
 # AreaC Selectivity
 @estimate
 parameter selectivity[AreaCM].mu
