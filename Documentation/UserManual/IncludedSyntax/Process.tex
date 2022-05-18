@@ -693,11 +693,33 @@ The null\_process  type has no additional subcommands. Note that this process do
 \defLowerBound{0 (inclusive)}
 \defUpperBound{1.0 (inclusive)}
 
-\defSub{table}{The table of data specifying the n to tag from and to  each category, years, and the $U_max$}
-\defType{Data table with label = \TODO{Craig? Can you specify this table?}}
-\defDefault{No default}
-\defValue{}
-\defNote{See \ref{sec:DataTable} for more details on specifying data tables}
+\textbf{You can specify the input of this process as numbers or proportions}. See the following syntax examples on how to specify each one.
+
+\defSub{table numbers}{The table of releases as numbers for the process}
+\defType{Data table with label = numbers}
+\defDefault{Can be replaced with table of type proportions see below}
+\defValue{A \(n_y \times (n_l\times n_c) + 1\) matrix, where $n_y=$ is the number of years, \(n_l\) are the number of length bins defined at the \command{model} block and \(n_c\) are the number of categories. The first column is the year value for that row. See below for an example.}
+\defNote{example below}
+\begin{verbatim}
+table numbers 
+1993 34 34 23 43
+1994 23 34 23 43
+end_table
+\end{verbatim}
+
+
+\defSub{table proportions}{The table of releases as numbers for the process}
+\defType{Data table with label = proportions}
+\defDefault{Can be replaced with numbers table see above}
+\defValue{A \(n_y \times (n_l\times n_c) + 1\) matrix, where $n_y=$ is the number of years, \(n_l\) are the number of length bins defined at the \command{model} block and \(n_c\) are the number of categories. The first column is the year value for that row. See below for an example.}
+\defNote{example below}
+\begin{verbatim}
+n 200 300 ## need to specify n if you give proportions
+table proportions 
+1993 0.1 0.2 0.7
+1994 0.1 0.2 0.7
+end_table
+\end{verbatim}
 
 \subsubsection{Process of type Tag Loss}
 \commandlabsubarg{process}{type}{Tag\_Loss}.

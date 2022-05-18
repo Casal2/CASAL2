@@ -49,8 +49,8 @@ TagByLength::TagByLength(shared_ptr<Model> model) : Process(model), to_partition
   parameters_.Bind<string>(PARAM_INITIAL_MORTALITY_SELECTIVITY, &initial_mortality_selectivity_label_, "The initial mortality selectivity label", "", "");
   parameters_.Bind<string>(PARAM_SELECTIVITIES, &selectivity_labels_, "Selectivity of the tagging process", "");
   parameters_.Bind<Double>(PARAM_N, &n_, "The number of individuals tagged", "", true);
-  parameters_.BindTable(PARAM_NUMBERS, numbers_table_, "The data table of numbers to tag", "", true, true);
-  parameters_.BindTable(PARAM_PROPORTIONS, proportions_table_, "The data table of proportions to tag", "", true, true);
+  parameters_.BindTable(PARAM_NUMBERS, numbers_table_, "The data table of numbers to tag", "", false, true);
+  parameters_.BindTable(PARAM_PROPORTIONS, proportions_table_, "The data table of proportions to tag", "", false, true);
   parameters_.Bind<double>(PARAM_TOLERANCE, &tolerance_, "Tolerance for checking the specificed proportions sum to one", "", 1e-5)->set_range(0, 1.0);
   parameters_.Bind<string>(PARAM_COMPATIBILITY, &compatibility_, "Backwards compatibility option: either casal2 (the default) or casal: effects penalty and age-length calculation", "",PARAM_CASAL2)->set_allowed_values({PARAM_CASAL, PARAM_CASAL2});
   // clang-format on
@@ -153,14 +153,10 @@ void TagByLength::DoValidate() {
 
   // Load our N data in to the map
   if (numbers_table_->row_count() != 0) {
-    vector<string> columns = numbers_table_->columns();
-    if (columns[0] != PARAM_YEAR)
-      LOG_ERROR_P(PARAM_NUMBERS) << "The first column label (" << columns[0] << ") provided must be 'year'";
+    if (numbers_table_->row_count() != years_.size()) 
+        LOG_FATAL_P(PARAM_NUMBERS) << "The number of rows supplied = '"<< numbers_table_->row_count() << "'. The number of years supplied = '"  << years_.size() << "'. These need to be equal";
 
-    unsigned number_bins = columns.size();
-    if ((number_bins - 1) != n_length_bins_)
-      LOG_ERROR_P(PARAM_NUMBERS) << "The length bins for this process are defined in the @model block. A column is required for each length bin '" << n_length_bins_
-                                 << "' supplied '" << number_bins - 1 << "'.";
+
 
     n_by_year_ = utilities::Map::create(years_, 0.0);
 
@@ -168,8 +164,15 @@ void TagByLength::DoValidate() {
     vector<vector<string>> data    = numbers_table_->data();
     unsigned               year    = 0;
     Double                 n_value = 0.0;
-
+  
     for (auto iter : data) {
+
+      if ((iter.size() - 1) != n_length_bins_) {
+        LOG_FATAL_P(PARAM_NUMBERS) << "For row in year = " << year << ". The length bins for this process are defined in the @model block. A column is required for each length bin which is '" << n_length_bins_
+                                  << "'. This table supplied '" << iter.size()  - 1 << "'.";
+      }
+
+      
       if (!utilities::To<unsigned>(iter[0], year))
         LOG_ERROR_P(PARAM_NUMBERS) << " value (" << iter[0] << ") could not be converted to an unsigned integer";
 
@@ -177,7 +180,7 @@ void TagByLength::DoValidate() {
         if (!utilities::To<Double>(iter[i], n_value))
           LOG_ERROR_P(PARAM_NUMBERS) << " value (" << iter[i] << ") could not be converted to a Double";
         if (numbers_[year].size() == 0)
-          numbers_[year].resize(number_bins, 0.0);
+          numbers_[year].resize(n_length_bins_, 0.0);
         n_by_year_[year] += n_value;
         numbers_[year][i - 1] = n_value;
       }
@@ -188,16 +191,8 @@ void TagByLength::DoValidate() {
         LOG_ERROR_P(PARAM_NUMBERS) << " table contains year " << iter.first << " which is not a valid year defined in this process";
     }
   } else if (proportions_table_->row_count() != 0) {
-    // Load data from proportions table using n parameter
-    vector<string> columns = proportions_table_->columns();
-
-    if (columns[0] != PARAM_YEAR)
-      LOG_ERROR_P(PARAM_PROPORTIONS) << "The first column label (" << columns[0] << ") provided must be 'year'";
-    unsigned number_bins = columns.size();
-
-    if ((number_bins - 1) != n_length_bins_)
-      LOG_ERROR_P(PARAM_PROPORTIONS) << "The length bins for this observation are defined in the @model block. A column is required for each length bin '" << n_length_bins_
-                                     << "' supplied '" << number_bins - 1 << "'.";
+    if (proportions_table_->row_count() != years_.size()) 
+        LOG_FATAL_P(PARAM_PROPORTIONS) << "The number of rows supplied = '"<< proportions_table_->row_count() << "'. The number of years supplied = '"  << years_.size() << "'. These need to be equal";
 
     // build a map of n data by year
     if (n_.size() == 1) {
@@ -213,6 +208,10 @@ void TagByLength::DoValidate() {
     Double                 proportion = 0.0;
 
     for (auto iter : data) {
+      if ((iter.size() - 1) != n_length_bins_) {
+        LOG_FATAL_P(PARAM_PROPORTIONS) << "For row in year = " << year << ". The length bins for this process are defined in the @model block. A column is required for each length bin which is '" << n_length_bins_
+                                  << "'. This table supplied '" << iter.size()  - 1 << "'.";
+      }
       Double total_proportion = 0.0;
 
       if (!utilities::To<unsigned>(iter[0], year))
@@ -222,7 +221,7 @@ void TagByLength::DoValidate() {
         if (!utilities::To<Double>(iter[i], proportion))
           LOG_ERROR_P(PARAM_PROPORTIONS) << "value (" << iter[i] << ") could not be converted to a double.";
         if (numbers_[year].size() == 0)
-          numbers_[year].resize(number_bins, 0.0);
+          numbers_[year].resize(n_length_bins_, 0.0);
         numbers_[year][i - 1] = n_by_year_[year] * proportion;
         if (proportion < 0.0)
           LOG_ERROR_P(PARAM_PROPORTIONS) << "value (" << iter[i] << ") cannot be less than zero.";
