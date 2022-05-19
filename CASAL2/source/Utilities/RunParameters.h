@@ -35,10 +35,10 @@ using std::string;
 // structs
 struct RunParameters {
   // top level options
-  RunMode::Type run_mode_    = RunMode::kInvalid;
-  string        model_type_  = "";
-  string        config_file_ = "config.csl2";
-  string        log_level_   = "information";
+  RunMode::Type run_mode_             = RunMode::kInvalid;
+  string        model_type_           = "";
+  string        config_file_          = "config.csl2";
+  string        log_level_            = "information";
   bool          continue_pass_verify_ = false;  // Skip verify halting execution if warnings are produced
 
   // basic run mode options
@@ -67,9 +67,7 @@ struct RunParameters {
   unsigned projection_candidates_ = 1u;
 
   // random number options
-  unsigned random_number_seed_          = 123u;   // default random number seed
-  bool     override_random_number_seed_ = false;  // override rng seed can come from command line parameters
-  unsigned override_rng_seed_value_     = 123u;   // seed to override our default with
+  unsigned random_number_seed_ = 123u;  // default random number seed
 
   // reporting options
   bool        tabular_reports_         = false;  // print reports in tabular format

@@ -257,12 +257,13 @@ void CommandLineParser::Parse(int argc, char* argv[], RunParameters& options) {
    * Now we store any variables we want to use to override global defaults.
    */
   if (parameters.count("seed")) {
-    options.override_rng_seed_value_     = parameters["seed"].as<unsigned>();
-    options.override_random_number_seed_ = true;
+    options.random_number_seed_ = parameters["seed"].as<unsigned>();
+    LOG_FINE() << "Setting random number seed from the command line: " << options.random_number_seed_;
   } else {
     long iSeed                  = time(0);
     iSeed                       = (unsigned)(iSeed - (floor((double)iSeed / 100000) * 100000));
     options.random_number_seed_ = iSeed;
+    LOG_FINE() << "Setting random number seed from system time: " << options.random_number_seed_;
   }
 }
 

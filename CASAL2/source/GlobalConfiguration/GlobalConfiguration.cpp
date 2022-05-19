@@ -43,11 +43,7 @@ void GlobalConfiguration::Clear() {
 void GlobalConfiguration::ParseOptions() {
   LOG_TRACE();
 
-  if (options_.override_random_number_seed_) {
-    LOG_MEDIUM() << "Overriding random seed from " << options_.random_number_seed_ << " to " << options_.override_rng_seed_value_;
-    options_.random_number_seed_ = options_.override_rng_seed_value_;
-    LOG_INFO() << "Setting the random number seed to " << options_.random_number_seed_;
-  }
+  LOG_INFO() << "Setting the random number seed to " << options_.random_number_seed_;
   // if (options_.output_ != "") {
   //   auto model = model();
   //   auto report = reports::Factory::Create(model, PARAM_REPORT, PARAM_OUTPUT_PARAMETERS);
