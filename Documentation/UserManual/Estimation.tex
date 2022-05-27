@@ -652,7 +652,7 @@ $\begin{vmatrix} \frac{\partial}{\partial y} f^{-1}(y) \end{vmatrix}$ Hasn't bee
 \label{sec:Transformation-LogSum}
 {\small{\begin{verbatim}
 		@parameter_transformation log_total_r0
-		type average_difference
+		type log_sum
 		parameters process[Recruitment_east].r0 process[Recruitment_west].r0
 		
 		@estimate log_total_r0
@@ -679,6 +679,23 @@ $X_2 = \sqrt{Y_1 / Y_2}$\\
 $\begin{vmatrix} \frac{\partial}{\partial y} f^{-1}(y) \end{vmatrix} = 2Y_2$\\\\
 \label{sec:Transformation-Orthogonal}
 
+{\small{\begin{verbatim}
+			@parameter_transformation orthogonal_trans
+			type orthogonal
+			parameters process[Recruitment].r0 catchability[CPUEQ].q
+			
+			@estimate B0_times_q
+			type uniform
+			parameter parameter_transformation[orthogonal_trans].product_parameter
+			lower_bound 0.1
+			upper_bound 2500
+			
+			@estimate B0_divide_q
+			type uniform
+			parameter parameter_transformation[orthogonal_trans].quotient_parameter
+			lower_bound 0.001
+			upper_bound 1e8	
+\end{verbatim}}}
 
 \item \subcommand{type} \subcommand{logistic} : logistic transformation\\
 \subcommand{jacobian known = true}\\
@@ -707,25 +724,25 @@ $f^{-1}() = lb +(ub - lb)  logit^{-1}()$
 \subcommand{jacobian defined = false}\\
 \label{sec:Transformation-SumToOne}
 {\small{\begin{verbatim}
-		@parameter_transformation orthogonal_trans
-		type average_difference
-		parameters process[Recruitment].r0 catchability[CPUEQ].q
-		
-		@estimate B0_times_q
-		type uniform
-		parameter parameter_transformation[orthogonal_trans].product_parameter
-		lower_bound 0.1
-		upper_bound 2500
-		
-		@estimate B0_divide_q
-		type uniform
-		parameter parameter_transformation[orthogonal_trans].quotient_parameter
-		lower_bound 0.001
-		upper_bound 1e8	
-		\end{verbatim}}}
+			@parameter_transformation total_r0
+			type sum_to_one
+			parameters process[Recruitment_east].r0 process[Recruitment_west].r0
+			
+			@estimate total_r0
+			type uniform
+			parameter parameter_transformation[log_total_r0].total_parameter
+			lower_bound 4
+			upper_bound 25
+			
+			@estimate prop_r0_east
+			type uniform
+			parameter parameter_transformation[log_total_r0].proportion_parameter
+			lower_bound 0.001
+			upper_bound 0.8		
+\end{verbatim}}}
 
 % useful reference for the simplex https://mc-stan.org/docs/2_27/reference-manual/simplex-transform-section.html#fn15
-\item \subcommand{simplex} : given the vector of parameters $\boldmath{X} = (X_1, \dots, X_n)$ which either has the constraint $\sum_{i = 1}^n X_i = 1$ or $\sum_{i = 1}^n X_i = n$. Then the simplex is a suitable transformation. It translates to a new vector parameter \(\boldmath{Y} = (Y_1, \dots, Y_{n - 1})\) which has unconstrained parameter space i.e \(Y_i \in (-\infty, \infty)\)\\
+\item \subcommand{simplex} : given the vector of parameters $\boldmath{X} = (X_1, \dots, X_n)$ which either has the constraint $\sum_{i = 1}^n X_i = 1$ or $\sum_{i = 1}^n X_i = n$. Then the simplex is a suitable transformation. It translates to a new vector parameter \(\boldmath{Y} = (Y_1, \dots, Y_{n - 1})\) which has unconstrained parameter space i.e \(Y_i \in (-\infty, \infty)\). Note that the calculation of the Jacobian for the simplex is still experimental and may not be suitable in all circumstances.\\
 
 This transformation follows the implementation in stan, where an intermediate variable \(Z_i\) is used. The transformation going from $\boldmath{X}$ to $\boldmath{Y}$ follows\\
 \[
