@@ -169,90 +169,9 @@ Then, to migrate a portion of the mature population from the southern area to th
 		to format=north.mature.*   # into the relevant north categories
 \end{verbatim}}}
 
-\textbf{Advanced partition syntax}
-
-Specific data for a year in a category can be set up so that this category is not to be processed during specific years or in the initialisation phases. Years that each category is available can be specified and these years which will override the default setting of all years in the model. Any category with the default years overridden will no longer be accessible in the initialisation phases.
-
-Examples:
-
-{\small{\begin{verbatim}
-@model
-start_year 1998   #the model starts in 1996 and
-final_year 2010   # goes through to 2010
-
-@categories
-format sex.stage.tag
-names male,female.immature,mature.notag,2001:2005 # Valid
-# Specify categories with the tag value "2001" are available in years
-        #1999, 2000, 2001, 2002, 2003
-# And also for categories with the tag value "2005" are available in years
-        #2003, 2004, 2005, 2006, 2007
-years tag=2001=1999:2003  tag=2005=2003:2007
-\end{verbatim}}}
-%\label{sec:ShorthandSyntax-section}
-%\resizebox{\textwidth}{!}{%
-
-\begin{table}[h]
-\tiny
-\center
-\begin{tabular}{lrrrrrr}
-Category&\multicolumn{5}{r}{Age} &names syntax fragment\\
-\cline{2-6}
-&1&2&3&4&5\\
-\hline
-male.immature&0&0&0&0&0&male,female.immature,mature\\
-male.mature&0&0&0&0&0\\
-female.immature&0&0&0&0&0\\
-female.mature&0&0&0&0&0\\
-male.immature.2005&0&0&0&0&0&male,female.immature,mature.2005:2010\\
-male.immature.2006&0&0&0&0&0\\
-male.immature.2007&0&0&0&0&0\\
-male.immature.2008&0&0&0&0&0\\
-male.immature.2009&0&0&0&0&0\\
-male.immature.2010&0&0&0&0&0\\
-male.mature.2005&0&0&0&0&0\\
-male.mature.2006&0&0&0&0&0\\
-male.mature.2007&0&0&0&0&0\\
-male.mature.2008&0&0&0&0&0\\
-male.mature.2009&0&0&0&0&0\\
-male.mature.2010&0&0&0&0&0\\
-female.immature.2005&0&0&0&0&0\\
-female.immature.2006&0&0&0&0&0\\
-female.immature.2007&0&0&0&0&0\\
-female.immature.2008&0&0&0&0&0\\
-female.immature.2009&0&0&0&0&0\\
-female.immature.2010&0&0&0&0&0\\
-female.mature.2005&0&0&0&0&0\\
-female.mature.2006&0&0&0&0&0\\
-female.mature.2007&0&0&0&0&0\\
-female.mature.2008&0&0&0&0&0\\
-female.mature.2009&0&0&0&0&0\\
-female.mature.2010&0&0&0&0&0\\
-unsexed.immature&0&0&0&0&0&unsexed.immature\\
-  \end{tabular}
-  \caption{Partition using: \textit{names male,female.immature,mature  male,female.immature,mature.2005:2010  unsexed.immature} }\label{Tab:part}
-\end{table}
-
-Category shortcuts can be used in a sequence to create a complex partition. For example, using the following creates the partition shown in Table \ref{Tab:part}.
-
-{\small{\begin{lstlisting}
-@categories
-format sex.maturation.tag
-names male,female.immature,mature male,female.immature,mature.2005-2010 unsexed.immature
-#<is equal to>
-names male.immature male.mature female.immature female.mature
-      male.immature.2005 male.immature.2006 male.immature.2007 male.immature.2008 male.immature.2009 male.immature.2010
-      male.mature.2005 male.mature.2006 male.mature.2007 male.mature.2008 male.mature.2009 male.mature.2010
-      female.immature.2005 female.immature.2006 female.immature.2007 female.immature.2008 female.immature.2009 female.immature.2010
-      female.mature.2005 female.mature.2006 female.mature.2007 female.mature.2008 female.mature.2009 female.mature.2010
-      unsexed.immature
-\end{lstlisting}}}
-
-Note that the algorithm goes from left to right over the factors in the \textit{format} subcommand. So substituting \textit{unsexed} for \textit{unsexed.immature} is valid and gives a category called \textit{unsexed} in the \textit{sex} factor. But substituting \textit{.immature} (or \textit{.zzz}) for \textit{unsexed.immature} results in one less category and generates an error (i.e., no level provided for factor \textit{sex}).
+An easy way to determine if you have specified the syntax correctly is to look at a report. \CNAME\ will expand most shorthand category labels in reports, and this can be used to check the order that \CNAME\ has assumed, and that these have been specified in the correct order for other related parameters . 
 
 \subsection{\I{Referencing vector and map parameters}\label{sec:params}}
-
-\TODO{has ref been done above? shift? or new section?}
 
 To build relationships between command blocks, \CNAME\ uses  a referencing system so that blocks and parameters within blocks can be accessed. In its simplest form, command blocks are referenced by their label. To access specified parameters within a command block, the syntax used is:
 
@@ -400,5 +319,5 @@ upper_bound 1
 
 In the above code catchability is defined and estimated without explicitly creating a \command{catchability} block.
 
-\TODO{Add Examples?}
+\TODO{Add Examples}
 
