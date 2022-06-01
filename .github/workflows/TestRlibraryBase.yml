@@ -1,12 +1,15 @@
 on:
   push:
      branches:
-       - main
-
+       - master
+  pull_request:
+    branches:
+      - master 
+      
 name: Check R Base Library
 
 jobs:
-  windows-r-base:
+  Casal2-R-Windows:
     name: Build dependencies and R environment
     runs-on: windows-latest
     needs: Compile-Casal2-Windows
