@@ -1,0 +1,40 @@
+on:
+  push:
+     branches:
+       - main
+
+name: Check R Base Library
+
+jobs:
+  Windows-R-Base:
+    name: Build dependencies and R environment
+    runs-on: windows-latest
+    needs: Compile-Casal2-Windows
+    defaults:
+      run:
+        working-directory: R-libraries/casal2
+    steps:
+      - uses: actions/checkout@v2
+      - uses: r-lib/actions/setup-r@v2
+      - uses: r-lib/actions/setup-pandoc@v2
+      - uses: r-lib/actions/setup-r-dependencies@v2
+        with:
+          extra-packages: |
+            any::devtools
+            any::bayesplot
+            any::purrr
+            any::DHARMa
+            any::mvtnorm
+          dependencies: '"hard"'
+      - name: Install Casal2 base
+        env:
+           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }} # https://github.com/settings/tokens
+        run: Rscript -e 'devtools::install_github("https://github.com/NIWAFisheriesModelling/CASAL2", subdir="R-libraries/casal2", ref = "HEAD")'
+     - name: Download modelrunners
+       uses: actions/download-artifact@v1.0.0
+       with:
+         # Artifact name
+         name: Casal2-Windows-modelrunner # optional
+         # Destination path
+         # path: _book # optional
+    
