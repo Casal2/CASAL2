@@ -6,7 +6,7 @@ on:
 name: Check R Base Library
 
 jobs:
-  Windows-R-Base:
+  windows-r-base:
     name: Build dependencies and R environment
     runs-on: windows-latest
     needs: Compile-Casal2-Windows
