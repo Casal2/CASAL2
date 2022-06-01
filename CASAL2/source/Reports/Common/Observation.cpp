@@ -91,6 +91,13 @@ void Observation::DoExecute(shared_ptr<Model> model) {
   cache_ << ReportHeader(type_, observation_label_, format_);
   cache_ << "observation_type: " << observation_->type() << REPORT_EOL;
   cache_ << "likelihood: " << observation_->likelihood() << REPORT_EOL;
+  cache_ << "error_value_multiplier: " << observation_->error_value_multiplier() << REPORT_EOL;
+  cache_ << "likelihood_multiplier: " << observation_->likelihood_multiplier() << REPORT_EOL;
+  cache_ << "categories:";
+  for(auto category : observation_->categories()) 
+    cache_ << " " <<  category;
+  cache_<< REPORT_EOL;
+
   cache_ << "Values " << REPORT_R_DATAFRAME << REPORT_EOL;
   map<unsigned, vector<obs::Comparison>>& comparisons = observation_->comparisons();
   if (pearson_resids_ && !normalised_resids_) {
