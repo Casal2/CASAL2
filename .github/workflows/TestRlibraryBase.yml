@@ -9,8 +9,7 @@ on:
 name: Check R Base Library
 
 jobs:
-  Casal2-R-Windows:
-    name: Build dependencies and R environment
+  Base-R-Windows:
     runs-on: windows-latest
     needs: Compile-Casal2-Windows
     defaults:
