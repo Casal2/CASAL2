@@ -859,7 +859,7 @@ Length-based tag release processes are more complicated, as the age-length matri
 
 
 \paragraph*{{Tag Release By Length}}
-\subcommand{compatability\_switch casal2}\\
+\subcommand{compatibility\_switch casal2}\\
 
 For each length bin $l$ of the input vector of proportions-at-length ${p}_l$ and total tag releases denoted by \(M\). The vulnerable numbers for age \(a\), length \(l\), and category \(j\) are calculated as
 $$V_{a,l,j} = N_{a,j} \phi_{a,l,j} S_{a,j}$$
@@ -887,7 +887,6 @@ Release mortality denoted by \(h_a\) can also be applied as,
 
 $$\widetilde{N}_{a,j} = \widetilde{N}_{a,j}\left(1.0 - h_a\right)$$
 
-
 The syntax for an example of tag release by length process
 {\small{\begin{verbatim}
 @process 2005Tags_shelf
@@ -908,15 +907,13 @@ U_max 0.999
 
 This process moves 207 individuals from a combination of male.untagged and female.untagged categories, based on the combination of growth rates and selectivity, into tagged male and tagged female categories.
 
-
-For \subcommand{compatability\_switch casal}
-This describes the algorithm applied in CASAL, it should yield identical results when a single untagged category and tagged category are supplied. There is a small difference when input numbers at length are defined for a combination of categories (unsexed) and we allocated into each corresponding category (male and female). This is supplied for backwards compatibility with CASAL, we recommend using \subcommand{compatability\_switch casal2}, for when ${p}_l$ is unsexed but sex is in the partition.
-
+For \subcommand{compatibility\_switch casal}
+This describes the algorithm applied in CASAL, it should yield identical results when a single untagged category and tagged category are supplied. There is a small difference when input numbers at length are defined for a combination of categories (unsexed) and we allocated into each corresponding category (male and female). This is supplied for backwards compatibility with CASAL, we recommend using \subcommand{compatibility\_switch casal2}, for when ${p}_l$ is unsexed but sex is in the partition.
 
 For each length bin $l$ of the input vector of proportions-at-length ${p}_l$ and total tag releases denoted by \(M\). The vulnerable numbers for age \(a\), length \(l\), and category \(j\) are calculated as
 
 $$V_{a,l} = N_{a,j} \phi_{a,l,j} S_{a,j}$$
-Note this is where the \subcommand{compatability\_switch} differ, the \subcommand{casal2} option preserves the category difference, where as \subcommand{casal} amalgamates them. \(\phi_{a,l,j}\) is the age-length matrix (Section~\ref{sec:AgeLength-length_at_age}), and \(S_{a,j}\) is the selectivity. The transition matrix is calculated as,
+Note this is where the \subcommand{compatibility\_switch} differ, the \subcommand{casal2} option preserves the category difference, where as \subcommand{casal} amalgamates them. \(\phi_{a,l,j}\) is the age-length matrix (Section~\ref{sec:AgeLength-length_at_age}), and \(S_{a,j}\) is the selectivity. The transition matrix is calculated as,
 $$ T_{a,l}= \frac{V_{a,l}}{\sum_a V_{a,l}} {p}_l$$
 and final tag-release by age are
 $$ M_{a} = \sum_l T_{a,l}M  $$
@@ -958,7 +955,6 @@ For tag type \subcommand{double}
 N^*_{c,a} = 1 - \left(1 - N_{c,a} exp\left( - r_a p^t\right)\right)\left(1 - N_{c,a} exp\left( - r_a p^t\right)\right)
 \end{equation}
 %
-
 
 The syntax for the tag loss process follows
 {\small{\begin{verbatim}
