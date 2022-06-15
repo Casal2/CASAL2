@@ -262,7 +262,6 @@ age_lengths age_len_m age_len_f
 
 @initialisation_phase Equilibrium_phase
 type Derived
-casal_initialisation_switch true
 
 @time_step Jul_Jan
 processes Ageing Recruitment Instantaneous_Mortality

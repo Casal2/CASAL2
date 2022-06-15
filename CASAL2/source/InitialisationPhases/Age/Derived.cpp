@@ -37,10 +37,6 @@ Derived::Derived(shared_ptr<Model> model) : InitialisationPhase(model), cached_p
   parameters_.Bind<string>(PARAM_INSERT_PROCESSES, &insert_processes_,
                            "Specifies the additional processes that are not in the annual cycle to be inserted into this initialisation phase", "", true);
   parameters_.Bind<string>(PARAM_EXCLUDE_PROCESSES, &exclude_processes_, "Specifies the Processes in the annual cycle to be excluded from this initialisation phase", "", true);
-  parameters_.Bind<bool>(
-      PARAM_CASAL_INITIALISATION, &casal_initialisation_phase_,
-      "Run an extra annual cycle to evaluate equilibrium SSBs. Warning - if true, this may not correctly evaluate the equilibrium state. Set to true if replicating a CASAL model",
-      "", false);
 }
 
 /*
@@ -253,21 +249,6 @@ void Derived::Execute() {
     LOG_FINE() << "B0 initialised";
     // Calculate derived quantities in the right space if we have a B0 initialised model
     time_step_manager->ExecuteInitialisation(label_, 1);
-  }
-  // Add a switch for to replicate CASAL output if this method does not reach an equilibrium State
-  if (casal_initialisation_phase_) {
-    LOG_FINEST() << "Legacy CASAL type initialisation has been executed";
-    cached_partition_.BuildCache();
-    // Run a annual cycle once to populate derived quantities
-    time_step_manager->ExecuteInitialisation(label_, 1);
-
-    auto cached_category = cached_partition_.begin();
-    auto category        = partition_.begin();
-    for (; category != partition_.end(); ++category, ++cached_category) {
-      for (unsigned n_age = 0; n_age < (*category)->data_.size(); ++n_age)
-        LOG_FINEST() << "new part = " << (*category)->data_[n_age] << " old part = " << cached_category->data_[n_age];
-      (*category)->data_ = cached_category->data_;
-    }
   }
 }
 

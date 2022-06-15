@@ -49,7 +49,6 @@ age_lengths VB VB
 
 @initialisation_phase Equilibrium_state
 type derived
-casal_initialisation_switch false
 
 @time_step Annual
 processes Ageing Recruitment Maturation Instantaneous_Mortality
