@@ -23,25 +23,7 @@
     file <- ifelse(index, substring(file, 2), file)
   }
   ## Remove any lines that begin with a #
-  file <- file[substring(file, 1, 1) != "#"]
-  ## Find and remove any lines that begin or end with { or } which is also a comment
-  index1 <- ifelse(substring(file, 1, 2) == "/*", 1:length(file), 0)
-  index2 <- ifelse(substring(file, 1, 2) == "*/", 1:length(file), 0)
-  index1 <- index1[index1 != 0]
-  index2 <- index2[index2 != 0]
-  if (length(index1) != length(index2))
-    stop(paste("Error in the file ", filename, ". Cannot find a matching '/*' or '*/'", sep = ""))
-  if (length(index1) > 0 || length(index2) > 0) {
-    index <- unlist(apply(cbind(index1, index2), 1, function(x) seq(x[1], x[2])))
-    file <- file[!is.in(1:length(file), index)]
-  }
-
-  ## strip any remaining comments
-  file <- ifelse(regexpr("#", file) > 0, substring(file, 1, regexpr("#", file) - 1), file)
-  file <- file[file != ""]
-  if (substring(file[1], 1, 1) != "@")
-    stop(paste("Error in the file ", filename, ". Cannot find a '@' at the beginning of the file", sep = ""))
-
+  file <- strip_comments(file)
   ## utility function for stripping tabs and spaces out ot input values
 
   ## try and convert tabs to spaces
