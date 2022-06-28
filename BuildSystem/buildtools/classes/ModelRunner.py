@@ -33,7 +33,7 @@ class ModelRunner:
     estimation_betadiff_dir_list = {"TwoSex", "SBW", "Simple","ComplexTag", "SexedLengthBased"}  # requires a config-betadiff.csl2 file
     estimation_gammadiff_dir_list = {"TwoSex", "SBW", "Simple", "SexedLengthBased"} # requires a config-gammadiff.csl2 file
     estimation_adolc_dir_list = {"TwoSex", "SBW", "Simple", "SexedLengthBased"}     # requires a config-adolc.csl2 file
-    simulate_dash_i_dir_list = {"ORH3B"} # if you change this you will need to formulate the report or python code below, not very general.
+    simulate_dash_i_dir_list = {"ORH3B", "SimAllObs"} # if you change this you will need to formulate the report or python code below, not very general.
     run_dash_i_dir_list = {"Complex_input","TwoSex_input"}
     resume_mcmc_from_mpd_dir_list = {"mcmc_start_mpd_mcmc_fixed","mcmc_start_mpd"}
     resume_mcmc_dir_list = {"mcmc_resume"}
@@ -114,7 +114,7 @@ class ModelRunner:
     # test -s functionality 
     for folder in simulate_dash_i_dir_list:
       os.chdir("../TestModels/" + folder)
-	  # create sim directory casal will fail if this doesn't exist
+	    # create sim directory casal will fail if this doesn't exist
       if not os.path.exists("sim"):
         os.mkdir("sim")	  
       ## first delete any previous simulated observations from previous model runners
@@ -131,17 +131,26 @@ class ModelRunner:
         elapsed = time.time() - start
         print('[OK] - ' + folder + ' -s run in ' + str(round(elapsed, 2)) + ' seconds')
         success_count += 1
-      # check the correct files were generated
-      if not os.path.exists("sim/CPUEandes.1_01"):
-        print('[FAILED] - ' + folder + ' -s run in ' + str(round(elapsed, 2)) + ' expected simulated file sim/CPUEandes.1_01')
-        fail_count += 1
-      if not os.path.exists("sim/CPUEandes.9_10"):
-        print('[FAILED] - ' + folder + ' -s run in ' + str(round(elapsed, 2)) + ' expected simulated file sim/CPUEandes.9_10')
-        fail_count += 1		
-      if not os.path.exists("sim/Obs_Andes_LF.3_05"):
-        print('[FAILED] - ' + folder + ' -s run in ' + str(round(elapsed, 2)) + ' expected simulated file sim/Obs_Andes_LF.3_05')
-        fail_count += 1			
-      os.chdir(cwd)
+      if folder == "ORH3B":
+        # check the correct files were generated
+        if not os.path.exists("sim/CPUEandes.1_01"):
+          print('[FAILED] - ' + folder + ' -s run in ' + str(round(elapsed, 2)) + ' expected simulated file sim/CPUEandes.1_01')
+          fail_count += 1
+        if not os.path.exists("sim/CPUEandes.9_10"):
+          print('[FAILED] - ' + folder + ' -s run in ' + str(round(elapsed, 2)) + ' expected simulated file sim/CPUEandes.9_10')
+          fail_count += 1		
+        if not os.path.exists("sim/Obs_Andes_LF.3_05"):
+          print('[FAILED] - ' + folder + ' -s run in ' + str(round(elapsed, 2)) + ' expected simulated file sim/Obs_Andes_LF.3_05')
+          fail_count += 1			
+        os.chdir(cwd)
+      else:
+        if not os.path.exists("sim/sim_all_obs.1_01"):
+          print('[FAILED] - ' + folder + ' -s run in ' + str(round(elapsed, 2)) + ' expected simulated file sim/sim_all_obs.1_01')
+          fail_count += 1
+        if not os.path.exists("sim/sim_all_obs.1_10"):
+          print('[FAILED] - ' + folder + ' -s run in ' + str(round(elapsed, 2)) + ' expected simulated file sim/sim_all_obs.1_10')
+          fail_count += 1			
+        os.chdir(cwd)
     # test -M mpd.log functionality 
     for folder in resume_mcmc_from_mpd_dir_list:
       os.chdir("../TestModels/" + folder)

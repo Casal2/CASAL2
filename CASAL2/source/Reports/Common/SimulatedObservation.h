@@ -37,7 +37,7 @@ public:
 private:
   // members
   string       observation_label_ = "";
-  Observation* observation_       = nullptr;
+  bool         print_all_observations = false;
 };
 
 } /* namespace reports */
