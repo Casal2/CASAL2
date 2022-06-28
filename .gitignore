@@ -53,3 +53,4 @@ TestModels/ORH3B/sim/*
 Documentation/UserManual/CASAL2_Age.synctex.gz
 Documentation/UserManual/CASAL2_Length.synctex.gz
 *.txss
+simCASAL2/simCASAL2.exe

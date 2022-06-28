@@ -20,7 +20,6 @@ age_lengths VB VB
 
 @initialisation_phase Equilibrium_state
 type derived
-casal_initialisation_switch false
 
 
 ## Define the Annual Cycle
