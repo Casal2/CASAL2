@@ -264,6 +264,52 @@ If there is no plus group, i.e., \texttt{length\_plus=false}, then \CNAME\ requi
 		end_table
 		\end{verbatim}}}
 
+\paragraph*{\I{Age-length}}\label{sec:Observation-AgeSize}
+Age-length data are observations of the ages and lengths of individual fish. They are primarily used to fit length-at-age parameters in age-based models. 
+
+The data include a list of ages, a list of lengths for a category or combination of categories, plus information on when, where, and how the observations were collected. So, the i\textsuperscript{th} elements of the lists contain the age and length of the i\textsuperscript{th} fish observed.
+
+There are several possible sampling regimes, i.e., assumptions about how the observed fish were sampled from the general population of fish available at that time and place. The options are: 
+\begin{itemize}
+	\item \subcommand{random}: fish were a simple random sample from the available population
+	\item \subcommand{by\_age}: fish were a simple random sample within each age class 
+	\item \subcommand{by\_length}: fish were a simple random sample within each length class
+\end{itemize}
+We believe the \subcommand{by\_age} option are quite unlikely to be true, yet they are widely applied in fisheries (for example, in the Coleraine \citep{hilborn2001coleraine} stock modelling software). Probably the \subcommand{by\_length} option are most likely to hold for most NIWA finfish programmes.
+
+In age-length data, there should be no observations for which the age is outside the age range (\subcommand{min\_age} - \subcommand{max\_age}) defined for the partition (this will generate a fatal error message), nor any non-integer ages. Observations with ages below the minimum age in the partition should be removed. Observations where an age exceeds the maximum age in the partition could either be included in the plus group (i.e., with the observed age changed to that of the plus group) or removed, depending on the circumstances. If there is no plus group in the partition they should be removed. For \subcommand{by\_age} samples they may be either included or removed in the plus group. For all other sample types they could be included in the plus group.
+
+
+How do years and categories
+
+{\small{\begin{verbatim}
+		@observation age_length_obs
+		type age_length
+		years 1991
+		likelihood multinomial
+		time_step Summer
+		age   		6  8   9   9   9   9   9   9  11  12  12  12  12  13  14  14  1
+		length 		12.2 15.0 15.0 15.1 15.3 16.0 16.0 16.4 14.9 15.8 17.1 17.5 19.4 22.0 14.6 
+		categories male
+		sample_type random by_age by_length
+\end{verbatim}}}
+
+
+
+
+{\small{\begin{verbatim}
+		@observation age_length_obs_sexed
+		type age_length
+		years 1991
+		likelihood multinomial
+		time_step Summer
+		age   		6  8   9   9   9   9   9   9  11  12  12  12  12  13  14  14  1
+		length 		12.2 15.0 15.0 15.1 15.3 16.0 16.0 16.4 14.9 15.8 17.1 17.5 19.4 22.0 14.6 
+		categories male+female
+		sample_type random by_age by_length
+\end{verbatim}}}
+	
+
 
 \paragraph*{\I{Proportions-by-category observations}}\label{sec:Observation-ProportionsByCategory}
 

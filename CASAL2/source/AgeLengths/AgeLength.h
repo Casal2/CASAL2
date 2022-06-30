@@ -72,6 +72,9 @@ public:
                                   vector<vector<Double>>& numbers_by_age_length);  // overloaded for the case with no selectivity and class has bespoke length bins
   void populate_age_length_matrix(vector<Double> numbers_at_age, vector<vector<Double>>& numbers_by_age_length,
                                   Selectivity* selectivity);  // overloaded for the case with no selectivity and class has bespoke length bins
+  Double get_pdf(unsigned age, Double length, unsigned year, unsigned time_step);
+  Double get_pdf_with_sized_based_selectivity(unsigned age, Double length, unsigned year, unsigned time_step, Selectivity* selectivity);
+  void get_cdf_inverse(unsigned age, unsigned year, unsigned time_step, vector<Double>& inverse_result);
 
   // For reporting in the AgeLength
   void FillReportCache(ostringstream& cache);
@@ -110,6 +113,8 @@ protected:
   vector<vector<Double>>  mean_weight_by_timestep_age_;  // mean_weight_by_timestep_age_[time_step][age]
   vector<unsigned>        age_length_matrix_years_;
   map<unsigned, unsigned> age_length_matrix_year_key_;  // [year, dimension]
+  vector<Double>          quantiles_;
+  vector<Double>          inverse_values_;
   // because this may not be in sequential order (see method BuildAgeLengthMatrixForTheseYears) we have a key which maps the right year with first dimension of
   // age_length_transition_matrix_
   vector<vector<Double>>                 numbers_by_age_length_transition_;  // age x length used as a temporarey container
