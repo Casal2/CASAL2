@@ -446,6 +446,7 @@ void Loader::ParseBlock(shared_ptr<Model> model, vector<FileLine>& block) {
  *
  */
 void Loader::HandleInlineDefinitions() {
+  LOG_FINEST() << "Enter: HandleInlineDefinitions";
   vector<string>           replacements = {"one", "two", "three", "four", "five", "six", "seven", "eight", "nine"};
   vector<string>           temp;  // temp to old outputs of splits we only want for a short period
   vector<vector<FileLine>> new_blocks;

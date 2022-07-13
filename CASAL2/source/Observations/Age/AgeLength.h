@@ -51,13 +51,13 @@ public:
   void         PreExecute() override final;
   void         Execute() override final;
   void         CalculateScore() override final;
-  bool         HasYear(unsigned year) const override final { return std::find(years_.begin(), years_.end(), year) != years_.end(); }
+  bool         HasYear(unsigned year) const override final { return year == year_; }
 
 protected:
   // Members
-  vector<unsigned>            years_;
-  vector<double>              ages_;
-  vector<double>              lengths_;
+  unsigned                    year_;
+  vector<double>              individual_ages_;
+  vector<double>              individual_lengths_;
   vector<string>              selectivity_labels_;
   vector<Selectivity*>        selectivities_;
   string                      time_step_label_;   
