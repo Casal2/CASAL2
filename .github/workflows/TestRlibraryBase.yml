@@ -69,7 +69,8 @@ jobs:
           # Destination path
           path: CheckTestModels # optional
       ## now run an R script that will check R-library compatible with exe output
-      run: Rscript -e 'cat(getwd())'
-      run: Rscript -e 'list.files()'      
+      - name: Test path
+        run: Rscript -e 'cat(getwd())'
+        run: Rscript -e 'list.files()'      
 
           
