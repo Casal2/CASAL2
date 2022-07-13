@@ -31,7 +31,7 @@ jobs:
       - name: Install Casal2 base
         env:
            GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }} # https://github.com/settings/tokens
-        run: Rscript -e 'devtools::install_github("https://github.com/NIWAFisheriesModelling/CASAL2", subdir="R-libraries/casal2", ref = "HEAD")'
+        run: Rscript -e 'devtools::install_github("NIWAFisheriesModelling/CASAL2", subdir="R-libraries/casal2", ref = "HEAD")'
 ## we want to download the model runner artefacts and then Run an Rscript
 ## that will 
     
