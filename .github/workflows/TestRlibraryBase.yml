@@ -9,11 +9,38 @@ on:
 name: Check R Base Library
 
 jobs:
-  Base-R-Windows:
-    runs-on: ubuntu-latest
-    defaults:
-      run:
-        working-directory: R-libraries/casal2
+  Compile-Casal2-linux:
+  # should run on linux based operating system
+  # https://docs.github.com/en/actions/using-github-hosted-runners/about-github-hosted-runners#supported-runners-and-hardware-resources
+    runs-on: ubuntu-20.04
+    timeout-minutes: 150
+    env:
+      CC: gcc-10
+      CXX: g++-10
+    steps:
+      - uses: actions/checkout@v2
+
+      - uses: actions/setup-python@v2.2.2
+        with:
+          python-version: '3.8'
+      - name: Install python dependencies
+        run: pip install pytz python-dateutil --user --upgrade pip
+
+      - name: Install gcc
+        uses: egor-tensin/setup-gcc@v1
+        with:
+          version: 10
+          platform: x86
+      - name: Archive modelrunner
+        continue-on-error: true
+        uses: actions/upload-artifact@v2.2.4
+        with:
+          name: Casal2-linux-modelrunner
+          path: TestModels/
+          
+  
+  Base-R-Ubuntu:
+    runs-on: ubuntu-20.04
     steps:
       - uses: actions/checkout@v2
       - uses: r-lib/actions/setup-r@v2
@@ -32,6 +59,7 @@ jobs:
         env:
            GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }} # https://github.com/settings/tokens
         run: Rscript -e 'devtools::install_github("https://github.com/NIWAFisheriesModelling/CASAL2", subdir="R-libraries/casal2", ref = "HEAD")'
-## we want to download the model runner artefacts and then Run an Rscript
+
+        ## we want to download the model runner artefacts and then Run an Rscript
 ## that will 
     
