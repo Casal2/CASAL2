@@ -65,7 +65,7 @@ protected:
   unsigned                    age_spread_; 
   string                      sample_type_;
   SampleType                  actual_sample_type_;
-
+  vector<vector<Double>>      ageing_error_matrix_;
   CachedCombinedCategoriesPtr cached_partition_;
   CombinedCategoriesPtr       partition_;
   vector<Double>              process_error_values_;

@@ -274,13 +274,68 @@ There are several possible sampling regimes, i.e., assumptions about how the obs
 	\item \subcommand{random}: fish were a simple random sample from the available population
 	\item \subcommand{by\_age}: fish were a simple random sample within each age class 
 	\item \subcommand{by\_length}: fish were a simple random sample within each length class
+	\item \subcommand{by\_category\_and\_length}: fish were a simple random sample within each age class of each category
 \end{itemize}
 We believe the \subcommand{by\_age} option are quite unlikely to be true, yet they are widely applied in fisheries (for example, in the Coleraine \citep{hilborn2001coleraine} stock modelling software). Probably the \subcommand{by\_length} option are most likely to hold for most NIWA finfish programmes.
 
 In age-length data, there should be no observations for which the age is outside the age range (\subcommand{min\_age} - \subcommand{max\_age}) defined for the partition (this will generate a fatal error message), nor any non-integer ages. Observations with ages below the minimum age in the partition should be removed. Observations where an age exceeds the maximum age in the partition could either be included in the plus group (i.e., with the observed age changed to that of the plus group) or removed, depending on the circumstances. If there is no plus group in the partition they should be removed. For \subcommand{by\_age} samples they may be either included or removed in the plus group. For all other sample types they could be included in the plus group.
 
+In addition, the user can specify a selectivity which was applied in the sampling process, perhaps due to the sampling gear that was used, or the areal availability of fish at that place or time. The selectivity can be age- or length-based: the choice has direct bearing on the likelihood of the observations. Under some sampling regimes, a length-based selectivity has no effect on the likelihood and hence should not be used (since it adds computational time). This occurs when the character on which the selectivity acts was not randomly chosen in the sample: for instance, if 10 fish of each category were chosen from each length class, then a length-based selectivity will have had no effect (except perhaps to make it easier/harder to find the 10 fish!). In general, a length-based selectivity has no effect under the \subcommand{by\_category\_and\_length} sampling method, and it has no effect under the \subcommand{by\_length} method unless the selectivity is specified by category. If you attempt to use a length-based selectivity in this situation, \CNAME\ will issue a warning and will not apply the ogive. In cases where the length-based selectivity does have an effect, \CNAME\ will issue a warning that the selectivity adds to the computational time, and will apply it as requested.
 
-How do years and categories
+Similarly, under some sampling regimes, an age-based selectivity has no effect on the likelihood, and should not be used. This applies under the \subcommand{by\_category\_and\_age} sampling method and under the \subcommand{by\_age} method unless the selectivity is specified by age. If you attempt to use an age-based selectivity in this situation, \CNAME\ will issue a warning and not apply the selectivity. 
+
+The user must additionally specify the year, time step, and proportion of mortality when the observations were collected, and whether ageing error is to be applied. 
+
+
+The user does not need to specify an error distribution or its parameters: instead, the choice of Length at age distribution sampling regime, selectivity ogive, and ageing error determines the likelihood equation. The appropriate likelihood for a single observation, \(a,l,c\), depends on the nature of the sample. 
+
+
+With a \subcommand{random} sample covering a single category the likelihood follows,
+
+\[
+L = P(a,l,c) = \bigg[\sum_{a^*} N_{a^*,c}M_{a^*,a}f_{a^*,c}(l)\bigg] / \bigg[\sum_{a^*}\sum_{c} N_{a^*,c}\bigg]
+\]
+
+where, \(N_{a^*,c}\) is the number of fish of true age \(a^*\) and category \(c\), \(M_{a^*,a}\) is the probability that a fish of true age \(a^*\) is observed as age \(a\), and \(f_{a^*,c}(l)\) is the probability density function describing the distribution of sizes for a given (true) age \(a^*\) and category \(c\). When there is no ageing error the numerator of the above equation simplifies to \(N_{a^*,c}f_{a^*,c}(l)\).
+
+For all the other sample types the likelihood is a conditional probability, and is calculated as a fraction whose numerator is the same as for \(P(a,l,c) \) and with the denominator given in Table~\ref{tab:agelength:likelihoods}.
+
+
+If the user specifies a selectivity for an age-length observation, this is easy to deal with if the
+selectivity is age-based. If \(N^*_{a^*,c}\) is the number at true age \(a^*\) and category \(c\) before the selectivity is applied then \(N_{a^*,c} = N^*_{a^*,c}S_c(a^*)\), where \(S_c(.)\) is the selectivity function for category \(c\).
+
+It is more complicated with a length-based selectivity because of the need to distinguish
+between the distribution of length at age before [ \(f^*_{a^*,c}(l)\)] and after [\(f_{a^*,c}(l)\)] the selectivity is applied (note: it is the former which is defined by the model parameters). The appropriate
+equations are
+\[
+f_{a^*,c}(l) = S_c(l)f^*_{a^*,c}(l) \ / \ \int_{l^*} S_c(l^*)f^*_{a^*,c}(l^*) dl^* \ ,
+\]
+and 
+\[
+N_{a^*,c} = N^*_{a^*,c} \int_{l^*} S_c(l^*)f^*_{a^*,c}(l^*) dl^* \ ,
+\]
+The integrals in these equations are calculated by discrete approximation (using 5 points), in
+the same way as length-based selectivities are converted to age-based selectivities.
+
+Fits and residuals are not displayed for age-length data, instead \CNAME\ shows the contribution
+to the objective function of each individual age-length pair.
+
+\begin{table}[h!]
+	\centering
+	\caption{Age-Length likelihoods for the different sample types.}
+	\label{tab:agelength:likelihoods}
+	\begin{tabular}{|c | c | c | c|} 
+		\hline
+		Sample & Conditional probability & \multicolumn{2}{c}{Denominator} \\
+		\multicolumn{2}{|c|}{} & Ageing Error & Without Ageing Error\\
+		\hline\hline
+		\subcommand{random} &\(L = P(a,l,c) \) & \(\sum_{a^*}\sum_{c} N_{a^*,c}\) & \(\sum_{a^*}\sum_{c} N_{a^*,c}\) \\ 
+		\subcommand{by\_age} & \(L = P(l,c|a) \) & \(\sum_{a^*}\sum_{c} N_{a^*,c}M_{a^*,a}\) & \(\sum_{c} N_{a,c}\) \\
+		\subcommand{by\_length} & \(L = P(a,c|l) \) & \(\sum_{a^*}\sum_{c} N_{a^*,c}f_{a^*,c}(l)\) &  \(\sum_{a^*}\sum_{c} N_{a^*,c}f_{a^*,c}(l)\)  \\
+		\hline
+	\end{tabular}
+\end{table}
+
 
 {\small{\begin{verbatim}
 		@observation age_length_obs
