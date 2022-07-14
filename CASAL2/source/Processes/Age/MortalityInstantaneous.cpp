@@ -779,11 +779,10 @@ void MortalityInstantaneous::DoExecute() {
 void MortalityInstantaneous::FillReportCache(ostringstream& cache) {
   LOG_FINE();
   // This one is niggly because we need to iterate over each year and time step to print the right information so we don't
-  vector<unsigned> years = model_->years();
-
+  // these years are for M and F
   cache << "year: ";
-  for (auto year : years) cache << year << " ";
-
+  for (auto year : process_years_) 
+    cache << year << " ";
   for (auto& fishery_iter : fisheries_) {
     auto& fishery = fishery_iter.second;
     cache << "\nexploitation_rate[" << fishery.label_ << "]: ";
