@@ -40,29 +40,29 @@ dash_m_folders = c("mcmc_start_mpd_mcmc_fixed","mcmc_start_mpd", "mcmc_resume")
 #############################################
 ## -e
 for(i in 1:length(dash_e_folders)) {
-  this_mpd = tryCatch(extract.mpd(path = file.path(test_dir, dash_e_folders[i]), file = "estimate_betadiff.log"), error = function(e){e})
-  if(inherits(this_mpd, "error")) {
+  this_mpd = tryCatch(extract.mpd(path = file.path(test_dir, dash_e_folders[i]), file = "estimate_betadiff.log"), error = function(e){e}, warning=function(w) {w}))
+  if(inherits(this_mpd, "error") |  inherits(this_mpd, "warning")) {
     stop(paste0("Could not read 'estimate_betadiff.log', for TestModel ", dash_e_folders[i]))
   }
 }
 ## -r 
 for(i in 1:length(dash_r_folders)) {
-  this_mpd = tryCatch(extract.mpd(path = file.path(test_dir, dash_r_folders[i]), file = "run.log"), error = function(e){e})
-  if(inherits(this_mpd, "error")) {
+  this_mpd = tryCatch(extract.mpd(path = file.path(test_dir, dash_r_folders[i]), file = "run.log"), error = function(e){e}, warning=function(w) {w}))
+  if(inherits(this_mpd, "error") |  inherits(this_mpd, "warning")) {
     stop(paste0("Could not read 'run.log', for TestModel ", dash_r_folders[i]))
   }
 }
 ## -i
 for(i in 1:length(dash_i_folders)) {
-  this_mpd = tryCatch(extract.mpd(path = file.path(test_dir, dash_i_folders[i]), file = "run.log"), error = function(e){e})
-  if(inherits(this_mpd, "error")) {
+  this_mpd = tryCatch(extract.mpd(path = file.path(test_dir, dash_i_folders[i]), file = "run.log"), error = function(e){e}, warning=function(w) {w}))
+  if(inherits(this_mpd, "error") |  inherits(this_mpd, "warning")) {
     stop(paste0("Could not read 'run.log', for TestModel ", dash_i_folders[i]))
   }
 }
 ## -m
 for(i in 1:length(dash_m_folders)) {
-  this_mcmc = tryCatch(extract.mcmc(path = file.path(test_dir, dash_m_folders[i]), samples.file = "samples.1", objectives.file = "objectives.1"), error = function(e){e})
-  if(inherits(this_mcmc, "error")) {
+  this_mcmc = tryCatch(extract.mcmc(path = file.path(test_dir, dash_m_folders[i]), samples.file = "samples.1", objectives.file = "objectives.1"), error = function(e){e}, warning=function(w) {w}))
+  if(inherits(this_mcmc, "error") |  inherits(this_mcmc, "warning")) {
     stop(paste0("Could not read mcmc output, for TestModel ", dash_m_folders[i]))
   }
 }
@@ -79,8 +79,8 @@ for(i in 2:length(all_dirs)) {
   all_csl = all_csl[all_csl != "fisheries_catches_unsexed.csl2"]
   if(length(all_csl) >= 1) {
     for(j in 1:length(all_csl)) {
-      this_file = tryCatch(extract.csl2.file(path = all_dirs[i], file = all_csl[j], quiet  = T), error = function(e){e})
-      if(inherits(this_file, "error")) {
+      this_file = tryCatch(extract.csl2.file(path = all_dirs[i], file = all_csl[j], quiet  = T), error = function(e){e}, warning=function(w) {w}))
+      if(inherits(this_file, "error") |  inherits(this_file, "warning")) {
         stop(paste0("Could not extract.csl2.file, for TestModel ", all_dirs[i], " and file ", all_csl[j]))
       }
     }

@@ -24,13 +24,6 @@ upper_bound 0.40
 mu 0.16
 cv 0.79
 
-@estimate TANSel
-parameter selectivity[chatTANSel].mu
-lower_bound 1
-upper_bound 25
-type normal_by_stdev
-mu    8
-sigma 1
 @estimate TANSel_mu
 parameter selectivity[chatTANSel].mu
 lower_bound 1
