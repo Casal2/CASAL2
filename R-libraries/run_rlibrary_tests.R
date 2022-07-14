@@ -3,12 +3,12 @@
 #' DONOT modify or delete unless you know what you are doing
 #' This checks that the
 #' the output from ModelRunner is compatible with the R-library functions
-#' 
+#'
 #' Currently this script lives in CASAL2//R-libraries
 #' assumes there is a directory CheckTestModels at top level
 #' assumes getwd() == "CASAL2" i.e. top level
-#' 
-#' TODO: 
+#'
+#' TODO:
 #' - Add tabular extracts
 #' - Projections
 #' - write.csl2 with Casal2 -r
@@ -16,6 +16,7 @@
 
 #setwd("C://Software//CASAL2")
 library(Casal2);
+#test_dir = file.path("TestModels")
 
 test_dir = file.path("CheckTestModels")
 
@@ -25,11 +26,11 @@ if(!dir.exists(test_dir)) {
 #################
 ##
 #################
-# -e folders 
+# -e folders
 dash_e_folders = c("TwoSex", "SBW", "Simple","ComplexTag", "SexedLengthBased")
-# -r 
+# -r
 dash_r_folders = c("additional_priors", "agelength_cv_with_LF", "agelengths_data")
-# -i or -I 
+# -i or -I
 dash_i_folders = c("SingleSexTagByLength_input", "Complex_input","TwoSex_input")
 # -m
 dash_m_folders = c("mcmc_start_mpd_mcmc_fixed","mcmc_start_mpd", "mcmc_resume")
@@ -40,28 +41,28 @@ dash_m_folders = c("mcmc_start_mpd_mcmc_fixed","mcmc_start_mpd", "mcmc_resume")
 #############################################
 ## -e
 for(i in 1:length(dash_e_folders)) {
-  this_mpd = tryCatch(extract.mpd(path = file.path(test_dir, dash_e_folders[i]), file = "estimate_betadiff.log"), error = function(e){e}, warning=function(w) {w}))
+  this_mpd = tryCatch(extract.mpd(path = file.path(test_dir, dash_e_folders[i]), file = "estimate_betadiff.log"), error = function(e){e}, warning=function(w) {w})
   if(inherits(this_mpd, "error") |  inherits(this_mpd, "warning")) {
     stop(paste0("Could not read 'estimate_betadiff.log', for TestModel ", dash_e_folders[i]))
   }
 }
-## -r 
+## -r
 for(i in 1:length(dash_r_folders)) {
-  this_mpd = tryCatch(extract.mpd(path = file.path(test_dir, dash_r_folders[i]), file = "run.log"), error = function(e){e}, warning=function(w) {w}))
+  this_mpd = tryCatch(extract.mpd(path = file.path(test_dir, dash_r_folders[i]), file = "run.log"), error = function(e){e}, warning=function(w) {w})
   if(inherits(this_mpd, "error") |  inherits(this_mpd, "warning")) {
     stop(paste0("Could not read 'run.log', for TestModel ", dash_r_folders[i]))
   }
 }
 ## -i
 for(i in 1:length(dash_i_folders)) {
-  this_mpd = tryCatch(extract.mpd(path = file.path(test_dir, dash_i_folders[i]), file = "run.log"), error = function(e){e}, warning=function(w) {w}))
+  this_mpd = tryCatch(extract.mpd(path = file.path(test_dir, dash_i_folders[i]), file = "run.log"), error = function(e){e}, warning=function(w) {w})
   if(inherits(this_mpd, "error") |  inherits(this_mpd, "warning")) {
     stop(paste0("Could not read 'run.log', for TestModel ", dash_i_folders[i]))
   }
 }
 ## -m
 for(i in 1:length(dash_m_folders)) {
-  this_mcmc = tryCatch(extract.mcmc(path = file.path(test_dir, dash_m_folders[i]), samples.file = "samples.1", objectives.file = "objectives.1"), error = function(e){e}, warning=function(w) {w}))
+  this_mcmc = tryCatch(extract.mcmc(path = file.path(test_dir, dash_m_folders[i]), samples.file = "samples.1", objectives.file = "objectives.1"), error = function(e){e}, warning=function(w) {w})
   if(inherits(this_mcmc, "error") |  inherits(this_mcmc, "warning")) {
     stop(paste0("Could not read mcmc output, for TestModel ", dash_m_folders[i]))
   }
@@ -79,7 +80,7 @@ for(i in 2:length(all_dirs)) {
   all_csl = all_csl[all_csl != "fisheries_catches_unsexed.csl2"]
   if(length(all_csl) >= 1) {
     for(j in 1:length(all_csl)) {
-      this_file = tryCatch(extract.csl2.file(path = all_dirs[i], file = all_csl[j], quiet  = T), error = function(e){e}, warning=function(w) {w}))
+      this_file = tryCatch(extract.csl2.file(path = all_dirs[i], file = all_csl[j], quiet  = T), error = function(e){e}, warning=function(w) {w})
       if(inherits(this_file, "error") |  inherits(this_file, "warning")) {
         stop(paste0("Could not extract.csl2.file, for TestModel ", all_dirs[i], " and file ", all_csl[j]))
       }
