@@ -2,10 +2,10 @@ name: Casal2 validate test suite
 on:
   push:
     branches:
-      - master # age_length_redesign_202109
+      - AgeSizeObservation_202206 # age_length_redesign_202109
   pull_request:
     branches:
-      - master ## this will run actions on current branch, to change to main, needed for testing. all branches '*'
+      - AgeSizeObservation_202206 ## this will run actions on current branch, to change to main, needed for testing. all branches '*'
       ## taken from https://keithweaverca.medium.com/only-run-github-actions-on-specific-branches-694782fcc07
 ## for a release idea linux is fairly easy
 ## for windows look at this example https://github.com/freenet/wininstaller-innosetup/actions/runs/768471071/workflow
@@ -128,7 +128,38 @@ jobs:
         with:
           name: Casal2-linux-unittest
           path: BuildSystem/Casal2/unittests.log
-          
+  Base-R-Ubuntu:
+    needs: Compile-Casal2-linux
+    runs-on: ubuntu-20.04
+    steps:
+      - uses: actions/checkout@v2
+      - uses: r-lib/actions/setup-r@v2
+      - uses: r-lib/actions/setup-pandoc@v2
+      - uses: r-lib/actions/setup-r-dependencies@v2
+        with:
+          working-directory: R-libraries/casal2
+          extra-packages: |
+            any::devtools
+            any::bayesplot
+            any::purrr
+            any::DHARMa
+            any::mvtnorm
+          dependencies: '"hard"'
+      - name: Install Casal2 base
+        env:
+           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }} # https://github.com/settings/tokens
+        run: Rscript -e 'devtools::install_github("https://github.com/NIWAFisheriesModelling/CASAL2", subdir="R-libraries/casal2", ref = "HEAD")'
+      ## download model runs
+      - name: Download TestModels artifact
+        uses: actions/download-artifact@v1.0.0
+        with:
+          # Artifact name
+          name: Casal2-linux-modelrunner # optional
+          # Destination path
+          path: CheckTestModels # optional
+      ## now run an R script that will check R-library compatible with exe output
+      - name: Run Casal2 R test suite
+        run: Rscript -e 'source(file.path("R-libraries","run_rlibrary_tests.R"))'          
   Compile-Casal2-Windows:
     # https://docs.github.com/en/actions/using-github-hosted-runners/about-github-hosted-runners#supported-runners-and-hardware-resources
     # https://github.com/actions/virtual-environments/blob/main/images/win/Windows2019-Readme.md
