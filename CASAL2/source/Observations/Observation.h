@@ -67,6 +67,8 @@ protected:
                       Double score);
 
   void SaveComparison(string category, Double expected, double observed, Double process_error, double error_value, Double adjusted_error, Double delta, Double score);
+  // used by age-length observation
+  void SaveComparison(string category,  unsigned age, Double length, Double score);
 
   // members
   shared_ptr<Model>     model_ = nullptr;

@@ -27,7 +27,9 @@
 #include <boost/math/distributions/lognormal.hpp>
 #include "TimeSteps/Manager.h"
 #include "AgeLengths/AgeLength.h"
-
+#include <boost/algorithm/string/replace.hpp>
+#include <boost/algorithm/string/split.hpp>
+#include <boost/algorithm/string/trim_all.hpp>
 // Namespaces
 namespace niwa {
 namespace observations {
@@ -48,19 +50,12 @@ AgeLength::AgeLength(shared_ptr<Model> model) : Observation(model) {
   parameters_.Bind<string>(PARAM_SAMPLING_TYPE, &sample_type_, "The sampling type used to collect this data", "", PARAM_LENGTH)->set_allowed_values({PARAM_AGE, PARAM_LENGTH, PARAM_RANDOM});
   parameters_.Bind<Double>(PARAM_TIME_STEP_PROPORTION, &time_step_proportion_, "The proportion through the mortality block of the time step when the observation is evaluated", "", Double(0.5))->set_range(0.0, 1.0);
 
-  parameters_.Bind<double>(PARAM_AGES, &individual_ages_, "Vector of individual ages", "", false);
-  parameters_.Bind<double>(PARAM_LENGTHS, &individual_lengths_, "Vector of individual lengths. Has a one to one relationship with ages", "", false);
+  parameters_.Bind<unsigned>(PARAM_INDIVIDUAL_AGES, &individual_ages_, "Vector of individual ages", "", false);
+  parameters_.Bind<double>(PARAM_INDIVIDUAL_LENGTHS, &individual_lengths_, "Vector of individual lengths. Has a one to one relationship with ages", "", false);
+  parameters_.Bind<string>(PARAM_INDIVIDUAL_CATEGORIES, &individual_categories_, "Vector of individual categories. Has a one to one relationship with ages", "", true);
 
 
-   /*
-  parameters_.Bind<double>(PARAM_LENGTHS, &individual_lengths_, "Vector of individual lengths", "", false);
-
-  */
-  allowed_likelihood_types_.push_back(PARAM_LOGNORMAL);
-  allowed_likelihood_types_.push_back(PARAM_MULTINOMIAL);
-  allowed_likelihood_types_.push_back(PARAM_DIRICHLET);
-  allowed_likelihood_types_.push_back(PARAM_LOGISTIC_NORMAL);
-  
+  allowed_likelihood_types_.push_back(PARAM_PSEUDO);
 }
 
 /**
@@ -79,7 +74,7 @@ void AgeLength::DoValidate() {
   
   age_spread_ = model_->age_spread();
   if(individual_ages_.size() != individual_lengths_.size())
-    LOG_ERROR_P(PARAM_AGES) << " needs to have the same number of elements as " << PARAM_LENGTHS << ". '" << individual_ages_.size() << "' ages supplied but '" << individual_lengths_.size() << "' lengths.";
+    LOG_ERROR_P(PARAM_INDIVIDUAL_AGES) << " needs to have the same number of elements as " << PARAM_INDIVIDUAL_LENGTHS << ". '" << individual_ages_.size() << "' ages supplied but '" << individual_lengths_.size() << "' lengths.";
   if(category_labels_.size() > 1) {
     LOG_ERROR_P(PARAM_CATEGORIES) << " only a single category label or a combined category label are allowed i.e., male or male+female.";
   }
@@ -104,17 +99,42 @@ void AgeLength::DoValidate() {
   // check no ages are less than min_age or greater than max_age
   for(unsigned i = 0; i < n_fish_; i++) {
     if(individual_ages_[i] < model_->min_age())
-      LOG_ERROR_P(PARAM_AGES) << " age '" << individual_ages_[i] << "' at element '" << i + 1 << "' is less than the model min_age. This is not allowed.";
+      LOG_ERROR_P(PARAM_INDIVIDUAL_AGES) << " age '" << individual_ages_[i] << "' at element '" << i + 1 << "' is less than the model min_age. This is not allowed.";
     if(individual_ages_[i] > model_->max_age())
-      LOG_ERROR_P(PARAM_AGES) << " age '" << individual_ages_[i] << "' at element '" << i + 1 << "' is greater than the model max_age. This is not allowed.";
+      LOG_ERROR_P(PARAM_INDIVIDUAL_AGES) << " age '" << individual_ages_[i] << "' at element '" << i + 1 << "' is greater than the model max_age. This is not allowed.";
   }
-  // TODO: check the same for lengths supplied
+  // split out all combined categories that were supplied
+  vector<string> split_category_labels;
+  for(unsigned i = 0; i < category_labels_.size(); ++i) {
+    boost::split(split_category_labels, category_labels_[i], boost::is_any_of("+"));
+    for (string category_label : split_category_labels)
+      split_category_labels_.push_back(category_label);
+  }
+  if((split_category_labels_.size() > 1) & (!parameters_.Get(PARAM_INDIVIDUAL_CATEGORIES)->has_been_defined())) 
+    LOG_ERROR_P(PARAM_CATEGORIES) << " if you specify combined categories i.e., male+female. Then you need to specify " << PARAM_INDIVIDUAL_CATEGORIES << " for each individual age and length";
+
+  // check if individual categories have been supplied 
+  if (parameters_.Get(PARAM_INDIVIDUAL_CATEGORIES)->has_been_defined()) {
+    if(individual_ages_.size() != individual_categories_.size()) 
+      LOG_ERROR_P(PARAM_INDIVIDUAL_CATEGORIES) << " needs to have the same number of elements as " << PARAM_INDIVIDUAL_AGES << ". '" << individual_categories_.size() << "' categories supplied but '" << individual_ages_.size() << "' ages.";
+    supplied_individual_categories_ = true;
+    // quickly check they are valid categories
+    unsigned iter = 0;
+    for(const string  cat : individual_categories_) {
+      if(find(split_category_labels_.begin(), split_category_labels_.end(), cat) == split_category_labels_.end())
+        LOG_ERROR_P(PARAM_INDIVIDUAL_CATEGORIES) << "The category supplied at element " << iter + 1 << " '(" << cat <<  ") is not specified in " << PARAM_CATEGORIES << ". Please double check this input.";
+      iter++;
+    }
+  }
+  category_group_ndx_.resize(n_fish_, 0);
+  category_combined_ndx_.resize(n_fish_, 0);
+
+  
 
   // have the supplied cached categories
   if(expected_selectivity_count_ > 1) {
     combined_categories_provided_ = true;
   }
-  
 }
 
 /**
@@ -126,6 +146,16 @@ void AgeLength::DoBuild() {
   partition_        = CombinedCategoriesPtr(new niwa::partition::accessors::CombinedCategories(model_, category_labels_));
   cached_partition_ = CachedCombinedCategoriesPtr(new niwa::partition::accessors::cached::CombinedCategories(model_, category_labels_));
 
+  //
+  if(supplied_individual_categories_) {
+    vector<unsigned> index(2);
+    for(unsigned i = 0; i < individual_categories_.size(); ++i) {
+      index = partition_->get_category_index(individual_categories_[i]);
+      category_group_ndx_[i] = index[0];
+      category_combined_ndx_[i] = index[1];
+      LOG_FINE() << "catgegory = " << individual_categories_[i] << " group_ndx = "  << index[0] << " combined ndx = " <<  index[1];
+    }
+  }
   // Build Selectivity pointers
   for (string label : selectivity_labels_) {
     LOG_FINEST() << "label = " << label;
@@ -146,7 +176,9 @@ void AgeLength::DoBuild() {
     if (!ageing_error_)
       LOG_ERROR_P(PARAM_AGEING_ERROR) << "Ageing error label (" << ageing_error_label_ << ") was not found.";
     ageing_error_matrix_ = ageing_error_->mis_matrix();
+    apply_ageing_error_ = true;
   }
+  LOG_FINE() <<"apply ageing error = " << apply_ageing_error_;
 
   // Find out how many selectivities there are, we can have selectivities for combined categories. this is what I am trying to solve for
   // We can either have 1 selectivity
@@ -168,6 +200,7 @@ void AgeLength::DoBuild() {
   numbers_at_age_.resize(expected_selectivity_count_);
   pdf_by_age_and_length_.resize(expected_selectivity_count_);
   pre_numbers_at_age_.resize(expected_selectivity_count_);
+  numbers_by_unique_size_.resize(unique_lengths_.size(), 0.0);
   for(unsigned category_offset = 0; category_offset < expected_selectivity_count_; ++category_offset) {
     numbers_at_age_[category_offset].resize(age_spread_, 0.0);
     pdf_by_age_and_length_[category_offset].resize(n_fish_, 0.0);
@@ -181,6 +214,9 @@ void AgeLength::DoBuild() {
   } else {
     time_step->SubscribeToBlock(this, year_);
   }
+
+
+
 }
 
 /**
@@ -205,7 +241,7 @@ void AgeLength::Execute() {
   auto partition_iter        = partition_->Begin();  // vector<vector<partition::Category> >
   unsigned year = model_->current_year();
   unsigned time_step = model_->managers()->time_step()->current_time_step();
-
+  fill(numbers_by_unique_size_.begin(), numbers_by_unique_size_.end(), 0.0);
 
   LOG_FINEST() << "Number of categories " << category_labels_.size();
   for (unsigned category_offset = 0; category_offset < category_labels_.size(); ++category_offset, ++partition_iter) {
@@ -227,88 +263,132 @@ void AgeLength::Execute() {
     }
   }
   Double numerator = 0.0;
-  if(actual_sample_type_ == SampleType::kRandom) {
+  Double denominator = 0.0;
+  if(actual_sample_type_ == SampleType::kRandom || actual_sample_type_ == SampleType::kAge) {
     LOG_FINE() << "Random sample";
+    partition::Category* this_category = nullptr;
+    unsigned individual_age_iter = 0;
     for(unsigned i = 0; i < n_fish_; ++i) {
-      if(ageing_error_) {
+      numerator = 0.0;
+      denominator = 0.0;
+      this_category = partition_->GetCategoryFromCombinedCategoryByIndex(category_group_ndx_[i], category_combined_ndx_[i]);
+      individual_age_iter = individual_ages_[i] - model_->min_age();
+      if(!this_category)
+        LOG_CODE_ERROR() << "!this_category";
+
+      if(!apply_ageing_error_) {
+        LOG_FINE() << "No ageing error";
+        // simpler case without ageing error
+        if(selectivities_[category_combined_ndx_[i]]->IsSelectivityLengthBased()) {
+          numerator =  numbers_at_age_[category_combined_ndx_[i]][individual_age_iter] * this_category->age_length_->get_pdf_with_sized_based_selectivity(individual_ages_[i], individual_lengths_[i], year, time_step, selectivities_[category_combined_ndx_[i]]);
+        } else {
+          numerator =  numbers_at_age_[category_combined_ndx_[i]][individual_age_iter] * this_category->age_length_->get_pdf(individual_ages_[i], individual_lengths_[i], year, time_step);
+        }
+      } else {
         LOG_FINE() << "ageing error";
         // account for ageing error
-        for(unsigned age_iter = 0;age_iter < age_spread_; ++age_iter) {
-          if(ageing_error_matrix_[age_iter][(unsigned)individual_ages_[i] - model_->min_age()] > 1e-4) {
-            // we only want access to one category not sum here
-            auto category_iter        = partition_iter->begin();
-            for (unsigned cached_counter = 0; category_iter != partition_iter->end();  ++category_iter, ++cached_counter) {
-              if(selectivities_[cached_counter]->IsSelectivityLengthBased()) {
-                numerator +=  numbers_at_age_[cached_counter][age_iter] * ageing_error_matrix_[age_iter][(unsigned)individual_ages_[i] - model_->min_age()] * (*category_iter)->age_length_->get_pdf_with_sized_based_selectivity((unsigned)individual_ages_[i], individual_lengths_[i], year, time_step,selectivities_[cached_counter]);
-              } else {
-                numerator +=  numbers_at_age_[cached_counter][age_iter] * ageing_error_matrix_[age_iter][(unsigned)individual_ages_[i] - model_->min_age()] * (*category_iter)->age_length_->get_pdf((unsigned)individual_ages_[i], individual_lengths_[i], year, time_step);
-              }
+        for(unsigned age_iter = 0; age_iter < age_spread_; ++age_iter) {
+          if(ageing_error_matrix_[age_iter][individual_age_iter] > 1e-4) {
+            if(selectivities_[category_combined_ndx_[i]]->IsSelectivityLengthBased()) {
+              numerator +=  numbers_at_age_[category_combined_ndx_[i]][age_iter] * ageing_error_matrix_[age_iter][individual_age_iter] * this_category->age_length_->get_pdf_with_sized_based_selectivity(individual_ages_[i], individual_lengths_[i], year, time_step, selectivities_[category_combined_ndx_[i]]);
+            } else {
+              numerator +=  numbers_at_age_[category_combined_ndx_[i]][age_iter] * ageing_error_matrix_[age_iter][individual_age_iter] * this_category->age_length_->get_pdf(individual_ages_[i], individual_lengths_[i], year, time_step);
+            }
+          }
+        }
+      }
+      LOG_FINEST() << "i = " << i << " numerator = " << numerator;
+      // denominator 
+      if(actual_sample_type_ == SampleType::kRandom) {
+        for(unsigned c = 0; c < numbers_at_age_.size(); ++c) {
+          for(unsigned age_iter = 0; age_iter < numbers_at_age_[c].size(); ++age_iter)
+            denominator += numbers_at_age_[c][age_iter];
+        }
+      } else if(actual_sample_type_ == SampleType::kAge) {
+        if(!apply_ageing_error_) {
+          LOG_FINE() << "No ageing error";
+          for(unsigned c = 0; c < numbers_at_age_.size(); ++c) {
+            denominator += numbers_at_age_[c][individual_age_iter];
+          }
+        } else {
+          LOG_FINE() << "ageing error";
+          for(unsigned c = 0; c < numbers_at_age_.size(); ++c) {
+            for(unsigned age_iter = 0; age_iter < age_spread_; ++age_iter) {
+              denominator += numbers_at_age_[c][age_iter] * ageing_error_matrix_[age_iter][individual_age_iter];
+            }
+          }
+        }
+      }
+      LOG_FINEST() << "i = " << i << " denominator = " << denominator;
+      SaveComparison(this_category->name_, individual_ages_[i], individual_lengths_[i], -log(numerator / denominator));
+    }
+  } else if(actual_sample_type_ == SampleType::kLength) { // random_by_size
+    partition_iter        = partition_->Begin();  
+    for (unsigned category_offset = 0; category_offset < category_labels_.size(); ++category_offset, ++partition_iter) {
+      auto category_iter        = partition_iter->begin();
+      for (unsigned cached_counter = 0; category_iter != partition_iter->end();  ++category_iter, ++cached_counter) {
+        for(unsigned l = 0; l < unique_lengths_.size(); ++l) {
+          for(unsigned age_iter = 0; age_iter < age_spread_; ++age_iter) {
+            if(selectivities_[cached_counter]->IsSelectivityLengthBased()) {
+              numbers_by_unique_size_[l] += numbers_at_age_[cached_counter][age_iter] *  (*category_iter)->age_length_->get_pdf_with_sized_based_selectivity(age_iter + model_->min_age(), unique_lengths_[l], year, time_step, selectivities_[cached_counter]);
+            } else {
+              numbers_by_unique_size_[l] += numbers_at_age_[cached_counter][age_iter] *  (*category_iter)->age_length_->get_pdf(age_iter + model_->min_age(), unique_lengths_[l], year, time_step);
+            }
+          }
+        }
+      }
+    }
+    partition::Category* this_category = nullptr;
+    unsigned individual_age_iter = 0;
+    for(unsigned i = 0; i < n_fish_; ++i) {
+      numerator = 0.0;
+      denominator = 0.0;
+      this_category = partition_->GetCategoryFromCombinedCategoryByIndex(category_group_ndx_[i], category_combined_ndx_[i]);
+      individual_age_iter = individual_ages_[i] - model_->min_age(); 
+      if(!apply_ageing_error_) {
+        LOG_FINE() << "No ageing error";
+        partition_iter        = partition_->Begin();  
+        for (unsigned category_offset = 0; category_offset < category_labels_.size(); ++category_offset, ++partition_iter) {
+          auto category_iter        = partition_iter->begin();
+          for (unsigned cached_counter = 0; category_iter != partition_iter->end();  ++category_iter, ++cached_counter) {
+            if(selectivities_[cached_counter]->IsSelectivityLengthBased()) {
+              numerator += numbers_at_age_[cached_counter][individual_age_iter] * (*category_iter)->age_length_->get_pdf_with_sized_based_selectivity(individual_ages_[i], individual_lengths_[i], year, time_step, selectivities_[cached_counter]);
+            } else {
+              LOG_FINE() << numbers_at_age_[cached_counter][individual_age_iter] << " get pdf = " << (*category_iter)->age_length_->get_pdf(individual_ages_[i], individual_lengths_[i], year, time_step);
+              numerator +=  numbers_at_age_[cached_counter][individual_age_iter] * (*category_iter)->age_length_->get_pdf(individual_ages_[i], individual_lengths_[i], year, time_step);
             }
           }
         }
       } else {
-        // simpler case without ageing error
-
-      }
-    }
-  } else if(actual_sample_type_ == SampleType::kLength) { // random_by_size
-    partition_iter        = partition_->Begin();  // vector<vector<partition::Category> >
-    for (unsigned category_offset = 0; category_offset < category_labels_.size(); ++category_offset, ++partition_iter) {
-      auto category_iter        = partition_iter->begin();
-      for (unsigned cached_counter = 0; category_iter != partition_iter->end();  ++category_iter, ++cached_counter) {
-        // calculate the denominator
-        if(selectivities_[cached_counter]->IsSelectivityLengthBased()) {
-          for(unsigned i = 0; i < n_fish_; ++i) {
-            for(unsigned age_iter = 0;age_iter < age_spread_; ++age_iter) {
-              unsigned age       = model_->min_age() + age_iter;
-              pdf_by_age_and_length_[cached_counter][i] += numbers_at_age_[cached_counter][age_iter] * (*category_iter)->age_length_->get_pdf_with_sized_based_selectivity(age, individual_lengths_[i], year, time_step, selectivities_[cached_counter]);
-            }
-          }
-        } else {
-          for(unsigned i = 0; i < n_fish_; ++i) {
-            for(unsigned age_iter = 0;age_iter < age_spread_; ++age_iter) {
-              unsigned age       = model_->min_age() + age_iter;
-              pdf_by_age_and_length_[cached_counter][i] += numbers_at_age_[cached_counter][age_iter] * (*category_iter)->age_length_->get_pdf(age, individual_lengths_[i], year, time_step);
-            }
-          }
-        }
-        // now loop over fish and calculate numerator, denominator and -log(L) for each
- 
-        for(unsigned i = 0; i < n_fish_; ++i) {
-          if(ageing_error_) {
-            // account for ageing error
-            for(unsigned age_iter = 0;age_iter < age_spread_; ++age_iter) {
-              if(ageing_error_matrix_[age_iter][(unsigned)individual_ages_[i] - model_->min_age()] > 1e-4) {
-                if(selectivities_[cached_counter]->IsSelectivityLengthBased()) {
-                  numerator +=  numbers_at_age_[cached_counter][age_iter] * ageing_error_matrix_[age_iter][(unsigned)individual_ages_[i] - model_->min_age()] * (*category_iter)->age_length_->get_pdf_with_sized_based_selectivity((unsigned)individual_ages_[i], individual_lengths_[i], year, time_step,selectivities_[cached_counter]);
-                } else {
-                  numerator +=  numbers_at_age_[cached_counter][age_iter] * ageing_error_matrix_[age_iter][(unsigned)individual_ages_[i] - model_->min_age()] * (*category_iter)->age_length_->get_pdf((unsigned)individual_ages_[i], individual_lengths_[i], year, time_step);
-                }
-              }
-            }
-          } else {
-            // simpler case without ageing error
-            if(selectivities_[cached_counter]->IsSelectivityLengthBased()) {
-              numerator =  numbers_at_age_[cached_counter][(unsigned)individual_ages_[i] - model_->min_age()] * (*category_iter)->age_length_->get_pdf_with_sized_based_selectivity((unsigned)individual_ages_[i], individual_lengths_[i], year, time_step,selectivities_[cached_counter]);
+        LOG_FINE() << "ageing error";
+        for(unsigned age_iter = 0; age_iter < age_spread_; ++age_iter) {
+          if(ageing_error_matrix_[age_iter][individual_age_iter] > 1e-4) {
+            if(selectivities_[category_combined_ndx_[i]]->IsSelectivityLengthBased()) {
+              numerator +=  numbers_at_age_[category_combined_ndx_[i]][age_iter] * ageing_error_matrix_[age_iter][individual_age_iter] * this_category->age_length_->get_pdf_with_sized_based_selectivity(individual_ages_[i], individual_lengths_[i], year, time_step, selectivities_[category_combined_ndx_[i]]);
             } else {
-              numerator =  numbers_at_age_[cached_counter][(unsigned)individual_ages_[i] - model_->min_age()] * (*category_iter)->age_length_->get_pdf((unsigned)individual_ages_[i], individual_lengths_[i], year, time_step);
+              numerator +=  numbers_at_age_[category_combined_ndx_[i]][age_iter] * ageing_error_matrix_[age_iter][individual_age_iter] * this_category->age_length_->get_pdf(individual_ages_[i], individual_lengths_[i], year, time_step);
             }
           }
         }
-
       }
+      // denominator
+      for(unsigned l = 0; l < unique_lengths_.size(); ++l) {
+        if(unique_lengths_[l] == individual_lengths_[i]) {
+          denominator = numbers_by_unique_size_[l];
+          break;
+        }
+      }
+      LOG_FINEST() << "age " << individual_ages_[i] << " length " <<  individual_lengths_[i] << " numerator = " << numerator << " denominator = " << denominator;
+      SaveComparison(this_category->name_, individual_ages_[i], individual_lengths_[i], -log(numerator / denominator));
     }
-
-
   }
-  
 }
 /**
  * This method is called at the end of a model iteration
  * to calculate the score for the observation.
  */
 void AgeLength::CalculateScore() {
-  
+  LOG_FINE() << "No likelihood calculation for this class.";
 }
 
 } /* namespace age */

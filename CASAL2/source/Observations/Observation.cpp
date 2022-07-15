@@ -160,4 +160,27 @@ void Observation::SaveComparison(string category, Double expected, double observ
   SaveComparison(category, 0, 0, expected, observed, process_error, error_value, adjusted_error, delta, score);
 }
 
+/**
+ * Save the comparison for an observation to the list of comparisons.
+ * Each comparison contributes part to a score and those parts will be stored for reporting.
+ *
+ * @param category The name of the comparison
+ * @param age The age of the population being compared
+ * @param length The length of the population being compared
+ * @param score The amount of score for this comparison
+ */
+void Observation::SaveComparison(string category,  unsigned age, Double length, Double score) {
+    observations::Comparison new_comparison;
+  new_comparison.category_       = category;
+  new_comparison.age_            = age;
+  new_comparison.length_         = length;
+  new_comparison.expected_       = 0.0;
+  new_comparison.observed_       = 0.0;
+  new_comparison.process_error_  = 0.0;
+  new_comparison.error_value_    = 0.0;
+  new_comparison.adjusted_error_ = 0.0;
+  new_comparison.delta_          = 0.0;
+  new_comparison.score_          = score;
+  comparisons_[model_->current_year()].push_back(new_comparison);
+}
 } /* namespace niwa */

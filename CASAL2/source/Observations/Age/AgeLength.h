@@ -56,8 +56,9 @@ public:
 protected:
   // Members
   unsigned                    year_;
-  vector<double>              individual_ages_;
+  vector<unsigned>            individual_ages_;
   vector<double>              individual_lengths_;
+  vector<string>              individual_categories_;
   vector<string>              selectivity_labels_;
   vector<Selectivity*>        selectivities_;
   string                      time_step_label_;   
@@ -82,6 +83,15 @@ protected:
   vector<vector<Double>>      numbers_at_age_;
   unsigned                    n_fish_;
   bool                        combined_categories_provided_ = false;
+  vector<string>              split_category_labels_; // only used in validation
+  bool                        apply_ageing_error_ = false;
+  vector<Double>              numbers_by_unique_size_;
+
+
+  // vectors to do lookups on combined categories populated during DoBuild()
+  vector<unsigned>            category_group_ndx_;
+  vector<unsigned>            category_combined_ndx_;
+  bool                        supplied_individual_categories_ = false;
 
 };
 
