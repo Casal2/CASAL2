@@ -5,7 +5,7 @@
  * @date 22/03/2013
  * @section LICENSE
  *
- * Copyright NIWA Science ©2013 - www.niwa.co.nz
+ * Copyright NIWA Science ï¿½2013 - www.niwa.co.nz
  *
  * $Date: 2008-03-04 16:33:32 +1300 (Tue, 04 Mar 2008) $
  */
@@ -13,6 +13,7 @@
 // Headers
 #include "Factory.h"
 
+#include "../Likelihoods/Common/Bernoulli.h"
 #include "../Likelihoods/Common/Binomial.h"
 #include "../Likelihoods/Common/BinomialApprox.h"
 #include "../Likelihoods/Common/Dirichlet.h"
@@ -40,6 +41,8 @@ Likelihood* Factory::Create(shared_ptr<Model> model, const string& object_type, 
 
   if (sub_type == PARAM_BINOMIAL)
     result = new Binomial(model);
+  else if (sub_type == PARAM_BERNOULLI)
+    result = new Bernoulli(model);
   else if (sub_type == PARAM_BINOMIAL_APPROX)
     result = new BinomialApprox(model);
   else if (sub_type == PARAM_DIRICHLET)

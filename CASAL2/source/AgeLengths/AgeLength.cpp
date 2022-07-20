@@ -868,7 +868,7 @@ Double AgeLength::get_pdf(unsigned age, Double length, unsigned year, unsigned t
   Double mu    = calculate_mean_length(year, time_step, age);
   Double cv    = cvs_[year - year_offset_][time_step - time_step_offset_][age - age_offset_];
   Double sigma = cv * mu;
-  LOG_FINE() << "year: " << year << "; time_step " << time_step << "; age: " << age << "; mu: " << mu << "; cv: " << cv << "; sigma: " << sigma;
+  //LOG_FINE() << "year: " << year << "; time_step " << time_step << "; age: " << age << "; mu: " << mu << "; cv: " << cv << "; sigma: " << sigma;
   if (distribution_ == Distribution::kLogNormal) {
     // Transform parameters in to log space
     Double Lvar  = log(cv * cv + 1.0);
@@ -894,7 +894,8 @@ Double AgeLength::get_pdf(unsigned age, Double length, unsigned year, unsigned t
  *  We approximate the integral by a discrete approximation over 5 appropriately spaced points.
  */
 Double AgeLength::get_pdf_with_sized_based_selectivity(unsigned age, Double length, unsigned year, unsigned time_step, Selectivity* selectivity) {
-  Double numerator = get_pdf(age, length, year, time_step);
+  Double numerator = get_pdf(age, length, year, time_step) * selectivity->GetResult(length);
+  if (numerator == 0) return 0;
   Double denominator = 0.0;
   // clear this inverse_values_ container
   fill(inverse_values_.begin(), inverse_values_.end(), 0.0);
@@ -905,6 +906,8 @@ Double AgeLength::get_pdf_with_sized_based_selectivity(unsigned age, Double leng
     denominator += selectivity->GetResult(inverse_values_[i]);
   }
   // the integral is over
+  LOG_FINE() << "numerator = " << numerator << " denominator " << denominator;
+  if (denominator == 0) return 0;
   return numerator / (denominator * 0.2);
 }
 

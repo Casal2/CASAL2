@@ -18,12 +18,14 @@
 // Headers
 #include "AgeingErrors/AgeingError.h"
 #include "Observations/Observation.h"
+#include "AgeLengths/AgeLength.h"
 #include "Partition/Accessors/Cached/CombinedCategories.h"
 #include "Partition/Accessors/CombinedCategories.h"
 
 // Namespace
 namespace niwa {
 class Selectivity;
+class AgeLength;
 namespace observations {
 namespace age {
 
@@ -58,7 +60,6 @@ protected:
   unsigned                    year_;
   vector<unsigned>            individual_ages_;
   vector<double>              individual_lengths_;
-  vector<string>              individual_categories_;
   vector<string>              selectivity_labels_;
   vector<Selectivity*>        selectivities_;
   string                      time_step_label_;   
@@ -72,26 +73,25 @@ protected:
   vector<Double>              process_error_values_;
   string                      ageing_error_label_;
   AgeingError*                ageing_error_ = nullptr;
-  bool                        selectivity_for_combined_categories_ = false;
   Double                      time_step_proportion_;
   vector<Double>              quantiles_;
   vector<Double>              quantile_breaks_;             
   vector<double>              unique_lengths_;
-  vector<double>              unique_ages_;
-  vector<vector<Double>>      pdf_by_age_and_length_;
-  vector<vector<Double>>      pre_numbers_at_age_;
   vector<vector<Double>>      numbers_at_age_;
   unsigned                    n_fish_;
-  bool                        combined_categories_provided_ = false;
   vector<string>              split_category_labels_; // only used in validation
+  vector<string>              split_numerator_categories_; // only used in validation
+
   bool                        apply_ageing_error_ = false;
   vector<Double>              numbers_by_unique_size_;
-
-
+  vector<string>              numerator_categories_;
+  vector<Double>              numbers_at_age_numerator_;
+  vector<bool>                vector_of_cached_categories_in_numerator_;
+  niwa::AgeLength*            age_length_ptr_ = nullptr;
+  Selectivity*                numerator_selectivity_ = nullptr;
+  string                      selectivity_label_for_numerator_ = "";
   // vectors to do lookups on combined categories populated during DoBuild()
-  vector<unsigned>            category_group_ndx_;
-  vector<unsigned>            category_combined_ndx_;
-  bool                        supplied_individual_categories_ = false;
+
 
 };
 
