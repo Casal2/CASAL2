@@ -49,7 +49,8 @@ void Estimate::Validate() {
  * Build the estimate
  */
 void Estimate::Build() {
-
+  if(!value_been_initialised_)
+    set_initial_value(value());
   Reset();
 }
 
@@ -63,6 +64,7 @@ void Estimate::Reset() {
    */
   if (utilities::math::IsEqual(lower_bound_, upper_bound_))
     set_value(value());
+  
 }
 
 /**
