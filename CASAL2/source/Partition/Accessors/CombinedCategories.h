@@ -5,7 +5,7 @@
  * @date 12/04/2013
  * @section LICENSE
  *
- * Copyright NIWA Science ©2013 - www.niwa.co.nz
+ * Copyright NIWA Science ï¿½2013 - www.niwa.co.nz
  *
  * @section DESCRIPTION
  *
@@ -44,22 +44,32 @@ using std::vector;
 class CombinedCategories {
 public:
   // Typedef
-  typedef vector<vector<partition::Category*> > DataType;
-
+  typedef vector<vector<partition::Category*> > DataType;  
+  /* the first element is a 'group' of combined categories the second is specific combinations for example
+  male+female  : one group with two combinations or DataType.size() == 1 and DataType[0].size == 2
+  male.east+male.west  female.east+female.west  : two groups with each having two combinations or DataType.size() == 2 and DataType[0].size == 2
+  */
   // Methods
   CombinedCategories() = delete;
   CombinedCategories(shared_ptr<Model> model, const vector<string>& category_labels);
   virtual ~CombinedCategories() = default;
   DataType::iterator Begin();
   DataType::iterator End();
+  partition::Category* GetCategoryFromCombinedCategoryByIndex(unsigned group_index, unsigned combined_index);
   unsigned           Size();
   unsigned           category_count() const { return category_count_; }
+  // Not a super efficient function below, should only be called in Validate or Build.
+  vector<unsigned>   get_category_index(string category_label); // returns a vector first element is the group_index_, second element is the combined_index_
 
 private:
   // Members
   shared_ptr<Model>       model_;
   map<unsigned, DataType> data_;
   unsigned                category_count_;
+  vector<string>          category_labels_;
+  vector<unsigned>        group_index_;
+  vector<unsigned>        combined_index_;
+
 };
 
 // Typedef

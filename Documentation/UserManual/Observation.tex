@@ -264,6 +264,125 @@ If there is no plus group, i.e., \texttt{length\_plus=false}, then \CNAME\ requi
 		end_table
 		\end{verbatim}}}
 
+\paragraph*{\I{Age-length}}\label{sec:Observation-AgeSize}
+Age-length data are observations of the ages and lengths of individual fish. They are primarily used to fit length-at-age parameters in age-based models. 
+
+The data include a list of ages, a list of lengths for a category or combination of categories, plus information on when, where, and how the observations were collected. So, the i\textsuperscript{th} elements of the lists contain the age and length of the i\textsuperscript{th} fish observed.
+
+There are several possible sampling regimes, i.e., assumptions about how the observed fish were sampled from the general population of fish available at that time and place. The options are: 
+\begin{itemize}
+	\item \subcommand{random}: fish were a simple random sample from the available population
+	\item \subcommand{age}: fish were a simple random sample within each age class 
+	\item \subcommand{length}: fish were a simple random sample within each length class
+\end{itemize}
+We believe the \subcommand{age} option are quite unlikely to be true, yet they are widely applied in fisheries (for example, in the Coleraine \citep{hilborn2001coleraine} stock modelling software). Probably the \subcommand{length} option are most likely to hold for most New Zealand finfish programmes.
+
+In age-length data, there should be no observations for which the age is outside the age range (\subcommand{min\_age} - \subcommand{max\_age}) defined for the partition (this will generate a fatal error message), nor any non-integer ages. Observations with ages below the minimum age in the partition should be removed. Observations where an age exceeds the maximum age in the partition could either be included in the plus group (i.e., with the observed age changed to that of the plus group) or removed, depending on the circumstances. If there is no plus group in the partition they should be removed. For \subcommand{age} samples they may be either included or removed in the plus group. For all other sample types they could be included in the plus group.
+
+In addition, the user can specify a selectivity which was applied in the sampling process, perhaps due to the sampling gear that was used, or the areal availability of fish at that place or time. The selectivity can be age- or length-based: the choice has direct bearing on the likelihood of the observations. Under some sampling regimes, a length-based selectivity has no effect on the likelihood and hence should not be used (since it adds computational time). This occurs when the character on which the selectivity acts was not randomly chosen in the sample: for instance, if 10 fish of each category were chosen from each length class, then a length-based selectivity will have had no effect (except perhaps to make it easier/harder to find the 10 fish!). In general, a length-based selectivity has no effect under the \subcommand{length} method unless the selectivity is specified by category. If you attempt to use a length-based selectivity in this situation, \CNAME\ will issue a warning and will not apply the ogive. In cases where the length-based selectivity does have an effect, \CNAME\ will issue a warning that the selectivity adds to the computational time, and will apply it as requested.
+
+Similarly, under some sampling regimes, an age-based selectivity has no effect on the likelihood, and should not be used. This applies under the \subcommand{age} method unless the selectivity is specified by age. If you attempt to use an age-based selectivity in this situation, \CNAME\ will issue a warning and not apply the selectivity. 
+
+The user must additionally specify the year, time-step, and proportion of mortality when the observations were collected, and whether ageing error is to be applied. 
+
+The only likelihood available for a single observation, is the Bernoulli distribution (\subcommand{bernoulli}), the other one is \subcommand{none} which will generate expected values but won't evaluate the likelihood.
+
+
+A difference between CASAL and \CNAME\ is how to deal with sexes and categories. In CASAL sex was a hard coded attribute so it could generate numbers at age for a sex without any input from the user. \CNAME\ doesn't have this luxury and users are required to explicitly state the categories often that share the same age-length relationship using the \subcommand{numerator\_categories}. This is an optional parameter, and used when sex is an attribute in the partition along with other attributes such as maturity or tagging. If users do not specify \subcommand{numerator\_categories} it defaults to the categories supplied in \subcommand{categories}. The categories defined by \subcommand{numerator\_categories} are denoted by \(c^*\), where as categories defined by \subcommand{categories} represent the available population in the sampling process denoted by \(c\).
+
+All categories listed in \subcommand{numerator\_categories} are required to have the same \command{age\_length} block as well as the same selectivity.
+
+
+With a \subcommand{random} sample covering a single category \(c^*\) with ageing error the expected probability of sampling a fish with this age and length characteristic follows,
+
+\[
+P(a,l) = \bigg[\sum_{a^*} N^{c^*}_{a^*}M_{a^*,a}f_{a^*,c^*}(l)\bigg] / \bigg[\sum_{a^*}\sum_{c} N_{a^*,c}\bigg]
+\]
+
+where, \(N^{c^*}_{a^*}\) is the number of fish of true age \(a^*\) and categories \(c^*\), \(M_{a^*,a}\) is the probability that a fish of true age \(a^*\) is observed as age \(a\), and \(f^{c^*}_{a^*,c}(l)\) is the probability density function describing the distribution of sizes for a given (true) age \(a^*\) and age-length for categories \(c^*\). In this case with a single category \(c^* = c\). When there is no ageing error the numerator of the above equation simplifies to \(N^{c^*}_{a^*}f_{a^*,c^*}(l)\).
+
+When multiple categories are supplied by \subcommand{numerator\_categories}, then \(N^{c^*}_{a^*}\) is calculated as
+
+
+\[
+N_{a^*,c^*} = \sum\limits_{\tilde{c} \in c^*} N_{a^*,\tilde{c}} S_c(a^*)
+\]
+
+where, \(S_c(a^*)\) is a selectivity and \(N_{a^*,c^*}\) is numbers at age from an interpolation partway through the mortality block.
+
+
+For all the other sample types the expected value is a conditional probability, and is calculated as a fraction whose numerator is the same as for \(P(a,l) \) and with the denominator given in Table~\ref{tab:agelength:likelihoods}.
+
+
+If the user specifies a selectivity for an age-length observation, this is easy to deal with if the selectivity is age-based. If \(N^*_{a^*,c}\) is the number at true age \(a^*\) and category \(c\) before the selectivity is applied then \(N_{a^*,c} = N^*_{a^*,c}S_c(a^*)\), where \(S_c(.)\) is the selectivity function for category \(c\).
+
+It is more complicated with a length-based selectivity because of the need to distinguish between the distribution of length at age before [\(f^*_{a^*,c}(l)\)] and after [\(f_{a^*,c}(l)\)] the selectivity is applied (note: it is the former which is defined by the model parameters). The appropriate equations are
+\[
+f_{a^*,c}(l) = S_c(l)f^*_{a^*,c}(l) \ / \ \int_{l^*} S_c(l^*)f^*_{a^*,c}(l^*) dl^* \ ,
+\]
+and 
+\[
+N_{a^*,c} = N^*_{a^*,c} \int_{l^*} S_c(l^*)f^*_{a^*,c}(l^*) dl^* \ ,
+\]
+The integrals in these equations are calculated by discrete approximation (using 5 points), in the same way as length-based selectivities are converted to age-based selectivities.
+
+The observed values are a one and the expected value is the probability (\(P(a,l)\))
+
+\begin{table}[h!]
+	\centering
+	\caption{Age-Length likelihoods for the different sample types.}
+	\label{tab:agelength:likelihoods}
+	\begin{tabular}{|c | c | c | c|} 
+		\hline
+		Sample & Conditional probability & \multicolumn{2}{c}{Denominator} \\
+		\multicolumn{2}{|c|}{} & Ageing Error & Without Ageing Error\\
+		\hline\hline
+		\subcommand{random} &\(L = P(a,l) \) & \(\sum_{a^*}\sum_{c} N_{a^*,c}\) & \(\sum_{a^*}\sum_{c} N_{a^*,c}\) \\ 
+		\subcommand{by\_age} & \(L = P(l|a,c) \) & \(\sum_{a^*}\sum_{c} N_{a^*,c}M_{a^*,a}\) & \(\sum_{c} N_{a,c}\) \\
+		\subcommand{by\_length} & \(L = P(a,c|l) \) & \(\sum_{a^*}\sum_{c} N_{a^*,c}f_{a^*,c}(l)\) &  \(\sum_{a^*}\sum_{c} N_{a^*,c}f_{a^*,c}(l)\)  \\
+		\hline
+	\end{tabular}
+\end{table}
+
+Currently \CNAME\ only allows the following \subcommand{sample\_type}'s  \subcommand{random},  \subcommand{age} and \subcommand{length}. These three can cover the following CASAL use cases \subcommand{random\_at\_sex\_and\_age} and  \subcommand{random\_at\_sex\_and\_size}, \subcommand{random} and  \subcommand{random\_at\_size}, and \subcommand{random\_at\_age}.
+
+
+\CNAME\ distinguishes between \subcommand{random\_at\_sex\_and\_size} and \subcommand{random\_at\_size} by how the categories are defined in the observation block. For example, if there is a sexed model with Two categories male and female. To set up an observation that was \subcommand{random\_at\_size} for males you could define the following observation
+{\small{\begin{verbatim}
+	@observation male_age_length_obs
+	type age_length
+	year 1987
+	likelihood bernoulli
+	time_step step1
+	time_step_proportion 0.5
+	sample_type length
+	categories male+female
+	numerator_categories male
+	selectivities One One
+	ages   	6  8   9   9   9   9   9   9  11  12  12  12  12  13  14  
+	lengths 	12.2 15.0 15.0 15.1 15.3 16.0 16.0 16.4 14.9 15.8 17.1 17.5 19.4 22.0 14.6 
+	sample_type length
+\end{verbatim}}}
+
+However if you wanted to apply a \subcommand{random\_at\_sex\_and\_size} observation, then you change the \subcommand{categories} command as follows. This will calculate the probability of sampling a fish of age \(a\) conditional on it being a male and the given length.
+
+{\small{\begin{verbatim}
+		@observation male_age_length_obs
+		type age_length
+		year 1987
+		likelihood bernoulli
+		time_step step1
+		time_step_proportion 0.5
+		sample_type length
+		categories male
+		numerator_categories male
+		selectivities One One
+		ages   	6  8   9   9   9   9   9   9  11  12  12  12  12  13  14  
+		lengths 	12.2 15.0 15.0 15.1 15.3 16.0 16.0 16.4 14.9 15.8 17.1 17.5 19.4 22.0 14.6 
+		sample_type length
+		\end{verbatim}}}
+
+See Section~\ref{syntax:Observation-AgeLength} for more details on commands and syntax.
 
 \paragraph*{\I{Proportions-by-category observations}}\label{sec:Observation-ProportionsByCategory}
 

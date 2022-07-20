@@ -7,12 +7,16 @@ tolerance 0.01 # I chose a small tolerance to save computation time with model r
 type default
 processes true
 observations true
-derived_quantities true
-selectivities true 
-
+catchabilities true
+selectivities true
+projects true
+derived_quantities True
+parameter_transformations true
 
 @report estimate_value
 type estimate_value
 
 @report objective_function
 type objective_function
+
+

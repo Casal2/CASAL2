@@ -65,7 +65,10 @@ public:
   void                   set_estimated_in_phasing(bool new_value) { estimated_in_phasing_ = new_value; }
   void                   set_mcmc_fixed(bool new_value) { mcmc_fixed_ = new_value; }
   Double                 value() { return *target_; }
+  Double                 get_initial_value() { return initial_value_; }
   void                   set_value(Double new_value);
+  void                   set_initial_value(Double new_value) {initial_value_ = new_value;}; // currently used by AddressableInputLoader if users use -i
+  void                   flag_value_has_been_initialised() {value_been_initialised_ = true;};
   bool                   mcmc_fixed() const { return mcmc_fixed_; }
   void                   set_in_objective_function(bool value) { in_objective_ = value; }
   bool                   in_objective_function() const { return in_objective_; }
@@ -89,6 +92,8 @@ protected:
   bool            estimated_    = true;
   bool            estimated_in_phasing_               = true;
   bool            in_objective_ = true;
+  Double          initial_value_;
+  bool            value_been_initialised_ = false;
 };
 } /* namespace niwa */
 #endif /* ESTIMATE_H_ */

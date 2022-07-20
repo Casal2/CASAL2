@@ -984,3 +984,46 @@ table scanned
 1994 3 4 43
 end_table
 \end{verbatim}
+
+
+
+\subsubsection{Observation of type Age Length}
+\commandlabsubarg{observation}{type}{age\_length}.
+\defRef{sec:Observation-Abundance}
+\label{syntax:Observation-AgeLength}
+
+\defSub{time\_step}{The label of the time step that the observation occurs in}
+\defType{String}
+\defDefault{No default}
+
+\defSub{selectivities}{The labels of the selectivities, one for each combined category}
+\defType{Vector of strings}
+\defDefault{true}
+
+\defSub{numerator\_categories}{A combined category label that defines categories that make up the numerator}
+\defType{Vector of strings}
+\defNote{These categories are required to have the same age-length definition and have the same selectivity.}
+\defDefault{the values defined in categories}
+
+\defSub{year}{The year this observation occurred in}
+\defType{Vector of non-negative integers}
+\defDefault{No default}
+
+\defSub{sample\_type}{The sample type}
+\defType{string}
+\defDefault{length}
+\defallowed{age, length, random}
+
+\defSub{ages}{vector of observed ages}
+\defType{Vector of positive integers}
+\defNote{Needs to be integers, with model age definition, and same number of elements as lengths}
+\defDefault{No default}
+
+\defSub{lengths}{vector of observed lengths}
+\defType{Vector of real numbers}
+\defNote{same number of elements as ages}
+\defDefault{No default}
+
+\defSub{ageing\_error}{The label of ageing error to use}
+\defType{String}
+\defDefault{No ageing error}

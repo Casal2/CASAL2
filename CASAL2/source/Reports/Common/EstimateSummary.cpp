@@ -44,12 +44,13 @@ void EstimateSummary::DoExecute(shared_ptr<Model> model) {
     if (covariance_matrix_.size1() > 0)
       for (unsigned i = 0; i < covariance_matrix_.size1(); ++i) est_std_dev[i] = sqrt(covariance_matrix_(i, i));
   }
-
   cache_ << ReportHeader(type_, label_, format_);
   unsigned est_idx = 0;
   for (Estimate* estimate : estimates) {
     cache_ << estimate->parameter() << " " << REPORT_R_LIST << REPORT_EOL;
     cache_ << "value: " << AS_DOUBLE(estimate->value()) << REPORT_EOL;
+    cache_ << "initial_value: " << AS_DOUBLE(estimate->get_initial_value()) << REPORT_EOL;
+    cache_ << "phase: " << estimate->phase() << REPORT_EOL;
     // NOTE: this assumes that the estimated parameters and the covariance matrix are in the same order
     if (model->run_mode() == RunMode::kEstimation && minimiser_)
       cache_ << "std_dev: " << est_std_dev[est_idx] << REPORT_EOL;
