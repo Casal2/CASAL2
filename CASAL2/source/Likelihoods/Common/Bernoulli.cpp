@@ -42,13 +42,16 @@ void Bernoulli::GetScores(map<unsigned, vector<observations::Comparison> >& comp
   for (auto year_iterator = comparisons.begin(); year_iterator != comparisons.end(); ++year_iterator) {
     for (observations::Comparison& comparison : year_iterator->second) {
       Double error_value = AdjustErrorValue(comparison.process_error_, comparison.error_value_);
-      if (error_value == 0.0) {
-        comparison.adjusted_error_ = error_value;
-        comparison.score_          = 0.0;
-      } else {
+      if(comparison.observed_ == 1.0) {
         Double score = log(math::ZeroFun(comparison.expected_, comparison.delta_));
         comparison.adjusted_error_ = error_value;
         comparison.score_          = -score;
+      } else if (comparison.observed_ == 0.0) {
+        Double score = log(math::ZeroFun(1.0 - comparison.expected_, comparison.delta_));
+        comparison.adjusted_error_ = error_value;
+        comparison.score_          = -score;
+      } else {
+        LOG_FATAL() << "found an observed value = " << comparison.observed_  << " that wasn't '1' or '0' which is expected for the Bernoulli likelihood. This is not allowed";
       }
     }
   }
