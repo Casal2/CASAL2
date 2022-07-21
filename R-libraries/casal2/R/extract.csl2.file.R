@@ -32,7 +32,7 @@
   ## create a labels for blocks that do not take a label following the @block statement
   exception_blocks <- c("model", "categories")
   ## a list of tables that don't have headers
-  non_header_tables <- c("obs", "data", "scanned", "recaptured", "error_values", "table")
+  non_header_tables <- c("obs", "data", "scanned", "recaptured", "error_values", "table", "proportions")
   ## there are three types of tables, 1) tables with headers (Instant mortality) 2) tables with row labels (observations and error values) and 3)tables that are just a matrix (ageing error)
   ans <- list()
   if(!quiet)

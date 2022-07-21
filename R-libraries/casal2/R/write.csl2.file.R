@@ -23,7 +23,7 @@
   exception_commands <- c("model", "categories")
 
   ## a list of tables that don't have headers
-  non_header_tables <- c("obs", "data", "error_values", "table", "recaptured", "scanned")
+  non_header_tables <- c("obs", "data", "error_values", "table", "recaptured", "scanned", "proportions")
 
   for (i in 1:length(object)) {
     Command <- names(object)[i]
