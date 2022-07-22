@@ -73,18 +73,22 @@ void ADOLC::Execute() {
   int           status = 0;
   adolc::Engine adolc;
   adolc.optimise(call_back, start_values, lower_bounds, upper_bounds, status, max_iterations_, max_evaluations_, gradient_tolerance_, hessian_, 1, step_size_, use_tan_transform);
-
+  // Note C.M
+  // The convergence check is done at ADOLC/Engine line 2013
+  // But the convergence_ gets + 2 at line 297.
+  // I have kept the result consistent with line 2013, but at a +2 in the following case: so that it is consistent.
   switch (adolc.get_convergence_status()) {
-    case -1:
-      result_ = MinimiserResult::kError;
+    case -3 + 2:
+      result_ = MinimiserResult::kUnclearConvergence;
       break;
-    case 0:
+    case -2 + 2:
       result_ = MinimiserResult::kTooManyIterations;
       break;
-    case 1:
+    case -1 + 2:
       result_ = MinimiserResult::kSuccess;
       break;
     default:
+      result_ = MinimiserResult::kError;
       break;
   }
 }

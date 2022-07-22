@@ -24,8 +24,8 @@ namespace reports {
  * Default Constructor
  */
 EstimationResult::EstimationResult() {
-  run_mode_    = RunMode::kEstimation;
-  model_state_ = State::kFinalise;
+  run_mode_    = (RunMode::Type)(RunMode::kEstimation | RunMode::kProfiling);
+  model_state_ = State::kIterationComplete;
 }
 
 /**
@@ -36,6 +36,7 @@ void EstimationResult::DoExecute(shared_ptr<Model> model) {
   if (minimiser == nullptr) {
     LOG_CODE_ERROR() << "minimiser == nullptr";
   }
+
 
   cache_ << ReportHeader(type_, label_, format_);
   cache_ << PARAM_MINIMIZER << ": " << minimiser->label() << REPORT_EOL;
@@ -76,6 +77,11 @@ void EstimationResult::DoExecute(shared_ptr<Model> model) {
       cache_ << "Failed" << REPORT_EOL;
       cache_ << "Message " << REPORT_R_STRING_VECTOR << REPORT_EOL;
       cache_ << "Step size too small, no convergence" << REPORT_EOL;
+      break;
+    case MinimiserResult::kUnclearConvergence:
+      cache_ << "Failed" << REPORT_EOL;
+      cache_ << "Message " << REPORT_R_STRING_VECTOR << REPORT_EOL;
+      cache_ << "Unclear convergence in optimise. May or may not be a local minimum - you need to investigate further." << REPORT_EOL;
       break;
     default:
       cache_ << "Failed" << REPORT_EOL;
