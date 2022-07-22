@@ -24,8 +24,8 @@ namespace reports {
  * Default Constructor
  */
 EstimateSummary::EstimateSummary() {
-  run_mode_    = (RunMode::Type)(RunMode::kBasic | RunMode::kEstimation);
-  model_state_ = State::kFinalise;
+  run_mode_    = (RunMode::Type)(RunMode::kBasic | RunMode::kEstimation | RunMode::kProfiling);
+  model_state_ = State::kIterationComplete;
 }
 
 /**
