@@ -51,6 +51,16 @@ void EstimateSummary::DoExecute(shared_ptr<Model> model) {
     cache_ << "value: " << AS_DOUBLE(estimate->value()) << REPORT_EOL;
     cache_ << "initial_value: " << AS_DOUBLE(estimate->get_initial_value()) << REPORT_EOL;
     cache_ << "phase: " << estimate->phase() << REPORT_EOL;
+    vector<Double> prior_values =  estimate->GetPriorValues();
+    vector<string> prior_labs =  estimate->GetPriorLabels();
+    cache_ << "hyperparameters:";
+    for(unsigned i = 0; i < prior_labs.size(); ++i) 
+      cache_ << " " << prior_labs[i];
+    cache_ << REPORT_EOL;
+    cache_ << "hyperparameter_values:";
+    for(unsigned i = 0; i < prior_labs.size(); ++i) 
+      cache_ << " " << prior_values[i];
+    cache_ << REPORT_EOL;
     // NOTE: this assumes that the estimated parameters and the covariance matrix are in the same order
     if (model->run_mode() == RunMode::kEstimation && minimiser_)
       cache_ << "std_dev: " << est_std_dev[est_idx] << REPORT_EOL;

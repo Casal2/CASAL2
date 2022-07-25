@@ -49,7 +49,8 @@ public:
   // pure methods
   virtual void   DoValidate() = 0;
   virtual Double GetScore()   = 0;
-
+  virtual vector<Double>   GetPriorValues() = 0;
+  virtual vector<string>   GetPriorLabels() = 0;
   // Accessors
   void                   set_target(Double* new_target) { target_ = new_target; };
   void                   set_creator_parameter(const string& parameter) { creator_parameter_ = parameter; }

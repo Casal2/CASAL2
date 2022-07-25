@@ -5,7 +5,7 @@
  * @date 8/03/2013
  * @section LICENSE
  *
- * Copyright NIWA Science ©2013 - www.niwa.co.nz
+ * Copyright NIWA Science ï¿½2013 - www.niwa.co.nz
  *
  * @section DESCRIPTION
  *
@@ -34,6 +34,9 @@ public:
   virtual ~UniformLog() = default;
   void   DoValidate() override final{};
   Double GetScore() override final;
+  vector<Double>   GetPriorValues() override final;
+  vector<string>   GetPriorLabels() override final;
+  
 };
 
 } /* namespace estimates */
