@@ -77,7 +77,7 @@
     for (i in 1:counter) {
       header <- split.header(temp[i])
       label <- header[1]
-      type <- header[2]
+      type <- tolower(header[2]) ## always lower case type.
       report <- get.lines(file, clip.to = temp[i])
       report <- get.lines(report, clip.from = "*end")
       report <- make.list(report)
