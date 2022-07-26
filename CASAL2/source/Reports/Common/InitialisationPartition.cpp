@@ -43,7 +43,9 @@ void InitialisationPartition::DoExecute(shared_ptr<Model> model) {
   niwa::partition::accessors::All all_view(model);
 
   // Print the header
-  cache_ << ReportHeader(type_, label_, format_);
+  // this report is slightly unique. Instead of the label it will use the name of the initialisation phase
+  // The reason this was done was to deal with multi initialisation phases.
+  cache_ << ReportHeader(type_, model->get_current_initialisation_phase_label(), format_); 
   cache_ << "values " << REPORT_R_DATAFRAME_ROW_LABELS << REPORT_EOL;
   cache_ << "category";
   if(model->partition_type() == PartitionType::kAge) {

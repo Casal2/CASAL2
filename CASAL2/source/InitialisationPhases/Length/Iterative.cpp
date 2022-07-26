@@ -135,7 +135,7 @@ void Iterative::DoBuild() {
 /**
  * Execute the iterative initialisation phases
  */
-void Iterative::Execute() {
+void Iterative::DoExecute() {
   LOG_TRACE();
   timesteps::Manager& time_step_manager = *model_->managers()->time_step();
   if (convergence_years_.size() == 0) {
@@ -165,7 +165,7 @@ void Iterative::Execute() {
   // Check if we have B0 initialised or R0 initialised recruitment
   bool B0_initial_recruitment = false;
   for (auto recruitment_process : recruitment_process_) {
-    if (recruitment_process->b0_initialised()) {
+    if (recruitment_process->b0_initialised() & !recruitment_process->has_partition_been_scaled()) {
       LOG_FINEST() << PARAM_B0 << " has been defined for process labelled " << recruitment_process->label();
       recruitment_process->ScalePartition();
       B0_initial_recruitment = true;

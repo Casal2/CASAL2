@@ -32,7 +32,7 @@ public:
   void                 Validate() override final;
   void                 Build() override final;
   void                 Build(shared_ptr<Model> model);
-  void                 Execute();
+  void                 Execute(shared_ptr<Model> model);
   InitialisationPhase* GetInitPhase(const string& label);
   bool                 IsPhaseDefined(const string& label) const;
   unsigned             GetPhaseIndex(const string& label) const;

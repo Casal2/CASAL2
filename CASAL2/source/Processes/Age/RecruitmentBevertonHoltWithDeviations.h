@@ -43,6 +43,8 @@ public:
   void FillTabularReportCache(ostringstream& cache, bool first_run) override final;
 
   void ScalePartition();
+  bool has_partition_been_scaled() {return have_scaled_partition;};
+
   // accessor
   unsigned ssb_offset() { return ssb_offset_; };
   string   ssb_label() { return ssb_; };

@@ -1,0 +1,47 @@
+
+[INFO] Setting the random number seed to 70820
+[INFO] Estimable parameters were loaded from the free parameter file: 
+[WARNING] obs sum total (0.9999) for year (1990) doesn't sum to 1.0
+[WARNING] obs sum total (1.0001) for year (1993) doesn't sum to 1.0
+[WARNING] obs sum total (1.0002) for year (1994) doesn't sum to 1.0
+[WARNING] obs sum total (1.0002) for year (1995) doesn't sum to 1.0
+[WARNING] obs sum total (0.9999) for year (1997) doesn't sum to 1.0
+[WARNING] obs sum total (1.0002) for year (1999) doesn't sum to 1.0
+[WARNING] obs sum total (0.9999) for year (2000) doesn't sum to 1.0
+[WARNING] obs sum total (1.0001) for year (2001) doesn't sum to 1.0
+[WARNING] obs sum total (0.9998) for year (2002) doesn't sum to 1.0
+[WARNING] obs sum total (1.0002) for year (2003) doesn't sum to 1.0
+[WARNING] obs sum total (0.9999) for year (2005) doesn't sum to 1.0
+[WARNING] obs sum total (1.0001) for year (2006) doesn't sum to 1.0
+[WARNING] obs sum total (0.9999) for year (2007) doesn't sum to 1.0
+[WARNING] obs sum total (0.9999) for year (2008) doesn't sum to 1.0
+[WARNING] obs sum total (0.9999) for year (2009) doesn't sum to 1.0
+[WARNING] obs sum total (1.0003) for year (2011) doesn't sum to 1.0
+[WARNING] obs sum total (0.9998) for year (1992) doesn't sum to 1.0
+[WARNING] obs sum total (0.9999) for year (1995) doesn't sum to 1.0
+[WARNING] obs sum total (0.9998) for year (1996) doesn't sum to 1.0
+[WARNING] obs sum total (0.9999) for year (1997) doesn't sum to 1.0
+[WARNING] obs sum total (0.9999) for year (1998) doesn't sum to 1.0
+[WARNING] obs sum total (1.0002) for year (1999) doesn't sum to 1.0
+[WARNING] obs sum total (0.9999) for year (2000) doesn't sum to 1.0
+[WARNING] obs sum total (1.0001) for year (2002) doesn't sum to 1.0
+[WARNING] obs sum total (0.9999) for year (2003) doesn't sum to 1.0
+[WARNING] obs sum total (1.0001) for year (2004) doesn't sum to 1.0
+[WARNING] obs sum total (0.9999) for year (2005) doesn't sum to 1.0
+[WARNING] obs sum total (1.0001) for year (2011) doesn't sum to 1.0
+[WARNING] obs sum total (1.0001) for year (1992) doesn't sum to 1.0
+[WARNING] obs sum total (1.0002) for year (1998) doesn't sum to 1.0
+[WARNING] obs sum total (1.0001) for year (2004) doesn't sum to 1.0
+[WARNING] obs sum total (0.9999) for year (2007) doesn't sum to 1.0
+[WARNING] Estimates were removed because of matching lower and upper bounds. Originally had 48 estimates, now have 46
+[INFO] no file_name setting mcmc_samples report to samples
+[INFO] no file_name setting mcmc_objective report to objectives
+[INFO] The filename for the report 'mcmc_samples' has been modified to samples.1 as the write_mode is incremental_suffix
+[INFO] The filename for the report 'mcmc_objectives' has been modified to objectives.1 as the write_mode is incremental_suffix
+[INFO] Initiating MCMC run mode
+[INFO] Loading MPD from file mpd.log
+[INFO] Beginning MCMC iterations
+[INFO] Starting MCMC random_walk
+[INFO] MCMC execution complete
+[INFO] Completed
+[INFO] Total elapsed time: 1 second

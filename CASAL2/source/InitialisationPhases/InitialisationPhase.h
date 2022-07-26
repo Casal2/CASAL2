@@ -35,12 +35,13 @@ public:
   void         Build();
   void         Verify(shared_ptr<Model> model){};
   void         Reset(){};
-  virtual void Execute() = 0;
+  void         Execute();
 
 protected:
   // methods
   virtual void DoValidate() = 0;
   virtual void DoBuild()    = 0;
+  virtual void DoExecute()    = 0;
 
   // members
   shared_ptr<Model> model_ = nullptr;

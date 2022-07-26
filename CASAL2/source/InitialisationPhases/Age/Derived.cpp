@@ -144,7 +144,7 @@ void Derived::DoBuild() {
 /**
  * Execute the Derived Initialisation phase
  */
-void Derived::Execute() {
+void Derived::DoExecute() {
   unsigned year_range = model_->age_spread();
 
   if (recruitment_)
@@ -232,14 +232,14 @@ void Derived::Execute() {
   // Check if we have B0 initialised or R0 initialised recruitment
   bool B0_initial_recruitment = false;
   for (auto recruitment_process : recruitment_process_) {
-    if (recruitment_process->b0_initialised()) {
+    if (recruitment_process->b0_initialised() & !recruitment_process->has_partition_been_scaled()) {
       LOG_FINEST() << PARAM_B0 << " has been defined for process labelled " << recruitment_process->label();
       recruitment_process->ScalePartition();
       B0_initial_recruitment = true;
     }
   }
   for (auto recruitment_process_with_devs : recruitment_process_with_devs_) {
-    if (recruitment_process_with_devs->b0_initialised()) {
+    if (recruitment_process_with_devs->b0_initialised()& !recruitment_process_with_devs->has_partition_been_scaled()) {
       LOG_FINEST() << PARAM_B0 << " has been defined for process labelled " << recruitment_process_with_devs->label();
       recruitment_process_with_devs->ScalePartition();
       B0_initial_recruitment = true;
