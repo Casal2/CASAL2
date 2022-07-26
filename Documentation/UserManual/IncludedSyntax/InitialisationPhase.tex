@@ -32,6 +32,7 @@
 
 \defSub{insert\_processes}{Specifies the additional processes that are not in the annual cycle, but should be be inserted into this initialisation phase}
 \defType{Vector of strings}
+\defNote{To insert a process during initialisation, it needs to subscribe to the following formate \subcommand{time\_step\_label()=process\_label}}
 \defDefault{true}
 
 \defSub{exclude\_processes}{Specifies the processes in the annual cycle that should be excluded from this initialisation phase}
@@ -50,11 +51,11 @@
 
 \defSub{insert\_processes}{The processes in the annual cycle to be include in this initialisation phase}
 \defType{Vector of strings}
-\defDefault{true}
+\defNote{To insert a process during initialisation, it needs to subscribe to the following formate \subcommand{time\_step\_label()=process\_label}}
 
 \defSub{exclude\_processes}{The processes in the annual cycle to be excluded from this initialisation phase}
-\defType{Vector of strings}
-\defDefault{true}
+\defType{Vector of strings that are process labels to exclude}
+
 
 \defSub{convergence\_years}{The iteration (year) when the test for convergence ($\lambda$) is evaluated}
 \defType{Vector of non-negative integers}
