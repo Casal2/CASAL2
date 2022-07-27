@@ -141,8 +141,8 @@ void AddressableTransformation::Validate() {
               LOG_FATAL_P(PARAM_PARAMETERS) << "parameter " << parameter_labels_[param_counter] << " could not be converted to an unsigned integer";
             if (u_index <= 0 || u_index > addressable_vectors_[param_counter]->size())
               LOG_FATAL_P(PARAM_PARAMETERS) << "parameter " << parameter_labels_[param_counter] << " index not in range for this parameter, please check the input";
-            vector_and_u_map_indicies_[param_counter].push_back(u_index);
-            init_values_.push_back((*addressable_vectors_[param_counter])[u_index]);
+            vector_and_u_map_indicies_[param_counter].push_back(u_index - 1);
+            init_values_.push_back((*addressable_vectors_[param_counter])[u_index - 1]);
             ++n_params_;
           }
         } else {
