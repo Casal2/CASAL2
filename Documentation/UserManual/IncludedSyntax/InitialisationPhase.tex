@@ -10,6 +10,34 @@
 \defType{String}
 \defDefault{iterative}
 
+\subsubsection{Initialisation Phase of type Iterative}
+\commandlabsubarg{initialisation\_phase}{type}{Iterative}.
+\defRef{sec:InitialisationPhase-Iterative}
+\label{syntax:InitialisationPhase-Iterative}
+
+\defSub{years}{The number of iterations (years) over which to execute this initialisation phase}
+\defType{Non-negative integer}
+\defDefault{No default}
+
+\defSub{insert\_processes}{The processes in the annual cycle to be include in this initialisation phase}
+\defType{Vector of strings}
+\defNote{To insert a process during initialisation, it needs to subscribe to the following format \subcommand{time\_step\_label()=process\_label}}
+
+\defSub{exclude\_processes}{The processes in the annual cycle to be excluded from this initialisation phase}
+\defType{Vector of strings that are process labels to exclude}
+
+
+\defSub{convergence\_years}{The iteration (year) when the test for convergence ($\lambda$) is evaluated}
+\defType{Vector of non-negative integers}
+\defDefault{true}
+
+\defSub{lambda}{The maximum value of the absolute sum of differences (lambda) between the partition at year-1 and year that indicates successful convergence}
+\defType{Real number}
+\defDefault{0.2}
+
+
+
+\ifAgeBased
 \subsubsection{Initialisation Phase of type Cinitial}
 \commandlabsubarg{initialisation\_phase}{type}{Cinitial}.
 \defRef{sec:InitialisationPhase-Cinitial}
@@ -32,38 +60,13 @@
 
 \defSub{insert\_processes}{Specifies the additional processes that are not in the annual cycle, but should be be inserted into this initialisation phase}
 \defType{Vector of strings}
-\defNote{To insert a process during initialisation, it needs to subscribe to the following formate \subcommand{time\_step\_label()=process\_label}}
+\defNote{To insert a process during initialisation, it needs to subscribe to the following format \subcommand{time\_step\_label()=process\_label}}
 \defDefault{true}
 
 \defSub{exclude\_processes}{Specifies the processes in the annual cycle that should be excluded from this initialisation phase}
 \defType{Vector of strings}
 \defDefault{true}
 
-
-\subsubsection{Initialisation Phase of type Iterative}
-\commandlabsubarg{initialisation\_phase}{type}{Iterative}.
-\defRef{sec:InitialisationPhase-Iterative}
-\label{syntax:InitialisationPhase-Iterative}
-
-\defSub{years}{The number of iterations (years) over which to execute this initialisation phase}
-\defType{Non-negative integer}
-\defDefault{No default}
-
-\defSub{insert\_processes}{The processes in the annual cycle to be include in this initialisation phase}
-\defType{Vector of strings}
-\defNote{To insert a process during initialisation, it needs to subscribe to the following formate \subcommand{time\_step\_label()=process\_label}}
-
-\defSub{exclude\_processes}{The processes in the annual cycle to be excluded from this initialisation phase}
-\defType{Vector of strings that are process labels to exclude}
-
-
-\defSub{convergence\_years}{The iteration (year) when the test for convergence ($\lambda$) is evaluated}
-\defType{Vector of non-negative integers}
-\defDefault{true}
-
-\defSub{lambda}{The maximum value of the absolute sum of differences (lambda) between the partition at year-1 and year that indicates successful convergence}
-\defType{Real number}
-\defDefault{0.0}
 
 \subsubsection{Initialisation Phase of type State\_Category\_By\_Age}
 \commandlabsubarg{initialisation\_phase}{type}{State\_Category\_By\_Age}.
@@ -87,4 +90,6 @@
 \defDefault{No default}
 \defValue{A $n x m$ matrix, where $n=$ the categories and $m=$ the number of ages defined in the model. Rows of values specify the initial value of the partition. The table ends with `end\_table'}
 \defNote{See \ref{sec:DataTable} for more details on specifying data tables}
+\fi % end if age based
+
 

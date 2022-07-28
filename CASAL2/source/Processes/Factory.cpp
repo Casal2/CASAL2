@@ -21,6 +21,7 @@
 #include "../Processes/Age/MortalityEvent.h"
 #include "../Processes/Age/MortalityEventBiomass.h"
 #include "../Processes/Age/MortalityHollingRate.h"
+#include "../Processes/Age/MortalityInitialisationBaranov.h"
 #include "../Processes/Age/MortalityInitialisationEvent.h"
 #include "../Processes/Age/MortalityInitialisationEventBiomass.h"
 #include "../Processes/Age/MortalityInstantaneous.h"
@@ -99,6 +100,8 @@ Process* Factory::Create(shared_ptr<Model> model, const string& object_type, con
         result = new age::MortalityInitialisationEvent(model);
       else if (sub == PARAM_MORTALITY_INITIALISATION_EVENT_BIOMSS)
         result = new age::MortalityInitialisationEventBiomass(model);
+      else if (sub == PARAM_MORTALITY_INITIALISATION_BARANOV)
+        result = new age::MortalityInitialisationBaranov(model);
       else if (sub == PARAM_MORTALITY_EVENT)
         result = new age::MortalityEvent(model);
       else if (sub == PARAM_MORTALITY_EVENT_BIOMASS)

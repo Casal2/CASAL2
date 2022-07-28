@@ -687,7 +687,7 @@ For example, a biomass Holling type II mortality process on prey \texttt{prey} b
 		u_max 0.8
 \end{verbatim}}}
 
-\paragraph{Initialisation-event mortality}\label{sec:Process-MortalityInitialisationEvent}\label{sec:Process-MortalityInitialisationEventBiomass} \STATUS{Untested}
+\paragraph{Initialisation-event mortality}\label{sec:Process-MortalityInitialisationEvent}\label{sec:Process-MortalityInitialisationEventBiomass}\STATUS{Untested}
 
 Initialisation event mortality\index{Initialisation event mortality} is a process that can occur only in the initialisation phase. It applies abundance or biomass mortality events specifically in initialisation phases. This option can be useful if the population is not in equilibrium before model start.
 
@@ -720,6 +720,54 @@ processes Mg1 Instantaneous_Mortality
 @time_step Dec_Mar
 processes Recruitment Instantaneous_Mortality
 \end{verbatim}}}
+
+
+\paragraph{Initialisation-mortality-baranov}\label{sec:Process-MortalityInitialisationBaranov}
+
+Initialisation baranov mortality \index{Initialisation mortality baranov} is a process that can occur only in the initialisation phase. It applies an instantaneous fishing mortality rate to categories during the initialisation phases. This option can be useful to explore non-equilibrium population structures.
+
+This process applies a single \(F\) for all iterations within the initialisation phase it is assigned to, and mortality will not be applied outside of the initialisation phase. This process should not be embedded in the annual cycle i.e., not be defined in an \command{time\_step}.
+
+This process should be used in conjunction with the \texttt{insert\_processes} command in the \command{initialisation\_phase} block.
+
+Each category defined in this process will have have the following mortality applied each iteration of the initialisation phase 
+\[
+N^*_{a,c}  = N_{a,c} \left(1 - \exp{-F S_{a,c}}\right)
+\]
+where, \(N^*_{a,c}\) are the number for category \(c\) of age \(a\), \(F\) is an estimable quantity (\subcommand{fishing\_mortality}) and \(S_{a,c}\) is the corresponding selectivity.
+
+
+Example syntax where the \texttt{initialisation\_mortality\_baranov} has been specified in the initialisation phase but not in the annual cycle:
+
+{\small{\begin{verbatim}
+		initialisation_phases Equilibrium_state init_F
+		time_steps Oct_Nov Dec_Mar
+		
+		@initialisation_phase Equilibrium_state
+		type derived
+		
+		@initialisation_phase init_F
+		type iterative
+		insert_processes Oct_Nov()=init_F 
+		## because we didn't specify a proccess label in ()
+		## this will occur at the end ot this time-step
+		
+		@process init_F
+		type 		mortality_initialisation_baranov
+		categories	*
+		selectivities Sel_init_F
+		fishing_mortality 0.5
+		
+		@selectivity Sel_init_F
+		type 	all_values_bounded 
+		l 2
+		h 10
+		v 0.4 * 9
+		\end{verbatim}}}
+
+
+
+
 
 \paragraph{Prey-suitability mortality}\label{sec:Process-MortalityPreySuitability} \STATUS{Untested}
 

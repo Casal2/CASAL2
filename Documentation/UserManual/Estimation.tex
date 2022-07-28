@@ -183,8 +183,18 @@ The parameters to be profiled are specified, and optionally the number of steps,
 
 The initial starting point for the estimation can also be specified using \texttt{\cname\ -i \emph{file}}, which may improve the minimiser performance for the profiles.
 
-If the profile results are not reasonable, it may be a result of not using enough iterations in the minimiser or a poor choice of minimiser control variables (e.g., the minimiser tolerance). It may also be useful to try other minimisers and compare the results.
+If the profile results are not reasonable, it may be a result of not using enough iterations in the minimiser or a poor choice of minimiser control variables (e.g., the minimiser tolerance). It may also be useful to try other minimisers and compare the results. An example excerpt follows, but also see the syntax at Section~\ref{syntax:Profile}.
 
+{\small{\begin{verbatim}
+		@profile B0
+		parameter process[Recruitment_east].b0
+		steps 10
+		lower_bound 10000
+		upper_bound 100000
+		## you can force other parameters to be the same
+		same process[Recruitment_west].b0
+		\end{verbatim}}}
+	
 To run a \CNAME\ you will need to supply the following reports
 
 {\small{\begin{verbatim}

@@ -209,7 +209,7 @@
 \defNote{See \ref{sec:DataTable} for more details on specifying data tables}
 
 \subsubsection{Process of type Mortality Initialisation Event}
-\commandlabsubarg{process}{type}{Mortality\_Initialisation\_Event}.
+\commandlabsubarg{process}{type}{mortality\_initialisation\_Event}.
 \defRef{sec:Process-MortalityInitialisationEvent}
 \label{syntax:Process-MortalityInitialisationEvent}
 
@@ -266,6 +266,24 @@
 
 \defSub{penalty}{The label of the penalty to apply if the total number of removals cannot be taken}
 \defType{String}
+\defDefault{No default}
+
+
+\subsubsection{Process of type Mortality Initialisation Baranov}
+\commandlabsubarg{process}{type}{mortality\_initialisation\_baranov}.
+\defRef{sec:Process-MortalityInitialisationEventBiomass}
+\label{syntax:Process-MortalityInitialisationBaranov}
+
+\defSub{categories}{The categories}
+\defType{Vector of strings}
+\defDefault{No default}
+
+\defSub{fishing\_mortality}{The fishing mortality to apply}
+\defType{Real number (estimable)}
+\defDefault{No default}
+
+\defSub{selectivities}{The list of selectivities for each category}
+\defType{Vector of strings}
 \defDefault{No default}
 
 \subsubsection{Process of type Mortality Instantaneous}
