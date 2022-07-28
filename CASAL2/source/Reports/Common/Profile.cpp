@@ -62,9 +62,14 @@ void Profile::DoExecute(shared_ptr<Model> model) {
   cache_ << ReportHeader(type_, label_, format_);
   cache_ << "profile: " << profile_->label() << REPORT_EOL;
   cache_ << "parameter: " << profile_->parameter() << REPORT_EOL;
-  string same_param = profile_->same_parameter();
-  if (same_param != "")
-    cache_ << "same_parameter: " << same_param << REPORT_EOL;
+  vector<string> same_params = profile_->same_parameters();
+  if(same_params.size() >= 1) {
+    cache_ << "same_parameter: ";
+    for(auto same : same_params) {
+      cache_ << same << " ";
+    }
+    cache_  << REPORT_EOL;
+  }
   cache_ << "values: ";
   for (auto value : values) {
     cache_ << value << " ";

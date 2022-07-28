@@ -30,7 +30,7 @@ Profile::Profile(shared_ptr<Model> model) : model_(model) {
   parameters_.Bind<Double>(PARAM_LOWER_BOUND, &lower_bound_, "The lower value of the range", "");
   parameters_.Bind<Double>(PARAM_UPPER_BOUND, &upper_bound_, "The upper value of the range", "");
   parameters_.Bind<string>(PARAM_PARAMETER, &parameter_, "The system parameter to profile", "");
-  parameters_.Bind<string>(PARAM_SAME, &same_parameter_, "A parameter that is constrained to have the same value as the parameter being profiled", "", "");
+  parameters_.Bind<string>(PARAM_SAME, &same_labels_, "List of other parameters that are constrained to have the same value as this parameter", "", "");
 }
 
 /**
@@ -55,17 +55,20 @@ void Profile::Build() {
   step_size_      = (upper_bound_ - lower_bound_) / (steps_ - 1);
   LOG_MEDIUM() << "start_value for parameter: " << original_value_;
 
-  /**
-   * Deal with the same parameter
-   */
-  if (same_parameter_ != "") {
-    if (!model_->objects().VerifyAddressableForUse(same_parameter_, addressable::kProfile, error)) {
-      LOG_FATAL_P(PARAM_SAME) << "This parameter cannot be used in an @profile block. Error: " << error;
-    }
+  // Deal with Same parameters
+  if (!parameters_.Get(PARAM_SAME)->has_been_defined()) {
+    for (auto same : same_labels_) {
+      if (!model_->objects().VerifyAddressableForUse(same, addressable::kProfile, error)) {
+        LOG_FATAL_P(PARAM_SAME) << "This parameter cannot be used in an @profile block. Error: " << error;
+      }
 
-    same_target_         = model_->objects().GetAddressable(same_parameter_);
-    same_original_value_ = *same_target_;
-    LOG_MEDIUM() << "start_value for same parameter: " << same_original_value_;
+      auto same_target         = model_->objects().GetAddressable(same);
+      if(!same_target) {
+        LOG_FATAL_P(PARAM_SAME) << "Could nof find " << same << " does it exist, or in the right format?";
+      }
+      sames_.push_back(same_target);
+      LOG_MEDIUM() << "start_value for same parameter: " << *same_target;
+    }
   }
 }
 /**
@@ -85,8 +88,10 @@ void Profile::FirstStep() {
   *target_ = lower_bound_;
   values_.push_back(*target_);
   if (parameters_.Get(PARAM_SAME)->has_been_defined()) {
-    *same_target_ = lower_bound_;
-    LOG_MEDIUM() << "Profiling with profile parameter = " << *target_ << " and same parameter = " << *same_target_;
+    for (Double* same : sames_) {
+      *same = lower_bound_;
+      LOG_MEDIUM() << "Profiling with profile parameter = " << *target_ << " and same parameter = " << *same;
+    }
   }
 }
 /**
@@ -96,8 +101,10 @@ void Profile::NextStep() {
   *target_ += step_size_;
   values_.push_back(*target_);
   if (parameters_.Get(PARAM_SAME)->has_been_defined()) {
-    *same_target_ += step_size_;
-    LOG_MEDIUM() << "Profiling with profile parameter = " << *target_ << " and same parameter = " << *same_target_;
+    for (Double* same : sames_) {
+      *same += step_size_;
+      LOG_MEDIUM() << "Profiling with profile parameter = " << *target_ << " and same parameter = " << *same;
+    }
   }
 }
 
@@ -107,8 +114,10 @@ void Profile::NextStep() {
 void Profile::RestoreOriginalValue() {
   *target_ = original_value_;
   if (parameters_.Get(PARAM_SAME)->has_been_defined()) {
-    *same_target_ = original_value_;
-    LOG_MEDIUM() << "Profiling with profile parameter = " << *target_ << " and same parameter = " << *same_target_;
+    for (Double* same : sames_) {
+      *same = original_value_;
+      LOG_MEDIUM() << "Profiling with profile parameter = " << *target_ << " and same parameter = " << *same;
+    }
   }
 }
 

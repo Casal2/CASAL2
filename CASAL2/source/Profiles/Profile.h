@@ -44,7 +44,7 @@ public:
 
   // accessors
   string   parameter() const { return parameter_; }
-  string   same_parameter() const { return same_parameter_; }
+  vector<string>   same_parameters() const { return same_labels_; }
   unsigned steps() const { return steps_; }
   Double   value() const { return *target_; }
   vector<Double>   get_values() const { return values_; }
@@ -56,10 +56,10 @@ private:
   Double            lower_bound_         = 0;
   Double            upper_bound_         = 0;
   string            parameter_           = "";
-  string            same_parameter_      = "";
+  vector<string>    same_labels_;
+  vector<Double*>   sames_;
   Double            step_size_           = 0;
   Double*           target_              = nullptr;
-  Double*           same_target_         = nullptr;
   Double            original_value_      = 0;
   Double            same_original_value_ = 0;
   vector<Double>    values_;
