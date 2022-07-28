@@ -153,7 +153,7 @@ void TransitionCategoryByAge::DoExecute() {
     if (exploitation > u_max_) {
       exploitation = u_max_;
       if (penalty_)
-        penalty_->Trigger(label_, n_[current_year][i], total_stock * u_max_);
+        penalty_->Trigger(n_[current_year][i], total_stock * u_max_);
     } else if (exploitation < 0.0)
       exploitation = 0.0;
 

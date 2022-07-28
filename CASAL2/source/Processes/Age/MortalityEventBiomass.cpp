@@ -140,7 +140,7 @@ void MortalityEventBiomass::DoExecute() {
     exploitation = u_max_;
     actual_catches_.push_back(vulnerable * u_max_);
     if (penalty_)
-      penalty_->Trigger(label_, catch_years_[model_->current_year()], vulnerable * u_max_);
+      penalty_->Trigger(catch_years_[model_->current_year()], vulnerable * u_max_);
     exploitation_by_year_.push_back(exploitation);
   } else {
     exploitation_by_year_.push_back(exploitation);

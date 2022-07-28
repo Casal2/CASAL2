@@ -704,7 +704,7 @@ void MortalityInstantaneousRetained::DoExecute() {
         //        fishery.discards_[year] = fishery.total_vulnerability_ * fishery.exploitation_ - fishery.actual_catches_[year];
 
         if (fishery.penalty_)
-          fishery.penalty_->Trigger(label_, fishery.catches_[year], fishery.actual_catches_[year]);
+          fishery.penalty_->Trigger(fishery.catches_[year], fishery.actual_catches_[year]);
       } else {
         fishery.actual_catches_[year]          = fishery.catches_[year];
         fishery.exploitation_by_year_[year]    = fishery.exploitation_;

@@ -40,12 +40,9 @@ public:
   void           Validate();
   void           Build() { DoBuild(); };
   void           Verify(shared_ptr<Model> model){};
-  void           Reset(){};
-  virtual Double GetScore() = 0;
-  virtual void   Trigger(const string& source_label, Double value_1, Double value_2){};
-
-  // accessors
-  bool has_score() const { return has_score_; }
+  void           Reset(){score_ = 0.0; LOG_MEDIUM() << "reset penalty";};
+  virtual Double GetScore() {return score_;};
+  virtual void   Trigger(Double value_1, Double value_2){};
 
 protected:
   // methods
@@ -55,6 +52,7 @@ protected:
   // members
   shared_ptr<Model> model_     = nullptr;
   bool              has_score_ = true;
+  Double            score_     = 0.0;
 };
 } /* namespace niwa */
 #endif /* PENALTY_H_ */

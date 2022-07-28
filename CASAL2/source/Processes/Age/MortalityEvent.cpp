@@ -146,7 +146,7 @@ void MortalityEvent::DoExecute() {
       actual_catches_.push_back(vulnerable * u_max_);
       exploitation_.push_back(exploitation);
       if (penalty_)
-        penalty_->Trigger(label_, catch_years_[current_year], vulnerable * u_max_);
+        penalty_->Trigger(catch_years_[current_year], vulnerable * u_max_);
 
     } else {
       actual_catches_.push_back(catch_years_[current_year]);

@@ -198,7 +198,7 @@ void MortalityPreySuitability::DoExecute() {
         Exploitation = u_max_;
 
         if (penalty_)  // Throw Penalty
-          penalty_->Trigger(penalty_label_, Exploitation, (Vulnerable_by_Prey[prey_category_labels_[category_offset]] * u_max_));
+          penalty_->Trigger(Exploitation, (Vulnerable_by_Prey[prey_category_labels_[category_offset]] * u_max_));
 
       } else if (Exploitation < 0.0)
         Exploitation = 0.0;

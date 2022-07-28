@@ -5,7 +5,7 @@
  * @date 15/02/2013
  * @section LICENSE
  *
- * Copyright NIWA Science ©2013 - www.niwa.co.nz
+ * Copyright NIWA Science ï¿½2013 - www.niwa.co.nz
  *
  * @section DESCRIPTION
  *
@@ -48,11 +48,8 @@ public:
   virtual ~Manager() noexcept(true){};
   Penalty*            GetPenalty(const string& label) const;
   penalties::Process* GetProcessPenalty(const string& label);
-  void                FlagPenalty(const string& label, Double value);
-  void                Reset() override final { flagged_penalties_.clear(); }
 
   // Accessors
-  const vector<Info>& flagged_penalties() const { return flagged_penalties_; }
 
 protected:
   // methods
@@ -60,7 +57,7 @@ protected:
 
 private:
   // Members
-  vector<Info> flagged_penalties_;
+
 };
 
 } /* namespace penalties */

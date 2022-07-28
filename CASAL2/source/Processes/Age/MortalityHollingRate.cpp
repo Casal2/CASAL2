@@ -347,7 +347,7 @@ void MortalityHollingRate::DoExecute() {
       Exploitation = u_max_;
 
       if (penalty_)  // Throw Penalty
-        penalty_->Trigger(penalty_label_, Mortality, (Vulnerable * u_max_));
+        penalty_->Trigger(Mortality, (Vulnerable * u_max_));
 
     } else if (Exploitation < 0.0)
       Exploitation = 0.0;

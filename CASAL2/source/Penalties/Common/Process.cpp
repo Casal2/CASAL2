@@ -36,20 +36,18 @@ Process::Process(shared_ptr<Model> model) : Penalty(model) {
  * Basic value for the trigger will be: (value_1 - value_2)^2 * multiplier
  * logscale is: (log(value_1) - log(value_2))^2 * multiplier
  *
- * @param source_label The label for the source of the trigger
  * @param value_1 The first value to use in equation
  * @param value_2 The second value to use in equation
  */
-void Process::Trigger(const string& source_label, Double value_1, Double value_2) {
+void Process::Trigger(Double value_1, Double value_2) {
   if (log_scale_) {
     value_1 = log(utilities::math::ZeroFun(value_1));
     value_2 = log(utilities::math::ZeroFun(value_2));
   }
-
-  string name  = label_ + "(" + source_label + ")";
-  Double value = (value_1 - value_2) * (value_1 - value_2) * multiplier_;
-  model_->managers()->penalty()->FlagPenalty(name, value);
+  //Double value = (value_1 - value_2) * (value_1 - value_2) * multiplier_;
+  score_ += (value_1 - value_2) * (value_1 - value_2) * multiplier_;
 }
+
 
 } /* namespace penalties */
 } /* namespace niwa */

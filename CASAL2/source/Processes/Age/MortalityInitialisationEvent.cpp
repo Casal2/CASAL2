@@ -114,7 +114,7 @@ void MortalityInitialisationEvent::DoExecute() {
     if (exploitation > u_max_) {
       exploitation = u_max_;
       if (penalty_)
-        penalty_->Trigger(label_, catch_, vulnerable * u_max_);
+        penalty_->Trigger(catch_, vulnerable * u_max_);
 
     } else if (exploitation < 0.0) {
       exploitation = 0.0;
