@@ -2,7 +2,7 @@ name: Casal2 validate test suite
 on:
   push:
     branches:
-      - init_F_process_202207 # age_length_redesign_202109
+      - master # age_length_redesign_202109
   pull_request:
     branches:
       - master ## this will run actions on current branch, to change to main, needed for testing. all branches '*'
