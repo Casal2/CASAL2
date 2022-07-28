@@ -96,6 +96,8 @@ void MortalityInitialisationBaranov::DoExecute() {
       LOG_FINEST() << "category " << category->name_ << "; min_age: " << category->min_age_;
       for (Double& data : category->data_) {
         amount = data * (1 - exp(-selectivities_[i]->GetAgeResult(category->min_age_ + j, category->age_length_) * f_));
+        LOG_FINEST() << "numbers = " << data << " amount " << amount << " times = " << AS_DOUBLE((1 - exp(-selectivities_[i]->GetAgeResult(category->min_age_ + j, category->age_length_) * f_))) << " f = " << AS_DOUBLE(f_) << " selectivity = " << AS_DOUBLE(selectivities_[i]->GetAgeResult(category->min_age_ + j, category->age_length_)) ;
+
         data -= amount;
         total_amount += amount;
         ++j;

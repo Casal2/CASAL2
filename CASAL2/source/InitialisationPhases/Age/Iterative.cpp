@@ -145,6 +145,7 @@ void Iterative::DoExecute() {
     time_step_manager.ExecuteInitialisation(label_, years_);
 
   } else {
+    unsigned counter_years = 0;
     unsigned total_years = 0;
     for (unsigned years : convergence_years_) {
       timesteps::Manager& time_step_manager = *model_->managers()->time_step();
@@ -161,11 +162,13 @@ void Iterative::DoExecute() {
       ++total_years;
 
       if (CheckConvergence()) {
-        LOG_FINEST() << " year Convergence was reached = " << years;
+        LOG_INFO() << "year Convergence was reached = " << years;
         break;
       }
       LOG_FINEST() << "Initial year = " << years;
+      counter_years = years;
     }
+    LOG_INFO() << label_ << " ran for '" << counter_years << "' iterations.";
   }
 
   LOG_FINEST() << "Number of Beverton-Holt recruitment processes in annual cycle = " << recruitment_process_.size();
@@ -192,6 +195,7 @@ void Iterative::DoExecute() {
     timesteps::Manager& time_step_manager = *model_->managers()->time_step();
     time_step_manager.ExecuteInitialisation(label_, 1);
   }
+
 }
 
 /**

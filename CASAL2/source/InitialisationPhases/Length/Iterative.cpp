@@ -143,6 +143,7 @@ void Iterative::DoExecute() {
 
   } else {
     unsigned total_years = 0;
+    unsigned counter_years = 0;
     for (unsigned years : convergence_years_) {
       time_step_manager.ExecuteInitialisation(label_, years - (total_years + 1));
 
@@ -156,12 +157,15 @@ void Iterative::DoExecute() {
       ++total_years;
 
       if (CheckConvergence()) {
-        LOG_FINEST() << " year Convergence was reached = " << years;
+        LOG_INFO() << "year Convergence was reached = " << years;
         break;
       }
       LOG_FINEST() << "Initial year = " << years;
+      counter_years = years;
     }
+    LOG_INFO() << label_ << " ran for '" << counter_years << "' iterations.";
   }
+
   // Check if we have B0 initialised or R0 initialised recruitment
   bool B0_initial_recruitment = false;
   for (auto recruitment_process : recruitment_process_) {
@@ -178,7 +182,6 @@ void Iterative::DoExecute() {
     // Calculate derived quantities in the right space if we have a B0 initialised model
     time_step_manager.ExecuteInitialisation(label_, 1);
   }
-  
 }
 
 /**

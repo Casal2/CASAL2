@@ -732,7 +732,7 @@ This process should be used in conjunction with the \texttt{insert\_processes} c
 
 Each category defined in this process will have have the following mortality applied each iteration of the initialisation phase 
 \[
-N^*_{a,c}  = N_{a,c} \left(1 - \exp{-F S_{a,c}}\right)
+N^*_{a,c}  = N_{a,c} \exp{-F S_{a,c}}
 \]
 where, \(N^*_{a,c}\) are the number for category \(c\) of age \(a\), \(F\) is an estimable quantity (\subcommand{fishing\_mortality}) and \(S_{a,c}\) is the corresponding selectivity.
 
