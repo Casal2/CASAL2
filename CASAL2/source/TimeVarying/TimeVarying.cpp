@@ -159,5 +159,22 @@ void TimeVarying::Reset() {
     original_value_ = *addressable_;
   DoReset();
 }
-
+/**
+ * Verify the TimeVarying object
+ * This parameter is not in @estimate
+ * This parameter is not in @profile during profile run mode
+ * This parameter is not in @parameter_tranformation during profile run mode
+ */
+void TimeVarying::Verify(shared_ptr<Model> model) {
+  LOG_FINE() << "Verify parameters useage = " << parameter_;
+  if (model->objects().IsParameterUsedFor(parameter_ , addressable::kEstimate)) {
+    LOG_WARNING() << "Found an @estimate block for " << parameter_ << ". There are only a few time-varying types such as exogenous where this is okay. Please check this is a sensible configuration.";
+  }
+  if (model->objects().IsParameterUsedFor(parameter_ , addressable::kTransformation)) {
+    LOG_FATAL_P(PARAM_PARAMETER) << "Found an @parameter_transformation block for " << parameter_ << ". You cannot have a time-varying block and a parameter-transformation for the same parameter.";
+  }
+  if (model->objects().IsParameterUsedFor(parameter_ , addressable::kProfile)) {
+    LOG_FATAL_P(PARAM_PARAMETER) << "Found an @profile block for " << parameter_ << ". You cannot have a time-varying block and a @profile for the same parameter.";
+  }
+}
 } /* namespace niwa */

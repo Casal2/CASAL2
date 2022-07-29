@@ -78,7 +78,10 @@ void Profile::Verify(shared_ptr<Model> model){
   LOG_MEDIUM() << "Verify ";
   LOG_FINE() << "check if used for transformation";
   if (model->objects().IsParameterUsedFor(parameter_ , addressable::kTransformation)) {
-    LOG_FATAL_P(PARAM_PARAMETER) << "Found an @parameter_transformation block for " << parameter_ << ". You need to profile the transformed parameter or remove the transformation block.";
+    LOG_FATAL_P(PARAM_PARAMETER) << "Found an @parameter_transformation block for " << parameter_ << ". You cannot have a @parameter_transformation and a @profile for the same parameter.";
+  }
+  if (model->objects().IsParameterUsedFor(parameter_ , addressable::kTimeVarying)) {
+    LOG_FATAL_P(PARAM_PARAMETER) << "Found an @time_varying block for " << parameter_ << ". You cannot have a @time_varying and a @profile for the same parameter.";
   }
 }
 /**

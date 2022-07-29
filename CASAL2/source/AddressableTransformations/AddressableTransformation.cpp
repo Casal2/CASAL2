@@ -344,6 +344,8 @@ void AddressableTransformation::Verify(shared_ptr<Model> model) {
   for(unsigned i = 0; i < target_objects_.size(); ++i) {
     if(target_objects_[i]->IsAddressableUsedFor(parameter_lookup_for_verify_[i], addressable::kEstimate))
       LOG_FATAL_P(PARAM_PARAMETERS) << "There is an @estimate block for " << parameter_lookup_for_verify_[i] << " this is not allowed for parameters with a @parameter_transformation block";
+    if(target_objects_[i]->IsAddressableUsedFor(parameter_lookup_for_verify_[i], addressable::kProfile) & (model_->run_mode() == RunMode::kProfiling))
+      LOG_FATAL_P(PARAM_PARAMETERS) << "foung an @profile block for " << parameter_lookup_for_verify_[i] << ". You cannot have a @parameter_transformation and a @profile block for the same parameter.";
   }
 }
 
