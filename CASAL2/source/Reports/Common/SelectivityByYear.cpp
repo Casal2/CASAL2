@@ -20,7 +20,7 @@ namespace reports {
  *
  */
 SelectivityByYear::SelectivityByYear() {
-  run_mode_    = (RunMode::Type)(RunMode::kBasic | RunMode::kProjection);
+  run_mode_    = (RunMode::Type)(RunMode::kBasic | RunMode::kProjection | RunMode::kSimulation | RunMode::kEstimation | RunMode::kProfiling);
   model_state_ = State::kExecute;
   skip_tags_   = true;
   parameters_.Bind<string>(PARAM_SELECTIVITY, &selectivity_label_, "Selectivity label", "", "");
@@ -53,12 +53,6 @@ void SelectivityByYear::DoBuild(shared_ptr<Model> model) {
                   << " was not found in the input configuration file and the report will not be generated";
 #endif
     is_valid_ = false;
-#ifndef TESTMODE
-  } else if (selectivity_->IsSelectivityLengthBased() & (model->partition_type() == PartitionType::kAge)) {
-    LOG_WARNING() << "Cannot report the length-based selectivity values. This report (" << label_ << ") is being ignored. "
-                  << "This can be done using the Casal2 R package. See the User Manual for more information";
-#endif
-    is_valid_ = false;
   }
 }
 
@@ -66,7 +60,7 @@ void SelectivityByYear::DoExecute(shared_ptr<Model> model) {
   LOG_TRACE();
   if(model->partition_type() == PartitionType::kAge) {
     if (!selectivity_->IsSelectivityLengthBased()) {
-      LOG_FINEST() << "Printing age-based selectivity";
+      LOG_FINEST() << "Printing age-based selectivity by year";
       selectivity_ = model->managers()->selectivity()->GetSelectivity(selectivity_label_);
 
       cache_ << ReportHeader(type_, label_, format_);
@@ -89,7 +83,7 @@ void SelectivityByYear::DoExecute(shared_ptr<Model> model) {
       ready_for_writing_ = true;
     }
   } else if(model->partition_type() == PartitionType::kLength) {
-    LOG_FINEST() << "Printing age-based selectivity";
+    LOG_FINEST() << "Printing length -based selectivity by year";
     selectivity_ = model->managers()->selectivity()->GetSelectivity(selectivity_label_);
 
     cache_ << ReportHeader(type_, label_, format_);

@@ -59,7 +59,7 @@ void TimeVarying::DoExecute(shared_ptr<Model> model) {
 
     for (auto time_var : time_varying) {
       LOG_FINEST() << "Reporting for @time_varying block " << time_varying_label_;
-      cache_ << time_varying_label_ << " " << REPORT_R_DATAFRAME << REPORT_EOL;
+      cache_ << "values " << REPORT_R_DATAFRAME << REPORT_EOL;
 
       map<unsigned, Double>& parameter_by_year = time_var->get_parameter_by_year();
       cache_ << "year"
