@@ -1,0 +1,11 @@
+!include Population.csl2
+!include Sim_observations.csl2
+!include Reports.csl2
+!include Estimation.csl2
+
+
+@minimiser adolc
+type adolc
+tolerance 1e-8 
+iterations 1000
+evaluations 2000
