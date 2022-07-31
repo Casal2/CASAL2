@@ -720,25 +720,22 @@ void MortalityInstantaneous::DoExecute() {
     if (find(process_years_.begin(), process_years_.end(), year) != process_years_.end()) {
       // only calculate observed fits for years the process exists for
       unsigned age_spread      = model_->age_spread();
-      unsigned category_offset = 0;
-      for (auto& categories : partition_) {
-        for (auto& fishery_category : fishery_categories_) {
-          if (fishery_category.category_label_ == categories->name_ && fisheries_[fishery_category.fishery_label_].time_step_index_ == time_step_index) {
-            LOG_FINEST() << "category = " << categories->name_ << " fishery = " << fishery_category.fishery_label_;
-            LOG_FINEST() << " year ndx = " << this_year_iter.second << " fisheyr ndx = " << fishery_category.fishery_.fishery_ndx_
-                         << " category ndx = " << fishery_category.category_.category_ndx_;
-            for (unsigned i = 0; i < age_spread; ++i) {
-              unsigned age_offset = categories->min_age_ - model_->min_age();
+      for (auto& fishery_category : fishery_categories_) {
+        if (fishery_category.fishery_.time_step_index_ != time_step_index)
+          continue;
+        partition::Category* category = fishery_category.category_.category_;
+        LOG_FINEST() << "category = " << category->name_ << " fishery = " << fishery_category.fishery_label_;
+        LOG_FINEST() << " year ndx = " << this_year_iter.second << " fisheyr ndx = " << fishery_category.fishery_.fishery_ndx_
+                      << " category ndx = " << fishery_category.category_.category_ndx_;
+        for (unsigned i = 0; i < age_spread; ++i) {
+          unsigned age_offset = category->min_age_ - model_->min_age();
 
-              if (i < age_offset)
-                continue;
-              removals_by_year_fishery_category_[this_year_iter.second][fishery_category.fishery_.fishery_ndx_][fishery_category.category_.category_ndx_][i]
-                  = categories->data_[i - age_offset] * fishery_category.fishery_.exploitation_
-                    * fishery_category.selectivity_->GetAgeResult(categories->min_age_ + i, categories->age_length_) * fishery_category.category_.exp_values_half_m_[i];
-            }
-          }
+          if (i < age_offset)
+            continue;
+          removals_by_year_fishery_category_[this_year_iter.second][fishery_category.fishery_.fishery_ndx_][fishery_category.category_.category_ndx_][i]
+              = category->data_[i - age_offset] * fishery_category.fishery_.exploitation_
+                * fishery_category.selectivity_->GetAgeResult(category->min_age_ + i, category->age_length_) * fishery_category.category_.exp_values_half_m_[i];
         }
-        category_offset++;
       }
     }
   }  // if (model_->state() != State::kInitialise )

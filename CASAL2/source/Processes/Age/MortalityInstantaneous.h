@@ -55,7 +55,6 @@ class MortalityInstantaneous : public Process {
     Double  vulnerability_;
     Double  uobs_fishery_;
     Double  exploitation_;
-    Double* m_;
   };
 
   struct CategoryData {
