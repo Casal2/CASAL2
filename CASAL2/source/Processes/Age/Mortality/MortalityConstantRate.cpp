@@ -28,11 +28,8 @@ namespace age {
 /**
  * Default Constructor
  */
-MortalityConstantRate::MortalityConstantRate(shared_ptr<Model> model) : Process(model), partition_(model) {
+MortalityConstantRate::MortalityConstantRate(shared_ptr<Model> model) : Mortality(model), partition_(model) {
   LOG_TRACE();
-  process_type_        = ProcessType::kMortality;
-  partition_structure_ = PartitionType::kAge;
-
   parameters_.Bind<string>(PARAM_CATEGORIES, &category_labels_, "The list of category labels", "");
   parameters_.Bind<Double>(PARAM_M, &m_input_, "The mortality rates", "")->set_lower_bound(0.0);
   parameters_.Bind<double>(PARAM_TIME_STEP_PROPORTIONS, &ratios_, "The time step proportions for the mortality rates", "", true)->set_range(0.0, 1.0);

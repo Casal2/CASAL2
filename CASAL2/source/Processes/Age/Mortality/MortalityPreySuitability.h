@@ -22,6 +22,7 @@
 #include "Processes/Process.h"
 #include "Selectivities/Selectivity.h"
 #include "Utilities/Map.h"
+#include "Processes/Age/Mortality.h"
 
 // namespaces
 namespace niwa {
@@ -31,7 +32,7 @@ namespace age {
 using partition::accessors::CombinedCategoriesPtr;
 
 // classes
-class MortalityPreySuitability : public Process {
+class MortalityPreySuitability : public Mortality {
 public:
   // methods
   explicit MortalityPreySuitability(shared_ptr<Model> model);

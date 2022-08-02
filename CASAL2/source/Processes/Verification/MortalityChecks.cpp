@@ -10,12 +10,13 @@
  */
 
 // headers
-#include "../../Categories/Categories.h"
-#include "../../InitialisationPhases/Manager.h"
-#include "../../Model/Model.h"
-#include "../Age/MortalityInstantaneous.h"
-#include "../Age/MortalityInstantaneousRetained.h"
-#include "../Age/MortalityConstantRate.h"
+#include "Categories/Categories.h"
+#include "InitialisationPhases/Manager.h"
+#include "Model/Model.h"
+#include "../Age/Mortality/MortalityHybrid.h"
+#include "../Age/Mortality/MortalityInstantaneous.h"
+#include "../Age/Mortality/MortalityInstantaneousRetained.h"
+#include "../Age/Mortality/MortalityConstantRate.h"
 #include "../Length/MortalityInstantaneous.h"
 #include "../Length/MortalityConstantRate.h"
 #include "../Manager.h"
@@ -56,7 +57,15 @@ void AllCategoriesHaveAnM(shared_ptr<Model> model) {
         } else if (process->type() == PARAM_MORTALITY_INSTANTANEOUS_RETAINED) {
           age::MortalityInstantaneousRetained* mortality = dynamic_cast<age::MortalityInstantaneousRetained*>(process);
           if (!mortality)
-            LOG_CODE_ERROR() << "!mortality with auto* mortality = dynamic_cast<age::RecruitmentBevertonHolt*>(process)";
+            LOG_CODE_ERROR() << "!mortality with auto* mortality = dynamic_cast<age::MortalityInstantaneousRetained*>(process)";
+
+          for (auto label : mortality->category_labels()) {
+            category_count[label]++;
+          }
+        } else if (process->type() == PARAM_MORTALITY_HYBRID) {
+          age::MortalityHybrid* mortality = dynamic_cast<age::MortalityHybrid*>(process);
+          if (!mortality)
+            LOG_CODE_ERROR() << "!mortality with auto* mortality = dynamic_cast<age::MortalityHybrid*>(process)";
 
           for (auto label : mortality->category_labels()) {
             category_count[label]++;

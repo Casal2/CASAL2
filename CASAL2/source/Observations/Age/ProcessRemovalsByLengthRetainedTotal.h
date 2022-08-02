@@ -20,7 +20,7 @@
 #include "Observations/Observation.h"
 #include "Partition/Accessors/Cached/CombinedCategories.h"
 #include "Partition/Accessors/CombinedCategories.h"
-#include "Processes/Age/MortalityInstantaneousRetained.h"
+#include "Processes/Age/Mortality/MortalityInstantaneousRetained.h"
 
 // Namespace
 namespace niwa {

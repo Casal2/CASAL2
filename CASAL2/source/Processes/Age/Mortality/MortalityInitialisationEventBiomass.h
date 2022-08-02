@@ -23,6 +23,7 @@
 #include "Penalties/Common/Process.h"
 #include "Processes/Process.h"
 #include "Selectivities/Selectivity.h"
+#include "Processes/Age/Mortality.h"
 
 // Namespaces
 namespace niwa {
@@ -34,7 +35,7 @@ namespace accessor = niwa::partition::accessors;
 /**
  * Class definition
  */
-class MortalityInitialisationEventBiomass : public niwa::Process {
+class MortalityInitialisationEventBiomass : public Mortality {
 public:
   // Methods
   explicit MortalityInitialisationEventBiomass(shared_ptr<Model> model);
@@ -46,7 +47,6 @@ public:
 
 private:
   // Members
-  vector<string>                      category_labels_;
   Double                              catch_;
   double                              u_max_;
   vector<string>                      selectivity_names_;

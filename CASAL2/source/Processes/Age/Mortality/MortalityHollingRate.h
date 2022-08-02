@@ -22,6 +22,7 @@
 #include "Processes/Process.h"
 #include "Selectivities/Selectivity.h"
 #include "Utilities/Map.h"
+#include "Processes/Age/Mortality.h"
 
 // namespaces
 namespace niwa {
@@ -32,7 +33,7 @@ namespace accessor = niwa::partition::accessors;
 using utilities::map2D;
 
 // classes
-class MortalityHollingRate : public Process {
+class MortalityHollingRate : public Mortality {
 public:
   // methods
   explicit MortalityHollingRate(shared_ptr<Model> model);

@@ -44,7 +44,7 @@ namespace math = niwa::utilities::math;
  *
  * Note: The constructor is parsed to generate LaTeX for the documentation.
  */
-MortalityInstantaneousRetained::MortalityInstantaneousRetained(shared_ptr<Model> model) : Process(model), partition_(model) {
+MortalityInstantaneousRetained::MortalityInstantaneousRetained(shared_ptr<Model> model) : Mortality(model), partition_(model) {
   process_type_        = ProcessType::kMortality;
   partition_structure_ = PartitionType::kAge;
 
@@ -114,6 +114,7 @@ void MortalityInstantaneousRetained::DoValidate() {
       if (!utilities::To<string, Double>(row[i], value))
         LOG_ERROR_P(PARAM_CATCHES) << "value " << row[i] << " for fishery " << columns[i] << " could not be converted to a Double";
       fishery_year_catch[columns[i]][year] = value;
+      fishery_catch_[columns[i]][year]  = value; // needed for Mortality.h checks
     }
   }
 
@@ -217,7 +218,7 @@ void MortalityInstantaneousRetained::DoValidate() {
     new_fishery.time_step_label_ = row[time_step_index];
     new_fishery.penalty_label_   = row[penalty_index];
     fishery_time_step[new_fishery.label_].push_back(new_fishery.time_step_label_);
-
+    fishery_labels_.push_back(row[fishery_index]);
     if (!utilities::To<string, double>(row[u_max_index], new_fishery.u_max_))
       LOG_ERROR_P(PARAM_METHOD) << "u_max value " << row[u_max_index] << " could not be converted to a Double";
     if (fishery_year_catch.find(new_fishery.label_) == fishery_year_catch.end())
@@ -262,6 +263,8 @@ void MortalityInstantaneousRetained::DoValidate() {
     // Create fishery category struct
     for (unsigned i = 0; i < categories.size(); ++i) {
       FisheryCategoryData new_category_data(fisheries_[new_fishery.label_], *category_data_[categories[i]]);
+      fishery_category_check_[new_fishery.label_].push_back((*category_data_[categories[i]]).category_label_);
+
       new_category_data.fishery_label_  = row[fishery_index];
       new_category_data.category_label_ = categories[i];
 
@@ -1012,91 +1015,6 @@ void MortalityInstantaneousRetained::FillTabularReportCache(ostringstream& cache
     for (auto disc_dead : fishery.discards_dead_) cache << AS_DOUBLE(disc_dead.second) << " ";
   }
   cache << REPORT_EOL;
-}
-
-/**
- * Check the categories in methods for removal obs
- * @description method checks if there is a category in each method, to make sure the observation class is compatable with the process
- * @param methods a vector of methods
- * @param category_labels a vector of categories to check.
- */
-bool MortalityInstantaneousRetained::check_categories_in_methods_for_removal_obs(vector<string> methods, vector<string> category_labels) {
-  LOG_TRACE();
-
-  unsigned fishery_index = 0;
-
-  for (; fishery_index < methods.size(); ++fishery_index) {
-    unsigned categories_counter = 0;
-    for (auto& fishery_iter : fisheries_) {
-      auto& fishery = fishery_iter.second;
-      // Check that the fishery occurs in this time step.
-      if (fishery.label_ != methods[fishery_index])
-        continue;
-      // Check all categories are in this method
-      for (unsigned category_index = 0; category_index < category_labels.size(); ++category_index) {
-        for (auto& fishery_category : fishery_categories_) {
-          if ((fishery_category.fishery_.label_ == fishery.label_) && (fishery_category.category_label_ == category_labels[category_index]))
-            ++categories_counter;
-        }
-      }
-      if (categories_counter != category_labels.size()) {
-        LOG_FINEST() << "category counter = " << categories_counter << " categories supplies = " << category_labels.size();
-        return false;
-      }
-    }
-  }
-
-  return true;
-}
-
-/**
- * Check the years in methods for removal obs
- * @description method checks if there is a category in each method for each year, to make sure the observation class is compatable with the process
- * @param years a vector of years
- * @param methods a vector of methods
- */
-bool MortalityInstantaneousRetained::check_years_in_methods_for_removal_obs(vector<unsigned> years, vector<string> methods) {
-  LOG_TRACE();
-  for (unsigned fishery_index = 0; fishery_index < methods.size(); ++fishery_index) {
-    for (auto& fishery_iter : fisheries_) {
-      auto& fishery = fishery_iter.second;
-      // Check that the fishery occurs in this time step.
-      if (fishery.label_ != methods[fishery_index])
-        continue;
-      unsigned year_counter = 0;
-      for (auto& catches : fishery.catches_) {
-        // Check year is in the vector
-        if (find(years.begin(), years.end(), catches.first) != years.end()) {
-          if (catches.second <= 0)
-            return false;
-          ++year_counter;
-        }
-      }
-      if (year_counter != years.size())
-        return false;
-    }
-  }
-  return true;
-}
-
-/**
- * Check the categories in methods for removal obs
- * @description method checks if each method exists, to make sure the observation class is compatable with the process
- * @param methods a vector of methods
- */
-bool MortalityInstantaneousRetained::check_methods_for_removal_obs(vector<string> methods) {
-  LOG_TRACE();
-  unsigned method_counter = 0;
-  for (unsigned fishery_index = 0; fishery_index < methods.size(); ++fishery_index) {
-    for (auto& fishery_iter : fisheries_) {
-      if (fishery_iter.second.label_ == methods[fishery_index])
-        ++method_counter;
-    }
-  }
-  if (method_counter != methods.size())
-    return false;
-
-  return true;
 }
 
 } /* namespace age */

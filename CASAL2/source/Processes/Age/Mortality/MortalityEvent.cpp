@@ -13,10 +13,10 @@
 // Headers
 #include "MortalityEvent.h"
 
-#include "../../Categories/Categories.h"
-#include "../../Penalties/Manager.h"
-#include "../../Selectivities/Manager.h"
-#include "../../Utilities/Math.h"
+#include "Categories/Categories.h"
+#include "Penalties/Manager.h"
+#include "Selectivities/Manager.h"
+#include "Utilities/Math.h"
 
 // Namespaces
 namespace niwa {
@@ -26,7 +26,7 @@ namespace age {
 /**
  * Default constructor
  */
-MortalityEvent::MortalityEvent(shared_ptr<Model> model) : Process(model), partition_(model) {
+MortalityEvent::MortalityEvent(shared_ptr<Model> model) : Mortality(model), partition_(model) {
   parameters_.Bind<string>(PARAM_CATEGORIES, &category_labels_, "The categories", "");
   parameters_.Bind<unsigned>(PARAM_YEARS, &years_, "The years in which to apply the mortality process", "");
   parameters_.Bind<Double>(PARAM_CATCHES, &catches_, "The number of removals (catches) to apply for each year", "");

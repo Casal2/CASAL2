@@ -13,7 +13,7 @@
 // Headers
 #include "MortalityInitialisationEventBiomass.h"
 
-#include "../../Utilities/Math.h"
+#include "Utilities/Math.h"
 #include "Categories/Categories.h"
 #include "Penalties/Manager.h"
 #include "Selectivities/Manager.h"
@@ -29,7 +29,7 @@ namespace age {
 /**
  * Default constructor
  */
-MortalityInitialisationEventBiomass::MortalityInitialisationEventBiomass(shared_ptr<Model> model) : Process(model), partition_(model) {
+MortalityInitialisationEventBiomass::MortalityInitialisationEventBiomass(shared_ptr<Model> model) : Mortality(model), partition_(model) {
   parameters_.Bind<string>(PARAM_CATEGORIES, &category_labels_, "The categories", "");
   parameters_.Bind<Double>(PARAM_CATCH, &catch_, "The number of removals (catches) to apply for each year", "");
   parameters_.Bind<double>(PARAM_U_MAX, &u_max_, "The maximum exploitation rate ($U_{max}$)", "", 0.99)->set_range(0.0, 1.0);

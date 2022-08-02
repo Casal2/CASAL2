@@ -12,10 +12,10 @@
 // Headers
 #include "MortalityInitialisationBaranov.h"
 
-#include "../../Categories/Categories.h"
-#include "../../Penalties/Manager.h"
-#include "../../Selectivities/Manager.h"
-#include "../../Utilities/Math.h"
+#include "Categories/Categories.h"
+#include "Penalties/Manager.h"
+#include "Selectivities/Manager.h"
+#include "Utilities/Math.h"
 
 // Namespaces
 namespace niwa {
@@ -25,7 +25,7 @@ namespace age {
 /**
  * Default constructor
  */
-MortalityInitialisationBaranov::MortalityInitialisationBaranov(shared_ptr<Model> model) : Process(model), partition_(model) {
+MortalityInitialisationBaranov::MortalityInitialisationBaranov(shared_ptr<Model> model) : Mortality(model), partition_(model) {
   parameters_.Bind<string>(PARAM_CATEGORIES, &category_labels_, "The categories", "");
   parameters_.Bind<Double>(PARAM_FISHING_MORTALITY, &f_, "Fishing mortality ", "")->set_lower_bound(0.0, false);
   parameters_.Bind<string>(PARAM_SELECTIVITIES, &selectivity_names_, "The list of selectivities", "");

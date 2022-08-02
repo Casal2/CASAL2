@@ -19,6 +19,7 @@
 #include "Penalties/Common/Process.h"
 #include "Processes/Process.h"
 #include "Utilities/Math.h"
+#include "Processes/Age/Mortality.h"
 
 // namespaces
 namespace niwa {
@@ -30,7 +31,7 @@ namespace accessor = niwa::partition::accessors;
 /**
  * class definition
  */
-class MortalityEventBiomass : public niwa::Process {
+class MortalityEventBiomass : public Mortality {
 public:
   // methods
   explicit MortalityEventBiomass(shared_ptr<Model> model);
@@ -45,7 +46,6 @@ public:
 private:
   // members
   accessor::Categories  partition_;
-  vector<string>        category_labels_;
   vector<string>        selectivity_labels_;
   vector<Selectivity*>  selectivities_;
   double                u_max_ = 0;

@@ -26,7 +26,7 @@ namespace age {
 /**
  * Default constructor
  */
-MortalityInitialisationEvent::MortalityInitialisationEvent(shared_ptr<Model> model) : Process(model), partition_(model) {
+MortalityInitialisationEvent::MortalityInitialisationEvent(shared_ptr<Model> model) : Mortality(model), partition_(model) {
   parameters_.Bind<string>(PARAM_CATEGORIES, &category_labels_, "The categories", "");
   parameters_.Bind<Double>(PARAM_CATCH, &catch_, "The number of removals (catches) to apply for each year", "");
   parameters_.Bind<double>(PARAM_U_MAX, &u_max_, "The maximum exploitation rate ($U_{max}$)", "", 0.99)->set_range(0.0, 1.0, false, false);

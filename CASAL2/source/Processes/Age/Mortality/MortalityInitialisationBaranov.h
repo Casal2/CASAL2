@@ -20,6 +20,7 @@
 #include "Partition/Accessors/Categories.h"
 #include "Processes/Process.h"
 #include "Selectivities/Selectivity.h"
+#include "Processes/Age/Mortality.h"
 
 // Namespaces
 namespace niwa {
@@ -31,7 +32,7 @@ namespace accessor = niwa::partition::accessors;
 /**
  * Class definition
  */
-class MortalityInitialisationBaranov : public niwa::Process {
+class MortalityInitialisationBaranov : public Mortality {
 public:
   // Methods
   explicit MortalityInitialisationBaranov(shared_ptr<Model> model);
@@ -45,7 +46,6 @@ public:
 
 private:
   // Members
-  vector<string>                      category_labels_;
   Double                              actual_catch_;
 
   Double                              f_;

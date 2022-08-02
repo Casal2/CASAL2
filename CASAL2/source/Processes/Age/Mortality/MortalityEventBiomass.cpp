@@ -29,7 +29,7 @@ namespace math = niwa::utilities::math;
 /**
  * Default constructor
  */
-MortalityEventBiomass::MortalityEventBiomass(shared_ptr<Model> model) : Process(model), partition_(model) {
+MortalityEventBiomass::MortalityEventBiomass(shared_ptr<Model> model) : Mortality(model), partition_(model) {
   parameters_.Bind<string>(PARAM_CATEGORIES, &category_labels_, "The category labels", "");
   parameters_.Bind<string>(PARAM_SELECTIVITIES, &selectivity_labels_, "The labels of the selectivities for each of the categories", "");
   parameters_.Bind<unsigned>(PARAM_YEARS, &years_, "The years in which to apply the mortality process", "");

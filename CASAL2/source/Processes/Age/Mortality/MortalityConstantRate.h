@@ -20,6 +20,7 @@
 // Headers
 #include "Partition/Accessors/Categories.h"
 #include "Processes/Process.h"
+#include "Processes/Age/Mortality.h"
 #include "Utilities/Types.h"
 
 // namespaces
@@ -32,7 +33,7 @@ using utilities::OrderedMap;
 /**
  * Class Definition
  */
-class MortalityConstantRate : public niwa::Process {
+class MortalityConstantRate : public Mortality {
 public:
   // Methods
   MortalityConstantRate(shared_ptr<Model> model);
@@ -43,11 +44,9 @@ public:
   void DoExecute() override final;
   void FillReportCache(ostringstream& cache) override final;
   void FillTabularReportCache(ostringstream& cache, bool first_run) override final;
-  const vector<string>& category_labels() const { return category_labels_; }
 
 private:
   // Members
-  vector<string>             category_labels_;
   vector<Double>             m_input_;
   OrderedMap<string, Double> m_;
   vector<double>             ratios_;

@@ -23,6 +23,7 @@
 #include "Processes/Process.h"
 #include "Selectivities/Selectivity.h"
 #include "Utilities/Map.h"
+#include "Processes/Age/Mortality.h"
 
 // namespaces
 namespace niwa {
@@ -33,7 +34,7 @@ namespace accessor = niwa::partition::accessors;
 using utilities::OrderedMap;
 
 // classes
-class MortalityInstantaneousRetained : public Process {
+class MortalityInstantaneousRetained : public Mortality {
   /**
    * FisheryData holds all the information related to a fishery
    */
@@ -105,15 +106,9 @@ public:
   void RebuildCache() override final;
   void FillReportCache(ostringstream& cache) override final;
   void FillTabularReportCache(ostringstream& cache, bool first_run) override final;
-  //
-  bool check_categories_in_methods_for_removal_obs(vector<string> methods, vector<string> category_labels);
-  bool check_years_in_methods_for_removal_obs(vector<unsigned> years, vector<string> methods);
-  bool check_methods_for_removal_obs(vector<string> methods);
-
   // accessors
   map<unsigned, map<string, map<string, vector<Double>>>>& catch_at() { return removals_by_year_fishery_category_; };
   map<unsigned, map<string, map<string, vector<Double>>>>& retained_data() { return retained_by_year_fishery_category_; };
-  const vector<string>& category_labels() const { return category_labels_; }
 
   // set
 
@@ -122,7 +117,6 @@ private:
   vector<CategoryData>       categories_;
 
   // members
-  vector<string>              category_labels_;
   vector<FisheryCategoryData> fishery_categories_;
   map<string, FisheryData>    fisheries_;
   parameters::Table*          catches_table_ = nullptr;
@@ -130,7 +124,6 @@ private:
 
   accessor::Categories partition_;
   Double               current_m_ = 0.0;
-  vector<unsigned>     process_years_;
 
   // members from mortality event
   // Double                     u_max_ = 0.99; // Now attached to the fishery object
