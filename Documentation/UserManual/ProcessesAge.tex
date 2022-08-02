@@ -616,7 +616,10 @@ The equations for the \texttt{mortality\_instantaneous\_retained} process:
 
 
 \paragraph{\I{Mortality Hybrid}}\label{sec:Process-MortalityHybrid} 
-This is hybrid approach for applying fishing mortality, which is the recommended option in Stock Synthesis \citep{methot2013stock}. This approach begins by calculating popes discrete approximation (same as \subcommand{mortality\_instantaneous} (Section~\ref{sec:Process-MortalityInstantaneous})), and then converts this to a Baranov fishing mortality coefficients. A tuning algorithm is then done to tune coefficients to match input catch nearly exactly, rather than the full Baranov approach.
+The hybrid fishing mortality process in \CNAME\ uses the methods and algorithms applied in Stock Synthesis \citep{methot2013stock}. The descriptions below are heavily based on the text describing this approach in Appendix of \cite{methot2013stock}.
+
+
+This process begins by calculating popes discrete approximation (same as \subcommand{mortality\_instantaneous} (Section~\ref{sec:Process-MortalityInstantaneous})), and then converts this to Baranov fishing mortality coefficients. A tuning algorithm is then done to tune these coefficients to match input catch nearly exactly, rather than the full Baranov approach.
 
 
 Total mortality (\(Z_{t,c,a}\)) is calculated as
@@ -698,6 +701,32 @@ N^*_{t,c,a} = N_{t,c,a} \exp\left(-Z_{t,c,a}\right)
 \]
 
 During initialisation phases and in years or time-steps with no catch, \(Z_{t,c,a} = M_{c,a,t}\).
+
+
+The following is an excerpt of the input files, however see Section~\ref{syntax:Process-MortalityHybrid} for details and descriptions on the subcommands.
+
+{\small{\begin{verbatim}
+@process total_mortality
+type mortality_hybrid
+m 0.15
+time_step_proportions  1 
+relative_m_by_age One*2
+categories *
+max_f 2.95		## max F
+f_iterations 5  ## number of tuning iterations
+table catches
+year Fishery
+1972	200
+1973	1000
+1974	1000
+end_table
+
+table method
+method  	category 	selectivity 	annual_duration 	time_step 	
+Fishery   	male   		fish_sel 		1					step1 		
+Fishery  	female   	fish_sel 		1 					step1 		
+end_table
+\end{verbatim}}}
 
 
 \paragraph{\I{Holling mortality rate}}\label{sec:Process-MortalityHollingRate} \STATUS{Untested}

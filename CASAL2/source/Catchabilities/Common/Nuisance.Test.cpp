@@ -256,7 +256,7 @@ time_step_proportion 1.0
 type process_removals_by_age
 likelihood multinomial
 time_step step1
-mortality_instantaneous_process instant_mort
+mortality_process instant_mort
 categories stock
 method_of_removal FishingWest
 ageing_error Ageing_error
@@ -314,7 +314,7 @@ type none
 type process_removals_by_age
 likelihood multinomial
 time_step step1
-mortality_instantaneous_process instant_mort
+mortality_process instant_mort
 categories stock
 ageing_error Ageing_error
 method_of_removal FishingEest

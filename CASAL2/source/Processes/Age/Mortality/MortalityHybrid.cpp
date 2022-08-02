@@ -1,11 +1,13 @@
 /**
  * @file MortalityHybrid.cpp
- * @author Scott Rasmussen (scott.rasmussen@zaita.com)
- * @github https://github.com/Zaita
- * @date 28/07/2015
+ * @author C Marsh
+ * @github https://github.com/Craig44
+ * @date 2022
  * @section LICENSE
  *
- * Copyright NIWA Science �2015 - www.niwa.co.nz
+ * This mortality process is taken from Stock Synthesis see the hybrid approach 
+ * found at
+ * https://github.com/nmfs-stock-synthesis/stock-synthesis/blob/main/SS_popdyn.tpl
  *
  */
 
@@ -785,6 +787,7 @@ void MortalityHybrid::DoExecute() {
             }
           }
           // Catch at age
+          LOG_FINEST() << "Catch at age for year ndx = " << this_year_iter.second << " fishery ndx = " << fishery_category.fishery_.fishery_ndx_ <<  " category ndx " << fishery_category.category_.category_ndx_;
           for (unsigned i = 0; i < model_->age_spread(); ++i) {
             unsigned age_offset = category->min_age_ - model_->min_age();
             if (i < age_offset)

@@ -9,7 +9,9 @@
  *
  * @section DESCRIPTION
  *
- * This mortality process is taken from Stock Synthesis
+ * This mortality process is taken from Stock Synthesis see the hybrid approach 
+ * found at
+ * https://github.com/nmfs-stock-synthesis/stock-synthesis/blob/main/SS_popdyn.tpl
  */
 #ifndef SOURCE_PROCESSES_CHILDREN_MORTALITYHBRID_H_
 #define SOURCE_PROCESSES_CHILDREN_MORTALITYHBRID_H_
@@ -122,12 +124,6 @@ private:
   map<unsigned, double>      time_step_ratios_;
   vector<string>             selectivity_labels_;
   vector<Selectivity*>       selectivities_;
-
-  // members for observations
-  utilities::Vector4 removals_by_year_fishery_category_;  // process_years_ x method_labs x category_labels_ x age
-
-  // map<unsigned, map<string, map<string, vector<Double>>>> removals_by_year_fishery_category_;  // Year,  fishery, category
-
   // Members for reporting
   vector<unsigned>               time_steps_to_skip_applying_F_mortality_;
   bool                           use_age_weight_ = true;

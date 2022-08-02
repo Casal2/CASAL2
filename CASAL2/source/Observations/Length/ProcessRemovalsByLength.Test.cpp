@@ -188,7 +188,7 @@ years 1995 1998 2000 2001 2007 2008 2010
 likelihood multinomial
 time_step Annual
 categories untagged+tag_1996
-mortality_instantaneous_process mortality
+mortality_process mortality
 method_of_removal Trawl_1
 sum_to_one true
 delta 1e-5
@@ -220,7 +220,7 @@ years 1995 1998 2000 2001 2007 2008 2010
 likelihood multinomial
 time_step Annual
 categories untagged+tag_1996
-mortality_instantaneous_process mortality
+mortality_process mortality
 method_of_removal Trawl_1
 length_bins 20:58
 plus_group true

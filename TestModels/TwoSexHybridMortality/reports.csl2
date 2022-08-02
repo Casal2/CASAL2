@@ -1,0 +1,99 @@
+## Report section for now
+@assert obj
+type objective_function
+value 2077.195374
+
+@report Init
+type initialisation_partition
+
+@report summary
+type estimate_value
+
+@report objective
+type objective_function
+
+@report state1
+type partition
+time_step step1
+years 1972:2014
+
+@report state2
+type partition
+time_step step2
+years 1972:2014
+
+@report SSB
+type derived_quantity
+
+@report Mortality
+type process
+process instant_mort
+
+@report Rec
+type process
+process Recruitment
+
+
+@report vb_male
+type age_length
+age_length vb_male
+time_step step1
+
+@report vb_female
+type age_length
+age_length vb_male
+time_step step1
+
+/*
+@report chatTANq
+type derived_quantity
+
+@report instant_mortality
+type observation
+observation instant_mort
+*/
+@report Tangaroa_bio
+type observation
+observation chatTANbiomass
+
+@report Tangaroa_propn_at_age_Jan
+type observation
+observation Tangaroa_propn_at_age_Jan
+
+@report trawl_propn_at_age
+type observation
+observation trawl_propn_at_age
+
+@report longline_propn_at_length
+type observation
+observation longline_propn_at_length
+
+@report longline_propn_at_age
+type observation
+observation longline_propn_at_age
+
+/*
+@report sel_tanF
+type selectivity
+selectivity chatTANSel_f
+
+@report sel_tanM
+type selectivity
+selectivity chatTANSel_m
+
+@report sel_trwlF
+type selectivity
+selectivity trwlFSel_f
+
+@report sel_trwlM
+type selectivity
+selectivity trwlFSel_m
+
+@report sel_lineA
+type selectivity
+selectivity lineFSel_f
+
+@report sel_lineM
+type selectivity
+selectivity lineFSel_m
+*/

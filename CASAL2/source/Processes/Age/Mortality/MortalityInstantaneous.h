@@ -128,9 +128,6 @@ private:
   vector<string>             selectivity_labels_;
   vector<Selectivity*>       selectivities_;
 
-
-  // map<unsigned, map<string, map<string, vector<Double>>>> removals_by_year_fishery_category_;  // Year,  fishery, category
-
   // Members for reporting
   vector<unsigned>               time_steps_to_skip_applying_F_mortality_;
   bool                           use_age_weight_ = true;

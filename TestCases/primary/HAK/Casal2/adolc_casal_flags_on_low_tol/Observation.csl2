@@ -88,7 +88,7 @@ end_table
 type process_removals_by_age
 likelihood multinomial
 time_step Jul_Jan
-mortality_instantaneous_process Instantaneous_Mortality
+mortality_process Instantaneous_Mortality
 categories male+female
 method_of_removal subaF
 min_age 3

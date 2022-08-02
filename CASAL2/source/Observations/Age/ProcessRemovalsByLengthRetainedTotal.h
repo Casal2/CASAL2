@@ -75,6 +75,9 @@ protected:
   vector<Double>                  expected_values_;
   map<unsigned, map<string, vector<double>>> proportions_;
   map<unsigned, map<string, vector<double>>> error_values_;
+
+  vector<string>          allowed_mortality_types_;
+
 };
 
 } /* namespace age */

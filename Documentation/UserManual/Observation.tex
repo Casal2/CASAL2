@@ -14,25 +14,26 @@ Observations for a process are indicated by their type --- these use the word pr
 
 \subsubsection{\I{Mortality block associated observations}}
 
-All observations within this class are calculated similarly. That is, the expected values are calculated at the beginning of the mortality block and at the end of the mortality block. \CNAME\ then uses a linear interpolation to approximate the expected values part way through a mortality block using the subcommand \texttt{time\_step\_proportion}. This feature could be useful if a survey occurs part way through an exploitation phase, which may be part way through a fishing season when modelling a fish population. Each observation in this class will evaluate different expectations of the partition (explained in the following descriptions).
+All observations within this class are calculated similarly. That is, the expected values are calculated at the beginning of the mortality block and at the end of the mortality block. \CNAME\ then uses a linear interpolation to approximate the expected values part way through a mortality block using the subcommand \subcommand{time\_step\_proportion}. This feature could be useful if a survey occurs part way through an exploitation phase, which may be part way through a fishing season when modelling a fish population. Each observation in this class will evaluate different expectations of the partition (explained in the following descriptions).
 
 The observation \texttt{types} available with this class of observations are:
 
 \begin{itemize}
-	\item \texttt{abundance}
-	\item \texttt{biomass}
-	\item \texttt{proportions\_at\_age}
-	\item \texttt{proportions\_at\_length}
-	\item \texttt{proportions\_by\_category}
-	\item \texttt{tag\_recapture\_by\_length}
-	\item \texttt{tag\_recapture\_by\_age}
+	\item \subcommand{abundance}
+	\item \subcommand{biomass}
+	\item \subcommand{proportions\_at\_age}
+	\item \subcommand{proportions\_at\_length}
+	\item \subcommand{proportions\_by\_category}
+	\item \subcommand{tag\_recapture\_by\_length}
+	\item \subcommand{tag\_recapture\_by\_age}
 \end{itemize}
 
 \paragraph*{\I{Abundance or biomass observations}}\label{sec:Observation-Abundance}\label{sec:Observation-Biomass}
 
 Abundance (or biomass) observations are observations of either a relative or absolute number (or biomass) of individuals from a set of categories after applying a selectivity. The observation classes are the same, except that a biomass observation will use the biomass as the observed (and expected) value (calculated from mean weight of individuals within each age and category) while an abundance observation is the number of individuals.
 
-Each observation is for a given year and time-step, for some selected age classes of the population (for a range of ages multiplied by a selectivity), for aggregated categories. Furthermore, the label of the catchability coefficient $q$ is required;  $q$ can either be estimated of fixed. For absolute abundance or absolute biomass observations, define a catchability where $q=1$. Catchabilities can be estimated as either free parameters (See Section \ref{syntax:Catchability-Free}) or as nuisance parameters (see Section \ref{syntax:Catchability-Nuisance}). \TODO{Catchabilities deserve their own section in the manual}
+Each observation is for a given year and time-step, for some selected age classes of the population (for a range of ages multiplied by a selectivity), for aggregated categories. Furthermore, the label of the catchability coefficient $q$ is required;  $q$ can either be estimated of fixed. For absolute abundance or absolute biomass observations, define a catchability where $q=1$. Catchabilities can be estimated as either free parameters or as nuisance parameters (see Section \ref{subsec:catchabilities}).
+
 
 The observations can be supplied for any set of categories. For example, for a model with the two categories \emph{male} and \emph{female}, an observation of the total abundance/biomass (male $+$ female) or male-only abundance/biomass could be provided. The subcommand \subcommand{categories} defines the categories used to aggregate the abundance/biomass. In addition, each category must have an associated selectivity, defined by \subcommand{selectivities}.
 
@@ -250,7 +251,7 @@ If there is no plus group, i.e., \texttt{length\_plus=false}, then \CNAME\ requi
 		likelihood multinomial
 		time_step Summer
 		fishery EastChathamRise
-		process instant_mort
+		mortality_process instant_mort
 		categories male
 		length_plus false
 		length_bins 0 20 40 60 80 110
@@ -753,19 +754,29 @@ A list of \texttt{types} that are associated with this set of observations are:
 	
 	\paragraph*{\I{Process removals by age}\label{sec:removals-by-age}}\label{sec:Observation-ProcessRemovalsByAge}
 	
-	Removals-at-age observations are observations of the relative number of individuals at age, part way through a process of type \texttt{mortality\_instantaneous}. This observation is exclusively associated with the process of type \texttt{mortality\_instantaneous}, and will produce an error if it is associated with any other process type.
+	Removals-at-age observations are observations of the relative number of individuals at age, part way through a process of type \subcommand{mortality\_instantaneous} or \subcommand{mortality\_hybrid}. This observation can be  associated with the process of type \texttt{mortality\_instantaneous} and \subcommand{mortality\_hybrid}, and will produce an error if any other mortality process type is given.
 	
-	The observation is supplied for a given year and time-step, for selected age classes of the population (i.e., for a range of ages multiplied by a selectivity that is associated with the process).
+	The observation is supplied for a set of years and specific time-step, for selected age classes of the population (i.e., for a range of ages multiplied by a selectivity that is derived from the process).
 	
 	The age range must be ages defined in the partition (i.e., between \commandsub{model}{min\_age} and \commandsub{model}{max\_age} inclusive); the upper end of the age range can optionally be a plus group, which must be either the same or less than the plus group defined for the partition.
 	
-	The expectations from this observation are generated whilst the process is being executed. The expectation of numbers at age $a$ for category $c$ from exploitation method $m$ ($E[N_{a,c,m}]$) are
+	The expectations from this observation when the process is of type \subcommand{mortality\_instantaneous} are generated whilst the process is being executed. The expectation of numbers at age $a$ for category $c$ from exploitation method $m$ ($E[N_{a,c,m}]$) is
 	
 	\begin{equation}
 	E[N_{a,c,m}] = N_{a,c} U_{a,m} S_{a,c,m} 0.5 M_{a,c}
 	\end{equation}
 	
 	where $N_{a,c}$ are the numbers-at-age in category $c$ before the process is executed, $U_{a,m}$ is the exploitation rate for age $a$ from method $m$, $S_{a,c,m}$ is the selectivity, and $M$ is the natural mortality.
+		
+	The expectations from this observation when the process is of type \subcommand{mortality\_hybrid} are generated whilst the process is being executed. The expectation of numbers at age $a$ for category $c$ from exploitation method $m$ ($E[N_{a,c,m}]$) is
+	
+	\begin{equation}
+	E[N_{a,c,m}] = \frac{F_{a,m}}{Z_{a,c}} N_{a,c}  S_{a,c,m}
+	\end{equation}
+	
+	where $N_{a,c}$ are the numbers-at-age in category $c$ before the process is executed, $F_{a,m}$ is the fishing mortality rate for age $a$ from method $m$, $S_{a,c,m}$ is the selectivity and $Z_{a,c}$ is the total mortality.
+	
+	
 	
 	The observation class accesses the variable $E[N_{a,c,m}]$ and applies ageing error if the user has specified it. Then the observations are aggregated by method and category depending on how the user specifies the observation, before converting numbers-at-age to proportions-at-age and then calculating the likelihood.
 	
@@ -773,14 +784,14 @@ A list of \texttt{types} that are associated with this set of observations are:
 	
 	\paragraph*{\I{Process removals by age retained}} \label{sec:Observation-ProcessRemovalsByAgeRetained} \label{sec:Observation-ProcessRemovalsByAgeRetainedTotal}
 	
-	Observations of retained and total catches by age can be included, using the labels \texttt{process\_removals\_by\_age\_retained} and \texttt{process\_removals\_by\_age\_retained\_total}, respectively. Examples of two such observations are given below, with the associated process \texttt{Instantaneous\_Mortality\_Retained} having the form of the example in Section \ref{sec:Process-MortalityInstantaneousRetained}.
+	Observations of retained and total catches by age can be included, using the labels \subcommand{process\_removals\_by\_age\_retained} and \subcommand{process\_removals\_by\_age\_retained\_total}, respectively. Examples of two such observations are given below, with the associated process \subcommand{Instantaneous\_Mortality\_Retained} having the form of the example in Section \ref{sec:Process-MortalityInstantaneousRetained}.
 	
 	For retained catch:
 	
 	{\small{\begin{verbatim}
 			@observation potFishAFtotal
 			type process_removals_by_age_retained_total
-			mortality_instantaneous_process Instantaneous_Mortality_Retained
+			mortality_process Instantaneous_Mortality_Retained
 			method_of_removal FishingPot
 			years 2005
 			time_step 1
@@ -804,7 +815,7 @@ A list of \texttt{types} that are associated with this set of observations are:
 	{\small{\begin{verbatim}
 			@observation potFishAFretained
 			type process_removals_by_age_retained
-			mortality_instantaneous_process Instantaneous_Mortality_Retained
+			mortality_process Instantaneous_Mortality_Retained
 			method_of_removal FishingPot
 			years 2005
 			time_step 1
@@ -825,7 +836,7 @@ A list of \texttt{types} that are associated with this set of observations are:
 	
 	\paragraph*{\I{Process removals by length}\label{sec:removals-by-length}}\label{sec:Observation-ProcessRemovalsByLength}
 	
-	Removals by length observations are observations of the relative number of individuals at length, part way through a process of type \texttt{mortality\_instantaneous}. This observation is exclusively associated with the process of type \texttt{mortality\_instantaneous}, and will produce an error if associated with any other process type.
+	Removals by length observations are observations of the relative number of individuals at length, part way through a process of type \subcommand{mortality\_instantaneous}. This observation is exclusively associated with the process of type \subcommand{mortality\_instantaneous}, and will produce an error if associated with any other process type.
 	
 	The observation is supplied for a given year and time-step, for some selected age classes of the population (i.e., for a range of ages multiplied by a selectivity that is associated with the process).
 	
@@ -839,7 +850,7 @@ A list of \texttt{types} that are associated with this set of observations are:
 	
 	The observation class accesses the variable $E[N_{a,c,m}]$ from the process and applies the age-length relationship specified in the model. This converts numbers-at-age to numbers-at-age and -length, which are then converted to numbers-at-length. The observations are aggregated by method and category depending on how the user specifies the observation, before converting numbers-at-age to proportions and calculating the likelihood.
 	
-	Similar to the proportions-at-length observation type, the user must supply a vector of length bins. The observation-specific length bins must be a sequential subset of the model length bins, with no missing or added values. For example, if the model length bins are \texttt{0 5 10 15 20 25 ... 100}, then the observation-specific length bins can be \texttt{20 25 30 35 40 45 50} but not \texttt{20 30 40 50}.
+	Similar to the proportions-at-length observation type, the user must supply a vector of length bins. The observation-specific length bins must be a sequential subset of the model length bins, with no missing or added values. For example, if the model length bins are \texttt{0 5 10 15 20 25 ... 100}, then the observation-specific length bins can be \subcommand{20 25 30 35 40 45 50} but not \subcommand{20 30 40 50}.
 	
 	{\small{\begin{verbatim}
 			@observation observation_fishery_LF
@@ -847,7 +858,7 @@ A list of \texttt{types} that are associated with this set of observations are:
 			...
 			years  1993 1994 1995
 			method_of_removal FishingEast
-			mortality_instantaneous_process instant_mort
+			mortality_process instant_mort
 			length_plus false
 			length_bins 0 20 40 60 80 110
 			delta 1e-5
@@ -870,14 +881,14 @@ A list of \texttt{types} that are associated with this set of observations are:
 	
 	Observations of retained and total catches by length can be included, using the labels \texttt{process\_removals\_by\_length\_retained} and \texttt{process\_removals\_by\_length\_retained\_total} respectively. Examples of two such observations are given below, with the associated process \texttt{Instantaneous\_Mortality\_Retained} having the form of the example in Section \ref{sec:Process-MortalityInstantaneousRetained}.
 	
-	Similar to the proportions-at-length observation type, the user must supply a vector of length bins. The observation-specific length bins must be a sequential subset of the model length bins, with no missing or added values. For example, if the model length bins are \texttt{0 5 10 15 20 25 ... 100}, then the observation-specific length bins can be \texttt{20 25 30 35 40 45 50} but not \texttt{20 30 40 50}.
+	Similar to the proportions-at-length observation type, the user must supply a vector of length bins. The observation-specific length bins must be a sequential subset of the model length bins, with no missing or added values. For example, if the model length bins are \subcommand{0 5 10 15 20 25 ... 100}, then the observation-specific length bins can be \subcommand{20 25 30 35 40 45 50} but not \subcommand{20 30 40 50}.
 	
 	For retained catch:
 	
 	{\small{\begin{verbatim}
 			@observation potFishLFtotal   #test syntax get catch LF out
 			type process_removals_by_length_retained_total
-			mortality_instantaneous_process Instantaneous_Mortality_Retained
+			mortality_process Instantaneous_Mortality_Retained
 			method_of_removal FishingPot
 			years 2005
 			time_step 1
@@ -899,7 +910,7 @@ A list of \texttt{types} that are associated with this set of observations are:
 	{\small{\begin{verbatim}
 			@observation potFishLFretained   #test syntax get retained LF out
 			type process_removals_by_length_retained
-			mortality_instantaneous_process Instantaneous_Mortality_Retained
+			mortality_process Instantaneous_Mortality_Retained
 			method_of_removal FishingPot
 			years 2005
 			time_step 1
@@ -919,7 +930,7 @@ A list of \texttt{types} that are associated with this set of observations are:
 	
 	\paragraph*{\I{Proportions migrating}\label{sec:Proportions-migrating}}\label{sec:Observation-ProportionsMigrating}
 	
-	This observation is of the proportion migrating from one area to another. This observation is exclusively associated with the process type \texttt{transition\_category}, and will produce an error when associated with any other process type. This observation is used to inform migration rates in migration processes. This observation class is used in the hoki stock assessment see~\cite{francis_03} for more information on how these observations are collected and a situation that uses it.
+	This observation is of the proportion migrating from one area to another. This observation is exclusively associated with the process type \subcommand{transition\_category}, and will produce an error when associated with any other process type. This observation is used to inform migration rates in migration processes. This observation class is used in the hoki stock assessment see~\cite{francis_03} for more information on how these observations are collected and a situation that uses it.
 	
 	This observation calculates an expectation $E_a$ of proportions for each age class $a$ that have migrated, by
 	
@@ -964,7 +975,7 @@ A list of \texttt{types} that are associated with this set of observations are:
 	
 	\paragraph*{\I{Process removals by length}\label{sec:removals-by-length}}\label{sec:Observation-ProcessRemovalsByLength}
 	
-	Process-Removals-at-length observations are observations of the relative length frequency part way through a process of type \texttt{mortality\_instantaneous}. This observation is exclusively associated with the process of type \texttt{mortality\_instantaneous}, and will produce an error if it is associated with any other process type.
+	Process-Removals-at-length observations are observations of the relative length frequency part way through a process of type \subcommand{mortality\_instantaneous}. This observation is exclusively associated with the process of type \subcommand{mortality\_instantaneous}, and will produce an error if it is associated with any other process type.
 	
 	The observation is supplied for a given year and time-step, for selected length classes of exploited categories.
 
@@ -1234,10 +1245,27 @@ Similarly, if the likelihood is parameterised by the effective sample size $N$,
 Note that this requires that $N_{process\_ error} > 0$, but the special case of $N_{process\_ error}=0$ is valid, and $N_{process\_ error}=0$ represents no process error (i.e., defined to be equivalent to $N_{process\_ error}=\infty$).
 
 For both the c.v. and $N$ process errors, the process error has more effect on small errors than on large ones. Note that a large value for the $N$ process error means a small process error.
+\subsection{\I{Catchability \emph{q} parameters}}\label{subsec:catchabilities}
 
-\subsection{\I{Calculating nuisance \emph{q} parameters}}\label{subsec:nuisance}
+Catchability parameters often denoted by \(q\) are used in abundance or biomass observations to scale the model expected value to the observed value (see Section~\ref{sec:Observation-Abundance}). \CNAME\ has two methods for implementing catchability parameters, \subcommand{free} and \subcommand{nuisance}. 
 
-This section describes the theory used to calculate nuisance (analytical) catchability coefficients $q$s (see Section~\ref{Obs:biomass}). From the user's point of view, the essence is that you can use nuisance $q$s in the following situations:
+The \subcommand{free} approach treats the catchability parameters like all other parameters, where a prior needs to be assumed and it is estimated in the usual fashion.
+
+The \subcommand{nuisance} approach treats the catchability parameters like all other parameters, where a prior needs to be assumed and it is estimated in the usual fashion.
+\subsubsection{\I{Free \emph{q}}}\label{subsec:free}
+
+(see Section~\ref{syntax:Catchability-Free} for additional details on syntax)
+
+
+{\small{\begin{verbatim}
+		@catchability CPUEq
+		type free
+		q 0.1
+\end{verbatim}}}
+
+
+\subsubsection{\I{Nuisance \emph{q}}}\label{subsec:nuisance}
+This section describes the algorithms \CNAME\ uses to derive nuisance (analytical) catchability coefficients $q$s (see Section~\ref{syntax:Catchability-Nuisance} for additional details on syntax). From the user's point of view, the essence is that you can use nuisance $q$s in the following situations:
 
 \begin{itemize}
 	\item With maximum likelihood estimation
@@ -1392,7 +1420,7 @@ Methods for generating the random error, and hence the simulated values, have th
   \end{enumerate}
 \end{itemize}
 
-\textbf{An important note when simulating:} \CNAME\ will \textbf{not} automatically report simulated observations when using a \texttt{casal2 -s 1 -i input\_pars.out} run. A report must be defined using the \texttt{simulated\_observation} report (\commandlabsubarg{report}{type}{observation}). For completeness the report is described along with some best practices here, but there is additional information in Section \ref{sec:Report}.
+\textbf{An important note when simulating:} \CNAME\ will \textbf{not} automatically report simulated observations when using a \texttt{casal2 -s 1 -i input\_pars.out} run. A report must be defined using the \subcommand{simulated\_observation} report (\commandlabsubarg{report}{type}{observation}). For completeness the report is described along with some best practices here, but there is additional information in Section \ref{sec:Report}.
 
 
 A typical report for simulating an observation looks like
@@ -1432,7 +1460,7 @@ Simulated reports will be produced with the following extension \texttt{.1\_1}. 
 
 \subsection{\I{Residuals}}\label{sec:Residuals}
 
-\CNAME\ will print the default residual values (i.e., observed less fitted) only when the report type \command{report}\texttt{.type=observation} is used. For an observation \textit{O} and \textit{F} the corresponding fit (=\textit{qE} for relative observations), then
+\CNAME\ will print the default residual values (i.e., observed less fitted) only when the report type \command{report}\subcommand{.type=observation} is used. For an observation \textit{O} and \textit{F} the corresponding fit (=\textit{qE} for relative observations), then
 
 \begin{itemize}
 	\item Residuals = \textit{O} - \textit{F}

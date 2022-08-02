@@ -22,6 +22,7 @@
 #include "Model/Model.h"
 #include "Partition/Accessors/All.h"
 #include "TimeSteps/Manager.h"
+#include "Processes/Manager.h"
 #include "Utilities/Map.h"
 #include "Utilities/Math.h"
 #include "Utilities/To.h"
@@ -49,7 +50,7 @@ ProcessRemovalsByAge::ProcessRemovalsByAge(shared_ptr<Model> model) : Observatio
   parameters_.Bind<string>(PARAM_METHOD_OF_REMOVAL, &method_, "The label of the observed method of removals", "", "");
   parameters_.BindTable(PARAM_OBS, obs_table_, "The table of observed values", "", false);
   parameters_.BindTable(PARAM_ERROR_VALUES, error_values_table_, "The table of error values of the observed values (note that the units depend on the likelihood)", "", false);
-  parameters_.Bind<string>(PARAM_MORTALITY_INSTANTANEOUS_PROCESS, &process_label_, "The label of the mortality instantaneous process for the observation", "");
+  parameters_.Bind<string>(PARAM_MORTALITY_PROCESS, &process_label_, "The label of the mortality process for the observation", "");
   parameters_.Bind<bool>(PARAM_SIMULATED_DATA_SUM_TO_ONE, &simulated_data_sum_to_one_, "Whether simulated data is discrete or scaled by totals to be proportions for each year", "", true);
   parameters_.Bind<bool>(PARAM_SUM_TO_ONE, &sum_to_one_, "Scale year (row) observed values by the total, so they sum = 1", "", false);
 
@@ -59,6 +60,9 @@ ProcessRemovalsByAge::ProcessRemovalsByAge(shared_ptr<Model> model) : Observatio
 
   allowed_likelihood_types_.push_back(PARAM_LOGNORMAL);
   allowed_likelihood_types_.push_back(PARAM_MULTINOMIAL);
+
+  allowed_mortality_types_.push_back(PARAM_MORTALITY_INSTANTANEOUS);
+  allowed_mortality_types_.push_back(PARAM_MORTALITY_HYBRID);
 }
 
 /**
@@ -253,15 +257,19 @@ void ProcessRemovalsByAge::DoBuild() {
     if (!time_step) {
       LOG_FATAL_P(PARAM_TIME_STEP) << "Time step label " << time_label << " was not found.";
     } else {
-      auto process             = time_step->SubscribeToProcess(this, years_, process_label_);
-      mortality_instantaneous_ = dynamic_cast<MortalityInstantaneous*>(process);
+      auto process       = time_step->SubscribeToProcess(this, years_, process_label_);
+      if(!process)
+        LOG_FATAL_P(PARAM_MORTALITY_PROCESS) << "could not find process " << process_label_;
+      mortality_process_ = model_->managers()->process()->GetAgeBasedMortalityProcess(process_label_);
     }
   }
 
-  if (mortality_instantaneous_ == nullptr)
-    LOG_FATAL() << "Observation " << label_ << " can be used with Process type " << PARAM_MORTALITY_INSTANTANEOUS << " only. Process " << process_label_
-                << " was not found or has retained catch characteristics specified.";
-
+  if (mortality_process_ == nullptr) {
+    LOG_FATAL_P(PARAM_MORTALITY_PROCESS) << "Could not find process " << process_label_ << ".";
+  } else {
+    if(find(allowed_mortality_types_.begin(), allowed_mortality_types_.end(), mortality_process_->type()) == allowed_mortality_types_.end())
+      LOG_FATAL_P(PARAM_MORTALITY_PROCESS) << "The mortality process is of type " << mortality_process_->type() << " is not allowed for this observation.";
+  }
   // Need to split the categories if any are combined for checking
   vector<string> temp_split_category_labels, split_category_labels;
 
@@ -274,20 +282,28 @@ void ProcessRemovalsByAge::DoBuild() {
   for (auto category : split_category_labels) LOG_FINEST() << category;
 
   // Do some checks so that the observation and process are compatible
-  if (!mortality_instantaneous_->check_methods_for_removal_obs(method_))
+  if (!mortality_process_->check_methods_for_removal_obs(method_))
     LOG_FATAL_P(PARAM_METHOD_OF_REMOVAL) << "could not find all these methods in the instantaneous_mortality process labeled " << process_label_
                                          << ". Check that the methods are compatible with this process";
-  if (!mortality_instantaneous_->check_categories_in_methods_for_removal_obs(method_, split_category_labels))
+  if (!mortality_process_->check_categories_in_methods_for_removal_obs(method_, split_category_labels))
     LOG_FATAL_P(PARAM_CATEGORIES) << "could not find all these categories in the instantaneous_mortality process labeled " << process_label_
                                   << ". Check that the categories are compatible with this process";
-  if (!mortality_instantaneous_->check_years_in_methods_for_removal_obs(years_, method_))
+  if (!mortality_process_->check_years_in_methods_for_removal_obs(years_, method_))
     LOG_FATAL_P(PARAM_YEARS) << "could not find catches with catch in all years in the instantaneous_mortality process labeled " << process_label_
                              << ". Check that the years are compatible with this process";
-  fishery_ndx_to_get_catch_at_info_ = mortality_instantaneous_->get_fishery_ndx_for_catch_at(method_);
-  vector<unsigned> category_ndxs = mortality_instantaneous_->get_category_ndx_for_catch_at(split_category_labels);
-  for(unsigned category_ndx = 0; category_ndx < split_category_labels.size(); ++category_ndx) 
+  fishery_ndx_to_get_catch_at_info_ = mortality_process_->get_fishery_ndx_for_catch_at(method_);
+  LOG_FINE() << "fishery ndx = ";
+  for(auto fishndx : fishery_ndx_to_get_catch_at_info_)
+    LOG_FINE() << fishndx;
+  vector<unsigned> category_ndxs = mortality_process_->get_category_ndx_for_catch_at(split_category_labels);
+  for(unsigned category_ndx = 0; category_ndx < split_category_labels.size(); ++category_ndx)  {
     category_lookup_for_ndx_to_get_catch_at_info_[split_category_labels[category_ndx]] = category_ndxs[category_ndx];
-  year_ndx_to_get_catch_at_info_ = mortality_instantaneous_->get_year_ndx_for_catch_at(years_);
+    LOG_FINE() << "cat " << split_category_labels[category_ndx] << " ndx = " << category_ndxs[category_ndx];
+  }
+  year_ndx_to_get_catch_at_info_ = mortality_process_->get_year_ndx_for_catch_at(years_);
+  LOG_FINE() << "year ndx = ";
+  for(auto yearndx : year_ndx_to_get_catch_at_info_)
+    LOG_FINE() << yearndx;
 
   // If this observation is made up of multiple methods lets find out the last one, because that is when we execute the process
   vector<unsigned> time_step_index;
@@ -344,8 +360,9 @@ void ProcessRemovalsByAge::Execute() {
         unsigned method_offset = 0;
         for (string fishery : method_) {
           fill(numbers_at_age_with_ageing_error_.begin(), numbers_at_age_with_ageing_error_.end(), 0.0);
-
-          vector<Double>& Removals_at_age = mortality_instantaneous_->get_catch_at_by_year_fishery_category(year_ndx_to_get_catch_at_info_[this_year_iter.second], fishery_ndx_to_get_catch_at_info_[method_offset], category_lookup_for_ndx_to_get_catch_at_info_[(*category_iter)->name_]);
+          LOG_FINEST() << "year ndx = " << year_ndx_to_get_catch_at_info_[this_year_iter.second] << " fishery ndx = " << fishery_ndx_to_get_catch_at_info_[method_offset] << " category ndx = " << category_lookup_for_ndx_to_get_catch_at_info_[(*category_iter)->name_];
+          vector<Double>& Removals_at_age = mortality_process_->get_catch_at_by_year_fishery_category(year_ndx_to_get_catch_at_info_[this_year_iter.second], fishery_ndx_to_get_catch_at_info_[method_offset], category_lookup_for_ndx_to_get_catch_at_info_[(*category_iter)->name_]);
+          LOG_FINE() << "Nages = " << Removals_at_age.size();
           /*
            *  Apply Ageing error on Removals at age vector
            */

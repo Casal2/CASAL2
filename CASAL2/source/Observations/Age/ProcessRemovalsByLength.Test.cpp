@@ -160,7 +160,7 @@ years 1991 1992 1993 1994 1995
 likelihood multinomial
 time_step step1
 method_of_removal FishingEest
-mortality_instantaneous_process instant_mort
+mortality_process instant_mort
 categories stock
 plus_group false
 length_bins 0 20 40 60 80 110
