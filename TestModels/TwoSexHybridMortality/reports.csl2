@@ -1,7 +1,7 @@
 ## Report section for now
 @assert obj
 type objective_function
-value 2077.195374
+value 1782.945578
 
 @report Init
 type initialisation_partition
