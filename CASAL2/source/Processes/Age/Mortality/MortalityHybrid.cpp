@@ -29,6 +29,7 @@
 #include "Utilities/Math.h"
 #include "Utilities/To.h"
 #include "Utilities/Vector.h"
+#include "Penalties/Manager.h"
 
 // namespaces
 namespace niwa {
@@ -190,6 +191,8 @@ void MortalityHybrid::DoValidate() {
     LOG_FATAL_P(PARAM_METHOD) << "The required column " << PARAM_SELECTIVITY << " was not found.";
   if (std::find(columns.begin(), columns.end(), PARAM_TIME_STEP) == columns.end())
     LOG_FATAL_P(PARAM_METHOD) << "The required column " << PARAM_TIME_STEP << " was not found.";
+  if (std::find(columns.begin(), columns.end(), PARAM_PENALTY) == columns.end())
+    LOG_FATAL_P(PARAM_METHOD) << "The required column " << PARAM_PENALTY << " was not found.";
   if (std::find(columns.begin(), columns.end(), PARAM_ANNUAL_DURATION) == columns.end())
     LOG_FATAL_P(PARAM_METHOD) << "The required column " << PARAM_ANNUAL_DURATION << " was not found.";
   if (std::find(columns.begin(), columns.end(), PARAM_AGE_WEIGHT_LABEL) == columns.end()) {
@@ -204,6 +207,7 @@ void MortalityHybrid::DoValidate() {
   unsigned category_index    = std::find(columns.begin(), columns.end(), PARAM_CATEGORY) - columns.begin();
   unsigned selectivity_index = std::find(columns.begin(), columns.end(), PARAM_SELECTIVITY) - columns.begin();
   unsigned time_step_index   = std::find(columns.begin(), columns.end(), PARAM_TIME_STEP) - columns.begin();
+  unsigned penalty_index     = std::find(columns.begin(), columns.end(), PARAM_PENALTY) - columns.begin();
   unsigned annual_duration_index = std::find(columns.begin(), columns.end(), PARAM_ANNUAL_DURATION) - columns.begin();
   unsigned age_weight_index  = 999;
 
@@ -225,6 +229,7 @@ void MortalityHybrid::DoValidate() {
     FisheryData new_fishery;
     new_fishery.label_                     = row[fishery_index];
     new_fishery.time_step_label_           = row[time_step_index];
+    new_fishery.penalty_label_             = row[penalty_index];
     new_fishery.years_                     = process_years_;
     if (!utilities::To<string, Double>(row[annual_duration_index], new_fishery.annual_duration_))
       LOG_ERROR_P(PARAM_METHOD) << PARAM_ANNUAL_DURATION << " value " << row[annual_duration_index] << " could not be converted to a Double";
@@ -232,6 +237,9 @@ void MortalityHybrid::DoValidate() {
     if ((new_fishery.annual_duration_ < 0) | (new_fishery.annual_duration_ > 1)) {
       LOG_ERROR_P(PARAM_METHOD) << "Fishery labelled " << new_fishery.label_ << " had " << PARAM_ANNUAL_DURATION << " = " << new_fishery.annual_duration_  << " at row " << row_iter
                                 << " This must be a value between 0 and 1.";
+    }
+    if(new_fishery.annual_duration_ != 1) {
+      LOG_WARNING() << "The " << PARAM_ANNUAL_DURATION << " for fishery " << new_fishery.label_ << " was equal to one. This an uncommon assumption this warning is to check that you understand this assumptions. Disregard this warning if you are comfortable with making this assumption.";
     }
 
     std::pair<bool, int> this_fishery_iter = findInVector(fishery_labels_, new_fishery.label_);
@@ -388,6 +396,11 @@ void MortalityHybrid::DoBuild() {
 
   for (auto& fishery_iter : fisheries_) {
     auto& fishery = fishery_iter.second;
+    if (fishery.penalty_label_ != "none") {
+      fishery.penalty_ = model_->managers()->penalty()->GetProcessPenalty(fishery.penalty_label_);
+      if (!fishery.penalty_)
+        LOG_ERROR_P(PARAM_METHOD) << ": Penalty label " << fishery.penalty_label_ << " was not found.";
+    }
     bool check_time_step = model_->managers()->time_step()->CheckTimeStep(fishery.time_step_label_);
     if (!check_time_step)
       LOG_FATAL_P(PARAM_METHOD) << "Time step label " << fishery.time_step_label_ << " was not found.";
@@ -801,8 +814,10 @@ void MortalityHybrid::DoExecute() {
           fishery_iter.second.F_by_year_[year] = fishery_iter.second.final_F_;
           LOG_FINE() << "save final F = " << fishery_iter.second.final_F_ << " fishery = " << fishery_iter.second.label_ << " reported value = " <<fishery_iter.second.F_by_year_[year];
           LOG_FINE() << "actual catches = " << fishery_iter.second.actual_catches_[year];
+          // Flag a penalty if it exists
+          if (fishery_iter.second.penalty_)
+            fishery_iter.second.penalty_->Trigger(fishery_iter.second.catches_[year], fishery_iter.second.actual_catches_[year]);
         }
-
       }
     }
   }//!=Kinitialise

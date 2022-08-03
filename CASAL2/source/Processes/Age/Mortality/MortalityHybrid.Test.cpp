@@ -117,9 +117,9 @@ year Fishery
 end_table
 
 table method
-method  	category 	selectivity 	annual_duration 	time_step 	
-Fishery   	male   		fish_sel 		1	step1 		
-Fishery  	female   	fish_sel 		1 	step1 		
+method  	category 	selectivity 	annual_duration 	time_step 	penalty
+Fishery   	male   		fish_sel 		1	step1 		 none
+Fishery  	female   	fish_sel 		1 	step1 		none
 end_table
 
 @derived_quantity biomass_t1
@@ -270,11 +270,11 @@ year	Fishery1	Fishery2
 end_table
 
 table method
-method  	category 	selectivity 	annual_duration 	time_step 	
-Fishery1   	male   		fish_sel 		1	step1 		
-Fishery1  	female   	fish_sel 		1 	step1 		
-Fishery2   	male   		fish_sel_2 		1	step1 		
-Fishery2  	female   	fish_sel_2 		1 	step1 		
+method  	category 	selectivity 	annual_duration 	time_step 	penalty
+Fishery1   	male   		fish_sel 		1	step1 		 none
+Fishery1  	female   	fish_sel 		1 	step1 		 none
+Fishery2   	male   		fish_sel_2 		1	step1 		none
+Fishery2  	female   	fish_sel_2 		1 	step1 		none
 
 end_table
 

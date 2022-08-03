@@ -338,15 +338,15 @@ year Fishery1_label Fishery2_label
 end_table
 \end{verbatim}
 
-\defSub{table methods}{The table of data specifying which fishery interacts with which category, selectivities, and time-step for each fishery and annual duration of the fishery.}
+\defSub{table methods}{The table of data specifying which fishery interacts with which category, selectivities, penalty, and time-step for each fishery and annual duration of the fishery.}
 \defDefault{No default}
 \defValue{}
 \defNote{See below for example}
 \begin{verbatim}
 table method
-method  		category selectivity 	annual_duration time_step 	
-Fishery1_label  male   	 fish_sel 		1				step1 		
-Fishery2_label  male   	 fish_sel 		1 				step1 		
+method  		category selectivity 	annual_duration time_step 	penalty
+Fishery1_label  male   	 fish_sel 		1				step1 		none
+Fishery2_label  male   	 fish_sel 		1 				step1 		none
 end_table
 \end{verbatim}
 \subsubsection{Process of type Mortality Instantaneous}

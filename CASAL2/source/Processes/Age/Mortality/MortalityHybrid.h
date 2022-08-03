@@ -51,6 +51,8 @@ class MortalityHybrid : public Mortality {
     Double           final_F_;
     Double           annual_duration_;
     Double           vulnerability_;
+    string           penalty_label_;
+    Penalty*         penalty_ = nullptr;
     vector<unsigned> years_;
     // These objects want to be a map as more useful for projection methods
     map<unsigned, Double> catches_;

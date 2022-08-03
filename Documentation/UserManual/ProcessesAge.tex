@@ -642,7 +642,7 @@ The hybrid method calculates the harvest rate using the Pope's approximation the
 	\tilde{F}_{f,t} &= \frac{-\log\left(1 - U_{t,f}\right)}{\delta_t}
 \end{align}
 %,
-where, \(C^{obs}_{f,t}\) is the observed catch, \(\delta_t\) is the duration of the season (This is Stock Synthesis terminology. Seasons don't exist in \CNAME\ I think it should always be = 1.0 at this stage), \(V_{f,t}\) is partway vulnerable biomass and \(\tilde{F}_{f,t}\) is the initial \(F\). 
+where, \(C^{obs}_{f,t}\) is the observed catch, \(\delta_t\) is the duration of the period of observation within the time-step. In most situations where the entire catch has been observed in a time-step. This should be one. \CNAME\ will log a warning if not equal to one. \(V_{f,t}\) is partway vulnerable biomass and \(\tilde{F}_{f,t}\) is the initial \(F\). 
 
 
 The formulation above is designed so that high exploitation rates (above 0.95) are converted into an F that corresponds to a harvest rate of close to 0.95, thus providing a more robust starting point for subsequent iterative adjustment of this F. The logistic joiner, \(j\), is used at other places in Stock Synthesis to link across discontinuities. The catch at time \(t\), for category \(c\)
@@ -651,7 +651,7 @@ The formulation above is designed so that high exploitation rates (above 0.95) a
 The tuning algorithm begins by setting \(F_{f,t} = \tilde{F}_{f,t}\) and repeating the following algorithm \subcommand{f\_iteration} times.
 
 \[
-\widehat{C}_{t,c,a}  = \sum\limits_f \frac{{F}_{f,t}}{Z_{t,c,a}}\left(S_{f,c,a} N_{t,c,a}\right) \lambda^*_{t,c,a}
+\widehat{C}_{t,c,a}  = \sum\limits_f {F}_{f,t}\left(S_{f,c,a} N_{t,c,a}\right) \lambda^*_{t,c,a}
 \]
 where, \(\lambda^*_{t,c,a}\) denotes the survivorship and is calculated as:
 \begin{equation}\label{eq:survival}
@@ -702,6 +702,21 @@ N^*_{t,c,a} = N_{t,c,a} \exp\left(-Z_{t,c,a}\right)
 
 During initialisation phases and in years or time-steps with no catch, \(Z_{t,c,a} = M_{c,a,t}\).
 
+This process generates numbers at age removed for each year, fishery, category and age (\(C_{t,f,c,a}\)) which can be accessed by \subcommand{process\_removals} observations. Numbers at age are calculated as
+
+\[
+\widehat{C}_{t,f,c,a} = \frac{F_{t,f,a}}{Z_{t,c,a}} N_{t,c,a} \exp\left(-Z_{t,c,a}\right)
+\]
+
+Total catch is the summed over categories and age for a time-step and fishery as
+
+\[
+\widehat{C}_{t,f} = \sum\limits_c\sum\limits_a \widehat{C}_{t,f,c,a} \bar{w}_{t,a,c}
+\]
+
+where \(\bar{w}_{t,a,c}\) is the mean weight, abundance can be derived by flagging \subcommand{biomass false}, where mean weight is omitted from above calculation. If users assign a penalty in the \subcommand{method} table, then the penalty is flagged each time-step and for each fishery, which calculates the difference between \(\widehat{C}_{t,f}\) and \(C^{obs}_{f,t}\), to ensure the catch observed is taken. This makes the assumption that catch is known without error, which may differ from other assessment packages.
+
+
 
 The following is an excerpt of the input files, however see Section~\ref{syntax:Process-MortalityHybrid} for details and descriptions on the subcommands.
 
@@ -722,9 +737,9 @@ year Fishery
 end_table
 
 table method
-method  	category 	selectivity 	annual_duration 	time_step 	
-Fishery   	male   		fish_sel 		1					step1 		
-Fishery  	female   	fish_sel 		1 					step1 		
+method  	category 	selectivity 	annual_duration 	time_step  penalty	
+Fishery   	male   		fish_sel 		1					step1 		none
+Fishery  	female   	fish_sel 		1 					step1 		none	
 end_table
 \end{verbatim}}}
 

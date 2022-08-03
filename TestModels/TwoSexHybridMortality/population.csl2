@@ -103,11 +103,11 @@ year	FishingTrwl	FishingLine
 end_table
 
 table method
-method  	category 	selectivity 	annual_duration	time_step	
-FishingTrwl  	male   		trwlFSel_m	1	step1		
-FishingTrwl  	female   	trwlFSel_f	1	step1		
-FishingLine  	male	   	lineFSel	1	step1		
-FishingLine  	female   	lineFSel	1	step1		
+method  	category 	selectivity 	annual_duration	time_step	penalty
+FishingTrwl  	male   		trwlFSel_m	1	step1			none
+FishingTrwl  	female   	trwlFSel_f	1	step1			none
+FishingLine  	male	   	lineFSel	1	step1			none 
+FishingLine  	female   	lineFSel	1	step1			none
 end_table
 
 
