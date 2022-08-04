@@ -59,7 +59,7 @@ ProcessRemovalsByAgeRetainedTotal::ProcessRemovalsByAgeRetainedTotal(shared_ptr<
   allowed_likelihood_types_.push_back(PARAM_LOGNORMAL);
   allowed_likelihood_types_.push_back(PARAM_MULTINOMIAL);
 
-  allowed_mortality_types_.push_back(PARAM_MORTALITY_INSTANTANEOUS);
+  allowed_mortality_types_.push_back(PARAM_MORTALITY_INSTANTANEOUS_RETAINED);
 }
 
 /**

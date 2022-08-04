@@ -44,14 +44,14 @@ public:
   // These accessors and event members will not be common for all Mortality Children
   // e.g. ConstantRate doesn't have the concept of fisheries and Hollings predatorPrey doesn't have
   // categories or fisheries. However for many of the workhorse mortality classes these will be relevant.
-  bool             check_categories_in_methods_for_removal_obs(vector<string> methods, vector<string> category_labels);
-  bool             check_years_in_methods_for_removal_obs(vector<unsigned> years, vector<string> methods);
-  bool             check_methods_for_removal_obs(vector<string> methods);
-  vector<unsigned> get_fishery_ndx_for_catch_at(vector<string> fishery_labels);
-  vector<unsigned> get_category_ndx_for_catch_at(vector<string> category_labels);
-  vector<unsigned> get_year_ndx_for_catch_at(vector<unsigned> years);
+  virtual bool             check_categories_in_methods_for_removal_obs(vector<string> methods, vector<string> category_labels);
+  virtual bool             check_years_in_methods_for_removal_obs(vector<unsigned> years, vector<string> methods);
+  virtual bool             check_methods_for_removal_obs(vector<string> methods);
+  virtual vector<unsigned> get_fishery_ndx_for_catch_at(vector<string> fishery_labels);
+  virtual vector<unsigned> get_category_ndx_for_catch_at(vector<string> category_labels);
+  virtual vector<unsigned> get_year_ndx_for_catch_at(vector<unsigned> years);
   // accessors
-  vector<Double>& get_catch_at_by_year_fishery_category(unsigned year_ndx, unsigned fishery_ndx, unsigned category_ndx) {
+  virtual vector<Double>& get_catch_at_by_year_fishery_category(unsigned year_ndx, unsigned fishery_ndx, unsigned category_ndx) {
     return removals_by_year_fishery_category_[year_ndx][fishery_ndx][category_ndx];
   };
   const vector<string>& category_labels() const { return category_labels_; }
