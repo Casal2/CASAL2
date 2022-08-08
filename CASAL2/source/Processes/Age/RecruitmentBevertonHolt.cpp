@@ -492,6 +492,7 @@ void RecruitmentBevertonHolt::FillReportCache(ostringstream& cache) {
   for (auto iter : recruitment_values_) cache << AS_DOUBLE(iter) << " ";
   cache << "\nRecruit_event_SSB: ";
   for (auto iter : ssb_values_) cache << AS_DOUBLE(iter) << " ";
+  ache << "\nSSB_offset: " << ssb_offset_;
   cache << REPORT_EOL;
 }
 
