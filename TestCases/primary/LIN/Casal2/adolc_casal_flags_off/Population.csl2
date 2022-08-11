@@ -18,7 +18,6 @@ age_lengths vb_male vb_female ## naming
 
 @initialisation_phase Equilibrium_phase
 type Derived
-casal_initialisation_switch false
 
 
 ## Define the Annual Cycle

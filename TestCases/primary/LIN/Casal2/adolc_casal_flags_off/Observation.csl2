@@ -138,7 +138,7 @@ end_table
 type process_removals_by_age
 likelihood multinomial
 time_step Dec_Aug
-mortality_process Instantaneous_Mortality
+mortality_instantaneous_process Instantaneous_Mortality
 categories male female
 method_of_removal FishingTrwl
 min_age 3
@@ -203,7 +203,7 @@ end_table
 type process_removals_by_age
 likelihood multinomial
 time_step Dec_Aug
-mortality_process Instantaneous_Mortality
+mortality_instantaneous_process Instantaneous_Mortality
 categories male female
 method_of_removal FishingLineHome
 min_age 5
@@ -239,7 +239,7 @@ end_table
 type process_removals_by_age
 likelihood multinomial
 time_step Sep_Nov
-mortality_process Instantaneous_Mortality
+mortality_instantaneous_process Instantaneous_Mortality
 categories male female
 method_of_removal FishingLineSpawn
 min_age 7

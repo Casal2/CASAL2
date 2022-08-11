@@ -33,7 +33,7 @@ type process_removals_by_length
 # likelihood coleraine
 likelihood multinomial
 time_step Jul_Jun
-mortality_process Fishing_Mortality
+mortality_instantaneous_process Fishing_Mortality
 categories immature+mature
 method_of_removal AndesFishery
 #min_age 19

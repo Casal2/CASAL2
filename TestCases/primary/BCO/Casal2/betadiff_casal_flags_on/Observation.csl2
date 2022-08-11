@@ -115,7 +115,7 @@ end_table
 #
 @observation lgobookLF
 ##type process_removals_by_length_retained_total
-##mortality_process Fishing
+##mortality_instantaneous_process Fishing
 type proportions_at_length  #same as CASAL
 categories *+
 time_step 1

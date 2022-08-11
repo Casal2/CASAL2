@@ -19,7 +19,6 @@ age_lengths age_len_m age_len_f
 
 @initialisation_phase Equilibrium_phase
 type Derived
-casal_initialisation_switch false
 
 
 # CASAL order of processes in each time step:
