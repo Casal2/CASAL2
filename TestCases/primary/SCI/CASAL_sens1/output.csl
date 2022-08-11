@@ -1,48 +1,44 @@
-@print 
-parameters False
-unused_parameters True
-population_section True
-requests True
-results True
-initial_state 0
+@print
+
+unused_parameters 1
+
+population_section 1
+requests 0
+results 0
+initial_state 1
+final_state 1
 state_annually 0
-state_every_step True
-final_state 0
-estimation_section True
-fits True
-resids True
-pearson_resids False
-normalised_resids True
-covariance True
-yields False
-fits_every_eval False
-objective_every_eval False
-parameters_every_eval False
-parameter_vector_every_eval False
+state_every_step 0
+every_mean_size 1
 
-@quantities 
-all_free_parameters True
-fishing_pressures True
-nuisance_qs True
-true_YCS True
-B0 True
-R0 True
-SSBs True
-YCS True
-actual_catches True
+estimation_section 1
+fits 1
+resids 1
+pearson_resids 1
+normalised_resids 1
+covariance 1
+fits_every_eval 0
+objective_every_eval 0
+parameters_every_eval 0
+parameter_vector_every_eval 0
+
+yields 0
+
+@quantities
+all_free_parameters 1
+nuisance_qs 1
+fishing_pressures 1
+actual_catches 1
+removals 1
+discards 1
+B0 true
+SSBs true
+YCS true
+true_YCS true
+recruitments 1
+fits 1
+resids 1
+pearson_resids 1
+normalised_resids 1
 ogive_parameters selectivity[FishingSel_1].male selectivity[FishingSel_2].male selectivity[TrawlSurveySel_1].male selectivity[TrawlSurveySel_2].male # selectivity[PhotoSurveySel].male
-
-@catch_split 65 20 14
-
-@B_pre 
-selectivity ssb-bio
-step 1
-proportion_mortality 0
-mature_only True
-
-@deterministic_MSY 
-do_MSY True
-guess 0.2
-do_yield_vs_SSB True
-F 0.1 0.15 0.2 0.25 0.3 0.35 0.4 0.45 0.5 0.55 0.6
 
