@@ -26,7 +26,7 @@ if (!require(casal))
 if (!require(Casal2))
 {
 #     install.packages('../../R-functions/casal2_1.0.tar.gz', repos=NULL)
-    install.packages('../../R-functions/Casal2_22.07.tar.gz', repos=NULL)
+    install.packages('../../R-functions/Casal2_22.08.tar.gz', repos=NULL)
     library(Casal2)
 }
 
