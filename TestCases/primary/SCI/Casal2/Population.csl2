@@ -18,13 +18,13 @@ convergence_years 200
 
 ## Define the Annual Cycle
 @time_step Oct-Jan 
-processes growth  mortality tag_1997_1_male tag_1997_1_female
+processes growth Instantaneous_Mortality tag_1997_1_male tag_1997_1_female
 
 @time_step Feb-Apr
-processes Recruit_BH mortality tag_1996_2_male tag_1996_2_female
+processes Recruitment Instantaneous_Mortality tag_1996_2_male tag_1996_2_female
 
 @time_step May-Sep
-processes mortality tag_1996_3_male tag_1996_3_female 
+processes Instantaneous_Mortality tag_1996_3_male tag_1996_3_female
 
 
 #CATEGORIES
@@ -79,7 +79,7 @@ units tonnes
 ##############
 ## Processes
 ##############
-@process Recruit_BH
+@process Recruitment
 type recruitment_beverton_holt
 ssb_offset 1
 ycs_years 1985:2021
@@ -93,7 +93,7 @@ inital_mean_length 10
 inital_length_cv 0.40
 ssb SSB
 
-@process mortality
+@process Instantaneous_Mortality
 type mortality_instantaneous
 m 0.25 * 8
 relative_m_by_length One * 8

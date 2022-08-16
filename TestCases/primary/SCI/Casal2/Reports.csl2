@@ -1,34 +1,128 @@
-#@assert obj
-#type objective_function
-#value 6910.98
-#tolerance 0.01 # I chose a small tolerance to save computation time with model runners
-
-@report default
-type default
-processes true
-observations true
-catchabilities true
-selectivities true
-projects true
-derived_quantities True
-parameter_transformations true
-
-@report estimate_value
+## Print estimate values
+@report estimated_values
 type estimate_value
 
-@report objective_function
+@report estimated_summary
+type estimate_summary
+
+@report obj_fun
 type objective_function
 
-@report samples
-type mcmc_sample
-file_name samples
+# Print default reports
+@report default
+type default
+catchabilities true
+derived_quantities true
+observations true
+projects true
+processes true
+selectivities true
+parameter_transformations true
 
-@report objectives
-type mcmc_objective
-file_name objectives
 
-@report covariance_matrix
+@report Init
+type initialisation_partition
+
+
+@report Hess
+type hessian_matrix
+
+
+@report Covar
 type covariance_matrix
 
-@report correlation_matrix
+
+@report Corr
 type correlation_matrix
+
+
+@report mcmc_covariance
+type mcmc_covariance
+
+@report mcmc_objectives
+type mcmc_objective
+file_name objectives
+write_mode incremental_suffix
+
+@report mcmc_samples
+type mcmc_sample
+file_name samples
+write_mode incremental_suffix
+
+
+## Print process information
+@report Recruitment
+type process
+process Recruitment
+
+@report Mortality
+type process
+process Instantaneous_Mortality
+
+
+@report state_Oct_Jan
+type partition
+time_step Oct-Jan
+years 1986 2022
+
+@report state_Feb_Apr
+type partition
+time_step Feb-Apr
+years 1986 2022
+
+@report state_May_Sep
+type partition
+time_step May-Sep
+years 1986 2022
+
+
+## report selectivities
+@report MaturationSel
+type selectivity
+selectivity maturity
+
+@report rep_FishingSel_1_male
+type selectivity
+selectivity FishingSel_1_male
+
+@report rep_FishingSel_1_female
+type selectivity
+selectivity FishingSel_1_female
+
+@report rep_FishingSel_2_male
+type selectivity
+selectivity FishingSel_2_male
+
+@report rep_FishingSel_2_female
+type selectivity
+selectivity FishingSel_2_female
+
+@report rep_TrawlSurveySel_1_male
+type selectivity
+selectivity TrawlSurveySel_1_male
+
+@report rep_TrawlSurveySel_1_female
+type selectivity
+selectivity TrawlSurveySel_1_female
+
+@report rep_TrawlSurveySel_2_male
+type selectivity
+selectivity TrawlSurveySel_2_male
+
+@report rep_TrawlSurveySel_2_female
+type selectivity
+selectivity TrawlSurveySel_2_female
+
+
+## report Observations
+@report rep_CPUE_Trawl_1
+type observation
+observation CPUE-Trawl_1
+
+@report rep_TrawlSurvey_1
+type observation
+observation TrawlSurvey_1
+
+@report rep_TrawlSurvey_2
+type observation
+observation TrawlSurvey_2
