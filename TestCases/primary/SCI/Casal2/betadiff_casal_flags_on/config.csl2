@@ -1,0 +1,11 @@
+!include Population.csl2
+!include Sim_observations.csl2
+!include Reports.csl2
+!include Estimation.csl2
+
+
+@minimiser betadiff
+type betadiff
+tolerance 2e-6
+iterations 1000
+evaluations 2000
