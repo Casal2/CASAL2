@@ -18,7 +18,7 @@ knitr::opts_chunk$set(echo = TRUE)
 
 # SCI comparison of CASAL and Casal2 model configurations
 
-This document compares the results of a CASAL model and multiple Casal2 model configurations (2 BetaDiff and 2 ADOL-C).
+This document compares the results of at least 2 CASAL model configurations (base and at least one sensitivity) and up to 6 Casal2 model configurations (3 BetaDiff and 3 ADOL-C).
 
 The CASAL model sensitivity 1 has a smaller minimisation tolerance value than the CASAL base model (1e-8 vs. 2e-6).
 
@@ -29,30 +29,31 @@ The Casal2 ADOL-C and BetaDiff low tolerance models have the same tolerance valu
 
 The main characteristics of the Test Case SCI (Scampi) CASAL model are:
 
-* Length-based model
-* years 1986 - 2022, projection year 2027
-* three time steps
-* Sexed
+* length-based sex-specific model
+* years 1986 - 2022, projection years 2023 - 2027
+* three time steps, Oct - Jan, Feb - Apr, May - Sep
 * estimate growth transition matrix
-* Four tag releases 
+* dour tag releases
 * Beverton-Holt stock-recruitment relationship, with steepness (h) 0.75 and $CV_R$ 0.7 (prior)
 * length-weight relationship ($W = aL^b$)
-* Three fisheries
+* three fisheries
 
 Observation data include:
 
-* CPUE
-* Trawl-abundance and length cocp
-* fishery length comp
-* tag-recapture for growth
-* Maturity data
+* trawl fishery CPUE
+* trawl survey abundance and proportions-at-length
+* fishery proportions-at-length
+* tag-recapture data for growth estimation
+* maturity data
 
 Parameters estimated include:
 
 * B0
-* Male and female growth parmaters 
+* sex-specific growth parameters
+* maturity parameters
 * YCS (recruitment deviations)
-* Fishery and Trawl selectivities
+* sex-specific fishery and trawl selectivity parameters
+
 
 ## R environment
 
@@ -63,26 +64,13 @@ source('../../R-functions/report_set_up_R_env.R')
 
 ## CASAL and Casal2 model output
 
-```{r cas_cas2, warning=FALSE}
-if (!require(r4Casal2)){
-  devtools::install_github("NIWAFisheriesModelling/r4Casal2")
-}
-library(r4Casal2)
-library(ggplot2)
-## casal
-cas = casal::extract.mpd(file = file.path(getwd(),"CASAL","estimation.log"))
-cas_sens = casal::extract.mpd(file = file.path(getwd(),"CASAL_sens1","estimation.log"))
-## Casal2
-cas2_beta = Casal2::extract.mpd(file = file.path(getwd(),"Casal2", "betadiff.log"))
-cas2_beta_low = Casal2::extract.mpd(file = file.path(getwd(),"Casal2", "betadiff_low_tolerance.log"))
-cas2_adolc = Casal2::extract.mpd(file = file.path(getwd(),"Casal2", "adolc.log"))
-cas2_adolc_low = Casal2::extract.mpd(file = file.path(getwd(),"Casal2", "adolc_low_tolerance.log"))
-cas2_mpds = list()
-cas2_mpds[["Casal2 Betadiff"]] = cas2_beta
-cas2_mpds[["Casal2 adolc"]] = cas2_adolc
-cas2_mpds[["Casal2 Betadiff (low)"]] = cas2_beta_low
-cas2_mpds[["Casal2 adolc (low)"]] = cas2_adolc_low
+```{r CASAL, warning=FALSE}
+source('../../R-functions/report_read_in_CASAL_MPD_files.R')
+```
 
+
+```{r Casal2}
+source('../../R-functions/report_read_in_Casal2_MPD_files.R')
 ```
 
 
@@ -90,43 +78,121 @@ cas2_mpds[["Casal2 adolc (low)"]] = cas2_adolc_low
 \newpage
 \blandscape
 
-## SSBs
-```{r ssbs, echo=FALSE, warning=FALSE, message=FALSE}
-## ssbs
-cas2_ssbs = get_dqs(cas2_mpds)
-cas_ssbs = data.frame(values = cas$quantities$SSBs$SSB, model_label = "CASAL", years = cas$quantities$SSBs$year)
-cas_ssbs = rbind(cas_ssbs, data.frame(values = cas_sens$quantities$SSBs$SSB, model_label = "CASAL (low)", years = cas_sens$quantities$SSBs$year))
-ssb_df = rbind(cas_ssbs, cas2_ssbs[, c("values", "model_label","years")])
-
-ggplot(ssb_df, aes(x = years, y = values, col = model_label, linetype = model_label)) +
-  geom_line(size = 1.2) +
-  ylim(0,NA) +
-  labs(x = "Year", y = "SSB")
-```
-
-
-
-## Objective functions
+## Tables
 
 Tables of parameter estimates and objective function components for the CASAL and Casal2 model MPD results
 
-```{r objective_function, echo=FALSE, warning=FALSE, message=FALSE}
+```{r table_setup, echo=FALSE, warning=FALSE, message=FALSE}
+source('../../R-functions/report_set_up_tables.R')
 
-cas2_obj = get_objective_function(cas2_mpds)
-compar_obj = (cas2_obj %>% pivot_wider(values_from = negative_loglik, names_from = model_label, id_cols = component, values_fill	= NA))[1:17,]
-compar_obj = cbind(compar_obj, CASAL = as.numeric(cas$objective.function$components$value)[1:17], "CASAL (low)" = as.numeric(cas_sens$objective.function$components$value)[1:17])
-compar_obj
+options(scipen=999)
 ```
 
-## Estimated parameters
 
-```{r estimated_parameters, echo=FALSE, warning=FALSE, message=FALSE}
-pars = cbind(CASAL = unlist(cas$free), "CASAL (low)" = unlist(cas_sens$free))
-## CASAL fixes male alpha values
-ndx_to_drop = c(45, 49, 53, 57)
-pars = pars[-ndx_to_drop,]
-cas2_pars = get_estimated_values(cas2_mpds)
-cas2_pars = cas2_pars %>% pivot_wider(values_from = values, names_from = model_label, id_cols = parameters, values_fill	= NA)
-pars = cbind(cas2_pars, pars)
-pars
+```{r huxtables_parameters, echo=FALSE, warning=FALSE, message=FALSE}
+source('../../R-functions/report_print_parameter_tables.R')
+
+hux_C1_est_params
+hux_C2_est_params
+hux_C2_pd_est_params
 ```
+
+
+```{r huxtables_obj_fun, echo=FALSE, warning=FALSE, message=FALSE}
+source('../../R-functions/report_print_obj_fun_tables.R')
+
+hux_C1_obj_fun
+hux_C2_obj_fun
+```
+
+
+```{r convergence_info, echo=FALSE}
+source('../../R-functions/report_print_convergence_info.R')
+```
+
+
+```{r warnings_and_bounds, echo=FALSE, warning=FALSE, message=FALSE}
+source('../../R-functions/report_print_warnings.R')
+```
+
+
+```{r huxtables_close, echo=FALSE}
+options(scipen=0)
+```
+
+
+\elandscape
+\newpage
+
+
+
+## Matching of outputs
+
+Time series comparisons with CASAL base model results
+
+```{r Time_Series_Match, echo=FALSE, warning=FALSE, message=FALSE}
+source('../../R-functions/report_time_series_match_function.R')
+
+
+c1_catch <- c1_quant$actual_catches$Trawl_1
+
+for (c in 1:num_C2_models)
+{
+    print(paste('Catch time series base model comparison for run', C2_subdir[c]))
+
+    print(paste('Actual catches for Trawl 1 match:', time_series_match(c1_catch, cas2_mpd[[c]]$Instantaneous_Mortality$`catch[Trawl_1]`)))
+
+    print('')
+}
+
+
+c1_catch <- c1_quant$actual_catches$Trawl_2
+
+for (c in 1:num_C2_models)
+{
+    print(paste('Catch time series base model comparison for run', C2_subdir[c]))
+
+    print(paste('Actual catches for Trawl 2 match:', time_series_match(c1_catch, cas2_mpd[[c]]$Instantaneous_Mortality$`catch[Trawl_2]`)))
+
+    print('')
+}
+
+
+c1_catch <- c1_quant$actual_catches$Trawl_3
+
+for (c in 1:num_C2_models)
+{
+    print(paste('Catch time series base model comparison for run', C2_subdir[c]))
+
+    print(paste('Actual catches for Trawl 3 match:', time_series_match(c1_catch, cas2_mpd[[c]]$Instantaneous_Mortality$`catch[Trawl_3]`)))
+
+    print('')
+}
+```
+
+Derived quantities
+
+SB0, SBcurrent, MSY, F_MSY, others...
+
+
+
+## Plots
+
+Comparison plots
+
+```{r plots_base, echo=FALSE}
+
+# c(bottom, left, top, right)
+par(mar=c(4,4,2,1) + 0.1)
+
+par(mfrow=c(1,2))
+
+bl_lwd <- 6
+gr_lwd <- 3
+```
+
+
+```{r plots_correlation, echo=FALSE}
+source('../../R-functions/report_plot_correlation_matrices.R')
+```
+

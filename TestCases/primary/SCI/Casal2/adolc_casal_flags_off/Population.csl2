@@ -101,6 +101,7 @@ time_step_proportions 0.33 0.25 0.42
 categories *
 table catches
 year	Trawl_1	Trawl_2	Trawl_3
+1986    0   0   0
 1987	0	0	0
 1988	0.600716862	1.397516431	3.001766707
 1989	2.042437329	4.751555866	10.20600681
