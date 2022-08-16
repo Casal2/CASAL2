@@ -1,12 +1,12 @@
 Environment: User=Casal2
-Call: ../../../../BuildSystem/Casal2/casal2 -E mpd.out -c betadiff_config.csl2 -o betadiff_params_est.out 
-Date: Fri Aug 12 17:56:11 2022
-Seed: 83771
+Call: ../../../../BuildSystem/Casal2/casal2 -E mpd.out -c adolc_config.csl2 -o adolc_params_est.out 
+Date: Fri Aug 12 17:59:57 2022
+Seed: 83997
 Version: v22.08 (2022-08-04)
 Copyright (c) 2017-2022, NIWA (www.niwa.co.nz)
 amart
  Machine=wellcompute.niwa.local (Linux 3.10.0-1160.66.1.el7.x86_64 x86_64)
- PID=56946
+ PID=57440
 
 
 *estimate_value[estimate_value]
@@ -8726,7 +8726,7 @@ Values {vector}
 
 *info[messages_encountered]
 Values {string}
-Setting the random number seed to 83771
+Setting the random number seed to 83997
 Estimable parameters were loaded from the free parameter file: 
 Creating default report for catchability CPUE-Commercialq_1
 Creating default report for catchability TrawlSurveyq_1
@@ -8775,12 +8775,131 @@ Creating default report for selectivity tag_1996_3_female.one
 Creating default report for selectivity tag_1997_1_male.one
 Creating default report for selectivity tag_1997_1_female.one
 Initiating point estimate run mode
-Estimation with the betadiff minimiser
+Estimation with the adolc minimiser
+Convergence check value = 3.10264. Convergence tolerance   = 2e-06
+Convergence check value = 2.26589. Convergence tolerance   = 2e-06
+Convergence check value = 0.917772. Convergence tolerance   = 2e-06
+Convergence check value = 0.967388. Convergence tolerance   = 2e-06
+Convergence check value = 0.449721. Convergence tolerance   = 2e-06
+Convergence check value = 0.315255. Convergence tolerance   = 2e-06
+Convergence check value = 0.10169. Convergence tolerance   = 2e-06
+Convergence check value = 0.0869279. Convergence tolerance   = 2e-06
+Convergence check value = 0.0268664. Convergence tolerance   = 2e-06
+Convergence check value = 0.0217567. Convergence tolerance   = 2e-06
+Convergence check value = 0.0331369. Convergence tolerance   = 2e-06
+Convergence check value = 0.0313519. Convergence tolerance   = 2e-06
+Convergence check value = 0.0537926. Convergence tolerance   = 2e-06
+Convergence check value = 0.0552089. Convergence tolerance   = 2e-06
+Convergence check value = 0.0567881. Convergence tolerance   = 2e-06
+Convergence check value = 0.0400014. Convergence tolerance   = 2e-06
+Convergence check value = 0.0346294. Convergence tolerance   = 2e-06
+Convergence check value = 0.0868624. Convergence tolerance   = 2e-06
+Convergence check value = 0.0754634. Convergence tolerance   = 2e-06
+Convergence check value = 0.0407678. Convergence tolerance   = 2e-06
+Convergence check value = 0.0351553. Convergence tolerance   = 2e-06
+Convergence check value = 0.0368373. Convergence tolerance   = 2e-06
+Convergence check value = 0.134091. Convergence tolerance   = 2e-06
+Convergence check value = 0.0462545. Convergence tolerance   = 2e-06
+Convergence check value = 0.0392708. Convergence tolerance   = 2e-06
+Convergence check value = 0.0200231. Convergence tolerance   = 2e-06
+Convergence check value = 0.0236192. Convergence tolerance   = 2e-06
+Convergence check value = 0.0203742. Convergence tolerance   = 2e-06
+Convergence check value = 0.0308237. Convergence tolerance   = 2e-06
+Convergence check value = 0.0266673. Convergence tolerance   = 2e-06
+Convergence check value = 0.00905186. Convergence tolerance   = 2e-06
+Convergence check value = 0.010496. Convergence tolerance   = 2e-06
+Convergence check value = 0.0119638. Convergence tolerance   = 2e-06
+Convergence check value = 0.0085049. Convergence tolerance   = 2e-06
+Convergence check value = 0.00892763. Convergence tolerance   = 2e-06
+Convergence check value = 0.00827626. Convergence tolerance   = 2e-06
+Convergence check value = 0.0105739. Convergence tolerance   = 2e-06
+Convergence check value = 0.00654344. Convergence tolerance   = 2e-06
+Convergence check value = 0.00332195. Convergence tolerance   = 2e-06
+Convergence check value = 0.0033267. Convergence tolerance   = 2e-06
+Convergence check value = 0.00497079. Convergence tolerance   = 2e-06
+Convergence check value = 0.00378575. Convergence tolerance   = 2e-06
+Convergence check value = 0.0024584. Convergence tolerance   = 2e-06
+Convergence check value = 0.0029907. Convergence tolerance   = 2e-06
+Convergence check value = 0.00371469. Convergence tolerance   = 2e-06
+Convergence check value = 0.00208495. Convergence tolerance   = 2e-06
+Convergence check value = 0.00266716. Convergence tolerance   = 2e-06
+Convergence check value = 0.00365214. Convergence tolerance   = 2e-06
+Convergence check value = 0.00434084. Convergence tolerance   = 2e-06
+Convergence check value = 0.00255555. Convergence tolerance   = 2e-06
+Convergence check value = 0.00209176. Convergence tolerance   = 2e-06
+Convergence check value = 0.0029782. Convergence tolerance   = 2e-06
+Convergence check value = 0.00440147. Convergence tolerance   = 2e-06
+Convergence check value = 0.00373515. Convergence tolerance   = 2e-06
+Convergence check value = 0.00323014. Convergence tolerance   = 2e-06
+Convergence check value = 0.00248439. Convergence tolerance   = 2e-06
+Convergence check value = 0.00247869. Convergence tolerance   = 2e-06
+Convergence check value = 0.00160525. Convergence tolerance   = 2e-06
+Convergence check value = 0.00121402. Convergence tolerance   = 2e-06
+Convergence check value = 0.00149769. Convergence tolerance   = 2e-06
+Convergence check value = 0.00192801. Convergence tolerance   = 2e-06
+Convergence check value = 0.00137766. Convergence tolerance   = 2e-06
+Convergence check value = 0.000969911. Convergence tolerance   = 2e-06
+Convergence check value = 0.000731822. Convergence tolerance   = 2e-06
+Convergence check value = 0.000551629. Convergence tolerance   = 2e-06
+Convergence check value = 0.000444102. Convergence tolerance   = 2e-06
+Convergence check value = 0.000387361. Convergence tolerance   = 2e-06
+Convergence check value = 0.000510254. Convergence tolerance   = 2e-06
+Convergence check value = 0.000568193. Convergence tolerance   = 2e-06
+Convergence check value = 0.000481693. Convergence tolerance   = 2e-06
+Convergence check value = 0.000479642. Convergence tolerance   = 2e-06
+Convergence check value = 0.000694168. Convergence tolerance   = 2e-06
+Convergence check value = 0.000626277. Convergence tolerance   = 2e-06
+Convergence check value = 0.000333713. Convergence tolerance   = 2e-06
+Convergence check value = 0.000356928. Convergence tolerance   = 2e-06
+Convergence check value = 0.000691816. Convergence tolerance   = 2e-06
+Convergence check value = 0.00100243. Convergence tolerance   = 2e-06
+Convergence check value = 0.00085096. Convergence tolerance   = 2e-06
+Convergence check value = 0.000442573. Convergence tolerance   = 2e-06
+Convergence check value = 0.000347807. Convergence tolerance   = 2e-06
+Convergence check value = 0.000433224. Convergence tolerance   = 2e-06
+Convergence check value = 0.000363414. Convergence tolerance   = 2e-06
+Convergence check value = 0.000181796. Convergence tolerance   = 2e-06
+Convergence check value = 0.000228702. Convergence tolerance   = 2e-06
+Convergence check value = 0.000373334. Convergence tolerance   = 2e-06
+Convergence check value = 0.000331866. Convergence tolerance   = 2e-06
+Convergence check value = 0.00023005. Convergence tolerance   = 2e-06
+Convergence check value = 0.000243489. Convergence tolerance   = 2e-06
+Convergence check value = 0.000370764. Convergence tolerance   = 2e-06
+Convergence check value = 0.000406997. Convergence tolerance   = 2e-06
+Convergence check value = 0.000230435. Convergence tolerance   = 2e-06
+Convergence check value = 0.000163163. Convergence tolerance   = 2e-06
+Convergence check value = 0.000186542. Convergence tolerance   = 2e-06
+Convergence check value = 0.000172246. Convergence tolerance   = 2e-06
+Convergence check value = 0.000107152. Convergence tolerance   = 2e-06
+Convergence check value = 9.04966e-05. Convergence tolerance   = 2e-06
+Convergence check value = 0.000154041. Convergence tolerance   = 2e-06
+Convergence check value = 0.000120913. Convergence tolerance   = 2e-06
+Convergence check value = 5.97178e-05. Convergence tolerance   = 2e-06
+Convergence check value = 6.49529e-05. Convergence tolerance   = 2e-06
+Convergence check value = 0.000110673. Convergence tolerance   = 2e-06
+Convergence check value = 0.000112639. Convergence tolerance   = 2e-06
+Convergence check value = 6.67794e-05. Convergence tolerance   = 2e-06
+Convergence check value = 6.74965e-05. Convergence tolerance   = 2e-06
+Convergence check value = 7.26588e-05. Convergence tolerance   = 2e-06
+Convergence check value = 7.62487e-05. Convergence tolerance   = 2e-06
+Convergence check value = 3.86341e-05. Convergence tolerance   = 2e-06
+Convergence check value = 5.06189e-05. Convergence tolerance   = 2e-06
+Convergence check value = 7.03662e-05. Convergence tolerance   = 2e-06
+Convergence check value = 6.02357e-05. Convergence tolerance   = 2e-06
+Convergence check value = 3.35912e-05. Convergence tolerance   = 2e-06
+Convergence check value = 1.07315e-05. Convergence tolerance   = 2e-06
+Convergence check value = 1.17899e-05. Convergence tolerance   = 2e-06
+Convergence check value = 7.05173e-06. Convergence tolerance   = 2e-06
+Convergence check value = 5.78203e-06. Convergence tolerance   = 2e-06
+Convergence check value = 6.12873e-06. Convergence tolerance   = 2e-06
+Convergence check value = 7.69247e-06. Convergence tolerance   = 2e-06
+Convergence check value = 4.74572e-06. Convergence tolerance   = 2e-06
+Convergence check value = 1.64873e-06. Convergence tolerance   = 2e-06
 *end
 
 *important[messages_encountered]
 Values {string}
 Setting 'mpd.out' as the output file for the MPD (i.e., free parameters and covariance)
-Setting 'betadiff_params_est.out' as the output file for the free parameters
+Setting 'adolc_params_est.out' as the output file for the free parameters
 *end
 

@@ -1,12 +1,12 @@
 Environment: User=Casal2
 Call: ../../../../BuildSystem/Casal2/casal2 -E mpd.out -c betadiff_low_tolerance_config.csl2 -o betadiff_low_tolerance_params_est.out 
-Date: Fri Aug 12 17:50:10 2022
-Seed: 83410
+Date: Fri Aug 12 17:57:58 2022
+Seed: 83878
 Version: v22.08 (2022-08-04)
 Copyright (c) 2017-2022, NIWA (www.niwa.co.nz)
 amart
- Machine=localhost.localdomain (Linux 3.10.0-1160.71.1.el7.x86_64 x86_64)
- PID=11121
+ Machine=wellcompute.niwa.local (Linux 3.10.0-1160.66.1.el7.x86_64 x86_64)
+ PID=57132
 
 
 *estimate_value[estimate_value]
@@ -8726,7 +8726,7 @@ Values {vector}
 
 *info[messages_encountered]
 Values {string}
-Setting the random number seed to 83410
+Setting the random number seed to 83878
 Estimable parameters were loaded from the free parameter file: 
 Creating default report for catchability CPUE-Commercialq_1
 Creating default report for catchability TrawlSurveyq_1

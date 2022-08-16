@@ -1,0 +1,11 @@
+Environment: User=Casal2
+Call: ../../../../BuildSystem/Casal2/casal2 -E mpd.out -c adolc_low_tolerance_config.csl2 -o adolc_low_tolerance_params_est.out 
+Date: Mon Aug 15 10:36:12 2022
+Seed: 16572
+Version: v22.08 (2022-08-04)
+Copyright (c) 2017-2022, NIWA (www.niwa.co.nz)
+amart
+ Machine=wellcompute.niwa.local (Linux 3.10.0-1160.66.1.el7.x86_64 x86_64)
+ PID=55555
+
+
