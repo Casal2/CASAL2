@@ -568,8 +568,9 @@ plot_legend()
 
 max_val <- max(1,
                c1_quant$`Ogive parameter values`$`selectivity[FishingSel_1].male`,
-               c1_quant$`Ogive parameter values`$`[FishingSel_1].female`,
-               c1_sens1_quant$`Ogive parameter values`$`selectivity[FishingSel_1].male`)
+               c1_quant$`Ogive parameter values`$`selectivity[FishingSel_1].female`,
+               c1_sens1_quant$`Ogive parameter values`$`selectivity[FishingSel_1].male`,
+               c1_sens1_quant$`Ogive parameter values`$`selectivity[FishingSel_1].female`)
 
 plot(lengths, c1_quant$`Ogive parameter values`$`selectivity[FishingSel_1].male`, type='l', col='black', lwd=bl_lwd, ylim=c(0,max_val), xlab='Age', ylab='', main='Trawl fishery 1 selectivity-at-length comparison', , sub='Dotted lines for female')
 lines(lengths, c1_quant$`Ogive parameter values`$`selectivity[FishingSel_1].female`, type='l', col='black', lwd=bl_lwd, lty=3)
@@ -581,6 +582,72 @@ for (c in 1:num_C2_models)
 {
     lines(lengths, cas2_mpd[[c]]$FishingSel_1_male$Values, col=C2_color[c], lwd=1)
     lines(lengths, cas2_mpd[[c]]$FishingSel_1_female$Values, col=C2_color[c], lwd=1, lty=3)
+}
+
+plot_legend()
+
+
+max_val <- max(1,
+               c1_quant$`Ogive parameter values`$`selectivity[FishingSel_2].male`,
+               c1_quant$`Ogive parameter values`$`selectivity[FishingSel_2].female`,
+               c1_sens1_quant$`Ogive parameter values`$`selectivity[FishingSel_2].male`,
+               c1_sens1_quant$`Ogive parameter values`$`selectivity[FishingSel_2].female`)
+
+plot(lengths, c1_quant$`Ogive parameter values`$`selectivity[FishingSel_2].male`, type='l', col='black', lwd=bl_lwd, ylim=c(0,max_val), xlab='Age', ylab='', main='Trawl fishery 2 selectivity-at-length comparison', , sub='Dotted lines for female')
+lines(lengths, c1_quant$`Ogive parameter values`$`selectivity[FishingSel_2].female`, type='l', col='black', lwd=bl_lwd, lty=3)
+
+lines(lengths, c1_sens1_quant$`Ogive parameter values`$`selectivity[FishingSel_2].male`, col='grey', lwd=gr_lwd)
+lines(lengths, c1_sens1_quant$`Ogive parameter values`$`selectivity[FishingSel_2].female`, col='grey', lwd=gr_lwd, lty=3)
+
+for (c in 1:num_C2_models)
+{
+    lines(lengths, cas2_mpd[[c]]$FishingSel_2_male$Values, col=C2_color[c], lwd=1)
+    lines(lengths, cas2_mpd[[c]]$FishingSel_2_female$Values, col=C2_color[c], lwd=1, lty=3)
+}
+
+plot_legend()
+```
+
+
+```{r plots_set_9, echo=FALSE}
+
+max_val <- max(1,
+               c1_quant$`Ogive parameter values`$`selectivity[TrawlSurveySel_1].male`,
+               c1_quant$`Ogive parameter values`$`selectivity[TrawlSurveySel_1].female`,
+               c1_sens1_quant$`Ogive parameter values`$`selectivity[TrawlSurveySel_1].male`,
+               c1_sens1_quant$`Ogive parameter values`$`selectivity[TrawlSurveySel_1].female`)
+
+plot(lengths, c1_quant$`Ogive parameter values`$`selectivity[TrawlSurveySel_1].male`, type='l', col='black', lwd=bl_lwd, ylim=c(0,max_val), xlab='Age', ylab='', main='Trawl survey 1 selectivity-at-length comparison', , sub='Dotted lines for female')
+lines(lengths, c1_quant$`Ogive parameter values`$`selectivity[TrawlSurveySel_1].female`, type='l', col='black', lwd=bl_lwd, lty=3)
+
+lines(lengths, c1_sens1_quant$`Ogive parameter values`$`selectivity[TrawlSurveySel_1].male`, col='grey', lwd=gr_lwd)
+lines(lengths, c1_sens1_quant$`Ogive parameter values`$`selectivity[TrawlSurveySel_1].female`, col='grey', lwd=gr_lwd, lty=3)
+
+for (c in 1:num_C2_models)
+{
+    lines(lengths, cas2_mpd[[c]]$TrawlSurveySel_1_male$Values, col=C2_color[c], lwd=1)
+    lines(lengths, cas2_mpd[[c]]$TrawlSurveySel_1_female$Values, col=C2_color[c], lwd=1, lty=3)
+}
+
+plot_legend()
+
+
+max_val <- max(1,
+               c1_quant$`Ogive parameter values`$`selectivity[TrawlSurveySel_2].male`,
+               c1_quant$`Ogive parameter values`$`selectivity[TrawlSurveySel_2].female`,
+               c1_sens1_quant$`Ogive parameter values`$`selectivity[TrawlSurveySel_2].male`,
+               c1_sens1_quant$`Ogive parameter values`$`selectivity[TrawlSurveySel_2].female`)
+
+plot(lengths, c1_quant$`Ogive parameter values`$`selectivity[TrawlSurveySel_2].male`, type='l', col='black', lwd=bl_lwd, ylim=c(0,max_val), xlab='Age', ylab='', main='Trawl survey 2 selectivity-at-length comparison', , sub='Dotted lines for female')
+lines(lengths, c1_quant$`Ogive parameter values`$`selectivity[TrawlSurveySel_2].female`, type='l', col='black', lwd=bl_lwd, lty=3)
+
+lines(lengths, c1_sens1_quant$`Ogive parameter values`$`selectivity[TrawlSurveySel_2].male`, col='grey', lwd=gr_lwd)
+lines(lengths, c1_sens1_quant$`Ogive parameter values`$`selectivity[TrawlSurveySel_2].female`, col='grey', lwd=gr_lwd, lty=3)
+
+for (c in 1:num_C2_models)
+{
+    lines(lengths, cas2_mpd[[c]]$TrawlSurveySel_2_male$Values, col=C2_color[c], lwd=1)
+    lines(lengths, cas2_mpd[[c]]$TrawlSurveySel_2_female$Values, col=C2_color[c], lwd=1, lty=3)
 }
 
 plot_legend()
