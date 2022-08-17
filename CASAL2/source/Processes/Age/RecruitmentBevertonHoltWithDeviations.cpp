@@ -53,7 +53,7 @@ RecruitmentBevertonHoltWithDeviations::RecruitmentBevertonHoltWithDeviations(sha
   parameters_.Bind<string>(PARAM_B0_PHASE, &phase_b0_label_, "The initialisation phase label that B0 is from", "", "");
   parameters_.Bind<Double>(PARAM_DEVIATION_VALUES, &recruit_dev_values_, "The recruitment deviation values", "");
   parameters_.Bind<unsigned>(PARAM_DEVIATION_YEARS, &recruit_dev_years_,
-                             "The recruitment years. A vector of years that relates to the year of the spawning event that created this cohort", "", false);
+                             "The recruitment years. A vector of years that relates to the year of the spawning event that created this cohort", "", true);
 
   RegisterAsAddressable(PARAM_R0, &r0_);
   RegisterAsAddressable(PARAM_B0, &b0_);
@@ -73,6 +73,11 @@ RecruitmentBevertonHoltWithDeviations::RecruitmentBevertonHoltWithDeviations(sha
  */
 void RecruitmentBevertonHoltWithDeviations::DoValidate() {
   LOG_TRACE();
+  if (!parameters_.Get(PARAM_DEVIATION_YEARS)->has_been_defined()) 
+    LOG_ERROR_P(PARAM_DEVIATION_YEARS) << PARAM_DEVIATION_YEARS << " is deprecated, refer to user manual for more information";
+  
+  recruit_dev_years_ = model_->years(); // set to model years
+
   if (!parameters_.Get(PARAM_AGE)->has_been_defined()) {
     age_ = model_->min_age();
   } else if (age_ != model_->min_age()) {
@@ -115,11 +120,6 @@ void RecruitmentBevertonHoltWithDeviations::DoValidate() {
     ycs_iter++;
   }
 
-  // Check years are in incremental ascending order
-  for (unsigned i = 1; i < recruit_dev_years_.size(); ++i) {
-    if ((recruit_dev_years_[i - 1] + 1) != recruit_dev_years_[i])
-      LOG_ERROR_P(PARAM_DEVIATION_YEARS) << " values must be in strictly increasing order. Value " << recruit_dev_years_[i - 1] << " + 1 does not equal " << recruit_dev_years_[i];
-  }
   // Populate the proportions category, assumes there is a one to one relationship between categories, and proportions.
   unsigned iter = 0;
   for (auto& category : category_labels_) {
@@ -218,27 +218,10 @@ void RecruitmentBevertonHoltWithDeviations::DoBuild() {
     ssb_offset_ = temp_ssb_offset;
   }
 
-  // Check that ycs years corresponds to the correct ssb_offset calculated
-  if (recruit_dev_years_[0] != (model_->start_year() - ssb_offset_))
-    LOG_ERROR_P(PARAM_DEVIATION_YEARS) << "The first year class year is " << recruit_dev_years_[0] << ", but with the configuration of the process it should be "
-                                       << model_->start_year() - ssb_offset_
-                                       << ". Please check either the ycs_year parameter or see the User Manual for more information on how Casal2 calculates this value.";
-  if (recruit_dev_years_[recruit_dev_years_.size() - 1] != (model_->final_year() - ssb_offset_))
-    LOG_ERROR_P(PARAM_DEVIATION_YEARS) << "The last year class year is " << recruit_dev_years_[recruit_dev_years_.size() - 1]
-                                       << ", but with the configuration of the process it should be " << model_->final_year() - ssb_offset_
-                                       << ". Please check either the ycs_year parameter or see the User Manual for more information on how Casal2 calculates this value.";
-
   // Check users haven't specified a @estimate block for both R0 and B0
-  string b0_param = "process[" + label_ + "].b0";
-  string r0_param = "process[" + label_ + "].r0";
-
-  bool B0_estimate = model_->managers()->estimate()->HasEstimate(b0_param);
-  bool R0_estimate = model_->managers()->estimate()->HasEstimate(r0_param);
-
-  LOG_FINEST() << "is B0 estimated = " << B0_estimate << "; is R0 estimated " << R0_estimate;
-  if (B0_estimate && R0_estimate) {
+  if(IsAddressableUsedFor(PARAM_R0, addressable::kEstimate) & IsAddressableUsedFor(PARAM_B0, addressable::kEstimate))
     LOG_ERROR() << "Both R0 and B0 have an @estimate specified for recruitment process " << label_ << ". Only one of these parameters can be estimated.";
-  }
+
 
   // Check if recruitment devs have an @estimate block, I am just checking over the first year
   for (auto year : recruit_dev_years_) {

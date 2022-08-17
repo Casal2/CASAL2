@@ -46,7 +46,7 @@ upper_bound 0.999 0.999 0.999 0.999 0.990
 ## YCS
 #######
 @estimate YCS
-parameter process[Recruitment].ycs_values{1958:2012} ## he doesn't estimate the last year see bounds of CASAL
+parameter process[Recruitment].recruitment_multipliers{1960:2014} ## he doesn't estimate the last year see bounds of CASAL
 type lognormal
 mu 	      1 * 55
 cv            1.3 * 55
@@ -117,7 +117,7 @@ multiplier 100
 #########
 @additional_prior Penalty-YCS
 type vector_average
-parameter process[Recruitment].ycs_values
+parameter process[Recruitment].recruitment_multipliers
 k 1
 multiplier 1		
 

@@ -47,7 +47,7 @@ public:
 
   // accessor
   unsigned              ssb_offset() { return ssb_offset_; };
-  string                ssb_label() { return ssb_; };
+  string                ssb_label() { return ssb_label_; };
   bool                  b0_initialised() { return b0_initialised_; };
   const vector<string>& category_labels() const { return category_labels_; }
 
@@ -62,28 +62,33 @@ private:
   bool                       b0_initialised_ = false;
   vector<Double>             proportions_;
   Double                     steepness_ = 0.0;
-  string                     ssb_;
+  string                     ssb_label_;
   unsigned                   ssb_offset_;
   vector<Double>             ssb_values_;
-  vector<unsigned>           ycs_years_;
-  vector<Double>             ycs_values_;
-  map<unsigned, Double>      ycs_value_by_year_;
   vector<Double>             true_ycs_values_;
-  map<unsigned, Double>      stand_ycs_value_by_year_;
   vector<Double>             recruitment_values_;
+
+
+  // 
+  vector<unsigned>           spawn_event_years_;
+  vector<Double>             recruitment_multipliers_;
+  map<unsigned, Double>      recruitment_multipliers_by_year_;
+  map<unsigned, Double>      standardised_recruitment_multipliers_by_year_;
+
   bool                       have_scaled_partition = false;
-  vector<unsigned>           standardise_ycs_;
+  vector<unsigned>           standardise_years_;
   DerivedQuantity*           derived_quantity_ = nullptr;
   unsigned                   year_counter_     = 0;
   OrderedMap<string, Double> proportions_by_category_;
-  bool                       ycs_standardised_ = true;
-  unsigned                   last_ycs_year_;
+  bool                       standardise_recruitment_multipliers_ = true;
   vector<Double>             initial_mean_length_;
   vector<Double>             initial_length_cv_;
-
   vector<vector<Double>>     initial_length_distribution_; // category x length bins            
 
-
+  // deprecated objects
+  vector<unsigned>           ycs_years_;
+  vector<unsigned>           standardise_ycs_years_;
+  vector<Double>             ycs_values_;
 };
 
 } /* namespace length */

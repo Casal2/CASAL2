@@ -52,7 +52,7 @@ parameters process[Recruitment].b0
 prior_applies_to_restored_parameters false
 
 # @estimate
-# parameter process[Recruitment].ycs_values{1999:2010}
+# parameter process[Recruitment].recruitment_multipliers{2000:2011}
 # lower_bound 0.001 0.001 0.001 0.001 0.001 0.001 0.001 0.001 0.001 0.001 0.001  0.001
 # upper_bound 100.0 100.0 100.0 100.0 100.0 100.0 100.0 100.0 100.0 100.0 100.0  100.0
 # mu              1     1     1     1     1     1     1     1     1     1     1     1 
@@ -68,7 +68,7 @@ prior_applies_to_restored_parameters false
 @parameter_transformation SimplexYCS
 type simplex
 sum_to_one false
-parameters process[Recruitment].ycs_values{1999:2010}
+parameters process[Recruitment].recruitment_multipliers{2000:2011}
 prior_applies_to_restored_parameters true
 
 @estimate

@@ -21,6 +21,7 @@
 #include "TimeSteps/Manager.h"
 #include "Utilities/Math.h"
 #include "Utilities/To.h"
+#include "Utilities/Vector.h"
 
 // namespaces
 namespace niwa {
@@ -42,21 +43,25 @@ RecruitmentBevertonHolt::RecruitmentBevertonHolt(shared_ptr<Model> model) : Proc
   parameters_.Bind<unsigned>(PARAM_AGE, &age_, "The age at recruitment", "", true);
   parameters_.Bind<unsigned>(PARAM_SSB_OFFSET, &ssb_offset_, "The spawning biomass year offset", "", true);
   parameters_.Bind<Double>(PARAM_STEEPNESS, &steepness_, "Steepness (h)", "", 1.0)->set_range(0.2, 1.0);
-  parameters_.Bind<string>(PARAM_SSB, &ssb_, "The SSB label (i.e., the derived quantity label)", "");
+  parameters_.Bind<string>(PARAM_SSB, &ssb_label_, "The SSB label (i.e., the derived quantity label)", "");
   parameters_.Bind<string>(PARAM_B0_PHASE, &phase_b0_label_, "The initialisation phase label that B0 is from", "", "");
-  parameters_.Bind<Double>(PARAM_YCS_VALUES, &ycs_values_, "The YCS values", "");
-  parameters_.Bind<unsigned>(PARAM_YCS_YEARS, &ycs_years_, "The recruitment years. A vector of years that relates to the year of the spawning event that created this cohort", "",
-                             false);
-  parameters_.Bind<unsigned>(PARAM_STANDARDISE_YCS_YEARS, &standardise_ycs_, "The years that are included for year class standardisation", "", true);
+  
+  parameters_.Bind<Double>(PARAM_RECRUITMENT_MULTIPLIERS, &recruitment_multipliers_, "The YCS values", "");
+  parameters_.Bind<unsigned>(PARAM_STANDARDISE_YEARS, &standardise_years_, "The years that are included for year class standardisation", "", true);
+  
+  // these inputs are deprecated
+  parameters_.Bind<unsigned>(PARAM_STANDARDISE_YCS_YEARS, &standardise_ycs_years_, "The years that are included for year class standardisation", "", true);
+  parameters_.Bind<Double>(PARAM_YCS_VALUES, &ycs_values_, "The YCS values", "", true);
+  parameters_.Bind<unsigned>(PARAM_YCS_YEARS, &ycs_years_, "The recruitment years. A vector of years that relates to the year of the spawning event that created this cohort", "",  true);
 
   RegisterAsAddressable(PARAM_R0, &r0_);
   RegisterAsAddressable(PARAM_B0, &b0_);
   RegisterAsAddressable(PARAM_STEEPNESS, &steepness_);
   RegisterAsAddressable(PARAM_PROPORTIONS, &proportions_by_category_);
-  RegisterAsAddressable(PARAM_YCS_VALUES, &ycs_value_by_year_);
+  RegisterAsAddressable(PARAM_RECRUITMENT_MULTIPLIERS, &recruitment_multipliers_by_year_);
 
   // Allow these to be used in additional priors.
-  RegisterAsAddressable(PARAM_STANDARDISE_YCS, &stand_ycs_value_by_year_, addressable::kLookup);
+  RegisterAsAddressable(PARAM_STANDARDISED_RECRUITMENT_MULTIPLIERS, &standardised_recruitment_multipliers_by_year_, addressable::kLookup);
 
   phase_b0_            = 0;
   process_type_        = ProcessType::kRecruitment;
@@ -68,14 +73,24 @@ RecruitmentBevertonHolt::RecruitmentBevertonHolt(shared_ptr<Model> model) : Proc
  */
 void RecruitmentBevertonHolt::DoValidate() {
   LOG_TRACE();
+  // Flag error
+  if (parameters_.Get(PARAM_YCS_VALUES)->has_been_defined()) 
+    LOG_ERROR_P(PARAM_YCS_VALUES) << PARAM_YCS_VALUES << " is deprecated. The new input is " << PARAM_RECRUITMENT_MULTIPLIERS << ", refer to the user manual for more information";
+  if (parameters_.Get(PARAM_YCS_YEARS)->has_been_defined()) 
+    LOG_ERROR_P(PARAM_YCS_YEARS) << PARAM_YCS_YEARS << " is deprecated, refer to user manual for more information";
+  if (parameters_.Get(PARAM_STANDARDISE_YCS_YEARS)->has_been_defined()) 
+    LOG_ERROR_P(PARAM_STANDARDISE_YCS_YEARS) << PARAM_STANDARDISE_YCS_YEARS << " is deprecated. Please use " << PARAM_STANDARDISE_YEARS << " to standardise. Note the years now refer to model years rather than the previous year_class_years. Refer to the user manual for more information";
+
+
+
   if (!parameters_.Get(PARAM_AGE)->has_been_defined()) {
     age_ = model_->min_age();
   } else if (age_ != model_->min_age()) {
-    LOG_WARNING() << "age = " << age_ << ", but the model min_age = " << model_->min_age() << ".";
+    LOG_WARNING() << PARAM_AGE << " = " << age_ << ", but the model min_age = " << model_->min_age() << ".";
   }
 
   if (parameters_.Get(PARAM_R0)->has_been_defined() && parameters_.Get(PARAM_B0)->has_been_defined())
-    LOG_FATAL_P(PARAM_R0) << "Cannot specify both R0 and B0 in the model";
+    LOG_ERROR_P(PARAM_R0) << "Cannot specify both R0 and B0 in the same recruitment process.";
 
   if (!parameters_.Get(PARAM_R0)->has_been_defined() && !parameters_.Get(PARAM_B0)->has_been_defined())
     LOG_FATAL() << "Specify either R0 or B0 to initialise the model with Beverton-Holt recruitment";
@@ -95,37 +110,34 @@ void RecruitmentBevertonHolt::DoValidate() {
   if (!utilities::math::IsOne(running_total))
     LOG_ERROR_P(PARAM_PROPORTIONS) << "The sum total is " << running_total << " which should be 1.0";
 
-  if (ycs_years_.size() != ((model_->final_year() - model_->start_year()) + 1))
-    LOG_ERROR_P(PARAM_YCS_YEARS) << "There must be a year class year for each year of the model";
-
-  if (ycs_values_.size() != ycs_years_.size()) {
-    LOG_FATAL_P(PARAM_YCS_VALUES) << "There are " << ycs_years_.size() << " " << PARAM_YCS_YEARS << " and " << ycs_values_.size() << " " << PARAM_YCS_VALUES
-                                  << " defined. These parameters must be of equal length.";
+  if (recruitment_multipliers_.size() != model_->years().size()) {
+    LOG_FATAL_P(PARAM_RECRUITMENT_MULTIPLIERS) << "There are " << model_->years().size() << " model years and " << recruitment_multipliers_.size() << " " << PARAM_RECRUITMENT_MULTIPLIERS
+                                  << " defined. These inputs must be of equal length.";
   }
   // initialise ycs_values and check values arn't < 0.0
   unsigned ycs_iter = 0;
-  for (unsigned ycs_year : ycs_years_) {
-    ycs_value_by_year_[ycs_year]       = ycs_values_[ycs_iter];
-    stand_ycs_value_by_year_[ycs_year] = ycs_values_[ycs_iter];
-    if (ycs_values_[ycs_iter] < 0.0)
-      LOG_ERROR_P(PARAM_YCS_VALUES) << " value " << ycs_values_[ycs_iter] << " cannot be less than 0.0";
+  for (unsigned ycs_year : model_->years()) {
+    recruitment_multipliers_by_year_[ycs_year]       = recruitment_multipliers_[ycs_iter];
+    standardised_recruitment_multipliers_by_year_[ycs_year] = recruitment_multipliers_[ycs_iter];
+    if (recruitment_multipliers_[ycs_iter] < 0.0)
+      LOG_ERROR_P(PARAM_RECRUITMENT_MULTIPLIERS) << " value " << recruitment_multipliers_[ycs_iter] << " cannot be less than 0.0";
     ycs_iter++;
   }
 
   // Check ascending order
-  if (standardise_ycs_.size() == 0) {
-    ycs_standardised_ = false;
-  } else if (standardise_ycs_.size() > 1) {
-    for (unsigned i = 1; i < standardise_ycs_.size(); ++i) {
-      if (standardise_ycs_[i - 1] >= standardise_ycs_[i])
-        LOG_ERROR_P(PARAM_STANDARDISE_YCS_YEARS) << " values must be in strictly increasing order. Value " << standardise_ycs_[i - 1] << " is not less than "
-                                                 << standardise_ycs_[i];
+  if (standardise_years_.size() == 0) {
+    standardise_recruitment_multipliers_ = false;
+  } else if (standardise_years_.size() > 1) {
+    for (unsigned i = 1; i < standardise_years_.size(); ++i) {
+      if(standardise_years_[i] < model_->start_year()) 
+        LOG_ERROR_P(PARAM_STANDARDISE_YEARS) << "cannot be less that model start year.";
+      if(standardise_years_[i] > model_->final_year()) 
+        LOG_ERROR_P(PARAM_STANDARDISE_YEARS) << "cannot be greater than model final year.";
+      
+      if (standardise_years_[i - 1] >= standardise_years_[i])
+        LOG_ERROR_P(PARAM_STANDARDISE_YEARS) << " values must be in strictly increasing order. Value " << standardise_years_[i - 1] << " is not less than "
+                                                 << standardise_years_[i];
     }
-  }
-
-  for (unsigned i = 1; i < ycs_years_.size(); ++i) {
-    if (ycs_years_[i - 1] >= ycs_years_[i])
-      LOG_ERROR_P(PARAM_YCS_VALUES) << " values must be in strictly increasing order. Value " << ycs_years_[i - 1] << " is not less than " << ycs_years_[i];
   }
 
   // Populate the proportions category, assumes there is a one to one relationship between categories, and proportions.
@@ -134,7 +146,6 @@ void RecruitmentBevertonHolt::DoValidate() {
     proportions_by_category_[category] = proportions_[iter];
     ++iter;
   }
-  last_ycs_year_ = ycs_years_[std::distance(ycs_years_.begin(), std::max_element(ycs_years_.begin(), ycs_years_.end()))];
 }
 
 /**
@@ -144,15 +155,15 @@ void RecruitmentBevertonHolt::DoBuild() {
   partition_.Init(category_labels_);
 
   if (parameters_.Get(PARAM_B0)->has_been_defined()) {
-    model_->set_b0_initialised(ssb_, true);
+    model_->set_b0_initialised(ssb_label_, true);
     b0_initialised_ = true;
   }
   if (phase_b0_label_ != "")
     phase_b0_ = model_->managers()->initialisation_phase()->GetPhaseIndex(phase_b0_label_);
 
-  derived_quantity_ = model_->managers()->derived_quantity()->GetDerivedQuantity(ssb_);
+  derived_quantity_ = model_->managers()->derived_quantity()->GetDerivedQuantity(ssb_label_);
   if (!derived_quantity_)
-    LOG_ERROR_P(PARAM_SSB) << "Derived quantity SSB (" << ssb_ << ") was not found.";
+    LOG_ERROR_P(PARAM_SSB) << "Derived quantity SSB (" << ssb_label_ << ") was not found.";
 
   /**
    * Calculate out SSB offset
@@ -229,42 +240,20 @@ void RecruitmentBevertonHolt::DoBuild() {
       ssb_offset_ = temp_ssb_offset;
     }
   } 
-
-
-  // Check that ycs years corresponds to the correct ssb_offset calculated
-  if (ycs_years_[0] != (model_->start_year() - ssb_offset_))
-    LOG_ERROR_P(PARAM_YCS_YEARS) << "The first year class year is " << ycs_years_[0] << ", but with the configuration of the process it should be "
-                                 << model_->start_year() - ssb_offset_
-                                 << ". Please check either the ycs_year parameter or see the User Manual for more information on how Casal2 calculates this value.";
-  if (ycs_years_[ycs_years_.size() - 1] != (model_->final_year() - ssb_offset_))
-    LOG_ERROR_P(PARAM_YCS_YEARS) << "The last year class year is " << ycs_years_[ycs_years_.size() - 1] << ", but with the configuration of the process it should be "
-                                 << model_->final_year() - ssb_offset_
-                                 << ". Please check either the ycs_year parameter or see the User Manual for more information on how Casal2 calculates this value.";
-
-  if (ycs_standardised_) {
-    if (standardise_ycs_[0] < model_->start_year() - ssb_offset_)
-      LOG_ERROR_P(PARAM_STANDARDISE_YCS_YEARS) << "The first value is less than the model's start_year - ssb offset = " << model_->start_year() - ssb_offset_;
-    if ((*standardise_ycs_.rbegin()) > model_->final_year() - ssb_offset_)
-      LOG_ERROR_P(PARAM_STANDARDISE_YCS_YEARS) << "The final value (" << (*standardise_ycs_.rbegin()) << ") is greater than the model's final year - ssb_offset ("
-                                               << model_->final_year() - ssb_offset_ << ")";
+  spawn_event_years_.resize(model_->years().size(),0.0);
+  for (unsigned year_iter = 0; year_iter < model_->years().size(); ++year_iter) {
+    spawn_event_years_[year_iter] = model_->years()[year_iter] - ssb_offset_;
+    LOG_FINEST() << "ssb year = " << spawn_event_years_[year_iter]  << " for year = " << model_->years()[year_iter] ;
   }
-
-  // Check users haven't specified a @estimate block for both R0 and B0
-  string b0_param = "process[" + label_ + "].b0";
-  string r0_param = "process[" + label_ + "].r0";
-
-  bool B0_estimate = model_->managers()->estimate()->HasEstimate(b0_param);
-  bool R0_estimate = model_->managers()->estimate()->HasEstimate(r0_param);
-
-  LOG_FINEST() << "is B0 estimated = " << B0_estimate << " is R0 estimated " << R0_estimate;
-  if (B0_estimate && R0_estimate) {
+  
+  // Check users haven't specified an @estimate block for both R0 and B0
+  if(IsAddressableUsedFor(PARAM_R0, addressable::kEstimate) & IsAddressableUsedFor(PARAM_B0, addressable::kEstimate))
     LOG_ERROR() << "Both R0 and B0 have an @estimate specified for recruitment process " << label_ << ". Only one of these parameters can be estimated.";
-  }
 
   // Pre allocate memory
-  ssb_values_.reserve(model_->years().size());
-  true_ycs_values_.reserve(model_->years().size());
-  recruitment_values_.reserve(model_->years().size());
+  ssb_values_.resize(model_->years().size());
+  true_ycs_values_.resize(model_->years().size());
+  recruitment_values_.resize(model_->years().size());
 
   DoReset();
 }
@@ -273,19 +262,19 @@ void RecruitmentBevertonHolt::DoBuild() {
  * Verify all of the values so they are ready for an execution run
  */
 void RecruitmentBevertonHolt::DoVerify(shared_ptr<Model> model) {
-  // Check if PARAM_YCS_VALUES is used
-  LOG_FINE() << "check transform usage = " << IsAddressableUsedFor(PARAM_YCS_VALUES, addressable::kTransformation);
-  LOG_FINE() << "check lookup usage = " << IsAddressableUsedFor(PARAM_YCS_VALUES, addressable::kLookup);
+  // Check if PARAM_RECRUITMENT_MULTIPLIERS is used
+  LOG_FINE() << "check transform usage = " << IsAddressableUsedFor(PARAM_RECRUITMENT_MULTIPLIERS, addressable::kTransformation);
+  LOG_FINE() << "check lookup usage = " << IsAddressableUsedFor(PARAM_RECRUITMENT_MULTIPLIERS, addressable::kLookup);
 
-  //if (!IsAddressableUsedFor(PARAM_YCS_VALUES, addressable::kTransformation)) {
-  //   if (!IsAddressableUsedFor(PARAM_YCS_VALUES, addressable::kLookup))
-  //    LOG_WARNING() << "The parameter " << PARAM_YCS_VALUES << " has no @additional_prior for it. It is recommended to have a vector_average additional prior";
-  if (IsAddressableUsedFor(PARAM_YCS_VALUES, addressable::kTransformation)) {
-    // Check if PARAM_YCS_VALUES has a transformation if it does don't let users 
+  //if (!IsAddressableUsedFor(PARAM_RECRUITMENT_MULTIPLIERS, addressable::kTransformation)) {
+  //   if (!IsAddressableUsedFor(PARAM_RECRUITMENT_MULTIPLIERS, addressable::kLookup))
+  //    LOG_WARNING() << "The parameter " << PARAM_RECRUITMENT_MULTIPLIERS << " has no @additional_prior for it. It is recommended to have a vector_average additional prior";
+  if (IsAddressableUsedFor(PARAM_RECRUITMENT_MULTIPLIERS, addressable::kTransformation)) {
+    // Check if PARAM_RECRUITMENT_MULTIPLIERS has a transformation if it does don't let users 
     // standardise.
-    if (parameters_.Get(PARAM_STANDARDISE_YCS_YEARS)->has_been_defined())
-      LOG_VERIFY() << "There is an @parameter_transformation  for the parameter " << PARAM_YCS_VALUES << ", if this is type simplex, you should not specify the subcommand "
-                   << PARAM_STANDARDISE_YCS_YEARS;
+    if (parameters_.Get(PARAM_STANDARDISE_YEARS)->has_been_defined())
+      LOG_VERIFY() << "There is an @parameter_transformation  for the parameter " << PARAM_RECRUITMENT_MULTIPLIERS << ", if this is type simplex, you should not specify the subcommand "
+                   << PARAM_STANDARDISE_YEARS;
   }
 }
 /**
@@ -301,42 +290,41 @@ void RecruitmentBevertonHolt::DoReset() {
   // if a -i call is made then we need to repopulate the ycs_values vector for reporting.
   // This has to be done because the input parameter ycs_values and registered estimate parameter ycs_values_by_year
   // Are different
-  for (unsigned i = 0; i < ycs_years_.size(); ++i) {
-    ycs_values_[i]                          = ycs_value_by_year_[ycs_years_[i]];
-    stand_ycs_value_by_year_[ycs_years_[i]] = ycs_value_by_year_[ycs_years_[i]];
+  for (unsigned i = 0; i < model_->years().size(); ++i) {
+    recruitment_multipliers_[i]                          = recruitment_multipliers_by_year_[model_->years()[i]];
+    standardised_recruitment_multipliers_by_year_[model_->years()[i]] = recruitment_multipliers_by_year_[model_->years()[i]];
   }
   unsigned iter = 0;
   for (auto& category : category_labels_) {
     proportions_[iter] = proportions_by_category_[category];
     ++iter;
   }
-  ssb_values_.clear();
-  true_ycs_values_.clear();
-  recruitment_values_.clear();
+  fill(ssb_values_.begin(), ssb_values_.end(), 0.0);
+  fill(true_ycs_values_.begin(), true_ycs_values_.end(), 0.0);
+  fill(recruitment_values_.begin(), recruitment_values_.end(), 0.0);
 
   // Do Haist ycs Parameterisation
-  if (ycs_standardised_) {
+  if (standardise_recruitment_multipliers_) {
     Double mean_ycs = 0;
-    for (unsigned i = 0; i < ycs_years_.size(); ++i) {
-      for (unsigned j = 0; j < standardise_ycs_.size(); ++j) {
-        if (ycs_years_[i] == standardise_ycs_[j]) {
-          mean_ycs += ycs_value_by_year_[ycs_years_[i]];
+    for (unsigned i = 0; i < model_->years().size(); ++i) {
+      for (unsigned j = 0; j < standardise_years_.size(); ++j) {
+        if (model_->years()[i] == standardise_years_[j]) {
+          mean_ycs += recruitment_multipliers_by_year_[model_->years()[i]];
           break;
         }
       }
     }
 
-    mean_ycs /= standardise_ycs_.size();
-    for (unsigned ycs_year : ycs_years_) {
-      for (unsigned j = 0; j < standardise_ycs_.size(); ++j) {
-        if (ycs_year == standardise_ycs_[j])
-          stand_ycs_value_by_year_[ycs_year] = ycs_value_by_year_[ycs_year] / mean_ycs;
+    mean_ycs /= standardise_years_.size();
+    for (unsigned ycs_year : model_->years()) {
+      for (unsigned j = 0; j < standardise_years_.size(); ++j) {
+        if (ycs_year == standardise_years_[j])
+          standardised_recruitment_multipliers_by_year_[ycs_year] = recruitment_multipliers_by_year_[ycs_year] / mean_ycs;
       }
     }
-    year_counter_ = 0;
   } else {
-    for (unsigned ycs_year : ycs_years_) {
-      stand_ycs_value_by_year_[ycs_year] = ycs_value_by_year_[ycs_year];
+    for (unsigned ycs_year : model_->years()) {
+      standardised_recruitment_multipliers_by_year_[ycs_year] = recruitment_multipliers_by_year_[ycs_year];
     }
   }
 }
@@ -346,8 +334,10 @@ void RecruitmentBevertonHolt::DoReset() {
  */
 void RecruitmentBevertonHolt::DoExecute() {
   unsigned current_year = model_->current_year();
+  std::pair<bool, int> this_year_iter  = niwa::utilities::findInVector(model_->years(), current_year);
+  year_counter_ = this_year_iter.second;
   unsigned ssb_year     = current_year - ssb_offset_;
-
+  LOG_FINE() << "year = " << current_year << " ssb year = " << ssb_year << " year counter = " << year_counter_;
   Double amount_per = 0.0;
   if (model_->state() == State::kInitialise) {
     initialisationphases::Manager& init_phase_manager = *model_->managers()->initialisation_phase();
@@ -375,36 +365,36 @@ void RecruitmentBevertonHolt::DoExecute() {
     /**
      * The model is not in an initialisation phase
      */
-    LOG_FINEST() << "standardise_ycs_.size(): " << standardise_ycs_.size() << "; model_->current_year(): " << current_year << "; model_->start_year(): " << model_->start_year();
+    LOG_FINEST() << "standardise_years_.size(): " << standardise_years_.size() << "; model_->current_year(): " << current_year << "; model_->start_year(): " << model_->start_year();
     Double ycs;
     // If projection mode ycs values get replaced with projected value from @project block
-    // note that the container ycs_value_by_year_ is changed by time_varying and projection classes
-    // but the code wants to use stand_ycs_value_by_year_ in the functions following here, so we might need to update this.
+    // note that the container recruitment_multipliers_by_year_ is changed by time_varying and projection classes
+    // but the code wants to use standardised_recruitment_multipliers_by_year_ in the functions following here, so we might need to update this.
     if (model_->run_mode() == RunMode::kProjection) {
-      if (ycs_value_by_year_[ssb_year] == 0.0) {
-        LOG_FATAL_P(PARAM_YCS_VALUES) << "Projection mode (-f) is being run but ycs values are = 0 for ycs_year " << model_->current_year() - ssb_offset_
+      if (recruitment_multipliers_by_year_[current_year] == 0.0) {
+        LOG_FATAL_P(PARAM_RECRUITMENT_MULTIPLIERS) << "Projection mode (-f) is being run but ycs values are = 0 for ycs_year " << model_->current_year() - ssb_offset_
                                       << ", which will cause the recruitment process to supply 0 recruits. Please check the @project block for this parameter";
       }
       // Projection classes will update this container automatically
-      ycs = ycs_value_by_year_[ssb_year];
+      ycs = recruitment_multipliers_by_year_[current_year];
       // We need to see if this value has changed from the initial input, if it has we are going to assume that this is because the projection class has changed it.
       // set standardised ycs = ycs for reporting
-      LOG_FINE() << "year = " << ssb_year << " value = " << ycs << " last val = " << last_ycs_year_ << " counter = " << year_counter_ << " size of vector " << ycs_values_.size();
-      if (ssb_year > last_ycs_year_) {
-        // we are in projection years so force standardised ycs to be the same as ycs_value_by_year_[ssb_year];
-        stand_ycs_value_by_year_[ssb_year] = ycs;
+      LOG_FINE() << "ssb year = " << ssb_year << " value = " << ycs << " last val = " << model_->final_year() << " counter = " << year_counter_ << " size of vector " << recruitment_multipliers_.size();
+      if (current_year > model_->final_year()) {
+        // we are in projection years so force standardised ycs to be the same as recruitment_multipliers_by_year_[ssb_year];
+        standardised_recruitment_multipliers_by_year_[current_year] = ycs;
       } else {
         // we are still within start-final_year need to check if we have overwritten any values.
-        if (ycs != ycs_values_[year_counter_])
-          stand_ycs_value_by_year_[ssb_year] = ycs;
+        if (ycs != recruitment_multipliers_[year_counter_])
+          standardised_recruitment_multipliers_by_year_[current_year] = ycs;
         else
-          ycs = stand_ycs_value_by_year_[ssb_year];
+          ycs = standardised_recruitment_multipliers_by_year_[current_year];
       }
-      LOG_FINEST() << "Projected ycs = " << ycs << " what is in the original " << ycs_values_[year_counter_];
+      LOG_FINEST() << "Projected ycs = " << ycs << " what is in the original " << recruitment_multipliers_[year_counter_];
       // else business as usual
     } else {
-      ycs = stand_ycs_value_by_year_[ssb_year];
-      LOG_FINEST() << "ycs" << ycs << " for SSB year " << ssb_year;
+      ycs = standardised_recruitment_multipliers_by_year_[current_year];
+      LOG_FINEST() << "ycs" << ycs << " for SSB year " << ssb_year << " current year = " << current_year;
     }
 
     // Check whether B0 as an input paramter or a derived quantity, this is a result of having an r0 or a b0 in the process
@@ -428,14 +418,13 @@ void RecruitmentBevertonHolt::DoExecute() {
     Double true_ycs  = ycs * SR;
     amount_per       = r0_ * true_ycs;
 
-    true_ycs_values_.push_back(true_ycs);
-    recruitment_values_.push_back(amount_per);
-    ssb_values_.push_back(SSB);
+    true_ycs_values_[year_counter_] = true_ycs;
+    recruitment_values_[year_counter_] = amount_per;
+    ssb_values_[year_counter_] = SSB;
 
-    LOG_FINEST() << "year = " << model_->current_year() << " SSB = " << SSB << " SR = " << SR << "; ycs = " << ycs_value_by_year_[ssb_year]
-                 << " Standardised year class = " << stand_ycs_value_by_year_[ssb_year] << "; B0_ = " << b0_ << "; R0 = " << r0_ << "; ssb_ratio = " << ssb_ratio
+    LOG_FINEST() << "year = " << model_->current_year() << " SSB = " << SSB << " SR = " << SR << "; ycs = " << recruitment_multipliers_by_year_[current_year]
+                 << " Standardised year class = " << standardised_recruitment_multipliers_by_year_[current_year] << "; B0_ = " << b0_ << "; R0 = " << r0_ << "; ssb_ratio = " << ssb_ratio
                  << "; true_ycs = " << true_ycs << "; amount_per = " << amount_per;
-    ++year_counter_;
   }
 
   unsigned i = 0;
@@ -480,19 +469,22 @@ void RecruitmentBevertonHolt::ScalePartition() {
  * Fill the report cache
  */
 void RecruitmentBevertonHolt::FillReportCache(ostringstream& cache) {
-  cache << "ycs_years: ";
-  for (auto iter : stand_ycs_value_by_year_) cache << iter.first << " ";
-  cache << "\nstandardised_ycs: ";
-  for (auto iter : stand_ycs_value_by_year_) cache << AS_DOUBLE(iter.second) << " ";
-  cache << "\nycs_values: ";
-  for (auto iter : ycs_value_by_year_) cache << AS_DOUBLE(iter.second) << " ";
+  cache << "model_year: ";
+  for (auto iter : standardised_recruitment_multipliers_by_year_) cache << iter.first << " ";
+  cache << "\nspawn_event_year: ";
+  for (auto iter : spawn_event_years_) 
+    cache << iter << " ";
+  cache << "\nstandardised_recruitment_multipliers: ";
+  for (auto iter : standardised_recruitment_multipliers_by_year_) cache << AS_DOUBLE(iter.second) << " ";
+  cache << "\nrecruitment_multipliers: ";
+  for (auto iter : recruitment_multipliers_by_year_) cache << AS_DOUBLE(iter.second) << " ";
   cache << "\ntrue_ycs: ";
   for (auto iter : true_ycs_values_) cache << AS_DOUBLE(iter) << " ";
-  cache << "\nRecruits: ";
+  cache << "\nrecruits: ";
   for (auto iter : recruitment_values_) cache << AS_DOUBLE(iter) << " ";
-  cache << "\nRecruit_event_SSB: ";
+  cache << "\nrecruit_event_SSB: ";
   for (auto iter : ssb_values_) cache << AS_DOUBLE(iter) << " ";
-  cache << "\nSSB_offset: " << ssb_offset_;
+  cache << "\nssb_offset: " << ssb_offset_;
   cache << REPORT_EOL;
 }
 
@@ -503,27 +495,29 @@ void RecruitmentBevertonHolt::FillTabularReportCache(ostringstream& cache, bool 
   if (first_run) {
     vector<unsigned> years = model_->years();
 
-    for (auto iter : stand_ycs_value_by_year_) cache << "standardised_ycs[" << iter.first << "] ";
-    for (auto iter : ycs_value_by_year_) cache << "ycs_values[" << iter.first << "] ";
+    for (auto iter : standardised_recruitment_multipliers_by_year_) 
+      cache << "standardised_recruitment_multipliers[" << iter.first << "] ";
+    for (auto iter : recruitment_multipliers_by_year_) 
+      cache << "recruitment_multipliers[" << iter.first << "] ";
 
     for (auto year : years) {
       unsigned ssb_year = year - ssb_offset_;
       cache << "true_ycs[" << ssb_year << "] ";
     }
     for (auto year : years) {
-      cache << "Recruits[" << year << "] ";
+      cache << "recruits[" << year << "] ";
     }
     for (auto year : years) {
       unsigned ssb_year = year - ssb_offset_;
-      cache << "Recruit_event_SSB[" << ssb_year << "] ";
+      cache << "recruit_event_SSB[" << ssb_year << "] ";
     }
 
     cache << "R0 B0 steepness ";
     cache << REPORT_EOL;
   }
 
-  for (auto iter : stand_ycs_value_by_year_) cache << AS_DOUBLE(iter.second) << " ";
-  for (auto iter : ycs_value_by_year_) cache << AS_DOUBLE(iter.second) << " ";
+  for (auto iter : standardised_recruitment_multipliers_by_year_) cache << AS_DOUBLE(iter.second) << " ";
+  for (auto iter : recruitment_multipliers_by_year_) cache << AS_DOUBLE(iter.second) << " ";
 
   for (auto value : true_ycs_values_) cache << AS_DOUBLE(value) << " ";
   for (auto value : recruitment_values_) cache << AS_DOUBLE(value) << " ";
