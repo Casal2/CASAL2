@@ -658,10 +658,12 @@ plot_legend()
 # code from Samik Datta and Vidette McGregor
 source('../../R-functions/growth_curve_fn.R')
 
+nyears <- 40
+
 # values from CASAL population.csl and Casal2 Population.csl2 files
 l_alpha <- 20
 l_beta  <- 40
-cv_val  <- 0.0 # 0.0 in CASAL file, 0.1 in Casal2 file - which one to use?
+cv_val  <- 0.1 # 0.0 in CASAL file, 0.1 in Casal2 file - which one to use?
 initial_size_mean <- 10.0
 initial_size_cv   <- 0.40
 
@@ -671,18 +673,18 @@ g_vec     <- c1_quant$`Vector parameter values`$`growth[1].g_male`
 min_sigma <- c1_quant$`Scalar parameter values`$`growth[1].minsigma_male`
 
 pars_tib <- tibble('g1' = g_vec[1], 'g2' = g_vec[2], 'l1' = l_alpha, 'l2' = l_beta, 'cv' = cv_val, 'min_sigma' = min_sigma)
-size_obj <- growth_curve_fn(pars = pars_tib, length_vec = lengths, nyears = 30, sex = 'male', initial_length = initial_size_mean, initial_cv = initial_size_cv)
+size_obj <- growth_curve_fn(pars = pars_tib, length_vec = lengths, nyears = nyears, sex = 'male', initial_length = initial_size_mean, initial_cv = initial_size_cv)
 
-all_size_obj <- bind_cols(size_obj, 'model' = 'CASAL')
+all_size_obj <- bind_cols(size_obj, 'model' = 'CASAL', 'lwd' = bl_lwd)
 
 
 g_vec     <- c1_quant$`Vector parameter values`$`growth[1].g_female`
 min_sigma <- c1_quant$`Scalar parameter values`$`growth[1].minsigma_male`
 
 pars_tib <- tibble('g1' = g_vec[1], 'g2' = g_vec[2], 'l1' = l_alpha, 'l2' = l_beta, 'cv' = cv_val, 'min_sigma' = min_sigma)
-size_obj <- growth_curve_fn(pars = pars_tib, length_vec = lengths, nyears = 30, sex = 'female', initial_length = initial_size_mean, initial_cv = initial_size_cv)
+size_obj <- growth_curve_fn(pars = pars_tib, length_vec = lengths, nyears = nyears, sex = 'female', initial_length = initial_size_mean, initial_cv = initial_size_cv)
 
-all_size_obj <- bind_rows(all_size_obj, bind_cols(size_obj, 'model' = 'CASAL'))
+all_size_obj <- bind_rows(all_size_obj, bind_cols(size_obj, 'model' = 'CASAL', 'lwd' = bl_lwd))
 
 
 # C1 sensitivity
@@ -690,30 +692,57 @@ g_vec     <- c1_sens1_quant$`Vector parameter values`$`growth[1].g_male`
 min_sigma <- c1_sens1_quant$`Scalar parameter values`$`growth[1].minsigma_male`
 
 pars_tib <- tibble('g1' = g_vec[1], 'g2' = g_vec[2], 'l1' = l_alpha, 'l2' = l_beta, 'cv' = cv_val, 'min_sigma' = min_sigma)
-size_obj <- growth_curve_fn(pars = pars_tib, length_vec = lengths, nyears = 30, sex = 'male', initial_length = initial_size_mean, initial_cv = initial_size_cv)
+size_obj <- growth_curve_fn(pars = pars_tib, length_vec = lengths, nyears = nyears, sex = 'male', initial_length = initial_size_mean, initial_cv = initial_size_cv)
 
-all_size_obj <- bind_rows(all_size_obj, bind_cols(size_obj, 'model' = 'CASAL sens1'))
+all_size_obj <- bind_rows(all_size_obj, bind_cols(size_obj, 'model' = 'CASAL sens1', 'lwd' = gr_lwd))
 
 
 g_vec     <- c1_sens1_quant$`Vector parameter values`$`growth[1].g_female`
 min_sigma <- c1_sens1_quant$`Scalar parameter values`$`growth[1].minsigma_male`
 
 pars_tib <- tibble('g1' = g_vec[1], 'g2' = g_vec[2], 'l1' = l_alpha, 'l2' = l_beta, 'cv' = cv_val, 'min_sigma' = min_sigma)
-size_obj <- growth_curve_fn(pars = pars_tib, length_vec = lengths, nyears = 30, sex = 'female', initial_length = initial_size_mean, initial_cv = initial_size_cv)
+size_obj <- growth_curve_fn(pars = pars_tib, length_vec = lengths, nyears = nyears, sex = 'female', initial_length = initial_size_mean, initial_cv = initial_size_cv)
 
-all_size_obj <- bind_rows(all_size_obj, bind_cols(size_obj, 'model' = 'CASAL sens1'))
+all_size_obj <- bind_rows(all_size_obj, bind_cols(size_obj, 'model' = 'CASAL sens1', 'lwd' = gr_lwd))
+
+
+# C2
+for (c in 1:num_C2_models)
+{
+    g_alpha   <- cas2_mpd[[c]]$estimated_values$values$`growth_increment[male_growth].g_alpha`
+    g_beta    <- cas2_mpd[[c]]$estimated_values$values$`growth_increment[male_growth].g_beta`
+    min_sigma <- cas2_mpd[[c]]$estimated_values$values$`growth_increment[female_growth].min_sigma`
+
+    pars_tib <- tibble('g1' = g_alpha, 'g2' = g_beta, 'l1' = l_alpha, 'l2' = l_beta, 'cv' = cv_val, 'min_sigma' = min_sigma)
+    size_obj <- growth_curve_fn(pars = pars_tib, length_vec = lengths, nyears = nyears, sex = 'male', initial_length = initial_size_mean, initial_cv = initial_size_cv)
+
+    all_size_obj <- bind_rows(all_size_obj, bind_cols(size_obj, 'model' = paste('Casal2', C2_subdir[c]), 'lwd' = 1))
+
+
+    g_alpha   <- cas2_mpd[[c]]$estimated_values$values$`growth_increment[female_growth].g_alpha`
+    g_beta    <- cas2_mpd[[c]]$estimated_values$values$`growth_increment[female_growth].g_beta`
+    min_sigma <- cas2_mpd[[c]]$estimated_values$values$`growth_increment[female_growth].min_sigma`
+
+    pars_tib <- tibble('g1' = g_alpha, 'g2' = g_beta, 'l1' = l_alpha, 'l2' = l_beta, 'cv' = cv_val, 'min_sigma' = min_sigma)
+    size_obj <- growth_curve_fn(pars = pars_tib, length_vec = lengths, nyears = nyears, sex = 'female', initial_length = initial_size_mean, initial_cv = initial_size_cv)
+
+    all_size_obj <- bind_rows(all_size_obj, bind_cols(size_obj, 'model' = paste('Casal2', C2_subdir[c]), 'lwd' = 1))
+}
+
 
 
 # plot
 all_color_vec <- c('black', 'grey', C2_color)
 
 p <- all_size_obj %>%
-        mutate(Year = as.integer(Time)) %>%
-        ggplot(aes(x = Year, y = mean_length, colour=factor(model))) +
-        geom_line(stat="identity") + facet_wrap(sex ~ .)
+        mutate(Age = as.integer(Time)) %>%
+        ggplot(aes(x = Age, y = mean_length, colour=model)) +
+        geom_path(stat = "identity", aes(size=lwd)) + facet_grid(sex ~ .) +
+        guides(size = "none") + labs(title="Mean length at age by sex") +
+        scale_colour_brewer(palette = "Set1")
 
 p
 
 
-plot_legend()
+# plot_legend()
 ```
