@@ -69,12 +69,11 @@ type recruitment_beverton_holt
 categories male,female.untagged,2001:2014
 proportions 0.5 0*14 0.5 0*14
 b0 80000
-standardise_ycs_years 2003:2009
-ycs_values 1*21
+standardise_years 2004:2010
+recruitment_multipliers 1*21
 steepness 0.75
 ssb SSB
 age 1
-ycs_years 1994:2014
 
 @derived_quantity SSB
 type biomass

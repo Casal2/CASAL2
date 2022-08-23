@@ -78,6 +78,7 @@ private:
   OrderedMap<string, Double> proportions_by_category_;
   bool                       standardise_recruitment_multipliers_ = true;
 
+  vector<unsigned>           years_;
   // deprecated
   vector<unsigned>           ycs_years_;
   vector<unsigned>           standardise_ycs_years_;

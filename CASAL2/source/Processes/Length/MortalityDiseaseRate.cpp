@@ -32,7 +32,7 @@ MortalityDiseaseRate::MortalityDiseaseRate(shared_ptr<Model> model) : Process(mo
 
   parameters_.Bind<string>(PARAM_CATEGORIES, &category_labels_, "The list of categories labels", "");
   parameters_.Bind<Double>(PARAM_DISEASE_MORTALITY_RATE, &dm_input_, "The Disease mortality rate", "")->set_range(0.0, 10, true, true);
-  parameters_.Bind<Double>(PARAM_YEAR_EFFECTS, &year_effect_input_, "Annual deviations around the diseas mortality rate", "")->set_lower_bound(0.0, true);
+  parameters_.Bind<Double>(PARAM_YEAR_EFFECTS, &year_effect_input_, "Annual deviations around the disease mortality rate", "")->set_lower_bound(0.0, true);
   parameters_.Bind<string>(PARAM_SELECTIVITIES, &selectivity_names_, "The selectivity labels", "");
   parameters_.Bind<unsigned>(PARAM_YEARS, &process_years_, "Years to apply disease mortality in", "");
 

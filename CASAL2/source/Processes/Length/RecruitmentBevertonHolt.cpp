@@ -115,13 +115,17 @@ void RecruitmentBevertonHolt::DoValidate() {
   if(!utilities::math::IsOne(running_total))
     LOG_ERROR_P(PARAM_PROPORTIONS) << "The total is " << running_total << " which should be 1.0";
 
-  if (recruitment_multipliers_.size() != model_->years().size()) {
-    LOG_FATAL_P(PARAM_RECRUITMENT_MULTIPLIERS) << "There are " << model_->years().size() << " model years and " << recruitment_multipliers_.size() << " " << PARAM_RECRUITMENT_MULTIPLIERS
+  for(auto year = model_->start_year(); year <= model_->final_year(); ++year)
+    years_.push_back(year);
+
+  if (recruitment_multipliers_.size() != years_.size()) {
+    LOG_FATAL_P(PARAM_RECRUITMENT_MULTIPLIERS) << "There are " << years_.size() << " model years and " << recruitment_multipliers_.size() << " " << PARAM_RECRUITMENT_MULTIPLIERS
                                   << " defined. These inputs must be of equal length.";
   }
+
   // initialise ycs_values and check values arn't < 0.0
   unsigned ycs_iter = 0;
-  for (unsigned ycs_year : model_->years()) {
+  for (unsigned ycs_year : years_) {
     recruitment_multipliers_by_year_[ycs_year]       = recruitment_multipliers_[ycs_iter];
     standardised_recruitment_multipliers_by_year_[ycs_year] = recruitment_multipliers_[ycs_iter];
     if (recruitment_multipliers_[ycs_iter] < 0.0)
@@ -134,6 +138,7 @@ void RecruitmentBevertonHolt::DoValidate() {
     standardise_recruitment_multipliers_ = false;
   } else if (standardise_years_.size() > 1) {
     for (unsigned i = 1; i < standardise_years_.size(); ++i) {
+      LOG_FINE() << "standardised year = " << standardise_years_[i];
       if(standardise_years_[i] < model_->start_year()) 
         LOG_ERROR_P(PARAM_STANDARDISE_YEARS) << "cannot be less that model start year.";
       if(standardise_years_[i] > model_->final_year()) 
@@ -143,6 +148,11 @@ void RecruitmentBevertonHolt::DoValidate() {
         LOG_ERROR_P(PARAM_STANDARDISE_YEARS) << " values must be in strictly increasing order. Value " << standardise_years_[i - 1] << " is not less than "
                                                  << standardise_years_[i];
     }
+    // need to focus on first value
+    if(standardise_years_[0] < model_->start_year()) 
+      LOG_ERROR_P(PARAM_STANDARDISE_YEARS) << "cannot be less that model start year.";
+    if(standardise_years_[0] > model_->final_year()) 
+      LOG_ERROR_P(PARAM_STANDARDISE_YEARS) << "cannot be greater than model final year.";
   }
 
   // Populate the proportions category, assumes there is a one to one relationship between categories, and proportions.
@@ -229,9 +239,9 @@ void RecruitmentBevertonHolt::DoReset() {
   // if a -i call is made then we need to repopulate the ycs_values vector for reporting.
   // This has to be done because the input parameter ycs_values and registered estimate parameter ycs_values_by_year
   // Are different
-  for (unsigned i = 0; i < model_->years().size(); ++i) {
-    recruitment_multipliers_[i]                          = recruitment_multipliers_by_year_[model_->years()[i]];
-    standardised_recruitment_multipliers_by_year_[model_->years()[i]] = recruitment_multipliers_by_year_[model_->years()[i]];
+  for (unsigned i = 0; i < years_.size(); ++i) {
+    recruitment_multipliers_[i]                          = recruitment_multipliers_by_year_[years_[i]];
+    standardised_recruitment_multipliers_by_year_[years_[i]] = recruitment_multipliers_by_year_[years_[i]];
   }
   unsigned iter = 0;
   for (auto& category : category_labels_) {
@@ -246,24 +256,24 @@ void RecruitmentBevertonHolt::DoReset() {
   // Do Haist ycs Parameterisation
   if (standardise_recruitment_multipliers_) {
     Double mean_ycs = 0;
-    for (unsigned i = 0; i < model_->years().size(); ++i) {
+    for (unsigned i = 0; i < years_.size(); ++i) {
       for (unsigned j = 0; j < standardise_years_.size(); ++j) {
-        if (model_->years()[i] == standardise_years_[j]) {
-          mean_ycs += recruitment_multipliers_by_year_[model_->years()[i]];
+        if (years_[i] == standardise_years_[j]) {
+          mean_ycs += recruitment_multipliers_by_year_[years_[i]];
           break;
         }
       }
     }
 
     mean_ycs /= standardise_years_.size();
-    for (unsigned ycs_year : model_->years()) {
+    for (unsigned ycs_year : years_) {
       for (unsigned j = 0; j < standardise_years_.size(); ++j) {
         if (ycs_year == standardise_years_[j])
           standardised_recruitment_multipliers_by_year_[ycs_year] = recruitment_multipliers_by_year_[ycs_year] / mean_ycs;
       }
     }
   } else {
-    for (unsigned ycs_year : model_->years()) {
+    for (unsigned ycs_year : years_) {
       standardised_recruitment_multipliers_by_year_[ycs_year] = recruitment_multipliers_by_year_[ycs_year];
     }
   }
@@ -312,7 +322,7 @@ void RecruitmentBevertonHolt::DoExecute() {
     // but the code wants to use standardised_recruitment_multipliers_by_year_ in the functions following here, so we might need to update this.
     if (model_->run_mode() == RunMode::kProjection) {
       if (recruitment_multipliers_by_year_[current_year] == 0.0) {
-        LOG_FATAL_P(PARAM_RECRUITMENT_MULTIPLIERS) << "Projection mode (-f) is being run but ycs values are = 0 for ycs_year " << model_->current_year() - ssb_offset_
+        LOG_FATAL_P(PARAM_RECRUITMENT_MULTIPLIERS) << "Projection mode (-f) is being run but found value of " << PARAM_RECRUITMENT_MULTIPLIERS << " = 0 for year " << model_->current_year()
                                       << ", which will cause the recruitment process to supply 0 recruits. Please check the @project block for this parameter";
       }
       // Projection classes will update this container automatically

@@ -93,10 +93,9 @@ proportions 0.5 0.5
 r0 5e6
 age 2
 steepness 0.9
-ycs_values 1.00 1.00 1.00 1.00 1.00 1.00 1.00 1.00 1.00 1.00 1.00 1.00 1.00 1.00 1.00 1.00 1.00 1.00 1.00 1.00 1.00 1.00 1.00 1.00 1.00 1.00 1.00 1.00
+recruitment_multipliers 1.00 1.00 1.00 1.00 1.00 1.00 1.00 1.00 1.00 1.00 1.00 1.00 1.00 1.00 1.00 1.00 1.00 1.00 1.00 1.00 1.00 1.00 1.00 1.00 1.00 1.00 1.00 1.00
 ssb ssb
-ycs_years 1973:2000
-standardise_ycs_years 1973:1999
+standardise_years 1975:2001
 
 @mortality halfm
 type constant_rate

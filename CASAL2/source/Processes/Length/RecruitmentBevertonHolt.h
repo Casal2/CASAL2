@@ -84,6 +84,7 @@ private:
   vector<Double>             initial_mean_length_;
   vector<Double>             initial_length_cv_;
   vector<vector<Double>>     initial_length_distribution_; // category x length bins            
+  vector<unsigned>           years_;
 
   // deprecated objects
   vector<unsigned>           ycs_years_;
