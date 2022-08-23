@@ -532,15 +532,17 @@ The null\_process  type has no additional subcommands. Note that this process do
 \defType{String}
 \defDefault{No default}
 
-\defSub{ycs\_values}{The YCS values}
+\defSub{ycs\_values}{Deprecated}
+\defSub{ycs\_years}{Deprecated}
+\defSub{standardise\_ycs\_years}{Deprecated}
+
+
+\defSub{recruitment\_multipliers}{The recruitment values also termed year class strengths.}
 \defType{Vector of real numbers (estimable)}
 \defDefault{No default}
 
-\defSub{ycs\_years}{The recruitment years. A vector of years that relates to the year of the spawning event that created this cohort}
-\defType{Vector of non-negative integers}
-\defDefault{false}
 
-\defSub{standardise\_ycs\_years}{The years that are included for year class standardisation}
+\defSub{standardise\_years}{The years that are included for year class standardisation, they refer to the recruited year not spawning or year class year.}
 \defType{Vector of non-negative integers}
 \defDefault{true}
 
@@ -623,9 +625,7 @@ The null\_process  type has no additional subcommands. Note that this process do
 \defType{Vector of real numbers (estimable)}
 \defDefault{No default}
 
-\defSub{deviation\_years}{The recruitment years. A vector of years that relates to the year of the spawning event that created this cohort}
-\defType{Vector of non-negative integers}
-\defDefault{false}
+\defSub{deviation\_years}{Deprecated}
 
 \subsubsection{Process of type Recruitment Constant}
 \commandlabsubarg{process}{type}{Recruitment\_Constant}.
