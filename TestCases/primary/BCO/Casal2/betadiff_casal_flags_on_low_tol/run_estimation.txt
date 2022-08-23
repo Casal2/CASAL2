@@ -1,16 +1,16 @@
 Environment: User=Casal2
 Call: ../../../../../BuildSystem/Casal2/casal2 -E mpd.out -o params_est.out 
-Date: Thu Aug 11 16:38:40 2022
-Seed: 92720
+Date: Fri Aug 12 17:53:21 2022
+Seed: 83601
 Version: v22.08 (2022-08-04)
 Copyright (c) 2017-2022, NIWA (www.niwa.co.nz)
 niwauser
- Machine=localhost.localdomain (Linux 3.10.0-1160.71.1.el7.x86_64 x86_64)
- PID=25059
+ Machine=wellcompute.niwa.local (Linux 3.10.0-1160.66.1.el7.x86_64 x86_64)
+ PID=56553
 
 
 
-[INFO] Setting the random number seed to 92720
+[INFO] Setting the random number seed to 83601
 [INFO] Estimable parameters were loaded from the free parameter file: 
 [WARNING] obs sum total (1.00001) for year (2010) doesn't sum to 1.0
 [WARNING] obs sum total (0.99997) for year (2014) doesn't sum to 1.0
@@ -1309,6 +1309,31 @@ male 145810.914117 161815.466251 53098.615834 91387.158678 77600.140215 24564.52
 female 137396.483611 147774.221198 49987.176007 90138.152213 78164.322736 24559.198032 28004.896111 20905.609111 11115.837328 9843.038967 6606.020979 5915.685952 5909.731465 2952.622230 1576.367300 1059.929573 869.585199 1968.747057
 *end
 
+*partition[state1]
+year: 2019
+time_step: 1
+values {dataframe_with_row_labels}
+category 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 20
+male 150903.687292 127506.307947 61558.154223 60180.555055 57773.950391 38734.086760 52145.617673 12354.805457 17226.491743 10399.792423 9698.308851 2878.868435 4742.652239 3953.310004 1244.611422 1459.165060 1146.747543 3299.456037
+female 142200.227288 116029.843551 56817.622957 56964.166887 55556.554746 37173.325290 49060.121241 11326.609017 15269.018340 8827.974401 7855.718788 2221.540219 3479.415402 2743.121518 811.529844 890.901964 648.776104 1437.085077
+*end
+
+*age_length[age_length_weight_male]
+year: 2019
+time_step: 1
+cvs_by_age: 0.1 0.1 0.1 0.1 0.1 0.1 0.1 0.1 0.1 0.1 0.1 0.1 0.1 0.1 0.1 0.1 0.1 0.1 
+mean_length_at_age: 23.5953 27.7977 31.2383 34.0552 36.3616 38.2498 39.7958 41.0615 42.0978 42.9462 43.6409 44.2096 44.6752 45.0565 45.3686 45.6241 45.8334 46.0047 
+mean_weight_at_age: 0.00189905 0.00321154 0.00466836 0.00615686 0.00759596 0.00893431 0.0101443 0.0112152 0.012148 0.0129504 0.013634 0.0142117 0.0146971 0.015103 0.0154409 0.0157214 0.0159537 0.0161456 
+*end
+
+*age_length[age_length_weight_female]
+year: 2019
+time_step: 1
+cvs_by_age: 0.1 0.1 0.1 0.1 0.1 0.1 0.1 0.1 0.1 0.1 0.1 0.1 0.1 0.1 0.1 0.1 0.1 0.1 
+mean_length_at_age: 20.3404 23.898 26.8401 29.273 31.2849 32.9487 34.3246 35.4624 36.4034 37.1815 37.8249 38.357 38.7971 39.161 39.4619 39.7107 39.9165 40.0867 
+mean_weight_at_age: 0.00118001 0.00197826 0.00287018 0.00379057 0.00469074 0.00553829 0.00631434 0.00701014 0.00762399 0.00815878 0.00862007 0.00901485 0.00935058 0.00963463 0.00987397 0.010075 0.0102433 0.0103839 
+*end
+
 *estimate_value[estimated_values]
 values {dataframe}
 process[Recruitment].b0 age_length[asMm0].linf age_length[asMm0].cv_last selectivity[potSurveySel_male].a50 selectivity[potSurveySel_male].ato95 selectivity[potSurveySel_female].a50 selectivity[potSurveySel_female].ato95 process[Recruitment].ycs_values{1980} process[Recruitment].ycs_values{1981} process[Recruitment].ycs_values{1982} process[Recruitment].ycs_values{1983} process[Recruitment].ycs_values{1984} process[Recruitment].ycs_values{1985} process[Recruitment].ycs_values{1986} process[Recruitment].ycs_values{1987} process[Recruitment].ycs_values{1988} process[Recruitment].ycs_values{1989} process[Recruitment].ycs_values{1990} process[Recruitment].ycs_values{1991} process[Recruitment].ycs_values{1992} process[Recruitment].ycs_values{1993} process[Recruitment].ycs_values{1994} process[Recruitment].ycs_values{1995} process[Recruitment].ycs_values{1996} process[Recruitment].ycs_values{1997} process[Recruitment].ycs_values{1998} process[Recruitment].ycs_values{1999} process[Recruitment].ycs_values{2000} process[Recruitment].ycs_values{2001} process[Recruitment].ycs_values{2002} process[Recruitment].ycs_values{2003} process[Recruitment].ycs_values{2004} process[Recruitment].ycs_values{2005} process[Recruitment].ycs_values{2006} process[Recruitment].ycs_values{2007} process[Recruitment].ycs_values{2008} process[Recruitment].ycs_values{2009} process[Recruitment].ycs_values{2010} process[Recruitment].ycs_values{2011} process[Recruitment].ycs_values{2012} process[Recruitment].ycs_values{2013} process[Recruitment].ycs_values{2014} 
@@ -2381,31 +2406,6 @@ discards[Recreation]: 0 3.46002 3.55453 3.63682 3.73749 3.82618 3.91787 4.02777 
 discards_dead[Recreation]: 0 3.46002 3.55453 3.63682 3.73749 3.82618 3.91787 4.02777 4.12515 4.24077 4.34364 4.44921 4.47834 4.54089 4.58932 4.65558 4.70744 4.77735 4.83263 4.90625 4.96502 5.05946 5.15631 5.25565 5.35758 5.46222 5.56965 5.66204 5.75705 5.83648 5.93692 6.04036 6.20387 6.37183 6.57098 6.79592 6.9273 6.88421 6.77706 6.65769 6.53819 6.39943 6.26126 6.13999 6.04079 5.97632 5.96812 6.15567 6.39796 6.67747 6.96676 7.28029 7.52253 7.74196 7.88338 7.96723 8.01479 8.23553 8.48285 8.73596 8.9592 9.25026 9.44579 9.68146 9.89444 10.084 10.1871 10.1821 10.1801 10.2097 10.2036 10.2333 10.2159 10.1753 10.1784 10.2152 10.192 10.1169 10.0186 9.91183 9.77698 9.71543 9.64946 9.52124 8.93515 7.7399 6.59375 5.80173 5.46416 5.6092 6.34335 8.08435 11.5802 17.0688 23.2293 25.8786 23.4368 20.6248 19.0064 18.9469 19.2356 18.1014 16.4964 15.0815 13.9957 13.4751 13.061 13.4319 14.8249 15.3926 15.3499 16.1338 16.7101 16.6453 17.3089 19.0027 18.7962 17.6878 16.3158 15.1418 
 *end
 
-*partition[state1]
-year: 2019
-time_step: 1
-values {dataframe_with_row_labels}
-category 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 20
-male 150903.687292 127506.307947 61558.154223 60180.555055 57773.950391 38734.086760 52145.617673 12354.805457 17226.491743 10399.792423 9698.308851 2878.868435 4742.652239 3953.310004 1244.611422 1459.165060 1146.747543 3299.456037
-female 142200.227288 116029.843551 56817.622957 56964.166887 55556.554746 37173.325290 49060.121241 11326.609017 15269.018340 8827.974401 7855.718788 2221.540219 3479.415402 2743.121518 811.529844 890.901964 648.776104 1437.085077
-*end
-
-*age_length[age_length_weight_male]
-year: 2019
-time_step: 1
-cvs_by_age: 0.1 0.1 0.1 0.1 0.1 0.1 0.1 0.1 0.1 0.1 0.1 0.1 0.1 0.1 0.1 0.1 0.1 0.1 
-mean_length_at_age: 23.5953 27.7977 31.2383 34.0552 36.3616 38.2498 39.7958 41.0615 42.0978 42.9462 43.6409 44.2096 44.6752 45.0565 45.3686 45.6241 45.8334 46.0047 
-mean_weight_at_age: 0.00189905 0.00321154 0.00466836 0.00615686 0.00759596 0.00893431 0.0101443 0.0112152 0.012148 0.0129504 0.013634 0.0142117 0.0146971 0.015103 0.0154409 0.0157214 0.0159537 0.0161456 
-*end
-
-*age_length[age_length_weight_female]
-year: 2019
-time_step: 1
-cvs_by_age: 0.1 0.1 0.1 0.1 0.1 0.1 0.1 0.1 0.1 0.1 0.1 0.1 0.1 0.1 0.1 0.1 0.1 0.1 
-mean_length_at_age: 20.3404 23.898 26.8401 29.273 31.2849 32.9487 34.3246 35.4624 36.4034 37.1815 37.8249 38.357 38.7971 39.161 39.4619 39.7107 39.9165 40.0867 
-mean_weight_at_age: 0.00118001 0.00197826 0.00287018 0.00379057 0.00469074 0.00553829 0.00631434 0.00701014 0.00762399 0.00815878 0.00862007 0.00901485 0.00935058 0.00963463 0.00987397 0.010075 0.0102433 0.0103839 
-*end
-
 *selectivity[potSurveySel_male]
 a50: 3.03765 
 alpha: 1 
@@ -3279,7 +3279,7 @@ Values {vector}
 
 *info[messages_encountered]
 Values {string}
-Setting the random number seed to 92720
+Setting the random number seed to 83601
 Estimable parameters were loaded from the free parameter file: 
 Creating default report for catchability potSurveyq
 Creating default report for catchability potCPUEq
@@ -3328,5 +3328,5 @@ Estimates were removed because of matching lower and upper bounds. Originally ha
 *end
 
 [INFO] Completed
-[INFO] Total CPU time: -45.7001 hours
-[INFO] Total elapsed time: 10.033 minutes
+[INFO] Total CPU time: -31.7631 hours
+[INFO] Total elapsed time: 1.933 minutes
