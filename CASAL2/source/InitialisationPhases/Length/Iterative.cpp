@@ -145,6 +145,7 @@ void Iterative::DoExecute() {
     unsigned total_years = 0;
     unsigned counter_years = 0;
     for (unsigned years : convergence_years_) {
+      counter_years = years;
       time_step_manager.ExecuteInitialisation(label_, years - (total_years + 1));
 
       total_years += years - (total_years + 1);
@@ -157,13 +158,12 @@ void Iterative::DoExecute() {
       ++total_years;
 
       if (CheckConvergence()) {
-        LOG_INFO() << "year Convergence was reached = " << years;
+        LOG_FINE() << "year Convergence was reached = " << years;
         break;
       }
       LOG_FINEST() << "Initial year = " << years;
-      counter_years = years;
     }
-    LOG_INFO() << label_ << " ran for '" << counter_years << "' iterations.";
+    LOG_FINE() << label_ << " ran for '" << counter_years << "' years.";
   }
 
   // Check if we have B0 initialised or R0 initialised recruitment
