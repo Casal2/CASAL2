@@ -39,10 +39,10 @@ public:
   virtual ~Penalty() = default;
   void           Validate();
   void           Build() { DoBuild(); };
-  void           Verify(shared_ptr<Model> model){};
-  void           Reset(){score_ = 0.0; LOG_MEDIUM() << "reset penalty";};
-  virtual Double GetScore() {return score_;};
-  virtual void   Trigger(Double value_1, Double value_2){};
+  void           Verify(shared_ptr<Model> model) {};
+  void           Reset() { score_ = 0.0; LOG_MEDIUM() << "reset penalty"; };
+  virtual Double GetScore() { return score_; };
+  virtual void   Trigger(Double value_1, Double value_2) {};
 
 protected:
   // methods

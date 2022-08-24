@@ -100,7 +100,7 @@ vector<unsigned> Mortality::get_fishery_ndx_for_catch_at(vector<string> fishery_
   for (unsigned fishery_ndx = 0; fishery_ndx < fishery_labels.size(); ++fishery_ndx) {
     std::pair<bool, int> this_fishery_iter = niwa::utilities::findInVector(fishery_labels_, fishery_labels[fishery_ndx]);
     if (!this_fishery_iter.first) {
-      LOG_CODE_ERROR() << "couldn't find fishery lab = " << fishery_labels[fishery_ndx] << " in fishery_labels_. this should be validated before this function is used.";
+      LOG_CODE_ERROR() << "couldn't find fishery label = " << fishery_labels[fishery_ndx] << " in fishery_labels_. this should be validated before this function is used.";
     }
     fishery_ndxs.push_back(this_fishery_iter.second);
   }
@@ -137,7 +137,7 @@ vector<unsigned> Mortality::get_category_ndx_for_catch_at(vector<string> categor
   for (unsigned category_ndx = 0; category_ndx < category_labels.size(); ++category_ndx) {
     std::pair<bool, int> this_category_iter = niwa::utilities::findInVector(category_labels_, category_labels[category_ndx]);
     if (!this_category_iter.first) {
-      LOG_CODE_ERROR() << "couldn't find category = " << category_labels[category_ndx] << " in category_labels_. this should be validated before this function is used.";
+      LOG_CODE_ERROR() << "couldn't find category label = " << category_labels[category_ndx] << " in category_labels_. this should be validated before this function is used.";
     }
     category_ndxs.push_back(this_category_iter.second);
   }
