@@ -86,9 +86,8 @@ selectivities sel_Wspmg
 @process recruit_W
 type recruitment_beverton_holt
 b0 858435.6
-ycs_years 1970:2016
-standardise_ycs_years 1975:2013
-ycs_values 1*47
+standardise_years 1977:2015
+recruitment_multipliers 1*47
 steepness 0.75
 ssb SSB_W
 categories format=west.cr format=west.sa format=west.wc
@@ -97,9 +96,8 @@ proportions 1.0 0.0 0.0 ## The zeros are needed if you initialise via B0
 @process recruit_E
 type recruitment_beverton_holt
 b0 451777
-ycs_years 1970:2016
-standardise_ycs_years 1975:2013
-ycs_values 1*47
+standardise_years 1977:2015
+recruitment_multipliers 1*47
 steepness 0.75
 ssb SSB_E
 categories format=east.cr format=east.cs
@@ -278,46 +276,7 @@ c 1
 type constant
 c 0.5
 
-## Age length - Length Weight relationships
-
-@age_length age_length_W
-type von_bertalanffy
-compatibility_option casal
-length_weight Length_weight_W
-k 0.206
-t0 -0.96
-linf 102.1
-time_step_proportions 0.25 0.6 0.9 0.9 0.0
-
-@age_length age_length_E
-type von_bertalanffy
-compatibility_option casal
-length_weight Length_weight_E
-k 0.164
-t0 -2.16
-linf 100.8
-time_step_proportions 0.25 0.6 0.9 0.9 0.0
-
-/*
-@age_length age_size_W
-type von_bertalanffy
-compatibility_option casal
-length_weight Length_weight
-k 0.206
-t0 -0.96
-linf 102.1
-time_step_proportions 0.25 0.6 0.9 0.9 0.0
-
-@age_length age_size_E
-type von_bertalanffy
-compatibility_option casal
-length_weight Length_weight
-k 0.164
-t0 -2.16
-linf 100.8
-time_step_proportions 0.25 0.6 0.9 0.9 0.0
-*/
-
+## Length Weight relationships
 # SIZE-WEIGHT
 @length_weight Length_weight_E
 type basic

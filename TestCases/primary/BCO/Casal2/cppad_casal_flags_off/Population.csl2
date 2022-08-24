@@ -72,12 +72,11 @@ type recruitment_beverton_holt
 categories *
 proportions 0.5 0.5
 b0 15000
-ycs_years 1897:2016
-ycs_values    1.00 * 120
+recruitment_multipliers    1.00 * 120
 steepness 0.75
 ssb SSB
 age 3   #recruit age
-standardise_ycs_years 1980:2014 #
+standardise_years 1983:2017 #
 
 ## Ageing
 @process Ageing

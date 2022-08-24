@@ -39,6 +39,12 @@ time_step Feb-Apr
 type partition
 time_step May-Sep
 
+@report Covariance 
+type covariance_matrix
+
+@report hessian 
+type hessian_matrix
+
 @report default
 type default
 selectivities true
