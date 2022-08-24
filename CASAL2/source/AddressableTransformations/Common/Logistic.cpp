@@ -43,7 +43,7 @@ void Logistic::DoValidate() {
   restored_values_.resize(parameter_labels_.size(), 0.0);
   if(init_values_[0] == lower_bound_)
     LOG_ERROR_P(PARAM_PARAMETERS) << "initial value was equal to lower bound. This will cause an Inf and is not allowed. Change starting value";
-    if(init_values_[0] == upper_bound_)
+  if(init_values_[0] == upper_bound_)
     LOG_ERROR_P(PARAM_PARAMETERS) << "initial value was equal to upper bound. This will cause an Inf and is not allowed. Change starting value";
   
   logistic_value_ = utilities::math::logit_bounds(init_values_[0], lower_bound_, upper_bound_); // this will get over-riden by load estimables
