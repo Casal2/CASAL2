@@ -83,7 +83,7 @@ age 2
 steepness 0.9
 recruitment_multipliers 1.00 1.00 1.00 1.00 1.00 1.00 1.00 1.00 1.00 1.00 1.00 1.00 1.00 1.00 1.00 1.00 1.00 1.00 1.00 1.00 1.00 1.00 1.00 1.00 1.00 1.00 1.00 1.00
 ssb ssb
-standardise_years 1974:2000
+standardise_years 1975:2001
 
 @mortality halfm
 type constant_rate

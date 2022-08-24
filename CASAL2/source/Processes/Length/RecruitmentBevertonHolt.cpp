@@ -140,9 +140,9 @@ void RecruitmentBevertonHolt::DoValidate() {
     for (unsigned i = 1; i < standardise_years_.size(); ++i) {
       LOG_FINE() << "standardised year = " << standardise_years_[i];
       if(standardise_years_[i] < model_->start_year()) 
-        LOG_ERROR_P(PARAM_STANDARDISE_YEARS) << "cannot be less that model start year.";
+        LOG_ERROR_P(PARAM_STANDARDISE_YEARS) << " cannot be less than model start year.";
       if(standardise_years_[i] > model_->final_year()) 
-        LOG_ERROR_P(PARAM_STANDARDISE_YEARS) << "cannot be greater than model final year.";
+        LOG_ERROR_P(PARAM_STANDARDISE_YEARS) << " cannot be greater than model final year.";
       
       if (standardise_years_[i - 1] >= standardise_years_[i])
         LOG_ERROR_P(PARAM_STANDARDISE_YEARS) << " values must be in strictly increasing order. Value " << standardise_years_[i - 1] << " is not less than "
@@ -150,9 +150,9 @@ void RecruitmentBevertonHolt::DoValidate() {
     }
     // need to focus on first value
     if(standardise_years_[0] < model_->start_year()) 
-      LOG_ERROR_P(PARAM_STANDARDISE_YEARS) << "cannot be less that model start year.";
+      LOG_ERROR_P(PARAM_STANDARDISE_YEARS) << " cannot be less than model start year.";
     if(standardise_years_[0] > model_->final_year()) 
-      LOG_ERROR_P(PARAM_STANDARDISE_YEARS) << "cannot be greater than model final year.";
+      LOG_ERROR_P(PARAM_STANDARDISE_YEARS) << " cannot be greater than model final year.";
   }
 
   // Populate the proportions category, assumes there is a one to one relationship between categories, and proportions.
@@ -315,7 +315,7 @@ void RecruitmentBevertonHolt::DoExecute() {
     /**
      * The model is not in an initialisation phase
      */
-    LOG_FINEST() <<  "model_->current_year(): " << current_year << "; model_->start_year(): " << model_->start_year();
+    LOG_FINEST() << "model_->current_year(): " << current_year << "; model_->start_year(): " << model_->start_year();
     Double ycs;
     // If projection mode ycs values get replaced with projected value from @project block
     // note that the container recruitment_multipliers_by_year_ is changed by time_varying and projection classes

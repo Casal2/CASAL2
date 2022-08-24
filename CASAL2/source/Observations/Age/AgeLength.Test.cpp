@@ -507,7 +507,7 @@ type recruitment_beverton_holt
 categories male.immature male.mature female.immature female.mature
 proportions 0.5 0 0.5 0
 b0 125000
-standardise_years 1977:2014
+standardise_years 1976:2013
 recruitment_multipliers 1 1 1 1 1 0.98 1.57 2.05 1.02 1.86 1.17 1.15 0.95 0.57 0.71 0.80 0.67 0.54 0.57 0.84 1.08 0.76 0.71 0.57 0.54 0.69 1.19 2.10 1.48 1.50 1.00 1.00 1 1 1 1 1 1 1 1 1 1 1
 steepness 0.84
 ssb SSB
