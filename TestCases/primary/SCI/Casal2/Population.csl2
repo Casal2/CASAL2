@@ -35,34 +35,6 @@ names untagged.male 1997_1.male 1996_2.male 1996_3.male untagged.female 1997_1.f
 growth_increment male_growth*4 female_growth*4
 
 
-##############
-## Growth models
-##############
-@growth_increment male_growth 
-type basic
-time_step_proportions 1 0 0 
-l_alpha 20
-l_beta  40
-g_alpha 10
-g_beta 1
-min_sigma 2
-distribution normal
-length_weight allometric_male
-cv 0.1
-compatibility_option casal
-
-@growth_increment female_growth ##
-type basic
-time_step_proportions 1 0 0 
-l_alpha 20
-l_beta  40
-g_alpha 9
-g_beta 1
-min_sigma 2
-distribution normal
-length_weight allometric_female
-cv 0.1
-compatibility_option casal
 
 @length_weight allometric_male
 type basic
@@ -82,9 +54,8 @@ units tonnes
 @process Recruitment
 type recruitment_beverton_holt
 ssb_offset 1
-ycs_years 1985:2021
-standardise_ycs_years 1985:2019
-ycs_values 1.00 1.00 1.00 1.00 1.00 1.00 1.00 1.00 1.00 1.00 1.00 1.00 1.00 1.00 1.00 1.00 1.00 1.00 1.00 1.00 1.00 1.00 1.00 1.00 1.00 1.00 1.00 1.00 1.00 1.00 1.00 1.00 1.00 1.00 1.00 1.00 1.00
+standardise_years 1986:2020
+recruitment_multipliers 1.00 1.00 1.00 1.00 1.00 1.00 1.00 1.00 1.00 1.00 1.00 1.00 1.00 1.00 1.00 1.00 1.00 1.00 1.00 1.00 1.00 1.00 1.00 1.00 1.00 1.00 1.00 1.00 1.00 1.00 1.00 1.00 1.00 1.00 1.00 1.00 1.00
 b0 2296.89
 categories untagged.male untagged.female
 proportions 0.5 0.5
@@ -101,6 +72,7 @@ time_step_proportions 0.33 0.25 0.42
 categories *
 table catches
 year	Trawl_1	Trawl_2	Trawl_3
+1986    0   0   0
 1987	0	0	0
 1988	0.600716862	1.397516431	3.001766707
 1989	2.042437329	4.751555866	10.20600681
