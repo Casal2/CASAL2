@@ -134,7 +134,7 @@ void AgeLength::DoValidate() {
       split_numerator_categories_.push_back(category_label);
   }
   // check split_numerator_categories_ are all in split_category_labels_
-  for(const string  cat : split_numerator_categories_) {
+  for(string cat : split_numerator_categories_) {
     std::pair<bool, int >  this_category_iter =niwa::utilities::findInVector(split_category_labels_, cat);
     if(!this_category_iter.first)
       LOG_FATAL_P(PARAM_NUMERATOR_CATEGORIES) << " the category " << cat << " could not be found in the categories supplied in " << PARAM_CATEGORIES << ". All categories supplied in " << PARAM_NUMERATOR_CATEGORIES << " must also be in " << PARAM_CATEGORIES << ".";
