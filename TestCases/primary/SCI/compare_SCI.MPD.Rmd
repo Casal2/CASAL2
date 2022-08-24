@@ -33,7 +33,7 @@ The main characteristics of the Test Case SCI (Scampi) CASAL model are:
 * years 1986 - 2022, projection years 2023 - 2027
 * three time steps, Oct - Jan, Feb - Apr, May - Sep
 * estimate growth transition matrix
-* dour tag releases
+* four tag releases
 * Beverton-Holt stock-recruitment relationship, with steepness (h) 0.75 and $CV_R$ 0.7 (prior)
 * length-weight relationship ($W = aL^b$)
 * three fisheries
