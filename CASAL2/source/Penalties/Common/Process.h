@@ -5,7 +5,7 @@
  * @date 28/10/2014
  * @section LICENSE
  *
- * Copyright NIWA Science ©2014 - www.niwa.co.nz
+ * Copyright NIWA Science ï¿½2014 - www.niwa.co.nz
  *
  * @section DESCRIPTION
  *
@@ -30,9 +30,7 @@ public:
   // methods
   Process(shared_ptr<Model> model);
   virtual ~Process() = default;
-  void   Trigger(const string& source_label, Double value_1, Double value_2);
-  Double GetScore() override final { return 0.0; }
-
+  void   Trigger(Double value_1, Double value_2);
 protected:
   // methods
   void DoValidate() override final{};

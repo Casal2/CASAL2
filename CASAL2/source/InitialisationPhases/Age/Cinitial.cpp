@@ -135,7 +135,7 @@ void Cinitial::DoBuild() {
 /**
  * Execute Cinitial - this code follows from the original CASAL algorithm
  */
-void Cinitial::Execute() {
+void Cinitial::DoExecute() {
   LOG_TRACE();
   map<string, vector<Double>> category_by_age_total;
   auto                        partition_iter = partition_->Begin();

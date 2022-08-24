@@ -1,15 +1,16 @@
 Environment: User=Casal2
 Call: ../../../../../BuildSystem/Casal2/casal2 -E mpd.out -o params_est.out 
-Date: Mon May 16 16:40:48 2022
-Seed: 76048
-Version: v22.05 (2022-05-12)
+Date: Fri Aug 12 17:49:47 2022
+Seed: 83387
+Version: v22.08 (2022-08-04)
 Copyright (c) 2017-2022, NIWA (www.niwa.co.nz)
-c2user
- Machine=c2computer.niwa.local (Linux 3.10.0-1160.62.1.el7.x86_64 x86_64)
- PID=5030
+niwauser
+ Machine=wellcompute.niwa.local (Linux 3.10.0-1160.66.1.el7.x86_64 x86_64)
+ PID=55653
 
 
 
+[INFO] Setting the random number seed to 83387
 [INFO] Estimable parameters were loaded from the free parameter file: 
 [WARNING] obs sum total (1.00002) for year (1993) doesn't sum to 1.0
 [WARNING] obs sum total (0.99999) for year (1994) doesn't sum to 1.0
@@ -203,6 +204,10 @@ process[Recruitment].b0 age_length[age_len_label].cv_first age_length[age_len_la
 *estimate_summary[estimated_summary]
 process[Recruitment].b0 {list}
 value: 27506.5
+initial_value: 29400
+phase: 1
+hyperparameters: none
+hyperparameter_values: 0
 std_dev: 1053.6
 estimation_phase: 1 
 label: B0 
@@ -216,6 +221,10 @@ upper_bound: 1e5
 
 age_length[age_len_label].cv_first {list}
 value: 0.102891
+initial_value: 0.09
+phase: 1
+hyperparameters: mu sigma
+hyperparameter_values: 0.15 0.025
 std_dev: 0.013434
 estimation_phase: 1 
 label: age_len_cv_first 
@@ -232,6 +241,10 @@ upper_bound: 1.0
 
 age_length[age_len_label].cv_last {list}
 value: 0.0310498
+initial_value: 0.04
+phase: 1
+hyperparameters: mu cv
+hyperparameter_values: 0.1 0.5
 std_dev: 0.00791695
 cv: 0.5 
 estimation_phase: 1 
@@ -247,6 +260,10 @@ upper_bound: 1.0
 
 selectivity[SELandes].a50 {list}
 value: 33.6382
+initial_value: 29.5
+phase: 1
+hyperparameters: mu cv
+hyperparameter_values: 35 0.3
 std_dev: 1.83489
 cv: 0.3 
 estimation_phase: 1 
@@ -262,6 +279,10 @@ upper_bound: 80
 
 selectivity[SELandes].ato95 {list}
 value: 8.35292
+initial_value: 5
+phase: 1
+hyperparameters: mu cv
+hyperparameter_values: 5 0.5
 std_dev: 1.77946
 cv: 0.5 
 estimation_phase: 1 
@@ -558,6 +579,9 @@ Values {vector}
 *observation[CPUEandes]
 observation_type: biomass
 likelihood: lognormal
+error_value_multiplier: 1
+likelihood_multiplier: 1
+categories: immature+mature
 Values {dataframe}
 year category age length observed expected residual error_value process_error adjusted_error neglogLike pearsons_residuals normalised_residuals
 1991 immature+mature 0 0 2.977 2.69195 0.285054 0.296 0.2 0.357234 -0.952178 0.29642 0.46371
@@ -579,6 +603,9 @@ year category age length observed expected residual error_value process_error ad
 *observation[Obs_Andes_LF]
 observation_type: process_removals_by_length
 likelihood: multinomial
+error_value_multiplier: 1
+likelihood_multiplier: 1
+categories: immature+mature
 Values {dataframe}
 year category age length observed expected residual error_value process_error adjusted_error neglogLike pearsons_residuals
 1993 immature+mature 0 19 0.00048 3.88388e-05 0.000441161 56 0 56 0.258067 0.529745
@@ -760,6 +787,9 @@ values {vector}
 *observation[CPUEandes]
 observation_type: biomass
 likelihood: lognormal
+error_value_multiplier: 1
+likelihood_multiplier: 1
+categories: immature+mature
 Values {dataframe}
 year category age length observed expected residual error_value process_error adjusted_error neglogLike pearsons_residuals normalised_residuals
 1991 immature+mature 0 0 2.977 2.69195 0.285054 0.296 0.2 0.357234 -0.952178 0.29642 0.46371
@@ -781,6 +811,9 @@ year category age length observed expected residual error_value process_error ad
 *observation[Obs_Andes_LF]
 observation_type: process_removals_by_length
 likelihood: multinomial
+error_value_multiplier: 1
+likelihood_multiplier: 1
+categories: immature+mature
 Values {dataframe}
 year category age length observed expected residual error_value process_error adjusted_error neglogLike pearsons_residuals
 1993 immature+mature 0 19 0.00048 3.88388e-05 0.000441161 56 0 56 0.258067 0.529745
@@ -1247,6 +1280,7 @@ Values {vector}
 
 *info[messages_encountered]
 Values {string}
+Setting the random number seed to 83387
 Estimable parameters were loaded from the free parameter file: 
 Creating default report for catchability Qandes
 Creating default report for derived quantity SSB
@@ -1409,5 +1443,5 @@ obs sum total (0.99999) for year (2003) doesn't sum to 1.0
 *end
 
 [INFO] Completed
-[INFO] Total CPU time: -113.412 hours
-[INFO] Total elapsed time: 6 minutes
+[INFO] Total CPU time: -144.883 hours
+[INFO] Total elapsed time: 5.55 minutes

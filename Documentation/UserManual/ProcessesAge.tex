@@ -434,7 +434,7 @@ and specified similarly for a \textbf{biomass-based} fishing mortality process
 		penalty      event_mortality_penalty
 		\end{verbatim}}}
 
-\paragraph{Instantaneous mortality}\label{sec:Process-MortalityInstantaneous}\label{sec:Process-MortalityInstantaneousEventBiomass}\label{sec:Process-MortalityInstantaneousEvent}
+\paragraph{Instantaneous mortality}\label{sec:Process-MortalityInstantaneous}
 
 The instantaneous mortality process\index{Instantaneous mortality} combines both natural mortality and fishing exploitation into a single process. This allows the simultaneous application of both natural mortality and anthropogenic mortality to occur across multiple time steps. This process accounts for half the natural mortality within a time step before calculating vulnerable biomasses for calculating exploitation rates. The remaining half of the natural mortality is taken after exploitation has been accounted for. The input for this process is catches and these can either be specified as biomasses or numbers (abundance). In fisheries models in \CNAME\ this is the most commonly used mortality process.
 
@@ -614,6 +614,136 @@ The equations for the \texttt{mortality\_instantaneous\_retained} process:
         $$ n'_{a} = n_{a} \exp(-t M_a) \big[ 1 - \sum_f S_{f,a} U_f (R_{f,a} + D_{f,a} (1 - R_{f,a})) \big] $$
 \end{itemize}
 
+
+\paragraph{\I{Mortality Hybrid}}\label{sec:Process-MortalityHybrid} 
+The hybrid fishing mortality process in \CNAME\ uses the methods and algorithms applied in Stock Synthesis \citep{methot2013stock}. The descriptions below are heavily based on the text describing this approach in Appendix of \cite{methot2013stock}.
+
+
+This process begins by calculating popes discrete approximation (same as \subcommand{mortality\_instantaneous} (Section~\ref{sec:Process-MortalityInstantaneous})), and then converts this to Baranov fishing mortality coefficients. A tuning algorithm is then done to tune these coefficients to match input catch nearly exactly, rather than the full Baranov approach.
+
+
+Total mortality (\(Z_{t,c,a}\)) is calculated as
+\begin{equation*}
+	Z_{t,c,a} = M_{c,a,t} + \sum\limits_{f} S_{f,c,a} F_{f,t}
+\end{equation*}
+%
+where, \( M_{c,a,t}\) is the natural mortality rate, \( F_{f,t}\) is fishing mortality and \(S_{f,c,a}\) is the selectivity for category \(c\), age \(a\), time-step \(t\) and fishery \(f\). In the context of this description \(t\) denotes both year and time-step.
+
+The hybrid fishing mortality method allows the \(F\)'s to be tuned to match input catch nearly exactly, rather than full model parameters. The process begins by calculating the mid time-step exploitation rate using Pope’s approximation. This exploitation rate is then converted to an approximation of the Baranov continuous \(F\). The \(F\) values for all fisheries operating in that time-step are then tuned over a set number of iterations (\subcommand{f\_iterations}) to match the observed catch for each fishery with its corresponding \(F\). Differentiability is achieved by the use of Pope's approximation to obtain the starting value for each \(F\) and then the use of a fixed number of tuning iterations, typically 4. Tests from Stock Synthesis have shown that modelling \(F\) as hybrid versus \(F\) as a parameter has trivial impact on the estimates of the variances of other model derived quantities. 
+
+
+The hybrid method calculates the harvest rate using the Pope's approximation then converts to an approximation of the corresponding F as:
+
+\begin{align}
+	V_{f,t} &= \sum\limits_c\sum\limits_a N_{a,c,t} \exp\left(-\delta_t M_{c,a,t}\right) \nonumber \\
+	\tilde{U}_{t,f} &= \frac{C^{obs}_{f,t}}{V_{f,t} + 0.1 C^{obs}_{f,t}}\\
+	j_{t,f} &= \left(1 + \exp \left(30 (\tilde{U}_{t,f} - 0.95) \right)\right)^{-1}\\
+	U_{t,f} &= 	j_{t,f} \tilde{U}_{t,f} + 0.95 (1 - j_{t,f} )\\
+	\tilde{F}_{f,t} &= \frac{-\log\left(1 - U_{t,f}\right)}{\delta_t}
+\end{align}
+%,
+where, \(C^{obs}_{f,t}\) is the observed catch, \(\delta_t\) is the duration of the period of observation within the time-step. In most situations where the entire catch has been observed in a time-step. This should be one. \CNAME\ will log a warning if not equal to one. \(V_{f,t}\) is partway vulnerable biomass and \(\tilde{F}_{f,t}\) is the initial \(F\). 
+
+
+The formulation above is designed so that high exploitation rates (above 0.95) are converted into an F that corresponds to a harvest rate of close to 0.95, thus providing a more robust starting point for subsequent iterative adjustment of this F. The logistic joiner, \(j\), is used at other places in Stock Synthesis to link across discontinuities. The catch at time \(t\), for category \(c\)
+
+
+The tuning algorithm begins by setting \(F_{f,t} = \tilde{F}_{f,t}\) and repeating the following algorithm \subcommand{f\_iteration} times.
+
+\[
+\widehat{C}_{t,c,a}  = \sum\limits_f {F}_{f,t}\left(S_{f,c,a} N_{t,c,a}\right) \lambda^*_{t,c,a}
+\]
+where, \(\lambda^*_{t,c,a}\) denotes the survivorship and is calculated as:
+\begin{equation}\label{eq:survival}
+\lambda^*_{t,c,a} = \frac{1 - \exp\left(-\delta_t Z_{t,c,a}  \right) }{Z_{t,c,a}}
+\end{equation}
+
+Total fishing mortality is then adjusted over several fixed number of iterations (typically four, but more in high F and multiple fishery situations). The first step is to calculate the ratio of the total observed catch over all fleets to the predicted total catch according to the current F estimates. This ratio provides an overall adjustment factor to bring the total mortality closer to what it will be after adjusting the individual \(F\)'s.
+\[
+\widehat{C}_{t}  =  \sum\limits_f \sum\limits_c\sum\limits_a {F}_{f,t}\left(S_{f,c,a} N_{t,c,a}\right) \lambda^*_{t,c,a}
+\]
+This is different from Equation~A.1.25 in the Appendix of \citep{methot2013stock}. They include \(Z_{t,c,a}\) in the denominator of \({F}_{f,t}\), which is a type error because \(Z_{t,c,a}\) is already included in \(\lambda^*_{t,c,a}\), see Equation~\ref{eq:survival}.
+
+\[
+Z^{adj}_t = \frac{\sum\limits_f C^{obs}_{f,t}}{\widehat{C}_{t}}
+\]
+The total mortality if this adjuster was applied to all the Fs is then calculated:
+
+\[
+Z^*_{t,c,a} = M_{t,c,a} + Z^{adj}_t \left(Z_{t,c,a} -M_{t,c,a} \right)
+\]
+
+\[
+\lambda^*_{t,c,a} = \frac{1 - \exp\left(-\delta_t Z^*_{t,c,a}  \right) }{Z^*_{t,c,a}}
+\]
+The adjusted mortality rate is used to calculate the total removals for each fishery, and then the new \(F\) estimate is calculated by the ratio of observed catch to total removals, with a constraint to prevent unreasonably high \(F\) calculations (\subcommand{max\_f}):
+
+\begin{align*}
+	\tilde{V}_{f,t} &= \sum\limits_c\sum\limits_a \left(N_{t,c,a} \bar{w}_{t,c,a}S_{f,c,a} \right)\lambda^*_{t,c,a} \\
+	F^*_{t,f} &= \frac{C^{obs}_{f,t}}{\tilde{V}_{f,t} + 0.0001}\\
+	j^*_{t,f} &= \left(1 + \exp \left(30 (F^*_{t,f} - 0.95 F_{max}) \right)\right)^{-1}\\
+\end{align*}
+where, \(F_{max}\) is a user defined maximum fishing mortality \subcommand{f\_max}. The \(F\) at the end of each tuning iteration follows: 
+\[
+F_{t,f} = j^*_{t,f} F^*_{t,f} + \left(1 - j^*_{t,f}\right)F_{max}
+\]
+
+
+After the tuning algorithm removals at age, and other derived quantities are recorded. The final total mortality is updated
+\[
+	Z_{t,c,a} = M_{c,a,t} + \sum\limits_{f} S_{f,c,a} F_{f,t}
+\]
+
+and the partition modified,
+
+\[
+N^*_{t,c,a} = N_{t,c,a} \exp\left(-Z_{t,c,a}\right)
+\]
+
+During initialisation phases and in years or time-steps with no catch, \(Z_{t,c,a} = M_{c,a,t}\).
+
+This process generates numbers at age removed for each year, fishery, category and age (\(C_{t,f,c,a}\)) which can be accessed by \subcommand{process\_removals} observations. Numbers at age are calculated as
+
+\[
+\widehat{C}_{t,f,c,a} = \frac{F_{t,f,a}}{Z_{t,c,a}} N_{t,c,a} \exp\left(-Z_{t,c,a}\right)
+\]
+
+Total catch is the summed over categories and age for a time-step and fishery as
+
+\[
+\widehat{C}_{t,f} = \sum\limits_c\sum\limits_a \widehat{C}_{t,f,c,a} \bar{w}_{t,a,c}
+\]
+
+where \(\bar{w}_{t,a,c}\) is the mean weight, abundance can be derived by flagging \subcommand{biomass false}, where mean weight is omitted from above calculation. If users assign a penalty in the \subcommand{method} table, then the penalty is flagged each time-step and for each fishery, which calculates the difference between \(\widehat{C}_{t,f}\) and \(C^{obs}_{f,t}\), to ensure the catch observed is taken. This makes the assumption that catch is known without error, which may differ from other assessment packages.
+
+
+
+The following is an excerpt of the input files, however see Section~\ref{syntax:Process-MortalityHybrid} for details and descriptions on the subcommands.
+
+{\small{\begin{verbatim}
+@process total_mortality
+type mortality_hybrid
+m 0.15
+time_step_proportions  1 
+relative_m_by_age One*2
+categories *
+max_f 2.95		## max F
+f_iterations 5  ## number of tuning iterations
+table catches
+year Fishery
+1972	200
+1973	1000
+1974	1000
+end_table
+
+table method
+method  	category 	selectivity 	annual_duration 	time_step  penalty	
+Fishery   	male   		fish_sel 		1					step1 		none
+Fishery  	female   	fish_sel 		1 					step1 		none	
+end_table
+\end{verbatim}}}
+
+
 \paragraph{\I{Holling mortality rate}}\label{sec:Process-MortalityHollingRate} \STATUS{Untested}
 
 The density-dependent Holling mortality process\index{Holling mortality} applies the Holling Type II or Type III functions \citep{Holling1959}, and is generalised by the Michaelis-Menten equation \citep{MentenMichaelis1913}.
@@ -687,7 +817,7 @@ For example, a biomass Holling type II mortality process on prey \texttt{prey} b
 		u_max 0.8
 \end{verbatim}}}
 
-\paragraph{Initialisation-event mortality}\label{sec:Process-MortalityInitialisationEvent}\label{sec:Process-MortalityInitialisationEventBiomass} \STATUS{Untested}
+\paragraph{Initialisation-event mortality}\label{sec:Process-MortalityInitialisationEvent}\label{sec:Process-MortalityInitialisationEventBiomass}\STATUS{Untested}
 
 Initialisation event mortality\index{Initialisation event mortality} is a process that can occur only in the initialisation phase. It applies abundance or biomass mortality events specifically in initialisation phases. This option can be useful if the population is not in equilibrium before model start.
 
@@ -720,6 +850,54 @@ processes Mg1 Instantaneous_Mortality
 @time_step Dec_Mar
 processes Recruitment Instantaneous_Mortality
 \end{verbatim}}}
+
+
+\paragraph{Initialisation-mortality-baranov}\label{sec:Process-MortalityInitialisationBaranov}
+
+Initialisation baranov mortality \index{Initialisation mortality baranov} is a process that can occur only in the initialisation phase. It applies an instantaneous fishing mortality rate to categories during the initialisation phases. This option can be useful to explore non-equilibrium population structures.
+
+This process applies a single \(F\) for all iterations within the initialisation phase it is assigned to, and mortality will not be applied outside of the initialisation phase. This process should not be embedded in the annual cycle i.e., not be defined in an \command{time\_step}.
+
+This process should be used in conjunction with the \texttt{insert\_processes} command in the \command{initialisation\_phase} block.
+
+Each category defined in this process will have have the following mortality applied each iteration of the initialisation phase 
+\[
+N^*_{a,c}  = N_{a,c} \exp{-F S_{a,c}}
+\]
+where, \(N^*_{a,c}\) are the number for category \(c\) of age \(a\), \(F\) is an estimable quantity (\subcommand{fishing\_mortality}) and \(S_{a,c}\) is the corresponding selectivity.
+
+
+Example syntax where the \texttt{initialisation\_mortality\_baranov} has been specified in the initialisation phase but not in the annual cycle:
+
+{\small{\begin{verbatim}
+		initialisation_phases Equilibrium_state init_F
+		time_steps Oct_Nov Dec_Mar
+		
+		@initialisation_phase Equilibrium_state
+		type derived
+		
+		@initialisation_phase init_F
+		type iterative
+		insert_processes Oct_Nov()=init_F 
+		## because we didn't specify a proccess label in ()
+		## this will occur at the end ot this time-step
+		
+		@process init_F
+		type 		mortality_initialisation_baranov
+		categories	*
+		selectivities Sel_init_F
+		fishing_mortality 0.5
+		
+		@selectivity Sel_init_F
+		type 	all_values_bounded 
+		l 2
+		h 10
+		v 0.4 * 9
+		\end{verbatim}}}
+
+
+
+
 
 \paragraph{Prey-suitability mortality}\label{sec:Process-MortalityPreySuitability} \STATUS{Untested}
 

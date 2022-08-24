@@ -51,7 +51,6 @@ age_lengths asMm0 asFm0   #set to medium growth path
 
 @initialisation_phase Equilibrium_state
 type derived
-casal_initialisation_switch true
 
 
 ## Define the processes in the Annual Cycle

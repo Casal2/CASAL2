@@ -15,6 +15,7 @@
 
 #include "../Model/Model.h"
 #include "../TimeSteps/Manager.h"
+#include "../Reports/Manager.h"
 
 // Namespaces
 namespace niwa {
@@ -80,12 +81,14 @@ void Manager::Build(shared_ptr<Model> model) {
 /**
  * Execute all of the time steps in the current phase
  */
-void Manager::Execute() {
+void Manager::Execute(shared_ptr<Model> model) {
   LOG_FINE() << "Execute init";
 
   last_executed_phase_ = 0;
   for (current_initialisation_phase_ = 0; current_initialisation_phase_ < ordered_initialisation_phases_.size(); ++current_initialisation_phase_) {
+    model->set_current_initialisation_phase_label(ordered_initialisation_phases_[current_initialisation_phase_]->label());
     ordered_initialisation_phases_[current_initialisation_phase_]->Execute();
+    model->managers()->report()->Execute(model, State::kInitialise);
     last_executed_phase_ = current_initialisation_phase_;
   }
 }

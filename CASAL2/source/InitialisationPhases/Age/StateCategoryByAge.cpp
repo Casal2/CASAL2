@@ -96,7 +96,7 @@ void StateCategoryByAge::DoBuild() {
 /**
  * Execute this process
  */
-void StateCategoryByAge::Execute() {
+void StateCategoryByAge::DoExecute() {
   for (auto iter : partition_) {
     unsigned i = 0;
     for (unsigned index = min_age_ - iter->min_age_; index <= max_age_ - iter->min_age_; ++index, ++i) {

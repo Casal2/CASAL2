@@ -18,7 +18,6 @@ age_lengths male_AL female_AL male_AL female_AL ## namimg
 
 @initialisation_phase Equilibrium_phase
 type Derived
-casal_initialisation_switch false
 
 
 ## Define the Annual Cycle

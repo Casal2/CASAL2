@@ -326,7 +326,7 @@ end_table
 type process_removals_by_age
 likelihood multinomial
 time_step Annual
-mortality_instantaneous_process Instantaneous_Mortality
+mortality_process Instantaneous_Mortality
 categories Stock
 method_of_removal Fishery
 years 1986:2005

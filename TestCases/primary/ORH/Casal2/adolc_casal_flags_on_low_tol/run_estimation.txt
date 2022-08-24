@@ -1,15 +1,16 @@
 Environment: User=Casal2
 Call: ../../../../../BuildSystem/Casal2/casal2 -E mpd.out -o params_est.out 
-Date: Mon May 16 16:54:53 2022
-Seed: 76893
-Version: v22.05 (2022-05-12)
+Date: Fri Aug 12 18:01:02 2022
+Seed: 84062
+Version: v22.08 (2022-08-04)
 Copyright (c) 2017-2022, NIWA (www.niwa.co.nz)
-c2user
- Machine=c2computer.niwa.local (Linux 3.10.0-1160.62.1.el7.x86_64 x86_64)
- PID=5501
+niwauser
+ Machine=wellcompute.niwa.local (Linux 3.10.0-1160.66.1.el7.x86_64 x86_64)
+ PID=57581
 
 
 
+[INFO] Setting the random number seed to 84062
 [INFO] Estimable parameters were loaded from the free parameter file: 
 [WARNING] obs sum total (1.00002) for year (1993) doesn't sum to 1.0
 [WARNING] obs sum total (0.99999) for year (1994) doesn't sum to 1.0
@@ -208,6 +209,103 @@ process[Recruitment].b0 age_length[age_len_label].cv_first age_length[age_len_la
 27500.6 0.103046 0.0308078 33.594 8.28892 
 *end
 
+*estimate_summary[estimated_summary]
+process[Recruitment].b0 {list}
+value: 27500.6
+initial_value: 29400
+phase: 1
+hyperparameters: none
+hyperparameter_values: 0
+std_dev: 1079.22
+estimation_phase: 1 
+label: B0 
+lower_bound: 1e4 
+mcmc_fixed: 
+parameter: process[Recruitment].b0 
+same: 
+type: uniform_log 
+upper_bound: 1e5 
+{end_list}
+
+age_length[age_len_label].cv_first {list}
+value: 0.103046
+initial_value: 0.09
+phase: 1
+hyperparameters: mu sigma
+hyperparameter_values: 0.15 0.025
+std_dev: 0.0133125
+estimation_phase: 1 
+label: age_len_cv_first 
+lognormal_transformation: 
+lower_bound: 0.01 
+mcmc_fixed: 
+mu: 0.15 
+parameter: age_length[age_len_label].cv_first 
+same: 
+sigma: 0.025 
+type: normal_by_stdev 
+upper_bound: 1.0 
+{end_list}
+
+age_length[age_len_label].cv_last {list}
+value: 0.0308078
+initial_value: 0.04
+phase: 1
+hyperparameters: mu cv
+hyperparameter_values: 0.1 0.5
+std_dev: 0.00791887
+cv: 0.5 
+estimation_phase: 1 
+label: age_len_cv_last 
+lower_bound: 0.01 
+mcmc_fixed: 
+mu: 0.1 
+parameter: age_length[age_len_label].cv_last 
+same: 
+type: normal 
+upper_bound: 1.0 
+{end_list}
+
+selectivity[SELandes].a50 {list}
+value: 33.594
+initial_value: 29.5
+phase: 1
+hyperparameters: mu cv
+hyperparameter_values: 35 0.3
+std_dev: 1.76149
+cv: 0.3 
+estimation_phase: 1 
+label: fishery_sel_a50 
+lower_bound: 5 
+mcmc_fixed: 
+mu: 35 
+parameter: selectivity[SELandes].a50 
+same: 
+type: normal 
+upper_bound: 80 
+{end_list}
+
+selectivity[SELandes].ato95 {list}
+value: 8.28892
+initial_value: 5
+phase: 1
+hyperparameters: mu cv
+hyperparameter_values: 5 0.5
+std_dev: 1.75587
+cv: 0.5 
+estimation_phase: 1 
+label: fishery_sel_ato95 
+lower_bound: 1 
+mcmc_fixed: 
+mu: 5 
+parameter: selectivity[SELandes].ato95 
+same: 
+type: normal 
+upper_bound: 20 
+{end_list}
+
+*end
+
 *objective_function[obj_fun]
 values {vector}
 observation->CPUEandes->1991 -0.951998
@@ -237,6 +335,33 @@ prior->fishery_sel_a50->selectivity[SELandes].a50 0.00896505
 prior->fishery_sel_ato95->selectivity[SELandes].ato95 0.865358
 additional_prior->chatTANq_prior -9.08288
 total_score 111.189
+*end
+
+*hessian_matrix[Hess]
+hessian_matrix {matrix}
+4.28292 3103.64 -518.495 -3889.06 2294.77 
+3103.64 2.25922e+06 -367080 -2.81825e+06 1.66297e+06 
+-518.495 -367080 86490.9 470788 -277776 
+-3889.06 -2.81825e+06 470788 3.53142e+06 -2.08375e+06 
+2294.77 1.66297e+06 -277776 -2.08375e+06 1.22954e+06 
+*end
+
+*covariance_matrix[Covar]
+covariance_matrix {matrix}
+1.16471e+06 0.353515 0.962545 1566.96 481.552 
+0.353515 0.000177222 -5.70523e-05 -0.00520211 -0.00972862 
+0.962545 -5.70523e-05 6.27086e-05 0.00213894 0.00191981 
+1566.96 -0.00520211 0.00213894 3.10283 2.3415 
+481.552 -0.00972862 0.00191981 2.3415 3.08308 
+*end
+
+*correlation_matrix[Corr]
+correlation_matrix {matrix}
+1 0.024606 0.112629 0.824271 0.254122 
+0.024606 1 -0.541192 -0.221841 -0.416199 
+0.112629 -0.541192 1 0.15334 0.138071 
+0.824271 -0.221841 0.15334 1 0.757046 
+0.254122 -0.416199 0.138071 0.757046 1 
 *end
 
 *process[Recruitment]
@@ -462,6 +587,9 @@ Values {vector}
 *observation[CPUEandes]
 observation_type: biomass
 likelihood: lognormal
+error_value_multiplier: 1
+likelihood_multiplier: 1
+categories: immature+mature
 Values {dataframe}
 year category age length observed expected residual error_value process_error adjusted_error neglogLike pearsons_residuals normalised_residuals
 1991 immature+mature 0 0 2.977 2.69158 0.285417 0.296 0.2 0.357234 -0.951998 0.296838 0.464099
@@ -483,6 +611,9 @@ year category age length observed expected residual error_value process_error ad
 *observation[Obs_Andes_LF]
 observation_type: process_removals_by_length
 likelihood: multinomial
+error_value_multiplier: 1
+likelihood_multiplier: 1
+categories: immature+mature
 Values {dataframe}
 year category age length observed expected residual error_value process_error adjusted_error neglogLike pearsons_residuals
 1993 immature+mature 0 19 0.00048 3.80602e-05 0.00044194 56 0 56 0.258611 0.53608
@@ -664,6 +795,9 @@ values {vector}
 *observation[CPUEandes]
 observation_type: biomass
 likelihood: lognormal
+error_value_multiplier: 1
+likelihood_multiplier: 1
+categories: immature+mature
 Values {dataframe}
 year category age length observed expected residual error_value process_error adjusted_error neglogLike pearsons_residuals normalised_residuals
 1991 immature+mature 0 0 2.977 2.69158 0.285417 0.296 0.2 0.357234 -0.951998 0.296838 0.464099
@@ -685,6 +819,9 @@ year category age length observed expected residual error_value process_error ad
 *observation[Obs_Andes_LF]
 observation_type: process_removals_by_length
 likelihood: multinomial
+error_value_multiplier: 1
+likelihood_multiplier: 1
+categories: immature+mature
 Values {dataframe}
 year category age length observed expected residual error_value process_error adjusted_error neglogLike pearsons_residuals
 1993 immature+mature 0 19 0.00048 3.80602e-05 0.00044194 56 0 56 0.258611 0.53608
@@ -1149,112 +1286,9 @@ Values {vector}
 80 1
 *end
 
-*estimate_summary[estimated_summary]
-process[Recruitment].b0 {list}
-value: 27500.6
-std_dev: 1079.22
-estimation_phase: 1 
-label: B0 
-lower_bound: 1e4 
-mcmc_fixed: 
-parameter: process[Recruitment].b0 
-same: 
-type: uniform_log 
-upper_bound: 1e5 
-{end_list}
-
-age_length[age_len_label].cv_first {list}
-value: 0.103046
-std_dev: 0.0133125
-estimation_phase: 1 
-label: age_len_cv_first 
-lognormal_transformation: 
-lower_bound: 0.01 
-mcmc_fixed: 
-mu: 0.15 
-parameter: age_length[age_len_label].cv_first 
-same: 
-sigma: 0.025 
-type: normal_by_stdev 
-upper_bound: 1.0 
-{end_list}
-
-age_length[age_len_label].cv_last {list}
-value: 0.0308078
-std_dev: 0.00791887
-cv: 0.5 
-estimation_phase: 1 
-label: age_len_cv_last 
-lower_bound: 0.01 
-mcmc_fixed: 
-mu: 0.1 
-parameter: age_length[age_len_label].cv_last 
-same: 
-type: normal 
-upper_bound: 1.0 
-{end_list}
-
-selectivity[SELandes].a50 {list}
-value: 33.594
-std_dev: 1.76149
-cv: 0.3 
-estimation_phase: 1 
-label: fishery_sel_a50 
-lower_bound: 5 
-mcmc_fixed: 
-mu: 35 
-parameter: selectivity[SELandes].a50 
-same: 
-type: normal 
-upper_bound: 80 
-{end_list}
-
-selectivity[SELandes].ato95 {list}
-value: 8.28892
-std_dev: 1.75587
-cv: 0.5 
-estimation_phase: 1 
-label: fishery_sel_ato95 
-lower_bound: 1 
-mcmc_fixed: 
-mu: 5 
-parameter: selectivity[SELandes].ato95 
-same: 
-type: normal 
-upper_bound: 20 
-{end_list}
-
-*end
-
-*hessian_matrix[Hess]
-hessian_matrix {matrix}
-4.28292 3103.64 -518.495 -3889.06 2294.77 
-3103.64 2.25922e+06 -367080 -2.81825e+06 1.66297e+06 
--518.495 -367080 86490.9 470788 -277776 
--3889.06 -2.81825e+06 470788 3.53142e+06 -2.08375e+06 
-2294.77 1.66297e+06 -277776 -2.08375e+06 1.22954e+06 
-*end
-
-*covariance_matrix[Covar]
-covariance_matrix {matrix}
-1.16471e+06 0.353515 0.962545 1566.96 481.552 
-0.353515 0.000177222 -5.70523e-05 -0.00520211 -0.00972862 
-0.962545 -5.70523e-05 6.27086e-05 0.00213894 0.00191981 
-1566.96 -0.00520211 0.00213894 3.10283 2.3415 
-481.552 -0.00972862 0.00191981 2.3415 3.08308 
-*end
-
-*correlation_matrix[Corr]
-correlation_matrix {matrix}
-1 0.024606 0.112629 0.824271 0.254122 
-0.024606 1 -0.541192 -0.221841 -0.416199 
-0.112629 -0.541192 1 0.15334 0.138071 
-0.824271 -0.221841 0.15334 1 0.757046 
-0.254122 -0.416199 0.138071 0.757046 1 
-*end
-
 *info[messages_encountered]
 Values {string}
+Setting the random number seed to 84062
 Estimable parameters were loaded from the free parameter file: 
 Creating default report for catchability Qandes
 Creating default report for derived quantity SSB
@@ -1425,5 +1459,5 @@ obs sum total (0.99999) for year (2003) doesn't sum to 1.0
 *end
 
 [INFO] Completed
-[INFO] Total CPU time: -39.7797 hours
-[INFO] Total elapsed time: 10.117 minutes
+[INFO] Total CPU time: -192.334 hours
+[INFO] Total elapsed time: 5.883 minutes

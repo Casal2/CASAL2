@@ -181,9 +181,11 @@ end_table
 \defType{Vector of strings}
 \defDefault{No default}
 
-\defSub{mortality\_instantaneous\_process}{The label of the mortality instantaneous process for the observation}
+
+\defSub{mortality\_process}{The label of the mortality instantaneous process for the observation}
 \defType{String}
 \defDefault{No default}
+\defNote{Allowed mortality process types are \subcommand{mortality\_instantaneous} and \subcommand{mortality\_hybrid}}
 
 \defSub{table obs}{The table of data specifying the observed values}
 \defType{Data table with label = obs}
@@ -253,9 +255,11 @@ end_table
 \defType{Vector of strings}
 \defDefault{No default}
 
-\defSub{mortality\_instantaneous\_process}{The label of the mortality instantaneous process for the observation}
+
+\defSub{mortality\_process}{The label of the mortality instantaneous process for the observation}
 \defType{String}
 \defDefault{No default}
+\defNote{Allowed mortality process types are \subcommand{mortality\_instantaneous\_retained}}
 
 \defSub{table obs}{The table of data specifying the observed values}
 \defType{Data table with label = obs}
@@ -326,9 +330,10 @@ end_table
 \defType{Vector of strings}
 \defDefault{No default}
 
-\defSub{mortality\_instantaneous\_process}{The label of the mortality instantaneous process for the observation}
+\defSub{mortality\_process}{The label of the mortality process for this observation}
 \defType{String}
 \defDefault{No default}
+\defNote{Allowed mortality process types are \subcommand{mortality\_instantaneous\_retained}}
 
 \defSub{table obs}{The table of data specifying the observed values}
 \defType{Data table with label = obs}
@@ -390,9 +395,11 @@ end_table
 \defType{Boolean}
 \defDefault{model}
 
-\defSub{mortality\_instantaneous\_process}{The label of the mortality instantaneous process for the observation}
+\defSub{mortality\_process}{The label of the mortality instantaneous process for the observation}
 \defType{String}
 \defDefault{No default}
+\defNote{Allowed mortality process types are \subcommand{mortality\_instantaneous} and \subcommand{mortality\_hybrid}}
+
 
 \defSub{table obs}{The table of data specifying the observed values}
 \defType{Data table with label = obs}
@@ -453,9 +460,10 @@ end_table
 \defType{Boolean}
 \defDefault{model}
 
-\defSub{mortality\_instantaneous\_process}{The label of the mortality instantaneous process for the observation}
+\defSub{mortality\_process}{The label of the mortality instantaneous process for the observation}
 \defType{String}
 \defDefault{No default}
+\defNote{Allowed mortality process types are \subcommand{mortality\_instantaneous\_retained}}
 
 \defSub{table obs}{The table of data specifying the observed values}
 \defType{Data table with label = obs}
@@ -518,9 +526,10 @@ end_table
 \defType{Boolean}
 \defDefault{true}
 
-\defSub{mortality\_instantaneous\_process}{The label of the mortality instantaneous process for the observation}
+\defSub{mortality\_process}{The label of the mortality instantaneous process for the observation}
 \defType{String}
 \defDefault{No default}
+\defNote{Allowed mortality process types are \subcommand{mortality\_instantaneous\_retained}}
 
 \defSub{table obs}{The table of data specifying the observed values}
 \defType{Data table with label = obs}
@@ -550,9 +559,10 @@ end_table
 \defRef{sec:Observation-ProcessRemovalsByWeight}
 \label{syntax:Observation-ProcessRemovalsByWeight}
 
-\defSub{mortality\_instantaneous\_process}{The label of the mortality instantaneous process for the observation}
+\defSub{mortality\_process}{The label of the mortality instantaneous process for the observation}
 \defType{String}
 \defDefault{No default}
+\defNote{Allowed mortality process types are \subcommand{mortality\_instantaneous}}
 
 \defSub{method\_of\_removal}{The label of observed method of removals}
 \defType{String}

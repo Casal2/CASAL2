@@ -14,7 +14,6 @@ time_steps Oct_Nov Dec_Mar Apr_Jun End_Jun Jul_Sep  # 5 time steps May have to b
 
 @initialisation_phase Equilibrium_State
 type derived
-casal_initialisation_switch true
 
 
 # Categories 

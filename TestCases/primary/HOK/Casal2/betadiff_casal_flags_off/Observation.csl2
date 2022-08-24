@@ -173,7 +173,7 @@ end_table
 @observation Espage
 type process_removals_by_age
 likelihood multinomial
-mortality_instantaneous_process Instant_mortality
+mortality_process Instant_mortality
 method_of_removal Esp
 plus_group true
 ageing_error Ageing_error
@@ -247,7 +247,7 @@ end_table
 @observation Wspage
 type process_removals_by_age
 likelihood multinomial
-mortality_instantaneous_process Instant_mortality
+mortality_process Instant_mortality
 method_of_removal Wsp
 plus_group true
 ageing_error Ageing_error
@@ -326,7 +326,7 @@ end_table
 @observation EnspOLF
 type process_removals_by_age
 likelihood multinomial
-mortality_instantaneous_process Instant_mortality
+mortality_process Instant_mortality
 years 1992 1994 1996 1998
 method_of_removal Ensp1 Ensp2
 plus_group true
@@ -352,7 +352,7 @@ end_table
 @observation Enspage
 type process_removals_by_age
 likelihood multinomial
-mortality_instantaneous_process Instant_mortality
+mortality_process Instant_mortality
 method_of_removal Ensp1 Ensp2
 plus_group true
 ageing_error Ageing_error
@@ -409,7 +409,7 @@ end_table
 @observation WnspOLF
 type process_removals_by_age
 likelihood multinomial
-mortality_instantaneous_process Instant_mortality
+mortality_process Instant_mortality
 method_of_removal Wnsp1 Wnsp2
 years 1992 1993 1994 1996 1999 2000
 plus_group true
@@ -440,7 +440,7 @@ end_table
 @observation Wnspage
 type process_removals_by_age
 likelihood multinomial
-mortality_instantaneous_process Instant_mortality
+mortality_process Instant_mortality
 method_of_removal Wnsp1 Wnsp2
 plus_group true
 ageing_error Ageing_error
@@ -673,7 +673,7 @@ end_table
 ## This is the ageing error matrix from CASAL
 @ageing_error Ageing_error
 type data
-table table
+table data
 0.98 0.02 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
 0.03 0.94 0.03 0 0 0 0 0 0 0 0 0 0 0 0 0 0
 0 0.05 0.9 0.05 0 0 0 0 0 0 0 0 0 0 0 0 0

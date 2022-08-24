@@ -415,7 +415,7 @@ void TagByLength::DoExecute() {
         tag_to_fish_by_age_[age_ndx] = u_max_ * vulnerable_fish_by_age_[age_ndx];
         // flag penalty
         if (penalty_)
-          penalty_->Trigger(label_, vulnerable_fish_by_age_[age_ndx], tag_to_fish_by_age_[age_ndx]);
+          penalty_->Trigger(vulnerable_fish_by_age_[age_ndx], tag_to_fish_by_age_[age_ndx]);
       }
       final_exploitation_by_age_[age_ndx] = tag_to_fish_by_age_[age_ndx] / vulnerable_fish_by_age_[age_ndx];
     }
@@ -489,13 +489,13 @@ void TagByLength::DoExecute() {
       if (total_stock_with_selectivities == 0) {
         // No vulnerable for this length bin, flag penalty and move onto next length bin
         if (penalty_)
-          penalty_->Trigger(label_, numbers_[current_year][i], total_stock_with_selectivities);
+          penalty_->Trigger(numbers_[current_year][i], total_stock_with_selectivities);
         continue;
       }
       // Check U-max penalty
       Double exploitation_by_length                = numbers_[current_year][i] / total_stock_with_selectivities;
       if (penalty_)
-        penalty_->Trigger(label_, numbers_[current_year][i], exploitation_by_length * total_stock_with_selectivities);
+        penalty_->Trigger(numbers_[current_year][i], exploitation_by_length * total_stock_with_selectivities);
 
       // Iterate over each from category and calculate numbers-at-age to tag
       from_category_iter = 0;
@@ -615,7 +615,7 @@ void TagByLength::DoExecute() {
           // flag penalty
           if (penalty_) {
             LOG_FINEST() << " exploit expected = " << exploitation_by_age_category_[from_category_iter][age_ndx] << " available = " << (*from_iter)->data_[age_ndx];
-            penalty_->Trigger(label_, (*from_iter)->data_[age_ndx], (*from_iter)->data_[age_ndx] * exploitation_by_age_category_[from_category_iter][age_ndx]);
+            penalty_->Trigger((*from_iter)->data_[age_ndx], (*from_iter)->data_[age_ndx] * exploitation_by_age_category_[from_category_iter][age_ndx]);
           }
         }
         // fish to move

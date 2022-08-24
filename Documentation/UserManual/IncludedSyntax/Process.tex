@@ -209,7 +209,7 @@
 \defNote{See \ref{sec:DataTable} for more details on specifying data tables}
 
 \subsubsection{Process of type Mortality Initialisation Event}
-\commandlabsubarg{process}{type}{Mortality\_Initialisation\_Event}.
+\commandlabsubarg{process}{type}{mortality\_initialisation\_event}.
 \defRef{sec:Process-MortalityInitialisationEvent}
 \label{syntax:Process-MortalityInitialisationEvent}
 
@@ -268,6 +268,87 @@
 \defType{String}
 \defDefault{No default}
 
+
+\subsubsection{Process of type Mortality Initialisation Baranov}
+\commandlabsubarg{process}{type}{mortality\_initialisation\_baranov}.
+\defRef{sec:Process-MortalityInitialisationEventBiomass}
+\label{syntax:Process-MortalityInitialisationBaranov}
+
+\defSub{categories}{The categories}
+\defType{Vector of strings}
+\defDefault{No default}
+
+\defSub{fishing\_mortality}{The fishing mortality to apply}
+\defType{Real number (estimable)}
+\defDefault{No default}
+
+\defSub{selectivities}{The list of selectivities for each category}
+\defType{Vector of strings}
+\defDefault{No default}
+
+\subsubsection{Process of type Mortality Hybrid}
+\commandlabsubarg{process}{type}{mortality\_hybrid}.
+\defRef{sec:Process-MortalityHybrid}
+\label{syntax:Process-MortalityHybrid}
+
+\defSub{categories}{The categories for to apply natural mortality to}
+\defType{Vector of strings}
+\defDefault{No default}
+
+\defSub{m}{The natural mortality rates for each category}
+\defType{Real number (estimable)}
+\defDefault{No default}
+\defLowerBound{0.0 (inclusive)}
+
+\defSub{time\_step\_proportions}{The time step proportions for natural mortality}
+\defType{Vector of real numbers}
+\defDefault{true}
+\defLowerBound{0.0 (inclusive)}
+\defUpperBound{1.0 (inclusive)}
+\defValue{Proportions must sum to one}
+
+\defSub{biomass}{Switch to indicate if the catches are biomasses or abundances}
+\defType{Boolean}
+\defDefault{True}
+
+\defSub{relative\_m\_by\_age}{The M-by-age selectivities to apply to each of the categories for natural mortality}
+\defType{Vector of strings}
+\defDefault{No default}
+
+\defSub{max\_f}{Maximum \(F\) allowed}
+
+\defType{Real number}
+\defDefault{4.0}
+\defLowerBound{0.0 (inclusive)}
+
+\defSub{f\_iterations}{The number of tuning iterations to solve \(F\)}
+\defType{integer}
+\defDefault{4}
+\defLowerBound{0 (inclusive)}
+
+\defSub{table catches}{The table of data specifying the catches for each fishery and year}
+\defDefault{No default}
+\defValue{}
+\defNote{See below for example}
+\begin{verbatim}
+table catches
+year Fishery1_label Fishery2_label
+1993 34 34 
+1994 23 34 
+end_table
+\end{verbatim}
+
+\defSub{table methods}{The table of data specifying which fishery interacts with which category, selectivities, penalty, and time-step for each fishery and annual duration of the fishery.}
+\defDefault{No default}
+\defValue{}
+\defNote{See below for example}
+\begin{verbatim}
+table method
+method  		category selectivity 	annual_duration time_step 	penalty
+Fishery1_label  male   	 fish_sel 		1				step1 		none
+Fishery2_label  male   	 fish_sel 		1 				step1 		none
+end_table
+\end{verbatim}
 \subsubsection{Process of type Mortality Instantaneous}
 \commandlabsubarg{process}{type}{Mortality\_Instantaneous}.
 \defRef{sec:Process-MortalityInstantaneous}
@@ -296,12 +377,29 @@
 \defSub{relative\_m\_by\_age}{The M-by-age selectivities to apply to each of the categories for natural mortality}
 \defType{Vector of strings}
 \defDefault{No default}
-
-\defSub{table}{The table of data specifying the catches for each fishery, the categories, years, and the $U_max$}
-\defType{Data table with label = \TODO{Craig? Can you specify this table?}}
+\defSub{table catches}{The table of data specifying the catches for each fishery and year}
 \defDefault{No default}
 \defValue{}
-\defNote{See \ref{sec:DataTable} for more details on specifying data tables}
+\defNote{See below for example}
+\begin{verbatim}
+table catches
+year Fishery1_label Fishery2_label
+1993 34 34 
+1994 23 34 
+end_table
+\end{verbatim}
+
+\defSub{table methods}{The table of data specifying which fishery interacts with which category, selectivities, time-step, penalties and \(u_{max}\) for each fishery and year.}
+\defDefault{No default}
+\defValue{}
+\defNote{See below for example}
+\begin{verbatim}
+table method
+method  		category selectivity 	u_max 	time_step 	penalty
+Fishery1_label  male   	 fish_sel 		0.9		step1 		CatchMustBeTaken
+Fishery2_label  male   	 fish_sel 		0.9 	step1 		CatchMustBeTaken
+end_table
+\end{verbatim}
 
 \subsubsection{Process of type Mortality Instantaneous Retained}
 \commandlabsubarg{process}{type}{Mortality\_Instantaneous\_Retained}.
@@ -821,9 +919,14 @@ end_table
 \defType{Vector of non-negative integers}
 \defDefault{No default}
 
-\defSub{table}{The table of data specifying the n to transition from and to each category, years, and the $U_max$}
-\defType{Data table with label = \TODO{Craig? Can you specify this table?}}
+\defSub{table n}{The table of numbers at age to transition from and to each category}
+\defType{See below for example}
 \defDefault{No default}
 \defValue{}
-\defNote{See \ref{sec:DataTable} for more details on specifying data tables}
-
+\defNote{See below for example}
+\begin{verbatim}
+table n
+year 3 4 5 6
+2008 1000 2000 3000 4000
+end_table
+\end{verbatim}

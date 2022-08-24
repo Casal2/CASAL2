@@ -31,7 +31,7 @@ Topics covered are:
 
 \subsection{\I{Model scope and structure}}\label{sec:Model}
 
-The model needs scoping for ages and year covered. This is done in the \emph{@model} command block.
+The model needs scoping for ages and year covered. This is done in the \command{model} command block.
 
 Each \CNAME\ model requires:
 
@@ -66,7 +66,7 @@ An example of how to specify a potential model with two categories is outlined b
 
 This model runs for 20 years, starting in 1981, and will do a projection over 10 years for a population with ages from  one and twenty, with age 20 being a plus-group. Each year is divided into three time-steps. The categories are male and female (i.e., there is one category factor, labelled sex) and each category has an age-length relationship.
 
-Whist \CNAME\ generally uses generic formulation, it does have some specific population concepts, in this case, growth which can vary for each category. Additionally, there is a  length-weight concept which is specified in the age-length blocks, here blocks starting with \texttt{@age\_size male\_growth} and \texttt{@age\_size female\_growth} that are placed elsewhere in the input files (not shown).
+Whist \CNAME\ generally uses generic formulation, it does have some specific population concepts, in this case, growth which can vary for each category. Additionally, there is a  length-weight concept which is specified in the age-length blocks, here blocks starting with \command{age\_size male\_growth} and \command{age\_size female\_growth} that are placed elsewhere in the input files (not shown).
 
 \CNAME\ allows categories of the partition to exist for a subset of years of a model. This feature enables more efficient computations when models contain categories that do not persist over all model years. A model may define one-off processes that transition individuals from one category into another in a subset of the model initialisation phases or years (e.g., tagging events). Excluding categories for certain years can be more efficient as \CNAME\ will not initialise these categories or apply processes to categories in years or time steps in which they do not exist.
 
@@ -75,7 +75,6 @@ The structure of the partition is defined in a configuration block with the \com
 Derived quantities are an important component of the state object. An example of a derived quantity is spawning stock biomass (SSB; the biomass of [female] spawning fish calculated at the mid point of the spawning season). \CNAME\ calculates derived quantities using the command \command{derived\_quantity}, required for some processes. In fisheries stock assessment models, a recruitment process which includes a stock-recruitment relationship requires the definition of a derived quantity that specifies the mid-season spawning stock biomass. See Section \ref{sec:DerivedQuantity} for more details.
 
 \subsubsection{\I{The implicit annual cycle}}\label{sec:TimeStep}
-
 There is an implicit annual cycle that orders the sequence of processes within the year, but there is no command block as such. The implementation is by ordering processes within the time-steps. This sequence is repeated for every year. Time steps are used to break the year into separate components and allow observations to be associated with specific time periods and processes. Any number of processes can occur within each time step, in any order, although there are restrictions for mortality-based processes (see Section~\ref{sec:MortalityBlock}); processes can occur multiple times within each time step. Time steps are not implemented during the initialisation phases (effectively there is only one initialisation time step), and the annual cycle in the initialisation phases can be different from the annual cycle specified for the model years (\ref{sec:Initialisation}).
 
 Figure \ref{Fig:annual} shows an example of the annual cycle using three time-steps.
@@ -86,14 +85,14 @@ Figure \ref{Fig:annual} shows an example of the annual cycle using three time-st
 	\caption{A example sequence for an annual cycle.}\label{Fig:annual}
 \end{figure}
 
-This would be specified using @time\_step block:
+This would be specified using \command{time\_step} block:
 
 {\small{\begin{verbatim}
 @model
 time\_steps step1 step2 step3
 \end{verbatim}}}
 
-This gives the order and labels for each time step, i.e., 3. Processes are sequenced using order within the \textit{@time\_step} block:
+This gives the order and labels for each time step, i.e., 3. Processes are sequenced using order within the \command{time\_step} block:
 
 {\small{\begin{verbatim}
 @time_step step1
@@ -110,7 +109,7 @@ The \emph{Recruitment}, \emph{Fishing}, \emph{Spawn\_migration}, \emph{Home\_mig
 
 Although \emph{Spawn} represents a biological process, spawning, for the usual modelling it is the time that the spawning stock biomass is calculated since this is needed to calculate recruitment is there is a spawning biomass recruitment relationship. A related concept is maturity which can be in the partition, so there needs to be a transfer of immature fish into the mature category, i.e., a process, but it is only indirectly related to spawning. Hence, in modelling, spawning is not a process that affects the partition directly, but it the time to calculate the SSB which must be setup as a derived variable (from the partition). Hence, \emph{Spawn} is located in Figure \ref{Fig:annual}.
 
-To calculate the SSB a \texttt{@derived\_quantity} command block is needed in which the "timing" of the SSB calculation in terms of which time-step and the proportion of natural mortality within it is specified (\ref{sec:DerivedQuantity}).
+To calculate the SSB a \command{derived\_quantity} command block is needed in which the "timing" of the SSB calculation in terms of which time-step and the proportion of natural mortality within it is specified (\ref{sec:DerivedQuantity}).
 
 \subsubsection{\I{The initialisation phases}}\label{sec:Initialisation}
 
@@ -125,7 +124,7 @@ There are multiple options for partition initialisation in \CNAME, including
 	\item state\_category\_by\_age: specify the partition's numbers-at-age
 \end{itemize}
 
-Initialisation specifications starts with nominating the initialisation label in the \textit{@model} command block followed by a \textit{@initialisation\_phase} command block specifying the type and other settings:
+Initialisation specifications starts with nominating the initialisation label in the \command{model} command block followed by a \command{initialisation\_phase} command block specifying the type and other settings:
 
 {\small{\begin{verbatim}
 @model
@@ -146,14 +145,14 @@ If needed, the processes used and their order in the initialisation are those sp
 type iterative
 exclude_processes Fishing
 insert_processes step1(recruitment)=initialFishing
-            #format=<step>(<insert before label>)-<new block label>
-...             # specify option values
+            # format: <step>(<insert before process label>)=<new block label>
+...         # specify option values
 
 \end{verbatim}}}
 
-where \textit{ Fishing} is the normal fishing process which defines natural mortality so when excluded, initialisation can use another value that incorporates some unrecorded fishing before the start of the assessment period by setting natural mortality to a higher value in the process \textit{initialFishing}. The place to insert \textit{initialFishing}is in the time-step labelled \textit{step1} before the process \textit{recruitment} which must be in that time-step (process label is enclosed in brackets). To insert at the end of the time-step use \textit{()}, i.e. \textit{step1()=initialFishing}.
+where \textit{ Fishing} is the normal fishing process which defines natural mortality so when excluded, initialisation can use another value that incorporates some unrecorded fishing before the start of the assessment period by setting natural mortality to a higher value in the process \textit{initialFishing}. The place to insert \textit{initialFishing} is in the time-step labelled \textit{step1} before the process \textit{recruitment} which must be in that time-step (process label is enclosed in brackets). To insert at the end of the time-step use \textit{()}, i.e. \textit{step1()=initialFishing}.
 
-Normally,the type \textit{iteration} is used, but more complicated initialisation can by used by sequencing other phases one after another,
+For age based models the most common type of initialisation phase to set an equilibrium age-structure is \subcommand{derived}, where as for length-based models the only type available is \subcommand{iterative}. Additional initialisation phases can be included by sequencing other phases one after another,
 
 {\small{\begin{verbatim}
 @model
@@ -171,7 +170,7 @@ type iterative    #choose one from the list above
 
 \end{verbatim}}}
 
-which may be faster overall since less iterations can be used in the second phase. The order of applying each initialisation is that given in the \textit{@model} command block.
+which may be faster overall since less iterations can be used in the second phase. The order of applying each initialisation is that given in the \command{model} command block.
 
 The multi-phased initialisation allows for flexibility in the number and type of initialisation, for initialising a non-equilibrium starting state, or applying simple processes before applying more complex ones.
 
@@ -181,9 +180,16 @@ The \emph{first} initialisation phase is always initialised with each age and ca
 
 Multi-phase iterations\index{Multi-phase iteration} can also be used to determine if an initialisation has converged. A second initialisation phase can be added for 1 year, with the same processes applied as in the first phase. The state at the end of the first and second phase is then output. If these states are identical, then it is likely that the initialisation has converged to an equilibrium state.
 
+For multi initialisation phase models, it is advised to include the \command{report} of type \subcommand{initialisation\_partition}. This will print the partition at the end of each initialisation phase, which can be useful for assessing the impact of each phase on the partition.
+
+{\small{\begin{verbatim}
+@report initial_partitions
+type initialisation_partition
+\end{verbatim}}}
+
 \paragraph{\I{Iterative Initialisation}}\label{sec:InitialisationPhase-Iterative}
 
-The \texttt{iterative} initialisation is a general solution for initialising the model, but can be slow to converge, depending on the model.Its value is that it can work on complex structured models that may be difficult or impossible to implement using analytic approximations.
+The \subcommand{iterative} initialisation is a general solution for initialising the model, but can be slow to converge, depending on the model. Its value is that it can work on complex structured models that may be difficult or impossible to implement using analytic approximations.
 
 The number of iterations in the iterative initialisation can increase the model output, and the number of iterations should be chosen to be large enough to allow the population state to fully converge. A period of about two times the maximum age is recommended to ensure convergence. \CNAME\ can be configured to report convergence statistics that can assist in determining convergence properties.
 
@@ -212,14 +218,14 @@ initialisation_phases Iterative_initialisation
 
 @initialisation_phase Iterative_initialisation
 type iterative
-years 50                # do 50 iterations
+years 50                # do 50 annual cycle iterations
 lambda 0.0001
 convergence_years 20 40 # test for convergence at 20 and 40 iterations
 \end{verbatim}}}
 
 \paragraph{\I{Derived Initialisation}}\label{sec:InitialisationPhase-Derived}
 
-The \texttt{derived} initialisation is an analytical solution that calculates the equilibrium age structure and the plus group using a geometric series solution. The benefit of this method is it can be solved in \texttt{max\_age - min\_age + 1} years or time-steps units, so it is computationally faster than the iterative initialisation phase. Under some process combinations (e.g., one-way migrations) this initialisation does not calculate the exact equilibrium partition. When using this initialisation, confirm that the partition has reached an equilibrium state by either comparing with an iterative initialisation, or by adding a second iterative initialisation phase with a limited number of iterations for comparison.
+The \subcommand{derived} initialisation is an analytical solution that calculates the equilibrium age structure and the plus group using a geometric series solution. The benefit of this method is it can be solved in \texttt{max\_age - min\_age + 1} years or time-steps units, so it is computationally faster than the iterative initialisation phase. Under some process combinations (e.g., one-way migrations) this initialisation does not calculate the exact equilibrium partition. When using this initialisation, users can confirm that the plus group has reached an equilibrium state by either comparing with an iterative initialisation, or by adding a second iterative initialisation phase with a limited number of iterations for comparison.
 
 An example with one initialisation phase:
 
@@ -230,22 +236,21 @@ An example with one initialisation phase:
 
 		@initialisation_phase Equilibrium_initialisation
 		type derived
-		\end{verbatim}}}
+\end{verbatim}}}
 
-
-When a model is initialised with this method, and recruitment is defined by \(B_0\), the model initialises the partition with an \(R_0 = 1\). Once the initialisation phase is complete, it scales all the categories defined in each recruitment process by
+When a model is initialised with \subcommand{derived} and \subcommand{iterative}, and recruitment is defined by \(B_0\), the model initialises the partition with an \(R_0 = 1\). Once the initialisation phase is complete, it scales all the categories defined in each recruitment process by
 \[
 N_{a,c}  = N_{a,c} \times B_0^R / SSB^R  \ .
 \]
-where, \(R\) denotes each recruitment block and \(N_{a,c}\) are categories defined in that recruitment block. For this case, it is advised to associate all categories to the recruitment so they are accounted for in this scaling process. If maturity is in the partition, it is not intuitive to define mature categories with a proportion set = 0 in a recruitment process (see Recruitment process for more information on specifying this). However, this is exactly what is needed to scale the partition to the correct equilibrium state. \CNAME\ will flag a warning if a model doesn't have all categories defined in the available recruitment blocks. A case where this can be ignored is in models with tagged categories, these categories don't exist in initialisation and so don't need to be scaled, thus can be omitted from the recruitment definition. \CNAME\ will still output a warning for this, but can be ignored if users understand its purpose.
+where, \(R\) denotes each recruitment block and \(N_{a,c}\) are categories defined in that recruitment block. For this case, it is advised to associate all categories to the recruitment so they are accounted for in this scaling process. If maturity is in the partition, it is not intuitive, but they must be defined in the recruitment dynamic with a proportion set = 0 (see Recruitment process for more information on specifying this Section~\ref{sec:Process-Recruitment}). \CNAME\ will flag a warning if a model doesn't have all categories defined in the available recruitment blocks. A case where this can be ignored is in models with tagged categories, these categories don't exist during initialisation and so don't need to be scaled, thus can be omitted from the recruitment definition. \CNAME\ will still output a warning for this, but can be ignored if users understand its purpose.
 
 \paragraph{\I{Cinitial Initialisation}}\label{sec:InitialisationPhase-Cinitial} \STATUS{Untested}
 
-The \texttt{cinitial} initialisation can only be applied after \textit{derived} or \textit{iterative} initialisation phases. This initialisation can be a method for estimating the non-equilibrium state of population if there is exploitation before data is collected. The estimated \textit{cinitial} factors shift the initial population away from an equilibrium state prior to the start year.
+The \subcommand{cinitial} initialisation can only be applied after \subcommand{derived} or \subcommand{iterative} initialisation phases. This initialisation can be a method for estimating the non-equilibrium state of population if there is exploitation before data is collected. The estimated \subcommand{cinitial} factors shift the initial population away from an equilibrium state prior to the start year.
 
 After the first initialisation phase we have an equilibrium age-structure denoted by $N_{equil}$.
 
-\textit{Ciniital} specifies an age structure denoted by $N_{cinit}$ (in numbers), but this can be combinations of categories, say both sexes by two areas.
+\subcommand{Ciniital} specifies an age structure denoted by $N_{cinit}$ (in numbers), but this can be combinations of categories, say both sexes by two areas.
 
 $Multiplier =  N_{cinit} / N_{equil}^{combined}$
 
@@ -290,9 +295,9 @@ The Cinitial factors can also be estimated with the syntax
 	type uniform
 	\end{verbatim}}}
 
-\paragraph{\I{State\_category\_by\_age}}\label{sec:InitialisationPhase-StateCategoryByAge} \STATUS{Untested}
+\paragraph{\I{State\_category\_by\_age}}\label{sec:InitialisationPhase-StateCategoryByAge} 
 
-The \texttt{state\_category\_by\_age} initialisation uses a user-defined table as the initial partition numbers-at-age for the beginning of the  start year. Models can be initialised by specifying the numbers-at-age for each category.
+The \subcommand{state\_category\_by\_age} initialisation uses a user-defined table as the initial partition numbers-at-age for the beginning of the  start year. Models can be initialised by specifying the numbers-at-age for each category.
 
 An example with one initialisation phase:
 
@@ -312,9 +317,25 @@ An example with one initialisation phase:
 		end_table
 		\end{verbatim}}}
 
-When initialising models with this type, undefined behaviour may result if the model applies processes that require derived quantities to be calculated in the initialisation phase. (e.g., SSB so that recruitment can be calculated for the start year). In the latter case, you would have to use a subsequent initialisation phase \textit{iterator} that has natural mortality set to zero (i.e., \textit{insert\_processes} subcommand to introduce zero natural mortality and \textit{exclude\_processes} to exclude the mortality process that defines natural mortality) for as many year needed to set up the SSBs.
+When initialising models with this type, undefined behaviour may result if the model applies processes that require derived quantities to be calculated in the initialisation phase. (e.g., SSB so that recruitment can be calculated for the start year). In the latter case, you would have to use a subsequent initialisation phase \subcommand{iterative} that has natural mortality set to zero (i.e., \subcommand{insert\_processes} subcommand to introduce zero natural mortality and \subcommand{exclude\_processes} to exclude the mortality process that defines natural mortality) for as many year needed to set up the SSBs.
 
 
+
+\subsubsection{\I{Non-equilibrium initialisation phases}}\label{sec:Initialisation-NonEquilibrium}
+This section provides tips and advise for configuring \CNAME\ models to have non-equilibrium age or length structures at the model \subcommand{start\_year}. An equilibrium age or length structure in this context, roughly refers to an age-structure that would result if the annual cycle was repeatedly run with no fishing. For many models this will result in an age or length structure that has an exponential decay from natural mortality and constant recruitment.
+
+
+As mentioned in the above section, the \subcommand{cinitial} initialisation type can be used to after either \subcommand{derived} or \subcommand{iterative} to produce a non-equilibrium age structure. However, recent simulations have shown difficulties in estimating the parameters from this phase \citep{roberts_dunn_estimate_start_M_init}. Another approach also explored by \cite{roberts_dunn_estimate_start_M_init}, was to start the model \subcommand{max\_age} years before the intended \subcommand{start\_year} and estimate additional recruitment parameters during this phase so that by the intended \subcommand{start\_year}, the age-structure would be in a non-equilibrium state.
+
+% currently these are only availble in age-based models.
+\ifAgeBased
+Another approach that is similar to the \subcommand{cinitial} initialisation type is to first run either \subcommand{derived} or \subcommand{iterative} phase and then to apply a second \subcommand{iterative} phase that has an additional initialisation mortality process. There are a range of mortality processes that can only be applied during initialisation. These are;
+\begin{itemize}
+	\item \subcommand{mortality\_initialisation\_event} see Section~\ref{sec:Process-MortalityInitialisationEvent}
+	\item \subcommand{mortality\_initialisation\_event\_biomass} see Section~\ref{sec:Process-MortalityInitialisationEventBiomass}
+	\item \subcommand{mortality\_initialisation\_baranov} see  Section~\ref{sec:Process-MortalityInitialisationBaranov}
+\end{itemize}
+\fi % end if
 \subsection{\I{Population processes}}\label{sec:Process}
 
 \ifAgeBased
@@ -408,7 +429,7 @@ Note: the scale of $a$ can be specified incorrectly. If the catch is in tonnes a
 \ifAgeBased
 \subsection{\I{Age-weight relationship}}\label{sec:AgeWeight} \STATUS{Untested}
 
-Either `none' \label{sec:AgeWeight-None} or an Empirical weight-at-age matrix. The empirical weight-at-age data can be input\label{sec:AgeWeight-Data}. This option is different from the method above as it uses empirical data for weight-at-age, rather than calculating it with the growth functions (age -> length -> weight). This bypasses the growth machinery which is expected to be present and so using weight-at-age data  needs to be declared in blocks that use this method, i.e., biomass observation blocks, fishery mortality blocks, and biomass derived quantities e.g., SSB. The subcommand to use is "\subcommand{age\_weight\_label} ageWeight.block.label" within the block, but in mortality fisheries blocks, \subcommand{age\_weight\_label} is a column in the \textit{table method} part with the corresponding \textit{ageWeight.block.label} in the body of the table. More than one \textit{@age\_weight} blocks can be used, and both  weight-at-age data and the usual growth version can be used in the same model (but clearly not in the same block).
+Either `none' \label{sec:AgeWeight-None} or an Empirical weight-at-age matrix. The empirical weight-at-age data can be input\label{sec:AgeWeight-Data}. This option is different from the method above as it uses empirical data for weight-at-age, rather than calculating it with the growth functions (age -> length -> weight). This bypasses the growth machinery which is expected to be present and so using weight-at-age data  needs to be declared in blocks that use this method, i.e., biomass observation blocks, fishery mortality blocks, and biomass derived quantities e.g., SSB. The subcommand to use is "\subcommand{age\_weight\_label} ageWeight.block.label" within the block, but in mortality fisheries blocks, \subcommand{age\_weight\_label} is a column in the \textit{table method} part with the corresponding \textit{ageWeight.block.label} in the body of the table. More than one \command{age\_weight} blocks can be used, and both  weight-at-age data and the usual growth version can be used in the same model (but clearly not in the same block).
 
 This option specifies the weight-at-age values for categories at a point in time.
 
@@ -707,11 +728,9 @@ Input fragment: {\small{\begin{verbatim}
 
 
 \subsubsection[Double-normal-stocksynthesis]{\argument{double\_normal\_stock\_synthesis}}\index{Selectivities!Double-normal-stocksynthesis}\label{sec:Selectivity-DoubleNormalStockSynthesis}
-Double normal with defined initial and final selectivity level which is based on Stock synthesis implementation. The \texttt{ascending} and \texttt{descending} are expected in log space (This should be taken out and dealt with by the parameter transformation class in future releases). The parameter values \texttt{y0} and \texttt{y1} are transformed by the selectivity class as follows
-\[
-f(x) = \frac{1}{1+exp(-1.0 x )}
-\] 
-This is to ensure the values stay between 0 and 1. The down side is starting values are a little abstract. The rule of thumb is small numbers i.e -10 will result in selectivity values close to zero and large values i.e. 10 will result in selectivity values close to one.
+Double normal with defined initial and final selectivity level which is based on Stock synthesis implementation. The \texttt{ascending} and \texttt{descending} are expected in log space (This should be taken out and dealt with by the parameter transformation class in future releases).
+
+It is common to estimate the following parameters \subcommand{peak}, \subcommand{width}, \subcommand{ascending} and \subcommand{descending}. \subcommand{y1} can be explored, but can be difficult to estimate, generally this represents the age or length categories that are not well observed.
 
 
 Input fragment: {\small{\begin{verbatim}
@@ -728,11 +747,11 @@ Input fragment: {\small{\begin{verbatim}
 		\end{verbatim}}}
 
 
-The parameter values \texttt{y0} and \texttt{y1} are transformed by the selectivity as follows
+The parameter values \texttt{y0} and \texttt{y1} are transformed by the selectivity class as follows
 \[
 f(x) = \frac{1}{1+exp(-1.0 x )}
 \] 
-This is to ensure the values stay between 0 and 1. The down side is starting values are a little abstract. The rule of thumb small numbers i.e -10 will go close to zero and large values 10 will go close to one.
+This is to ensure the values stay between 0 and 1. The down side is starting values are a little abstract. The rule of thumb is small numbers i.e -10 will result in selectivity values close to zero and large values i.e. 10 will result in selectivity values close to one.
 
 
 
@@ -982,9 +1001,9 @@ This example is a valid equation but it will have nonsensical results, since a v
 
 \subsection{\I{Specifying projections}}\label{sec:Project} \STATUS{Untested}
 Given a set of estimated parameter values from a \textit{-e} or a MCMC run,
-the model can be projected into the future. Projection years are after the model run years, and are defined in the \textit{@model} command block using the \subcommand{final\_projection\_year} subcommand, i.e., projection years are \subcommand{final\_year + 1} through to \subcommand{final\_projection\_year}.
+the model can be projected into the future. Projection years are after the model run years, and are defined in the \command{model} command block using the \subcommand{final\_projection\_year} subcommand, i.e., projection years are \subcommand{final\_year + 1} through to \subcommand{final\_projection\_year}.
 
-Parameter values for the projected years can be specified in a stochastic way or fixed at some value (the default is the estimated value if the parameter is not time-varying) and these are specified in the \textit{@projection} block,
+Parameter values for the projected years can be specified in a stochastic way or fixed at some value (the default is the estimated value if the parameter is not time-varying) and these are specified in the \command{project} block,
 
 {\small{\begin{verbatim}
 
@@ -1012,7 +1031,7 @@ The subcommands \subcommand{years} and \subcommand{parameter} are common to all 
 
 \textbf{Note for the year class parameters:} the definition of year applies to the \argument{ycs\_years}, not the model years. As defined in Section~\ref{sec:Process-RecruitmentBevertonHolt}, \argument{ycs\_years} are offset between the time of spawning and when individuals are added to the partition.
 
-Future catches are also specified in a \textit{@project} block, one for each fishery (see \ref{sec:Project-Catch} for examples). Here, a fishery is reference in the \textit{parameter} subcommand with the \textit{method\_} fragment to identify it,
+Future catches are also specified in a \command{project} block, one for each fishery (see \ref{sec:Project-Catch} for examples). Here, a fishery is reference in the \textit{parameter} subcommand with the \textit{method\_} fragment to identify it,
 
  \textit{process[<block label>].method\_<fisheries label>},
 

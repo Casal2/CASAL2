@@ -37,13 +37,12 @@ public:
   // methods
   explicit Cinitial(shared_ptr<Model> model);
   virtual ~Cinitial();
-  virtual void Execute() override final;
 
 protected:
   // methods
-  virtual void DoValidate() override final;
-  virtual void DoBuild() override final;
-
+  void DoValidate() override final;
+  void DoBuild() override final;
+  void DoExecute() override final;
 private:
   // members
   CombinedCategoriesPtr       partition_;

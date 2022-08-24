@@ -183,8 +183,18 @@ The parameters to be profiled are specified, and optionally the number of steps,
 
 The initial starting point for the estimation can also be specified using \texttt{\cname\ -i \emph{file}}, which may improve the minimiser performance for the profiles.
 
-If the profile results are not reasonable, it may be a result of not using enough iterations in the minimiser or a poor choice of minimiser control variables (e.g., the minimiser tolerance). It may also be useful to try other minimisers and compare the results.
+If the profile results are not reasonable, it may be a result of not using enough iterations in the minimiser or a poor choice of minimiser control variables (e.g., the minimiser tolerance). It may also be useful to try other minimisers and compare the results. An example excerpt follows, but also see the syntax at Section~\ref{syntax:Profile}.
 
+{\small{\begin{verbatim}
+		@profile B0
+		parameter process[Recruitment_east].b0
+		steps 10
+		lower_bound 10000
+		upper_bound 100000
+		## you can force other parameters to be the same
+		same process[Recruitment_west].b0
+		\end{verbatim}}}
+	
 To run a \CNAME\ you will need to supply the following reports
 
 {\small{\begin{verbatim}
@@ -280,7 +290,7 @@ The procedure used to choose the sample of points is that, to start, all points 
 
 The probability of acceptance for each jump is $0$ if the jump would move a parameter value outside of its bounds, $1$ if it improves the posterior, or $(new posterior/old posterior)$ otherwise. How often the position of the chain is recorded is specified with the \texttt{keep} parameter. For example, with \texttt{keep 10}, only every $10$th sample is recorded.
 
-\TODO [this option is currently disabled]: The option to specify that some of the estimated parameters are fixed during the MCMC is available. If the chain starts at the point estimate or at a random location, these fixed parameters are set to their values at the point estimate.
+The option to specify that some of the estimated parameters are fixed during the MCMC is available via the \subcommand{mcmc\_fixed} in the \command{estimate} block. If the chain starts at the point estimate or at a random location, these fixed parameters are set to their values at the end of estimation during the MCMC phase.
 
 If  the start of the chain is specified with the command \texttt{\cname\ -i}, these fixed parameters are set to the values in the file.
 
@@ -292,13 +302,24 @@ casal2 -R MPD_file --objective-file objectives_file --sample-file samples_file
 
 where \texttt{Objective\_file\_name} is the file name for the objective function report and \texttt{Sample\_file\_name} is the file name for the sample report from a MCMC chain.
 
-The posterior sample can be used for (projections (Section \ref{sec:Project})) or simulations (see Section \ref{sec:Simulate}) with the values supplied with the command \texttt{\cname\ -i \emph{file}}.
+The posterior sample can be used for (projections (Section \ref{sec:Project})) or simulations (see Section \ref{sec:Simulate}) with the values supplied with the command \texttt{\cname\ -i \emph{file} --t}.
 
 A multivariate Student's $t$ distribution is used as an alternative to the multivariate normal proposal distribution. If you request multivariate Student's $t$ proposals, change the degrees of freedom from the default of 4. As the degrees of freedom decreases, the $t$ distribution becomes more heavy tailed. This may lead to better convergence properties. Note the default is the multivariate Student's $t$.
 
 Given a posterior (sub)sample, \CNAME\ can calculate a list of output quantities for each sample point (see Section~\ref{sec:Report} specifically tabular report). These quantities can be output to a file (with the command \texttt{\cname\ -r --tabular}) and read into an external software package where the posterior distributions can be plotted and/or summarised.
 
 The posterior sample can also be used for projections (Section~\ref{sec:Project}). The advantage of this is that the parameter uncertainty, as expressed in the posterior distribution, can be included into the risk estimates.
+
+\CNAME\ will error out if asked to run MCMC for a model that does not contain the following reports,
+{\small{\begin{verbatim}
+@report mcmc_samples
+type mcmc_sample
+
+@report mcmc_objectives
+type mcmc_objective
+\end{verbatim}}}
+
+The default file name for these reports are \texttt{samples} and \texttt{objectives}. The \subcommand{write\_mode} will default to increment suffix, which means each time you re-run an MCMC in a directory with the same file name, it will increment the extension.
 
 \subsection{Priors\label{sec:Priors}}
 

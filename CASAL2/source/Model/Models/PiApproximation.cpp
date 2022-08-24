@@ -114,7 +114,7 @@ void PiApproximation::FullIteration() {
   double pi_approx = 4 * (insided / (insided + outsided));
   objective_score_ = math::PI + abs(math::PI - pi_approx);
 
-  managers()->penalty()->FlagPenalty("PI_Approximation", objective_score_);
+  //managers()->penalty()->FlagPenalty("PI_Approximation", objective_score_);
   cout << "Objective Score: " << objective_score_ << " (" << (inside_ + outside_) << ") - "
        << "inside_ / outside_: " << inside_ << " : " << outside_ << "; new_x/new_y: " << new_x << "/" << new_y << endl;
 }

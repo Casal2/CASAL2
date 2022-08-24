@@ -250,10 +250,31 @@ The MCMC\_Covariance report has no additional subcommands.
 
 The MCMC\_Objective report has no additional subcommands.
 
+\defSub{file\_name}{The file name. If not supplied the default filename is used}
+\defType{string}
+\defDefault{objectives}
+
+\defSub{write\_mode}{Has a different default to the rest of the reports.}
+\defType{String}
+\defDefault{\subcommand{incremental\_suffix}}
+\defValue{valid options are \subcommand{append}, \subcommand{overwrite}, \subcommand{incremental\_suffix}}
+
+
 \subsubsection{Report of type MCMC Sample}
 \commandlabsubarg{report}{type}{MCMC\_Sample}.
 \defRef{sec:Report-MCMCSample}
 \label{syntax:Report-MCMCSample}
+
+
+\defSub{file\_name}{The file name. If not supplied the default filename is used}
+\defType{string}
+\defDefault{samples}
+
+\defSub{write\_mode}{Has a different default to the rest of the reports.}
+\defType{String}
+\defDefault{\subcommand{incremental\_suffix}}
+\defValue{valid options are \subcommand{append}, \subcommand{overwrite}, \subcommand{incremental\_suffix}}
+
 
 The MCMC\_Sample report has no additional subcommands.
 

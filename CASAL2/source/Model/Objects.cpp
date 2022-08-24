@@ -123,7 +123,7 @@ bool Objects::IsParameterUsedFor(const string& parameter_absolute_name, addressa
     return false;
   }
 
-  LOG_FINE() << "set addressable for parameter = " << parameter << " = " << usage;
+  LOG_FINE() << "checking addressable for parameter = " << parameter << " has usage " << usage;
   // Flag that we're now using the addressable so that we can verify this later
   return object->IsAddressableUsedFor(parameter, usage);
 }

@@ -5,7 +5,7 @@
  * @date 15/02/2013
  * @section LICENSE
  *
- * Copyright NIWA Science ©2013 - www.niwa.co.nz
+ * Copyright NIWA Science ï¿½2013 - www.niwa.co.nz
  *
  * $Date: 2008-03-04 16:33:32 +1300 (Tue, 04 Mar 2008) $
  */
@@ -51,6 +51,17 @@ void InitialisationPhase::Build() {
   for (auto time_step : time_steps) time_step->SetInitialisationProcessLabels(label_, time_step->process_labels());
 
   DoBuild();
+}
+
+
+/**
+ * Build the initialisation phase
+ *
+ * 1. Ensure timesteps are set up with the default processes for initialisation phases
+ */
+void InitialisationPhase::Execute() {
+  // Set the default process labels for the time step for this phase
+  DoExecute();
 }
 
 } /* namespace niwa */
