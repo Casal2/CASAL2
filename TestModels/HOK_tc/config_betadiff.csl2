@@ -1,0 +1,37 @@
+!include "CommonPopulation.csl2"
+!include "Observation.csl2"
+!include "CommonEstimation.csl2"
+!include "Reports.csl2"
+
+@age_length age_length_W
+type von_bertalanffy
+compatibility_option casal2
+length_weight Length_weight_W
+k 0.206
+t0 -0.96
+linf 102.1
+time_step_proportions 0.25 0.6 0.9 0.9 0.0
+
+@age_length age_length_E
+type von_bertalanffy
+compatibility_option casal2
+length_weight Length_weight_E
+k 0.164
+t0 -2.16
+linf 100.8
+time_step_proportions 0.25 0.6 0.9 0.9 0.0
+
+
+@minimiser betadiff
+type betadiff
+tolerance 1e-6
+iterations 5000
+evaluations 5000
+covariance True
+
+
+@assert ObjectiveFunction
+type objective_function
+value 1946.801707
+error_type error
+
