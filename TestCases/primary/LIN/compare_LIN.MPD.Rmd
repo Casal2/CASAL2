@@ -213,10 +213,10 @@ ages <- seq(3, 25)
 
 # omit the 'category' column
 # 'category' column is no longer output by Casal2 as of 2022-05-16
-c2_mat <- array(0, dim=c(num_C2_models, dim(as.matrix(cas2_mpd[[1]]$Init$values))))
+c2_mat <- array(0, dim=c(num_C2_models, dim(as.matrix(cas2_mpd[[1]]$Equilibrium_phase$values))))
 for (c in 1:num_C2_models)
 {
-    c2_mat[c,,] <- as.matrix(cas2_mpd[[c]]$Init$values)
+    c2_mat[c,,] <- as.matrix(cas2_mpd[[c]]$Equilibrium_phase$values)
 }
 
 # plot initial numbers
@@ -302,13 +302,13 @@ plot_legend()
 
 max_val <- max(c1_quant$`Vector parameter values`$recruitment.YCS,
                c1_sens1_quant$`Vector parameter values`$recruitment.YCS,
-               max(unlist(list.map(cas2_mpd, max(Recruitment$ycs_values)))))
+               max(unlist(list.map(cas2_mpd, max(Recruitment$recruitment_multipliers)))))
 
 plot(c1_quant$`Vector parameter values`$recruitment.YCS, type='l', col='black', lwd=bl_lwd, ylim=c(0, max_val), xlab='Year', ylab='', main='YCS comparison')
 lines(c1_sens1_quant$`Vector parameter values`$recruitment.YCS, type='l', col='grey', lwd=gr_lwd)
 for (c in 1:num_C2_models)
 {
-    lines(cas2_mpd[[c]]$Recruitment$ycs_values, col=C2_color[c], lwd=1)
+    lines(cas2_mpd[[c]]$Recruitment$recruitment_multipliers, col=C2_color[c], lwd=1)
 }
 
 plot_legend()
@@ -325,7 +325,7 @@ plot(c1_quant$true_YCS$year, c1_quant$true_YCS$true_YCS, type='l', col='black', 
 lines(c1_sens1_quant$true_YCS$year, c1_sens1_quant$true_YCS$true_YCS, type='l', col='grey', lwd=gr_lwd)
 for (c in 1:num_C2_models)
 {
-    lines(cas2_mpd[[c]]$Recruitment$ycs_years, cas2_mpd[[c]]$Recruitment$true_ycs, col=C2_color[c], lwd=1)
+    lines((cas2_mpd[[c]]$Recruitment$model_year - cas2_mpd[[c]]$Recruitment$ssb_offset), cas2_mpd[[c]]$Recruitment$true_ycs, col=C2_color[c], lwd=1)
 }
 
 plot_legend()
@@ -336,13 +336,13 @@ plot_legend()
 
 max_val <- max(c1_quant$recruitments$recruitment,
                c1_sens1_quant$recruitments$recruitment,
-               max(unlist(list.map(cas2_mpd, max(Recruitment$Recruits)))))
+               max(unlist(list.map(cas2_mpd, max(Recruitment$recruits)))))
 
 plot(c1_quant$recruitments$year, c1_quant$recruitments$recruitment, type='l', col='black', lwd=bl_lwd, ylim=c(0, max_val), xlab='Year', ylab='', main='Recruitment comparison')
 lines(c1_sens1_quant$recruitments$year, c1_sens1_quant$recruitments$recruitment, type='l', col='grey', lwd=gr_lwd)
 for (c in 1:num_C2_models)
 {
-    lines((cas2_mpd[[c]]$Recruitment$ycs_years + cas2_mpd[[c]]$Recruitment$ssb_offset), cas2_mpd[[c]]$Recruitment$Recruits, col=C2_color[c], lwd=1)
+    lines(cas2_mpd[[c]]$Recruitment$model_year, cas2_mpd[[c]]$Recruitment$recruits, col=C2_color[c], lwd=1)
 }
 
 plot_legend()
@@ -426,7 +426,7 @@ plot_legend()
 
 ```{r plots_set_5, echo=FALSE}
 # > names(cas2_mpd[[1]])
-#  [1] "Init"                                "state1"
+#  [1] "Equilibrium_phase"                   "state1"
 #  [3] "state2"                              "estimated_values"
 #  [5] "estimated_summary"                   "obj_fun"
 #  [7] "Hess"                                "Covar"
@@ -439,21 +439,36 @@ plot_legend()
 # [21] "lineHomeFSel_m"                      "lineHomeFSel_f"
 # [23] "lineSpawnFSel_m"                     "lineSpawnFSel_f"
 # [25] "summerTANbiomass"                    "autumnTANbiomass"
-# [27] "summerTANq"                          "autumnTANq"
+# [27] "__summerTANq__"                      "__autumnTANq__"
 # [29] "SSB"                                 "Tangaroa_propn_at_age_summer"
 # [31] "Tangaroa_propn_at_age_autumn"        "trawl_propn_at_age"
 # [33] "longline_Campbell_home_propn_at_age" "longline_Puyseger_home_propn_at_age"
 # [35] "Ageing"                              "messages_encountered"
+# > names(cas2_mpd[[1]]$Recruitment)
+#  [1] "age"                                  "b0"
+#  [3] "b0_initialisation_phase"              "categories"
+#  [5] "label"                                "proportions"
+#  [7] "r0"                                   "recruitment_multipliers"
+#  [9] "ssb"                                  "ssb_offset"
+# [11] "standardise_ycs_years"                "standardise_years"
+# [13] "steepness"                            "sub_type"
+# [15] "model_year"                           "spawn_event_year"
+# [17] "standardised_recruitment_multipliers" "true_ycs"
+# [19] "recruits"                             "recruit_event_SSB"
+# [21] "type"
 # > names(cas2_mpd[[1]]$Instantaneous_Mortality)
-#  [1] "categories"                         "label"
-#  [3] "m"                                  "relative_m_by_age"
-#  [5] "time_step_proportions"              "sub_type"
-#  [7] "year"                               "fishing_pressure[FishingLineHome]"
-#  [9] "catch[FishingLineHome]"             "actual_catch[FishingLineHome]"
-# [11] "fishing_pressure[FishingLineSpawn]" "catch[FishingLineSpawn]"
-# [13] "actual_catch[FishingLineSpawn]"     "fishing_pressure[FishingTrwl]"
-# [15] "catch[FishingTrwl]"                 "actual_catch[FishingTrwl]"
-# [17] "type"
+#  [1] "biomass"                             "categories"
+#  [3] "label"                               "m"
+#  [5] "relative_m_by_age"                   "time_step_proportions"
+#  [7] "sub_type"                            "year"
+#  [9] "exploitation_rate[FishingLineHome]"  "fishing_pressure[FishingLineHome]"
+# [11] "catch[FishingLineHome]"              "actual_catch[FishingLineHome]"
+# [13] "exploitation_rate[FishingLineSpawn]" "fishing_pressure[FishingLineSpawn]"
+# [15] "catch[FishingLineSpawn]"             "actual_catch[FishingLineSpawn]"
+# [17] "exploitation_rate[FishingTrwl]"      "fishing_pressure[FishingTrwl]"
+# [19] "catch[FishingTrwl]"                  "actual_catch[FishingTrwl]"
+# [21] "type"
+
 
 # plot fishing pressures - trawl
 
