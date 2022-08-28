@@ -1,16 +1,16 @@
 Environment: User=Casal2
 Call: ../../../../../BuildSystem/Casal2/casal2 -E mpd.out -o params_est.out 
-Date: Wed Aug 17 11:09:55 2022
-Seed: 91394
-Version: v22.08 (2022-08-04)
+Date: Thu Aug 25 16:57:02 2022
+Seed: 3422
+Version: v22.08 (2022-08-24)
 Copyright (c) 2017-2022, NIWA (www.niwa.co.nz)
 niwauser
  Machine=niwacomputer.niwa.local (Linux 3.10.0-1160.66.1.el7.x86_64 x86_64)
- PID=14298
+ PID=43283
 
 
 
-[INFO] Setting the random number seed to 91394
+[INFO] Setting the random number seed to 3422
 [INFO] Estimable parameters were loaded from the free parameter file: 
 [IMPORTANT] Setting 'mpd.out' as the output file for the MPD (i.e., free parameters and covariance)
 [IMPORTANT] Setting 'params_est.out' as the output file for the free parameters
@@ -181,7 +181,7 @@ niwauser
 [INFO] Convergence check value = 7.69247e-06. Convergence tolerance   = 2e-06
 [INFO] Convergence check value = 4.74572e-06. Convergence tolerance   = 2e-06
 [INFO] Convergence check value = 1.64873e-06. Convergence tolerance   = 2e-06
-*initialisation_partition[Init]
+*initialisation_partition[Equilibrium_state]
 values {dataframe_with_row_labels}
 category 1.5 2.5 3.5 4.5 5.5 6.5 7.5 8.5 9.5 10.5 11.5 12.5 13.5 14.5 15.5 16.5 17.5 18.5 19.5 20.5 21.5 22.5 23.5 24.5 25.5 26.5 27.5 28.5 29.5 30.5 31.5 32.5 33.5 34.5 35.5 36.5 37.5 38.5 39.5 40.5 41.5 42.5 43.5 44.5 45.5 46.5 47.5 48.5 49.5 50.5 51.5 52.5 53.5 54.5 55.5 56.5 57.5 58.5 59.5 60.5 61.5 62.5 63.5 64.5 65.5 66.5 67.5 69
 untagged.male 119263.334068 91289.352331 142168.491567 206544.313462 280531.443065 358088.737968 431807.127169 491768.405335 521681.246146 521803.631166 492186.993046 432693.942041 359794.510945 283690.798977 212235.304325 152123.284740 108128.584825 82234.625233 73836.169913 80801.538388 100524.561872 130438.050217 168039.326730 210687.369467 255363.226405 299058.186797 338560.134947 371363.353812 396181.242101 413190.745574 423868.509015 430880.399081 437302.138271 445956.421460 458848.558243 476991.911885 500524.266276 528920.606963 561188.776280 596045.569187 632036.504817 667675.580863 701474.911063 732086.243890 758200.392448 776921.638649 785872.178708 782975.286427 766152.066450 733726.996973 684970.716533 620655.238967 543431.796416 457824.570880 369706.721546 285304.163194 209998.754969 147343.006387 98634.658510 63144.131323 38799.604729 22991.214168 13210.215652 7403.213397 4070.779871 2208.928775 1189.195651 1393.362479
@@ -286,7 +286,7 @@ untagged.female 63882.421994 48897.516384 76148.460450 110626.783943 150250.3438
 
 *estimate_value[estimated_values]
 values {dataframe}
-process[Recruitment].b0 growth_increment[female_growth].min_sigma process[Recruitment].ycs_values{1985} process[Recruitment].ycs_values{1986} process[Recruitment].ycs_values{1987} process[Recruitment].ycs_values{1988} process[Recruitment].ycs_values{1989} process[Recruitment].ycs_values{1990} process[Recruitment].ycs_values{1991} process[Recruitment].ycs_values{1992} process[Recruitment].ycs_values{1993} process[Recruitment].ycs_values{1994} process[Recruitment].ycs_values{1995} process[Recruitment].ycs_values{1996} process[Recruitment].ycs_values{1997} process[Recruitment].ycs_values{1998} process[Recruitment].ycs_values{1999} process[Recruitment].ycs_values{2000} process[Recruitment].ycs_values{2001} process[Recruitment].ycs_values{2002} process[Recruitment].ycs_values{2003} process[Recruitment].ycs_values{2004} process[Recruitment].ycs_values{2005} process[Recruitment].ycs_values{2006} process[Recruitment].ycs_values{2007} process[Recruitment].ycs_values{2008} process[Recruitment].ycs_values{2009} process[Recruitment].ycs_values{2010} process[Recruitment].ycs_values{2011} process[Recruitment].ycs_values{2012} process[Recruitment].ycs_values{2013} process[Recruitment].ycs_values{2014} process[Recruitment].ycs_values{2015} process[Recruitment].ycs_values{2016} process[Recruitment].ycs_values{2017} process[Recruitment].ycs_values{2018} process[Recruitment].ycs_values{2019} process[Recruitment].ycs_values{2020} process[Recruitment].ycs_values{2021} selectivity[maturity].a50 selectivity[maturity].ato95 selectivity[FishingSel_1_male].a50 selectivity[FishingSel_1_male].ato95 selectivity[FishingSel_1_male].alpha selectivity[FishingSel_2_female].a50 selectivity[FishingSel_2_female].ato95 selectivity[FishingSel_2_male].alpha selectivity[TrawlSurveySel_1_female].a50 selectivity[TrawlSurveySel_1_female].ato95 selectivity[TrawlSurveySel_1_male].alpha selectivity[TrawlSurveySel_2_female].a50 selectivity[TrawlSurveySel_2_female].ato95 selectivity[TrawlSurveySel_2_male].alpha growth_increment[male_growth].g_alpha growth_increment[male_growth].g_beta growth_increment[female_growth].g_alpha growth_increment[female_growth].g_beta 
+process[Recruitment].b0 growth_increment[female_growth].min_sigma process[Recruitment].recruitment_multipliers{1986} process[Recruitment].recruitment_multipliers{1987} process[Recruitment].recruitment_multipliers{1988} process[Recruitment].recruitment_multipliers{1989} process[Recruitment].recruitment_multipliers{1990} process[Recruitment].recruitment_multipliers{1991} process[Recruitment].recruitment_multipliers{1992} process[Recruitment].recruitment_multipliers{1993} process[Recruitment].recruitment_multipliers{1994} process[Recruitment].recruitment_multipliers{1995} process[Recruitment].recruitment_multipliers{1996} process[Recruitment].recruitment_multipliers{1997} process[Recruitment].recruitment_multipliers{1998} process[Recruitment].recruitment_multipliers{1999} process[Recruitment].recruitment_multipliers{2000} process[Recruitment].recruitment_multipliers{2001} process[Recruitment].recruitment_multipliers{2002} process[Recruitment].recruitment_multipliers{2003} process[Recruitment].recruitment_multipliers{2004} process[Recruitment].recruitment_multipliers{2005} process[Recruitment].recruitment_multipliers{2006} process[Recruitment].recruitment_multipliers{2007} process[Recruitment].recruitment_multipliers{2008} process[Recruitment].recruitment_multipliers{2009} process[Recruitment].recruitment_multipliers{2010} process[Recruitment].recruitment_multipliers{2011} process[Recruitment].recruitment_multipliers{2012} process[Recruitment].recruitment_multipliers{2013} process[Recruitment].recruitment_multipliers{2014} process[Recruitment].recruitment_multipliers{2015} process[Recruitment].recruitment_multipliers{2016} process[Recruitment].recruitment_multipliers{2017} process[Recruitment].recruitment_multipliers{2018} process[Recruitment].recruitment_multipliers{2019} process[Recruitment].recruitment_multipliers{2020} process[Recruitment].recruitment_multipliers{2021} process[Recruitment].recruitment_multipliers{2022} selectivity[maturity].a50 selectivity[maturity].ato95 selectivity[FishingSel_1_male].a50 selectivity[FishingSel_1_male].ato95 selectivity[FishingSel_1_male].alpha selectivity[FishingSel_2_female].a50 selectivity[FishingSel_2_female].ato95 selectivity[FishingSel_2_male].alpha selectivity[TrawlSurveySel_1_female].a50 selectivity[TrawlSurveySel_1_female].ato95 selectivity[TrawlSurveySel_1_male].alpha selectivity[TrawlSurveySel_2_female].a50 selectivity[TrawlSurveySel_2_female].ato95 selectivity[TrawlSurveySel_2_male].alpha growth_increment[male_growth].g_alpha growth_increment[male_growth].g_beta growth_increment[female_growth].g_alpha growth_increment[female_growth].g_beta
 2105.51 4.51884 0.261033 0.281881 0.353653 0.549472 3.07992 0.615958 0.600207 0.506277 0.314646 0.385494 0.396775 0.372693 0.498902 0.375296 0.499391 0.53521 0.593337 0.365622 0.599144 0.464225 0.493891 0.551245 0.987451 0.53079 0.885373 0.913114 0.511603 0.642873 0.449837 0.627626 0.581531 0.555544 0.938755 1.41706 0.393404 0.478977 0.549888 30.1166 7.09305 43.9218 16.3696 0.855182 45.4297 20.0232 0.506614 30.6937 20.7706 1.12877 36.9843 16.9428 1.08687 13.8569 2.8468 13.4224 0.925075 
 *end
 
@@ -325,7 +325,7 @@ type: uniform
 upper_bound: 10 
 {end_list}
 
-process[Recruitment].ycs_values{1985} {list}
+process[Recruitment].recruitment_multipliers{1986} {list}
 value: 0.261033
 initial_value: 1
 phase: 1
@@ -338,13 +338,13 @@ label: YCS
 lower_bound: 0.01 
 mcmc_fixed: 
 mu: 1 
-parameter: process[Recruitment].ycs_values{1985} 
+parameter: process[Recruitment].recruitment_multipliers{1986}
 same: 
 type: lognormal 
 upper_bound: 100 
 {end_list}
 
-process[Recruitment].ycs_values{1986} {list}
+process[Recruitment].recruitment_multipliers{1987} {list}
 value: 0.281881
 initial_value: 1
 phase: 1
@@ -357,13 +357,13 @@ label: YCS
 lower_bound: 0.01 
 mcmc_fixed: 
 mu: 1 
-parameter: process[Recruitment].ycs_values{1986} 
+parameter: process[Recruitment].recruitment_multipliers{1987}
 same: 
 type: lognormal 
 upper_bound: 100 
 {end_list}
 
-process[Recruitment].ycs_values{1987} {list}
+process[Recruitment].recruitment_multipliers{1988} {list}
 value: 0.353653
 initial_value: 1
 phase: 1
@@ -376,13 +376,13 @@ label: YCS
 lower_bound: 0.01 
 mcmc_fixed: 
 mu: 1 
-parameter: process[Recruitment].ycs_values{1987} 
+parameter: process[Recruitment].recruitment_multipliers{1988}
 same: 
 type: lognormal 
 upper_bound: 100 
 {end_list}
 
-process[Recruitment].ycs_values{1988} {list}
+process[Recruitment].recruitment_multipliers{1989} {list}
 value: 0.549472
 initial_value: 1
 phase: 1
@@ -395,13 +395,13 @@ label: YCS
 lower_bound: 0.01 
 mcmc_fixed: 
 mu: 1 
-parameter: process[Recruitment].ycs_values{1988} 
+parameter: process[Recruitment].recruitment_multipliers{1989}
 same: 
 type: lognormal 
 upper_bound: 100 
 {end_list}
 
-process[Recruitment].ycs_values{1989} {list}
+process[Recruitment].recruitment_multipliers{1990} {list}
 value: 3.07992
 initial_value: 1
 phase: 1
@@ -414,13 +414,13 @@ label: YCS
 lower_bound: 0.01 
 mcmc_fixed: 
 mu: 1 
-parameter: process[Recruitment].ycs_values{1989} 
+parameter: process[Recruitment].recruitment_multipliers{1990}
 same: 
 type: lognormal 
 upper_bound: 100 
 {end_list}
 
-process[Recruitment].ycs_values{1990} {list}
+process[Recruitment].recruitment_multipliers{1991} {list}
 value: 0.615958
 initial_value: 1
 phase: 1
@@ -433,13 +433,13 @@ label: YCS
 lower_bound: 0.01 
 mcmc_fixed: 
 mu: 1 
-parameter: process[Recruitment].ycs_values{1990} 
+parameter: process[Recruitment].recruitment_multipliers{1991}
 same: 
 type: lognormal 
 upper_bound: 100 
 {end_list}
 
-process[Recruitment].ycs_values{1991} {list}
+process[Recruitment].recruitment_multipliers{1992} {list}
 value: 0.600207
 initial_value: 1
 phase: 1
@@ -452,13 +452,13 @@ label: YCS
 lower_bound: 0.01 
 mcmc_fixed: 
 mu: 1 
-parameter: process[Recruitment].ycs_values{1991} 
+parameter: process[Recruitment].recruitment_multipliers{1992}
 same: 
 type: lognormal 
 upper_bound: 100 
 {end_list}
 
-process[Recruitment].ycs_values{1992} {list}
+process[Recruitment].recruitment_multipliers{1993} {list}
 value: 0.506277
 initial_value: 1
 phase: 1
@@ -471,13 +471,13 @@ label: YCS
 lower_bound: 0.01 
 mcmc_fixed: 
 mu: 1 
-parameter: process[Recruitment].ycs_values{1992} 
+parameter: process[Recruitment].recruitment_multipliers{1993}
 same: 
 type: lognormal 
 upper_bound: 100 
 {end_list}
 
-process[Recruitment].ycs_values{1993} {list}
+process[Recruitment].recruitment_multipliers{1994} {list}
 value: 0.314646
 initial_value: 1
 phase: 1
@@ -490,13 +490,13 @@ label: YCS
 lower_bound: 0.01 
 mcmc_fixed: 
 mu: 1 
-parameter: process[Recruitment].ycs_values{1993} 
+parameter: process[Recruitment].recruitment_multipliers{1994}
 same: 
 type: lognormal 
 upper_bound: 100 
 {end_list}
 
-process[Recruitment].ycs_values{1994} {list}
+process[Recruitment].recruitment_multipliers{1995} {list}
 value: 0.385494
 initial_value: 1
 phase: 1
@@ -509,13 +509,13 @@ label: YCS
 lower_bound: 0.01 
 mcmc_fixed: 
 mu: 1 
-parameter: process[Recruitment].ycs_values{1994} 
+parameter: process[Recruitment].recruitment_multipliers{1995}
 same: 
 type: lognormal 
 upper_bound: 100 
 {end_list}
 
-process[Recruitment].ycs_values{1995} {list}
+process[Recruitment].recruitment_multipliers{1996} {list}
 value: 0.396775
 initial_value: 1
 phase: 1
@@ -528,13 +528,13 @@ label: YCS
 lower_bound: 0.01 
 mcmc_fixed: 
 mu: 1 
-parameter: process[Recruitment].ycs_values{1995} 
+parameter: process[Recruitment].recruitment_multipliers{1996}
 same: 
 type: lognormal 
 upper_bound: 100 
 {end_list}
 
-process[Recruitment].ycs_values{1996} {list}
+process[Recruitment].recruitment_multipliers{1997} {list}
 value: 0.372693
 initial_value: 1
 phase: 1
@@ -547,13 +547,13 @@ label: YCS
 lower_bound: 0.01 
 mcmc_fixed: 
 mu: 1 
-parameter: process[Recruitment].ycs_values{1996} 
+parameter: process[Recruitment].recruitment_multipliers{1997}
 same: 
 type: lognormal 
 upper_bound: 100 
 {end_list}
 
-process[Recruitment].ycs_values{1997} {list}
+process[Recruitment].recruitment_multipliers{1998} {list}
 value: 0.498902
 initial_value: 1
 phase: 1
@@ -566,13 +566,13 @@ label: YCS
 lower_bound: 0.01 
 mcmc_fixed: 
 mu: 1 
-parameter: process[Recruitment].ycs_values{1997} 
+parameter: process[Recruitment].recruitment_multipliers{1998}
 same: 
 type: lognormal 
 upper_bound: 100 
 {end_list}
 
-process[Recruitment].ycs_values{1998} {list}
+process[Recruitment].recruitment_multipliers{1999} {list}
 value: 0.375296
 initial_value: 1
 phase: 1
@@ -585,13 +585,13 @@ label: YCS
 lower_bound: 0.01 
 mcmc_fixed: 
 mu: 1 
-parameter: process[Recruitment].ycs_values{1998} 
+parameter: process[Recruitment].recruitment_multipliers{1999}
 same: 
 type: lognormal 
 upper_bound: 100 
 {end_list}
 
-process[Recruitment].ycs_values{1999} {list}
+process[Recruitment].recruitment_multipliers{2000} {list}
 value: 0.499391
 initial_value: 1
 phase: 1
@@ -604,13 +604,13 @@ label: YCS
 lower_bound: 0.01 
 mcmc_fixed: 
 mu: 1 
-parameter: process[Recruitment].ycs_values{1999} 
+parameter: process[Recruitment].recruitment_multipliers{2000}
 same: 
 type: lognormal 
 upper_bound: 100 
 {end_list}
 
-process[Recruitment].ycs_values{2000} {list}
+process[Recruitment].recruitment_multipliers{2001} {list}
 value: 0.53521
 initial_value: 1
 phase: 1
@@ -623,13 +623,13 @@ label: YCS
 lower_bound: 0.01 
 mcmc_fixed: 
 mu: 1 
-parameter: process[Recruitment].ycs_values{2000} 
+parameter: process[Recruitment].recruitment_multipliers{2001}
 same: 
 type: lognormal 
 upper_bound: 100 
 {end_list}
 
-process[Recruitment].ycs_values{2001} {list}
+process[Recruitment].recruitment_multipliers{2002} {list}
 value: 0.593337
 initial_value: 1
 phase: 1
@@ -642,13 +642,13 @@ label: YCS
 lower_bound: 0.01 
 mcmc_fixed: 
 mu: 1 
-parameter: process[Recruitment].ycs_values{2001} 
+parameter: process[Recruitment].recruitment_multipliers{2002}
 same: 
 type: lognormal 
 upper_bound: 100 
 {end_list}
 
-process[Recruitment].ycs_values{2002} {list}
+process[Recruitment].recruitment_multipliers{2003} {list}
 value: 0.365622
 initial_value: 1
 phase: 1
@@ -661,13 +661,13 @@ label: YCS
 lower_bound: 0.01 
 mcmc_fixed: 
 mu: 1 
-parameter: process[Recruitment].ycs_values{2002} 
+parameter: process[Recruitment].recruitment_multipliers{2003}
 same: 
 type: lognormal 
 upper_bound: 100 
 {end_list}
 
-process[Recruitment].ycs_values{2003} {list}
+process[Recruitment].recruitment_multipliers{2004} {list}
 value: 0.599144
 initial_value: 1
 phase: 1
@@ -680,13 +680,13 @@ label: YCS
 lower_bound: 0.01 
 mcmc_fixed: 
 mu: 1 
-parameter: process[Recruitment].ycs_values{2003} 
+parameter: process[Recruitment].recruitment_multipliers{2004}
 same: 
 type: lognormal 
 upper_bound: 100 
 {end_list}
 
-process[Recruitment].ycs_values{2004} {list}
+process[Recruitment].recruitment_multipliers{2005} {list}
 value: 0.464225
 initial_value: 1
 phase: 1
@@ -699,13 +699,13 @@ label: YCS
 lower_bound: 0.01 
 mcmc_fixed: 
 mu: 1 
-parameter: process[Recruitment].ycs_values{2004} 
+parameter: process[Recruitment].recruitment_multipliers{2005}
 same: 
 type: lognormal 
 upper_bound: 100 
 {end_list}
 
-process[Recruitment].ycs_values{2005} {list}
+process[Recruitment].recruitment_multipliers{2006} {list}
 value: 0.493891
 initial_value: 1
 phase: 1
@@ -718,13 +718,13 @@ label: YCS
 lower_bound: 0.01 
 mcmc_fixed: 
 mu: 1 
-parameter: process[Recruitment].ycs_values{2005} 
+parameter: process[Recruitment].recruitment_multipliers{2006}
 same: 
 type: lognormal 
 upper_bound: 100 
 {end_list}
 
-process[Recruitment].ycs_values{2006} {list}
+process[Recruitment].recruitment_multipliers{2007} {list}
 value: 0.551245
 initial_value: 1
 phase: 1
@@ -737,13 +737,13 @@ label: YCS
 lower_bound: 0.01 
 mcmc_fixed: 
 mu: 1 
-parameter: process[Recruitment].ycs_values{2006} 
+parameter: process[Recruitment].recruitment_multipliers{2007}
 same: 
 type: lognormal 
 upper_bound: 100 
 {end_list}
 
-process[Recruitment].ycs_values{2007} {list}
+process[Recruitment].recruitment_multipliers{2008} {list}
 value: 0.987451
 initial_value: 1
 phase: 1
@@ -756,13 +756,13 @@ label: YCS
 lower_bound: 0.01 
 mcmc_fixed: 
 mu: 1 
-parameter: process[Recruitment].ycs_values{2007} 
+parameter: process[Recruitment].recruitment_multipliers{2008}
 same: 
 type: lognormal 
 upper_bound: 100 
 {end_list}
 
-process[Recruitment].ycs_values{2008} {list}
+process[Recruitment].recruitment_multipliers{2009} {list}
 value: 0.53079
 initial_value: 1
 phase: 1
@@ -775,13 +775,13 @@ label: YCS
 lower_bound: 0.01 
 mcmc_fixed: 
 mu: 1 
-parameter: process[Recruitment].ycs_values{2008} 
+parameter: process[Recruitment].recruitment_multipliers{2009}
 same: 
 type: lognormal 
 upper_bound: 100 
 {end_list}
 
-process[Recruitment].ycs_values{2009} {list}
+process[Recruitment].recruitment_multipliers{2010} {list}
 value: 0.885373
 initial_value: 1
 phase: 1
@@ -794,13 +794,13 @@ label: YCS
 lower_bound: 0.01 
 mcmc_fixed: 
 mu: 1 
-parameter: process[Recruitment].ycs_values{2009} 
+parameter: process[Recruitment].recruitment_multipliers{2010}
 same: 
 type: lognormal 
 upper_bound: 100 
 {end_list}
 
-process[Recruitment].ycs_values{2010} {list}
+process[Recruitment].recruitment_multipliers{2011} {list}
 value: 0.913114
 initial_value: 1
 phase: 1
@@ -813,13 +813,13 @@ label: YCS
 lower_bound: 0.01 
 mcmc_fixed: 
 mu: 1 
-parameter: process[Recruitment].ycs_values{2010} 
+parameter: process[Recruitment].recruitment_multipliers{2011}
 same: 
 type: lognormal 
 upper_bound: 100 
 {end_list}
 
-process[Recruitment].ycs_values{2011} {list}
+process[Recruitment].recruitment_multipliers{2012} {list}
 value: 0.511603
 initial_value: 1
 phase: 1
@@ -832,13 +832,13 @@ label: YCS
 lower_bound: 0.01 
 mcmc_fixed: 
 mu: 1 
-parameter: process[Recruitment].ycs_values{2011} 
+parameter: process[Recruitment].recruitment_multipliers{2012}
 same: 
 type: lognormal 
 upper_bound: 100 
 {end_list}
 
-process[Recruitment].ycs_values{2012} {list}
+process[Recruitment].recruitment_multipliers{2013} {list}
 value: 0.642873
 initial_value: 1
 phase: 1
@@ -851,13 +851,13 @@ label: YCS
 lower_bound: 0.01 
 mcmc_fixed: 
 mu: 1 
-parameter: process[Recruitment].ycs_values{2012} 
+parameter: process[Recruitment].recruitment_multipliers{2013}
 same: 
 type: lognormal 
 upper_bound: 100 
 {end_list}
 
-process[Recruitment].ycs_values{2013} {list}
+process[Recruitment].recruitment_multipliers{2014} {list}
 value: 0.449837
 initial_value: 1
 phase: 1
@@ -870,13 +870,13 @@ label: YCS
 lower_bound: 0.01 
 mcmc_fixed: 
 mu: 1 
-parameter: process[Recruitment].ycs_values{2013} 
+parameter: process[Recruitment].recruitment_multipliers{2014}
 same: 
 type: lognormal 
 upper_bound: 100 
 {end_list}
 
-process[Recruitment].ycs_values{2014} {list}
+process[Recruitment].recruitment_multipliers{2015} {list}
 value: 0.627626
 initial_value: 1
 phase: 1
@@ -889,13 +889,13 @@ label: YCS
 lower_bound: 0.01 
 mcmc_fixed: 
 mu: 1 
-parameter: process[Recruitment].ycs_values{2014} 
+parameter: process[Recruitment].recruitment_multipliers{2015}
 same: 
 type: lognormal 
 upper_bound: 100 
 {end_list}
 
-process[Recruitment].ycs_values{2015} {list}
+process[Recruitment].recruitment_multipliers{2016} {list}
 value: 0.581531
 initial_value: 1
 phase: 1
@@ -908,13 +908,13 @@ label: YCS
 lower_bound: 0.01 
 mcmc_fixed: 
 mu: 1 
-parameter: process[Recruitment].ycs_values{2015} 
+parameter: process[Recruitment].recruitment_multipliers{2016}
 same: 
 type: lognormal 
 upper_bound: 100 
 {end_list}
 
-process[Recruitment].ycs_values{2016} {list}
+process[Recruitment].recruitment_multipliers{2017} {list}
 value: 0.555544
 initial_value: 1
 phase: 1
@@ -927,13 +927,13 @@ label: YCS
 lower_bound: 0.01 
 mcmc_fixed: 
 mu: 1 
-parameter: process[Recruitment].ycs_values{2016} 
+parameter: process[Recruitment].recruitment_multipliers{2017}
 same: 
 type: lognormal 
 upper_bound: 100 
 {end_list}
 
-process[Recruitment].ycs_values{2017} {list}
+process[Recruitment].recruitment_multipliers{2018} {list}
 value: 0.938755
 initial_value: 1
 phase: 1
@@ -946,13 +946,13 @@ label: YCS
 lower_bound: 0.01 
 mcmc_fixed: 
 mu: 1 
-parameter: process[Recruitment].ycs_values{2017} 
+parameter: process[Recruitment].recruitment_multipliers{2018}
 same: 
 type: lognormal 
 upper_bound: 100 
 {end_list}
 
-process[Recruitment].ycs_values{2018} {list}
+process[Recruitment].recruitment_multipliers{2019} {list}
 value: 1.41706
 initial_value: 1
 phase: 1
@@ -965,13 +965,13 @@ label: YCS
 lower_bound: 0.01 
 mcmc_fixed: 
 mu: 1 
-parameter: process[Recruitment].ycs_values{2018} 
+parameter: process[Recruitment].recruitment_multipliers{2019}
 same: 
 type: lognormal 
 upper_bound: 100 
 {end_list}
 
-process[Recruitment].ycs_values{2019} {list}
+process[Recruitment].recruitment_multipliers{2020} {list}
 value: 0.393404
 initial_value: 1
 phase: 1
@@ -984,13 +984,13 @@ label: YCS
 lower_bound: 0.01 
 mcmc_fixed: 
 mu: 1 
-parameter: process[Recruitment].ycs_values{2019} 
+parameter: process[Recruitment].recruitment_multipliers{2020}
 same: 
 type: lognormal 
 upper_bound: 100 
 {end_list}
 
-process[Recruitment].ycs_values{2020} {list}
+process[Recruitment].recruitment_multipliers{2021} {list}
 value: 0.478977
 initial_value: 1
 phase: 1
@@ -1003,13 +1003,13 @@ label: YCS
 lower_bound: 0.01 
 mcmc_fixed: 
 mu: 1 
-parameter: process[Recruitment].ycs_values{2020} 
+parameter: process[Recruitment].recruitment_multipliers{2021}
 same: 
 type: lognormal 
 upper_bound: 100 
 {end_list}
 
-process[Recruitment].ycs_values{2021} {list}
+process[Recruitment].recruitment_multipliers{2022} {list}
 value: 0.549888
 initial_value: 1
 phase: 1
@@ -1022,7 +1022,7 @@ label: YCS
 lower_bound: 0.01 
 mcmc_fixed: 
 mu: 1 
-parameter: process[Recruitment].ycs_values{2021} 
+parameter: process[Recruitment].recruitment_multipliers{2022}
 same: 
 type: lognormal 
 upper_bound: 100 
@@ -1442,45 +1442,46 @@ observation->1997_recaptures2_3 27.9376
 observation->1997_recaptures3_1 22.8513
 observation->1997_recaptures3_2 65.3277
 observation->1997_recaptures3_3 58.9478
+penalty->CatchMustBeTaken 0
 prior->B0->process[Recruitment].b0 7.65231
 prior->growth_min_sigma->growth_increment[female_growth].min_sigma 0
-prior->YCS->process[Recruitment].ycs_values{1985} 0.297028
-prior->YCS->process[Recruitment].ycs_values{1986} 0.160895
-prior->YCS->process[Recruitment].ycs_values{1987} -0.154624
-prior->YCS->process[Recruitment].ycs_values{1988} -0.398776
-prior->YCS->process[Recruitment].ycs_values{1989} 3.32381
-prior->YCS->process[Recruitment].ycs_values{1990} -0.382599
-prior->YCS->process[Recruitment].ycs_values{1991} -0.389136
-prior->YCS->process[Recruitment].ycs_values{1992} -0.390241
-prior->YCS->process[Recruitment].ycs_values{1993} -0.00817685
-prior->YCS->process[Recruitment].ycs_values{1994} -0.240704
-prior->YCS->process[Recruitment].ycs_values{1995} -0.265343
-prior->YCS->process[Recruitment].ycs_values{1996} -0.209205
-prior->YCS->process[Recruitment].ycs_values{1997} -0.386934
-prior->YCS->process[Recruitment].ycs_values{1998} -0.215931
-prior->YCS->process[Recruitment].ycs_values{1999} -0.387172
-prior->YCS->process[Recruitment].ycs_values{2000} -0.397867
-prior->YCS->process[Recruitment].ycs_values{2001} -0.391501
-prior->YCS->process[Recruitment].ycs_values{2002} -0.190067
-prior->YCS->process[Recruitment].ycs_values{2003} -0.389522
-prior->YCS->process[Recruitment].ycs_values{2004} -0.362871
-prior->YCS->process[Recruitment].ycs_values{2005} -0.384347
-prior->YCS->process[Recruitment].ycs_values{2006} -0.398768
-prior->YCS->process[Recruitment].ycs_values{2007} 0.0311039
-prior->YCS->process[Recruitment].ycs_values{2008} -0.39722
-prior->YCS->process[Recruitment].ycs_values{2009} -0.114188
-prior->YCS->process[Recruitment].ycs_values{2010} -0.0761355
-prior->YCS->process[Recruitment].ycs_values{2011} -0.392269
-prior->YCS->process[Recruitment].ycs_values{2012} -0.368123
-prior->YCS->process[Recruitment].ycs_values{2013} -0.348268
-prior->YCS->process[Recruitment].ycs_values{2014} -0.376812
-prior->YCS->process[Recruitment].ycs_values{2015} -0.394834
-prior->YCS->process[Recruitment].ycs_values{2016} -0.398642
-prior->YCS->process[Recruitment].ycs_values{2017} -0.0399465
-prior->YCS->process[Recruitment].ycs_values{2018} 0.725073
-prior->YCS->process[Recruitment].ycs_values{2019} -0.258272
-prior->YCS->process[Recruitment].ycs_values{2020} -0.374919
-prior->YCS->process[Recruitment].ycs_values{2021} -0.398776
+prior->YCS->process[Recruitment].recruitment_multipliers{1986} 0.297028
+prior->YCS->process[Recruitment].recruitment_multipliers{1987} 0.160895
+prior->YCS->process[Recruitment].recruitment_multipliers{1988} -0.154624
+prior->YCS->process[Recruitment].recruitment_multipliers{1989} -0.398776
+prior->YCS->process[Recruitment].recruitment_multipliers{1990} 3.32381
+prior->YCS->process[Recruitment].recruitment_multipliers{1991} -0.382599
+prior->YCS->process[Recruitment].recruitment_multipliers{1992} -0.389136
+prior->YCS->process[Recruitment].recruitment_multipliers{1993} -0.390241
+prior->YCS->process[Recruitment].recruitment_multipliers{1994} -0.00817685
+prior->YCS->process[Recruitment].recruitment_multipliers{1995} -0.240704
+prior->YCS->process[Recruitment].recruitment_multipliers{1996} -0.265343
+prior->YCS->process[Recruitment].recruitment_multipliers{1997} -0.209205
+prior->YCS->process[Recruitment].recruitment_multipliers{1998} -0.386934
+prior->YCS->process[Recruitment].recruitment_multipliers{1999} -0.215931
+prior->YCS->process[Recruitment].recruitment_multipliers{2000} -0.387172
+prior->YCS->process[Recruitment].recruitment_multipliers{2001} -0.397867
+prior->YCS->process[Recruitment].recruitment_multipliers{2002} -0.391501
+prior->YCS->process[Recruitment].recruitment_multipliers{2003} -0.190067
+prior->YCS->process[Recruitment].recruitment_multipliers{2004} -0.389522
+prior->YCS->process[Recruitment].recruitment_multipliers{2005} -0.362871
+prior->YCS->process[Recruitment].recruitment_multipliers{2006} -0.384347
+prior->YCS->process[Recruitment].recruitment_multipliers{2007} -0.398768
+prior->YCS->process[Recruitment].recruitment_multipliers{2008} 0.0311039
+prior->YCS->process[Recruitment].recruitment_multipliers{2009} -0.39722
+prior->YCS->process[Recruitment].recruitment_multipliers{2010} -0.114188
+prior->YCS->process[Recruitment].recruitment_multipliers{2011} -0.0761355
+prior->YCS->process[Recruitment].recruitment_multipliers{2012} -0.392269
+prior->YCS->process[Recruitment].recruitment_multipliers{2013} -0.368123
+prior->YCS->process[Recruitment].recruitment_multipliers{2014} -0.348268
+prior->YCS->process[Recruitment].recruitment_multipliers{2015} -0.376812
+prior->YCS->process[Recruitment].recruitment_multipliers{2016} -0.394834
+prior->YCS->process[Recruitment].recruitment_multipliers{2017} -0.398642
+prior->YCS->process[Recruitment].recruitment_multipliers{2018} -0.0399465
+prior->YCS->process[Recruitment].recruitment_multipliers{2019} 0.725073
+prior->YCS->process[Recruitment].recruitment_multipliers{2020} -0.258272
+prior->YCS->process[Recruitment].recruitment_multipliers{2021} -0.374919
+prior->YCS->process[Recruitment].recruitment_multipliers{2022} -0.398776
 prior->maturity_a50->selectivity[maturity].a50 0
 prior->maturity_ato95->selectivity[maturity].ato95 0
 prior->FishingSel_1_a50->selectivity[FishingSel_1_male].a50 0
@@ -1697,17 +1698,21 @@ inital_mean_length: 10 10
 label: Recruitment
 proportions: 0.5 0.5
 r0: 1.24992e+07
+recruitment_multipliers: 0.261033 0.281881 0.353653 0.549472 3.07992 0.615958 0.600207 0.506277 0.314646 0.385494 0.396775 0.372693 0.498902 0.375296 0.499391 0.53521 0.593337 0.365622 0.599144 0.464225 0.493891 0.551245 0.987451 0.53079 0.885373 0.913114 0.511603 0.642873 0.449837 0.627626 0.581531 0.555544 0.938755 1.41706 0.393404 0.478977 0.549888
 ssb: SSB
 ssb_offset: 1
-standardise_ycs_years: 1985 1986 1987 1988 1989 1990 1991 1992 1993 1994 1995 1996 1997 1998 1999 2000 2001 2002 2003 2004 2005 2006 2007 2008 2009 2010 2011 2012 2013 2014 2015 2016 2017 2018 2019
+standardise_ycs_years:
+standardise_years: 1986 1987 1988 1989 1990 1991 1992 1993 1994 1995 1996 1997 1998 1999 2000 2001 2002 2003 2004 2005 2006 2007 2008 2009 2010 2011 2012 2013 2014 2015 2016 2017 2018 2019 2020
 steepness: 0.75
 type: recruitment_beverton_holt
-ycs_years: 1985 1986 1987 1988 1989 1990 1991 1992 1993 1994 1995 1996 1997 1998 1999 2000 2001 2002 2003 2004 2005 2006 2007 2008 2009 2010 2011 2012 2013 2014 2015 2016 2017 2018 2019 2020 2021 
-standardised_ycs: 0.412855 0.445828 0.559344 0.869055 4.87125 0.974211 0.949299 0.800737 0.49765 0.609705 0.627547 0.589458 0.789072 0.593576 0.789847 0.846498 0.938433 0.578275 0.947617 0.734226 0.781148 0.871859 1.56177 0.839507 1.40032 1.4442 0.809161 1.01678 0.71147 0.992665 0.919761 0.878659 1.48475 2.24124 0.622216 0.478977 0.549888 
-ycs_values: 0.261033 0.281881 0.353653 0.549472 3.07992 0.615958 0.600207 0.506277 0.314646 0.385494 0.396775 0.372693 0.498902 0.375296 0.499391 0.53521 0.593337 0.365622 0.599144 0.464225 0.493891 0.551245 0.987451 0.53079 0.885373 0.913114 0.511603 0.642873 0.449837 0.627626 0.581531 0.555544 0.938755 1.41706 0.393404 0.478977 0.549888 
+model_year: 1986 1987 1988 1989 1990 1991 1992 1993 1994 1995 1996 1997 1998 1999 2000 2001 2002 2003 2004 2005 2006 2007 2008 2009 2010 2011 2012 2013 2014 2015 2016 2017 2018 2019 2020 2021 2022
+spawn_event_year: 1985 1986 1987 1988 1989 1990 1991 1992 1993 1994 1995 1996 1997 1998 1999 2000 2001 2002 2003 2004 2005 2006 2007 2008 2009 2010 2011 2012 2013 2014 2015 2016 2017 2018 2019 2020 2021
+standardised_recruitment_multipliers: 0.412855 0.445828 0.559344 0.869055 4.87125 0.974211 0.949299 0.800737 0.49765 0.609705 0.627547 0.589458 0.789072 0.593576 0.789847 0.846498 0.938433 0.578275 0.947617 0.734226 0.781148 0.871859 1.56177 0.839507 1.40032 1.4442 0.809161 1.01678 0.71147 0.992665 0.919761 0.878659 1.48475 2.24124 0.622216 0.478977 0.549888
+recruitment_multipliers: 0.261033 0.281881 0.353653 0.549472 3.07992 0.615958 0.600207 0.506277 0.314646 0.385494 0.396775 0.372693 0.498902 0.375296 0.499391 0.53521 0.593337 0.365622 0.599144 0.464225 0.493891 0.551245 0.987451 0.53079 0.885373 0.913114 0.511603 0.642873 0.449837 0.627626 0.581531 0.555544 0.938755 1.41706 0.393404 0.478977 0.549888
 true_ycs: 0.412855 0.445827 0.558034 0.861583 4.79248 0.951126 0.933885 0.803306 0.499007 0.609188 0.618319 0.57011 0.748531 0.543992 0.705455 0.741786 0.816142 0.490511 0.784964 0.62231 0.677215 0.767757 1.38456 0.749492 1.28439 1.34511 0.759215 0.967948 0.682961 0.953233 0.882377 0.836902 1.41145 2.11727 0.589604 0.460697 0.535694 
-Recruits: 5.16037e+06 5.5725e+06 6.97499e+06 1.07691e+07 5.99023e+07 1.18883e+07 1.16728e+07 1.00407e+07 6.2372e+06 7.61438e+06 7.72851e+06 7.12593e+06 9.35606e+06 6.79948e+06 8.81764e+06 9.27175e+06 1.02011e+07 6.13101e+06 9.81145e+06 7.7784e+06 8.46466e+06 9.59637e+06 1.73059e+07 9.36807e+06 1.60539e+07 1.68129e+07 9.4896e+06 1.20986e+07 8.53648e+06 1.19147e+07 1.1029e+07 1.04606e+07 1.76421e+07 2.64643e+07 7.3696e+06 5.75835e+06 6.69576e+06 
-Recruit_event_SSB: 2105.51 2105.49 2047.82 1907.04 1758.62 1630.59 1757.43 2189.52 2176.53 2084.28 1785.69 1496.18 1276.12 1005.6 864.498 781.572 752.481 669.037 603.901 666.706 740.946 801.456 830.272 862.483 1010.75 1117.61 1176.63 1311.53 1402.81 1407.05 1395.84 1316.99 1297.15 1236.63 1265.54 1426.35 1597.55 
+recruits: 5.16037e+06 5.5725e+06 6.97499e+06 1.07691e+07 5.99023e+07 1.18883e+07 1.16728e+07 1.00407e+07 6.2372e+06 7.61438e+06 7.72851e+06 7.12593e+06 9.35606e+06 6.79948e+06 8.81764e+06 9.27175e+06 1.02011e+07 6.13101e+06 9.81145e+06 7.7784e+06 8.46466e+06 9.59637e+06 1.73059e+07 9.36807e+06 1.60539e+07 1.68129e+07 9.4896e+06 1.20986e+07 8.53648e+06 1.19147e+07 1.1029e+07 1.04606e+07 1.76421e+07 2.64643e+07 7.3696e+06 5.75835e+06 6.69576e+06
+recruit_event_SSB: 2105.51 2105.49 2047.82 1907.04 1758.62 1630.59 1757.43 2189.52 2176.53 2084.28 1785.69 1496.18 1276.12 1005.6 864.498 781.572 752.481 669.037 603.901 666.706 740.946 801.456 830.272 862.483 1010.75 1117.61 1176.63 1311.53 1402.81 1407.05 1395.84 1316.99 1297.15 1236.63 1265.54 1426.35 1597.55
+ssb_offset: 1
 untagged.male_initial_length_distribution: 0.022563 0.0172706 0.0268962 0.0390749 0.0530715 0.0677428 0.0816862 0.0930239 0.098671 0.098671 0.0930239 0.0816862 0.0677428 0.0530715 0.0390749 0.0268962 0.0172706 0.0103684 0.00585649 0.00314139 0.00161758 0.000808476 0.000396279 0.000192211 9.29468e-05 4.50761e-05 2.20234e-05 1.08769e-05 5.44301e-06 5.83201e-06 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
 untagged.female_initial_length_distribution: 0.022563 0.0172706 0.0268962 0.0390749 0.0530715 0.0677428 0.0816862 0.0930239 0.098671 0.098671 0.0930239 0.0816862 0.0677428 0.0530715 0.0390749 0.0268962 0.0172706 0.0103684 0.00585649 0.00314139 0.00161758 0.000808476 0.000396279 0.000192211 9.29468e-05 4.50761e-05 2.20234e-05 1.08769e-05 5.44301e-06 5.83201e-06 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
 *end
@@ -9553,17 +9558,21 @@ inital_mean_length: 10 10
 label: Recruitment
 proportions: 0.5 0.5
 r0: 1.24992e+07
+recruitment_multipliers: 0.261033 0.281881 0.353653 0.549472 3.07992 0.615958 0.600207 0.506277 0.314646 0.385494 0.396775 0.372693 0.498902 0.375296 0.499391 0.53521 0.593337 0.365622 0.599144 0.464225 0.493891 0.551245 0.987451 0.53079 0.885373 0.913114 0.511603 0.642873 0.449837 0.627626 0.581531 0.555544 0.938755 1.41706 0.393404 0.478977 0.549888
 ssb: SSB
 ssb_offset: 1
-standardise_ycs_years: 1985 1986 1987 1988 1989 1990 1991 1992 1993 1994 1995 1996 1997 1998 1999 2000 2001 2002 2003 2004 2005 2006 2007 2008 2009 2010 2011 2012 2013 2014 2015 2016 2017 2018 2019
+standardise_ycs_years:
+standardise_years: 1986 1987 1988 1989 1990 1991 1992 1993 1994 1995 1996 1997 1998 1999 2000 2001 2002 2003 2004 2005 2006 2007 2008 2009 2010 2011 2012 2013 2014 2015 2016 2017 2018 2019 2020
 steepness: 0.75
 type: recruitment_beverton_holt
-ycs_years: 1985 1986 1987 1988 1989 1990 1991 1992 1993 1994 1995 1996 1997 1998 1999 2000 2001 2002 2003 2004 2005 2006 2007 2008 2009 2010 2011 2012 2013 2014 2015 2016 2017 2018 2019 2020 2021 
-standardised_ycs: 0.412855 0.445828 0.559344 0.869055 4.87125 0.974211 0.949299 0.800737 0.49765 0.609705 0.627547 0.589458 0.789072 0.593576 0.789847 0.846498 0.938433 0.578275 0.947617 0.734226 0.781148 0.871859 1.56177 0.839507 1.40032 1.4442 0.809161 1.01678 0.71147 0.992665 0.919761 0.878659 1.48475 2.24124 0.622216 0.478977 0.549888 
-ycs_values: 0.261033 0.281881 0.353653 0.549472 3.07992 0.615958 0.600207 0.506277 0.314646 0.385494 0.396775 0.372693 0.498902 0.375296 0.499391 0.53521 0.593337 0.365622 0.599144 0.464225 0.493891 0.551245 0.987451 0.53079 0.885373 0.913114 0.511603 0.642873 0.449837 0.627626 0.581531 0.555544 0.938755 1.41706 0.393404 0.478977 0.549888 
+model_year: 1986 1987 1988 1989 1990 1991 1992 1993 1994 1995 1996 1997 1998 1999 2000 2001 2002 2003 2004 2005 2006 2007 2008 2009 2010 2011 2012 2013 2014 2015 2016 2017 2018 2019 2020 2021 2022
+spawn_event_year: 1985 1986 1987 1988 1989 1990 1991 1992 1993 1994 1995 1996 1997 1998 1999 2000 2001 2002 2003 2004 2005 2006 2007 2008 2009 2010 2011 2012 2013 2014 2015 2016 2017 2018 2019 2020 2021
+standardised_recruitment_multipliers: 0.412855 0.445828 0.559344 0.869055 4.87125 0.974211 0.949299 0.800737 0.49765 0.609705 0.627547 0.589458 0.789072 0.593576 0.789847 0.846498 0.938433 0.578275 0.947617 0.734226 0.781148 0.871859 1.56177 0.839507 1.40032 1.4442 0.809161 1.01678 0.71147 0.992665 0.919761 0.878659 1.48475 2.24124 0.622216 0.478977 0.549888
+recruitment_multipliers: 0.261033 0.281881 0.353653 0.549472 3.07992 0.615958 0.600207 0.506277 0.314646 0.385494 0.396775 0.372693 0.498902 0.375296 0.499391 0.53521 0.593337 0.365622 0.599144 0.464225 0.493891 0.551245 0.987451 0.53079 0.885373 0.913114 0.511603 0.642873 0.449837 0.627626 0.581531 0.555544 0.938755 1.41706 0.393404 0.478977 0.549888
 true_ycs: 0.412855 0.445827 0.558034 0.861583 4.79248 0.951126 0.933885 0.803306 0.499007 0.609188 0.618319 0.57011 0.748531 0.543992 0.705455 0.741786 0.816142 0.490511 0.784964 0.62231 0.677215 0.767757 1.38456 0.749492 1.28439 1.34511 0.759215 0.967948 0.682961 0.953233 0.882377 0.836902 1.41145 2.11727 0.589604 0.460697 0.535694 
-Recruits: 5.16037e+06 5.5725e+06 6.97499e+06 1.07691e+07 5.99023e+07 1.18883e+07 1.16728e+07 1.00407e+07 6.2372e+06 7.61438e+06 7.72851e+06 7.12593e+06 9.35606e+06 6.79948e+06 8.81764e+06 9.27175e+06 1.02011e+07 6.13101e+06 9.81145e+06 7.7784e+06 8.46466e+06 9.59637e+06 1.73059e+07 9.36807e+06 1.60539e+07 1.68129e+07 9.4896e+06 1.20986e+07 8.53648e+06 1.19147e+07 1.1029e+07 1.04606e+07 1.76421e+07 2.64643e+07 7.3696e+06 5.75835e+06 6.69576e+06 
-Recruit_event_SSB: 2105.51 2105.49 2047.82 1907.04 1758.62 1630.59 1757.43 2189.52 2176.53 2084.28 1785.69 1496.18 1276.12 1005.6 864.498 781.572 752.481 669.037 603.901 666.706 740.946 801.456 830.272 862.483 1010.75 1117.61 1176.63 1311.53 1402.81 1407.05 1395.84 1316.99 1297.15 1236.63 1265.54 1426.35 1597.55 
+recruits: 5.16037e+06 5.5725e+06 6.97499e+06 1.07691e+07 5.99023e+07 1.18883e+07 1.16728e+07 1.00407e+07 6.2372e+06 7.61438e+06 7.72851e+06 7.12593e+06 9.35606e+06 6.79948e+06 8.81764e+06 9.27175e+06 1.02011e+07 6.13101e+06 9.81145e+06 7.7784e+06 8.46466e+06 9.59637e+06 1.73059e+07 9.36807e+06 1.60539e+07 1.68129e+07 9.4896e+06 1.20986e+07 8.53648e+06 1.19147e+07 1.1029e+07 1.04606e+07 1.76421e+07 2.64643e+07 7.3696e+06 5.75835e+06 6.69576e+06
+recruit_event_SSB: 2105.51 2105.49 2047.82 1907.04 1758.62 1630.59 1757.43 2189.52 2176.53 2084.28 1785.69 1496.18 1276.12 1005.6 864.498 781.572 752.481 669.037 603.901 666.706 740.946 801.456 830.272 862.483 1010.75 1117.61 1176.63 1311.53 1402.81 1407.05 1395.84 1316.99 1297.15 1236.63 1265.54 1426.35 1597.55
+ssb_offset: 1
 untagged.male_initial_length_distribution: 0.022563 0.0172706 0.0268962 0.0390749 0.0530715 0.0677428 0.0816862 0.0930239 0.098671 0.098671 0.0930239 0.0816862 0.0677428 0.0530715 0.0390749 0.0268962 0.0172706 0.0103684 0.00585649 0.00314139 0.00161758 0.000808476 0.000396279 0.000192211 9.29468e-05 4.50761e-05 2.20234e-05 1.08769e-05 5.44301e-06 5.83201e-06 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
 untagged.female_initial_length_distribution: 0.022563 0.0172706 0.0268962 0.0390749 0.0530715 0.0677428 0.0816862 0.0930239 0.098671 0.098671 0.0930239 0.0816862 0.0677428 0.0530715 0.0390749 0.0268962 0.0172706 0.0103684 0.00585649 0.00314139 0.00161758 0.000808476 0.000396279 0.000192211 9.29468e-05 4.50761e-05 2.20234e-05 1.08769e-05 5.44301e-06 5.83201e-06 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
 *end
@@ -10939,7 +10948,7 @@ Values {vector}
 
 *info[messages_encountered]
 Values {string}
-Setting the random number seed to 91394
+Setting the random number seed to 3422
 Estimable parameters were loaded from the free parameter file: 
 Creating default report for catchability CPUE-Commercialq_1
 Creating default report for catchability TrawlSurveyq_1
@@ -11117,5 +11126,5 @@ Setting 'params_est.out' as the output file for the free parameters
 *end
 
 [INFO] Completed
-[INFO] Total CPU time: 107.045 hours
-[INFO] Total elapsed time: 74.167 hours
+[INFO] Total CPU time: 33.182 hours
+[INFO] Total elapsed time: 64.34 hours
