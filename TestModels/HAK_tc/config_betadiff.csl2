@@ -5,6 +5,7 @@
 
 @assert ObjectiveFunction
 type objective_function
-value 709.024785
+value 709.014
 error_type error
+tolerance 2e-2
 

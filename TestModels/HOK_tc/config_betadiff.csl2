@@ -34,4 +34,5 @@ covariance True
 type objective_function
 value 1946.801707
 error_type error
+tolerance 1e-2
 
