@@ -507,7 +507,7 @@ type recruitment_beverton_holt
 categories male.immature male.mature female.immature female.mature
 proportions 0.5 0 0.5 0
 b0 125000
-standardise_years 1977:2014
+standardise_years 1976:2013
 recruitment_multipliers 1 1 1 1 1 0.98 1.57 2.05 1.02 1.86 1.17 1.15 0.95 0.57 0.71 0.80 0.67 0.54 0.57 0.84 1.08 0.76 0.71 0.57 0.54 0.69 1.19 2.10 1.48 1.50 1.00 1.00 1 1 1 1 1 1 1 1 1 1 1
 steepness 0.84
 ssb SSB
@@ -775,7 +775,7 @@ TEST_F(InternalEmptyModel, Sexed_random_no_ageing_error) {
   LoadConfiguration();
   model_->Start(RunMode::kBasic);
   ObjectiveFunction& obj_function = model_->objective_function();
-  EXPECT_NEAR(1196.6933, obj_function.score(), 1e-3);
+  EXPECT_NEAR(1196.5883, obj_function.score(), 1e-3);
 }
 TEST_F(InternalEmptyModel, Sexed_random_by_age_no_ageing_error) {
   AddConfigurationLine(sexed_model, __FILE__, 31);
@@ -791,7 +791,7 @@ TEST_F(InternalEmptyModel, Sexed_random_by_length_no_ageing_error) {
   LoadConfiguration();
   model_->Start(RunMode::kBasic);
   ObjectiveFunction& obj_function = model_->objective_function();
-  EXPECT_NEAR(346.6681, obj_function.score(), 1e-3);
+  EXPECT_NEAR(346.6694, obj_function.score(), 1e-3);
 }
 
 }  // namespace age
