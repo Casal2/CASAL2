@@ -4,7 +4,7 @@
 
 The \config\ is required and defines the model structure, processes, observations, parameters (both the fixed parameters and the parameters to be estimated)\index{Estimable parameters}, and the requested reports (outputs).
 
-By convention, the name of the \config\ ends with the suffix \texttt{.csl2}. However, any suffix is acceptable. The default name for the \config\ is \emph{config.csl2} and if used it does not have to be specified as one of the command line arguments to to \CNAME. Note that the \config\ can include other separate files so the specification can be split into digestible parts.
+By convention, the name of the \config\ ends with the suffix \texttt{.csl2}. However, any suffix is acceptable. The default name for the \config\ is \emph{config.csl2} and if used it does not have to be specified as one of the command line arguments to to \CNAME. Note that the \config\ can include other files so the specification can be split into parts, e.g., files for specifying information on the 'population', 'estimation', 'observation', and 'reports'.
 
 Command line arguments\index{Command line arguments} are used to specify the actions or \emph{tasks}\index{Tasks} of \CNAME, e.g., to run a model with a set of parameter values, to estimate parameter values (either point estimates or MCMC), to project quantities, or to simulate observations.For example, \texttt{-r} is the \emph{run} mode, \texttt{-e} is the \emph{estimation} mode, and \texttt{-m} is the \emph{MCMC} mode. The \emph{command line arguments} are described in Section \ref{sec:CommandLineArguments}.
 
@@ -12,11 +12,11 @@ Command line arguments\index{Command line arguments} are used to specify the act
 
 To use \CNAME, open a console window (i.e. the command prompt) window on Microsoft Windows or a terminal window on Linux. Navigate to the directory where the model \config s are located. Then enter \CNAME\ with arguments for a specific mode to start the \CNAME\ mode running; see Section \ref{sec:CommandLineArguments} for the list of possible arguments. \CNAME\ will print output to the screen.
 
-For both 64-bit Linux and Microsoft Windows, we recommend using the install package available on \github\ for Microsoft Windows or the Debian package (.deb) for Linux. Running \CNAME\ on a system requires the main binary (casal2.exe on Windows, or casal2 on Linux) and the associated dynamically linked libraries (DLL) for Windows or shared objects (.so) for Linux to be installed into appropriate directories, and cannot be (easily) run by copying the binary to a working directory. \CNAME\ is not available for 32-bit operating systems or macOS.
+For both 64-bit Linux and Microsoft Windows, we recommend using the zip files available on \github\ for Microsoft Windows and Linux; there is also file 'Casal2.tar.gz' for older versions of Linux. Running \CNAME\ on a system requires the main binary (casal2.exe on Windows, or casal2 on Linux) and the associated dynamically linked libraries (DLL) for Windows or shared objects (.so) for Linux to be installed into appropriate directories, and cannot be (easily) run by copying the binary to a working directory. \CNAME\ is not available for 32-bit operating systems or MacOS.
 
 \subsection{\I{Redirecting standard output}\label{sec:RedirectingStandardOut}}
 
-\CNAME\ uses the \texttt{standard output}\index{standard output} stream to display runtime information. The \I{standard error} stream is used by \CNAME\ to output the program exit status and runtime errors. We suggest redirecting both the standard output and standard error into an appropriate file or files\index{Redirecting standard out}\index{Redirecting standard error}.
+\CNAME\ uses the \texttt{standard output}\index{standard output} stream to display runtime information. The \I{standard error} stream is used by \CNAME\ to output the program exit status and runtime errors. We suggest redirecting both the standard output and standard error into a file or separate files\index{Redirecting standard out}\index{Redirecting standard error}.
 
 With the bash shell (on Linux systems), you can do this using the command structure
 
@@ -34,7 +34,7 @@ And, on some Microsoft Windows systems (e.g., Windows 10), you can redirect to b
 
 \begin{verbatim} casal2 [arguments] > run.out 2> run.err\end{verbatim}
 
-\CNAME\ outputs header information to the output. The header\index{Output header information} consists of the program name and version, the arguments passed to \CNAME\ from the command line, the date and time that the program was called (derived from the system time), the user name, and the machine name (including the operating system and the process identification number). This information can be used to track output across runs, dates, and versions of \CNAME .
+\CNAME\ outputs header information to standard output. The header\index{Output header information} consists of the program name and version, the arguments passed to \CNAME\ from the command line, the date and time that the program was called (derived from the system time), the user name, and the machine name (including the operating system and the process identification number). This information can be used to track output across runs, dates, and versions of \CNAME .
 
 \vspace*{4mm}
 
@@ -42,7 +42,7 @@ And, on some Microsoft Windows systems (e.g., Windows 10), you can redirect to b
 
 \CNAME\ is called using:
 
-\texttt{\cname [-c \emph{config\_file}] [\emph{task}] [\emph{options}]}
+\texttt{\cname\ [-c \emph{config\_file}] [\emph{task}] [\emph{options}]}
 
 where
 
@@ -60,12 +60,12 @@ and where \emph{task} must be one of the following (\textbf{[]} indicates a seco
 \item [\texttt{-r [-{}-run]}] \emph{Run} the model once using the parameter values in the \config, or optionally with the free parameter values from the file specified with argument \texttt{-i} or \texttt{-I}.
 \item [\texttt{-e [-{}-estimate]}] Do a point \emph{estimate} using the values in the \config\ as the starting point for the parameters to be estimated, or optionally with the free parameter values from the file specified with argument \texttt{-i} or \texttt{-I}.
 \item [\texttt{-E [-{}-Estimate]} \emph{filename}] Do a point \emph{estimate} and generate an MPD file (ie.e., a file containing the free parameters and the covariance matrix). As with \texttt{-e}, this uses the values in the \config\ as the starting point for the parameters to be estimated, or optionally the free parameter values from the file specified with argument \texttt{-i} or \texttt{-I}.
-\item [\texttt{-{p}[-profiling]}] Do an objective function profile \emph{profile} using the parameter values in the \config\ as the starting point, or optionally with the free parameter values from the file specified with argument \texttt{-i} or \texttt{-I}
-\item [\texttt{-m [-{}-mcmc]}] Do an \emph{MCMC}. An estimate run is fist carried out to estimate the co-variance matrix for the MCMC proposal distribution, using the values in the \config\ as the starting point for the parameters to be estimated. Optionally the free parameter values from the file specified with argument \texttt{-i} or \texttt{-I} can be used as the starting point.
-\item [\texttt{-M [-{}-mcmc-from-estimate] \emph{filename}}] Do an \emph{MCMC} using the covariance and free parameters in the MPD file.
-\item [\texttt{-R [-{}-resume] \emph{filename}}] Resume a previously stopped\emph{MCMC} using the covariance and free parameters in the MPD file. Additional arguments must be supplied to specify the sample and objective files from the previous MCMC with \texttt{-{}-objective-file} and \texttt{-{}-sample-file}.
+\item [\texttt{-{p}[-profiling]}] Do an objective function \emph{profile} using the parameter values in the \config\ as the starting point, or optionally with the free parameter values from the file specified with argument \texttt{-i} or \texttt{-I}
+\item [\texttt{-m [-{}-mcmc]}] Do an \emph{MCMC}. An estimate run is fist carried out to estimate the covariance matrix for the MCMC proposal distribution, using the values in the \config\ as the starting point for the parameters to be estimated. Optionally the free parameter values from the file specified with argument \texttt{-i} or \texttt{-I} can be used as the starting point.
+\item [\texttt{-M [-{}-mcmc-from-estimate] \emph{filename}}] Do an \emph{MCMC} run using the covariance and free parameters in the MPD file.
+\item [\texttt{-R [-{}-resume] \emph{filename}}] Resume a previously stopped \emph{MCMC} run using the covariance and free parameters in the MPD file. Additional arguments must be supplied to specify the sample and objective files from the previous MCMC with \texttt{-{}-objective-file} and \texttt{-{}-sample-file}.
 \item [\texttt{-f [-{}-projection]}] \emph{n}. Project the model \emph{forward} in time using the parameter values in the \config\ as the starting point for the estimation, or optionally with the parameter values from the file specified with the argument \texttt{-i} or \texttt{-I}. Projections are repeated for each parameter set (i.e., each line of data in the free parameter file) \emph{n} times (the default is 1). Typically, the MCMC sample output will be used with \texttt{-i}.
-\item [\texttt{-s [-{}-simulation]} \emph{n}] \emph{Simulate} \emph{n} of observation sets using values in the \config\ as the parameter values, or optionally with the parameter values from the file specified with the argument \texttt{-i} or \texttt{-I}.
+\item [\texttt{-s [-{}-simulation]} \emph{n}] \emph{Simulate} \emph{n} sets of observation data using values in the \config\ as the parameter values, or optionally with the parameter values from the file specified with the argument \texttt{-i} or \texttt{-I}.
 
 \end{description}
 
@@ -85,13 +85,13 @@ The following optional arguments\index{Optional command line arguments} [\emph{o
 %
 Combinations of these command line arguments can also be implemented. Examples of some useful ones are below.
 \begin{description}
-	\item \texttt{casal -r -i par.file> mulit\_run.out} will conduct multiple model runs, one for each row of parameters in \texttt{par.file}. This can be useful for investigating the effect of individual parameters in the model or summarising profiled outputs.
+	\item \texttt{casal -r -i par.file > multi\_run.out} will conduct multiple model runs, one for each row of parameters in \texttt{par.file}. This can be useful for investigating the effect of individual parameters in the model or summarising profiled outputs.
 	
-	\item \texttt{casal -e -i par.file> mulit\_estimate.out} will conduct multiple estimation routines. One for each row of parameters in \texttt{par.file}. This can be useful for assessing convergence to a global minimum. All base models should be run from multiple starting parameter values to assess model convergence/sensitivity to starting values.
+	\item \texttt{casal -e -i par.file > multi\_estimate.out} will conduct multiple estimation routines. One for each row of parameters in \texttt{par.file}. This can be useful for assessing convergence to a global minimum. All base models should be run from multiple starting parameter values to assess model convergence/sensitivity to starting values.
 	
-	\item \texttt{casal -s 10 -i par.file > mulit\_simulation.out} This command instructs \CNAME\ to simulate 10 sets of simulated data sets for each each row of parameters in \texttt{par.file}. The \texttt{-s} component adds observation error in simulated data sets through the likelihood distribution assumptions and the \texttt{-i} adds parameter uncertainty into the simulated data sets if each row differs.
+	\item \texttt{casal -s 10 -i par.file > multi\_simulation.out} This command instructs \CNAME\ to simulate 10 sets of simulated data sets for each each row of parameters in \texttt{par.file}. The \texttt{-s} component adds observation error in simulated data sets through the likelihood distribution assumptions and the \texttt{-i} adds parameter uncertainty into the simulated data sets if each row differs.
 	
-	\item \texttt{casal -r --loglevel trace > run.log 2> run.err} run \CNAME\ model with parameters based on configuration files, it will print logging information into the file \texttt{run.err} (useful when debugging models). See Section~\ref{sec:TroubleShooting-logging} for details on logging.
+	\item \texttt{casal -r --loglevel trace > run.log 2> run.err} This command runs the \CNAME\ model with parameters based on the configuration files and will print logging information into the file \texttt{run.err} (useful when debugging models). See Section~\ref{sec:TroubleShooting-logging} for details on logging.
 \end{description}
 
 
@@ -101,10 +101,10 @@ Combinations of these command line arguments can also be implemented. Examples o
 	\item the description of the population structure, dynamics, and parameters. See Section \ref{sec:Population},
 	\item the estimation methods and estimated variables. See Section \ref{sec:Estimation},
 	\item the observations and their associated properties and likelihoods. See Section \ref{sec:Observation}, and
-	\item the results that \CNAME\ will output. See Section \ref{sec:Report}.
+	\item the reports that \CNAME\ will output. See Section \ref{sec:Report}.
 \end{itemize}
 
-Note that \config\ files can \emph{include} other \config\ files to assist file management, using the command \texttt{!include "\emph{filename}"}. See Section \ref{syntax:General} for more details.
+Note that \config\ files can \emph{include} other \config s to assist in file management, using the command \texttt{!include "\emph{filename}"}. See Section \ref{syntax:General} for more details.
 
 \subsubsection{Commands}\index{Commands}
 
@@ -118,7 +118,7 @@ Note that \config\ files can \emph{include} other \config\ files to assist file 
 
 Apart from \texttt{!include}, commands start with an \texttt{@} in the first column (i.e., may not have a space or tab character before them on the line). After each command, the subcommands are listed and must occur before the next command. Otherwise, the commands and subcommands are free form with each command or subcommand on a separate line (see Section \ref{sec:CommandBlockFormat}).
 
-Commands that have a label must have a unique label, i.e., the label cannot be used on more than one command of that type. \CNAME\ checks and will report an error of two commands of the same type have the same label. The labels can contain alpha numeric characters, period (`.'), underscore (`\_') and dash (`-'), but cannot start with a double underscore ('\_\_'). Labels that start with a double underscore are reserved, and used for internal reports that \CNAME\ can automatically generate in some circumstances. Otherwise labels must not contain white space (tabs or spaces) or any characters that are not letters, numbers, dashes, periods, or underscores. For example,
+Commands that have a label must have a unique label, i.e., the label cannot be used for more than one command. \CNAME\ checks and will report an error if two commands of the same type have the same label. The labels can contain alpha numeric characters, period (`.'), underscore (`\_') and dash (`-'), but cannot start with a double underscore ('\_\_'). Labels that start with a double underscore are reserved, and used for internal reports that \CNAME\ can automatically generate in some circumstances. Otherwise labels must not contain white space (tabs or spaces) or any characters that are not letters, numbers, dashes, periods, or underscores. For example,
 
 {\small{\begin{verbatim}
 @process NaturalMortality
@@ -157,7 +157,7 @@ Integers must be entered as whole numbers without decimal points (i.e., if \subc
 
 Arguments of type integer vector, constant vector, estimable vector, addressable vector, or categorical vector must contain one or more entries on a row, separated by white space (tabs or spaces). Arguments of type integer range must contain a colon (\texttt{:}) and no white space (tabs or spaces).
 
-Parameters are defined in the population section and most (but not all) numeric parameters can be estimated. See Section \ref{sec:syntax} for the list of available parameters and if they are allowed to be estimated. Note that parameters will only be estimated if requested using an \command{estimate} command, and are otherwise treated as a constant.
+Parameters are defined in the population section and most (but not all) numeric parameters can be estimated. See Section \ref{sec:syntax} for the list of available parameters and if they are can be estimated. Note that parameters will only be estimated if requested using an \command{estimate} command, and are otherwise treated as a constant.
 
 Parameters can also be addressable, i.e., they can be referred to within another command or command block by using their addressable name. See Section \ref{sec:syntax} to determine of a subcommand is addressable.
 
@@ -201,7 +201,7 @@ Alternatively, to comment out an entire block or section, use \commentstart\ at 
 
 \subsubsection{How to reference parameters\label{sec:parameter-names}\index{Determining parameter names}\index{Parameter names}}
 
-All parameters have an unique name, allowing it to be referenced in other command blocks. When \CNAME\ processes the \config\ it translates each command block (see section~\ref{sec:CommandBlockFormat}) and each subcommand block into an object, each with a unique parameter name. For commands, this parameter name is simply the command label. For subcommands, the parameter name format is one of the following:
+All parameters have a unique name, allowing it to be referenced in other command blocks. When \CNAME\ processes the \config\ it translates each command block (see section~\ref{sec:CommandBlockFormat}) and each subcommand block into an object, each with a unique parameter name. For commands, this parameter name is simply the command label. For subcommands, the parameter name format is one of the following:
 
 \begin{description}
 	\item \texttt{command[label].subcommand} if the command has a label, or
@@ -219,15 +219,16 @@ For example, the parameter name of a process of instantaneous mortality (i.e., n
 				m 0.2 0.2
 \end{verbatim}}
 %
-\texttt{process[NaturalMortality].m} is the unique reference for the vector of male then females natural mortality values (\textbf{note:} order will follow categories order). But to reference just the 'female' rate then the form is
+\texttt{process[NaturalMortality].m} is the unique reference for the vector of male then female natural mortality values (\textbf{note:} order will follow categories order). To reference just the 'female' value then the form is
 \texttt{process[NaturalMortality].m\{female\}}.
 
 \subsection{\I{Reading a command block}\label{sec:Readingcommandblock}}\index{Reading\ command\ block}\index{Reading\ command\ block section}
 
 Here, we illustrate reading a command block using two important commands, \texttt{@process} and \texttt{@estimate}.
 
-The command \texttt{@process} specifies a process that can be used in the model. The are a fixed set of predefined processes (subroutines in C++ code). The way to identify which one is by the \texttt{type} subcommand. Processes can take one or more parameters and some will need other data to be applied too. Some parameters are mandatory and others can take a default value if they are not specified.
-We have categories male and female, and two fisheries, line and pot. The command block starts with a\textit{@process}:
+The command \texttt{@process} specifies a process that can be used in the model. There are a fixed set of predefined processes (subroutines in C++ code). The way to specify which process is used is with the \texttt{type} subcommand. Processes can take one or more parameters and some will need other data to be supplied as well. Some parameters are mandatory and others can take a default value if they are not specified.
+
+For this example we have categories male and female, and two fisheries, line and pot. The command block starts with a\textit{@process}:
 
 {\small{\begin{verbatim}
 @process Fishing
@@ -236,7 +237,7 @@ type mortality_instantaneous
 
 This sets up a process block using the \textit{mortality\_instantaneous} process which simultaneously depletes the population by natural mortality and from two types of fishing. Its label is \textit{Fishing}.
 
-Next we specify the values for natural mortality (\textit{m}) an argument to this process, to 0.17 and specify that fisheries acts on all categories. Note there are two values for natural mortality, one for each sex. The parameters \textit{m} can be estimated, if required. The command block fragment:
+Next we specify the values for natural mortality (\textit{m}), an argument for this process, to 0.17 and specify that fisheries acts on all categories. Note there are two values for natural mortality, one for each category. The parameters \textit{m} can be estimated, if required. The command block fragment:
 
 {\small{\begin{verbatim}
 m 0.17 0.17   # natural mortality  for each category
@@ -244,7 +245,7 @@ relative_m_by_age One One # natural mortality multiplier
 categories *  # fishing acts on all categories ("*" shorthand for male female)
 \end{verbatim}}}
 
-Catches are supplied via a \textit{table} format using three columns: year and two for the fisheries, one for each, which take the labels \textit{line} and \textit{pot}. Column names are on the first line of the table and these columns can be in any order,
+Catches are supplied via a \textit{table} format using three columns: one for year and one for each of the two fisheries, which take the labels \textit{line} and \textit{pot}. Column names are on the first line of the table and these columns can be in any order,
 
 {\small{\begin{verbatim}
 #catches
@@ -256,7 +257,7 @@ year line pot       #names columns so can identity catch for each fishery
 end_table           # end of table marker
 \end{verbatim}}}
 
-Other information needed are supplied in the methods table which has a fixed number of columns (again these can be in any order), one for each piece of information needed to model a fishery. The method column defines the fishery name which is used in the catch table and also in other observations like age composition from that fishery. The categories that the fishery operates on (all in this case, but it could be just males for one and females for the other) are in the category column, the fishing selectivity to be used is given as a selectivity block name which is define somewhere else in the files, $U_max$ is the maximum exploitation rate in any year that is allowed, next comes the time step the fishing operates in, and lastly the block name of a penalty function that is used to penalise estimable parameter values that result in the supplied catch not being caught. Again, the penalty block is define elsewhere in the files. After the row with the column names, there follows one row for each fishery:
+Other information required is supplied in the methods table which has a fixed number of columns (again these can be in any order), one for each piece of information needed to specify a fishery. The method column defines the fishery name which is used in the catch table and also in other observations like age composition from that fishery. The categories that the fishery operates on (all in this case, but it could be just males for one and females for the other) are in the category column, the fishing selectivity to be used is given as a selectivity block name which is define somewhere else in the files, $U_max$ is the maximum exploitation rate that is allowed in any year, then the time step the fishing operates in, and lastly the block name of a penalty function that is used to penalise estimable parameter values that result in the supplied catch not being caught. Again, the penalty block is define elsewhere in the files. After the row with the column names, there is one row for each fishery:
 
 {\small{\begin{verbatim}
 table method        # supply arguments and name selectivity etc
@@ -273,16 +274,15 @@ To estimate natural mortality, you need to supply an \textit{@estimate} block wi
 type normal # prior type
 parameter process[fishing].m  
 # this is a comment
-\*
+/*
 Fishing is unique amongst the @process command blocks
 so this defines the unique reference to the parameter m
-*\
-
+*/
 mu  0.2 0.2   #argument to prior = mean
 sd  0.02 0.02 #another argument to the prior = standard deviation
 \end{verbatim}}}
 
-Note that there are two \textit{m}s, one for each sex, so there has to be two priors. The \textit{\@estiamte} label \textit{estimate.m} is often redundant, but it may be needed in some circumstances.
+Note that there are two \textit{m} values, one for each category, so there are two priors specified. The \textit{\@estimate} label \textit{estimate.m} is often redundant, but it may be needed in some circumstances.
 
 To estimate a common \textit{m} over both sexes, we estimate one \textit{m}, say the female category, and use the \textit{same} subcommand to apply the same value to the male category \textit{m},
 
@@ -291,7 +291,7 @@ To estimate a common \textit{m} over both sexes, we estimate one \textit{m}, say
 type normal
 parameter process[fishing].m{male}
 # {} is used to index one or more elements in a vector
-same process[fishing].m{female} # set female values = male estimated values
+same process[fishing].m{female} # set female value = male estimated value
 # The mean of the prior
 mu  0.2
 # The standard deviation of the prior
@@ -307,18 +307,18 @@ sd  0.02
 Single-stepping means \CNAME\ can 'pause' after each year in the annual cycle during a model run, write reports, then wait and process user input of updated estimable parameters for the next year (see the command line argument \texttt{ -{}-single-step}). Note this is still an experimental feature.
 
 %This enables \CNAME\ to implement models for management simulations or scenarios that require feedback and can be used, for example, in operational management procedures (OMPs). The single-stepping process can be automated using \R, so that \CNAME\ may be used with \R\ to update input harvest values (e.g., catches from a fishery in a fisheries model) to evaluate a particular harvest control rule.
+
 \subsection{\I{Logging and Verifying Models}}\label{sec:LogandVerify}\index{Logging and Verifying Models}
 
-\CNAME\ has an number of information and error message output. This is enabled using the \subcommand{--loglevel} or \subcommand{-L} command line option. See Section~\ref{sec:TroubleShooting-logging} for details on logging. 
+\CNAME\ has a  number of information, warning, and error message outputs. This option is enabled using the \subcommand{--loglevel} or \subcommand{-L} command line option. See Section~\ref{sec:TroubleShooting-logging} for details on logging. 
 
-
-\CNAME\ also applies sanity checks on model configurations. These can be bypassed using the command line option \subcommand{--verifylevel} or \subcommand{-V}. These sanity checks are based on expected model structures e.g. \CNAME\ verifies models have an ageing process. Currently only a few sanity checks are implemented.
+\CNAME\ also applies sanity checks on model configurations. These can be bypassed using the command line option \subcommand{--verifylevel} or \subcommand{-V}. These sanity checks are based on expected model structures, i.e., \CNAME\ verifies models have an ageing process. Currently only a few sanity checks are implemented.
 
 \subsection{\I{Validating models across versions}}\label{sec:Assert}\index{Asserts}\index{Unit tests}
 
-\CNAME\ has a number of built-in capabilities to validate and verify the code across versions. Unit tests of the underlying \CNAME\ code are carried out at build time, using the \href{https://github.com/google/googletest}{Google Test and Mock} unit testing and mocking framework. The unit test framework aims to cover a significant proportion of the key functionality within the \CNAME\ code base. The unit test code\index{Unit tests} for \CNAME\ is available as a part of the underlying source code.
+\CNAME\ has a number of built-in capabilities to validate and verify the code across versions. Unit tests of the \CNAME\ code are carried out at build time, using the \href{https://github.com/google/googletest}{Google Test and Mock} unit testing and mocking framework. The unit test framework aims to cover a significant proportion of the key functionality within the \CNAME\ code base. The unit test code\index{Unit tests} for \CNAME\ is available as a part of the source code.
 
-\CNAME\ can also validate or check certain addressables parameters as a part of testing and validation with the assert command. Asserts check the value of a specific addressables (for example, and observations, parameters, or the objective function). Asserts are one aspect of the internal tests \CNAME\ uses to ensure accuracy across versions and revisions (see Section \ref{syntax:Assert})
+\CNAME\ can also validate or check certain addressables parameters as a part of testing and validation with the assert command. Asserts check the value of a specific addressable (for example, observations, parameters, or the objective function) with a predefined value. Asserts are one aspect of the internal and system tests \CNAME\ has to ensure consistency across versions and revisions (see Section \ref{syntax:Assert})
 
 \subsection{\CNAME\ exit status values\index{Exit status value}}
 
