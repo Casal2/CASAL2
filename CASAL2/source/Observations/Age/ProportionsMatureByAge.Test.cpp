@@ -58,9 +58,8 @@ type recruitment_beverton_holt
 categories spawn nonspawn
 proportions 0.0 1.0
 b0 57570
-ycs_years 1989:1993
-standardise_ycs_years 1991:1993
-ycs_values 1*5
+standardise_years 1992:1994
+recruitment_multipliers 1*5
 steepness 0.75
 ssb SSB
 age 1

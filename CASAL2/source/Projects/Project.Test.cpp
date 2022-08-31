@@ -53,12 +53,11 @@ type recruitment_beverton_holt
 categories HAK4
 proportions 1 
 b0 44000
-standardise_ycs_years 2004 2005 2006
-ycs_values  1*13
+standardise_years  2005 2006 2007
+recruitment_multipliers  1*13
 steepness 0.9
 ssb SSB
 age 1
-ycs_years 1999:2011
 
 @process Ageing
 type ageing
@@ -151,8 +150,8 @@ const string lognormal_project =
     R"(
  @project future_ycs
  type lognormal
- parameter process[Recruitment].ycs_values
- years 2012:2019
+ parameter process[Recruitment].recruitment_multipliers
+ years 2013:2020
  mean 0
  sigma 0.8
 
@@ -165,8 +164,8 @@ const string empirical_project =
     R"(
  @project future_ycs
  type lognormal
- parameter process[Recruitment].ycs_values
- years 2012:2019
+ parameter process[Recruitment].recruitment_multipliers
+ years 2013:2020
  mean 0
  sigma 0.8
 )";
@@ -178,8 +177,8 @@ const string lognormal_empirical_project =
     R"(
  @project future_ycs
  type lognormal
- parameter process[Recruitment].ycs_values
- years 2012:2019
+ parameter process[Recruitment].recruitment_multipliers
+ years 2013:2020
  mean 0
  sigma 0.8
 )";

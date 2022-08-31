@@ -74,7 +74,7 @@ upper_bound 10
 same growth_increment[male_growth].min_sigma
 
 @estimate YCS
-parameter process[Recruit_BH].ycs_values{1985:2021} 
+parameter process[Recruit_BH].recruitment_multipliers{1986:2022} 
 type lognormal
 mu 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1
 cv 0.7 0.7 0.7 0.7 0.7 0.7 0.7 0.7 0.7 0.7 0.7 0.7 0.7 0.7 0.7 0.7 0.7 0.7 0.7 0.7 0.7 0.7 0.7 0.7 0.7 0.7 0.7 0.7 0.7 0.7 0.7 0.7 0.7 0.7 0.7 0.7 0.7

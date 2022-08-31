@@ -1,8 +1,0 @@
-*estimation_result[minimiser_result]
-minimiser: ADOLC
-type: adolc
-Result {s}
-Success
-Message {s}
-Convergence
-*end

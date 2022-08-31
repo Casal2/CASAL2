@@ -155,8 +155,7 @@ type recruitment_beverton_holt
 categories stock
 proportions 1
 b0 75000
-ycs_values   1.3464 1.3797 1.4091 1.4315 1.4447 1.4468 1.4345 1.4047 1.3708 1.3502 0.5748 0.6419 0.7007 0.5146 0.7098 0.5994 0.9078 1.3517 1.0249 0.8798 0.7981 0.6579 0.4325 0.4085 0.2981 0.4483 0.2961 0.4426 1.2456 0.7079 0.5855 0.2521 0.4138 0.3496 0.3109 0.3503 4.0392 4.0392
-ycs_years 1974:2011
+recruitment_multipliers   1.3464 1.3797 1.4091 1.4315 1.4447 1.4468 1.4345 1.4047 1.3708 1.3502 0.5748 0.6419 0.7007 0.5146 0.7098 0.5994 0.9078 1.3517 1.0249 0.8798 0.7981 0.6579 0.4325 0.4085 0.2981 0.4483 0.2961 0.4426 1.2456 0.7079 0.5855 0.2521 0.4138 0.3496 0.3109 0.3503 4.0392 4.0392
 steepness 0.9
 ssb biomass_t1
 age 1
@@ -204,7 +203,7 @@ b 3.288
 
 @parameter_transformation simplex_ycs
 type simplex
-parameters process[Recruitment].ycs_values
+parameters process[Recruitment].recruitment_multipliers
 sum_to_one false
 prior_applies_to_restored_parameters true
 
@@ -225,7 +224,7 @@ TEST_F(InternalEmptyModel, AddressableTransformations_simplex_validate_simplex_c
   vector<Double>*  simplex = model_->objects().GetAddressableVector("parameter_transformation[simplex_ycs].simplex");
   vector<Double> result = {0.3068, 0.3422, 0.3759, 0.4059, 0.4308, 0.4493, 0.4587, 0.4562, 0.4506, 0.4552, -0.4109, -0.3105, -0.2308, -0.5567, -0.2442, -0.4285, -0.014, 0.4078, 0.1384, -0.0151, -0.1188, -0.3286, -0.7825, -0.8793, -1.2468, -0.8848, -1.3637, -1.0216, 0.0146, -0.6021, -0.8672, -1.8379, -1.48, -1.8324, -2.2012, -2.4449, 0};
   vector<Double> ycs_vals_in_config = {1.3464, 1.3797, 1.4091, 1.4315, 1.4447, 1.4468, 1.4345, 1.4047, 1.3708, 1.3502, 0.5748, 0.6419, 0.7007, 0.5146, 0.7098, 0.5994, 0.9078, 1.3517, 1.0249, 0.8798, 0.7981, 0.6579, 0.4325, 0.4085, 0.2981, 0.4483, 0.2961, 0.4426, 1.2456, 0.7079, 0.5855, 0.2521, 0.4138, 0.3496, 0.3109, 0.3503, 4.0392, 4.0392};
-  map<unsigned, Double>* restored_ycs_values = model_->objects().GetAddressableUMap("process[Recruitment].ycs_values");
+  map<unsigned, Double>* restored_recruitment_multipliers_values = model_->objects().GetAddressableUMap("process[Recruitment].recruitment_multipliers");
   // This result was generated against the following R-code
   // Assuming you copy the config about and run casal2 -r > run.out
   // With the added @reports
@@ -259,7 +258,7 @@ TEST_F(InternalEmptyModel, AddressableTransformations_simplex_validate_simplex_c
     EXPECT_NEAR(result[i], (*simplex)[i], 1e-3) << " with i = " << i + 1;
   }
   unsigned counter = 0;
-  for(auto ycs_val : (*restored_ycs_values)) {
+  for(auto ycs_val : (*restored_recruitment_multipliers_values)) {
     EXPECT_NEAR(ycs_vals_in_config[counter], ycs_val.second, 1e-3) << " year = " << ycs_val.first << " counter = " << counter;
     ++counter;
   }

@@ -59,12 +59,12 @@ protected:
   void set_single_values_for_multiple_maps(vector<Double> values);
   void set_single_values_for_multiple_vectors(vector<Double> values);
   void set_single_values_for_multiple_string_maps(vector<Double> values);
-  // how is process[Recruit].ycs_values{2013} treated? is this a single value or a map?
+  // how is process[Recruit].recruitment_multipliers{2013} treated? is this a single value or a map?
   // and process[Instan_mort].m{male} treated? is this a single value or a map?
   // I want these to be single values is that easy?
 
   // These should only be used for special transformations which operate on an entire map/subset or vector/subset vector
-  // i.e only on process[Recruit].ycs_values or process[Recruit].ycs_values{1990:2013}
+  // i.e only on process[Recruit].recruitment_multipliers or process[Recruit].recruitment_multipliers{1990:2013}
   // or
   // selectivity[all_values_bounded].v or selectivity[all_values_bounded].v{1:5}
   // We can catch these from the above separate case as if we

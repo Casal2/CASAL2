@@ -59,8 +59,7 @@ type recruitment_beverton_holt
 categories male female 
 proportions 0.5 0.5
 r0 18958355 
-ycs_values   	      1 * 32 
-ycs_years 1969:2000
+recruitment_multipliers   	      1 * 32 
 steepness 1
 ssb biomass_t1
 age 1
@@ -212,8 +211,7 @@ type recruitment_beverton_holt
 categories male female 
 proportions 0.5 0.5
 r0 34544375 
-ycs_values   	      1 * 32 
-ycs_years 1969:2000
+recruitment_multipliers   	      1 * 32 
 steepness 1
 ssb biomass_t1
 age 1

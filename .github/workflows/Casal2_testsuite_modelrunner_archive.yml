@@ -10,11 +10,11 @@ on:
 ## for a release idea linux is fairly easy
 ## for windows look at this example https://github.com/freenet/wininstaller-innosetup/actions/runs/768471071/workflow
 jobs:
-  Compile-Casal2-linux:
+  Compile-Casal2-Linux:
   # should run on linux based operating system
   # https://docs.github.com/en/actions/using-github-hosted-runners/about-github-hosted-runners#supported-runners-and-hardware-resources
     runs-on: ubuntu-20.04
-    timeout-minutes: 150
+    timeout-minutes: 180
     env:
       CC: gcc-10
       CXX: g++-10
@@ -114,7 +114,7 @@ jobs:
         continue-on-error: true
         uses: actions/upload-artifact@v2.2.4
         with:
-          name: Casal2-linux-modelrunner
+          name: Casal2-Linux-modelrunner
           path: TestModels/
           
       - name: Run Unit Tests from frontend build
@@ -126,10 +126,10 @@ jobs:
         continue-on-error: true
         uses: actions/upload-artifact@v2.2.4
         with:
-          name: Casal2-linux-unittest
+          name: Casal2-Linux-unittest
           path: BuildSystem/Casal2/unittests.log
   Base-R-Ubuntu:
-    needs: Compile-Casal2-linux
+    needs: Compile-Casal2-Linux
     runs-on: ubuntu-20.04
     steps:
       - uses: actions/checkout@v2
@@ -154,7 +154,7 @@ jobs:
         uses: actions/download-artifact@v1.0.0
         with:
           # Artifact name
-          name: Casal2-linux-modelrunner # optional
+          name: Casal2-Linux-modelrunner # optional
           # Destination path
           path: CheckTestModels # optional
       ## now run an R script that will check R-library compatible with exe output
@@ -164,7 +164,7 @@ jobs:
     # https://docs.github.com/en/actions/using-github-hosted-runners/about-github-hosted-runners#supported-runners-and-hardware-resources
     # https://github.com/actions/virtual-environments/blob/main/images/win/Windows2019-Readme.md
     runs-on: windows-2019
-    timeout-minutes: 150
+    timeout-minutes: 180
     steps:
       - uses: actions/checkout@v2
 

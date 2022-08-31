@@ -55,9 +55,8 @@ processes Recruit_BH growth  mortality tag_1996
 @process Recruit_BH
 type recruitment_beverton_holt
 ssb_offset 1
-ycs_years 1985:2011
-standardise_ycs_years 1985:2009
-ycs_values 1.00 1.00 1.00 1.00 1.00 1.00 1.00 1.00 1.00 1.00 1.00 1.00 1.00 1.00 1.00 1.00 1.00 1.00 1.00 1.00 1.00  1.00 1.00 1.00  1.00 1.00 1.00
+standardise_years 1986:2010
+recruitment_multipliers 1.00 1.00 1.00 1.00 1.00 1.00 1.00 1.00 1.00 1.00 1.00 1.00 1.00 1.00 1.00 1.00 1.00 1.00 1.00 1.00 1.00  1.00 1.00 1.00  1.00 1.00 1.00
 b0 1500
 categories untagged
 proportions 1

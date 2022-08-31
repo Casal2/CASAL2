@@ -63,9 +63,8 @@ proportions 1.0
 #categories tagyear=untagged
 #proportions 0.5 0.5
 b0 80000
-standardise_ycs_years 2003:2009 #changed to 2014 to replicate casal which is T or F
-ycs_years 1994:2014
-ycs_values 1*21
+standardise_years 2004:2010 #changed to 2014 to replicate casal which is T or F
+recruitment_multipliers 1*21
 steepness 0.75
 ssb SSB
 age 1

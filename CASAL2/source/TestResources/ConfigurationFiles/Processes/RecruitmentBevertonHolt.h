@@ -4,7 +4,7 @@
  * @date 20/08/2013
  * @section LICENSE
  *
- * Copyright NIWA Science ©2013 - www.niwa.co.nz
+ * Copyright NIWA Science ï¿½2013 - www.niwa.co.nz
  *
  */
 #ifdef TESTMODE
@@ -23,8 +23,8 @@ b0 init_phase_one
 age 1
 ssb ssb
 ssb_offset 1
-standardise_ycs_years 1994 1995 1996 1997 1998 1999 2000 2001 2002 2003 2004 2005 2006
-ycs_values 1.0 0.5 0.6 0.4 1.1 1.2 1.2 1.2 1.2 1.2 1.2 1.2 1.0 1.0 1.0
+standardise_years 1995 1996 1997 1998 1999 2000 2001 2002 2003 2004 2005 2006 2007
+recruitment_multipliers 1.0 0.5 0.6 0.4 1.1 1.2 1.2 1.2 1.2 1.2 1.2 1.2 1.0 1.0 1.0
 steepness 0.75
 )";
 

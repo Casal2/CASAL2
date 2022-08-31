@@ -3,6 +3,10 @@
 @report summary
 type estimate_value
 
+@report rect
+type process
+process Recruitment
+
 @report obj1
 type objective_function
 

@@ -1,0 +1,47 @@
+!include "Population.csl2"
+!include "Observation.csl2"
+!include "Reports.csl2"
+!include "Estimation.csl2"
+
+# SIZE AT AGE
+@age_length vb_male
+type von_bertalanffy
+compatibility_option casal2
+by_length true
+time_step_proportions 0.4 0.0
+k 0.188
+t0 -0.67
+Linf 93.2
+cv_first 0.12
+cv_last 0.12
+distribution normal
+length_weight wgt_male
+
+@age_length vb_female
+type von_bertalanffy
+compatibility_option casal2
+by_length true
+time_step_proportions 0.4 0.0
+k 0.124
+t0 -1.26
+Linf 115.1
+cv_first 0.12
+cv_last 0.12
+distribution normal
+length_weight wgt_female
+
+## Estimation script for LIN3&4 base model (2014 assessment)
+@minimiser betadiff
+type betadiff
+active true
+iterations 500
+evaluations 1000
+tolerance 0.002
+covariance true
+
+
+@assert ObjectiveFunction
+type objective_function
+value 2296.96901
+error_type error
+

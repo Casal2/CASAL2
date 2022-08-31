@@ -4,7 +4,7 @@
  * @date 21/6/2017
  * @section LICENSE
  *
- * Copyright NIWA Science ©2017 - www.niwa.co.nz
+ * Copyright NIWA Science ï¿½2017 - www.niwa.co.nz
  */
 #ifdef TESTMODE
 
@@ -32,10 +32,10 @@ const string LogNormalEmpirical_ycs =
     R"(
 @project future_ycs
 type lognormal_empirical
-parameter process[recruitment].ycs_values
-years 1999:2010
-start_year 1975
-final_year 1999
+parameter process[recruitment].recruitment_multipliers
+years 2001:2012
+start_year 1977
+final_year 2001
 )";
 
 /**
