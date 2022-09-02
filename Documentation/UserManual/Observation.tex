@@ -1037,39 +1037,46 @@ Z \left(\theta,\delta \right) = \begin{cases}
 
 The default value of $\delta$ is $1 \times 10^{-11}$.
 
-\subsubsection*{The dirichlet-multinomial likelihood\index{Multinomial likelihood}}
-The Dirichlet-Mulitnomial can be applied using the linear re-parametrised approach from \citep{thorson2017model}. For the observed proportions at age $O_b$ for composition bin $b$ (age or length), with sample size $N$, expected proportions for the same bin denoted by $E_b$, and estimable overdispersion parameter \(\theta\) the negative log-likelihood is:
+\subsubsection*{The Dirichlet multinomial likelihood\index{Dirichlet multinomial likelihood}}
+
+The Dirichlet multinomial can be applied using the linear re-parametrised approach from \citep{thorson2017model}. For the observed proportions $O_b$ for composition bin $b$ (age or length), with sample size $N$, expected proportions for the same bin denoted by $E_b$, and estimable overdispersion parameter \(\theta\), the negative log-likelihood is:
 
 \begin{align*}
 -\log \left(L \right) &=  -\log \Gamma \left(N + 1 \right) + \sum\limits_b \log \left( \Gamma \left(NO_b + 1\right) \right) + \\
  & \ \ \ \log \Gamma \left(\theta N\right) + \log \Gamma \left(N + \theta N\right)  NO_b - \sum\limits_b \log (NO_b + \theta N E_b) - \log(\theta N E_b)
 \end{align*}
+
 which has an effective sample size \(n_{eff}\)
+
 \[
 n_{eff} \frac{1 + \theta N}{1 + \theta} = \frac{1}{1 + \theta} + n\frac{\theta}{1 + \theta}
 \]
-where effective sample size is a linear function of input sample size with intercept \((1 + \theta)^{-1}\)  and slope \(\frac{\theta}{1 + \theta}\). Interpreting \(\theta\) is if \(\theta\) is large then \(n_{eff} \rightarrow N\) and if \(\theta \ll N \) and \(N > 1\) then \(\theta\) can be interpreted as the ratio of effective sample size over input sample size.
 
+where the effective sample size is a linear function of input sample size with intercept \((1 + \theta)^{-1}\)  and slope \(\frac{\theta}{1 + \theta}\).
 
-If you estimate \(\theta\) it is recommended to put a transformation on it such as log (see below for example syntax). This likelihood is quite different to configure relative to others because it has an estimable parameter you need to define a \command{likelihood} block for this likelihood.
+Interpreting \(\theta\):
+
+\begin{itemize}
+	\item if \(\theta\) is large then \(n_{eff} \rightarrow N\)
+	\item if \(\theta \ll N \) and \(N > 1\) then \(\theta\) can be interpreted as the ratio of the effective sample size over the input sample size.
+\end{itemize}
+
+If you estimate \(\theta\) it is recommended to apply a transformation such as log (see below for example syntax). This likelihood is quite different to configure compared with other likelihood types because it has an estimable parameter you need to define a \command{likelihood} block for.
+
 {\small{\begin{verbatim}
 @likelihood DirichletMultinomialFisheryAge
 type dirichlet_multinomial
 theta 1
-
 
 @observation FisheryAge
 type proportions_at_age
 ...
 likelihood DirichletMultinomialFisheryAge
 
-@parameter_transfomration log_theta
+@parameter_transformation log_theta
 type log
 parameter likelihood[DirichletMultinomialFisheryAge].theta
-
 \end{verbatim}}}
-
-
 
 \subsubsection*{The lognormal likelihood\index{Lognormal likelihood}}
 
