@@ -60,9 +60,8 @@ type recruitment_beverton_holt
 categories stock
 proportions 1
 b0 75000
-standardise_ycs_years 1975 1976 1977 
-ycs_values   	      1.00 1.02472	1.04658	
-ycs_years 1974:1976
+standardise_years 1976:1978
+recruitment_multipliers   	      1.00 1.02472	1.04658	
 steepness 0.9
 ssb biomass_t1
 age 1
@@ -145,7 +144,7 @@ b 3.288
 const std::string avg_diff_fail = R"(
   @parameter_transformation ycs_avg_diff
   type average_difference
-  parameters process[Recruitment].ycs_values{1975} process[Recruitment].ycs_values{1976}
+  parameters process[Recruitment].recruitment_multipliers{1976} process[Recruitment].recruitment_multipliers{1977}
 
   @estimate ycs_avg
   type uniform

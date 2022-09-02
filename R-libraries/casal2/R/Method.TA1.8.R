@@ -74,7 +74,7 @@ Method.TA1.8 <- function(model, observation_labels, plot.it = F, xlim = NULL, yl
 
     obs <- matrix(Data[, "observed"], byrow = T, ncol = n_bins * n_categories, nrow = n_years)
     fit <- matrix(Data[, "expected"], byrow = T, ncol = n_bins * n_categories, nrow = n_years)
-    err <- matrix(Data[, "error_value"], byrow = T, ncol = n_bins * n_categories, nrow = n_years)
+    err <- matrix(Data[, "adjusted_error"], byrow = T, ncol = n_bins * n_categories, nrow = n_years)
 
     rownames(fit) <- rownames(err) <- rownames(obs) <- years
 

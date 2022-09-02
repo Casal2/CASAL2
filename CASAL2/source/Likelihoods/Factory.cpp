@@ -15,6 +15,7 @@
 // Headers
 #include "Factory.h"
 
+#include "../Likelihoods/Common/Bernoulli.h"
 #include "../Likelihoods/Common/Binomial.h"
 #include "../Likelihoods/Common/BinomialApprox.h"
 #include "../Likelihoods/Common/Dirichlet.h"
@@ -43,6 +44,8 @@ Likelihood* Factory::Create(shared_ptr<Model> model, const string& object_type, 
 
   if (sub_type == PARAM_BINOMIAL)
     result = new Binomial(model);
+  else if (sub_type == PARAM_BERNOULLI)
+    result = new Bernoulli(model);
   else if (sub_type == PARAM_BINOMIAL_APPROX)
     result = new BinomialApprox(model);
   else if (sub_type == PARAM_DIRICHLET)

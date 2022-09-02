@@ -21,7 +21,7 @@
 #include "AgeingErrors/AgeingError.h"
 #include "Observations/Observation.h"
 #include "Partition/Accessors/CombinedCategories.h"
-#include "Processes/Age/MortalityInstantaneous.h"
+#include "Processes/Age/Mortality.h"
 
 // Namespace
 namespace niwa {
@@ -29,7 +29,7 @@ namespace observations {
 namespace age {
 
 using partition::accessors::CombinedCategoriesPtr;
-using processes::age::MortalityInstantaneous;
+using processes::age::Mortality;
 
 /**
  * Class Definition
@@ -63,7 +63,7 @@ protected:
   CombinedCategoriesPtr   partition_;
   AgeingError*            ageing_error_ = nullptr;
   vector<Double>          age_results_;
-  MortalityInstantaneous* mortality_instantaneous_ = nullptr;
+  age::Mortality*         mortality_process_ = nullptr;
   vector<string>          time_step_label_;
   string                  process_label_;
   unsigned                time_step_to_execute_;
@@ -77,6 +77,7 @@ protected:
   map<unsigned, map<string, vector<double>>> error_values_;
   bool                    simulated_data_sum_to_one_;
   bool                    sum_to_one_;
+  vector<string>          allowed_mortality_types_;
 };
 
 } /* namespace age */

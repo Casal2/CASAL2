@@ -66,9 +66,8 @@ type recruitment_beverton_holt
 categories stock
 proportions 1
 r0 4.04838e+006
-ycs_years  1989:1996
-standardise_ycs_years 1989 1990 1991 1992 1993 1994 1995 1996
-ycs_values      1.00 1.00 1.00 1.00 1.00 1.00 1.00 1.00
+standardise_years  1990 1991 1992 1993 1994 1995 1996 1997
+recruitment_multipliers      1.00 1.00 1.00 1.00 1.00 1.00 1.00 1.00
 steepness 0.9
 ssb biomass_t1
 age 1
@@ -262,7 +261,6 @@ age_lengths age_len_m age_len_f
 
 @initialisation_phase Equilibrium_phase
 type Derived
-casal_initialisation_switch true
 
 @time_step Jul_Jan
 processes Ageing Recruitment Instantaneous_Mortality
@@ -277,9 +275,8 @@ type recruitment_beverton_holt
 categories male female
 proportions 0.5 0.5
 b0 60000
-standardise_ycs_years          1974:2013
-ycs_values 1.00 1.00 1.00 1.00 1.92 1.11 0.78 0.71 1.00 0.38 0.89 0.66 1.08 0.84 1.06 1.06 1.19 1.31 1.71 0.93 1.92 1.00 1.00 1.00 1.00 1.00 1.00 1.00 1.00 1.00 1.00 1.00 1.00 1.00 1.00 1.00 1.00 1.00 1.00 1.00 1.00 1.00 1.00 1.00
-ycs_years  1974:2017
+standardise_years          1975:2014
+recruitment_multipliers 1.00 1.00 1.00 1.00 1.92 1.11 0.78 0.71 1.00 0.38 0.89 0.66 1.08 0.84 1.06 1.06 1.19 1.31 1.71 0.93 1.92 1.00 1.00 1.00 1.00 1.00 1.00 1.00 1.00 1.00 1.00 1.00 1.00 1.00 1.00 1.00 1.00 1.00 1.00 1.00 1.00 1.00 1.00 1.00
 steepness 0.8
 ssb SSB
 age 1

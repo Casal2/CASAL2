@@ -19,6 +19,7 @@
 // Headers
 #include "../BaseClasses/Manager.h"
 #include "../Processes/Process.h"
+#include "Processes/Age/Mortality.h"
 
 // Namespaces
 namespace niwa {
@@ -39,7 +40,7 @@ public:
   void     Validate(shared_ptr<Model> model);
   void     Verify(shared_ptr<Model> model) final;
   Process* GetProcess(const string& label);
-
+  age::Mortality* GetAgeBasedMortalityProcess(const string& label);
 protected:
   // methods
   Manager();

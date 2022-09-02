@@ -1,0 +1,11 @@
+!include "Population.csl2"
+!include "Estimation.csl2"
+!include "Observation.csl2"
+!include "Reports.csl2"
+
+@assert ObjectiveFunction
+type objective_function
+value 709.014
+error_type error
+tolerance 2e-2
+

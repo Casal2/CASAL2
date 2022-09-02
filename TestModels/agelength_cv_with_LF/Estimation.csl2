@@ -37,7 +37,7 @@ upper_bound 0.6
 ## YCS
 #######
 @estimate YCS
-parameter process[Recruitment].ycs_values{1940:1979}
+parameter process[Recruitment].recruitment_multipliers{1941:1980}
 type lognormal
 mu 	      26489122130 * 40
 cv            2980.958 * 40

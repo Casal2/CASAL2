@@ -76,18 +76,22 @@ void GammaDiff::Execute() {
   clGammaDiff.optimise_finite_differences(call_back, start_values, lower_bounds, upper_bounds, status, max_iterations_, max_evaluations_, gradient_tolerance_, hessian_, 1,
                                           step_size_);
 
-
+  // Note C.M
+  // The convergence check is done at GammaDiff/Engine.cpp line 212
+  // But the convergence_ gets + 2 at line 302.
+  // I have kept the result consistent with line 212, but at a + 2 in the following case: so that it is consistent.
   switch (status) {
-    case -1:
-      result_ = MinimiserResult::kError;
+    case -3 + 2:
+      result_ = MinimiserResult::kUnclearConvergence;
       break;
-    case 0:
+    case -2 + 2:
       result_ = MinimiserResult::kTooManyIterations;
       break;
-    case 1:
+    case -1 + 2:
       result_ = MinimiserResult::kSuccess;
       break;
     default:
+      result_ = MinimiserResult::kError;
       break;
   }
 }

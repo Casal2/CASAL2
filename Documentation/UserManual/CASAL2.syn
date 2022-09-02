@@ -337,11 +337,12 @@ m
 max_age
 max_correlation
 max_generations
+mcmc_fixed
 mean
 method
 method_of_removal
 min_age
-mortality_instantaneous_process
+mortality_process
 mu
 multiplier
 n

@@ -16,8 +16,8 @@ namespace ublas = boost::numeric::ublas;
  * Default constructor
  */
 HessianMatrix::HessianMatrix() {
-  run_mode_    = (RunMode::Type)(RunMode::kBasic | RunMode::kEstimation);
-  model_state_ = State::kFinalise;
+  run_mode_    = (RunMode::Type)(RunMode::kEstimation | RunMode::kProfiling);
+  model_state_ = State::kIterationComplete;
 }
 
 /**

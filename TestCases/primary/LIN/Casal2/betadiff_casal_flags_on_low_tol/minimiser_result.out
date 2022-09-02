@@ -1,8 +1,0 @@
-*estimation_result[minimiser_result]
-minimiser: betadiff
-type: betadiff
-Result {s}
-Success
-Message {s}
-Convergence
-*end

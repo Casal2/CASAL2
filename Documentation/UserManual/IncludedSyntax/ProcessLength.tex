@@ -434,100 +434,21 @@ The null\_process  type has no additional subcommands. Note that this process do
 \defType{String}
 \defDefault{No default}
 
-\defSub{ycs\_values}{The YCS values}
+
+\defSub{ycs\_values}{Deprecated}
+\defSub{ycs\_years}{Deprecated}
+\defSub{standardise\_ycs\_years}{Deprecated}
+
+
+\defSub{recruitment\_multipliers}{The recruitment values also termed year class strengths.}
 \defType{Vector of real numbers (estimable)}
 \defDefault{No default}
 
-\defSub{ycs\_years}{The recruitment years. A vector of years that relates to the year of the spawning event that created this cohort}
-\defType{Vector of non-negative integers}
-\defDefault{false}
 
-\defSub{standardise\_ycs\_years}{The years that are included for year class standardisation}
+\defSub{standardise\_years}{The years that are included for year class standardisation, they refer to the recruited year not spawning or year class year.}
 \defType{Vector of non-negative integers}
 \defDefault{true}
 
-\subsubsection{Process of type Recruitment Beverton Holt With Deviations}
-\commandlabsubarg{process}{type}{Recruitment\_Beverton\_Holt\_With\_Deviations}.
-\defRef{sec:Process-RecruitmentBevertonHoltWithDeviations}
-\label{syntax:Process-RecruitmentBevertonHoltWithDeviations}
-
-\defSub{categories}{The category labels}
-\defType{Vector of strings}
-\defDefault{No default}
-
-\defSub{r0}{R0, the mean recruitment used to scale annual recruits or initialise the model}
-\defType{Real number (estimable)}
-\defDefault{No default}
-\defLowerBound{0.0 (inclusive)}
-\defValue{Use either R0 or B0, but not both}
-
-\defSub{b0}{B0, the SSB corresponding to R0, and used to scale annual recruits or initialise the model}
-\defType{Real number (estimable)}
-\defDefault{No default}
-\defLowerBound{0.0 (inclusive)}
-\defValue{Use either R0 or B0, but not both}
-
-\defSub{proportions}{The proportion for each category}
-\defType{Real number (estimable)}
-\defDefault{No default}
-
-\defSub{age}{The age at recruitment}
-\defType{Non-negative integer}
-\defDefault{true}
-
-\defSub{ssb\_offset}{The spawning biomass year offset}
-\defType{Non-negative integer}
-\defDefault{No default}
-
-\defSub{steepness}{Steepness (h)}
-\defType{Real number (estimable)}
-\defDefault{1.0}
-\defLowerBound{0.2 (inclusive)}
-\defUpperBound{1.0 (inclusive)}
-
-\defSub{ssb}{The SSB label (i.e., the derived quantity label)}
-\defType{String}
-\defDefault{No default}
-\defValue(A valid derived quantity)
-
-\defSub{sigma\_r}{The standard deviation of recruitment, $\sigma_R$}
-\defType{Real number (estimable)}
-\defDefault{No default}
-\defLowerBound{0.0 (inclusive)}
-
-\defSub{b\_max}{The maximum bias adjustment}
-\defType{Real number (estimable)}
-\defDefault{0.85}
-\defLowerBound{0.0 (inclusive)}
-\defUpperBound{1.0 (inclusive)}
-
-\defSub{last\_year\_with\_no\_bias}{The last year with no bias adjustment}
-\defType{Non-negative integer}
-\defDefault{false}
-
-\defSub{first\_year\_with\_bias}{The first year with full bias adjustment}
-\defType{Non-negative integer}
-\defDefault{false}
-
-\defSub{last\_year\_with\_bias}{The last year with full bias adjustment}
-\defType{Non-negative integer}
-\defDefault{false}
-
-\defSub{first\_recent\_year\_with\_no\_bias}{The first recent year with no bias adjustment}
-\defType{Non-negative integer}
-\defDefault{false}
-
-\defSub{b0\_initialisation\_phase}{The initialisation phase label that B0 is from}
-\defType{String}
-\defDefault{No default}
-
-\defSub{deviation\_values}{The recruitment deviation values}
-\defType{Vector of real numbers (estimable)}
-\defDefault{No default}
-
-\defSub{deviation\_years}{The recruitment years. A vector of years that relates to the year of the spawning event that created this cohort}
-\defType{Vector of non-negative integers}
-\defDefault{false}
 
 \subsubsection{Process of type Recruitment Constant}
 \commandlabsubarg{process}{type}{Recruitment\_Constant}.

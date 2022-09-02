@@ -43,17 +43,17 @@ void Manager::Build() {
 void Manager::Build(shared_ptr<Model> model) {
   LOG_TRACE();
   if (model->run_mode() == RunMode::kProjection) {
-    bool ycs_values_exist = false;
+    bool recruitment_multipliers_exist = false;
     for (auto project : objects_) {
       LOG_FINE() << "Building Project: " << project->label();
       project->Build();
-      if (project->parameter().find(PARAM_YCS_VALUES) != string::npos)
-        ycs_values_exist = true;
+      if (project->parameter().find(PARAM_RECRUITMENT_MULTIPLIERS) != string::npos)
+        recruitment_multipliers_exist = true;
     }
-    if (!ycs_values_exist) {
+    if (!recruitment_multipliers_exist) {
       for (auto process : model->managers()->process()->objects()) {
         if (process->type() == PARAM_RECRUITMENT_BEVERTON_HOLT)
-          LOG_ERROR() << process->location() << " does not have a @project command for ycs_values";
+          LOG_ERROR() << process->location() << " does not have a @project command for recruitment_multipliers";
       }
     }
   }

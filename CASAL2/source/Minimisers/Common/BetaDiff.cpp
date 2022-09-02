@@ -97,17 +97,22 @@ void BetaDiff::Execute() {
     }
   }
   LOG_FINE() << "return convergence";
+  // Note C.M
+  // The convergence check is done at include/Betadiff.h line 1094
+  // But the convergence gets + 2 at line 1167 and 1367
+  // I have kept the result consistent with line 1094, but at a + 2 in the following case: so that it is consistent with the reported convergence
   switch (convergence) {
-    case -1:
-      result_ = MinimiserResult::kError;
+    case -3 + 2:
+      result_ = MinimiserResult::kUnclearConvergence;
       break;
-    case 0:
+    case -2 + 2:
       result_ = MinimiserResult::kTooManyIterations;
       break;
-    case 1:
+    case -1 + 2:
       result_ = MinimiserResult::kSuccess;
       break;
     default:
+      result_ = MinimiserResult::kError;
       break;
   }
 }

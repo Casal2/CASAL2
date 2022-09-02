@@ -1,12 +1,96 @@
 
+[INFO] Estimable parameters were loaded from the free parameter file: free.dat
+[WARNING] obs sum total (1) for year (1989) doesn't sum to 1.0
+[WARNING] obs sum total (1) for year (1990) doesn't sum to 1.0
+[WARNING] obs sum total (0.999999) for year (1991) doesn't sum to 1.0
+[WARNING] obs sum total (1) for year (1994) doesn't sum to 1.0
+[WARNING] obs sum total (1) for year (1995) doesn't sum to 1.0
+[WARNING] obs sum total (1) for year (1996) doesn't sum to 1.0
+[WARNING] obs sum total (1) for year (1998) doesn't sum to 1.0
+[WARNING] obs sum total (1) for year (1999) doesn't sum to 1.0
+[WARNING] obs sum total (0.999999) for year (2001) doesn't sum to 1.0
+[WARNING] obs sum total (1) for year (2002) doesn't sum to 1.0
+[WARNING] obs sum total (1) for year (2003) doesn't sum to 1.0
+[WARNING] obs sum total (0.999998) for year (2004) doesn't sum to 1.0
+[WARNING] obs sum total (0.999998) for year (2005) doesn't sum to 1.0
+[WARNING] obs sum total (1) for year (2006) doesn't sum to 1.0
+[WARNING] obs sum total (1) for year (2007) doesn't sum to 1.0
+[WARNING] obs sum total (1) for year (2008) doesn't sum to 1.0
+[WARNING] obs sum total (1) for year (2009) doesn't sum to 1.0
+[WARNING] obs sum total (1) for year (2010) doesn't sum to 1.0
+[WARNING] obs sum total (1) for year (2015) doesn't sum to 1.0
+[WARNING] obs sum total (1) for year (1988) doesn't sum to 1.0
+[WARNING] obs sum total (0.999999) for year (1989) doesn't sum to 1.0
+[WARNING] obs sum total (0.999998) for year (1990) doesn't sum to 1.0
+[WARNING] obs sum total (1) for year (1991) doesn't sum to 1.0
+[WARNING] obs sum total (0.999999) for year (1992) doesn't sum to 1.0
+[WARNING] obs sum total (1) for year (1998) doesn't sum to 1.0
+[WARNING] obs sum total (1) for year (1999) doesn't sum to 1.0
+[WARNING] obs sum total (1) for year (2000) doesn't sum to 1.0
+[WARNING] obs sum total (1) for year (2002) doesn't sum to 1.0
+[WARNING] obs sum total (0.999999) for year (2003) doesn't sum to 1.0
+[WARNING] obs sum total (1) for year (2004) doesn't sum to 1.0
+[WARNING] obs sum total (1) for year (2005) doesn't sum to 1.0
+[WARNING] obs sum total (0.999999) for year (2006) doesn't sum to 1.0
+[WARNING] obs sum total (1) for year (2007) doesn't sum to 1.0
+[WARNING] obs sum total (1) for year (2008) doesn't sum to 1.0
+[WARNING] obs sum total (1) for year (2009) doesn't sum to 1.0
+[WARNING] obs sum total (0.999999) for year (2011) doesn't sum to 1.0
+[WARNING] obs sum total (1) for year (2014) doesn't sum to 1.0
+[WARNING] obs sum total (1) for year (2015) doesn't sum to 1.0
+[WARNING] obs sum total (1) for year (1998) doesn't sum to 1.0
+[WARNING] obs sum total (0.999999) for year (1999) doesn't sum to 1.0
+[WARNING] obs sum total (0.999999) for year (2000) doesn't sum to 1.0
+[WARNING] obs sum total (0.999999) for year (2001) doesn't sum to 1.0
+[WARNING] obs sum total (1) for year (2003) doesn't sum to 1.0
+[WARNING] obs sum total (1) for year (2004) doesn't sum to 1.0
+[WARNING] obs sum total (0.999999) for year (2007) doesn't sum to 1.0
+[WARNING] obs sum total (1) for year (2009) doesn't sum to 1.0
+[WARNING] obs sum total (1) for year (2010) doesn't sum to 1.0
+[WARNING] obs sum total (1) for year (2011) doesn't sum to 1.0
+[WARNING] obs sum total (1) for year (2012) doesn't sum to 1.0
+[WARNING] obs sum total (1) for year (2014) doesn't sum to 1.0
+[WARNING] obs sum total (1) for year (2015) doesn't sum to 1.0
+[WARNING] obs sum total (1) for year (1993) doesn't sum to 1.0
+[WARNING] obs sum total (1) for year (1996) doesn't sum to 1.0
+[WARNING] obs sum total (0.999999) for year (1999) doesn't sum to 1.0
+[WARNING] obs sum total (0.999999) for year (2001) doesn't sum to 1.0
+[WARNING] obs sum total (0.999999) for year (2003) doesn't sum to 1.0
+[WARNING] obs sum total (1) for year (2004) doesn't sum to 1.0
+[WARNING] obs sum total (0.999997) for year (2006) doesn't sum to 1.0
+[WARNING] obs sum total (0.999999) for year (2009) doesn't sum to 1.0
+[WARNING] obs sum total (1) for year (2010) doesn't sum to 1.0
+[WARNING] obs sum total (1) for year (2011) doesn't sum to 1.0
+[WARNING] obs sum total (1) for year (2012) doesn't sum to 1.0
+[WARNING] obs sum total (1) for year (2013) doesn't sum to 1.0
+[WARNING] obs sum total (1) for year (1992) doesn't sum to 1.0
+[WARNING] obs sum total (0.999998) for year (1994) doesn't sum to 1.0
+[WARNING] obs sum total (0.999999) for year (1995) doesn't sum to 1.0
+[WARNING] obs sum total (0.999999) for year (1999) doesn't sum to 1.0
+[WARNING] obs sum total (0.999999) for year (2004) doesn't sum to 1.0
+[WARNING] obs sum total (1) for year (2005) doesn't sum to 1.0
+[WARNING] obs sum total (0.999999) for year (2006) doesn't sum to 1.0
+[WARNING] obs sum total (1) for year (2007) doesn't sum to 1.0
+[WARNING] obs sum total (0.999999) for year (2010) doesn't sum to 1.0
+[WARNING] obs sum total (0.999996) for year (2012) doesn't sum to 1.0
+[WARNING] obs sum total (1) for year (2013) doesn't sum to 1.0
+[WARNING] obs sum total (0.999999) for year (2014) doesn't sum to 1.0
+[WARNING] obs sum total (0.999999) for year (2016) doesn't sum to 1.0
+[WARNING] obs sum total (0.999999) for year (1992) doesn't sum to 1.0
+[WARNING] obs sum total (0.999998) for year (1993) doesn't sum to 1.0
+[WARNING] obs sum total (0.999999) for year (2001) doesn't sum to 1.0
+[WARNING] obs sum total (0.999998) for year (2004) doesn't sum to 1.0
+[WARNING] obs sum total (1) for year (2006) doesn't sum to 1.0
+[WARNING] obs sum total (0.999999) for year (2007) doesn't sum to 1.0
+[WARNING] obs sum total (1) for year (2009) doesn't sum to 1.0
+[WARNING] obs sum total (1) for year (2012) doesn't sum to 1.0
+[WARNING] obs sum total (0.999999) for year (2013) doesn't sum to 1.0
+[WARNING] obs sum total (1) for year (1998) doesn't sum to 1.0
 [WARNING] Estimates were removed because of matching lower and upper bounds. Originally had 150 estimates, now have 149
-[INFO] Creating default report for catchability CSacous
-[INFO] Creating default report for catchability WCacous
-[INFO] Creating default report for catchability CRsum
-[INFO] Creating default report for catchability SAsum
-[INFO] Creating default report for catchability SAaut
+[INFO] Creating default report for tabular catchability __catchabilities__
 [INFO] Creating default report for derived quantity SSB_E
 [INFO] Creating default report for derived quantity SSB_W
+[INFO] Creating default report for addressable transformations log_sum_b0
 [INFO] Creating default report for observation CSacous
 [INFO] Creating default report for observation WCacous
 [INFO] Creating default report for observation CRsumbio
@@ -32,75 +116,9 @@
 [INFO] Creating default report for process recruit_W
 [INFO] Creating default report for process recruit_E
 [INFO] Creating default report for process Instant_mortality
-[INFO] Creating default report for selectivity M_male
-[INFO] Creating default report for selectivity M_female
-[INFO] Creating default report for selectivity Enspsl
-[INFO] Creating default report for selectivity Wnspsl
-[INFO] Creating default report for selectivity Espsl
-[INFO] Creating default report for selectivity Wspsl
-[INFO] Creating default report for selectivity CRsl
-[INFO] Creating default report for selectivity SAsl
-[INFO] Creating default report for selectivity sel_Whome
-[INFO] Creating default report for selectivity sel_Espmg_Male
-[INFO] Creating default report for selectivity sel_Espmg_Female
-[INFO] Creating default report for selectivity sel_Wspmg_Male
-[INFO] Creating default report for selectivity sel_Wspmg_Female
-[INFO] Creating default report for selectivity One
-[INFO] Creating default report for selectivity Point5
-[WARNING] Cannot report the length-based selectivity values. This report (__Enspsl__) is being ignored. This can be done using the Casal2 R package. See the User Manual for more information
-[WARNING] Cannot report the length-based selectivity values. This report (__Wnspsl__) is being ignored. This can be done using the Casal2 R package. See the User Manual for more information
-[WARNING] Cannot report the length-based selectivity values. This report (__Espsl__) is being ignored. This can be done using the Casal2 R package. See the User Manual for more information
-[WARNING] Cannot report the length-based selectivity values. This report (__Wspsl__) is being ignored. This can be done using the Casal2 R package. See the User Manual for more information
-[WARNING] Cannot report the length-based selectivity values. This report (__CRsl__) is being ignored. This can be done using the Casal2 R package. See the User Manual for more information
-[WARNING] Cannot report the length-based selectivity values. This report (__SAsl__) is being ignored. This can be done using the Casal2 R package. See the User Manual for more information
-[INFO] Initiating basic run mode
-[INFO] Estimable parameters were loaded from the free parameter file: free.dat
+[INFO] Creating default report for projections __projections__
+[INFO] Creating default report for selectivity __selectivities__
 [INFO] Tabular mode for reports of type initialisation_partition has not been implemented
-[INFO] Tabular mode for reports of type year_age_matrix has not been implemented
-[INFO] Tabular mode for reports of type year_age_matrix has not been implemented
-[INFO] Tabular mode for reports of type year_age_matrix has not been implemented
-[INFO] Tabular mode for reports of type year_age_matrix has not been implemented
-[INFO] Tabular mode for reports of type year_age_matrix has not been implemented
-[INFO] Tabular mode for reports of type year_age_matrix has not been implemented
-[INFO] Tabular mode for reports of type year_age_matrix has not been implemented
-[INFO] Tabular mode for reports of type year_age_matrix has not been implemented
-[INFO] Tabular mode for reports of type year_age_matrix has not been implemented
-[INFO] Tabular mode for reports of type year_age_matrix has not been implemented
-[INFO] Tabular mode for reports of type year_age_matrix has not been implemented
-[INFO] Tabular mode for reports of type year_age_matrix has not been implemented
-[INFO] Tabular mode for reports of type year_age_matrix has not been implemented
-[INFO] Tabular mode for reports of type year_age_matrix has not been implemented
-[INFO] Tabular mode for reports of type year_age_matrix has not been implemented
-[INFO] Tabular mode for reports of type year_age_matrix has not been implemented
-[INFO] Tabular mode for reports of type year_age_matrix has not been implemented
-[INFO] Tabular mode for reports of type year_age_matrix has not been implemented
-[INFO] Tabular mode for reports of type year_age_matrix has not been implemented
-[INFO] Tabular mode for reports of type year_age_matrix has not been implemented
-[INFO] Tabular mode for reports of type year_age_matrix has not been implemented
-[INFO] Tabular mode for reports of type year_age_matrix has not been implemented
-[INFO] Tabular mode for reports of type year_age_matrix has not been implemented
-[INFO] Tabular mode for reports of type year_age_matrix has not been implemented
-[INFO] Tabular mode for reports of type year_age_matrix has not been implemented
-[INFO] Tabular mode for reports of type year_age_matrix has not been implemented
-[INFO] Tabular mode for reports of type year_age_matrix has not been implemented
-[INFO] Tabular mode for reports of type year_age_matrix has not been implemented
-[INFO] Tabular mode for reports of type year_age_matrix has not been implemented
-[INFO] Tabular mode for reports of type year_age_matrix has not been implemented
-[INFO] Tabular mode for reports of type year_age_matrix has not been implemented
-[INFO] Tabular mode for reports of type year_age_matrix has not been implemented
-[INFO] Tabular mode for reports of type year_age_matrix has not been implemented
-[INFO] Tabular mode for reports of type year_age_matrix has not been implemented
-[INFO] Tabular mode for reports of type year_age_matrix has not been implemented
-[INFO] Tabular mode for reports of type year_age_matrix has not been implemented
-[INFO] Tabular mode for reports of type year_age_matrix has not been implemented
-[INFO] Tabular mode for reports of type year_age_matrix has not been implemented
-[INFO] Tabular mode for reports of type year_age_matrix has not been implemented
-[INFO] Tabular mode for reports of type year_age_matrix has not been implemented
-[INFO] Tabular mode for reports of type year_age_matrix has not been implemented
-[INFO] Tabular mode for reports of type year_age_matrix has not been implemented
-[INFO] Tabular mode for reports of type year_age_matrix has not been implemented
-[INFO] Tabular mode for reports of type year_age_matrix has not been implemented
-[INFO] Tabular mode for reports of type year_age_matrix has not been implemented
-[INFO] Tabular mode for reports of type objective_function has not been implemented
+[INFO] Initiating basic run mode
 [INFO] Completed
 [INFO] Total elapsed time: 1 seconds

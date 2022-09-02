@@ -1,8 +1,0 @@
-*estimation_result[minimiser_result]
-minimiser: cppad
-type: cppad
-Result {s}
-Success
-Message {s}
-Convergence
-*end

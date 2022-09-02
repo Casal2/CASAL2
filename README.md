@@ -1,4 +1,4 @@
-![Validation Pass](https://github.com/NIWAFisheriesModelling/CASAL2/actions/workflows/pull_request.yml/badge.svg)
+![Validation Pass](https://github.com/NIWAFisheriesModelling/CASAL2/actions/workflows/Casal2_testsuite_modelrunner_archive.yml/badge.svg)
 
 Casal2
 ======
@@ -9,7 +9,7 @@ This repository contains the required libraries and source code to compile and r
 
 ## Auxiliary resources
 
-R packages and auxiliary material that assist with interacting, intepreting and applying Casal2 models see [this repository](https://github.com/NIWAFisheriesModelling/Casal2_contrib)
+An R package that will help post processing Casal2 models can be found here [r4Casal2](https://github.com/NIWAFisheriesModelling/r4Casal2). It has a publicly hosted book [found here](https://niwafisheriesmodelling.github.io/r4Casal2/) which demonstrates functionality of the r4Casal2 R package.
 
 ## Releases
 

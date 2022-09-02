@@ -43,12 +43,13 @@ type recruitment_beverton_holt
 categories HAK4
 proportions 1 
 b0 44000
-ycs_years 1974:2011
-ycs_values   	      1.00 1.00 1.00 1.00 1.00 1.00 1.00 1.00 1.00 1.00 1.00 1.00 1.00 1.00 1.00 1.00 1.00 1.00 1.00 1.00 1.00 1.00 1.00 1.00 1.00 1.00 1.00 1.00 1.00 1.00 1.00 1.00 1.00 1.00 1.00 1.00 1.00 1.00
+#ycs_years 1974:2011
+#standardise_ycs_years 1975:2009
+standardise_years 1976:2010
+recruitment_multipliers   	      1.00 1.00 1.00 1.00 1.00 1.00 1.00 1.00 1.00 1.00 1.00 1.00 1.00 1.00 1.00 1.00 1.00 1.00 1.00 1.00 1.00 1.00 1.00 1.00 1.00 1.00 1.00 1.00 1.00 1.00 1.00 1.00 1.00 1.00 1.00 1.00 1.00 1.00
 steepness 0.9
 ssb SSB
 age 1
-standardise_ycs_years 1975:2009
 
 # Ageing
 @process Ageing

@@ -20,7 +20,7 @@
 #include "Observations/Observation.h"
 #include "Partition/Accessors/Cached/CombinedCategories.h"
 #include "Partition/Accessors/CombinedCategories.h"
-#include "Processes/Age/MortalityInstantaneousRetained.h"
+#include "Processes/Age/Mortality/MortalityInstantaneousRetained.h"
 
 // Namespace
 namespace niwa {
@@ -74,9 +74,14 @@ protected:
   vector<Double>              expected_values_;
   map<unsigned, map<string, vector<double>>> proportions_;
   map<unsigned, map<string, vector<double>>> error_values_;
+
+  vector<string>          allowed_mortality_types_;
+
+
 };
 
 } /* namespace age */
+
 } /* namespace observations */
 } /* namespace niwa */
 

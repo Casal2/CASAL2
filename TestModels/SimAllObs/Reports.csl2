@@ -1,0 +1,26 @@
+## Print estimate values
+
+@report simulate_all_obs
+type simulated_observation
+file_name sim/sim_all_obs
+
+
+## Derived Quantities
+@report DerivedQuantities
+type derived_quantity
+derived_quantity SSB
+
+@report CPUE_index
+type observation
+observation CPUEandes
+
+
+@report fishery_LF
+type observation
+observation Obs_Andes_LF
+pearsons_residuals True
+
+
+@report nuisance_Q
+type catchability
+catchability Qandes

@@ -38,6 +38,7 @@ protected:
 private:
   // members
   parameters::Table* data_table_ = nullptr;
+  Double             tol_        = 1e-5;
 };
 
 } /* namespace ageingerrors */

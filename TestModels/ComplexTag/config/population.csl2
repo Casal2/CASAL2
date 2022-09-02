@@ -49,8 +49,8 @@ categories M.untagged F.untagged
 proportions 0.5 0.5
 b0 80000
 #standardise_ycs_years 2003:2010
-ycs_years 1989:2015
-ycs_values 1*27
+#ycs_years 1989:2015
+recruitment_multipliers 1*27
 steepness 0.75
 ssb SSB
 age 1

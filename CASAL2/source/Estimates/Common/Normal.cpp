@@ -5,7 +5,7 @@
  * @date 8/03/2013
  * @section LICENSE
  *
- * Copyright NIWA Science ©2013 - www.niwa.co.nz
+ * Copyright NIWA Science ï¿½2013 - www.niwa.co.nz
  *
  * $Date: 2008-03-04 16:33:32 +1300 (Tue, 04 Mar 2008) $
  */
@@ -36,6 +36,18 @@ Double Normal::GetScore() {
   Double score_ = 0.5 * ((value() - mu_) / (cv_ * mu_)) * ((value() - mu_) / (cv_ * mu_));
   return score_;
 }
-
+/**
+ * GetPriorValues()
+ *
+ * @return vector of mu and sigma
+ */
+vector<Double>   Normal::GetPriorValues() {
+  vector<Double> result = {mu_, cv_};
+  return result;
+}
+vector<string>   Normal::GetPriorLabels() {
+  vector<string> result = {PARAM_MU, PARAM_CV};
+  return result;
+}
 } /* namespace estimates */
 } /* namespace niwa */

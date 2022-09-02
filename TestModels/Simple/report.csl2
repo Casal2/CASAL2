@@ -5,9 +5,18 @@ value 682.978401796
 @report obj
 type objective_function
 
-@report rec
-type process
-process Recruitment
+@report default
+type default
+processes true
+observations true
+derived_quantities true
+selectivities true 
+
+
+@report partition_step1
+type partition
+time_step step1
+
 
 @report estimate_value
 type estimate_value

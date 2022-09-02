@@ -143,7 +143,7 @@ years 2001:2005
 type process_removals_by_weight
 method_of_removal FishingPot
 time_step 1
-mortality_instantaneous_process mort
+mortality_process mort
 likelihood multinomial
 delta 1e-11
 years 2001

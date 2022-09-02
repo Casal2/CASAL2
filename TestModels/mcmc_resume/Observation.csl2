@@ -103,7 +103,7 @@ time_step_proportion 1.0
 type process_removals_by_age
 likelihood multinomial
 time_step step1
-mortality_instantaneous_process instant_mort
+mortality_process instant_mort
 categories stock
 method_of_removal FishingWest
 min_age 3
@@ -159,7 +159,7 @@ end_table
 type process_removals_by_age
 likelihood multinomial
 time_step step1
-mortality_instantaneous_process instant_mort
+mortality_process instant_mort
 categories stock
 method_of_removal FishingEest
 min_age 4
@@ -192,7 +192,7 @@ end_table
 ## This is the ageing error matrix from CASAL
 @ageing_error Normal_ageing
 type data
-table table
+table data
 1	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0
 0.00110432	0.997791	0.00110432	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0
 0	0.0184686	0.963063	0.0184686	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0

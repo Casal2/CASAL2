@@ -183,8 +183,18 @@ The parameters to be profiled are specified, and optionally the number of steps,
 
 The initial starting point for the estimation can also be specified using \texttt{\cname\ -i \emph{file}}, which may improve the minimiser performance for the profiles.
 
-If the profile results are not reasonable, it may be a result of not using enough iterations in the minimiser or a poor choice of minimiser control variables (e.g., the minimiser tolerance). It may also be useful to try other minimisers and compare the results.
+If the profile results are not reasonable, it may be a result of not using enough iterations in the minimiser or a poor choice of minimiser control variables (e.g., the minimiser tolerance). It may also be useful to try other minimisers and compare the results. An example excerpt follows, but also see the syntax at Section~\ref{syntax:Profile}.
 
+{\small{\begin{verbatim}
+		@profile B0
+		parameter process[Recruitment_east].b0
+		steps 10
+		lower_bound 10000
+		upper_bound 100000
+		## you can force other parameters to be the same
+		same process[Recruitment_west].b0
+		\end{verbatim}}}
+	
 To run a \CNAME\ you will need to supply the following reports
 
 {\small{\begin{verbatim}
@@ -280,7 +290,7 @@ The procedure used to choose the sample of points is that, to start, all points 
 
 The probability of acceptance for each jump is $0$ if the jump would move a parameter value outside of its bounds, $1$ if it improves the posterior, or $(new posterior/old posterior)$ otherwise. How often the position of the chain is recorded is specified with the \texttt{keep} parameter. For example, with \texttt{keep 10}, only every $10$th sample is recorded.
 
-\TODO [this option is currently disabled]: The option to specify that some of the estimated parameters are fixed during the MCMC is available. If the chain starts at the point estimate or at a random location, these fixed parameters are set to their values at the point estimate.
+The option to specify that some of the estimated parameters are fixed during the MCMC is available via the \subcommand{mcmc\_fixed} in the \command{estimate} block. If the chain starts at the point estimate or at a random location, these fixed parameters are set to their values at the end of estimation during the MCMC phase.
 
 If  the start of the chain is specified with the command \texttt{\cname\ -i}, these fixed parameters are set to the values in the file.
 
@@ -292,13 +302,24 @@ casal2 -R MPD_file --objective-file objectives_file --sample-file samples_file
 
 where \texttt{Objective\_file\_name} is the file name for the objective function report and \texttt{Sample\_file\_name} is the file name for the sample report from a MCMC chain.
 
-The posterior sample can be used for (projections (Section \ref{sec:Project})) or simulations (see Section \ref{sec:Simulate}) with the values supplied with the command \texttt{\cname\ -i \emph{file}}.
+The posterior sample can be used for (projections (Section \ref{sec:Project})) or simulations (see Section \ref{sec:Simulate}) with the values supplied with the command \texttt{\cname\ -i \emph{file} --t}.
 
 A multivariate Student's $t$ distribution is used as an alternative to the multivariate normal proposal distribution. If you request multivariate Student's $t$ proposals, change the degrees of freedom from the default of 4. As the degrees of freedom decreases, the $t$ distribution becomes more heavy tailed. This may lead to better convergence properties. Note the default is the multivariate Student's $t$.
 
 Given a posterior (sub)sample, \CNAME\ can calculate a list of output quantities for each sample point (see Section~\ref{sec:Report} specifically tabular report). These quantities can be output to a file (with the command \texttt{\cname\ -r --tabular}) and read into an external software package where the posterior distributions can be plotted and/or summarised.
 
 The posterior sample can also be used for projections (Section~\ref{sec:Project}). The advantage of this is that the parameter uncertainty, as expressed in the posterior distribution, can be included into the risk estimates.
+
+\CNAME\ will error out if asked to run MCMC for a model that does not contain the following reports,
+{\small{\begin{verbatim}
+@report mcmc_samples
+type mcmc_sample
+
+@report mcmc_objectives
+type mcmc_objective
+\end{verbatim}}}
+
+The default file name for these reports are \texttt{samples} and \texttt{objectives}. The \subcommand{write\_mode} will default to increment suffix, which means each time you re-run an MCMC in a directory with the same file name, it will increment the extension.
 
 \subsection{Priors\label{sec:Priors}}
 
@@ -652,7 +673,7 @@ $\begin{vmatrix} \frac{\partial}{\partial y} f^{-1}(y) \end{vmatrix}$ Hasn't bee
 \label{sec:Transformation-LogSum}
 {\small{\begin{verbatim}
 		@parameter_transformation log_total_r0
-		type average_difference
+		type log_sum
 		parameters process[Recruitment_east].r0 process[Recruitment_west].r0
 		
 		@estimate log_total_r0
@@ -679,6 +700,23 @@ $X_2 = \sqrt{Y_1 / Y_2}$\\
 $\begin{vmatrix} \frac{\partial}{\partial y} f^{-1}(y) \end{vmatrix} = 2Y_2$\\\\
 \label{sec:Transformation-Orthogonal}
 
+{\small{\begin{verbatim}
+			@parameter_transformation orthogonal_trans
+			type orthogonal
+			parameters process[Recruitment].r0 catchability[CPUEQ].q
+			
+			@estimate B0_times_q
+			type uniform
+			parameter parameter_transformation[orthogonal_trans].product_parameter
+			lower_bound 0.1
+			upper_bound 2500
+			
+			@estimate B0_divide_q
+			type uniform
+			parameter parameter_transformation[orthogonal_trans].quotient_parameter
+			lower_bound 0.001
+			upper_bound 1e8	
+\end{verbatim}}}
 
 \item \subcommand{type} \subcommand{logistic} : logistic transformation\\
 \subcommand{jacobian known = true}\\
@@ -707,25 +745,25 @@ $f^{-1}() = lb +(ub - lb)  logit^{-1}()$
 \subcommand{jacobian defined = false}\\
 \label{sec:Transformation-SumToOne}
 {\small{\begin{verbatim}
-		@parameter_transformation orthogonal_trans
-		type average_difference
-		parameters process[Recruitment].r0 catchability[CPUEQ].q
-		
-		@estimate B0_times_q
-		type uniform
-		parameter parameter_transformation[orthogonal_trans].product_parameter
-		lower_bound 0.1
-		upper_bound 2500
-		
-		@estimate B0_divide_q
-		type uniform
-		parameter parameter_transformation[orthogonal_trans].quotient_parameter
-		lower_bound 0.001
-		upper_bound 1e8	
-		\end{verbatim}}}
+			@parameter_transformation total_r0
+			type sum_to_one
+			parameters process[Recruitment_east].r0 process[Recruitment_west].r0
+			
+			@estimate total_r0
+			type uniform
+			parameter parameter_transformation[log_total_r0].total_parameter
+			lower_bound 4
+			upper_bound 25
+			
+			@estimate prop_r0_east
+			type uniform
+			parameter parameter_transformation[log_total_r0].proportion_parameter
+			lower_bound 0.001
+			upper_bound 0.8		
+\end{verbatim}}}
 
 % useful reference for the simplex https://mc-stan.org/docs/2_27/reference-manual/simplex-transform-section.html#fn15
-\item \subcommand{simplex} : given the vector of parameters $\boldmath{X} = (X_1, \dots, X_n)$ which either has the constraint $\sum_{i = 1}^n X_i = 1$ or $\sum_{i = 1}^n X_i = n$. Then the simplex is a suitable transformation. It translates to a new vector parameter \(\boldmath{Y} = (Y_1, \dots, Y_{n - 1})\) which has unconstrained parameter space i.e \(Y_i \in (-\infty, \infty)\)\\
+\item \subcommand{simplex} : given the vector of parameters $\boldmath{X} = (X_1, \dots, X_n)$ which either has the constraint $\sum_{i = 1}^n X_i = 1$ or $\sum_{i = 1}^n X_i = n$. Then the simplex is a suitable transformation. It translates to a new vector parameter \(\boldmath{Y} = (Y_1, \dots, Y_{n - 1})\) which has unconstrained parameter space i.e \(Y_i \in (-\infty, \infty)\). Note that the calculation of the Jacobian for the simplex is still experimental and may not be suitable in all circumstances.\\
 
 This transformation follows the implementation in stan, where an intermediate variable \(Z_i\) is used. The transformation going from $\boldmath{X}$ to $\boldmath{Y}$ follows\\
 \[

@@ -21,7 +21,6 @@ age_lengths age_len_label*2
 
 @initialisation_phase Equilibrium_phase
 type Derived
-casal_initialisation_switch true
 
 
 # CASAL order of processes in each time step:
@@ -44,9 +43,8 @@ type recruitment_beverton_holt
 categories immature mature
 proportions 1.0 0.0
 b0 29400
-ycs_years 1978:2004
-ycs_values 1.0*27
-standardise_ycs_years 1979:2003
+recruitment_multipliers 1.0*27
+standardise_years 1980:2004
 steepness 1.0 # no S-R relationship
 ssb SSB
 age 1

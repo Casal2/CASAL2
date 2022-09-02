@@ -74,17 +74,16 @@ type recruitment_beverton_holt_with_deviations
 categories Stock
 proportions 1.0
 b0 5973.9         
-last_year_with_no_bias 1986
-first_year_with_bias 1986
-last_year_with_bias 2005 
-first_recent_year_with_no_bias 2005
+last_year_with_no_bias 1987
+first_year_with_bias 1987
+last_year_with_bias 2006 
+first_recent_year_with_no_bias 2006
 b_max 1.0
 deviation_values 0.161055491247 0.0935823574532 -0.454148603651 -0.143755692424 -0.979662527968 1.70885246646 0.207878584523 -0.142998000652 0.448480496158 -1.25142717617 0.621050539438 0.0732265269830 0.0247523483886 0.137793954591 0.199439856167 -0.701101119095 0.613584736138 -0.103102553946 -0.101487357908 -0.412014325737
 steepness 0.5792984
 ssb SSB
 age 1     
 sigma_r 0.6
-deviation_years 1985:2004
 
 @process Ageing
 type ageing
@@ -326,7 +325,7 @@ end_table
 type process_removals_by_age
 likelihood multinomial
 time_step Annual
-mortality_instantaneous_process Instantaneous_Mortality
+mortality_process Instantaneous_Mortality
 categories Stock
 method_of_removal Fishery
 years 1986:2005

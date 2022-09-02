@@ -37,12 +37,12 @@ public:
   // methods
   explicit Iterative(shared_ptr<Model> model);
   virtual ~Iterative() = default;
-  void Execute() override final;
 
 protected:
   // methods
   void DoValidate() override final;
   void DoBuild() override final;
+  void DoExecute() override final;
   bool CheckConvergence();
 
   // members

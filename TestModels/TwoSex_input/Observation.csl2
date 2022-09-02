@@ -113,7 +113,7 @@ end_table
 type process_removals_by_age
 likelihood multinomial
 time_step step1
-mortality_instantaneous_process instant_mort
+mortality_process instant_mort
 categories male female
 method_of_removal FishingTrwl
 min_age 4
@@ -178,7 +178,7 @@ end_table
 type process_removals_by_age
 likelihood multinomial
 time_step step1
-mortality_instantaneous_process instant_mort
+mortality_process instant_mort
 categories male+female
 method_of_removal FishingLine
 min_age 5
@@ -217,7 +217,7 @@ end_table
 type process_removals_by_length
 likelihood multinomial
 time_step step1
-mortality_instantaneous_process instant_mort
+mortality_process instant_mort
 categories male+female
 delta 1e-4
 method_of_removal FishingLine

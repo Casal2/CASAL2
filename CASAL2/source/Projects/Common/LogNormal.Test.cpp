@@ -4,7 +4,7 @@
  * @date 21/6/2017
  * @section LICENSE
  *
- * Copyright NIWA Science ©2017 - www.niwa.co.nz
+ * Copyright NIWA Science ï¿½2017 - www.niwa.co.nz
  */
 #ifdef TESTMODE
 
@@ -32,8 +32,8 @@ const string LogNormal_ycs =
     R"(
 @project future_ycs
 type lognormal
-parameter process[recruitment].ycs_values
-years 1999:2010
+parameter process[recruitment].recruitment_multipliers
+years 2001:2012
 sigma 1.2
 )";
 

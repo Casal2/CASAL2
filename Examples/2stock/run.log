@@ -1,13 +1,14 @@
 Casal2
 Call: ..\..\BuildSystem\Casal2\casal2 -r -i free.dat 
-Date: Tue Nov 16 11:42:17 2021
-Version: v21.11 (2021-11-15)
-Copyright (c) 2017-2021, NIWA (www.niwa.co.nz)
-Environment: User=alist Machine=QUIET-5950X OS=Windows_NT PID=22792
+Date: Wed May 18 15:57:38 2022
+Seed: 46258
+Version: v22.05 (2022-05-18)
+Copyright (c) 2017-2022, NIWA (www.niwa.co.nz)
+Environment: User=alist Machine=QUIET-5950X OS=Windows_NT PID=5800
 
 
 *initialisation_partition[Init]
-values {dataframe}
+values {dataframe_with_row_labels}
 category 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17
 male.west.sa 0.000000 61287585.273914 13262991.126234 10017826.043969 8654961.593960 4900357.841631 9294762.411400 11703683.222002 11715367.097811 8730916.749004 6059511.683362 3849456.044339 2190994.272049 1087943.115807 455972.000743 154811.902939 51069.844703
 male.east.cr 0.000000 333486439.685445 112391753.331375 38294167.130798 14226841.046679 9953703.219424 5912360.897011 3376082.966265 6425473.513264 4788605.755915 3323432.505332 2111293.453024 1201684.552027 596699.157286 250084.866236 84908.972427 28010.042854
@@ -29,217 +30,217 @@ catchability[CSacous].q catchability[WCacous].q catchability[CRsum].q catchabili
 
 *objective_function[objective]
 values {vector}
-observation->CSacous-1991 1.85964
-observation->CSacous-1993 -0.51585
-observation->CSacous-1994 0.00231703
-observation->CSacous-1995 -0.565554
-observation->CSacous-1996 -0.016921
-observation->CSacous-1997 -0.921373
-observation->CSacous-1998 -0.0848876
-observation->CSacous-1999 -1.02429
-observation->CSacous-2001 -1.22232
-observation->CSacous-2002 -0.323869
-observation->CSacous-2003 -0.804019
-observation->CSacous-2005 -1.0039
-observation->CSacous-2006 -1.01827
-observation->CSacous-2007 -0.541644
-observation->CSacous-2008 -1.14754
-observation->CSacous-2009 -0.0744411
-observation->CSacous-2011 -1.04111
-observation->CSacous-2013 -1.1143
-observation->CSacous-2015 -0.77544
-observation->WCacous-1988 -0.582887
-observation->WCacous-1989 0.0539489
-observation->WCacous-1990 -0.314397
-observation->WCacous-1991 -0.425047
-observation->WCacous-1992 -0.746583
-observation->WCacous-1993 -0.41141
-observation->WCacous-1997 -0.0624217
-observation->WCacous-2000 -1.25725
-observation->WCacous-2012 -0.582153
-observation->WCacous-2013 -1.04022
-observation->CRsumbio-1992 -1.4697
-observation->CRsumbio-1993 1.06503
-observation->CRsumbio-1994 -1.64368
-observation->CRsumbio-1995 -1.36238
-observation->CRsumbio-1996 -1.72721
-observation->CRsumbio-1997 -1.18742
-observation->CRsumbio-1998 -0.746125
-observation->CRsumbio-1999 -1.41066
-observation->CRsumbio-2000 -1.52092
-observation->CRsumbio-2001 -1.73999
-observation->CRsumbio-2002 -1.21746
-observation->CRsumbio-2003 -1.72969
-observation->CRsumbio-2004 -1.40467
-observation->CRsumbio-2005 -1.26156
-observation->CRsumbio-2006 -1.21482
-observation->CRsumbio-2007 -0.893878
-observation->CRsumbio-2008 -0.883054
-observation->CRsumbio-2009 -0.0523421
-observation->CRsumbio-2010 -1.51542
-observation->CRsumbio-2011 -1.17038
-observation->CRsumbio-2012 -1.50156
-observation->CRsumbio-2013 -1.50996
-observation->CRsumbio-2014 -1.65027
-observation->CRsumbio-2016 -1.6003
-observation->SAsumbio-1992 -0.80283
-observation->SAsumbio-1993 -0.640087
-observation->SAsumbio-1994 -0.236484
-observation->SAsumbio-2001 -0.965612
-observation->SAsumbio-2002 -0.826641
-observation->SAsumbio-2003 -0.937686
-observation->SAsumbio-2004 0.671781
-observation->SAsumbio-2005 -0.369305
-observation->SAsumbio-2006 -0.816027
-observation->SAsumbio-2007 0.21142
-observation->SAsumbio-2008 -0.219067
-observation->SAsumbio-2009 -0.54414
-observation->SAsumbio-2010 -0.0961557
-observation->SAsumbio-2012 -0.944724
-observation->SAsumbio-2013 -0.892533
-observation->SAsumbio-2015 -0.0923858
-observation->SAautbio-1992 -1.46072
-observation->SAautbio-1996 -1.34068
-observation->SAautbio-1998 -1.38556
-observation->Espage-1988 30.2346
-observation->Espage-1989 25.5766
-observation->Espage-1990 33.0854
-observation->Espage-1991 32.8536
-observation->Espage-1992 36.2867
-observation->Espage-1993 31.2653
-observation->Espage-1994 31.721
-observation->Espage-1995 34.6421
-observation->Espage-1996 30.4986
-observation->Espage-1997 33.015
-observation->Espage-1998 33.3748
-observation->Espage-1999 35.6579
-observation->Espage-2000 37.6622
-observation->Espage-2001 36.7468
-observation->Espage-2002 38.6541
-observation->Espage-2003 32.9001
-observation->Espage-2004 38.5919
-observation->Espage-2005 38.6566
-observation->Espage-2006 34.9675
-observation->Espage-2007 40.0145
-observation->Espage-2008 34.5087
-observation->Espage-2009 33.4846
-observation->Espage-2010 35.8759
-observation->Espage-2014 36.8723
-observation->Espage-2015 33.9205
-observation->Wspage-1988 20.1231
-observation->Wspage-1989 16.3885
-observation->Wspage-1990 17.7035
-observation->Wspage-1991 19.8314
-observation->Wspage-1992 15.6472
-observation->Wspage-1993 15.8726
-observation->Wspage-1994 16.0174
-observation->Wspage-1995 19.5879
-observation->Wspage-1996 18.9031
-observation->Wspage-1997 16.0629
-observation->Wspage-1998 17.4899
-observation->Wspage-1999 19.6139
-observation->Wspage-2000 18.9684
-observation->Wspage-2001 19.844
-observation->Wspage-2002 17.1456
-observation->Wspage-2003 17.813
-observation->Wspage-2004 21.4952
-observation->Wspage-2005 20.6965
-observation->Wspage-2006 20.2182
-observation->Wspage-2007 17.7607
-observation->Wspage-2008 17.696
-observation->Wspage-2009 19.7605
-observation->Wspage-2010 19.9786
-observation->Wspage-2011 17.051
-observation->Wspage-2012 18.4524
-observation->Wspage-2013 19.2002
-observation->Wspage-2014 19.8965
-observation->Wspage-2015 19.0927
-observation->EnspOLF-1992 7.27595
-observation->EnspOLF-1994 10.5734
-observation->EnspOLF-1996 11.8331
-observation->EnspOLF-1998 8.90159
-observation->Enspage-1999 26.1984
-observation->Enspage-2000 22.3904
-observation->Enspage-2001 22.7121
-observation->Enspage-2002 21.625
-observation->Enspage-2003 17.5595
-observation->Enspage-2004 21.5459
-observation->Enspage-2005 18.8507
-observation->Enspage-2006 24.4567
-observation->Enspage-2007 21.7035
-observation->Enspage-2008 23.0384
-observation->Enspage-2009 17.8352
-observation->Enspage-2010 26.9404
-observation->Enspage-2011 23.6574
-observation->Enspage-2012 22.8995
-observation->Enspage-2013 27.9125
-observation->Enspage-2014 24.3907
-observation->Enspage-2015 22.9287
-observation->WnspOLF-1992 13.316
-observation->WnspOLF-1993 14.0865
-observation->WnspOLF-1994 21.9252
-observation->WnspOLF-1996 18.4175
-observation->WnspOLF-1999 17.8658
-observation->WnspOLF-2000 19.8136
-observation->Wnspage-2001 9.67817
-observation->Wnspage-2002 9.74539
-observation->Wnspage-2003 12.3072
-observation->Wnspage-2004 9.85455
-observation->Wnspage-2006 12.8112
-observation->Wnspage-2007 13.8902
-observation->Wnspage-2008 15.0494
-observation->Wnspage-2009 20.3818
-observation->Wnspage-2010 17.8469
-observation->Wnspage-2011 17.1728
-observation->Wnspage-2012 14.39
-observation->Wnspage-2013 20.7993
-observation->Wnspage-2014 17.5196
-observation->CRsumage-1992 27.4427
-observation->CRsumage-1993 20.3205
-observation->CRsumage-1994 24.0141
-observation->CRsumage-1995 25.1932
-observation->CRsumage-1996 21.5981
-observation->CRsumage-1997 25.6355
-observation->CRsumage-1998 24.1367
-observation->CRsumage-1999 21.1727
-observation->CRsumage-2000 23.6589
-observation->CRsumage-2001 29.4376
-observation->CRsumage-2002 18.6246
-observation->CRsumage-2003 19.7472
-observation->CRsumage-2004 16.8802
-observation->CRsumage-2005 21.7723
-observation->CRsumage-2006 21.2218
-observation->CRsumage-2007 24.4396
-observation->CRsumage-2008 21.5969
-observation->CRsumage-2009 21.2157
-observation->CRsumage-2010 22.7058
-observation->CRsumage-2011 24.1744
-observation->CRsumage-2012 27.5251
-observation->CRsumage-2013 21.3202
-observation->CRsumage-2014 21.3291
-observation->CRsumage-2016 18.7705
-observation->SAsumage-1992 17.8107
-observation->SAsumage-1993 18.245
-observation->SAsumage-1994 15.8765
-observation->SAsumage-2001 17.5369
-observation->SAsumage-2002 16.4681
-observation->SAsumage-2003 15.5028
-observation->SAsumage-2004 16.3693
-observation->SAsumage-2005 16.2623
-observation->SAsumage-2006 18.106
-observation->SAsumage-2007 15.0151
-observation->SAsumage-2008 17.4129
-observation->SAsumage-2009 20.7925
-observation->SAsumage-2010 16.6132
-observation->SAsumage-2012 18.3441
-observation->SAsumage-2013 16.4251
-observation->SAsumage-2015 16.3519
-observation->SAautage-1992 13.8011
-observation->SAautage-1996 13.3993
-observation->SAautage-1998 16.7235
+observation->CSacous->1991 1.85964
+observation->CSacous->1993 -0.51585
+observation->CSacous->1994 0.00231703
+observation->CSacous->1995 -0.565554
+observation->CSacous->1996 -0.016921
+observation->CSacous->1997 -0.921373
+observation->CSacous->1998 -0.0848876
+observation->CSacous->1999 -1.02429
+observation->CSacous->2001 -1.22232
+observation->CSacous->2002 -0.323869
+observation->CSacous->2003 -0.804019
+observation->CSacous->2005 -1.0039
+observation->CSacous->2006 -1.01827
+observation->CSacous->2007 -0.541644
+observation->CSacous->2008 -1.14754
+observation->CSacous->2009 -0.0744411
+observation->CSacous->2011 -1.04111
+observation->CSacous->2013 -1.1143
+observation->CSacous->2015 -0.77544
+observation->WCacous->1988 -0.582887
+observation->WCacous->1989 0.0539489
+observation->WCacous->1990 -0.314397
+observation->WCacous->1991 -0.425047
+observation->WCacous->1992 -0.746583
+observation->WCacous->1993 -0.41141
+observation->WCacous->1997 -0.0624217
+observation->WCacous->2000 -1.25725
+observation->WCacous->2012 -0.582153
+observation->WCacous->2013 -1.04022
+observation->CRsumbio->1992 -1.4697
+observation->CRsumbio->1993 1.06503
+observation->CRsumbio->1994 -1.64368
+observation->CRsumbio->1995 -1.36238
+observation->CRsumbio->1996 -1.72721
+observation->CRsumbio->1997 -1.18742
+observation->CRsumbio->1998 -0.746125
+observation->CRsumbio->1999 -1.41066
+observation->CRsumbio->2000 -1.52092
+observation->CRsumbio->2001 -1.73999
+observation->CRsumbio->2002 -1.21746
+observation->CRsumbio->2003 -1.72969
+observation->CRsumbio->2004 -1.40467
+observation->CRsumbio->2005 -1.26156
+observation->CRsumbio->2006 -1.21482
+observation->CRsumbio->2007 -0.893878
+observation->CRsumbio->2008 -0.883054
+observation->CRsumbio->2009 -0.0523421
+observation->CRsumbio->2010 -1.51542
+observation->CRsumbio->2011 -1.17038
+observation->CRsumbio->2012 -1.50156
+observation->CRsumbio->2013 -1.50996
+observation->CRsumbio->2014 -1.65027
+observation->CRsumbio->2016 -1.6003
+observation->SAsumbio->1992 -0.80283
+observation->SAsumbio->1993 -0.640087
+observation->SAsumbio->1994 -0.236484
+observation->SAsumbio->2001 -0.965612
+observation->SAsumbio->2002 -0.826641
+observation->SAsumbio->2003 -0.937686
+observation->SAsumbio->2004 0.671781
+observation->SAsumbio->2005 -0.369305
+observation->SAsumbio->2006 -0.816027
+observation->SAsumbio->2007 0.21142
+observation->SAsumbio->2008 -0.219067
+observation->SAsumbio->2009 -0.54414
+observation->SAsumbio->2010 -0.0961557
+observation->SAsumbio->2012 -0.944724
+observation->SAsumbio->2013 -0.892533
+observation->SAsumbio->2015 -0.0923858
+observation->SAautbio->1992 -1.46072
+observation->SAautbio->1996 -1.34068
+observation->SAautbio->1998 -1.38556
+observation->Espage->1988 30.2346
+observation->Espage->1989 25.5766
+observation->Espage->1990 33.0854
+observation->Espage->1991 32.8536
+observation->Espage->1992 36.2867
+observation->Espage->1993 31.2653
+observation->Espage->1994 31.721
+observation->Espage->1995 34.6421
+observation->Espage->1996 30.4986
+observation->Espage->1997 33.015
+observation->Espage->1998 33.3748
+observation->Espage->1999 35.6579
+observation->Espage->2000 37.6622
+observation->Espage->2001 36.7468
+observation->Espage->2002 38.6541
+observation->Espage->2003 32.9001
+observation->Espage->2004 38.5919
+observation->Espage->2005 38.6566
+observation->Espage->2006 34.9675
+observation->Espage->2007 40.0145
+observation->Espage->2008 34.5087
+observation->Espage->2009 33.4846
+observation->Espage->2010 35.8759
+observation->Espage->2014 36.8723
+observation->Espage->2015 33.9205
+observation->Wspage->1988 20.1231
+observation->Wspage->1989 16.3885
+observation->Wspage->1990 17.7035
+observation->Wspage->1991 19.8314
+observation->Wspage->1992 15.6472
+observation->Wspage->1993 15.8726
+observation->Wspage->1994 16.0174
+observation->Wspage->1995 19.5879
+observation->Wspage->1996 18.9031
+observation->Wspage->1997 16.0629
+observation->Wspage->1998 17.4899
+observation->Wspage->1999 19.6139
+observation->Wspage->2000 18.9684
+observation->Wspage->2001 19.844
+observation->Wspage->2002 17.1456
+observation->Wspage->2003 17.813
+observation->Wspage->2004 21.4952
+observation->Wspage->2005 20.6965
+observation->Wspage->2006 20.2182
+observation->Wspage->2007 17.7607
+observation->Wspage->2008 17.696
+observation->Wspage->2009 19.7605
+observation->Wspage->2010 19.9786
+observation->Wspage->2011 17.051
+observation->Wspage->2012 18.4524
+observation->Wspage->2013 19.2002
+observation->Wspage->2014 19.8965
+observation->Wspage->2015 19.0927
+observation->EnspOLF->1992 7.27595
+observation->EnspOLF->1994 10.5734
+observation->EnspOLF->1996 11.8331
+observation->EnspOLF->1998 8.90159
+observation->Enspage->1999 26.1984
+observation->Enspage->2000 22.3904
+observation->Enspage->2001 22.7121
+observation->Enspage->2002 21.625
+observation->Enspage->2003 17.5595
+observation->Enspage->2004 21.5459
+observation->Enspage->2005 18.8507
+observation->Enspage->2006 24.4567
+observation->Enspage->2007 21.7035
+observation->Enspage->2008 23.0384
+observation->Enspage->2009 17.8352
+observation->Enspage->2010 26.9404
+observation->Enspage->2011 23.6574
+observation->Enspage->2012 22.8995
+observation->Enspage->2013 27.9125
+observation->Enspage->2014 24.3907
+observation->Enspage->2015 22.9287
+observation->WnspOLF->1992 13.316
+observation->WnspOLF->1993 14.0865
+observation->WnspOLF->1994 21.9252
+observation->WnspOLF->1996 18.4175
+observation->WnspOLF->1999 17.8658
+observation->WnspOLF->2000 19.8136
+observation->Wnspage->2001 9.67817
+observation->Wnspage->2002 9.74539
+observation->Wnspage->2003 12.3072
+observation->Wnspage->2004 9.85455
+observation->Wnspage->2006 12.8112
+observation->Wnspage->2007 13.8902
+observation->Wnspage->2008 15.0494
+observation->Wnspage->2009 20.3818
+observation->Wnspage->2010 17.8469
+observation->Wnspage->2011 17.1728
+observation->Wnspage->2012 14.39
+observation->Wnspage->2013 20.7993
+observation->Wnspage->2014 17.5196
+observation->CRsumage->1992 27.4427
+observation->CRsumage->1993 20.3205
+observation->CRsumage->1994 24.0141
+observation->CRsumage->1995 25.1932
+observation->CRsumage->1996 21.5981
+observation->CRsumage->1997 25.6355
+observation->CRsumage->1998 24.1367
+observation->CRsumage->1999 21.1727
+observation->CRsumage->2000 23.6589
+observation->CRsumage->2001 29.4376
+observation->CRsumage->2002 18.6246
+observation->CRsumage->2003 19.7472
+observation->CRsumage->2004 16.8802
+observation->CRsumage->2005 21.7723
+observation->CRsumage->2006 21.2218
+observation->CRsumage->2007 24.4396
+observation->CRsumage->2008 21.5969
+observation->CRsumage->2009 21.2157
+observation->CRsumage->2010 22.7058
+observation->CRsumage->2011 24.1744
+observation->CRsumage->2012 27.5251
+observation->CRsumage->2013 21.3202
+observation->CRsumage->2014 21.3291
+observation->CRsumage->2016 18.7705
+observation->SAsumage->1992 17.8107
+observation->SAsumage->1993 18.245
+observation->SAsumage->1994 15.8765
+observation->SAsumage->2001 17.5369
+observation->SAsumage->2002 16.4681
+observation->SAsumage->2003 15.5028
+observation->SAsumage->2004 16.3693
+observation->SAsumage->2005 16.2623
+observation->SAsumage->2006 18.106
+observation->SAsumage->2007 15.0151
+observation->SAsumage->2008 17.4129
+observation->SAsumage->2009 20.7925
+observation->SAsumage->2010 16.6132
+observation->SAsumage->2012 18.3441
+observation->SAsumage->2013 16.4251
+observation->SAsumage->2015 16.3519
+observation->SAautage->1992 13.8011
+observation->SAautage->1996 13.3993
+observation->SAautage->1998 16.7235
 observation->pspawn_1993 -7.19208
-observation->pspawn-1992 -5.75963
-observation->pspawn-1998 -7.38768
+observation->pspawn->1992 -5.75963
+observation->pspawn->1998 -7.38768
 prior->CSacousq->catchability[CSacous].q -0.38072
 prior->WCacousq->catchability[WCacous].q -0.319953
 prior->CRsumq->catchability[CRsum].q -2.23018
@@ -398,544 +399,994 @@ jacobian->log_sum_b0 0
 total_score 2861.08
 *end
 
-*year_age_matrix[year_age_mat]
-time_step: Jul_Sep
-values {dataframe}
-year         AG1          AG2          AG3          AG4          AG5          AG6          AG7          AG8          AG9          AG10         AG11         AG12         AG13         AG14         AG15         AG16         AG17         
-1972         0            61287421     13262593     10014210     8651324      4899355      9292488      11702667     11715367     8730917      6059512      3849456      2190994      1087943      455972       154812       51070        
-1972         0            333464177    112317681    38216114     14181163     9918898      5891830      3364501      6403736      4772626      3312480      2104412      1197804      594787       249289       84640        27922        
-1972         0            500435096    183619889    68629564     26866259     12959623     2855842      2            0            0            0            0            0            0            0            0            0            
-1972         0            17075093     26986659     35109869     34784756     32089241     27040927     20551682     13757287     10252665     7115649      4520394      2572872      1277565      535445       181795       59971        
-1972         0            869334       17059255     27573013     26478057     18970536     16768531     15273641     8306641      6190838      4296801      2729749      1553738      771532       323366       109791       36219        
-1972         0            58689104     24134091     36051901     26836256     24604219     27565446     17619384     20695123     17654074     14508447     11386580     8442419      5835049      3698010      2105715      1891022      
-1972         0            284683245    108206894    54433945     31503950     26383298     19819868     12874554     11914641     10164734     8354276      6557154      4862056      3360664      2129968      1212902      1089302      
-1972         0            426321962    164271371    71317778     33222089     18860759     4738268      4            0            0            0            0            0            0            0            0            0            
-1972         0            8085570      11946426     10997080     26972702     29327742     32783481     40979222     30860793     26325948     21635154     16979793     12589428     8701288      5514513      3140065      2819913      
-1972         0            110922       7509001      13924130     18769487     15659788     17775008     21000948     17871961     15247101     12531413     9835731      7293084      5040996      3194952      1819353      1633953      
-*end
-1973         0            61287421     13257044     9993150      8617059      4875662      9246693      11649714     11670522     8703213      6040284      3837241      2184042      1084491      454525       154321       50908        
-1973         0            333464123    112310002    38190736     14152147     9886967      5871178      3352790      6381715      4756440      3301399      2097460      1193890      592862       248488       84370        27833        
-1973         0            500435068    183615332    68591182     26806317     12915208     2845876      2            0            0            0            0            0            0            0            0            0            
-1973         0            17074943     26974810     35035308     34646266     31933397     26907108     20458263     13704342     10219920     7092924      4505957      2564655      1273485      533735       181214       59779        
-1973         0            869334       17058088     27554702     26423878     18909464     16709753     15220472     8278076      6169843      4282428      2720731      1548661      769034       322328       109441       36104        
-1973         0            58689103     24128761     36008284     26782744     24520592     27471496     17559058     20608454     17592008     14457440     11346549     8412739      5814535      3685009      2098312      1884374      
-1973         0            284683137    108189909    54383594     31430101     26294247     19750536     12830134     11874414     10131283     8327516      6536706      4847276      3350688      2123780      1209447      1086281      
-1973         0            426321939    164267500    71276698     33141959     18794920     4721889      4            0            0            0            0            0            0            0            0            0            
-1973         0            8085503      11943540     10983547     26918360     29227454     32671070     40838071     30730915     26232852     21558647     16919748     12544908     8670518      5495012      3128961      2809941      
-1973         0            110922       7507822      13911250     18725489     15606932     17712829     20928490     17811620     15196925     12491274     9805058      7270914      5026032      3185670      1814170      1629421      
-*end
-1974         0            61272362     13256837     9989356      8601898      4857211      9203400      11592881     11617561     8669801      6021051      3825023      2177088      1081038      453078       153829       50746        
-1974         0            333366444    112272101    38148485     14119690     9849245      5841974      3335227      6348594      4732066      3284707      2086989      1187999      589965       247284       83964        27700        
-1974         0            500306648    183563119    68511779     26744842     12863650     2831200      2            0            0            0            0            0            0            0            0            0            
-1974         0            17070608     26973873     35021335     34584648     31811940     26780615     20358069     13641890     10180491     7070203      4491523      2556439      1269406      532025       180634       59588        
-1974         0            869079       17052332     27524218     26363278     18837320     16626639     15140746     8235113      6138225      4260776      2707150      1541019      765277       320766       108914       35932        
-1974         0            58674688     24128399     35997485     26750804     24467450     27374284     17498281     20537597     17518118     14406435     11306519     8383059      5794021      3672008      2090909      1877726      
-1974         0            284586926    108139063    54310417     31347368     26186202     19649530     12763426     11813755     10080726     8287026      6505755      4824909      3335597      2114426      1204226      1081721      
-1974         0            426212824    164219389    71187697     33064374     18716813     4697443      4            0            0            0            0            0            0            0            0            0            
-1974         0            8083456      11943132     10980043     26885744     29163553     32554834     40695938     30624668     26122168     21482177     16859733     12500411     8639763      5475521      3117862      2799974      
-1974         0            110885       7504294      13892531     18676198     15542802     17622243     20819676     17720633     15121089     12430539     9758632      7237363      5003395      3171639      1806339      1622581      
-*end
-1975         0            61253220     13250609     9961208      8569611      4840887      9151585      11530694     11560743     8630368      5997873      3812803      2170133      1077584      451630       153338       50584        
-1975         0            333114686    111672669    37542692     13759667     9565678      5666193      3232171      6153061      4588184      3186071      2025025      1153072      572766       240125       81547        26907        
-1975         0            500069560    182736198    67330674     26019716     12494797     2746560      2            0            0            0            0            0            0            0            0            0            
-1975         0            17021849     26800059     34713846     34248827     31515457     26470617     20127794     13494005     10073593     7000876      4450405      2533036      1257785      527155       178980       59042        
-1975         0            868423       16961288     27087137     25691068     18294980     16126354     14672905     7981477      5951588      4132829      2626772      1495714      742966       311480       105780       34903        
-1975         0            58656427     24117051     35888480     26648000     24397104     27255983     17423468     20466235     17457686     14345760     11266501     8353388      5773514      3659012      2083509      1871080      
-1975         0            284180204    107342389    53318332     30503968     25425055     19057237     12373310     11459277     9785798      8050808      6324974      4694023      3247099      2059447      1173475      1054727      
-1975         0            426015099    163458968    69861822     32149470     18183935     4559278      4            0            0            0            0            0            0            0            0            0            
-1975         0            8061707      11866163     10881342     26622286     28905834     32220337     40279660     30335785     25876406     21263798     16699610     12381690     8557709      5423518      3088251      2773382      
-1975         0            110726       7449009      13638757     18173716     15091024     17091059     20183320     17188916     14678696     12076212     9487461      7041034      4870649      3089171      1760213      1582090      
-*end
-1976         0            61236571     13240232     9914782      8474216      4784374      9035676      11397774     11454923     8560427      5951313      3785862      2156215      1070673      448734       152354       50259        
-1976         0            332988021    111554875    37307280     13521045     9306659      5494199      3129932      5953586      4439995      3084480      1961250      1117164      555102       232781       79071        26096        
-1976         0            499928982    182603667    66958859     25530645     12136407     2663571      2            0            0            0            0            0            0            0            0            0            
-1976         0            16841981     26129128     33713131     33045270     30391284     25500789     19412701     13045853     9749352      6777868      4311666      2455683      1219375      511057       173514       57239        
-1976         0            868093       16943397     26917286     25245531     17799589     15636849     14208778     7722727      5759364      4001050      2544047      1449135      720054       301954       102567       33850        
-1976         0            58640489     24103067     35751373     26390571     24144952     26965085     17263741     20293524     17334763     14245106     11178897     8294031      5732489      3633012      2068704      1857785      
-1976         0            284060811    107144049    52868628     29900053     24700964     18473784     11981614     11092130     9478127      7804017      6136064      4557336      3154783      2002175      1141488      1026767      
-1976         0            425895587    163340842    69461404     31499749     17652513     4422619      4            0            0            0            0            0            0            0            0            0            
-1976         0            7981903      11571433     10576581     25724960     27912502     31102494     38941376     29349448     25070349     20601941     16167447     11995218     8290595      5254232      2991857      2686816      
-1976         0            110680       7435245      13523724     17813914     14661240     16567802     19544386     16638195     14217190     11706025     9204096      6836005      4732174      3003262      1712232      1540150      
-*end
-1977         0            48309393     13214143     9832510      8327555      4647714      8747959      11050143     11148088     8371152      5825891      3707351      2112982      1049896      440026       149398       49284        
-1977         0            230109169    111477256    37231277     13415325     9129726      5336411      3029868      5755795      4289097      2980084      1895711      1080286      536980       225254       76535        25266        
-1977         0            394388930    182503928    66838454     25347495     11888149     2582869      2            0            0            0            0            0            0            0            0            0            
-1977         0            13070534     25063847     32133105     31210424     28374988     23728598     18088651     12202619     9163004      6376979      4058040      2312855      1149208      481649       163530       53946        
-1977         0            599890       16931608     26862450     25048138     17461192     15187772     13754526     7466160      5563626      3865633      2459032      1401299      696546       292190       99277        32773        
-1977         0            46261353     24075050     35590921     26170265     23625010     26301246     16846534     19766691     16939270     13939724     10939523     8110224      5609234      3554898      2024224      1817840      
-1977         0            196290096    107051817    52711376     29599389     24170888     17917658     11595794     10723880     9160235      7547254      5939226      4414878      3058620      1942575      1108243      997799       
-1977         0            335984939    163250438    69330535     31266217     17266797     4286410      4            0            0            0            0            0            0            0            0            0            
-1977         0            6201210      11108625     10119619     24518077     26249244     29156951     36522400     27475703     23545588     19376219     15205938     11273213     7796835      4941308      2813672      2526798      
-1977         0            76481        7428845      13483499     17634784     14346614     16069053     18915037     16085820     13740353     11320881     8908840      6622317      4587930      2913863      1662364      1496699      
-*end
-1978         0            79436292     10399933     9738939      8149946      4465117      8301328      10422229     10543227     7978209      5579100      3554063      2026314      1007539      422551       143465       47327        
-1978         0            340250774    77509736     37919459     13795801     9359227      5407607      3038697      5750673      4277878      2968777      1888152      1076147      535020       224473       76281        25186        
-1978         0            648629882    144720570    68202703     26123593     12193140     2612278      2            0            0            0            0            0            0            0            0            0            
-1978         0            22126545     21150622     34126833     32751632     29229757     24143985     18293423     12374348     9363844      6548063      4171324      2378238      1182526      495939       168381       55546        
-1978         0            887027       11772486     27358975     25758536     17900127     15390401     13794606     7459516      5549073      3850965      2449226      1395929      694004       291176       98949        32671        
-1978         0            76068539     18971878     35482954     26028801     23095960     25354728     16118046     18769239     16120140     13308484     10458864     7754073      5358810      3398482      1935158      1737855      
-1978         0            290481728    74610086     53826670     30454859     24720968     18106124     11606164     10701644     9124273      7508997      5908653      4392945      3044185      1933942      1103624      994166       
-1978         0            552569359    129473052    70865615     32239711     17699970     4325568      4            0            0            0            0            0            0            0            0            0            
-1978         0            10477735     9386188      10817846     26147400     27515467     30138443     37467716     27974192     24025903     19835333     15588180     11556885     7986919      5065192      2884214      2590148      
-1978         0            113181       5177556      13768789     18144457     14673113     16238074     18931953     16052465     13686409     11263495     8862979      6589417      4566277      2900914      1655436      1491249      
-*end
-1979         0            70060653     17181897     7855097      8441411      4615384      8477631      10420933     10390123     7830222      5517975      3532014      2015875      1002693      420814       142969       47163        
-1979         0            377845301    114548114    26321457     14014035     9597245      5527857      3070632      5751533      4262451      2953061      1875992      1069036      531579       223073       75821        25040        
-1979         0            572064197    237906426    53984844     26582539     12530829     2671822      2            0            0            0            0            0            0            0            0            0            
-1979         0            19378103     34367334     27071679     33363573     29715258     24250194     17989548     11993577     9038620      6369536      4077091      2326975      1157434      485756       165033       54442        
-1979         0            985035       17398022     18990990     26166007     18355353     15732641     13939578     7460633      5529061      3830579      2433454      1386705      689540       289361       98351        32480        
-1979         0            67090395     31272814     28338018     26441357     23776825     25776584     16136965     18845494     15949883     13197107     10404828     7724885      5338772      3383186      1927749      1731201      
-1979         0            322554099    110329675    37443230     31013909     25363122     18466252     11696059     10682566     9081651      7460562      5864180      4359789      3021911      1920360      1096220      988050       
-1979         0            487343383    212835583    56092993     32860039     18199791     4422020      4            0            0            0            0            0            0            0            0            0            
-1979         0            9180443      15216949     8497082      26123863     27859546     30134677     36893172     27624712     23380173     19345010     15251942     11323541     7825852      4959251      2825795      2537685      
-1979         0            125678       7656311      9577928      18477530     15054264     16561047     19078590     16023850     13622476     11190843     8796269      6539683      4532867      2880539      1644330      1482074      
-*end
-1980         0            67977180     15136306     12875342     6705639      4713351      8652066      10522179     10279703     7647813      5367406      3462216      1985532      988647       415062       141114       46582        
-1980         0            680148780    127166168    38863020     9713452      9733506      5659456      3134001      5803006      4256598      2937988      1863287      1060586      527294       221317       75239        24854        
-1980         0            555046697    209770045    88655510     21008167     12730716     2741528      2            0            0            0            0            0            0            0            0            0            
-1980         0            18781522     30198150     44259621     26435221     30268210     24685721     18117765     11835699     8805430      6179848      3986277      2286074      1138294      477888       162473       53633        
-1980         0            1773133      19314502     28039756     18136264     18615960     16107179     14227250     7527401      5521469      3811027      2416972      1375745      683983       287082       97597        32239        
-1980         0            65095257     27564844     46518381     20993551     23998299     26337146     16275148     18650087     15856653     12928869     10215936     7609140      5266192      3337275      1900135      1707555      
-1980         0            580597208    122459699    55310043     21540909     25787573     18916178     11910361     10749185     9052247      7415174      5818296      4321130      2995139      1903838      1087134      980442       
-1980         0            472846400    187663020    92107582     25968702     18520785     4539964      4            0            0            0            0            0            0            0            0            0            
-1980         0            8898438      13378327     13912661     20688301     28046967     30711085     37113709     27268193     23183927     18903231     14936666     11125283     7699670      4879412      2778177      2496606      
-1980         0            226220       8498072      14148234     12833687     15306196     16964553     19428158     16123777     13578371     11122762     8727444      6481694      4492709      2855757      1630701      1470662      
-*end
-1981         0            51514422     14683615     11339802     10985415     3734642      8810971      10724304     10362730     7556144      5235170      3363117      1943622      972428       408685       138994       45920        
-1981         0            519361664    228925982    43154319     14347108     6749296      5742156      3209907      5925123      4296380      2935092      1854487      1053804      523324       219615       74675        24674        
-1981         0            420626154    203543136    78190964     34514127     10065204     2786383      2            0            0            0            0            0            0            0            0            0            
-1981         0            14196494     29116495     38743513     43043130     23836937     24985862     18353235     11858563     8646855      5990853      3848574      2224178      1112796      467678       159057       52549        
-1981         0            1353965      34770186     31135939     26787897     12908466     16342549     14571836     7685806      5573072      3807270      2405558      1366947      678833       284875       96865        32005        
-1981         0            49330444     26742710     40996626     34454456     19019320     26598112     16613814     18776245     15668324     12833711     9993041      7459617      5179381      3286888      1871493      1681034      
-1981         0            443348651    220451190    61407889     31832218     17918286     19240536     12205393     10950368     9112125      7393873      5784963      4288814      2969593      1887602      1078135      972885       
-1981         0            358332972    182092805    81236769     42659438     14642591     4621854      4            0            0            0            0            0            0            0            0            0            
-1981         0            6727240      12900221     12186481     33746515     22092508     30826332     37655060     27285306     22768930     18649720     14521710     10840183     7526585      4776448      2719621      2442849      
-1981         0            172744       15298177     15708055     18965063     10635387     17255447     19909415     16425553     13668188     11090810     8677445      6433221      4454390      2831404      1617203      1459328      
-*end
-1982         0            56657730     11122987     10983073     9652142      6096787      6949536      10874353     10521064     7592324      5155546      3269558      1881830      948797       400669       136412       45091        
-1982         0            188125705    174846145    77738912     15948032     9980287      3986157      3260446      6075307      4391552      2965698      1854623      1049928      520519       218187       74177        24515        
-1982         0            462625712    154277848    75925397     30474148     16554758     2205433      2            0            0            0            0            0            0            0            0            0            
-1982         0            15614636     22058516     37528928     37823338     38918069     19709479     18612114     12041105     8689232      5900398      3741931      2153709      1085875      458556       156120       51605        
-1982         0            490440       26556326     56088800     29777027     19087946     11344864     14801265     7880618      5696526      3846971      2405734      1361920      675194       283023       96219        31800        
-1982         0            54255696     20261934     39745596     30349367     31142260     21015579     16737756     19085737     15717211     12635381     9883584      7270447      5059224      3221004      1836565      1649361      
-1982         0            160596598    168389454    110630803    35380479     26508921     13384096     12428277     11233598     9292312      7450308      5774031      4268348      2950161      1873231      1069911      965937       
-1982         0            394112377    138020084    78887857     37667296     24080726     3658019      4            0            0            0            0            0            0            0            0            0            
-1982         0            7399227      9775104      11815932     29729112     36178364     24359096     37940233     27738169     22842537     18363573     14364261     10566470     7352800      4681231      2669163      2397091      
-1982         0            62574        11685361     28299210     21079053     15734352     12003229     20272983     16850397     13938467     11175461     8661046      6402521      4425241      2809847      1604867      1448905      
-*end
-1983         0            66303430     12202079     8285994      9305129      5328420      11299847     8530975      10609435     7668402      5154826      3204733      1821208      914598       389254       133172       44074        
-1983         0            251864272    63292629     59270361     28656636     11064937     5879115      2257584      6155395      4491660      3023942      1869405      1047475      517365       216502       73520        24295        
-1983         0            541512818    169583960    57436732     29513195     14579006     3618138      2            0            0            0            0            0            0            0            0            0            
-1983         0            18288751     24248387     28371444     36538699     34083426     32113412     14631387     12167279     8794398      5911739      3675303      2088626      1048893      446411       152727       50546        
-1983         0            656605       9613135      42763699     53505627     21162408     16732344     10248631     7984505      5826381      3922523      2424909      1358738      671102       280837       95367        31515        
-1983         0            63493046     22226700     29983413     29276749     27280449     34266227     13161832     19141930     15912856     12629768     9699453      7169456      4917271      3138062      1795274      1614635      
-1983         0            214989119    60943949     84337986     63574433     29387026     19750109     8623688      11410814     9510013      7580063      5804983      4250898      2929752      1857037      1059558      956825       
-1983         0            461317311    151709630    59668525     36482094     21208165     6000951      3            0            0            0            0            0            0            0            0            0            
-1983         0            8665986      10745082     8932121      28737546     31757395     39799777     29896038     27877198     23174561     18393262     14125722     10441180     7161229      4570091      2614533      2351461      
-1983         0            83767        4229196      21573543     37876505     17442649     17712446     14066944     17116221     14265019     11370094     8707475      6376347      4394628      2785555      1589336      1435238      
-*end
-1984         0            54654804     14254107     9071192      6998518      5120071      9856391      13832472     8294959      7707347      5190550      3195068      1780216      882810       374270       129058       42935        
-1984         0            162825199    84744652     21457509     21848208     19879940     6517256      3329266      4261579      4550331      3092513      1905900      1055704      516098       215166       72944        24077        
-1984         0            446448042    198522603    63143647     22325120     14117544     3185930      3            0            0            0            0            0            0            0            0            0            
-1984         0            15038779     28161249     30878987     27321129     32559869     27847977     23585684     9457522      8787553      5918020      3642865      2029719      1006539      426725       147146       48952        
-1984         0            424482       12871354     15481641     40793416     38021674     18548535     15113684     5527930      5902486      4011470      2472249      1369413      669459       279104       94620        31232        
-1984         0            52338448     25962396     32808289     22001366     26219169     29939144     21401121     15016154     15925063     12763736     9680209      7026577      4843372      3046900      1747443      1578090      
-1984         0            138988078    81593363     30526470     48462798     52798500     21891679     12723882     7916728      9658888      7756751      5905419      4273219      2917465      1843999      1050291      947577       
-1984         0            380331013    177599782    65596470     27591204     20538238     5284428      5            0            0            0            0            0            0            0            0            0            
-1984         0            7127191      12477920     9716703      21470311     30344090     34571289     48327649     21741222     23057192     18480047     14015544     10173468     7012503      4411472      2530045      2284846      
-1984         0            54154        5662159      7808630      28873264     31338513     19633065     20755172     11875092     14488332     11635127     8858129      6409829      4376197      2765999      1575437      1421365      
-*end
-1985         0            103877617    11752709     10591957     7659685      3848517      9466073      12056062     13436830     6022543      5213215      3214579      1773245      862105       360894       123959       41608        
-1985         0            276978506    54797533     28739159     7910818      15156340     11708924     3690511      6284347      3150236      3132809      1949059      1076283      520138       214634       72492        23882        
-1985         0            848592490    163709328    73947166     24545465     10678796     3084967      3            0            0            0            0            0            0            0            0            0            
-1985         0            28624456     23299997     36181076     30006136     24558774     26838125     20628172     15373278     6890482      5964517      3677848      2028796      986347       412904       141823       47604        
-1985         0            722077       8322866      20735368     14770516     28987482     33324359     16753606     8151775      4086346      4063740      2528233      1396106      674700       278413       94034        30979        
-1985         0            99475353     21410449     38340424     24119931     19720631     28796644     18695822     24372212     12474210     12751997     9764782      6998747      4736968      2994625      1692907      1535335      
-1985         0            236437090    52762151     40881849     17543067     40247083     39330416     14102990     11680298     6700978      7877864      6042843      4346997      2932685      1836207      1042886      938875       
-1985         0            722918940    146457796    76823014     30332533     15532289     5117244      5            0            0            0            0            0            0            0            0            0            
-1985         0            13564468     10325933     11394594     23619535     22902485     33367577     42365304     35410071     18123618     18527211     14187125     10168389     6882279      4350852      2459603      2230669      
-1985         0            92124        3661422      10457522     10451844     23888628     35272608     23004771     17520447     10051466     11816796     9064264      6520496      4399028      2754311      1564329      1408313      
-*end
-1986         0            94003359     22348583     8755769      8972893      4221483      7137856      11598619     11717844     9759067      4075349      3230209      1785050      859235       352649       119606       40065        
-1986         0            322726085    93064972     18501950     10528427     5451786      8868692      6587772      6922093      4616465      2155481      1962394      1093993      527092       215023       71883        23584        
-1986         0            767701396    310724605    60683989     28555050     11664243     2318581      3            0            0            0            0            0            0            0            0            0            
-1986         0            25253296     41654890     28118148     33045988     25325929     19025548     18657293     12603886     10496997     4383505      3474461      1920026      924205       379314       128650       43095        
-1986         0            841340       14135077     13349199     19657927     10426893     25240876     29906144     8979030      5988272      2795994      2545531      1419079      683720       278918       93244        30593        
-1986         0            90018855     40709853     31681751     28235644     21641957     21704323     18001831     21313466     20263726     9998567      9766434      7068166      4724038      2932602      1666067      1492275      
-1986         0            275428257    89562428     26306147     23340591     14473690     29787533     25177796     12866901     9827588      5433617      6102433      4423544      2967161      1835979      1033054      926598       
-1986         0            654010146    277964501    63019592     35289534     16965427     3845884      5            0            0            0            0            0            0            0            0            0            
-1986         0            11987000     18458628     8851935      25994416     23629004     23643738     38350368     29112065     27678224     13657044     13339973     9654409      6452564      4005642      2275682      2038298      
-1986         0            107316       6215171      6729077      13905905     8590848      26714286     41069973     19300351     14741382     8150425      9153649      6635315      4450741      2753969      1549582      1389897      
-*end
-1987         0            37165624     20124360     16293115     7160910      4736440      7490197      8378320      10840904     8234133      6389441      2443251      1735569      836919       340085       113087       37390        
-1987         0            272261887    108493591    31455393     6785289      7261836      3192732      4993825      12366202     5088961      3161181      1351240      1102324      536174       218063       72068        23384        
-1987         0            303584176    281254939    115319318    23457167     13580848     2534571      2            0            0            0            0            0            0            0            0            0            
-1987         0            9547747      33454727     46665256     23520771     25342503     17805729     12019777     10399665     7898993      6129383      2343807      1664929      802855       326243       108484       35868        
-1987         0            709781       16478437     22695137     12669008     13888732     9086723      22670190     16040885     6601173      4100543      1752768      1429885      695501       282861       93484        30333        
-1987         0            35590509     36729321     59484749     23004245     24646331     23150633     13150759     19660797     17085182     15660367     7383573      6816501      4600331      2820082      1573272      1408325      
-1987         0            232377340    104399598    44702935     15034300     19272911     10720871     19083740     22988466     10833959     7974615      4211997      4470233      3021445      1858793      1033601      916946       
-1987         0            258624982    251610567    119763272    28974662     19753763     4203928      3            0            0            0            0            0            0            0            0            0            
-1987         0            4545932      14853495     14822853     18888065     23999284     22492093     24986232     23950643     20813047     19077347     8994616      8303812      5604091      3435403      1916549      1715612      
-1987         0            90542        7244794      11434951     8957166      11439423     9614775      31129360     34482700     16250939     11961922     6317996      6705350      4532167      2788190      1550402      1375419      
-*end
-1988         0            17236461     7892282      14230070     12714806     3527739      7850112      8170399      7295419      7178656      5080637      3610287      1237308      766993       312241       102801       33234        
-1988         0            151688692    91563681     36710391     11554703     4688211      4260102      1800846      9389904      9106431      3490440      1984911      760243       541118       222171       73202        23427        
-1988         0            140823780    111258337    104508294    44653439     11175609     2956061      2            0            0            0            0            0            0            0            0            0            
-1988         0            4317520      11142051     34605867     35460602     16026806     15845116     9952582      5942335      5847229      4138329      2940686      1007824      624738       254329       83734        27070        
-1988         0            394970       13887300     26448997     21543463     8953767      12107301     8163586      12162859     11795672     4521210      2571080      984752       700917       287781       94820        30346        
-1988         0            16506074     14452511     52833217     42628436     19203431     25267719     13302548     13286035     14757103     12365007     10830988     4826860      4155700      2572524      1417267      1245540      
-1988         0            129474011    88127222     52173292     25591967     12435764     14300152     6879947      17452720     19387042     8804811      6191017      3089963      3057728      1895471      1047896      914213       
-1988         0            119968425    99532690     108550176    55159815     16246721     4902968      4            0            0            0            0            0            0            0            0            0            
-1988         0            2061690      4963344      11178573     29718844     15877344     20844240     21460401     13742460     15264064     12789791     11203073     4992681      4298463      2660900      1465955      1288329      
-1988         0            50377        6106887      13326895     15225570     7370752      12806551     11206610     26141883     29039244     13188451     9273330      4628358      4580075      2839167      1569611      1369372      
-*end
-1989         0            169980282    3655803      5419251      10609942     5815092      5474595      7876489      6522066      4500044      4124748      2672670      1701837      508898       266288       87825        27979        
-1989         0            730821150    51079291     31109653     13573176     8039604      2769447      2419103      3408230      6961601      6287729      2206127      1124059      375610       225661       75058        23880        
-1989         0            1388574818   51662588     41533997     40777481     21442600     2451492      2            0            0            0            0            0            0            0            0            0            
-1989         0            42279173     5319791      13585032     30501985     27232392     11390696     9890174      5476093      3778352      3463243      2244042      1428906      427283       223582       73740        23492        
-1989         0            1877122      7624050      22057677     24904774     15110460     7745774      10792030     4344580      8874175      8015170      2812220      1432873      478803       287657       95679        30441        
-1989         0            162776438    6707824      20578638     37722293     34030508     18924972     13693873     12172300     9186996      9834455      7871816      6515615      2707314      2137613      1189059      1023450      
-1989         0            623898175    49192361     44257350     30085004     21325358     9294495      9241073      6333401      14812991     15853993     6876834      4568488      2125710      1928980      1074440      924999       
-1989         0            1182930838   46218792     43157036     50389659     31172279     4063206      4            0            0            0            0            0            0            0            0            0            
-1989         0            20188862     2374470      4488225      27108740     29003219     16092889     22772359     12978379     9795381      10485716     8393106      6947095      2886599      2279170      1267801      1091226      
-1989         0            238988       3354690      11125270     17614258     12438845     8191468      14813443     9335877      21835388     23369898     10136935     6734271      3133446      2843452      1583799      1363514      
-*end
-1990         0            96479618     35902180     2516033      4138875      5009764      9558432      5677391      6361586      4059340      2609643      2190371      1271977      706769       178417       75640        24069        
-1990         0            696301542    245702711    17238918     11345824     9276217      4664668      1542717      4485948      2486258      4730018      3910981      1229556      546598       154175       75040        24073        
-1990         0            788462157    508727436    19189159     16085796     19435141     4669142      2            0            0            0            0            0            0            0            0            0            
-1990         0            24498629     52473374     6334612      11950326     23562903     19974101     7159824      5364550      3423130      2200640      1847080      1072623      595999       150454       63785        20297        
-1990         0            1760429      35998511     11997923     20434718     17113759     12806306     6755638      5613123      3110975      5918521      4893685      1538504      683940       192915       93895        30122        
-1990         0            92392267     65901246     9524349      14757947     30423924     34391126     10440936     12716598     8517811      6198128      6340077      4796499      3702274      1410987      1001198      862320       
-1990         0            594304300    236535743    24550067     25251960     24734170     15727424     5918194      8363966      5287811      11918134     12184813     4994328      3093574      1320146      1076533      928496       
-1990         0            671695430    455100105    19931192     19883591     28266088     7740258      4            0            0            0            0            0            0            0            0            0            
-1990         0            11687366     23430481     2086294      10651714     26042058     29371590     17438272     13617615     9121329      6637287      6789295      5136349      3964593      1510961      1072137      923419       
-1990         0            223562       15833746     6057721      14512453     14161606     13605828     9312242      12102132     7651129      17244788     17630656     7226478      4476206      1910169      1557675      1343475      
-*end
-1991         0            9119412      20368859     24549860     1898080      1943165      8302222      9961302      4560867      3938445      2342489      1379403      1037872      526029       246783       50480        20645        
-1991         0            315347087    233607629    82133692     6163997      7557984      5246000      2529154      2780847      3196823      1650513      2874990      2130287      584394       219311       50118        23568        
-1991         0            74547031     288401894    187503281    7335388      7563357      4175840      4            0            0            0            0            0            0            0            0            0            
-1991         0            2332867      32031774     66510485     5897247      9834642      18668626     13517833     4138594      3573800      2125607      1251689      941779       477326       223935       45806        18734        
-1991         0            771820       32939572     55013465     10684313     13419367     13860631     10658767     3348721      3849643      1987563      3462089      2565311      703732       264096       60353        28381        
-1991         0            8733173      37332802     92847701     6748263      11818119     30610363     18953660     9660469      8868625      5730588      3986470      3855527      2720817      1926684      660005       725474       
-1991         0            269081572    224641736    116926032    13777929     20341071     17876020     9798262      5228307      6820944      4156996      8952860      8651740      3307277      1879233      720789       911082       
-1991         0            63507228     257993798    194622853    9059799      11004499     6927583      7            0            0            0            0            0            0            0            0            0            
-1991         0            1111781      14281731     21885117     5241107      10885437     28131117     34063913     11131810     10219363     6603386      4593630      4442744      3135212      2220128      760527       835968       
-1991         0            97507        14472059     27766388     7620461      11208320     14882976     14837669     7280518      9498295      5788697      12467028     12047713     4605447      2616868      1003712      1268699      
-*end
-1992         0            8343229      1915020      13977498     18739446     910443       3300523      8918834      8209029      2878307      2318614      1263991      667554       438539       187719       71376        14899        
-1992         0            95290416     105583081    77176356     28573050     3953376      4114729      2729685      4362263      1915562      2051719      970021       1514365      979222       226787       68959        16668        
-1992         0            68228609     27226343     105504036    70761542     3403145      1603787      3            0            0            0            0            0            0            0            0            0            
-1992         0            2139272      3195478      40183642     61783202     4889679      7875527      12843337     7904528      2771541      2232609      1217105      642792       422272       180756       68729        14346        
-1992         0            235670       15072429     52334905     50141841     7106467      11006659     11646725     5318306      2335381      2501378      1182613      1846256      1193830      276491       84072        20321        
-1992         0            7989990      3507625      52300807     65125416     5435727      12003932     17150304     18131836     6921610      6137325      3794838      2497857      2254768      1460438      929892       552857       
-1992         0            81289407     101417999    109887070    64316456     10800276     14308904     10801579     8350809      4117990      5180650      3017891      6145238      5539852      1943068      992539       709642       
-1992         0            58124666     24355193     109440757    87298365     4947940      2662519      6            0            0            0            0            0            0            0            0            0            
-1992         0            1018586      1423824      13081721     53673549     5312928      11706332     32707857     22171146     8463568      7504565      4640231      3054316      2757073      1785786      1137048      676019       
-1992         0            29813        6614758      26418873     36014628     6025056      12061042     16560116     11773057     5805584      7303734      4254654      8663620      7810141      2739357      1399292      1000461      
-*end
-1993         0            92146079     1758215      1345906      10962142     9317504      1590483      3678399      7643221      5354030      1750836      1292486      631848       291327       161623       56068        19140        
-1993         0            294626776    31880192     34860305     26900229     18412245     2162668      2153714      4741030      3016281      1234105      1210461      512929       698819       381499       71591        19980        
-1993         0            753134933    24900859     9936451      39689807     32726662     719424       1            0            0            0            0            0            0            0            0            0            
-1993         0            23831190     2950086      3890730      36341729     50318057     3816124      5326293      7400433      5183958      1695220      1251430      611777       282073       156489       54287        18532        
-1993         0            731636       4572970      23753492     47433894     33256877     5812904      9233543      5807956      3695068      1511829      1482864      628359       856082       467352       87702        24477        
-1993         0            88243188     3219902      4996045      37173885     53883269     5638995      6917718      17113496     13459924     4961118      4208345      2461634      1512059      1252607      729444       622890       
-1993         0            251310112    30606110     49528980     60398662     50481458     7607534      8668852      9247674      6606091      3141592      3778011      2080955      3953120      3269967      1031102      755935       
-1993         0            641604821    22274344     10304964     48935192     47530926     1193598      2            0            0            0            0            0            0            0            0            0            
-1993         0            11343223     1314274      1256549      30806634     52957411     5529623      13265989     21041737     16549522     6099895      5174330      3026678      1859137      1540132      896881       765869       
-1993         0            92603        2005839      11965096     33983904     28297447     6443347      13354476     13100333     9358244      4450405      5351962      2947899      5600023      4632263      1460668      1070864      
-*end
-1994         0            140125164    19573915     1251492      1067525      5521512      16316735     1792922      3213420      5073760      3312119      991945       656340       280013       108999       48996        16637        
-1994         0            302441642    98828287     10621198     12341379     17650542     10255301     1152804      3810211      3334278      1976141      740298       650714       240606       276728       122398       21606        
-1994         0            1144759841   275457031    9171271      3792906      18632753     7020908      1            0            0            0            0            0            0            0            0            0            
-1994         0            35173062     31557530     3476238      3400582      28651489     37617638     2494553      2989600      4720365      3081425      922854       610625       260510       101407       45583        15478        
-1994         0            724108       13575620     6930511      20839724     30530099     26396556     4732945      4469871      3911541      2318269      868465       763372       282262       324638       143589       25346        
-1994         0            134187515    35827455     4645295      3599320      31276066     56479999     3290357      7018725      12890088     9777064      3444252      2761875      1506733      848979       632098       568043       
-1994         0            258065128    94970058     15097184     27642238     48205469     36150194     4686385      7549072      7437504      5121859      2327547      2645801      1359185      2368611      1761056      804670       
-1994         0            975230263    246416506    9518288      4677022      27041222     11631634     1            0            0            0            0            0            0            0            0            0            
-1994         0            16764406     14051475     1122616      2866102      29535876     53217371     6062960      8292128      15228729     11550911     4069140      3262960      1780098      1003009      746780       671103       
-1994         0            91163        5960349      3492595      14894112     25876596     29320657     6913511      10240917     10089566     6948209      3157502      3589240      1843843      3213210      2389012      1091599      
-*end
-1995         0            38016939     29578544     13646564     964731       519898       9274918      17770988     1526553      2087623      3072092      1836812      493102       284749       102566       32350        14218        
-1995         0            284406015    101135864    32414952     3632372      7728048      9381038      5198177      1932896      2569307      2095022      1137109      381814       292893       91436        85211        33090        
-1995         0            310625310    417692022    100330782    3436377      1746660      3922291      6            0            0            0            0            0            0            0            0            0            
-1995         0            9937983      52115095     41426595     3358584      2948368      23369154     27021996     1552144      2122620      3123593      1867605      501368       289523       104286       32893        14456        
-1995         0            681786       13913457     21183065     6142855      13387258     24182509     21373644     2270943      3018657      2461424      1335980      448590       344117       107427       100114       38877        
-1995         0            36406324     54252948     50907390     3296095      2962033      31969561     32188423     3246555      5164075      9147689      6632394      2208913      1652124      826833       418737       492032       
-1995         0            242580201    97098368     46167622     8205171      21310137     33353617     21433215     3904598      5816874      5527375      3638965      1563756      1658463      781813       1224939      1123588      
-1995         0            264625462    373636432    104038505    4238031      2535605      6496137      10           0            0            0            0            0            0            0            0            0            
-1995         0            4724979      23253740     13445389     2868439      3057048      32920776     64821047     4191845      6667683      11811195     8563528      2852075      2133168      1067579      540659       635295       
-1995         0            85818        6103072      10696494     4427726      11456414     27093034     31666473     5304851      7902902      7509583      4943958      2124545      2253216      1062184      1664222      1526525      
-*end
-1996         0            108712338    8082788      21161590     10961191     496995       922177       10680050     15982482     1038204      1323113      1783192      955633       223886       109151       31856        10438        
-1996         0            438802760    94903505     32954026     10972014     2249597      4062657      4704585      8625788      1289640      1597567      1193121      580504       170124       110191       27875        26176        
-1996         0            888084156    113139380    151019973    37157341     1563716      363394       3            0            0            0            0            0            0            0            0            0            
-1996         0            28211100     14388437     64904959     38555041     2847672      2347584      16407894     16418678     1066538      1359224      1831859      981714       229996       112130       32725        10723        
-1996         0            975244       11924650     19668587     16946790     3559162      9564931      17667293     9255878      1383844      1714265      1280275      622908       182551       118240       29911        28088        
-1996         0            104106244    14781959     78055882     36514086     2802240      3127388      18968483     33730461     2512680      3854425      6525759      4472699      1389312      953193       428744       389520       
-1996         0            374165514    90999948     46839764     24812618     6253711      14579439     19561560     17674031     2978532      4280946      3889975      2422336      971404       945578       400834       1000896      
-1996         0            756572633    101201680    156497401    45774794     2270625      602205       6            0            0            0            0            0            0            0            0            0            
-1996         0            13410052     6401304      20829166     32105543     2922076      3253785      38594253     44002608     3277883      5028237      8513088      5834798      1812408      1243475      559313       508143       
-1996         0            121192       5223994      9911511      12228884     3070587      10816250     26395934     21930761     3695902      5311997      4826863      3005747      1205363      1173317      497373       1241959      
-*end
-1997         0            23765871     22962387     5702278      16658627     5562174      862809       1050865      9580457      10836455     656275       766240       925851       433097       85677        33848        9587         
-1997         0            195394772    146102214    30399009     10657992     6349807      1104630      1888234      7180170      5424436      755910       857765       574311       243903       60358        31681        10777        
-1997         0            194285768    322927926    40615320     55294310     16711237     321602       0            0            0            0            0            0            0            0            0            0            
-1997         0            6088918      39387803     16852442     56460860     30709093     2116442      1555648      9483421      10726698     649628       758479       916473       428710       84809        33505        9490         
-1997         0            428881       18082989     17871952     16215275     9895811      2561747      6984775      7589295      5733520      798982       906640       607035       257801       63797        33486        11392        
-1997         0            22759551     42010069     20968684     54950128     30679459     2904577      1840097      19872723     26093086     1875744      2751491      4405459      2816995      802858       495160       353270       
-1997         0            166567769    139955957    43343130     24486558     18122526     4101015      8125806      15128754     12672178     2060958      2833365      2435820      1415801      521209       456302       547227       
-1997         0            165515657    288843150    42061689     68054416     24241608     533242       1            0            0            0            0            0            0            0            0            0            
-1997         0            2897445      17529961     5391657      46555729     30826103     2911889      3607578      24980340     32799440     2357841      3458670      5537734      3541010      1009206      622424       444066       
-1997         0            53166        7914098      9034275      11887481     8764966      2996920      10800600     18491371     15488780     2519040      3463127      2977221      1730486      637057       557723       668857       
-*end
-1998         0            21800393     5002907      15978018     4369805      8164836      9252987      949324       917719       6348975      6696776      371627       389065       410390       162114       25989        9686         
-1998         0            208777679    64785553     46071633     9551976      5955703      3010871      495262       2777302      4371054      3078878      393131       400029       233833       83869        16821        8638         
-1998         0            178193277    70409018     114180369    14503643     24234618     3350786      0            0            0            0            0            0            0            0            0            0            
-1998         0            5499921      8361982      46012671     14431466     43924819     22116351     1369365      885174       6123821      6459288      358448       375268       395836       156364       25068        9343         
-1998         0            463254       8124307      27443706     14724440     9404171      7074704      1856215      2974311      4681117      3297280      421018       428405       250420       89818        18014        9251         
-1998         0            20877304     9161869      59042567     14559244     45101890     30950379     1664828      1873756      15006788     19021298     1307914      1814757      2711255      1590907      407632       360499       
-1998         0            177878873    61933427     65533925     22050943     17341603     11527740     2215133      6080786      10506067     8498106      1322813      1721493      1382068      737764       244362       388365       
-1998         0            151807217    62972695     118092790    17826706     35130308     5553758      0            0            0            0            0            0            0            0            0            0            
-1998         0            2619118      3725233      14793005     12019415     44157630     30234166     3180419      2295061      18380986     23298138     1601992      2222796      3320867      1948614      499285       441555       
-1998         0            57505        3548389      13839991     10846407     8498012      8535413      2983168      7530474      13010762     10524094     1638178      2131905      1711559      913650       302619       480953       
-*end
-1999         0            27241287     4576772      3442833      12056773     2103559      13284079     9983257      817309       601068       3877501      3747455      186465       170411       151790       48591        7775         
-1999         0            347784176    69179612     20385567     14440496     5332274      2821470      1350444      729670       1687723      2476865      1598759      183072       162646       80299        23344        5078         
-1999         0            222700719    64556096     24801963     40440066     6300168      4816705      2            0            0            0            0            0            0            0            0            0            
-1999         0            6975008      7788212      10093955     40538744     11521472     32326141     14661135     802594       590246       3807691      3679986      183108       167343       149057       47716        7635         
-1999         0            774888       8718688      12203868     22371404     8461854      6662805      5086689      785336       1816477      2665822      1720726      197039       175054       86424        25124        5465         
-1999         0            26087959     8390666      12770301     40626682     11792982     44805288     17496422     1668133      1395956      10791727     13082877     850869       1101568      1510177      796637       319940       
-1999         0            296290324    66063878     28892884     33149992     15544399     10980866     6207315      1656108      4218704      7040368      5451691      803467       976638       720206       345948       243019       
-1999         0            189724047    57739906     25642051     49614192     9120857      7979212      5            0            0            0            0            0            0            0            0            0            
-1999         0            3319780      3473420      3257491      34146540     11755078     44560714     34029462     2080188      1740779      13457453     16314553     1061046      1373673      1883214      993419       398970       
-1999         0            96250        3803956      6132338      16387311     7655395      8171137      8401317      2061184      5250579      8762409      6785149      999991       1215519      896366       430565       302460       
-*end
-2000         0            20241333     5690836      3131662      2588618      5782015      3417833      14273301     8551010      532144       365211       2160040      1872723      81373        62816        45353        12604        
-2000         0            207377717    115285223    21817052     6422013      8116253      2543391      1274651      2004776      446159       962235       1294010      749026       74884        56189        22484        5904         
-2000         0            165599575    80700743     22780861     8815296      17632872     1256831      4            0            0            0            0            0            0            0            0            0            
-2000         0            5095711      9321135      8837481      8377520      30481815     8005372      20175672     8082308      502976       345193       2041643      1770074      76913        59373        42867        11913        
-2000         0            455859       14294434     12849575     9788143      12671459     5908984      4723543      2122818      472429       1018891      1370202      793129       79293        59497        23808        6252         
-2000         0            19384868     10421047     11586816     8687433      32573983     11616489     25174209     17513491     1241012      1003634      7427744      8523219      517510       615070       758317       476307       
-2000         0            176681176    110108628    30890561     14678525     23495457     9895871      5947075      4670673      1156129      2844394      4543809      3331041      458504       511894       339660       232802       
-2000         0            141078206    72179581     23556771     10813023     25479810     2079168      7            0            0            0            0            0            0            0            0            0            
-2000         0            2427966      4152269      2844817      7028053      31252228     11120031     47127012     21020976     1489554      1204635      8915323      10230192     621153       738252       910188       571699       
-2000         0            56493        6237513      6450286      7138791      11384017     7244658      7918902      5719072      1415639      3482859      5563732      4078740      561422       626796       415902       285058       
-*end
-2001         0            6468656      4214274      3862747      2319788      1213045      9191239      3579536      11920809     5450345      316572       199215       1057071      800367       29377        18382        12480        
-2001         0            39692068     68701581     36240633     6818715      3567540      3826029      1133964      1864826      1213464      251812       497657       600167       303313       25611        15576        5802         
-2001         0            52923576     59977060     28433144     8081625      3836802      3511438      1            0            0            0            0            0            0            0            0            0            
-2001         0            1585360      6485947      10242300     7054128      6008779      20227971     4754206      10586962     4840493      281150       176925       938793       710812       26090        16326        11083        
-2001         0            87931        8598678      21545743     10490704     5622285      8972654      4241788      1993233      1297020      269151       531925       641493       324198       27375        16648        6201         
-2001         0            6194963      7726694      14356122     7865144      6872186      31626377     6402856      24520988     12733440     872160       675348       4731492      5069242      282584       302058       509379       
-2001         0            33814119     65610366     51360405     15619551     10329297     14851570     5313304      4425798      3226082      771283       1816471      2747249      1881040      237818       238909       224084       
-2001         0            45086923     53642770     29397483     9915436      5543331      5798457      2            0            0            0            0            0            0            0            0            0            
-2001         0            756683       2892838      3311883      5978578      6195161      28446457     11262516     27654497     14360631     983612       761650       5336124      5717035      318696       340658       574472       
-2001         0            10911        3751761      10825665     7668030      5051908      10975120     7141660      5470295      3987443      953307       2245161      3395605      2324969      293943       295292       276969       
-*end
-2002         0            35489398     1336835      2818484      2787636      1042185      1860226      9196634      2848844      7291573      3113507      165901       93697        434321       277848       8268         6136         
-2002         0            344455504    13166031     21731876     11476353     3852637      1710477      1736184      1689652      1146489      695537       132245       234353       246736       105308       7207         4375         
-2002         0            290356834    19184396     21248674     10194004     3557251      772574       3            0            0            0            0            0            0            0            0            0            
-2002         0            8645841      2003459      7277146      8254208      5026875      3986467      11893900     2463647      6305667      2692524      143469       81028        375596       240280       7150         5306         
-2002         0            793051       1726024      13533073     18494370     6359686      4201686      6802664      1891693      1283581      778707       148058       262376       276240       117901       8068         4898         
-2002         0            33987780     2455659      10561292     9647842      6038479      6515478      16833622     5931616      17089781     8586191      563513       413308       2704818      2661499      133471       313252       
-2002         0            293491241    12581172     30810041     26282657     11150246     6622559      8093560      4017820      3104645      2185152      499958       1114503      1573967      989680       112569       182161       
-2002         0            247362099    17158230     21978768     12511928     5140277      1275236      5            0            0            0            0            0            0            0            0            0            
-2002         0            4129294      895260       2372461      7141108      5300655      5706492      28832577     6513959      18767588     9429150      618836       453885       2970367      2922795      146575       344005       
-2002         0            99067        753556       6802240      13515063     5712190      5126208      11394827     5201675      4019431      2829009      647271       1442892      2037738      1281290      145738       235836       
-*end
-2003         0            8886362      7356207      897871       2044890      1255362      1617344      1861107      7261861      1732697      4140286      1621393      77522        38241        149751       77661        2830         
-2003         0            106270471    114051325    4160548      6931574      6594601      1879247      793028       2654235      1052684      666032       370261       63132        97679        86857        30046        2348         
-2003         0            72660810     105089729    6750517      7534057      4436047      708278       1            0            0            0            0            0            0            0            0            0            
-2003         0            2136361      10811350     2273436      5937892      5938071      3398976      2360423      6158584      1469452      3511262      1375058      65744        32431        127000       65862        2400         
-2003         0            215797       12837384     2224393      9590232      9346041      3963253      2667676      2551258      1011843      640192       355896       60683        93889        83487        28881        2257         
-2003         0            8510209      13519777     3378389      7164288      7430780      5776830      3469643      15423271     4097535      11415904     5493453      341386       233829       1405139      1243643      169119       
-2003         0            90524580     108906685    5880324      15724106     18838345     7178746      3641368      6219447      2862289      2136223      1439284      311772       649118       842015       476398       116144       
-2003         0            61901727     93986958     6978460      9248423      6413275      1169625      1            0            0            0            0            0            0            0            0            0            
-2003         0            1020941      4833637      744243       5200338      6396752      4961759      5827922      16610075     4412836      12294345     5916168      367655       251822       1513263      1339340      182133       
-2003         0            26351        5600376      1114609      6941869      8285574      4770684      4401435      6912992      3181469      2374438      1599782      346538       721503       935910       529522       129095       
-*end
-2004         0            73448684     1848529      4966506      656836       928075       1978128      1633838      1473968      4434665      987147       2162110      759424       31703        13209        41922        17228        
-2004         0            190384624    35208808     35595329     1264855      3669176      2960506      790850       1085429      1543669      570802       330902       164952       24554        32084        23122        6542         
-2004         0            600348880    26313353     37138089     2414211      3308974      891332       1            0            0            0            0            0            0            0            0            0            
-2004         0            18605022     3018548      13972637     2119230      4877738      4619115      2302429      1388929      4178809      930194       2037368      715609       29874        12447        39504        16234        
-2004         0            376762       3838861      18434175     1695149      5037063      6047884      2576967      1010616      1437272      531460       308095       153583       22862        29873        21529        6091         
-2004         0            70338730     3400628      18752725     2320745      5568886      7191656      3101533      3176107      10653004     2733889      7289166      3319157      192526       121040       654034       569019       
-2004         0            162193586    33638341     50743897     2949009      10828720     11653441     3736892      2589251      4111850      1827291      1305194      832388       168375       321941       375719       227010       
-2004         0            511453572    23533087     38404001     2963278      4784239      1472353      1            0            0            0            0            0            0            0            0            0            
-2004         0            8864289      1350863      4590166      1871737      5326626      6863312      5788476      3800573      12747529     3271408      8722314      3971748      230380       144838       782625       680896       
-2004         0            45780        1675593      9316974      1261119      4613459      7501635      4375321      2787778      4427119      1967395      1405267      896210       181285       346626       404527       244416       
-*end
-2005         0            42064774     15506206     1293510      3843797      322007       1581862      2168810      1394538      959028       2689901      548530       1077097      330217       11640        3930         12740        
-2005         0            321731708    63239070     11033143     10816272     664575       1634515      1232476      1067466      628055       832656       282075       146617       63802        8020         8493         5774         
-2005         0            343578108    217920651    9373842      13428769     1071887      671981       1            0            0            0            0            0            0            0            0            0            
-2005         0            10756202     26308468     3781170      12885780     1758451      3837974      3175616      1365372      938971       2633645      537058       1054571      323311       11397        3848         12474        
-2005         0            696202       7693191      6375539      16174529     1017981      3725749      4481052      1108985      652483       865043       293047       152319       66284        8332         8824         5998         
-2005         0            40282501     28424348     4823737      13194469     1897678      5666587      4096151      3073049      2344578      7588089      1862004      4694653      1994296      106135       59980        504311       
-2005         0            274188768    60481280     15777113     25598071     2033401      6705903      6053196      2638285      1700305      2606643      1108353      749203       446093       82854        142507       224453       
-2005         0            292701655    194913637    9699882      16487423     1549414      1109761      1            0            0            0            0            0            0            0            0            0            
-2005         0            5119704      11731750     1226808      11057025     1885973      5618954      7943151      3820784      2915062      9434424      2315067      5836956      2479549      131960       74575        627020       
-2005         0            86063        3361529      3232255      12214464     966628       4816661      7908084      3169515      2042668      3131501      1331525      900058       535915       99537        171202       269648       
-*end
-2006         0            44538089     8876261      10826020     1002092      1906627      550479       1764581      1894915      925196       593120       1523952      278598       477485       123603       3530         3283         
-2006         0            348750413    106960555    20078269     3493830      6075393      316683       735189       1815415      653728       358545       435480       132270       60016        22055        2247         2822         
-2006         0            364008838    124792982    77787283     3398327      5977354      218218       1            0            0            0            0            0            0            0            0            0            
-2006         0            11301415     14912684     31337279     3326548      10310177     1322544      2558492      1837158      896996       575042       1477502      270107       462931       119835       3423         3183         
-2006         0            789552       13742015     12253423     5517843      9828424      762364       2823022      1991872      717270       393395       477808       145127       65849        24198        2465         3097         
-2006         0            42651912     16257963     40114020     3378169      10894054     1934755      3270969      4164740      2318202      1706478      5280546      1225266      2881852      1123184      53731        226012       
-2006         0            297242498    102339118    28580021     8122756      18309075     1306045      3650130      4551323      1840763      1145164      1679671      675853       426509       233171       38956        141290       
-2006         0            310106481    111620206    80514152     4175030      8642350      360271       1            0            0            0            0            0            0            0            0            0            
-2006         0            5380946      6644682      10102417     2803263      10721079     1899748      6281007      5127515      2854108      2100969      6501265      1508514      3548058      1382833      66152        278260       
-2006         0            98383        6007154      6183782      4093400      9192139      990742       5036263      5774605      2335514      1452956      2131124      857506       541144       295841       49426        179265       
-*end
-2007         0            45085592     9400747      6216369      8361914      492072       3198068      606146       1531396      1250045      568987       334160       769736       122825       177746       37285        1426         
-2007         0            311260986    115958687    34204947     6507182      2035872      3004272      148532       1134611      1147584      385201       193540       210754       55878        21410        6376         1000         
-2007         0            368314135    132198457    44594539     28291762     1518191      1221292      0            0            0            0            0            0            0            0            0            0            
-2007         0            11782761     16553316     18859426     29093182     2788869      8052975      921126       1556121      1270228      578174       339555       782164       124808       180616       37887        1449         
-2007         0            721942       15336941     21489819     10579698     3390570      7445435      587147       1281578      1296231      435096       218610       238053       63116        24183        7202         1129         
-2007         0            43175554     17229017     23058852     28161366     2777547      11016622     1107250      3301637      3122534      1677112      1180460      3454267      747729       1613586      565307       112550       
-2007         0            265289362    110968441    48573912     14901301     5936819      12016016     730173       2841572      3283827      1281928      762950       1058884      397740       230445       113317       70293        
-2007         0            313774658    118240456    46162643     34777835     2196464      2016682      0            0            0            0            0            0            0            0            0            0            
-2007         0            5602172      7380161      6086478      24492629     2864901      11337509     2228424      4260373      4029261      2164115      1523245      4457324      964855       2082143      729462       145232       
-2007         0            90322        6705606      10819505     7730679      3068433      9383731      1037142      3711556      4289212      1674407      996537       1383074      519513       300998       148011       91814        
-*end
-2008         0            65114758     9566956      6690048      4913505      4228512      847846       3614945      540531       1033295      786357       327913       172657       347153       46774        54852        9129         
-2008         0            390497963    103582685    37309896     11261573     3880358      1030393      1445789      235773       731912       690001       212161       95567        90838        20337        6315         1629         
-2008         0            531765574    133847917    47382474     16300853     12705074     311786       1            0            0            0            0            0            0            0            0            0            
-2008         0            17670953     18051273     21748913     18318654     25680521     2287718      5886538      588563       1125115      856234       357052       188000       378002       50931        59726        9940         
-2008         0            925443       14056937     24051346     18786715     6630795      2620144      5864140      273252       848259       799686       245887       110759       105277       23570        7318         1887         
-2008         0            62355432     17496814     24662506     16307793     23576881     2861186      6431420      1152071      2539381      2317572      1190300      792309       2162981      429597       833361       301314       
-2008         0            332858519    99155723     52925920     25584296     11056109     3954899      6837482      580977       2093954      2335367      872064       491053       636153       219365       114310       76555        
-2008         0            453021857    119717498    49059283     20043118     18390940     515105       2            0            0            0            0            0            0            0            0            0            
-2008         0            8383949      8031128      6975610      15198246     26058604     3155237      13869973     1592994      3511257      3204557      1645854      1095542      2990801      594013       1152306      416634       
-2008         0            116201       6147900      12096069     13618787     5863227      3168998      9965072      778624       2806312      3129854      1168738      658109       852570       293992       153198       102598       
-*end
-2009         0            54456304     13892165     6898432      5420289      2585808      7564948      999859       3367634      378382       674305       470096       175743       80768        137121       14971        15306        
-2009         0            341491897    130204046    33582128     12480666     6862782      2007157      507887       2355557      155028       448540       387330       106767       41977        33691        6112         1761         
-2009         0            444870686    193592098    48221238     17424236     7361659      2623637      0            0            0            0            0            0            0            0            0            0            
-2009         0            14928813     26528453     22696645     20451612     15893352     20658284     1647784      3711082      416971       743074       518039       193666       89005        151105       16498        16867        
-2009         0            825246       18084447     22156633     21309330     12002567     5223770      2108368      2794109      183891       532048       459443       126644       49793        39964        7250         2089         
-2009         0            52149083     25334655     25155980     17522800     14014594     24889283     1724792      7020219      922798       1962595      1712629      831770       516499       1293686      230965       519233       
-2009         0            291161969    124715111    47599965     28176630     19260125     7471953      2288532      5552760      436673       1518701      1620006      572282       300766       357666       110918       80943        
-2009         0            378992249    173169063    49950324     21424609     10657969     4336017      0            0            0            0            0            0            0            0            0            0            
-2009         0            7078979      11769005     7200940      16527408     15676470     27778010     3764511      9824003      1291352      2746430      2396631      1163968      722782       1810367      323209       726608       
-2009         0            103969       7914207      11134294     15350914     10453788     6127749      3413669      7616544      598970       2083153      2222111      784981       412551       490599       152143       111028       
-*end
-2010         0            65094100     11628583     10026151     5594217      2856910      4605687      8940223      937325       2369638      248218       405240       253285       82650        32073        44124        6724         
-2010         0            237736873    113981853    42480022     11405303     7769867      3626796      1012735      848615       1578557      96820        256575       198612       47783        15863        10317        1771         
-2010         0            531876489    162082527    70009324     17848106     7922359      1530350      2            0            0            0            0            0            0            0            0            0            
-2010         0            17605589     21430361     31834653     20370372     16946124     12137725     14218841     996828       2520067      263975       430966       269364       87897        34109        46925        7151         
-2010         0            578625       15965815     28265455     19638784     13704501     9519221      4239856      1015164      1888364      115822       306930       237592       57161        18976        12342        2119         
-2010         0            62336523     21189875     36455097     17893434     15109224     14788000     15043064     1896444      5657805      717654       1459466      1204383      545695       310907       700018       328988       
-2010         0            202724683    109250907    60198144     25614480     21530002     13210344     4397541      1896460      4255972      322909       1073949      1083592      357225       172317       184269       82700        
-2010         0            453113219    144984673    72548344     21960650     11469221     2529196      4            0            0            0            0            0            0            0            0            0            
-2010         0            8356403      9499765      10070726     16287316     16310396     15927689     31685649     2561134      7640827      969186       1970998      1626511      736958       419878       945369       444296       
-2010         0            72989        6991797      14200867     14073640     11785130     10925886     6615309      2623424      5887400      446689       1485623      1498962      494159       238370       254905       114402       
-*end
-2011         0            45061641     13882408     8322508      8004821      2882474      4948205      5304159      8209896      648289       1527839      146609       214580       117062       32254        10142        12045        
-2011         0            460517271    79395206     37285393     14511383     7157155      4139101      1845904      1708054      572741       992847       55774        132490       89512        18183        4891         2784         
-2011         0            368154055    193872527    58717271     25979602     8136228      1651126      1            0            0            0            0            0            0            0            0            0            
-2011         0            12024803     24924603     25744227     28396909     16657084     12704288     8218491      8506044      671674       1582951      151897       222320       121285       33417        10508        12479        
-2011         0            1141829      11367970     25359811     25541864     12904053     11105047     7899516      2088639      700357       1214071      68202        162011       109457       22235        5981         3404         
-2011         0            43152503     25323939     30409610     25868908     15245071     15725316     8784320      16161437     1498702      4314112      523215       1006169      774581       321996       164906       461723       
-2011         0            392724104    76123780     52856476     32528825     19682204     14849518     7824230      3671675      1464191      3169998      229986       723469       681183       206105       89400        117356       
-2011         0            313635356    173423739    60856066     31979332     11786488     2728494      2            0            0            0            0            0            0            0            0            0            
-2011         0            5712285      11060540     8184141      22940014     16032880     16500704     18025786     21263371     1971821      5676015      688386       1323802      1019106      423646       216965       607483       
-2011         0            144455       4979885      12745768     18269444     11012859     12554255     12031447     5191885      2070420      4482495      325209       1023012      963218       291440       126414       165945       
-*end
-2012         0            12341219     9576385      9861464      6577925      4057131      4914808      5586246      4778251      5585827      411250       887976       76397        97604        44962        10039        4725         
-2012         0            77439708     153828863    26069471     12877702     9258602      3876899      2146085      3177177      1169675      365495       580282       29220        60580        34557        5688         1711         
-2012         0            100840603    134204262    70309463     21841934     11874324     1700115      1            0            0            0            0            0            0            0            0            0            
-2012         0            3303958      17041921     30235067     23128756     23237882     12506999     8579057      4906851      5736161      422318       911874       78453        100231       46172        10309        4852         
-2012         0            191361       21937919     17660702     22576190     16626452     10360180     9147590      3869647      1424608      445156       706755       35589        73783        42089        6928         2084         
-2012         0            11818407     17486427     36184071     21507174     21781448     15723897     9211882      9247960      12553377     1123491      3092790      354745       636477       449590       168011       263604       
-2012         0            66041006     147517062    36925808     28750279     25258555     13717480     8906246      6636408      2878275      1107242      2292124      157279       461666       398934       108535       89572        
-2012         0            85907486     120047668    72877854     26894676     17208735     2811135      2            0            0            0            0            0            0            0            0            0            
-2012         0            1569465      7570039      9652140      18903526     22704541     16353367     18736062     12059851     16370299     1465095      4033169      462607       830001       586290       219096       343755       
-2012         0            24198        9611913      8868829      16083015     14076780     11551048     13640787     9346787      4053793      1559451      3228252      221513       650215       561863       152862       126155       
-*end
-2013         0            120029729    2625852      6800334      7804872      3338858      6951476      5550582      5022547      3246793      3538207      238631       461920       34687        37418        13968        3300         
-2013         0            588796850    25880525     50546942     9003829      8208188      5010082      2007353      3687449      2174176      745884       213459       303778       13350        23369        10802        1696         
-2013         0            980908051    36777298     48737897     26196834     9998552      2484964      1            0            0            0            0            0            0            0            0            0            
-2013         0            32012228     4676951      20867994     27466925     19140633     17705349     8531766      5162247      3337102      3636621      245268       474768       35652        38459        14356        3391         
-2013         0            1442071      3652181      33883705     15619234     14585513     13247926     8466499      4444023      2620263      898921       257255       366106       16089        28164        13018        2044         
-2013         0            114945380    4793665      24994818     25660686     18134389     22539452     9219490      9667826      7165148      9384198      803007       2090285      223661       368173       233770       183620       
-2013         0            502164468    24822929     71636518     20102209     22327121     17605504     8224474      7546830      5197538      2174493      799812       1565884      100258       270082       209848       86876        
-2013         0            835647724    32898585     50523615     32258584     14494553     4110366      2            0            0            0            0            0            0            0            0            0            
-2013         0            15209059     2077022      6673245      22574007     18919509     23462337     18767991     12618443     9351949      12248252     1048085      2728239      291923       480539       305117       239660       
-2013         0            182112       1600447      17025152     11127291     12312544     14669515     12464450     10517538     7243479      3030452      1114647      2182273      139723       376397       292451       121073       
-*end
-2014         0            19548986     25440171     1855186      5357057      3937562      5711515      7812930      4951190      3387437      2042192      2039364      123337       208424       13217        11555        3945         
-2014         0            102685913    196859776    8506229      17430021     5717749      4424889      2581858      3429693      2516000      1382343      434315       111409       138371       5134         7282         2915         
-2014         0            159796697    357867725    13378543     18211522     12027911     2098569      2            0            0            0            0            0            0            0            0            0            
-2014         0            5160501      44199494     5553140      18389554     22018432     14189902     11714263     4963922      3396148      2047444      2044609      123655       208960       13251        11585        3955         
-2014         0            253527       28045797     5756598      30525531     10257282     11812404     10993736     4172904      3061215      1681895      528430       135551       168356       6247         8861         3547         
-2014         0            18721056     46453977     6815773      17622880     21480827     18685251     13146377     9614989      7448677      5329793      6677488      540519       1312956      128924       190801       180542       
-2014         0            87582295     188870134    12068568     39028920     15598936     15549651     10535344     6944401      5890405      3912974      1565153      544422       994513       58434        141534       131987       
-2014         0            136132701    320126677    13870947     22430082     17436882     3472014      4            0            0            0            0            0            0            0            0            0            
-2014         0            2453479      19633624     1775018      15122303     21860423     18972628     26104633     12241267     9483240      6785595      8501405      688159       1671582      164139       242917       229856       
-2014         0            32058        12293738     2895643      21810470     8684461      13080392     16119313     9770508      8287576      5505405      2202110      765980       1399241      82215        199133       185701       
-*end
-2015         0            17903060     4147058      17963972     1454898      2681297      6691212      6363593      6899840      3313188      2113466      1167365      1045193      55177        78735        4046         3463         
-2015         0            111500531    34318826     64678947     2936449      11101221     3091617      2289102      4431993      2345381      1603328      806779       227211       50867        53342        1604         2309         
-2015         0            146298831    58281179     129966764    4984311      8335665      2516806      2            0            0            0            0            0            0            0            0            0            
-2015         0            4691579      6980092      52091354     4838264      14525000     16104418     9243056      6701416      3217909      2052688      1133794      1015135      53591        76471        3930         3363         
-2015         0            273194       4845255      43377447     5096358      19735594     8178879      9659403      5343851      2827931      1933204      972769       273958       61333        64317        1934         2784         
-2015         0            17144666     7578808      66239688     4823314      14718500     22083530     10835504     13539248     7331163      5481215      3750701      4444183      335634       748070       66033        157891       
-2015         0            95095385     32920641     91712237     6568203      30294589     10867338     9317494      8920689      5434877      4446954      2824525      1068496      346801       581401       30716        119447       
-2015         0            124633766    52134615     134732636    6139145      12086954     4164365      3            0            0            0            0            0            0            0            0            0            
-2015         0            2231978      3103133      16711606     4009579      14510529     21722469     20843602     16698762     9041961      6760309      4625963      5481276      413957       922640       81443        194737       
-2015         0            34503        2123545      21806645     3637452      16714184     9059318      14127624     12438069     7577820      6200364      3938221      1489798      483543       810644       42828        166545       
-*end
-2016         0            114213346    3798817      2911528      13965645     718087       4502868      7347491      5532741      4558990      2040758      1192533      590513       461477       20570        23785        1581         
-2016         0            637243249    37281855     11282282     22312767     1865767      5987744      1594141      3913503      3025504      1491926      934044       421281       103545       19572        16631        826          
-2016         0            933216955    53377860     21205137     48575918     2289038      1749970      2            0            0            0            0            0            0            0            0            0            
-2016         0            29630362     6480189      8556962      47071006     3942610      10984109     10816523     5446323      4487781      2008883      1173906      581290       454269       20249        23413        1557         
-2016         0            1559020      5254292      7553189      38656570     3311077      15812615     6714974      4710352      3641543      1795705      1124230      507060       124628       23557        20017        994          
-2016         0            109374660    6946384      10788625     46875614     3996566      15038905     12676553     10956836     10166767     5311618      3797086      2456951      2715815      188179       377011       91318        
-2016         0            543518852    35769649     16009116     49983531     5098914      21107214     6506077      7871350      6966195      4093672      3202381      1923546      678939       202225       304821       63054        
-2016         0            795018456    47748698     21985979     59829766     3319223      2895975      4            0            0            0            0            0            0            0            0            0            
-2016         0            14098411     2882566      2758680      39494407     3993394      14993132     24714981     13696524     12708903     6639754      4746523      3071296      3394887      235232       471280       114152       
-2016         0            196861       2303246      3799805      27631850     2808213      17564491     9847400      10955599     9695775      5697704      4457178      2677253      944970       281463       424259       87761        
+*selectivity[SAsl]
+alpha: 1 
+intervals: 5 
+label: SAsl 
+length_based: 1 
+mu: 84 
+sigma_l: 44 
+sigma_r: 44 
+type: double_normal 
+Values {vector}
+1 0.0848838
+2 0.0900493
+3 0.0954609
+4 0.101125
+5 0.107049
+6 0.113239
+7 0.1197
+8 0.12644
+9 0.133464
+10 0.140777
+11 0.148385
+12 0.156292
+13 0.164502
+14 0.17302
+15 0.181848
+16 0.19099
+17 0.200448
+18 0.210224
+19 0.220319
+20 0.230733
+21 0.241467
+22 0.252519
+23 0.263888
+24 0.275571
+25 0.287566
+26 0.299867
+27 0.312472
+28 0.325373
+29 0.338564
+30 0.352038
+31 0.365786
+32 0.379798
+33 0.394066
+34 0.408576
+35 0.423318
+36 0.438278
+37 0.453441
+38 0.468794
+39 0.484319
+40 0.5
+41 0.515819
+42 0.531758
+43 0.547798
+44 0.563917
+45 0.580094
+46 0.596309
+47 0.612538
+48 0.628759
+49 0.644947
+50 0.661078
+51 0.677128
+52 0.693071
+53 0.708881
+54 0.724533
+55 0.740001
+56 0.755258
+57 0.770278
+58 0.785034
+59 0.7995
+60 0.813649
+61 0.827457
+62 0.840896
+63 0.853942
+64 0.86657
+65 0.878755
+66 0.890474
+67 0.901702
+68 0.912419
+69 0.922602
+70 0.932232
+71 0.941287
+72 0.94975
+73 0.957603
+74 0.96483
+75 0.971416
+76 0.977347
+77 0.982609
+78 0.987194
+79 0.991089
+80 0.994288
+81 0.996783
+82 0.998569
+83 0.999642
+84 1
+85 0.999642
+86 0.998569
+87 0.996783
+88 0.994288
+89 0.991089
+90 0.987194
+91 0.982609
+92 0.977347
+93 0.971416
+94 0.96483
+95 0.957603
+96 0.94975
+97 0.941287
+98 0.932232
+99 0.922602
+100 0.912419
+101 0.901702
+102 0.890474
+103 0.878755
+104 0.86657
+105 0.853942
+106 0.840896
+107 0.827457
+108 0.813649
+109 0.7995
+110 0.785034
+111 0.770278
+112 0.755258
+113 0.740001
+114 0.724533
+115 0.708881
+116 0.693071
+117 0.677128
+118 0.661078
+119 0.644947
+120 0.628759
+121 0.612538
+122 0.596309
+123 0.580094
+124 0.563917
+125 0.547798
+126 0.531758
+127 0.515819
+128 0.5
+129 0.484319
+130 0.468794
+131 0.453441
+132 0.438278
+133 0.423318
+134 0.408576
+135 0.394066
+136 0.379798
+137 0.365786
+138 0.352038
+139 0.338564
+140 0.325373
+141 0.312472
+142 0.299867
+143 0.287566
+144 0.275571
+145 0.263888
+146 0.252519
+147 0.241467
+148 0.230733
+149 0.220319
+150 0.210224
 *end
 
-*catchability[CSacous]
-CSacous: 0.602206
-WCacous: 0.53057
-CRsum: 0.0786665
-SAsum: 0.0852433
-SAaut: 0.0743877
+*selectivity[Enspsl]
+alpha: 1 
+intervals: 5 
+label: Enspsl 
+length_based: 1 
+mu: 71.087699999999998 
+sigma_l: 10.7585 
+sigma_r: 44 
+type: double_normal 
+Values {vector}
+1 1.67551e-13
+2 3.85579e-13
+3 8.76755e-13
+4 1.96989e-12
+5 4.37325e-12
+6 9.59322e-12
+7 2.07933e-11
+8 4.45329e-11
+9 9.42402e-11
+10 1.97056e-10
+11 4.07139e-10
+12 8.31178e-10
+13 1.67665e-09
+14 3.34188e-09
+15 6.58168e-09
+16 1.2808e-08
+17 2.46277e-08
+18 4.67914e-08
+19 8.78427e-08
+20 1.62946e-07
+21 2.98662e-07
+22 5.40898e-07
+23 9.67941e-07
+24 1.71152e-06
+25 2.99027e-06
+26 5.16226e-06
+27 8.80576e-06
+28 1.4842e-05
+29 2.47181e-05
+30 4.0676e-05
+31 6.61392e-05
+32 0.000106262
+33 0.000168692
+34 0.000264613
+35 0.000410134
+36 0.000628114
+37 0.000950494
+38 0.00142121
+39 0.00209975
+40 0.0030653
+41 0.00442159
+42 0.00630204
+43 0.00887529
+44 0.0123504
+45 0.0169817
+46 0.0230716
+47 0.0309723
+48 0.0410834
+49 0.0538466
+50 0.0697347
+51 0.0892356
+52 0.11283
+53 0.140965
+54 0.174018
+55 0.212264
+56 0.255834
+57 0.304675
+58 0.358521
+59 0.416861
+60 0.478923
+61 0.543674
+62 0.609832
+63 0.675896
+64 0.740198
+65 0.800966
+66 0.856405
+67 0.904779
+68 0.944505
+69 0.974237
+70 0.99294
+71 0.999954
+72 0.999702
+73 0.998692
+74 0.996968
+75 0.994535
+76 0.991398
+77 0.987563
+78 0.983039
+79 0.977835
+80 0.971963
+81 0.965434
+82 0.958262
+83 0.950463
+84 0.942053
+85 0.933049
+86 0.923469
+87 0.913334
+88 0.902663
+89 0.891478
+90 0.879802
+91 0.867657
+92 0.855067
+93 0.842057
+94 0.828651
+95 0.814874
+96 0.800754
+97 0.786314
+98 0.771583
+99 0.756585
+100 0.741348
+101 0.725898
+102 0.710261
+103 0.694463
+104 0.678531
+105 0.662489
+106 0.646364
+107 0.63018
+108 0.613962
+109 0.597732
+110 0.581515
+111 0.565333
+112 0.549208
+113 0.533161
+114 0.517213
+115 0.501382
+116 0.485688
+117 0.470148
+118 0.45478
+119 0.4396
+120 0.424622
+121 0.40986
+122 0.395329
+123 0.38104
+124 0.367004
+125 0.353233
+126 0.339734
+127 0.326518
+128 0.313591
+129 0.300961
+130 0.288632
+131 0.276611
+132 0.2649
+133 0.253503
+134 0.242423
+135 0.231662
+136 0.221219
+137 0.211097
+138 0.201293
+139 0.191807
+140 0.182637
+141 0.173781
+142 0.165237
+143 0.157
+144 0.149066
+145 0.141433
+146 0.134094
+147 0.127045
+148 0.12028
+149 0.113794
+150 0.107581
 *end
 
-*catchability[WCacous]
-CSacous: 0.602206
-WCacous: 0.53057
-CRsum: 0.0786665
-SAsum: 0.0852433
-SAaut: 0.0743877
+*selectivity[Wnspsl]
+alpha: 1 
+intervals: 5 
+label: Wnspsl 
+length_based: 1 
+mu: 67.531999999999996 
+sigma_l: 12.617900000000001 
+sigma_r: 27.027999999999999 
+type: double_normal 
+Values {vector}
+1 4.27123e-09
+2 7.59021e-09
+3 1.33713e-08
+4 2.33513e-08
+5 4.04266e-08
+6 6.93813e-08
+7 1.18042e-07
+8 1.99089e-07
+9 3.32872e-07
+10 5.5173e-07
+11 9.06554e-07
+12 1.47666e-06
+13 2.38442e-06
+14 3.81686e-06
+15 6.05686e-06
+16 9.52812e-06
+17 1.48589e-05
+18 2.29711e-05
+19 3.52044e-05
+20 5.34848e-05
+21 8.05532e-05
+22 0.000120269
+23 0.000178009
+24 0.000261186
+25 0.000379906
+26 0.000547798
+27 0.00078304
+28 0.0011096
+29 0.00155871
+30 0.00217062
+31 0.00299655
+32 0.00410087
+33 0.00556353
+34 0.00748243
+35 0.00997594
+36 0.0131851
+37 0.0172755
+38 0.0224387
+39 0.0288923
+40 0.0368796
+41 0.0466668
+42 0.0585394
+43 0.0727959
+44 0.0897396
+45 0.109668
+46 0.13286
+47 0.159561
+48 0.189967
+49 0.224206
+50 0.262323
+51 0.304259
+52 0.349839
+53 0.39876
+54 0.450582
+55 0.504725
+56 0.560472
+57 0.616981
+58 0.673299
+59 0.728387
+60 0.781152
+61 0.830476
+62 0.87526
+63 0.914462
+64 0.947137
+65 0.972475
+66 0.989834
+67 0.998769
+68 0.999792
+69 0.997957
+70 0.994237
+71 0.988653
+72 0.981236
+73 0.972029
+74 0.961082
+75 0.948457
+76 0.934224
+77 0.918459
+78 0.901249
+79 0.882684
+80 0.862863
+81 0.841887
+82 0.819865
+83 0.796904
+84 0.773118
+85 0.74862
+86 0.723524
+87 0.697944
+88 0.671991
+89 0.645777
+90 0.619409
+91 0.592991
+92 0.566623
+93 0.540402
+94 0.514417
+95 0.488753
+96 0.463488
+97 0.438697
+98 0.414444
+99 0.39079
+100 0.367787
+101 0.345482
+102 0.323915
+103 0.303118
+104 0.283118
+105 0.263937
+106 0.245589
+107 0.228083
+108 0.211423
+109 0.195609
+110 0.180634
+111 0.16649
+112 0.153162
+113 0.140634
+114 0.128886
+115 0.117895
+116 0.107637
+117 0.0980856
+118 0.089212
+119 0.0809874
+120 0.0733817
+121 0.0663641
+122 0.0599039
+123 0.05397
+124 0.0485318
+125 0.0435587
+126 0.0390212
+127 0.03489
+128 0.0311371
+129 0.0277351
+130 0.0246581
+131 0.0218808
+132 0.0193795
+133 0.0171316
+134 0.0151158
+135 0.0133119
+136 0.011701
+137 0.0102655
+138 0.0089891
+139 0.00785647
+140 0.00685353
+141 0.00596728
+142 0.00518579
+143 0.0044981
+144 0.00389421
+145 0.003365
+146 0.0029022
+147 0.0024983
+148 0.00214654
+149 0.00184081
+150 0.00157563
 *end
 
-*catchability[CRsum]
-CSacous: 0.602206
-WCacous: 0.53057
-CRsum: 0.0786665
-SAsum: 0.0852433
-SAaut: 0.0743877
+*selectivity[CRsl]
+alpha: 1 
+intervals: 5 
+label: CRsl 
+length_based: 1 
+mu: 64 
+sigma_l: 17.064 
+sigma_r: 38.311999999999998 
+type: double_normal 
+Values {vector}
+1 7.88385e-05
+2 0.000106161
+3 0.000142275
+4 0.000189767
+5 0.000251911
+6 0.000332816
+7 0.000437617
+8 0.000572686
+9 0.000745885
+10 0.00096685
+11 0.00124732
+12 0.00160151
+13 0.00204651
+14 0.00260274
+15 0.00329443
+16 0.00415013
+17 0.00520325
+18 0.00649263
+19 0.00806305
+20 0.00996575
+21 0.0122589
+22 0.0150082
+23 0.0182867
+24 0.0221756
+25 0.0267638
+26 0.0321479
+27 0.0384317
+28 0.0457256
+29 0.0541454
+30 0.063811
+31 0.0748448
+32 0.0873697
+33 0.101506
+34 0.117369
+35 0.135068
+36 0.154696
+37 0.176335
+38 0.200047
+39 0.22587
+40 0.253814
+41 0.283861
+42 0.315957
+43 0.350011
+44 0.385895
+45 0.423436
+46 0.462423
+47 0.502602
+48 0.543676
+49 0.585314
+50 0.627148
+51 0.66878
+52 0.709788
+53 0.749733
+54 0.788165
+55 0.824632
+56 0.858687
+57 0.889903
+58 0.917872
+59 0.942224
+60 0.962629
+61 0.978804
+62 0.990523
+63 0.997622
+64 1
+65 0.999528
+66 0.998113
+67 0.995759
+68 0.992473
+69 0.988264
+70 0.983143
+71 0.977126
+72 0.970229
+73 0.962471
+74 0.953874
+75 0.944462
+76 0.934259
+77 0.923294
+78 0.911597
+79 0.899198
+80 0.88613
+81 0.872428
+82 0.858127
+83 0.843263
+84 0.827875
+85 0.812
+86 0.795678
+87 0.778948
+88 0.76185
+89 0.744423
+90 0.726709
+91 0.708746
+92 0.690575
+93 0.672235
+94 0.653764
+95 0.6352
+96 0.616581
+97 0.597942
+98 0.57932
+99 0.560747
+100 0.542258
+101 0.523883
+102 0.505653
+103 0.487597
+104 0.469742
+105 0.452113
+106 0.434735
+107 0.417631
+108 0.40082
+109 0.384323
+110 0.368158
+111 0.352339
+112 0.336882
+113 0.321798
+114 0.3071
+115 0.292797
+116 0.278896
+117 0.265404
+118 0.252327
+119 0.239667
+120 0.227428
+121 0.21561
+122 0.204213
+123 0.193236
+124 0.182677
+125 0.172531
+126 0.162795
+127 0.153464
+128 0.144531
+129 0.135989
+130 0.127831
+131 0.120049
+132 0.112635
+133 0.105579
+134 0.098871
+135 0.0925021
+136 0.0864618
+137 0.0807396
+138 0.0753249
+139 0.070207
+140 0.0653751
+141 0.0608182
+142 0.0565256
+143 0.0524863
+144 0.0486897
+145 0.0451251
+146 0.0417819
+147 0.03865
+148 0.035719
+149 0.0329792
+150 0.0304207
 *end
 
-*catchability[SAsum]
-CSacous: 0.602206
-WCacous: 0.53057
-CRsum: 0.0786665
-SAsum: 0.0852433
-SAaut: 0.0743877
+*selectivity[Wspsl]
+a50: 44.778564499999995 
+alpha: 1 
+ato95: 4 
+intervals: 5 
+label: Wspsl 
+length_based: 1 
+type: logistic 
+Values {vector}
+1 0
+2 0
+3 0
+4 0
+5 0
+6 0
+7 0
+8 0
+9 0
+10 0
+11 0
+12 0
+13 0
+14 0
+15 0
+16 0
+17 0
+18 0
+19 0
+20 0
+21 0
+22 0
+23 0
+24 0
+25 4.75359e-07
+26 9.92454e-07
+27 2.07204e-06
+28 4.32599e-06
+29 9.03175e-06
+30 1.88563e-05
+31 3.93673e-05
+32 8.21874e-05
+33 0.000171575
+34 0.000358148
+35 0.000747449
+36 0.00155925
+37 0.0032499
+38 0.00676122
+39 0.014013
+40 0.028817
+41 0.0583355
+42 0.114525
+43 0.212618
+44 0.36052
+45 0.54066
+46 0.710767
+47 0.836884
+48 0.914615
+49 0.957199
+50 0.979032
+51 0.989846
+52 0.995111
+53 0.997652
+54 0.998874
+55 0.99946
+56 0.999741
+57 0.999876
+58 0.999941
+59 0.999972
+60 0.999986
+61 0.999993
+62 0.999997
+63 0.999999
+64 0.999999
+65 1
+66 1
+67 1
+68 1
+69 1
+70 1
+71 1
+72 1
+73 1
+74 1
+75 1
+76 1
+77 1
+78 1
+79 1
+80 1
+81 1
+82 1
+83 1
+84 1
+85 1
+86 1
+87 1
+88 1
+89 1
+90 1
+91 1
+92 1
+93 1
+94 1
+95 1
+96 1
+97 1
+98 1
+99 1
+100 1
+101 1
+102 1
+103 1
+104 1
+105 1
+106 1
+107 1
+108 1
+109 1
+110 1
+111 1
+112 1
+113 1
+114 1
+115 1
+116 1
+117 1
+118 1
+119 1
+120 1
+121 1
+122 1
+123 1
+124 1
+125 1
+126 1
+127 1
+128 1
+129 1
+130 1
+131 1
+132 1
+133 1
+134 1
+135 1
+136 1
+137 1
+138 1
+139 1
+140 1
+141 1
+142 1
+143 1
+144 1
+145 1
+146 1
+147 1
+148 1
+149 1
+150 1
 *end
 
-*catchability[SAaut]
-CSacous: 0.602206
-WCacous: 0.53057
-CRsum: 0.0786665
-SAsum: 0.0852433
-SAaut: 0.0743877
+*selectivity[Espsl]
+a50: 44.800899999999999 
+alpha: 1 
+ato95: 4 
+intervals: 5 
+label: Espsl 
+length_based: 1 
+type: logistic 
+Values {vector}
+1 0
+2 0
+3 0
+4 0
+5 0
+6 0
+7 0
+8 0
+9 0
+10 0
+11 0
+12 0
+13 0
+14 0
+15 0
+16 0
+17 0
+18 0
+19 0
+20 0
+21 0
+22 0
+23 0
+24 0
+25 4.67608e-07
+26 9.7627e-07
+27 2.03825e-06
+28 4.25545e-06
+29 8.88447e-06
+30 1.85488e-05
+31 3.87254e-05
+32 8.08473e-05
+33 0.000168778
+34 0.00035231
+35 0.000735269
+36 0.00153387
+37 0.00319707
+38 0.0066517
+39 0.0137876
+40 0.0283605
+41 0.0574389
+42 0.112869
+43 0.209878
+44 0.356738
+45 0.536574
+46 0.707375
+47 0.834627
+48 0.913322
+49 0.95652
+50 0.978691
+51 0.989679
+52 0.99503
+53 0.997613
+54 0.998855
+55 0.999451
+56 0.999737
+57 0.999874
+58 0.99994
+59 0.999971
+60 0.999986
+61 0.999993
+62 0.999997
+63 0.999998
+64 0.999999
+65 1
+66 1
+67 1
+68 1
+69 1
+70 1
+71 1
+72 1
+73 1
+74 1
+75 1
+76 1
+77 1
+78 1
+79 1
+80 1
+81 1
+82 1
+83 1
+84 1
+85 1
+86 1
+87 1
+88 1
+89 1
+90 1
+91 1
+92 1
+93 1
+94 1
+95 1
+96 1
+97 1
+98 1
+99 1
+100 1
+101 1
+102 1
+103 1
+104 1
+105 1
+106 1
+107 1
+108 1
+109 1
+110 1
+111 1
+112 1
+113 1
+114 1
+115 1
+116 1
+117 1
+118 1
+119 1
+120 1
+121 1
+122 1
+123 1
+124 1
+125 1
+126 1
+127 1
+128 1
+129 1
+130 1
+131 1
+132 1
+133 1
+134 1
+135 1
+136 1
+137 1
+138 1
+139 1
+140 1
+141 1
+142 1
+143 1
+144 1
+145 1
+146 1
+147 1
+148 1
+149 1
+150 1
+*end
+
+*catchability[__CSacous__]
+q: 0.602206
+*end
+
+*catchability[__WCacous__]
+q: 0.53057
+*end
+
+*catchability[__CRsum__]
+q: 0.0786665
+*end
+
+*catchability[__SAsum__]
+q: 0.0852433
+*end
+
+*catchability[__SAaut__]
+q: 0.0743877
 *end
 
 *derived_quantity[SSB_E]
@@ -989,6 +1440,9 @@ values {vector}
 2015 271624
 2016 267932
 {end_list}
+*end
+
+*derived_quantity[SSB_W]
 SSB_W {list}
 type: biomass
 initialisation_phase[1]: 858764 
@@ -1041,107 +1495,12 @@ values {vector}
 {end_list}
 *end
 
-*derived_quantity[SSB_W]
-SSB_E {list}
-type: biomass
-initialisation_phase[1]: 451580 
-values {vector}
-1972 450183
-1973 448885
-1974 447017
-1975 434884
-1976 423417
-1977 412721
-1978 411085
-1979 407984
-1980 409238
-1981 431355
-1982 461829
-1983 477302
-1984 473348
-1985 463181
-1986 460448
-1987 441997
-1988 422374
-1989 402017
-1990 389547
-1991 400781
-1992 413926
-1993 388991
-1994 358428
-1995 348625
-1996 317003
-1997 278194
-1998 245534
-1999 218567
-2000 193744
-2001 181140
-2002 167991
-2003 141038
-2004 125648
-2005 122746
-2006 120912
-2007 136666
-2008 159654
-2009 178443
-2010 203178
-2011 225908
-2012 244995
-2013 253575
-2014 270802
-2015 271624
-2016 267932
-{end_list}
-SSB_W {list}
-type: biomass
-initialisation_phase[1]: 858764 
-values {vector}
-1972 856252
-1973 853261
-1974 850515
-1975 844886
-1976 827989
-1977 793523
-1978 787738
-1979 787959
-1980 787606
-1981 793476
-1982 796629
-1983 794915
-1984 793843
-1985 789214
-1986 773047
-1987 713568
-1988 623661
-1989 567265
-1990 530379
-1991 522036
-1992 529207
-1993 514078
-1994 505071
-1995 539807
-1996 552886
-1997 553466
-1998 533769
-1999 532918
-2000 478815
-2001 387004
-2002 320952
-2003 245156
-2004 212021
-2005 207439
-2006 205641
-2007 228442
-2008 266650
-2009 305511
-2010 355632
-2011 382988
-2012 401527
-2013 423252
-2014 432193
-2015 415727
-2016 428203
-{end_list}
+*parameter_transformations[__log_sum_b0__]
+parameters: process[recruit_E].b0 process[recruit_W].b0 
+parameter_values: 451580 858764 
+log_total_parameter: 14.0858
+total_proportion_parameter: 0.344627
+negative_log_jacobian: 0
 *end
 
 *observation[CSacous]
@@ -4944,6 +5303,7 @@ Recruit_event_SSB: 451580 451580 450183 448885 447017 434884 423417 412721 41108
 *end
 
 *process[Instant_mortality]
+biomass: 1
 categories: male.west.sa male.east.cr male.west.cr male.west.wc male.east.cs female.west.sa female.east.cr female.west.cr female.west.wc female.east.cs
 label: Instant_mortality
 m: 1 1 1 1 1 1 1 1 1 1
@@ -4951,21 +5311,27 @@ relative_m_by_age: M_male M_male M_male M_male M_male M_female M_female M_female
 time_step_proportions: 0.17000000000000001 0.33000000000000002 0.25 0.25
 type: mortality_instantaneous
 year: 1972 1973 1974 1975 1976 1977 1978 1979 1980 1981 1982 1983 1984 1985 1986 1987 1988 1989 1990 1991 1992 1993 1994 1995 1996 1997 1998 1999 2000 2001 2002 2003 2004 2005 2006 2007 2008 2009 2010 2011 2012 2013 2014 2015 2016 
-fishing_pressure[Ensp1]: 0.00123921 0.00124237 0.00182587 0.0109039 0.011485 0.0120738 0.000981946 0.00197543 0.00251302 0.00236828 0.00202665 0.00115535 0.00253761 0.00506796 0.00307232 0.00705359 0.00709058 0.00196421 0.00293803 0.0133449 0.0241242 0.0228331 0.0155725 0.0287557 0.0338745 0.0394211 0.0543229 0.0677056 0.0632609 0.0613291 0.0488035 0.0547501 0.042901 0.0463053 0.0478035 0.0395947 0.0361619 0.0435377 0.0384052 0.0381411 0.0337917 0.0356756 0.0334241 0.0362816 0.03356 
+exploitation_rate[Ensp1]: 0.00123921 0.00124237 0.00182587 0.0109039 0.011485 0.0120738 0.000981946 0.00197543 0.00251302 0.00236828 0.00202665 0.00115535 0.00253761 0.00506796 0.00307232 0.00705359 0.00709058 0.00196421 0.00293803 0.0133449 0.0241242 0.0228331 0.0155725 0.0287557 0.0338745 0.0394211 0.0543229 0.0677056 0.0632609 0.0613291 0.0488035 0.0547501 0.042901 0.0463053 0.0478035 0.0395947 0.0361619 0.0435377 0.0384052 0.0381411 0.0337917 0.0356756 0.0334241 0.0362816 0.03356 
+fishing_pressure[Ensp1]: 0.00123921 0.00124237 0.00182587 0.0109039 0.011485 0.0120738 0.000981944 0.00197543 0.00251302 0.00236828 0.00202664 0.00115535 0.00253761 0.00506795 0.00307231 0.00705358 0.00709057 0.00196421 0.00293802 0.0133449 0.0241241 0.0228331 0.0155725 0.0287556 0.0338745 0.0394211 0.0543229 0.0677056 0.0632608 0.061329 0.0488034 0.05475 0.042901 0.0463052 0.0478034 0.0395946 0.0361619 0.0435377 0.0384051 0.038141 0.0337917 0.0356756 0.0334241 0.0362816 0.03356 
 catch[Ensp1]: 1500 1500 2200 13100 13500 13900 1100 2200 2900 2900 2600 1500 3200 6200 3700 8800 9000 2300 3300 17400 33400 27400 16000 29600 37900 42400 55600 59200 43100 36200 24600 24200 17900 19000 23100 22400 22100 29300 28500 30500 28400 29900 27200 32400 28900 
 actual_catch[Ensp1]: 1500 1500 2200 13100 13500 13900 1100 2200 2900 2900 2600 1500 3200 6200 3700 8800 9000 2300 3300 17400 33400 27400 16000 29600 37900 42400 55600 59200 43100 36200 24600 24200 17900 19000 23100 22400 22100 29300 28500 30500 28400 29900 27200 32400 28900 
-fishing_pressure[Ensp2]: 0.00226162 0.00226709 0.00345433 0.0210279 0.0220412 0.0231214 0.0018663 0.00372039 0.00477478 0.00450916 0.00371741 0.0071908 0.00593321 0.00342961 0.0119604 0.00716046 0.00539297 0.0026333 0.00915575 0.01225 0.0146641 0.0190497 0.0115516 0.0173093 0.0238672 0.0297276 0.0396492 0.0345351 0.0354826 0.0392098 0.041118 0.0460997 0.0491509 0.0352751 0.0312883 0.0360561 0.0344681 0.0214616 0.0200613 0.0177628 0.0196014 0.0161545 0.0155042 0.0156524 0.0151224 
+exploitation_rate[Ensp2]: 0.00226162 0.00226709 0.00345433 0.0210279 0.0220412 0.0231214 0.0018663 0.00372039 0.00477478 0.00450916 0.00371741 0.0071908 0.00593321 0.00342961 0.0119604 0.00716046 0.00539297 0.0026333 0.00915575 0.01225 0.0146641 0.0190497 0.0115516 0.0173093 0.0238672 0.0297276 0.0396492 0.0345351 0.0354826 0.0392098 0.041118 0.0460997 0.0491509 0.0352751 0.0312883 0.0360561 0.0344681 0.0214616 0.0200613 0.0177628 0.0196014 0.0161545 0.0155042 0.0156524 0.0151224 
+fishing_pressure[Ensp2]: 0.00226124 0.00226671 0.00345375 0.0210244 0.0220375 0.0231175 0.00186599 0.00371977 0.00477399 0.00450841 0.00371679 0.0071896 0.00593222 0.00342904 0.0119584 0.00715927 0.00539207 0.00263286 0.00915422 0.012248 0.0146617 0.0190465 0.0115497 0.0173064 0.0238632 0.0297227 0.0396426 0.0345294 0.0354767 0.0392032 0.0411112 0.046092 0.0491427 0.0352692 0.0312831 0.0360501 0.0344623 0.0214581 0.0200579 0.0177598 0.0195982 0.0161518 0.0155016 0.0156497 0.0151199 
 catch[Ensp2]: 2500 2500 3800 22900 23500 24100 1900 3800 5100 5100 4400 8500 6800 3800 13300 8200 6000 2700 9700 14900 17500 19700 10600 16500 23900 28200 34200 23600 20500 19700 18100 18700 19000 13800 14400 18400 19400 13100 13500 12800 14700 11800 11700 12500 11100 
 actual_catch[Ensp2]: 2500 2500 3800 22900 23500 24100 1900 3800 5100 5100 4400 8500 6800 3800 13300 8200 6000 2700 9700 14900 17500 19700 10600 16500 23900 28200 34200 23600 20500 19700 18100 18700 19000 13800 14400 18400 19400 13100 13500 12800 14700 11800 11700 12500 11100 
+exploitation_rate[Esp]: 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0.00142085 0.0172866 0.0353754 0.0716539 0.0601264 0.0555944 0.0956136 0.0942556 0.172769 0.185156 0.174397 0.17027 0.18369 0.175999 0.136899 0.258992 0.282218 0.199097 0.15415 0.129225 0.106535 0.0855546 0.0777822 0.0573086 0.0610596 0.070909 0.0620254 0.0704702 0.0721118 
 fishing_pressure[Esp]: 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0.00142085 0.0172866 0.0353754 0.0716539 0.0601264 0.0555944 0.0956136 0.0942556 0.172769 0.185156 0.174397 0.17027 0.18369 0.175999 0.136899 0.258992 0.282218 0.199097 0.15415 0.129225 0.106535 0.0855546 0.0777822 0.0573086 0.0610596 0.070909 0.0620254 0.0704702 0.0721118 
 catch[Esp]: 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 600 7000 14000 29700 25600 22200 35900 34400 59700 56500 46700 40500 39000 34800 24600 41700 41000 27000 20100 18800 17900 15900 16400 13300 15400 18600 17300 19800 20000 
 actual_catch[Esp]: 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 600 7000 14000 29700 25600 22200 35900 34400 59700 56500 46700 40500 39000 34800 24600 41700 41000 27000 20100 18800 17900 15900 16400 13300 15400 18600 17300 19800 20000 
-fishing_pressure[Wnsp1]: 0 0 0 0 0 0 0 0 0 0 0 0.00371672 0.00779576 0.00354309 0.00848299 0.00713281 0.00696847 0.00103914 0.00146029 0.00751498 0.0225986 0.0234525 0.00996638 0.0103315 0.00936415 0.0104791 0.016881 0.0140145 0.0240693 0.0265766 0.0417625 0.0398317 0.0265858 0.0191457 0.0103572 0.0169852 0.0225171 0.0178864 0.0170174 0.016975 0.0192424 0.0134015 0.0210981 0.0186509 0.0159506 
+exploitation_rate[Wnsp1]: 0 0 0 0 0 0 0 0 0 0 0 0.00371672 0.00779576 0.00354309 0.00848299 0.00713281 0.00696847 0.00103914 0.00146029 0.00751498 0.0225986 0.0234525 0.00996638 0.0103315 0.00936415 0.0104791 0.016881 0.0140145 0.0240693 0.0265766 0.0417625 0.0398317 0.0265858 0.0191457 0.0103572 0.0169852 0.0225171 0.0178864 0.0170174 0.016975 0.0192424 0.0134015 0.0210981 0.0186509 0.0159506 
+fishing_pressure[Wnsp1]: 0 0 0 0 0 0 0 0 0 0 0 0.00371544 0.00779306 0.00354187 0.00848005 0.00713034 0.00696606 0.00103878 0.00145978 0.00751237 0.0225907 0.0234444 0.00996292 0.0103279 0.0093609 0.0104755 0.0168751 0.0140096 0.0240609 0.0265674 0.041748 0.0398179 0.0265766 0.0191391 0.0103536 0.0169793 0.0225093 0.0178802 0.0170115 0.0169691 0.0192357 0.0133968 0.0210908 0.0186444 0.015945 
 catch[Wnsp1]: 0 0 0 0 0 0 0 0 0 0 0 3200 6700 3000 7200 5900 5400 700 900 4400 14000 14700 5800 5900 5700 6900 10900 8800 14300 13200 16800 12400 6300 4200 2300 4200 6500 6000 6700 7500 9100 6500 10600 9100 7800 
 actual_catch[Wnsp1]: 0 0 0 0 0 0 0 0 0 0 0 3200 6700 3000 7200 5900 5400 700 900 4400 14000 14700 5800 5900 5700 6900 10900 8800 14300 13200 16800 12400 6300 4200 2300 4200 6500 6000 6700 7500 9100 6500 10600 9100 7800 
-fishing_pressure[Wnsp2]: 0 0 0 0 0 0 0 0 0 0 0 0.0035884 0.00559303 0.00635459 0.00344164 0.00559346 0.00816387 0.00605635 0.0122572 0.0162921 0.021806 0.0150434 0.00800782 0.0106177 0.00881786 0.0191821 0.0185441 0.0199833 0.0301702 0.031093 0.0312755 0.0239491 0.0194907 0.00811245 0.0160718 0.0104871 0.0059679 0.00884082 0.0112502 0.00952667 0.0114476 0.0129413 0.0160777 0.012079 0.0105357 
+exploitation_rate[Wnsp2]: 0 0 0 0 0 0 0 0 0 0 0 0.0035884 0.00559303 0.00635459 0.00344164 0.00559346 0.00816387 0.00605635 0.0122572 0.0162921 0.021806 0.0150434 0.00800782 0.0106177 0.00881786 0.0191821 0.0185441 0.0199833 0.0301702 0.031093 0.0312755 0.0239491 0.0194907 0.00811245 0.0160718 0.0104871 0.0059679 0.00884082 0.0112502 0.00952667 0.0114476 0.0129413 0.0160777 0.012079 0.0105357 
+fishing_pressure[Wnsp2]: 0 0 0 0 0 0 0 0 0 0 0 0.00356808 0.00556135 0.0063186 0.00342215 0.00556178 0.00811763 0.00602205 0.0121877 0.0161999 0.0216825 0.0149581 0.00796246 0.0105576 0.00876791 0.0190734 0.0184391 0.0198701 0.0299993 0.0309169 0.0310983 0.0238134 0.0193803 0.0080665 0.0159807 0.0104277 0.00593409 0.00879074 0.0111865 0.0094727 0.0113827 0.012868 0.0159867 0.0120106 0.010476 
 catch[Wnsp2]: 0 0 0 0 0 0 0 0 0 0 0 3500 5400 6100 3300 5400 7600 4900 9100 12700 17400 10900 5500 7500 6800 15100 14600 14900 19500 16900 13400 7800 5300 2100 4700 3500 2200 3800 5600 5200 6600 7600 9300 7300 6200 
 actual_catch[Wnsp2]: 0 0 0 0 0 0 0 0 0 0 0 3500 5400 6100 3300 5400 7600 4900 9100 12700 17400 10900 5500 7500 6800 15100 14600 14900 19500 16900 13400 7800 5300 2100 4700 3500 2200 3800 5600 5200 6600 7600 9300 7300 6200 
+exploitation_rate[Wsp]: 0.00585938 0.00587997 0.005899 0.0118428 0.0358353 0.0733332 0.00638156 0.0227651 0.0252702 0.0312118 0.031103 0.0291053 0.034763 0.0314087 0.0893999 0.187871 0.310431 0.289185 0.286098 0.231796 0.184817 0.180306 0.21238 0.139222 0.130309 0.161989 0.183437 0.168656 0.199818 0.248141 0.267883 0.282034 0.202258 0.17112 0.179218 0.139745 0.0781854 0.0670754 0.0996712 0.122876 0.13063 0.129867 0.151237 0.17776 0.166638 
 fishing_pressure[Wsp]: 0.00585938 0.00587997 0.005899 0.0118428 0.0358353 0.0733332 0.00638156 0.0227651 0.0252702 0.0312118 0.031103 0.0291053 0.034763 0.0314087 0.0893999 0.187871 0.310431 0.289185 0.286098 0.231796 0.184817 0.180306 0.21238 0.139222 0.130309 0.161989 0.183437 0.168656 0.199818 0.248141 0.267883 0.282034 0.202258 0.17112 0.179218 0.139745 0.0781854 0.0670754 0.0996712 0.122876 0.13063 0.129867 0.151237 0.17776 0.166638 
 catch[Wsp]: 5000 5000 5000 10000 30000 60000 5000 18000 20000 25000 25000 23300 27900 24900 71500 146700 227000 185900 173000 135900 107200 100100 117200 80100 75900 96900 107100 97500 105600 109000 98000 79800 46300 38100 39700 33700 21200 20800 36600 49500 55800 57200 70200 80500 76000 
 actual_catch[Wsp]: 5000 5000 5000 10000 30000 60000 5000 18000 20000 25000 25000 23300 27900 24900 71500 146700 227000 185900 173000 135900 107200 100100 117200 80100 75900 96900 107100 97500 105600 109000 98000 79800 46300 38100 39700 33700 21200 20800 36600 49500 55800 57200 70200 80500 76000 
@@ -5229,6 +5595,7 @@ Values {vector}
 
 *info[messages_encountered]
 Values {string}
+Estimable parameters were loaded from the free parameter file: free.dat
 Creating default report for catchability CSacous
 Creating default report for catchability WCacous
 Creating default report for catchability CRsum
@@ -5236,6 +5603,7 @@ Creating default report for catchability SAsum
 Creating default report for catchability SAaut
 Creating default report for derived quantity SSB_E
 Creating default report for derived quantity SSB_W
+Creating default report for addressable transformations log_sum_b0
 Creating default report for observation CSacous
 Creating default report for observation WCacous
 Creating default report for observation CRsumbio
@@ -5263,12 +5631,12 @@ Creating default report for process recruit_E
 Creating default report for process Instant_mortality
 Creating default report for selectivity M_male
 Creating default report for selectivity M_female
-Creating default report for selectivity Enspsl
-Creating default report for selectivity Wnspsl
-Creating default report for selectivity Espsl
-Creating default report for selectivity Wspsl
-Creating default report for selectivity CRsl
-Creating default report for selectivity SAsl
+skipping the default report for Enspsl this is a length based selectivity. Create a seperate report for this
+skipping the default report for Wnspsl this is a length based selectivity. Create a seperate report for this
+skipping the default report for Espsl this is a length based selectivity. Create a seperate report for this
+skipping the default report for Wspsl this is a length based selectivity. Create a seperate report for this
+skipping the default report for CRsl this is a length based selectivity. Create a seperate report for this
+skipping the default report for SAsl this is a length based selectivity. Create a seperate report for this
 Creating default report for selectivity sel_Whome
 Creating default report for selectivity sel_Espmg_Male
 Creating default report for selectivity sel_Espmg_Female
@@ -5277,18 +5645,97 @@ Creating default report for selectivity sel_Wspmg_Female
 Creating default report for selectivity One
 Creating default report for selectivity Point5
 Initiating basic run mode
-Estimable parameters were loaded from the free parameter file: free.dat
 *end
 
 *warnings[messages_encountered]
 Values {string}
+obs sum total (1) for year (1989) doesn't sum to 1.0
+obs sum total (1) for year (1990) doesn't sum to 1.0
+obs sum total (0.999999) for year (1991) doesn't sum to 1.0
+obs sum total (1) for year (1994) doesn't sum to 1.0
+obs sum total (1) for year (1995) doesn't sum to 1.0
+obs sum total (1) for year (1996) doesn't sum to 1.0
+obs sum total (1) for year (1998) doesn't sum to 1.0
+obs sum total (1) for year (1999) doesn't sum to 1.0
+obs sum total (0.999999) for year (2001) doesn't sum to 1.0
+obs sum total (1) for year (2002) doesn't sum to 1.0
+obs sum total (1) for year (2003) doesn't sum to 1.0
+obs sum total (0.999998) for year (2004) doesn't sum to 1.0
+obs sum total (0.999998) for year (2005) doesn't sum to 1.0
+obs sum total (1) for year (2006) doesn't sum to 1.0
+obs sum total (1) for year (2007) doesn't sum to 1.0
+obs sum total (1) for year (2008) doesn't sum to 1.0
+obs sum total (1) for year (2009) doesn't sum to 1.0
+obs sum total (1) for year (2010) doesn't sum to 1.0
+obs sum total (1) for year (2015) doesn't sum to 1.0
+obs sum total (1) for year (1988) doesn't sum to 1.0
+obs sum total (0.999999) for year (1989) doesn't sum to 1.0
+obs sum total (0.999998) for year (1990) doesn't sum to 1.0
+obs sum total (1) for year (1991) doesn't sum to 1.0
+obs sum total (0.999999) for year (1992) doesn't sum to 1.0
+obs sum total (1) for year (1998) doesn't sum to 1.0
+obs sum total (1) for year (1999) doesn't sum to 1.0
+obs sum total (1) for year (2000) doesn't sum to 1.0
+obs sum total (1) for year (2002) doesn't sum to 1.0
+obs sum total (0.999999) for year (2003) doesn't sum to 1.0
+obs sum total (1) for year (2004) doesn't sum to 1.0
+obs sum total (1) for year (2005) doesn't sum to 1.0
+obs sum total (0.999999) for year (2006) doesn't sum to 1.0
+obs sum total (1) for year (2007) doesn't sum to 1.0
+obs sum total (1) for year (2008) doesn't sum to 1.0
+obs sum total (1) for year (2009) doesn't sum to 1.0
+obs sum total (0.999999) for year (2011) doesn't sum to 1.0
+obs sum total (1) for year (2014) doesn't sum to 1.0
+obs sum total (1) for year (2015) doesn't sum to 1.0
+obs sum total (1) for year (1998) doesn't sum to 1.0
+obs sum total (0.999999) for year (1999) doesn't sum to 1.0
+obs sum total (0.999999) for year (2000) doesn't sum to 1.0
+obs sum total (0.999999) for year (2001) doesn't sum to 1.0
+obs sum total (1) for year (2003) doesn't sum to 1.0
+obs sum total (1) for year (2004) doesn't sum to 1.0
+obs sum total (0.999999) for year (2007) doesn't sum to 1.0
+obs sum total (1) for year (2009) doesn't sum to 1.0
+obs sum total (1) for year (2010) doesn't sum to 1.0
+obs sum total (1) for year (2011) doesn't sum to 1.0
+obs sum total (1) for year (2012) doesn't sum to 1.0
+obs sum total (1) for year (2014) doesn't sum to 1.0
+obs sum total (1) for year (2015) doesn't sum to 1.0
+obs sum total (1) for year (1993) doesn't sum to 1.0
+obs sum total (1) for year (1996) doesn't sum to 1.0
+obs sum total (0.999999) for year (1999) doesn't sum to 1.0
+obs sum total (0.999999) for year (2001) doesn't sum to 1.0
+obs sum total (0.999999) for year (2003) doesn't sum to 1.0
+obs sum total (1) for year (2004) doesn't sum to 1.0
+obs sum total (0.999997) for year (2006) doesn't sum to 1.0
+obs sum total (0.999999) for year (2009) doesn't sum to 1.0
+obs sum total (1) for year (2010) doesn't sum to 1.0
+obs sum total (1) for year (2011) doesn't sum to 1.0
+obs sum total (1) for year (2012) doesn't sum to 1.0
+obs sum total (1) for year (2013) doesn't sum to 1.0
+obs sum total (1) for year (1992) doesn't sum to 1.0
+obs sum total (0.999998) for year (1994) doesn't sum to 1.0
+obs sum total (0.999999) for year (1995) doesn't sum to 1.0
+obs sum total (0.999999) for year (1999) doesn't sum to 1.0
+obs sum total (0.999999) for year (2004) doesn't sum to 1.0
+obs sum total (1) for year (2005) doesn't sum to 1.0
+obs sum total (0.999999) for year (2006) doesn't sum to 1.0
+obs sum total (1) for year (2007) doesn't sum to 1.0
+obs sum total (0.999999) for year (2010) doesn't sum to 1.0
+obs sum total (0.999996) for year (2012) doesn't sum to 1.0
+obs sum total (1) for year (2013) doesn't sum to 1.0
+obs sum total (0.999999) for year (2014) doesn't sum to 1.0
+obs sum total (0.999999) for year (2016) doesn't sum to 1.0
+obs sum total (0.999999) for year (1992) doesn't sum to 1.0
+obs sum total (0.999998) for year (1993) doesn't sum to 1.0
+obs sum total (0.999999) for year (2001) doesn't sum to 1.0
+obs sum total (0.999998) for year (2004) doesn't sum to 1.0
+obs sum total (1) for year (2006) doesn't sum to 1.0
+obs sum total (0.999999) for year (2007) doesn't sum to 1.0
+obs sum total (1) for year (2009) doesn't sum to 1.0
+obs sum total (1) for year (2012) doesn't sum to 1.0
+obs sum total (0.999999) for year (2013) doesn't sum to 1.0
+obs sum total (1) for year (1998) doesn't sum to 1.0
 Estimates were removed because of matching lower and upper bounds. Originally had 150 estimates, now have 149
-Cannot report the length-based selectivity values. This report (__Enspsl__) is being ignored. This can be done using the Casal2 R package. See the User Manual for more information
-Cannot report the length-based selectivity values. This report (__Wnspsl__) is being ignored. This can be done using the Casal2 R package. See the User Manual for more information
-Cannot report the length-based selectivity values. This report (__Espsl__) is being ignored. This can be done using the Casal2 R package. See the User Manual for more information
-Cannot report the length-based selectivity values. This report (__Wspsl__) is being ignored. This can be done using the Casal2 R package. See the User Manual for more information
-Cannot report the length-based selectivity values. This report (__CRsl__) is being ignored. This can be done using the Casal2 R package. See the User Manual for more information
-Cannot report the length-based selectivity values. This report (__SAsl__) is being ignored. This can be done using the Casal2 R package. See the User Manual for more information
 estimated parameter 'process[recruit_E].ycs_values{1999}' was within 0.001 of lower bound 0.06
 estimated parameter 'process[recruit_W].ycs_values{1999}' was within 0.001 of lower bound 0.06
 estimated parameter 'selectivity[sel_Whome].v{7}' was within 0.001 of upper bound 1

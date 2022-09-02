@@ -5,7 +5,7 @@
  * @date 8/03/2013
  * @section LICENSE
  *
- * Copyright NIWA Science ©2013 - www.niwa.co.nz
+ * Copyright NIWA Science ï¿½2013 - www.niwa.co.nz
  *
  * $Date: 2008-03-04 16:33:32 +1300 (Tue, 04 Mar 2008) $
  */
@@ -30,6 +30,19 @@ UniformLog::UniformLog(shared_ptr<Model> model) : Estimate(model) {}
 Double UniformLog::GetScore() {
   Double score_ = log(value());
   return score_;
+}
+/**
+ * GetPriorValues()
+ *
+ * @return empty vector no prior parameters for this estimate type
+ */
+vector<Double>   UniformLog::GetPriorValues() {
+  vector<Double> result = {0};
+  return result;
+}
+vector<string>   UniformLog::GetPriorLabels() {
+  vector<string> result = {"none"};
+  return result;
 }
 
 } /* namespace estimates */

@@ -21,6 +21,7 @@
 #include "TimeSteps/Manager.h"
 #include "Utilities/Math.h"
 #include "Utilities/To.h"
+#include "Utilities/Vector.h"
 
 // namespaces
 namespace niwa {
@@ -45,15 +46,15 @@ RecruitmentBevertonHoltWithDeviations::RecruitmentBevertonHoltWithDeviations(sha
   parameters_.Bind<string>(PARAM_SSB, &ssb_, "The SSB label (i.e., the derived quantity label))", "");
   parameters_.Bind<Double>(PARAM_SIGMA_R, &sigma_r_, "The standard deviation of recruitment, sigma_R", "")->set_lower_bound(0.0);
   parameters_.Bind<Double>(PARAM_B_MAX, &b_max_, "The maximum bias adjustment", "", 0.85)->set_range(0.0, 1.0);
-  parameters_.Bind<unsigned>(PARAM_LAST_YEAR_WITH_NO_BIAS, &year1_, "The last year with no bias adjustment", "", false);
-  parameters_.Bind<unsigned>(PARAM_FIRST_YEAR_WITH_BIAS, &year2_, "The first year with full bias adjustment", "", false);
-  parameters_.Bind<unsigned>(PARAM_LAST_YEAR_WITH_BIAS, &year3_, "The last year with full bias adjustment", "", false);
-  parameters_.Bind<unsigned>(PARAM_FIRST_RECENT_YEAR_WITH_NO_BIAS, &year4_, "The first recent year with no bias adjustment", "", false);
+  parameters_.Bind<unsigned>(PARAM_LAST_YEAR_WITH_NO_BIAS, &year1_, "The last year (recruited year) with no bias adjustment", "", false);
+  parameters_.Bind<unsigned>(PARAM_FIRST_YEAR_WITH_BIAS, &year2_, "The first year (recruited year) with full bias adjustment", "", false);
+  parameters_.Bind<unsigned>(PARAM_LAST_YEAR_WITH_BIAS, &year3_, "The last year (recruited year) with full bias adjustment", "", false);
+  parameters_.Bind<unsigned>(PARAM_FIRST_RECENT_YEAR_WITH_NO_BIAS, &year4_, "The first recent year (recruited year) with no bias adjustment", "", false);
 
   parameters_.Bind<string>(PARAM_B0_PHASE, &phase_b0_label_, "The initialisation phase label that B0 is from", "", "");
   parameters_.Bind<Double>(PARAM_DEVIATION_VALUES, &recruit_dev_values_, "The recruitment deviation values", "");
   parameters_.Bind<unsigned>(PARAM_DEVIATION_YEARS, &recruit_dev_years_,
-                             "The recruitment years. A vector of years that relates to the year of the spawning event that created this cohort", "", false);
+                             "The recruitment years. A vector of years that relates to the year of the spawning event that created this cohort", "", true);
 
   RegisterAsAddressable(PARAM_R0, &r0_);
   RegisterAsAddressable(PARAM_B0, &b0_);
@@ -73,6 +74,11 @@ RecruitmentBevertonHoltWithDeviations::RecruitmentBevertonHoltWithDeviations(sha
  */
 void RecruitmentBevertonHoltWithDeviations::DoValidate() {
   LOG_TRACE();
+  if (parameters_.Get(PARAM_DEVIATION_YEARS)->has_been_defined()) 
+    LOG_ERROR_P(PARAM_DEVIATION_YEARS) << PARAM_DEVIATION_YEARS << " is deprecated, refer to user manual for more information.";
+  
+  recruit_dev_years_ = model_->years(); // set to model years
+
   if (!parameters_.Get(PARAM_AGE)->has_been_defined()) {
     age_ = model_->min_age();
   } else if (age_ != model_->min_age()) {
@@ -100,26 +106,21 @@ void RecruitmentBevertonHoltWithDeviations::DoValidate() {
   if (!math::IsOne(running_total))
     LOG_ERROR_P(PARAM_PROPORTIONS) << "The sum total is " << running_total << " which should be 1.0";
 
-  if (recruit_dev_values_.size() != ((model_->final_year() - model_->start_year()) + 1))
-    LOG_ERROR_P(PARAM_DEVIATION_YEARS) << "There must be a year class year for each year of the model";
+  for(auto year = model_->start_year(); year <= model_->final_year(); ++year)
+    years_.push_back(year);
 
-  if (recruit_dev_values_.size() != recruit_dev_years_.size()) {
-    LOG_FATAL_P(PARAM_DEVIATION_VALUES) << "There are " << recruit_dev_years_.size() << " " << PARAM_DEVIATION_YEARS << " and " << recruit_dev_values_.size() << " "
-                                        << PARAM_YCS_VALUES << " defined. These vectors must be of equal length.";
+  if (recruit_dev_values_.size() != years_.size()) {
+    LOG_ERROR_P(PARAM_DEVIATION_VALUES) << "There must be a recruitment deviation specified for all years between start and final. Expected " << years_.size() << ", but found " << recruit_dev_values_.size();
+
   }
 
   // initialise recruit devs
   unsigned ycs_iter = 0;
-  for (unsigned ycs_year : recruit_dev_years_) {
-    recruit_dev_value_by_year_[ycs_year] = recruit_dev_values_[ycs_iter];
+  for (unsigned recruited_year : years_) {
+    recruit_dev_value_by_year_[recruited_year] = recruit_dev_values_[ycs_iter];
     ycs_iter++;
   }
 
-  // Check years are in incremental ascending order
-  for (unsigned i = 1; i < recruit_dev_years_.size(); ++i) {
-    if ((recruit_dev_years_[i - 1] + 1) != recruit_dev_years_[i])
-      LOG_ERROR_P(PARAM_DEVIATION_YEARS) << " values must be in strictly increasing order. Value " << recruit_dev_years_[i - 1] << " + 1 does not equal " << recruit_dev_years_[i];
-  }
   // Populate the proportions category, assumes there is a one to one relationship between categories, and proportions.
   unsigned iter = 0;
   for (auto& category : category_labels_) {
@@ -218,30 +219,20 @@ void RecruitmentBevertonHoltWithDeviations::DoBuild() {
     ssb_offset_ = temp_ssb_offset;
   }
 
-  // Check that ycs years corresponds to the correct ssb_offset calculated
-  if (recruit_dev_years_[0] != (model_->start_year() - ssb_offset_))
-    LOG_ERROR_P(PARAM_DEVIATION_YEARS) << "The first year class year is " << recruit_dev_years_[0] << ", but with the configuration of the process it should be "
-                                       << model_->start_year() - ssb_offset_
-                                       << ". Please check either the ycs_year parameter or see the User Manual for more information on how Casal2 calculates this value.";
-  if (recruit_dev_years_[recruit_dev_years_.size() - 1] != (model_->final_year() - ssb_offset_))
-    LOG_ERROR_P(PARAM_DEVIATION_YEARS) << "The last year class year is " << recruit_dev_years_[recruit_dev_years_.size() - 1]
-                                       << ", but with the configuration of the process it should be " << model_->final_year() - ssb_offset_
-                                       << ". Please check either the ycs_year parameter or see the User Manual for more information on how Casal2 calculates this value.";
 
-  // Check users haven't specified a @estimate block for both R0 and B0
-  string b0_param = "process[" + label_ + "].b0";
-  string r0_param = "process[" + label_ + "].r0";
-
-  bool B0_estimate = model_->managers()->estimate()->HasEstimate(b0_param);
-  bool R0_estimate = model_->managers()->estimate()->HasEstimate(r0_param);
-
-  LOG_FINEST() << "is B0 estimated = " << B0_estimate << "; is R0 estimated " << R0_estimate;
-  if (B0_estimate && R0_estimate) {
-    LOG_ERROR() << "Both R0 and B0 have an @estimate specified for recruitment process " << label_ << ". Only one of these parameters can be estimated.";
+  spawn_event_years_.resize(model_->years().size(),0.0);
+  for (unsigned year_iter = 0; year_iter < model_->years().size(); ++year_iter) {
+    spawn_event_years_[year_iter] = model_->years()[year_iter] - ssb_offset_;
+    LOG_FINEST() << "ssb year = " << spawn_event_years_[year_iter]  << " for year = " << model_->years()[year_iter] ;
   }
 
+  // Check users haven't specified an @estimate block for both R0 and B0
+  if(IsAddressableUsedFor(PARAM_R0, addressable::kEstimate) & IsAddressableUsedFor(PARAM_B0, addressable::kEstimate))
+    LOG_ERROR() << "Both R0 and B0 have an @estimate specified for recruitment process " << label_ << ". Only one of these parameters can be estimated.";
+
+  // Pre allocate memory
   // Check if recruitment devs have an @estimate block, I am just checking over the first year
-  for (auto year : recruit_dev_years_) {
+  for (auto year : years_) {
     string year_string;
     if (!utilities::To<unsigned, string>(year, year_string))
       LOG_CODE_ERROR() << "Could not convert the value " << year << " to a string";
@@ -272,7 +263,7 @@ void RecruitmentBevertonHoltWithDeviations::DoBuild() {
   }
 
   // Build Bias correction map by year 'bias_by_year_'
-  for (auto year : recruit_dev_years_) {
+  for (auto year : years_) {
     if (year <= year1_) {
       bias_by_year_[year] = 0.0;
     } else if ((year > year1_) && (year < year2_)) {
@@ -286,10 +277,11 @@ void RecruitmentBevertonHoltWithDeviations::DoBuild() {
     }
   }
   // Pre allocate memory for report objects
-  ssb_values_.reserve(model_->years().size());
-  true_ycs_values_.reserve(model_->years().size());
-  ycs_values_.reserve(model_->years().size());
-  recruitment_values_.reserve(model_->years().size());
+  ssb_values_.resize(model_->years().size());
+  true_ycs_values_.resize(model_->years().size());
+  recruitment_values_.resize(model_->years().size());
+  ycs_values_.resize(model_->years().size());
+
 
   DoReset();
 }
@@ -310,15 +302,15 @@ void RecruitmentBevertonHoltWithDeviations::DoReset() {
   // if a -i call is made then we need to re-populate the recruit_dev_values_ vector for reporting.
   // This has to be done because the input parameter recruit_dev_values_ and registered estimate parameter recruit_dev_value_by_year_
   // Are different
-  for (unsigned i = 0; i < recruit_dev_years_.size(); ++i) {
-    recruit_dev_values_[i] = recruit_dev_value_by_year_[recruit_dev_years_[i]];
+  for (unsigned i = 0; i < years_.size(); ++i) {
+    recruit_dev_values_[i] = recruit_dev_value_by_year_[years_[i]];
   }
 
   // clear containers for another annual cycle.
-  ssb_values_.clear();
-  true_ycs_values_.clear();
-  recruitment_values_.clear();
-  ycs_values_.clear();
+  fill(ssb_values_.begin(), ssb_values_.end(), 0.0);
+  fill(true_ycs_values_.begin(), true_ycs_values_.end(), 0.0);
+  fill(recruitment_values_.begin(), recruitment_values_.end(), 0.0);
+  fill(ycs_values_.begin(), ycs_values_.end(), 0.0);
 
   // Check whether B0 as an input paramter or a derived quantity, this is a result of having an r0 or a b0 in the process
   // if its estimated or an input it will be updates.
@@ -326,7 +318,7 @@ void RecruitmentBevertonHoltWithDeviations::DoReset() {
     b0_ = derived_quantity_->GetLastValueFromInitialisation(phase_b0_);
 
   // Only rebuild in the reset if Bmax is estimated, otherwise it remains constant.
-  if (model_->managers()->estimate()->HasEstimate("process[" + label_ + "].b_max")) {
+  if (model_->managers()->estimate()->HasEstimate("process[" + label_ + "].b_max")) { // this check should be moved into the Build and set a flag
     // Build Bias correction map by year 'bias_by_year_'
     for (auto year : recruit_dev_years_) {
       if (year <= year1_) {
@@ -354,7 +346,11 @@ void RecruitmentBevertonHoltWithDeviations::DoReset() {
  *
  */
 void RecruitmentBevertonHoltWithDeviations::DoExecute() {
-  unsigned ssb_year = model_->current_year() - ssb_offset_;
+  unsigned current_year = model_->current_year();
+  std::pair<bool, int> this_year_iter  = niwa::utilities::findInVector(model_->years(), current_year);
+  year_counter_ = this_year_iter.second;
+  unsigned ssb_year     = current_year - ssb_offset_;
+
 
   Double amount_per = 0.0;
   if (model_->state() == State::kInitialise) {
@@ -385,8 +381,8 @@ void RecruitmentBevertonHoltWithDeviations::DoExecute() {
      */
     LOG_FINEST() << "; model_->start_year(): " << model_->start_year();
     Double ycs = 0.0;
-    if (recruit_dev_value_by_year_.find(ssb_year) != recruit_dev_value_by_year_.end() && bias_by_year_.find(ssb_year) != bias_by_year_.end())
-      ycs = exp(recruit_dev_value_by_year_[ssb_year] - (bias_by_year_[ssb_year] * 0.5 * sigma_r_ * sigma_r_));
+    if (recruit_dev_value_by_year_.find(current_year) != recruit_dev_value_by_year_.end() && bias_by_year_.find(current_year) != bias_by_year_.end())
+      ycs = exp(recruit_dev_value_by_year_[current_year] - (bias_by_year_[current_year] * 0.5 * sigma_r_ * sigma_r_));
     LOG_FINEST() << "Projected ycs = " << ycs;
 
     if (ycs < 0.0)
@@ -408,11 +404,11 @@ void RecruitmentBevertonHoltWithDeviations::DoExecute() {
     Double true_ycs  = ycs * SR;
     amount_per       = r0_ * true_ycs;
 
-    true_ycs_values_.push_back(true_ycs);
-    recruitment_values_.push_back(amount_per);
-    ssb_values_.push_back(SSB);
-    ycs_values_.push_back(ycs);
-    LOG_FINEST() << "year = " << model_->current_year() << " SSB = " << SSB << " SR = " << SR << "; recruit_dev = " << recruit_dev_value_by_year_[ssb_year] << "; b0_ = " << b0_
+    true_ycs_values_[year_counter_] = true_ycs;
+    recruitment_values_[year_counter_] = amount_per;
+    ssb_values_[year_counter_] = SSB;
+    ycs_values_[year_counter_] = ycs;
+    LOG_FINEST() << "year = " << model_->current_year() << " SSB = " << SSB << " SR = " << SR << "; recruit_dev = " << recruit_dev_value_by_year_[current_year] << "; b0_ = " << b0_
                  << "; ssb_ratio = " << ssb_ratio << "; true_ycs = " << true_ycs << "; amount_per = " << amount_per;
   }
 
@@ -455,13 +451,19 @@ void RecruitmentBevertonHoltWithDeviations::ScalePartition() {
  * @param cache a cache object to print to
  */
 void RecruitmentBevertonHoltWithDeviations::FillReportCache(ostringstream& cache) {
-  cache << "ycs_values: ";
+  cache << "recruitment_multipliers: ";
   for (auto iter : ycs_values_) cache << AS_DOUBLE(iter) << " ";
+  cache << "\nmodel_year: ";
+  for (auto iter : recruit_dev_value_by_year_) 
+    cache << iter.first << " ";
+  cache << "\nspawn_event_year: ";
+  for (auto iter : spawn_event_years_) 
+    cache << iter << " ";
   cache << "\ntrue_ycs: ";
   for (auto iter : true_ycs_values_) cache << AS_DOUBLE(iter) << " ";
-  cache << "\nRecruits: ";
+  cache << "\nrecruits: ";
   for (auto iter : recruitment_values_) cache << AS_DOUBLE(iter) << " ";
-  cache << "\nRecruit_event_SSB: ";
+  cache << "\nrecruit_event_SSB: ";
   for (auto iter : ssb_values_) cache << AS_DOUBLE(iter) << " ";
   cache << REPORT_EOL;
 }

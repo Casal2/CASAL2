@@ -20,7 +20,7 @@
 #include "Observations/Observation.h"
 #include "Partition/Accessors/Cached/CombinedCategories.h"
 #include "Partition/Accessors/CombinedCategories.h"
-#include "Processes/Age/MortalityInstantaneous.h"
+#include "Processes/Age/Mortality.h"
 
 // Namespace
 namespace niwa {
@@ -29,7 +29,7 @@ namespace age {
 
 using partition::accessors::CombinedCategoriesPtr;
 using partition::accessors::cached::CachedCombinedCategoriesPtr;
-using processes::age::MortalityInstantaneous;
+using processes::age::Mortality;
 
 /**
  * Class Definition
@@ -60,8 +60,8 @@ protected:
   string                      method_;
   parameters::Table*          error_values_table_ = nullptr;
   CombinedCategoriesPtr       partition_;
-  MortalityInstantaneous*     mortality_instantaneous_ = nullptr;
-  string                      time_step_label_         = "";
+  age::Mortality*             mortality_process_ = nullptr;
+  vector<string>              time_step_label_;
   string                      process_label_;
   vector<Double>              numbers_at_age_;
   vector<Double>              numbers_at_length_;
@@ -76,6 +76,9 @@ protected:
 
   map<unsigned, map<string, vector<double>>> proportions_;
   map<unsigned, map<string, vector<double>>> error_values_;
+
+  vector<string>          allowed_mortality_types_;
+
 };
 
 } /* namespace age */

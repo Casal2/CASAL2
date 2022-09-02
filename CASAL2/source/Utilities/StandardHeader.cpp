@@ -39,7 +39,7 @@ namespace utilities {
 void StandardHeader::PrintTop(GlobalConfiguration& global_config) {
   // Variables
   start_time_ = time(NULL);
-
+  LOG_FINE() << "Printing standard header (top)";
   // Linux Vars
 #if !defined(__MINGW32__) && !defined(_MSC_VER)
   times(&cpu_start);
@@ -101,6 +101,7 @@ void StandardHeader::PrintTop(GlobalConfiguration& global_config) {
  *
  */
 void StandardHeader::PrintBottom(GlobalConfiguration& global_config) {
+  LOG_FINE() << "Printing standard header (bottom)";
   if (global_config.disable_standard_report())
     return;
 

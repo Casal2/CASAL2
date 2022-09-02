@@ -169,6 +169,14 @@ void AgeLength::Build() {
   UpdateYearContainers();
   // Build Age-length matrix
   PopulateAgeLengthMatrix();
+  // used in get_pdf_with_sized_based_selectivity
+  quantiles_.resize(5,0);
+  inverse_values_.resize(5,0);
+  quantiles_[0]=0.1;
+  quantiles_[1]=0.3;
+  quantiles_[2]=0.5;
+  quantiles_[3]=0.7;
+  quantiles_[4]=0.9;
 }
 
 /**
@@ -848,6 +856,89 @@ void AgeLength::populate_age_length_matrix(vector<Double> numbers_at_age, vector
     }
   }
 }
+/**
+ * @details get_pdf
+ * @param age actual age
+ * @param length length
+ * @param year the year (needed for Data type)
+ * @param time_step needed for the correct inter annual interpolation.
+ * Given an age and length, figure the pdf of the size-at-age distribution for partition element [row,age]
+ */
+Double AgeLength::get_pdf(unsigned age, Double length, unsigned year, unsigned time_step) {
+  Double mu    = calculate_mean_length(year, time_step, age);
+  Double cv    = cvs_[year - year_offset_][time_step - time_step_offset_][age - age_offset_];
+  Double sigma = cv * mu;
+  //LOG_FINE() << "year: " << year << "; time_step " << time_step << "; age: " << age << "; mu: " << mu << "; cv: " << cv << "; sigma: " << sigma;
+  if (distribution_ == Distribution::kLogNormal) {
+    // Transform parameters in to log space
+    Double Lvar  = log(cv * cv + 1.0);
+    mu    = log(mu) - Lvar / 2.0;
+    sigma = sqrt(Lvar);
+    return utilities::math::dlognorm(length, mu, sigma);
+  } else {
+    return utilities::math::dnorm(length, mu, sigma);
+  }
+  return 0.0;
+}
+
+/**
+ * @details get_pdf_with_sized_based_selectivity
+ * @param age actual age
+ * @param length length
+ * @param year the year (needed for Data type)
+ * @param time_step needed for the correct inter annual interpolation.
+ * @param selectivity selectivity pointer assumed to be length-based selectivity
+ * Given an age and length, figure the pdf of the size-at-age distribution for partition element [age]
+ * The pdf is modified by a size-based selectivity.
+ * f_new(size) = Sel(size)f_old(size) / integral_over_size=s of Sel(s)f_old(s).
+ *  We approximate the integral by a discrete approximation over 5 appropriately spaced points.
+ */
+Double AgeLength::get_pdf_with_sized_based_selectivity(unsigned age, Double length, unsigned year, unsigned time_step, Selectivity* selectivity) {
+  Double numerator = get_pdf(age, length, year, time_step) * selectivity->GetResult(length);
+  if (numerator == 0) return 0;
+  Double denominator = 0.0;
+  // clear this inverse_values_ container
+  fill(inverse_values_.begin(), inverse_values_.end(), 0.0);
+  //
+  get_cdf_inverse(age, year, time_step, inverse_values_);
+  // now evaluate the selectivity over these integration points
+  for(unsigned i = 0; i < inverse_values_.size(); ++i) {
+    denominator += selectivity->GetResult(inverse_values_[i]);
+  }
+  // the integral is over
+  LOG_FINE() << "numerator = " << numerator << " denominator " << denominator;
+  if (denominator == 0) return 0;
+  return numerator / (denominator * 0.2);
+}
+
+/**
+ * @details get_cdf_inverse
+ * @param age actual age
+ * @param year the year (needed for Data type)
+ * @param time_step needed for the correct inter annual interpolation.
+ * at the specified time, figure the inverse cdf of the size-at-age
+ * distribution for partition element [age]
+ * used by get_pdf_with_sized_based_selectivity
+ */
+
+void AgeLength::get_cdf_inverse(unsigned age, unsigned year, unsigned time_step, vector<Double>& inverse_result) {
+  Double mu    = calculate_mean_length(year, time_step, age);
+  Double cv    = cvs_[year - year_offset_][time_step - time_step_offset_][age - age_offset_];
+  Double sigma = cv * mu;
+  if(inverse_result.size() != quantiles_.size())
+    LOG_CODE_ERROR() << "inverse_result.size() != quantiles_.size()";
+  for(unsigned i = 0; i < inverse_result.size(); ++i) {
+    if (distribution_ == Distribution::kLogNormal) {
+      // Transform parameters in to log space
+      Double Lvar  = log(cv * cv + 1.0);
+      mu    = log(mu) - Lvar / 2.0;
+      sigma = sqrt(Lvar);
+      inverse_result[i] =  utilities::math::qlognorm(quantiles_[i],mu,sigma);
+    } else {
+      inverse_result[i] =  utilities::math::qnorm(quantiles_[i],mu,sigma);
+    }
+  }
+}
 
 /**
  * @details FillReportCache
@@ -899,4 +990,7 @@ void AgeLength::FillReportCache(ostringstream& cache) {
     }
   }
 }
+
+
+
 } /* namespace niwa */

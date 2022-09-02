@@ -7,3 +7,13 @@ type objective_function
 @assert obj
 type objective_function
 value 2860.37771
+
+@report default
+type default
+processes true
+observations true
+catchabilities true
+selectivities true
+projects true
+derived_quantities True
+parameter_transformations true

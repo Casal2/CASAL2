@@ -43,6 +43,8 @@ public:
   void FillTabularReportCache(ostringstream& cache, bool first_run) override final;
 
   void ScalePartition();
+  bool has_partition_been_scaled() {return have_scaled_partition;};
+
   // accessor
   unsigned ssb_offset() { return ssb_offset_; };
   string   ssb_label() { return ssb_; };
@@ -63,6 +65,9 @@ private:
   unsigned                   year2_;
   unsigned                   year3_;
   unsigned                   year4_;
+  vector<unsigned>           years_;
+  vector<unsigned>           spawn_event_years_;
+  unsigned                   year_counter_     = 0;
   bool                       b0_initialised_ = false;
   vector<Double>             proportions_;
   unsigned                   age_       = 0;
@@ -71,7 +76,6 @@ private:
   string                     ssb_;
   unsigned                   ssb_offset_;
   vector<Double>             ssb_values_;
-  vector<unsigned>           recruit_dev_years_;
   vector<Double>             recruit_dev_values_;
   map<unsigned, Double>      recruit_dev_value_by_year_;
   vector<Double>             true_ycs_values_;
@@ -80,6 +84,10 @@ private:
   bool                       have_scaled_partition = false;
   DerivedQuantity*           derived_quantity_     = nullptr;
   OrderedMap<string, Double> proportions_by_category_;
+
+  // deprecated
+  vector<unsigned>           recruit_dev_years_;
+
 };
 
 } /* namespace age */

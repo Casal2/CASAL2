@@ -3,61 +3,20 @@ type objective_function
 value 6910.98
 tolerance 0.01 # I chose a small tolerance to save computation time with model runners
 
-##########
-## Report section
-##########
-/*
-@report male_growth_
-type growth_increment
-growth_increment male_growth
-years 1986
-time_step Oct-Jan 
-
-@report female_growth_
-type growth_increment
-growth_increment female_growth
-years 1986
-time_step Oct-Jan 
-
-@report init_part
-type initialisation_partition
-
-@report obj
-type objective_function
+@report default
+type default
+processes true
+observations true
+catchabilities true
+selectivities true
+projects true
+derived_quantities True
+parameter_transformations true
 
 @report estimate_value
 type estimate_value
 
-@report estimate_summary
-type estimate_summary
+@report objective_function
+type objective_function
 
-@report partition_Oct-Jan 
-type partition
-time_step Oct-Jan 
 
-@report partition_Feb-Apr 
-type partition
-time_step Feb-Apr 
-
-@report partition_May-Sep
-type partition
-time_step May-Sep
-
-@report default
-type default
-selectivities true
-derived_quantities true
-observations true
-processes true
-catchabilities true
-
-@report samples
-type mcmc_sample
-file_name samples
-write_mode incremental_suffix
-
-@report objectives
-type mcmc_objective
-file_name objectives
-write_mode incremental_suffix
-*/

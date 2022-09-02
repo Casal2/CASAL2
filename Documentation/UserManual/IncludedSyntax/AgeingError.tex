@@ -13,10 +13,25 @@
 \commandlabsubarg{ageing\_error}{type}{Data}.
 \label{syntax:AgeingError-Data}
 
-\defSub{table}{The table of data specifying the ageing misclassification matrix}
+\defSub{data}{The table of data specifying the ageing misclassification matrix}
 \defType{A table giving the misclassification matrix}
 \defDefault{No default}
 \defValue{The table has $n$ rows and columns, where n is the number of ages in the model}
+
+\defSub{table data}{The table of data specifying the ageing misclassification matrix}
+\defType{Data table with label = data}
+\defDefault{No default}
+\defValue{An $n*n$ matrix, where $n=$ the number of ages in the model. See below for example.}
+\defNote{example below}
+\begin{verbatim}
+	table data 
+	# example for a model with ages 1-3
+	0.95 0.05 0.00
+	0.05 0.90 0.05
+	0.00 0.05 0.95
+	end_table
+\end{verbatim}
+
 
 \subsubsection{Ageing\_Error of type None}
 \commandlabsubarg{ageing\_error}{type}{None}.

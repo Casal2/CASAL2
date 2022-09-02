@@ -113,6 +113,8 @@ public:
   unsigned                      threads() const { return threads_; }
   bool                          addressables_value_file() const { return addressable_values_file_; }
   void                          set_run_mode(RunMode::Type run_mode) { run_mode_ = run_mode; }
+  string                        get_current_initialisation_phase_label() const {return current_init_label_;};
+  void                          set_current_initialisation_phase_label(string init_label)  {current_init_label_ = init_label;};
 
   void set_global_configuration(GlobalConfiguration* value) { global_configuration_ = value; }
 
@@ -169,6 +171,7 @@ protected:
   double               length_plus_group_        = 0;
   bool                 addressable_values_file_  = false;
   unsigned             addressable_values_count_ = 1;
+  string               current_init_label_       = "";
   PartitionType        partition_type_           = PartitionType::kInvalid;
   shared_ptr<Managers> managers_;
   Objects*             objects_                = nullptr;

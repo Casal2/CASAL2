@@ -611,7 +611,7 @@ void MortalityInstantaneous::DoExecute() {
         fishery.exploitation_by_year_[year] = fishery.exploitation_;
 
         if (fishery.penalty_)
-          fishery.penalty_->Trigger(label_, fishery.catches_[year], fishery.actual_catches_[year]);
+          fishery.penalty_->Trigger(fishery.catches_[year], fishery.actual_catches_[year]);
       } else {
         fishery.actual_catches_[year]       = fishery.catches_[year];
         fishery.exploitation_by_year_[year] = fishery.exploitation_;
@@ -706,7 +706,7 @@ void MortalityInstantaneous::FillReportCache(ostringstream& cache) {
   vector<unsigned> years = model_->years();
 
   cache << "year: ";
-  for (auto year : years) cache << year << " ";
+  for (auto year : process_years_) cache << year << " ";
 
   for (auto& fishery_iter : fisheries_) {
     auto& fishery = fishery_iter.second;

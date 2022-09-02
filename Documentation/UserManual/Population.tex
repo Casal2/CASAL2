@@ -4,11 +4,11 @@ The command and subcommand syntax for the estimation section is given in Section
 
 \subsection{Introduction}
 
-This section\index{Population section} shows how to specify a model for the population dynamics. It describes the model time and age scope, the population processes used (e.g., recruitment, ageing, migration, and mortality), the selectivities, and how to set values for their associated parameters, or starting values if they are going to be estimated.
+This section\index{Population section} shows how to specify a model for the population dynamics. It describes the model time and age scope, the population processes used (e.g., recruitment, ageing, migration, and mortality), the selectivity ogives, and how to set values for their associated parameters, or starting values if they are going to be estimated.
 
 The basic structure of the population is defined in terms of its partitions and the succession of processes that act on them throughout a year. \CNAME\ assumes an annual cycle, i.e., rates like natural mortality are assumed to be for a year. To place certain processes or observations (e.g., a research survey) into the right part of the year, the year can be divided into one or more time steps, and each time step needs  at least one process. Each time step can represent a specific period of the calendar year, or it can be an abstract sequence of events. Certain processes like natural mortality and growth can have a proportion of the effects of the process assigned to different time steps to crudely mimic seasonal effects, or fisheries that occur in short periods of the year, as well as place a survey within the year relative to the proportion of annual natural mortality that has occurred (see Section \ref{sec:DerivedQuantity}).
 
-The \emph{state} is the current status of the population at any given time and it can change one or more times during the year. The state object must contain sufficient information to determine how the population changes over time, given a model and a complete set of parameters. The partition is key to the state, but it has no "memory". Thus, other information must also be kept, such as the mature biomass from a previous year or time step to calculate the recruit numbers into first age class via the spawner-recruitment function. The latter are specified as \emph{derived variables} and they are kept for the whole model run. However, the \emph{derived variables}  record only summary information from the partition at a specified time step and year.
+The \emph{state} is the current status of the population at any given time and it can change one or more times during the year. The state object must contain sufficient information to determine how the population changes over time, given a model and a complete set of parameters. The partition is key to the state, but it has no "memory". Thus, other information must also be kept, such as the mature biomass from a previous year or time step to calculate the recruit numbers into the first age class via the spawner-recruitment relationship. Quantities like mature biomass are defined as \emph{derived variables} and are calculated for each year of the model. However, the \emph{derived variables} record only summary information from the partition at a specified time step and year.
 
 Processes can change the partition and, for example, include recruitment, natural mortality, fishing mortality, ageing, migration, and maturation. These processes are repeated for each year of the model.
 
@@ -20,18 +20,18 @@ Topics covered are:
 
 \begin{itemize}
 	\item The model scope, such as the ages covered, the years over which the model runs, and the end year for projections (Section~\ref{sec:Model});
-    \item Linking processes, such as growth to each category;
+    \item Linking processes, such as growth, to each category;
     \item The number of time steps and the processes that are applied in each time step\index{Annual cycle} (Section~\ref{sec:TimeStep});
     \item The specification of and the parameters for the population processes: processes that add or remove individuals from a partition, or shift individuals between ages and categories in a partition;
     \item The initialisation process: the state of the partition at the start of the first year\index{Initialisation}\index{Model ! initialisation};
-   \item Defining selectivities and linking them to observations;
-   \item The parameters: their definitions, initial values, and other characteristics; and
+   \item Defining selectivity ogives and linking them to observations;
+   \item The parameters: their definitions, initial values, prior distributions, and other characteristics; and
    \item Derived quantities, e.g., mature biomass, to include in density-dependent processes such as the spawner-recruit relationship
 \end{itemize}
 
 \subsection{\I{Model scope and structure}}\label{sec:Model}
 
-The model needs scoping for ages and year covered. This is done in the \emph{@model} command block.
+The model needs scoping for ages and year covered. This is done in the \command{model} command block.
 
 Each \CNAME\ model requires:
 
@@ -52,7 +52,7 @@ An example of how to specify a potential model with two categories is outlined b
 		final_year 2000
 		projection_final_year 2010
 		base_weight_units     tonnes
-		min_age     1
+		min_age    1
 		max_age   20
 		age_plus_group        true
 		initialisation_phases Equilibrium_phase
@@ -61,12 +61,12 @@ An example of how to specify a potential model with two categories is outlined b
 		@categories
 		format      sex
 		names       male female
-		age_lengths male_growth female_growth  #labels for growth blocks
+		age_lengths male_growth female_growth  # labels for growth blocks
 \end{verbatim}}}
 
-This model runs for 20 years, starting in 1981, and will do a projection over 10 years for a population with ages from  one and twenty, with age 20 being a plus-group. Each year is divided into three time-steps. The categories are male and female (i.e., there is one category factor, labelled sex) and each category has an age-length relationship.
+This model runs for 20 years, starting in 1981, and will do a projection over 10 years for a population with ages from  1 through 20, with age 20 being a plus-group. Each year is divided into three time-steps. The categories are male and female (i.e., there is one category factor, labelled \textit{sex}) and each category has an age-length relationship.
 
-Whist \CNAME\ generally uses generic formulation, it does have some specific population concepts, in this case, growth which can vary for each category. Additionally, there is a  length-weight concept which is specified in the age-length blocks, here blocks starting with \texttt{@age\_size male\_growth} and \texttt{@age\_size female\_growth} that are placed elsewhere in the input files (not shown).
+Whist \CNAME\ generally uses generic formulation, it does have some specific population concepts, in this case, growth which can vary for each category. Additionally, there is a  length-weight characteristic which is specified in the age-length blocks, which in this example are command blocks starting with \command{age\_size male\_growth} and \command{age\_size female\_growth} that are placed elsewhere in the input files (not shown).
 
 \CNAME\ allows categories of the partition to exist for a subset of years of a model. This feature enables more efficient computations when models contain categories that do not persist over all model years. A model may define one-off processes that transition individuals from one category into another in a subset of the model initialisation phases or years (e.g., tagging events). Excluding categories for certain years can be more efficient as \CNAME\ will not initialise these categories or apply processes to categories in years or time steps in which they do not exist.
 
@@ -76,7 +76,7 @@ Derived quantities are an important component of the state object. An example of
 
 \subsubsection{\I{The implicit annual cycle}}\label{sec:TimeStep}
 
-There is an implicit annual cycle that orders the sequence of processes within the year, but there is no command block as such. The implementation is by ordering processes within the time-steps. This sequence is repeated for every year. Time steps are used to break the year into separate components and allow observations to be associated with specific time periods and processes. Any number of processes can occur within each time step, in any order, although there are restrictions for mortality-based processes (see Section~\ref{sec:MortalityBlock}); processes can occur multiple times within each time step. Time steps are not implemented during the initialisation phases (effectively there is only one initialisation time step), and the annual cycle in the initialisation phases can be different from the annual cycle specified for the model years (\ref{sec:Initialisation}).
+There is an implicit annual cycle that orders the sequence of processes within the year, but there is no command block as such. The implementation is by ordering processes within the time-steps. This sequence is repeated for every year. Time steps are used to break the year into separate components and allow observations to be associated with specific time periods and processes. Any number of processes can occur within each time step, in any order, although there are restrictions for mortality-based processes (see Section~\ref{sec:Process-Mortality}); processes can occur multiple times within each time step. Time steps are not implemented during the initialisation phases (effectively there is only one initialisation time step), and the annual cycle in the initialisation phases can be different from the annual cycle specified for the model years (\ref{sec:Initialisation}).
 
 Figure \ref{Fig:annual} shows an example of the annual cycle using three time-steps.
 
@@ -86,14 +86,14 @@ Figure \ref{Fig:annual} shows an example of the annual cycle using three time-st
 	\caption{A example sequence for an annual cycle.}\label{Fig:annual}
 \end{figure}
 
-This would be specified using @time\_step block:
+This would be specified using \command{time\_step} block:
 
 {\small{\begin{verbatim}
 @model
-time\_steps step1 step2 step3
+time_steps step1 step2 step3
 \end{verbatim}}}
 
-This gives the order and labels for each time step, i.e., 3. Processes are sequenced using order within the \textit{@time\_step} block:
+This gives the order and labels for each time step, i.e., 3. Processes are sequenced using order within the \command{time\_step} block:
 
 {\small{\begin{verbatim}
 @time_step step1
@@ -106,11 +106,17 @@ processes Spawn_migration Fishing
 processes Home_migration Ageing
 \end{verbatim}}}
 
-The \emph{Recruitment}, \emph{Fishing}, \emph{Spawn\_migration}, \emph{Home\_migration} and \emph{Ageing} are all labels of command blocks that defines a process (see \ref{sec:Process} for the list of available processes). The order that the  processes are executed is in the same order as specified. The process \emph{Fishing} could be the process type \texttt{Instantaneous\_Mortality} (\ref{sec:Process-MortalityInstantaneous}) which takes natural mortality as a parameter as well as specifying the catches in the time-steps, so it is possible to have all catch taken in time-step \emph{step1} with some natural mortality, and no fishing in time-step \emph{step2} where the rest of the natural mortality occurs.
+The \emph{Recruitment}, \emph{Fishing}, \emph{Spawn\_migration}, \emph{Home\_migration} and \emph{Ageing} are all labels of command blocks that defines a process (see Section \ref{sec:Process} for the list of available processes). The order that the  processes are executed is in the same order as specified. The process \emph{Fishing} could be the process type \texttt{Instantaneous\_Mortality} (Section 
+\ifAgeBased
+\ref{sec:Process-MortalityInstantaneous}
+\else
+\ref{sec:Process-Length-MortalityInstantaneous}
+\fi
+) which takes natural mortality as a parameter as well as specifying the catches in the time-steps, so it is possible to have all catch taken in time-step \emph{step1} with some natural mortality, and no fishing in time-step \emph{step2} where the rest of the natural mortality occurs.
 
-Although \emph{Spawn} represents a biological process, spawning, for the usual modelling it is the time that the spawning stock biomass is calculated since this is needed to calculate recruitment is there is a spawning biomass recruitment relationship. A related concept is maturity which can be in the partition, so there needs to be a transfer of immature fish into the mature category, i.e., a process, but it is only indirectly related to spawning. Hence, in modelling, spawning is not a process that affects the partition directly, but it the time to calculate the SSB which must be setup as a derived variable (from the partition). Hence, \emph{Spawn} is located in Figure \ref{Fig:annual}.
+Although the process \emph{Spawn} represents a biological process, spawning, in the \CNAME\ model it is the time that the spawning stock biomass ($SSB$) is calculated since this is needed to calculate recruitment if there is a spawner-recruitment relationship. A related concept is maturity which can be in the partition, so there needs to be a process to transfer immature fish into the mature category, but it is only indirectly related to spawning. Hence, in modelling, spawning is not a process that affects the partition directly, but it the time to calculate the $SSB$ which must be defined as a derived quantity (from the partition). Hence, \emph{Spawn} is located in Figure \ref{Fig:annual}.
 
-To calculate the SSB a \texttt{@derived\_quantity} command block is needed in which the "timing" of the SSB calculation in terms of which time-step and the proportion of natural mortality within it is specified (\ref{sec:DerivedQuantity}).
+To calculate the $SSB$ a \command{derived\_quantity} command block is needed in which the "timing" of the $SSB$ calculation in terms of which time-step and the proportion of natural mortality within it is specified (\ref{sec:DerivedQuantity}).
 
 \subsubsection{\I{The initialisation phases}}\label{sec:Initialisation}
 
@@ -120,12 +126,12 @@ There are multiple options for partition initialisation in \CNAME, including
 
 \begin{itemize}
 	\item Iterative: run the model for a specified number of years to get the converged state.
-	\item Derived: Use the analytical solution (i.e., faster than iterative) for the initial state, but it does not work for some processes (e.g., density dependant migration)
-	\item Cinitial: Allow the estimation of the initial partition's numbers-at-age
+	\item Derived: Use the analytical solution (i.e., faster than iterative) for the initial state, but it does not work with some processes (e.g., density-dependent migration)
+	\item Cinitial: Estimate the initial partition's numbers-at-age
 	\item state\_category\_by\_age: specify the partition's numbers-at-age
 \end{itemize}
 
-Initialisation specifications starts with nominating the initialisation label in the \textit{@model} command block followed by a \textit{@initialisation\_phase} command block specifying the type and other settings:
+Initialisation definitions start with specifying the initialisation label in the \command{model} command block followed by a \command{initialisation\_phase} command block specifying the type and other settings:
 
 {\small{\begin{verbatim}
 @model
@@ -146,14 +152,14 @@ If needed, the processes used and their order in the initialisation are those sp
 type iterative
 exclude_processes Fishing
 insert_processes step1(recruitment)=initialFishing
-            #format=<step>(<insert before label>)-<new block label>
-...             # specify option values
+            # format: <step>(<insert before process label>)=<new block label>
+...         # specify option values
 
 \end{verbatim}}}
 
-where \textit{ Fishing} is the normal fishing process which defines natural mortality so when excluded, initialisation can use another value that incorporates some unrecorded fishing before the start of the assessment period by setting natural mortality to a higher value in the process \textit{initialFishing}. The place to insert \textit{initialFishing}is in the time-step labelled \textit{step1} before the process \textit{recruitment} which must be in that time-step (process label is enclosed in brackets). To insert at the end of the time-step use \textit{()}, i.e. \textit{step1()=initialFishing}.
+where \textit{Fishing} is the normal fishing process which defines natural mortality so when excluded, initialisation can use another value that incorporates some unrecorded fishing before the start of the assessment period by setting natural mortality to a higher value in the process \textit{initialFishing}. The place to insert \textit{initialFishing} is in the time-step labelled \textit{step1} before the process \textit{recruitment} which must be in that time-step (process label is enclosed in brackets). To insert at the end of the time-step use \textit{()}, e.g. \textit{step1()=initialFishing}.
 
-Normally,the type \textit{iteration} is used, but more complicated initialisation can by used by sequencing other phases one after another,
+For age-based models the most common type of initialisation phase to define an equilibrium age structure is \subcommand{derived}, whereas for length-based models the only type available is \subcommand{iterative}. Additional initialisation phases can be included by sequencing other phases one after another
 
 {\small{\begin{verbatim}
 @model
@@ -171,9 +177,9 @@ type iterative    #choose one from the list above
 
 \end{verbatim}}}
 
-which may be faster overall since less iterations can be used in the second phase. The order of applying each initialisation is that given in the \textit{@model} command block.
+which may be faster overall since fewer iterations may be required used in the second phase. The order of applying each initialisation is that given in the \command{model} command block.
 
-The multi-phased initialisation allows for flexibility in the number and type of initialisation, for initialising a non-equilibrium starting state, or applying simple processes before applying more complex ones.
+The multi-phased initialisation allows for flexibility in the number and type of initialisation processes, for initialising a non-equilibrium starting state, or applying simple processes before applying more complex ones.
 
 In each initialisation phase, the processes defined for that phase are applied and used as the starting point for the following phase or, if it is the last phase, the start year of the model.
 
@@ -181,13 +187,20 @@ The \emph{first} initialisation phase is always initialised with each age and ca
 
 Multi-phase iterations\index{Multi-phase iteration} can also be used to determine if an initialisation has converged. A second initialisation phase can be added for 1 year, with the same processes applied as in the first phase. The state at the end of the first and second phase is then output. If these states are identical, then it is likely that the initialisation has converged to an equilibrium state.
 
+For multi-phase initialisation models, it is advised to include the \command{report} of type \subcommand{initialisation\_partition}. This will print the partition at the end of each initialisation phase, which can be useful for assessing the impact of each phase on the partition.
+
+{\small{\begin{verbatim}
+@report initial_partitions
+type initialisation_partition
+\end{verbatim}}}
+
 \paragraph{\I{Iterative Initialisation}}\label{sec:InitialisationPhase-Iterative}
 
-The \texttt{iterative} initialisation is a general solution for initialising the model, but can be slow to converge, depending on the model.Its value is that it can work on complex structured models that may be difficult or impossible to implement using analytic approximations.
+The \subcommand{iterative} initialisation is a general solution for initialising the model, but can be slow to converge, depending on the model. Its value is that it can work on complex structured models that may be difficult or impossible to implement using analytic approximations.
 
 The number of iterations in the iterative initialisation can increase the model output, and the number of iterations should be chosen to be large enough to allow the population state to fully converge. A period of about two times the maximum age is recommended to ensure convergence. \CNAME\ can be configured to report convergence statistics that can assist in determining convergence properties.
 
-In addition, the iterative initialisation phase can optionally be stopped early if user-defined convergence criteria is met. For a list of supplied years in the initialisation phase, the convergence criteria is met if the proportional absolute summed difference between the state in year $t-1$ and the state in year $t$ ($\widehat{\lambda}$) is less than the user-defined value of $\lambda$, where
+In addition, the iterative initialisation phase can optionally be stopped early if the user-defined convergence criteria is met. For a list of supplied years in the initialisation phase, the convergence criteria is met if the proportional absolute summed difference between the state in year $t-1$ and the state in year $t$ ($\widehat{\lambda}$) is less than the user-defined value of $\lambda$, where
 
 \begin{equation}
   \widehat{\lambda} = \frac{\sum\limits_{i,j}  \left|\text{element}(t)_{i,j} - \text{element}(t-1)_{i,j} \right|}{\sum\limits_{i,j} \frac{}{}\text{element}(t)_{i,j}}
@@ -200,7 +213,7 @@ Hence, for the initialisation define:
 \begin{itemize}
   \item The number of initialisation phases,
   \item The number of years in each phase, and
-  \item The processes to apply in each phase, where the default processes are those applied in the annual cycle
+  \item The processes to apply in each phase, where the default processes are those applied in the annual cycle.
 \end{itemize}
 
 An example with one initialisation phase:
@@ -212,14 +225,14 @@ initialisation_phases Iterative_initialisation
 
 @initialisation_phase Iterative_initialisation
 type iterative
-years 50                # do 50 iterations
+years 50                # do 50 annual cycle iterations
 lambda 0.0001
 convergence_years 20 40 # test for convergence at 20 and 40 iterations
 \end{verbatim}}}
 
 \paragraph{\I{Derived Initialisation}}\label{sec:InitialisationPhase-Derived}
 
-The \texttt{derived} initialisation is an analytical solution that calculates the equilibrium age structure and the plus group using a geometric series solution. The benefit of this method is it can be solved in \texttt{max\_age - min\_age + 1} years or time-steps units, so it is computationally faster than the iterative initialisation phase. Under some process combinations (e.g., one-way migrations) this initialisation does not calculate the exact equilibrium partition. When using this initialisation, confirm that the partition has reached an equilibrium state by either comparing with an iterative initialisation, or by adding a second iterative initialisation phase with a limited number of iterations for comparison.
+The \subcommand{derived} initialisation is an analytical solution that calculates the equilibrium age structure and the plus group using a geometric series solution. The benefit of this method is it can be solved in \texttt{max\_age - min\_age + 1} years or time-steps units, so it is computationally faster than the iterative initialisation phase. Under some process combinations (e.g., one-way migrations) this initialisation does not calculate the exact equilibrium partition. When using this initialisation, users can confirm that the plus group has reached an equilibrium state by either comparing with an iterative initialisation, or by adding a second iterative initialisation phase with a limited number of iterations for comparison.
 
 An example with one initialisation phase:
 
@@ -230,22 +243,26 @@ An example with one initialisation phase:
 
 		@initialisation_phase Equilibrium_initialisation
 		type derived
-		\end{verbatim}}}
+\end{verbatim}}}
 
-
-When a model is initialised with this method, and recruitment is defined by \(B_0\), the model initialises the partition with an \(R_0 = 1\). Once the initialisation phase is complete, it scales all the categories defined in each recruitment process by
+When a model is initialised with \subcommand{derived} and \subcommand{iterative}, and recruitment is defined by \(B_0\), the model initialises the partition with \(R_0 = 1\). Once the initialisation phase is complete, it scales all the categories defined in each recruitment process by
 \[
 N_{a,c}  = N_{a,c} \times B_0^R / SSB^R  \ .
 \]
-where, \(R\) denotes each recruitment block and \(N_{a,c}\) are categories defined in that recruitment block. For this case, it is advised to associate all categories to the recruitment so they are accounted for in this scaling process. If maturity is in the partition, it is not intuitive to define mature categories with a proportion set = 0 in a recruitment process. However, this is exactly what is needed to scale the partition to the correct equilibrium state. \CNAME\ will flag a warning if a model doesn't have all categories defined in the available recruitment blocks. A case where this can be ignored is in models with tagged categories, these categories don't exist in initialisation and so don't need to be scaled, thus can be omitted from the recruitment definition. \CNAME\ will still output a warning for this, but can be ignored if users understand its purpose.
+where, \(R\) denotes each recruitment block and \(N_{a,c}\) are categories defined in that recruitment block. For this case, it is advised to associate all categories to the recruitment so they are accounted for in this scaling process. If maturity is in the partition, it is not intuitive, but they must be defined in the recruitment dynamic with a proportion set = 0 (for more information on specifying this see Section~
+\ifAgeBased
+\ref{sec:Process-Recruitment}
+\else
+\ref{sec:Process-Length-Recruitment}
+\fi). \CNAME\ will flag a warning if a model doesn't have all categories defined in the available recruitment blocks. A case where this can be ignored is in models with tagged categories, these categories don't exist during initialisation and so don't need to be scaled, and thus can be omitted from the recruitment definition. \CNAME\ will still output a warning for this, but can be ignored if users understand its purpose.
 
 \paragraph{\I{Cinitial Initialisation}}\label{sec:InitialisationPhase-Cinitial} \STATUS{Untested}
 
-The \texttt{cinitial} initialisation can only be applied after \textit{derived} or \textit{iterative} initialisation phases. This initialisation can be a method for estimating the non-equilibrium state of population if there is exploitation before data is collected. The estimated \textit{cinitial} factors shift the initial population away from an equilibrium state prior to the start year.
+The \subcommand{cinitial} initialisation can only be applied after \subcommand{derived} or \subcommand{iterative} initialisation phases. This initialisation can be a method for estimating the non-equilibrium state of population if there is exploitation before observations are collected. The estimated \subcommand{cinitial} factors shift the initial population away from an equilibrium state prior to the start year.
 
 After the first initialisation phase we have an equilibrium age-structure denoted by $N_{equil}$.
 
-\textit{Ciniital} specifies an age structure denoted by $N_{cinit}$ (in numbers), but this can be combinations of categories, say both sexes by two areas.
+\subcommand{Ciniital} specifies an age structure denoted by $N_{cinit}$ (in numbers), but this can be combinations of categories, for example, both sexes by two areas.
 
 $Multiplier =  N_{cinit} / N_{equil}^{combined}$
 
@@ -290,9 +307,9 @@ The Cinitial factors can also be estimated with the syntax
 	type uniform
 	\end{verbatim}}}
 
-\paragraph{\I{State\_category\_by\_age}}\label{sec:InitialisationPhase-StateCategoryByAge} \STATUS{Untested}
+\paragraph{\I{State\_category\_by\_age}}\label{sec:InitialisationPhase-StateCategoryByAge} 
 
-The \texttt{state\_category\_by\_age} initialisation uses a user-defined table as the initial partition numbers-at-age for the beginning of the  start year. Models can be initialised by specifying the numbers-at-age for each category.
+The \subcommand{state\_category\_by\_age} initialisation uses a user-defined table as the initial partition numbers-at-age for the beginning of the  start year. Models can be initialised by specifying the numbers-at-age for each category.
 
 An example with one initialisation phase:
 
@@ -312,8 +329,26 @@ An example with one initialisation phase:
 		end_table
 		\end{verbatim}}}
 
-When initialising models with this type, undefined behaviour may result if the model applies processes that require derived quantities to be calculated in the initialisation phase. (e.g., SSB so that recruitment can be calculated for the start year). In the latter case, you would have to use a subsequent initialisation phase \textit{iterator} that has natural mortality set to zero (i.e., \textit{insert\_processes} subcommand to introduce zero natural mortality and \textit{exclude\_processes} to exclude the mortality process that defines natural mortality) for as many year needed to set up the SSBs.
+When initialising models with this type, undefined behaviour may result if the model applies processes that require derived quantities to be calculated in the initialisation phase. (e.g., $SSB$ so that recruitment can be calculated for the start year). In the latter case, the user would have to use a subsequent initialisation phase \subcommand{iterative} that has natural mortality set to zero (i.e., \subcommand{insert\_processes} subcommand to introduce zero natural mortality and \subcommand{exclude\_processes} to exclude the mortality process that defines natural mortality) for as many year needed to calculate the $SSB$ values.
 
+\subsubsection{\I{Non-equilibrium initialisation phases}}\label{sec:Initialisation-NonEquilibrium}
+
+This section provides tips and advice for configuring \CNAME\ models to have non-equilibrium age or length structures at the model \subcommand{start\_year}. An equilibrium age or length structure in this context, roughly refers to an age-structure that would result if the annual cycle was repeatedly run with no fishing. For many models this will result in an age or length structure that has an exponential decay from natural mortality and constant recruitment.
+
+As mentioned in the above section, the \subcommand{cinitial} initialisation type can be used to after either \subcommand{derived} or \subcommand{iterative} to produce a non-equilibrium age structure. However, recent simulations have shown difficulties in estimating the parameters from this phase \citep{roberts_dunn_estimate_start_M_init}. Another approach also explored by \cite{roberts_dunn_estimate_start_M_init}, was to start the model \subcommand{max\_age} years before the intended \subcommand{start\_year} and estimate additional recruitment parameters during this phase so that by the intended \subcommand{start\_year}, the age structure would be in a non-equilibrium state.
+
+% currently these are only availble in age-based models.
+\ifAgeBased
+Another approach that is similar to the \subcommand{cinitial} initialisation type is to first run either \subcommand{derived} or \subcommand{iterative} phase and then to apply a second \subcommand{iterative} phase that has an additional initialisation mortality process.
+
+There are a range of mortality processes that can only be applied during initialisation. These are
+
+\begin{itemize}
+	\item \subcommand{mortality\_initialisation\_event} see Section~\ref{sec:Process-MortalityInitialisationEvent}
+	\item \subcommand{mortality\_initialisation\_event\_biomass} see Section~\ref{sec:Process-MortalityInitialisationEventBiomass}
+	\item \subcommand{mortality\_initialisation\_baranov} see  Section~\ref{sec:Process-MortalityInitialisationBaranov}
+\end{itemize}
+\fi % end if
 
 \subsection{\I{Population processes}}\label{sec:Process}
 
@@ -327,7 +362,7 @@ When initialising models with this type, undefined behaviour may result if the m
 
 \subsection{\I{Derived quantities}\label{sec:DerivedQuantity}}
 
-Some processes require a population value derived from the population state as an argument. These values are \texttt{derived quantities}. Derived quantities are values calculated in a specified time step in every year, and thus have a single value for each year of the model. The time within the time-step is at the end unless otherwise specified (using \textit{proportion\_mortality}-like subcommand.
+Some processes require a population value derived from the population state as an argument. These values are \texttt{derived quantities}. Derived quantities are values calculated in a specified time step in every year, and thus have a single value for each year of the model. The time within the time-step is at the end unless otherwise specified (using the \textit{proportion\_mortality} subcommand).
 
 Derived quantities can be calculated as either abundance or biomass. Abundance-derived quantities are the sum over the specified categories (after applying a selectivity)\label{sec:DerivedQuantity-Abundance}. Biomass-derived quantities are calculated similarly\label{sec:DerivedQuantity-Biomass}.
 
@@ -335,7 +370,7 @@ Derived quantities are also calculated during the initialisation phases. Therefo
 
 A common use of an derived quantities is as input into a stock-recruit relationship  which requires an equilibrium biomass ($B_0$) and annual spawning stock biomass values ($SSB_y$) to calculate recruitment into the first age class. $SSB_y$ is an derived quantity based on the mature biomass, usually at spawning time.
 
-Derived quantities can be associated with a \textit{time evaluation interval}; see section~\ref{sec:MortalityBlock} for more detail on mortality blocks. In this case, the point of calculation can be set to any point within the mortality block, e.g., when 75 \% of the deaths from natural mortality plus catch has occurred, which is based on interpolating between the start and end of the block as the partition is known at those points.  Two  methods are available: \texttt{weighted\_sum} and \texttt{weighted\_product}, and are defined as
+Derived quantities can be associated with a \textit{time evaluation interval}; see Section~\ref{sec:Process-Mortality} for more detail on mortality blocks. In this case, the point of calculation can be set to any point within the mortality block, e.g., when 75\% of the deaths from natural mortality plus catch has occurred, which is based on interpolating between the start and end of the block as the partition is known at those points.  Two  methods are available: \texttt{weighted\_sum} and \texttt{weighted\_product}, and are defined as
 
 \begin{itemize}
 	\item \texttt{weighted\_sum}: after proportion $p$ through the mortality block, the partition elements are given by $n_{p,j} = (1 - p)n_j + p'_j$
@@ -384,7 +419,7 @@ The mean weight $\bar{w}$ of an individual of length $l$ is
 \begin{equation}
   \bar{w} =a l^b \ .
 \end{equation}
-%
+
 This is used in length based models where \(l\) is the length bin midpoint. For age-based models \(l\) is substituted for $\hat{l}_a$, which is the mean length at age $a$. If a distribution of length-at-age is specified, then the mean weight is calculated over the distribution of lengths
 
 \begin{equation}\label{eq:mean_weight_with_adjustment}
@@ -393,7 +428,7 @@ This is used in length based models where \(l\) is the length bin midpoint. For 
 
 where the $cv$ is the coefficient of variation (CV) of the length-at-age relationship. This adjustment is exact for lognormal distributions, and an approximation for normal distributions if the CV is not large \citep{1388}. 
 
-For comparing CASAL with \CNAME\ results, there is a small difference between the two programs. CASAL adjusted the CVs \subcommand{by\_length} only when CVs are used in distribution calculations (length-based selectivities, length-based processes, and length-based observations), and is not done in the above correction.
+For comparing CASAL with \CNAME\ results, there is a small difference between the two programs. CASAL adjusts the CV values \subcommand{by\_length} only when CVs are used in distribution calculations (length-based selectivities, length-based processes, and length-based observations), and is not done in the above correction.
 
 Note: the scale of $a$ can be specified incorrectly. If the catch is in tonnes and the growth curve is in centimetres, then $a$ should convert a length in centimetres to a weight in tonnes. There are reports available that can be used to help check that the units specified are plausible (see Section \ref{sec:Report}).
 
@@ -408,7 +443,7 @@ Note: the scale of $a$ can be specified incorrectly. If the catch is in tonnes a
 \ifAgeBased
 \subsection{\I{Age-weight relationship}}\label{sec:AgeWeight} \STATUS{Untested}
 
-Either `none' \label{sec:AgeWeight-None} or an Empirical weight-at-age matrix. The empirical weight-at-age data can be input\label{sec:AgeWeight-Data}. This option is different from the method above as it uses empirical data for weight-at-age, rather than calculating it with the growth functions (age -> length -> weight). This bypasses the growth machinery which is expected to be present and so using weight-at-age data  needs to be declared in blocks that use this method, i.e., biomass observation blocks, fishery mortality blocks, and biomass derived quantities e.g., SSB. The subcommand to use is "\subcommand{age\_weight\_label} ageWeight.block.label" within the block, but in mortality fisheries blocks, \subcommand{age\_weight\_label} is a column in the \textit{table method} part with the corresponding \textit{ageWeight.block.label} in the body of the table. More than one \textit{@age\_weight} blocks can be used, and both  weight-at-age data and the usual growth version can be used in the same model (but clearly not in the same block).
+Either `none' \label{sec:AgeWeight-None} or an Empirical weight-at-age matrix. The empirical weight-at-age data can be input\label{sec:AgeWeight-Data}. This option is different from the method above as it uses empirical data for weight-at-age, rather than calculating it with the growth functions (age -> length -> weight). This bypasses the growth relationship which is expected to be present and so using weight-at-age data needs to be declared in blocks that use this method, i.e., biomass observation blocks, fishery mortality blocks, and biomass derived quantities e.g., $SSB$. The subcommand to use this is "\subcommand{age\_weight\_label} ageWeight.block.label" within the block, but in mortality fisheries blocks, \subcommand{age\_weight\_label} is a column in the \textit{table method} part with the corresponding \textit{ageWeight.block.label} in the body of the table. More than one \command{age\_weight} blocks can be used, and both weight-at-age data and the usual growth version can be used in the same model (but not in the same block).
 
 This option specifies the weight-at-age values for categories at a point in time.
 
@@ -453,8 +488,7 @@ In this case any "biomass" generated by \CNAME\ will actually be abundance, and 
 
 \subsection{\I{Maturity, in models without maturing in the partition}\label{sec:maturity-notinpartition}}
 
-When maturity is not an attribute (explicit category) in the partition, processes may still depend on maturity. You must then make the assumption that the proportion of mature fish in each element is defined by a selectivity. This approximation is used by derived quantities (Section~\ref{sec:DerivedQuantity}). Selectivities are allowed to vary over time with the time-varying class (Section~\ref{sec:TimeVarying})
-
+When maturity is not an attribute (explicit category) in the partition, processes may still depend on maturity. You must then make the assumption that the proportion of mature fish in each element is defined by a selectivity ogive. This approximation is used by derived quantities (Section~\ref{sec:DerivedQuantity}). Selectivity ogives are allowed to vary over time with the time-varying class (Section~\ref{sec:TimeVarying})
 
 \subsection{\I{Selectivities}\label{sec:Selectivity}}
 
@@ -464,25 +498,22 @@ Selectivity is a term used in \CNAME\  to mean an ogive in both age and length b
 % One column version
 For age-based models \CNAME\ will either use the age to calculate the selectivity or will use the age-length relationship to integrate over the length distribution for a given age to get length-based selectivity in an age-based model (use the subcommand "\textit{by\_length true}", \textit{false} is the default). Do not expect too much from length selectivities because in the next time-step or year, the length distribution for each age reverts to being as defined in the \textit{age\_length} blocks, e.g., normal, rather than being partially truncated because, e.g., larger fish in an age class have been preferentially caught.
 
-
 Length-based selectivities denoted by \(g(.)\) in an age-based models are evaluated by integrating over the length distribution for each age class (see Section~\ref{sec:AgeLength-length_at_age}). For age-class. Given age \(a\) with mean length \(\bar{l}_a\), standard deviation \(\sigma_a\) and length distribution denoted by \(f(l,\bar{l}_a, \sigma_a)\). The selectivity for age class \(a\) denoted by \(s_a\) should be calculated as
+
 \begin{align*}
 	s_a = & \int\limits_l g(f(l,\bar{l}_a, \sigma_a)) \ .
 \end{align*}
 %
 An approximation for the above integral is made in \CNAME\ by calculating an average of a set of integration points on \(f(l,\bar{l}_a, \sigma_a)\). The number of integration points is dictated by the subcommand \texttt{intervals}.
 
-
 \else
 % Two column version
 In length-based models \CNAME\ will use length midpoints when calculating selectivities. 
 \fi % end if
 
+There are a number of different parametric forms, including logistic and double normal curves. Selectivities are defined in command block \command{selectivity <label>}, where the unique label of the selectivity is used by observations and processes to specify which selectivity to apply.
 
-
-There are a number of different parametric forms, including logistic and double normal curves. Selectivities are defined in command block \command{selectivity <label>}, where the unique label of the selectivity is used by observations and processes to identify which selectivity to apply.
-
-For example, a logistic selectivity can be defined by:
+For example, a logistic selectivity can be defined with
 
 {\small{\begin{verbatim}
 @selectivity trawlSel    #label for the trawl fishery selectivity
@@ -593,7 +624,7 @@ f(x)=\begin{cases}
   \end{cases}
 \end{equation}
 
-The increasing ogive has non-estimable parameters $L$ and $H$. The estimable parameters are $\pi_L$, $\pi_{L+1}$ \ldots $\pi_H$; if these are estimated, they should always be constrained to be between 0 and 1. $\alpha$ is a scaling parameter, with default value of $\alpha = 1$. The increasing ogive is similar to the all-values-bounded ogive, and is constrained to be non-decreasing.
+The increasing ogive has non-estimable parameters $L$ and $H$. The estimable parameters are $\pi_L$, $\pi_{L+1}$ \ldots $\pi_H$; if these are estimated, they should always be constrained to be between 0 and 1. $\alpha$ is a scaling parameter, with default value of $\alpha = 1$. The increasing ogive is similar to the \textit{all-values-bounded} ogive, and is constrained to be non-decreasing.
 
 Input fragment: {\small{\begin{verbatim}
 type  increasing
@@ -608,7 +639,7 @@ v     0.2 0.3 0.4 0.5 0.6
   f(x) = \alpha / [1+19^{(a_{50}-x)/a_{to95}}]
 \end{equation}
 
-The logistic selectivity has estimable parameters $a_{50}$ and $a_{to95}$. $\alpha$ is a scaling parameter (input files, \textit{alpha}, with default value of $\alpha = 1$. The logistic selectivity takes values $0.5 \alpha$ at $x=a_{50}$ and $0.95 \alpha$ at $x=a_{50}+a_{to95}$.
+The logistic selectivity has estimable parameters $a_{50}$ and $a_{to95}$. $\alpha$ is a scaling parameter (input files, \textit{alpha}, with default value of $\alpha = 1$). The logistic selectivity takes values $0.5 \alpha$ at $x=a_{50}$ and $0.95 \alpha$ at $x=a_{50}+a_{to95}$.
 
 \subsubsection[Inverse logistic]{\argument{inverse\_logistic}}\index{Selectivities!Inverse-logistic}\label{sec:Selectivity-InverseLogistic} 
 
@@ -649,7 +680,6 @@ ato95  1
 #alpha 1.0
 \end{verbatim}}}
 
-
 CASAL's implementation of this selectivity adds the following checks.
 \begin{align*}
 	&for(\text{i in selectivity\_bins}) \\
@@ -662,7 +692,8 @@ CASAL's implementation of this selectivity adds the following checks.
 & \ \ if((a_{50} - i)/a_{to95} > 5.0))\\
 &selectivity[i] = 0
 \end{align*}
-\CNAME\ doesn't do this, so when you plot selectivities they may look different at the edges.
+
+\CNAME\ does not have these checks, so when you plot selectivities they may look different at the edges.
 
 \subsubsection[Double-normal]{\argument{double\_normal}}\index{Selectivities!Double-normal}\label{sec:Selectivity-DoubleNormal}
 
@@ -693,7 +724,8 @@ f(x) = \begin{cases}
 \alpha 2^{-[(x- (a1 + a2))/\sigma_R ]^2}, & \text{if $x \ge a1 + a2 $}\\
 \end{cases}
 \end{equation}
-The \texttt{double\_normal\_plateau} ogive has estimable parameters \(a1\), \(a2\), \(\sigma_l\), \(\sigma_r\), and \(\alpha\). When \(\alpha = 1\) and \(a2 = 0\), it is identical to the \texttt{double\_normal\_plateau}, and otherwise follows a double normal form with values \(\alpha\) at \(a1 \le x \leq a1+a2\), and \(0.5 x \alpha\) at \(x= a1-\sigma_l\) or \(x=a1+a2+\sigma_r\).
+
+The \texttt{double\_normal\_plateau} ogive has estimable parameters \(a1\), \(a2\), \(\sigma_l\), \(\sigma_r\), and \(\alpha\). When \(\alpha = 1\) and \(a2 = 0\), it is identical to the \texttt{double\_normal}, and otherwise follows a double normal form with values \(\alpha\) at \(a1 \le x \leq a1+a2\), and \(0.5 x \alpha\) at \(x= a1-\sigma_l\) or \(x=a1+a2+\sigma_r\).
 
 Input fragment: {\small{\begin{verbatim}
 		type  double_normal_plateau
@@ -704,15 +736,11 @@ Input fragment: {\small{\begin{verbatim}
 		#alpha 1.0
 		\end{verbatim}}}
 
-
-
 \subsubsection[Double-normal-stocksynthesis]{\argument{double\_normal\_stock\_synthesis}}\index{Selectivities!Double-normal-stocksynthesis}\label{sec:Selectivity-DoubleNormalStockSynthesis}
-Double normal with defined initial and final selectivity level which is based on Stock synthesis implementation. The \texttt{ascending} and \texttt{descending} are expected in log space (This should be taken out and dealt with by the parameter transformation class in future releases). The parameter values \texttt{y0} and \texttt{y1} are transformed by the selectivity class as follows
-\[
-f(x) = \frac{1}{1+exp(-1.0 x )}
-\] 
-This is to ensure the values stay between 0 and 1. The down side is starting values are a little abstract. The rule of thumb is small numbers i.e -10 will result in selectivity values close to zero and large values i.e. 10 will result in selectivity values close to one.
 
+Double normal with defined initial and final selectivity values which is based on the Stock Synthesis 3 implementation. The \texttt{ascending} and \texttt{descending} are expected in log space (This should be taken out and dealt with by the parameter transformation class in future releases).
+
+It is common to estimate the following parameters \subcommand{peak}, \subcommand{width}, \subcommand{ascending} and \subcommand{descending}. \subcommand{y1} can be explored, but can be difficult to estimate, as generally this represents the age or length categories that are not well observed.
 
 Input fragment: {\small{\begin{verbatim}
 		type  double_normal_stock_synthesis
@@ -727,14 +755,13 @@ Input fragment: {\small{\begin{verbatim}
 		#alpha 1.0
 		\end{verbatim}}}
 
+The parameter values \texttt{y0} and \texttt{y1} are transformed by the selectivity class as follows
 
-The parameter values \texttt{y0} and \texttt{y1} are transformed by the selectivity as follows
 \[
 f(x) = \frac{1}{1+exp(-1.0 x )}
 \] 
-This is to ensure the values stay between 0 and 1. The down side is starting values are a little abstract. The rule of thumb small numbers i.e -10 will go close to zero and large values 10 will go close to one.
 
-
+This is to ensure the values stay between 0 and 1. The down side is that the starting values are a little abstract. The rule of thumb is small numbers, e.g., -10, will result in selectivity values close to zero and large values, e.g., 10, will result in selectivity values close to one.
 
 \subsubsection[Double-exponential]{\argument{double\_exponential}}\index{Selectivities!Double-exponential}\label{sec:Selectivity-DoubleExponential}
 
@@ -763,10 +790,10 @@ y2    0.8  # selection at x2
 %The spline selectivity implements a cubic spline that has non-estimable knots, and an estimable value for each knot. The cubic spline is either (i) a natural splines where the second derivatives are set to 0 at the boundaries, i.e., the values at the boundaries are horizontal, (ii) a spline with a fixed first derivative at the boundaries (linear, but not necessarily horizontal) and (iii) spline which turns into a parabola at the boundaries.
 %
 
-
-
 \subsubsection[Compound-Left]{\argument{compound\_left}}\index{Selectivities!Compound-Left}\label{sec:Selectivity-CompoundLeft}
-The compound left selectivity was used in the Oyster stock assessment but was undocumented in CASAL user manual. 
+
+The compound left selectivity was used in some oyster stock assessments but was not documented in CASAL user manual.
+
 \begin{align*}
 y_1 & = \frac{\left(1 - a_{min}\right)}{\left(1 + 19^{(a_{50} - x)/a_{to95}}\right)}  + a_{min}\\
 y_2 & = 1.0 - \frac{1}{\left(1 + 19^{(left_{mu} + to\_right_{mu} - x)/\sigma}\right)}\\
@@ -775,23 +802,28 @@ f(x)  &= 	y_1 y_2
 
 
 \subsubsection[Compound-Right]{\argument{compound\_right}}\index{Selectivities!Compound-Right}\label{sec:Selectivity-CompoundRight}
-The compound right selectivity was used in the Oyster stock assessment but was undocumented in CASAL user manual. 
+
+The compound right selectivity was used in some oyster stock assessments but was not documented in CASAL user manual.
+
 \begin{align*}
 y_1 & = \frac{\left(1 - a_{min}\right)}{\left(1 + 19^{(a_{50} - x)/a_{to95}}\right)}  + a_{min}\\
 y_2 & = \frac{1}{\left(1 + 19^{(left_{mu} + to\_right_{mu} - x)/\sigma}\right)}\\
 f(x)  &= 	y_1 y_2
 \end{align*}
 
-
 \subsubsection[Compound-All]{\argument{compound\_all}}\index{Selectivities!Compound-All}\label{sec:Selectivity-CompoundAll}
-The compound all selectivity was used in the Oyster stock assessment but was undocumented in CASAL user manual. 
+
+The compound all selectivity was used in some oyster stock assessments but was not documented in CASAL user manual.
+
 \begin{align*}
 f(x)  & = \frac{\left(1 - a_{min}\right)}{\left(1 + 19^{(a_{50} - x)/a_{to95}}\right)}  + a_{min}
 \end{align*}
 
 
 \subsubsection[Compound-Middle]{\argument{compound\_middle}}\index{Selectivities!Compound-Middle}\label{sec:Selectivity-CompoundMidde}
-The compound middle selectivity was used in the Oyster stock assessment but was undocumented in CASAL user manual. 
+
+The compound middle selectivity was used in some oyster stock assessments but was not documented in CASAL user manual.
+
 \begin{align*}
 y_1 & = \frac{\left(1 - a_{min}\right)}{\left(1 + 19^{(a_{50} - x)/a_{to95}}\right)}  + a_{min}\\
 y_2 & = \frac{1}{\left(1 + 19^{(left_{mu} + to\_right_{mu} - x)/\sigma}\right)}\\
@@ -805,10 +837,9 @@ f(x)  &= 	y_1 y_2 y_3
 	\label{fig:select examples}
 \end{figure}
 
-
-
 \subsection{\I{Time-varying Parameter}}\label{sec:TimeVarying} \STATUS{Untested}
-Any parameter can be varied annually for blocks of years or in specific years within the model run. For years that are not specified, the parameter will default to the input, or if in an iterative state such as estimation mode, the value being trialled at that iteration. The value used in the configuration file, input parameter file or trialled value during estimation should be applied during initialisation phases.
+
+Any parameter can be varied annually for blocks of years or in specific years within the model run. For years that are not specified, the parameter will default to the input, or if in an iterative state such as estimation mode, the value being trialled at that iteration. The value used in the configuration file, input parameter file, or trialled value during estimation should be applied during initialisation phases.
 
 Method types for a time-varying parameter are:
 
@@ -823,13 +854,17 @@ Method types for a time-varying parameter are:
 
 This option allows for a parameter to be fixed in a year, or be the result of a deterministic or stochastic equation. \textbf{Note:} the stochastic time-varying functionality was added for simulation purposes. \textbf{It has not been tested in an estimation context.}
 
-To implement hierarchical models, the prior parameter values need to be estimated using hyper priors. To implement a hierarchical model using the time-varying functionality, use MCMC estimation as a way to calculate the integral which is required to obtain unbiased estimates. In an MCMC context, a Gibbs sampler is assumed. That is, every draw is from a conditional distribution and so every draw is a candidate value. \TODO{review}
+To implement hierarchical models, the prior parameter values need to be estimated using hyperpriors. To implement a hierarchical model using the time-varying functionality, use MCMC estimation as a way to calculate the integral which is required to obtain unbiased estimates. In an MCMC context, a Gibbs sampler is assumed. That is, every draw is from a conditional distribution and so every draw is a candidate value. \TODO{review}
 
-When allowing removals with annually varying catchabilities, selectivities, and/or other model components, simulated observations more closely model real data and associated conclusions become more useful. Implementing time-varying parameters also allows for mean or location parameters of selectivities to change between years based on an explanatory variable. An example of this is in the New Zealand Hoki fishery where the $\mu$ and $a_{50}$ parameters are allowed to shift depending on when the fishing season occurs. Descriptive analysis showed that when fishing was earlier relative to other years smaller fish were caught and vice versa. This can be shown in the Examples/2stock directory, implemented at line: \texttt{382} in the \texttt{population.csl2} file. [Craig to edit]
+When allowing removals with annually varying catchabilities, selectivities, and/or other model components, simulated observations more closely model real data. Implementing time-varying parameters also allows for mean or location parameters of selectivities to change between years based on an linked variable.
+
+An example of this is in the New Zealand hoki stock assessment where the $\mu$ and $a_{50}$ parameters are allowed to shift depending on when the fishing season occurs. Descriptive analysis showed that when fishing was earlier relative to other years smaller fish were caught and vice versa. This can be shown in the Examples/2stock directory, implemented at line: \texttt{382} in the \texttt{population.csl2} file. [Craig to edit]
 
 \subsubsection[Constant (year blocks)]{\argument{constant}}\index{Time-varying Parameters!Constant}\label{sec:TimeVarying-Constant}
 
-This option allows a parameter to have an different value during specified years to the rest of the model run,and this value can be estimated. To allow survey catchability to be different in the year block 1975 to 1988 from the rest of the series we write:
+This option allows a parameter to have an different value during specified years than the rest of the model run. This value can be estimated.
+
+To allow survey catchability to be different in the year block 1975 to 1988 from the rest of the series we write:
 
 {\small{\begin{verbatim}
 		@time_varying q_time_var
@@ -921,10 +956,9 @@ where $\delta_y$ is the shift or deviation in parameter $\theta_y$ in year $y$ t
 
 \subsection{\I{Equation Parser}\label{sec:eq_parser}} \STATUS{Untested}
 
-\CNAME\ has an equation parser, which is currently implemented in Projections (section~\ref{sec:Project}), Derived quantities (see Section~\ref{sec:DerivedQuantity}), and Reports (section~\ref{sec:Report}).
+\CNAME\ has an equation parser, which is currently implemented in Projections (Section~\ref{sec:Project}), Derived quantities (Section~\ref{sec:DerivedQuantity}), and Reports (Section~\ref{sec:Report}).
 
 Examples of syntax for implementing the equation parser are below. For more information on the parser, see \url{https://github.com/nickgammon/parser/blob/master/parser.cpp}
-
 
 {\small{\begin{verbatim}
 		equation process[Recruitment].r0 * 2 #double the recruitment
@@ -965,7 +999,7 @@ equation if(process[Recruitment].r0 > 23, 44,
 else R0 must be less than 10 return 66
 \end{verbatim}}}
 
-Only single values can be referenced, so an equation cannot be applied to a vector, e.g., \subcommand{process[Recruit].ycs\_values\{1974:1980\}} cannot be referenced. More information on which parameters can be included in an equation parser is available (Section~\ref{sec:syntax}). Any subcommand that has a \texttt{type estimable} could be referenced with the equation parser.
+Only single values can be referenced, so an equation cannot be applied to a vector, e.g., \subcommand{process[Recruit].ycs\_values\{1974:1980\}} cannot be referenced. More information on which parameters can be included in the equation parser is available (Section~\ref{sec:syntax}). Any subcommand that has a \texttt{type estimable} could be referenced with the equation parser.
 
 \textbf{Note:} the equation parser will not catch all user configuration errors, such as checking whether a parameter that exists in the system has been populated when it is required.
 
@@ -979,12 +1013,12 @@ For example, the wrong year could be misspecified in the case of removals in yea
 
 This example is a valid equation but it will have nonsensical results, since a value for 2020 is to be calculated using values for 2015. Although the equation parser adds flexibility, it is easy to misspecify equations.
 
-
 \subsection{\I{Specifying projections}}\label{sec:Project} \STATUS{Untested}
-Given a set of estimated parameter values from a \textit{-e} or a MCMC run,
-the model can be projected into the future. Projection years are after the model run years, and are defined in the \textit{@model} command block using the \subcommand{final\_projection\_year} subcommand, i.e., projection years are \subcommand{final\_year + 1} through to \subcommand{final\_projection\_year}.
 
-Parameter values for the projected years can be specified in a stochastic way or fixed at some value (the default is the estimated value if the parameter is not time-varying) and these are specified in the \textit{@projection} block,
+Given a set of estimated parameter values from a \textit{-e} or a MCMC run,
+the model can be projected. Projection years are after the model run years, and are defined in the \command{model} command block using the \subcommand{final\_projection\_year} subcommand, i.e., projection years are \subcommand{final\_year + 1} through to \subcommand{final\_projection\_year}.
+
+Parameter values for the projected years can be specified in a stochastic way or fixed at some value (the default is the estimated value if the parameter is not time-varying) and these are specified in the \command{project} block,
 
 {\small{\begin{verbatim}
 
@@ -996,7 +1030,7 @@ multiplier 1
 ... # any other parameters
 \end{verbatim}}}
 
-The subcommands \subcommand{years} and \subcommand{parameter} are common to all projection methods. Subcommand \subcommand{years} specifies the years to apply the new values to for the parameter in \subcommand{parameter}. Note that the years can be before the \textit{finial\_year}, e.g., it is normal to vary the last few YCS in a projection run because they are usually poorly estimated or they have been set to 1.  The argument \argument{multiplier} is a constant which is multiplied with the projected value after it has been generated. The \subcommand{type} subcommand gives the method to use to generate new parameter values.
+The subcommands \subcommand{years} and \subcommand{parameter} are common to all projection methods. Subcommand \subcommand{years} specifies the years to apply the new values to for the parameter in \subcommand{parameter}. Note that the years can be before the \textit{final\_year}, e.g., it is normal to vary the last few recruitment multipliers (YCS) in a projection run because they are usually poorly estimated or they have been set to 1.  The argument \argument{multiplier} is a constant which is multiplied with the projected value after it has been generated. The \subcommand{type} subcommand gives the method to use to generate new parameter values.
 
 \CNAME\ allows any estimable parameter to be specified in a \command{project} block and then varied from the estimated value in a projection. The available projection types for these parameters include:
 
@@ -1008,13 +1042,18 @@ The subcommands \subcommand{years} and \subcommand{parameter} are common to all 
 	\item user-defined
 \end{itemize}
 
-\CNAME\ has no default projection properties for parameters that are specified by year, e.g., year class strength parameters, time-varying parameters, and as a special case, future catches). For these, projections  must have a \command{project} command block. For example, \CNAME\ will produce errors if run in projection mode without a \command{project} block for the \subcommand{ycs\_values} parameter being specified.
+\CNAME\ has no default projection properties for parameters that are specified by year, e.g., recruitment multiplier parameters, time-varying parameters, and as a special case, future catches. For these, projections  must have a \command{project} command block. For example, \CNAME\ will produce errors if run in projection mode without a \command{project} block for the \subcommand{ycs\_values} parameter being specified.
 
-\textbf{Note for the year class parameters:} the definition of year applies to the \argument{ycs\_years}, not the model years. As defined in Section~\ref{sec:Process-RecruitmentBevertonHolt}, \argument{ycs\_years} are offset between the time of spawning and when individuals are added to the partition.
+DEPRECATED: \textbf{Note for the year class parameters:} the definition of year applies to the \argument{ycs\_years}, not the model years. As defined in Section~
+\ifAgeBased
+\ref{sec:Process-RecruitmentBevertonHolt}
+\else
+\ref{sec:Process-Length-RecruitmentBevertonHolt}
+\fi, \argument{ycs\_years} are offset between the time of spawning and when individuals are added to the partition.
 
-Future catches are also specified in a \textit{@project} block, one for each fishery (see \ref{sec:Project-Catch} for examples). Here, a fishery is reference in the \textit{parameter} subcommand with the \textit{method\_} fragment to identify it,
+Future catches are also specified in a \command{project} block, one for each fishery (see \ref{sec:Project-Catch} for examples). Here, a fishery is reference in the \textit{parameter} subcommand with the \textit{method\_} fragment to identify it,
 
- \textit{process[<block label>].method\_<fisheries label>},
+ \textit{process[block label].method\_$[$fisheries label$]$},
 
 For a process called \textit{Fishing} that has three fisheries defined, it would be \textit{process[Fishing].method\_pot} to specify the fishery labelled \textit{pot}.
 
@@ -1024,9 +1063,9 @@ The \texttt{-{}-tabular} flag should be used when running projections after a Ba
 
 An example of the command line evocation is
 
-\textit{casal2 -f 1 -i mcmc.txt --tabular > projection.out.txt}
+\textit{casal2 -f 1 -i mcmc.txt --tabular $>$ projection.out.txt}
 
-where \textit{mcmc.txt} is output from a MCMC run, one parameter set per row, which will give one projection per row, and \textit{projection.out.txt} will contain one row for each MCMC run in each of the reports specified in (usually) the \textit{Report.csv2} file (quantities as specified in the \textit{report.csl2} file).
+where \textit{mcmc.txt} is output from a MCMC run, one parameter set per row, which will give one projection per row, and \textit{projection.out.txt} will contain one row for each MCMC run in each of the reports specified in (usually) the \textit{Report.csl2} file (quantities as specified in the \textit{Report.csl2} file).
 
 For a projection run in \CNAME, the model is initialised and run through the model years from \argument{start\_year} to \argument{final\_year}. During this run mode \CNAME\ stores all parameter values so that projection classes can allow parameters before \subcommand{final\_year} to be projected. The model then is re-run from \argument{start\_year} to \argument{projection\_final\_year}, where any parameter can either be fixed or drawn from a stochastic distribution or process.
 
@@ -1061,7 +1100,6 @@ Parameters that have time components associated with them can be sampled uniform
 		final_year 2008     # from 1988 to 2008 inclusive
 		multiplier 1
 		\end{verbatim}}}
-
 
 \paragraph[Lognormal]{Sampling from a lognormal distribution, type  \argument{lognormal}}\index{Projections!Lognormal}\label{sec:Project-LogNormal} \STATUS{Untested}
 
@@ -1102,7 +1140,7 @@ This method applies a lognormal draw as in the \argument{LogNormal} method above
 
 \paragraph[User Defined]{Sample from a user-defined function, \argument{user\_defined}}\index{Projections!User Defined}\label{sec:Project-UserDefined} \STATUS{Untested}
 
-This method uses the equation parser to calculate the values to use in the projection. This was set up to define and apply harvest control rules (i.e., apply a management action such as changing catch limits based on the current or previous state).
+This method uses the equation parser to calculate the values to use in the projection. This was set up to define and apply harvest control rules (e.g., apply a management action such as changing catch limits based on the current or previous state).
 
 In fisheries models, this option can be used to calculate the projected catch based on an exploitation rate multiplied by the vulnerable biomass, where the exploitation rate is based on a rule (Figure~\ref{fig:HCR}).
 
