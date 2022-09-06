@@ -269,50 +269,70 @@ type uniform
 type dirichlet_multinomial
 theta 1
 
-@estimate
-parameter likelihood[Dirichlet_multinomial_paa_Ts].theta
-type uniform_log
-lower_bound 0
+@parameter_transformation pt_log_theta_paa_Ts
+type log
+parameters likelihood[Dirichlet_multinomial_paa_Ts].theta
+
+@estimate log_theta_paa_Ts
+type uniform
+parameter parameter_transformation[pt_log_theta_paa_Ts].log_parameter
+lower_bound -20
 upper_bound 10
 
 @likelihood Dirichlet_multinomial_paa_Ta
 type dirichlet_multinomial
 theta 1
 
-@estimate
-parameter likelihood[Dirichlet_multinomial_paa_Ta].theta
-type uniform_log
-lower_bound 0
+@parameter_transformation pt_log_theta_paa_Ta
+type log
+parameters likelihood[Dirichlet_multinomial_paa_Ta].theta
+
+@estimate log_theta_paa_Ta
+type uniform
+parameter parameter_transformation[pt_log_theta_paa_Ta].log_parameter
+lower_bound -20
 upper_bound 10
 
 @likelihood Dirichlet_multinomial_paa_trawl
 type dirichlet_multinomial
 theta 1
 
-@estimate
-parameter likelihood[Dirichlet_multinomial_paa_trawl].theta
-type uniform_log
-lower_bound 0
+@parameter_transformation pt_log_theta_paa_trawl
+type log
+parameters likelihood[Dirichlet_multinomial_paa_trawl].theta
+
+@estimate log_theta_paa_trawl
+type uniform
+parameter parameter_transformation[pt_log_theta_paa_trawl].log_parameter
+lower_bound -20
 upper_bound 10
 
 @likelihood Dirichlet_multinomial_paa_ll_C
 type dirichlet_multinomial
 theta 1
 
-@estimate
-parameter likelihood[Dirichlet_multinomial_paa_ll_C].theta
-type uniform_log
-lower_bound 0
+@parameter_transformation pt_log_theta_paa_ll_C
+type log
+parameters likelihood[Dirichlet_multinomial_paa_ll_C].theta
+
+@estimate log_theta_paa_ll_C
+type uniform
+parameter parameter_transformation[pt_log_theta_paa_ll_C].log_parameter
+lower_bound -20
 upper_bound 10
 
 @likelihood Dirichlet_multinomial_paa_ll_P
 type dirichlet_multinomial
 theta 1
 
-@estimate
-parameter likelihood[Dirichlet_multinomial_paa_ll_P].theta
-type uniform_log
-lower_bound 0
+@parameter_transformation pt_log_theta_paa_ll_P
+type log
+parameters likelihood[Dirichlet_multinomial_paa_ll_P].theta
+
+@estimate log_theta_paa_ll_P
+type uniform
+parameter parameter_transformation[pt_log_theta_paa_ll_P].log_parameter
+lower_bound -20
 upper_bound 10
 
 

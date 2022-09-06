@@ -17,6 +17,7 @@ observations true
 projects true
 processes true
 selectivities true
+parameter_transformations true
 
 
 @report Init
@@ -142,3 +143,25 @@ observation autumnTANbiomass
 type ageing_error
 ageing_error Normal_ageing
 
+
+/*
+@report log_theta_paa_Ts
+type parameter_transformation
+parameter_transformation pt_log_theta_paa_Ts
+
+@report log_theta_paa_Ta
+type parameter_transformation
+parameter_transformation pt_log_theta_paa_Ta
+
+@report log_theta_paa_trawl
+type parameter_transformation
+parameter_transformation pt_log_theta_paa_trawl
+
+@report log_theta_paa_ll_C
+type parameter_transformation
+parameter_transformation pt_log_theta_paa_ll_C
+
+@report log_theta_paa_ll_P
+type parameter_transformation
+parameter_transformation pt_log_theta_paa_ll_P
+*/
