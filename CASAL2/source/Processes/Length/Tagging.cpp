@@ -206,7 +206,7 @@ void Tagging::DoExecute() {
                    << selectivities_[category_label]->GetLengthResult(i) << " * " << u_max_;
 
         if (penalty_)
-          penalty_->Trigger(label_, numbers_[current_year][i], current);
+          penalty_->Trigger(numbers_[current_year][i], current);
       }
 
       LOG_FINE() << "total_stock_with_selectivities: " << total_stock_with_selectivities;

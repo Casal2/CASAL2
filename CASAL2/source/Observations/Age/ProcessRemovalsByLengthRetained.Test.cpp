@@ -121,7 +121,7 @@ years 2001:2005
 
 @observation potFishLFretained
 type process_removals_by_length_retained
-mortality_instantaneous_process mort
+mortality_process mort
 method_of_removal FishingPot
 years 2005
 time_step 1

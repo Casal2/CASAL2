@@ -65,12 +65,11 @@ type recruitment_beverton_holt
 categories stock
 proportions 1
 r0 3.04838e+006
-standardise_ycs_years 1989 1990 1991 1992 1993 1994 1995 1996 1997 1998 1999 2000 2001 2002 2003 2004 2005 2006 2007 2008 2009 2010 2011
-ycs_values            1.00 1.00 1.00 1.00 1.00 1.00 1.00 1.00 1.00 1.00 1.00 1.00 1.00 1.00 1.00 1.00 1.00 1.00 1.00 1.00 1.00 1.00 1.00
+standardise_years  1990 1991 1992 1993 1994 1995 1996 1997 1998 1999 2000 2001 2002 2003 2004 2005 2006 2007 2008 2009 2010 2011 2012
+recruitment_multipliers            1.00 1.00 1.00 1.00 1.00 1.00 1.00 1.00 1.00 1.00 1.00 1.00 1.00 1.00 1.00 1.00 1.00 1.00 1.00 1.00 1.00 1.00 1.00
 steepness 0.9
 ssb biomass_t1
 age 1
-ycs_years 1989:2011
 
 @process Ageing
 type ageing
@@ -177,7 +176,7 @@ b 3.288
 type process_removals_by_age
 likelihood multinomial
 time_step step1
-mortality_instantaneous_process instant_mort
+mortality_process instant_mort
 categories stock
 ageing_error Ageing_error
 method_of_removal FishingEest

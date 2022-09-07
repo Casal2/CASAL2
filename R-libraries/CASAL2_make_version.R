@@ -20,7 +20,8 @@ cat("BugReports: https://github.com/NIWAFisheriesModelling/CASAL2/issues\n",file
 
 # Create R function to return version number
 filename<-"casal2/R/Casal2.binary.version.R"
-cat("\"casal2.binary.version\"<-\n",file=filename)
+cat("#'@export\n",file=filename)
+cat("\"casal2.binary.version\"<-\n",file=filename,append=T)
 cat("function() {\n",file=filename,append=T)
 cat(paste("return(\"",VersionNumber,"\")\n",sep=""),file=filename,append=T)
 cat("}\n",file=filename,append=T)

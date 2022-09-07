@@ -24,6 +24,7 @@
 #include "Model/Model.h"
 #include "Partition/Accessors/All.h"
 #include "TimeSteps/Manager.h"
+#include "Processes/Manager.h"
 #include "Utilities/Map.h"
 #include "Utilities/Math.h"
 #include "Utilities/To.h"
@@ -50,7 +51,7 @@ ProcessRemovalsByLength::ProcessRemovalsByLength(shared_ptr<Model> model) : Obse
                          model->length_plus());  // default to the model value
   parameters_.BindTable(PARAM_OBS, obs_table_, "Table of observed values", "", false);
   parameters_.BindTable(PARAM_ERROR_VALUES, error_values_table_, "The table of error values of the observed values (note that the units depend on the likelihood)", "", false);
-  parameters_.Bind<string>(PARAM_MORTALITY_INSTANTANEOUS_PROCESS, &process_label_, "The label of the mortality instantaneous process for the observation", "");
+  parameters_.Bind<string>(PARAM_MORTALITY_PROCESS, &process_label_, "The label of the mortality instantaneous process for the observation", "");
   parameters_.Bind<bool>(PARAM_SIMULATED_DATA_SUM_TO_ONE, &simulated_data_sum_to_one_, "Whether simulated data is discrete or scaled by totals to be proportions for each year", "", true);
   parameters_.Bind<bool>(PARAM_SUM_TO_ONE, &sum_to_one_, "Scale year (row) observed values by the total, so they sum = 1", "", false);
 
@@ -60,6 +61,12 @@ ProcessRemovalsByLength::ProcessRemovalsByLength(shared_ptr<Model> model) : Obse
 
   allowed_likelihood_types_.push_back(PARAM_LOGNORMAL);
   allowed_likelihood_types_.push_back(PARAM_MULTINOMIAL);
+  allowed_likelihood_types_.push_back(PARAM_DIRICHLET);
+  allowed_likelihood_types_.push_back(PARAM_DIRICHLET_MULTINOMIAL);
+  allowed_likelihood_types_.push_back(PARAM_LOGISTIC_NORMAL);
+
+  allowed_mortality_types_.push_back(PARAM_MORTALITY_INSTANTANEOUS);
+  allowed_mortality_types_.push_back(PARAM_MORTALITY_HYBRID);
 }
 
 /**
@@ -293,18 +300,24 @@ void ProcessRemovalsByLength::DoBuild() {
       (*category_iter)->age_length_->BuildAgeLengthMatrixForTheseYears(years_);
   }
 
-  auto time_step = model_->managers()->time_step()->GetTimeStep(time_step_label_);
-  if (!time_step) {
-    LOG_FATAL_P(PARAM_TIME_STEP) << "Time step label " << time_step_label_ << " was not found.";
-  } else {
-    auto process             = time_step->SubscribeToProcess(this, years_, process_label_);
-    mortality_instantaneous_ = dynamic_cast<MortalityInstantaneous*>(process);
+  for (string time_label : time_step_label_) {
+    auto time_step = model_->managers()->time_step()->GetTimeStep(time_label);
+    if (!time_step) {
+      LOG_FATAL_P(PARAM_TIME_STEP) << "Time step label " << time_label << " was not found.";
+    } else {
+      auto process       = time_step->SubscribeToProcess(this, years_, process_label_);
+      if(!process)
+        LOG_FATAL_P(PARAM_MORTALITY_PROCESS) << "could not find process " << process_label_;
+      mortality_process_ = model_->managers()->process()->GetAgeBasedMortalityProcess(process_label_);
+    }
   }
 
-  if (mortality_instantaneous_ == nullptr)
-    LOG_FATAL() << "Observation " << label_ << " can be used with Process type " << PARAM_MORTALITY_INSTANTANEOUS << " only. Process " << process_label_
-                << " was not found or has retained catch characteristics specified.";
-
+  if (mortality_process_ == nullptr) {
+    LOG_FATAL_P(PARAM_MORTALITY_PROCESS) << "Could not find process " << process_label_ << ".";
+  } else {
+    if(find(allowed_mortality_types_.begin(), allowed_mortality_types_.end(), mortality_process_->type()) == allowed_mortality_types_.end())
+      LOG_FATAL_P(PARAM_MORTALITY_PROCESS) << "The mortality process is of type " << mortality_process_->type() << " is not allowed for this observation.";
+  }
   // Need to split the categories if any are combined for checking
   vector<string> temp_split_category_labels, split_category_labels;
 
@@ -320,21 +333,21 @@ void ProcessRemovalsByLength::DoBuild() {
   methods.push_back(method_);
 
   // Do some checks so that the observation and process are compatible
-  if (!mortality_instantaneous_->check_methods_for_removal_obs(methods))
+  if (!mortality_process_->check_methods_for_removal_obs(methods))
     LOG_FATAL_P(PARAM_METHOD_OF_REMOVAL) << "could not find all these methods in the instantaneous_mortality process labeled " << process_label_
                                          << ". Check that the methods are compatible with this process";
-  if (!mortality_instantaneous_->check_categories_in_methods_for_removal_obs(methods, split_category_labels))
+  if (!mortality_process_->check_categories_in_methods_for_removal_obs(methods, split_category_labels))
     LOG_FATAL_P(PARAM_CATEGORIES) << "could not find all these categories in the instantaneous_mortality process labeled " << process_label_
                                   << ". Check that the categories are compatible with this process";
-  if (!mortality_instantaneous_->check_years_in_methods_for_removal_obs(years_, methods))
+  if (!mortality_process_->check_years_in_methods_for_removal_obs(years_, methods))
     LOG_FATAL_P(PARAM_YEARS) << "could not find catches in all years in the instantaneous_mortality process labeled " << process_label_
                              << ". Check that the years are compatible with this process";
 
-  fishery_ndx_to_get_catch_at_info_ = mortality_instantaneous_->get_fishery_ndx_for_catch_at(methods);
-  vector<unsigned> category_ndxs = mortality_instantaneous_->get_category_ndx_for_catch_at(split_category_labels);
+  fishery_ndx_to_get_catch_at_info_ = mortality_process_->get_fishery_ndx_for_catch_at(methods);
+  vector<unsigned> category_ndxs = mortality_process_->get_category_ndx_for_catch_at(split_category_labels);
   for(unsigned category_ndx = 0; category_ndx < split_category_labels.size(); ++category_ndx) 
     category_lookup_for_ndx_to_get_catch_at_info_[split_category_labels[category_ndx]] = category_ndxs[category_ndx];
-  year_ndx_to_get_catch_at_info_ = mortality_instantaneous_->get_year_ndx_for_catch_at(years_);
+  year_ndx_to_get_catch_at_info_ = mortality_process_->get_year_ndx_for_catch_at(years_);
 
   numbers_at_age_.resize(model_->age_spread(), 0.0);
   numbers_at_length_.resize(number_bins_, 0.0);
@@ -383,7 +396,7 @@ void ProcessRemovalsByLength::Execute() {
      */
     auto category_iter        = partition_iter->begin();
     for (; category_iter != partition_iter->end();  ++category_iter) {
-      vector<Double>& Removals_at_age = mortality_instantaneous_->get_catch_at_by_year_fishery_category(year_ndx_to_get_catch_at_info_[this_year_iter.second], fishery_ndx_to_get_catch_at_info_[0], category_lookup_for_ndx_to_get_catch_at_info_[(*category_iter)->name_]);
+      vector<Double>& Removals_at_age = mortality_process_->get_catch_at_by_year_fishery_category(year_ndx_to_get_catch_at_info_[this_year_iter.second], fishery_ndx_to_get_catch_at_info_[0], category_lookup_for_ndx_to_get_catch_at_info_[(*category_iter)->name_]);
 
       LOG_FINE() << "----------";
       LOG_FINE() << "Category: " << (*category_iter)->name_;;

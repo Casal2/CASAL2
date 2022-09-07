@@ -485,8 +485,7 @@ void Model::RunBasic() {
     // Iterate over all partition members and UpDate Mean Weight for the inital weight calculations
     agelengths::Manager&           age_length_manager = *managers_->age_length();
     initialisationphases::Manager& init_phase_manager = *managers_->initialisation_phase();
-    init_phase_manager.Execute();
-    managers_->report()->Execute(pointer(), State::kInitialise);
+    init_phase_manager.Execute(pointer());
     LOG_FINE() << "Model: State change to Execute";
     state_ = State::kExecute;
 
@@ -743,8 +742,7 @@ void Model::RunSimulation() {
       Reset();
     }
     initialisationphases::Manager& init_phase_manager = *managers_->initialisation_phase();
-    init_phase_manager.Execute();
-    managers_->report()->Execute(pointer(), State::kInitialise);
+    init_phase_manager.Execute(pointer());
     LOG_FINE() << "Model: State change to Execute";
     state_                                     = State::kExecute;
     timesteps::Manager&   time_step_manager    = *managers_->time_step();
@@ -813,7 +811,7 @@ void Model::RunProjection() {
       initialisationphases::Manager& init_phase_manager = *managers_->initialisation_phase();
       // update data type needs to be updated in the f loop
       age_length_manager.UpdateDataType();
-      init_phase_manager.Execute();
+      init_phase_manager.Execute(pointer());
 
       state_ = State::kExecute;
 
@@ -839,9 +837,9 @@ void Model::RunProjection() {
       state_        = State::kInitialise;
       current_year_ = start_year_;
       // Run the intialisation phase
-      init_phase_manager.Execute();
+      init_phase_manager.Execute(pointer());
       // Reset all parameter and re run the model
-      managers_->report()->Execute(pointer(), State::kInitialise);
+      //managers_->report()->Execute(pointer(), State::kInitialise);
 
       state_ = State::kExecute;
       LOG_FINE() << "Starting projection years";
@@ -887,8 +885,7 @@ void Model::Iterate() {
   initialisationphases::Manager& init_phase_manager = *managers_->initialisation_phase();
   // update data type before Init phase
   age_length_manager.UpdateDataType();
-  init_phase_manager.Execute();
-  managers_->report()->Execute(pointer(), State::kInitialise);
+  init_phase_manager.Execute(pointer());
 
   state_                                     = State::kExecute;
   timesteps::Manager&   time_step_manager    = *managers_->time_step();

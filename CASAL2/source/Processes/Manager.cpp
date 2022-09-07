@@ -88,6 +88,26 @@ Process* Manager::GetProcess(const string& label) {
 
   return nullptr;
 }
+/**
+ * Return a pointer to a mortality process with the name passed in as a parameter.
+ * If no process is found then an empty pointer will
+ * be returned.
+ *
+ * @param label The name of the process to find
+ * @return A pointer to the process or empty pointer
+ */
+age::Mortality* Manager::GetAgeBasedMortalityProcess(const string& label) {
+  age::Mortality* mortality_ptr = nullptr;
+  for (auto process : objects_) {
+    if ((process->label() == label) & (process->process_type() == ProcessType::kMortality)) {
+      mortality_ptr = dynamic_cast<age::Mortality*>(process);
+      return mortality_ptr;
+    }
+  }
 
+  LOG_MEDIUM() << "Process label '" << label << "' was not found.";
+
+  return mortality_ptr;
+}
 } /* namespace processes */
 } /* namespace niwa */

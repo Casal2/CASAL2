@@ -17,15 +17,17 @@
 #include "../Model/Model.h"
 #include "../Processes/Age/Ageing.h"
 #include "../Processes/Age/Maturation.h"
-#include "../Processes/Age/MortalityConstantRate.h"
-#include "../Processes/Age/MortalityEvent.h"
-#include "../Processes/Age/MortalityEventBiomass.h"
-#include "../Processes/Age/MortalityHollingRate.h"
-#include "../Processes/Age/MortalityInitialisationEvent.h"
-#include "../Processes/Age/MortalityInitialisationEventBiomass.h"
-#include "../Processes/Age/MortalityInstantaneous.h"
-#include "../Processes/Age/MortalityInstantaneousRetained.h"
-#include "../Processes/Age/MortalityPreySuitability.h"
+#include "../Processes/Age/Mortality/MortalityConstantRate.h"
+#include "../Processes/Age/Mortality/MortalityHybrid.h"
+#include "../Processes/Age/Mortality/MortalityEvent.h"
+#include "../Processes/Age/Mortality/MortalityEventBiomass.h"
+#include "../Processes/Age/Mortality/MortalityHollingRate.h"
+#include "../Processes/Age/Mortality/MortalityInitialisationBaranov.h"
+#include "../Processes/Age/Mortality/MortalityInitialisationEvent.h"
+#include "../Processes/Age/Mortality/MortalityInitialisationEventBiomass.h"
+#include "../Processes/Age/Mortality/MortalityInstantaneous.h"
+#include "../Processes/Age/Mortality/MortalityInstantaneousRetained.h"
+#include "../Processes/Age/Mortality/MortalityPreySuitability.h"
 #include "../Processes/Age/RecruitmentBevertonHolt.h"
 #include "../Processes/Age/RecruitmentBevertonHoltWithDeviations.h"
 #include "../Processes/Age/RecruitmentConstant.h"
@@ -99,8 +101,12 @@ Process* Factory::Create(shared_ptr<Model> model, const string& object_type, con
         result = new age::MortalityInitialisationEvent(model);
       else if (sub == PARAM_MORTALITY_INITIALISATION_EVENT_BIOMSS)
         result = new age::MortalityInitialisationEventBiomass(model);
+      else if (sub == PARAM_MORTALITY_INITIALISATION_BARANOV)
+        result = new age::MortalityInitialisationBaranov(model);
       else if (sub == PARAM_MORTALITY_EVENT)
         result = new age::MortalityEvent(model);
+      else if (sub == PARAM_MORTALITY_HYBRID)
+        result = new age::MortalityHybrid(model);
       else if (sub == PARAM_MORTALITY_EVENT_BIOMASS)
         result = new age::MortalityEventBiomass(model);
       else if (sub == PARAM_MORTALITY_INSTANTANEOUS)

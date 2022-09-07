@@ -59,9 +59,8 @@ type recruitment_beverton_holt
 categories stock
 proportions 1
 b0 5.18767e+008
-ycs_years 1974:1976
-standardise_ycs_years 1974:1976
-ycs_values          1.00 1.00 1.00 
+standardise_years 1975:1977
+recruitment_multipliers          1.00 1.00 1.00 
 steepness 0.9
 ssb biomass_t1
 age 1

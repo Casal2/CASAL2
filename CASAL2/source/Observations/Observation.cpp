@@ -39,9 +39,9 @@ Observation::Observation(shared_ptr<Model> model) : model_(model) {
   parameters_.Bind<string>(PARAM_SIMULATION_LIKELIHOOD, &simulation_likelihood_label_, "The simulation likelihood to use", "", "");
   parameters_.Bind<Double>(PARAM_LIKELIHOOD_MULTIPLIER, &likelihood_multiplier_, "The likelihood score multiplier", "", Double(1.0))->set_lower_bound(0.0);
   parameters_.Bind<Double>(PARAM_ERROR_VALUE_MULTIPLIER, &error_value_multiplier_, "The error value multiplier for likelihood", "", Double(1.0))->set_lower_bound(0.0);
-  
-  RegisterAsAddressable(PARAM_ERROR_VALUE_MULTIPLIER, &error_value_multiplier_);
+
   RegisterAsAddressable(PARAM_LIKELIHOOD_MULTIPLIER, &likelihood_multiplier_);
+  RegisterAsAddressable(PARAM_ERROR_VALUE_MULTIPLIER, &error_value_multiplier_);
   mean_proportion_method_ = true;
 }
 

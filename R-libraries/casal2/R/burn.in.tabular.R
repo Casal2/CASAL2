@@ -23,7 +23,8 @@
       stop(paste0("Row = ", Row, ", which is larger than the number of rows in the casl2TAB object('", nrow(this_list$values), "). The Row value is the ith sample after Casal2 has thinned the sample"))
     }
     this_list$values <- this_list$values[Row:nrow(this_list$values),]
-    print(paste0("rows remaining after burn-in = ", nrow(this_list$values)))
+	if(verbose)
+	  print(paste0("rows remaining after burn-in = ", nrow(this_list$values)))
     ## try and store it back in to the original object.
     tab_object[[i]]$values <- this_list$values
   }

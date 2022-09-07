@@ -151,7 +151,18 @@ Double Selectivity::GetAgeResult(unsigned age, AgeLength* age_length) {
 Double Selectivity::GetLengthResult(unsigned length_bin_index) {
   return length_values_[length_bin_index];
 }
-
+/**
+ * Return the selectivity values for the value x
+ * currently used in AgeLength::get_pdf_with_sized_based_selectivity
+ * But will be useful else where. Not advised to be used for other methods because the other
+ * methods cache and do a look up. This method will ask the selectivity to always calculate the result even if nothin
+ * has changed.
+ * @param x The value to evaluate the selectivity for
+ * @return the selectivity by x value
+ */
+Double Selectivity::GetResult(Double x) {
+  return get_value(x);
+}
 /**
  * Return the length values for a length bin
  *

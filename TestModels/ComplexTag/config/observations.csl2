@@ -48,7 +48,7 @@ delta 1e-11
 @observation AreaA
 type process_removals_by_age
 method_of_removal AreaA
-mortality_instantaneous_process Mortality
+mortality_process Mortality
 years 1999 2001 2003:2016
 categories M.untagged F.untagged
 time_step One
@@ -100,7 +100,7 @@ delta 1e-11
 @observation AreaC
 type process_removals_by_age
 method_of_removal AreaC
-mortality_instantaneous_process Mortality
+mortality_process Mortality
 years 1999 2000 2002 2004 2005 2006 2007 2008 2009 2010 2011 2012 2013 2014 2015 2016
 categories M.untagged F.untagged
 time_step One
@@ -152,7 +152,7 @@ delta 1e-11
 @observation AreaD
 type process_removals_by_age
 method_of_removal AreaD
-mortality_instantaneous_process Mortality
+mortality_process Mortality
 years 1999 2002 2004 2005 2006 2008 2009 2010 2011 2012 2013 2014 2015	2016
 categories M.untagged F.untagged
 time_step One
@@ -200,7 +200,7 @@ delta 1e-11
 @observation AreaB
 type process_removals_by_age
 method_of_removal AreaB
-mortality_instantaneous_process Mortality
+mortality_process Mortality
 years 2002 2004:2006 2008:2016
 categories M.untagged F.untagged
 time_step One

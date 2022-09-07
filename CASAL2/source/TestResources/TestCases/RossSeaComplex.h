@@ -69,12 +69,11 @@ type recruitment_beverton_holt
 categories male,female.untagged,2001:2014
 proportions 0.5 0*14 0.5 0*14
 b0 80000
-standardise_ycs_years 2003:2009
-ycs_values 1*21
+standardise_years 2004:2010
+recruitment_multipliers 1*21
 steepness 0.75
 ssb SSB
 age 1
-ycs_years 1994:2014
 
 @derived_quantity SSB
 type biomass
@@ -113,36 +112,8 @@ year FishingShelf FishingSlope FishingNorth
 end_table
 table method
 method  category  selectivity u_max time_step penalty
-FishingShelf  male.untagged ShelfselMale  0.99  Summer  event_mortality_penalty
-FishingShelf  male.2001 ShelfselMale  0.99  Summer  event_mortality_penalty
-FishingShelf  male.2002 ShelfselMale  0.99  Summer  event_mortality_penalty
-FishingShelf  male.2003 ShelfselMale  0.99  Summer  event_mortality_penalty
-FishingShelf  male.2004 ShelfselMale  0.99  Summer  event_mortality_penalty
-FishingShelf  male.2005 ShelfselMale  0.99  Summer  event_mortality_penalty
-FishingShelf  male.2006 ShelfselMale  0.99  Summer  event_mortality_penalty
-FishingShelf  male.2007 ShelfselMale  0.99  Summer  event_mortality_penalty
-FishingShelf  male.2008 ShelfselMale  0.99  Summer  event_mortality_penalty
-FishingShelf  male.2009 ShelfselMale  0.99  Summer  event_mortality_penalty
-FishingShelf  male.2010 ShelfselMale  0.99  Summer  event_mortality_penalty
-FishingShelf  male.2011 ShelfselMale  0.99  Summer  event_mortality_penalty
-FishingShelf  male.2012 ShelfselMale  0.99  Summer  event_mortality_penalty
-FishingShelf  male.2013 ShelfselMale  0.99  Summer  event_mortality_penalty
-FishingShelf  male.2014 ShelfselMale  0.99  Summer  event_mortality_penalty
-FishingShelf  female.untagged ShelfselFemale  0.99  Summer  event_mortality_penalty
-FishingShelf  female.2001 ShelfselFemale  0.99  Summer  event_mortality_penalty
-FishingShelf  female.2002 ShelfselFemale  0.99  Summer  event_mortality_penalty
-FishingShelf  female.2003 ShelfselFemale  0.99  Summer  event_mortality_penalty
-FishingShelf  female.2004 ShelfselFemale  0.99  Summer  event_mortality_penalty
-FishingShelf  female.2005 ShelfselFemale  0.99  Summer  event_mortality_penalty
-FishingShelf  female.2006 ShelfselFemale  0.99  Summer  event_mortality_penalty
-FishingShelf  female.2007 ShelfselFemale  0.99  Summer  event_mortality_penalty
-FishingShelf  female.2008 ShelfselFemale  0.99  Summer  event_mortality_penalty
-FishingShelf  female.2009 ShelfselFemale  0.99  Summer  event_mortality_penalty
-FishingShelf  female.2010 ShelfselFemale  0.99  Summer  event_mortality_penalty
-FishingShelf  female.2011 ShelfselFemale  0.99  Summer  event_mortality_penalty
-FishingShelf  female.2012 ShelfselFemale  0.99  Summer  event_mortality_penalty
-FishingShelf  female.2013 ShelfselFemale  0.99  Summer  event_mortality_penalty
-FishingShelf  female.2014 ShelfselFemale  0.99  Summer  event_mortality_penalty
+FishingShelf  format=male.* ShelfselMale  0.99  Summer  event_mortality_penalty
+FishingShelf  format=female.* ShelfselFemale  0.99  Summer  event_mortality_penalty
 FishingSlope  male.untagged SlopeselMale  0.99  Summer  event_mortality_penalty
 FishingSlope  male.2001 SlopeselMale  0.99  Summer  event_mortality_penalty
 FishingSlope  male.2002 SlopeselMale  0.99  Summer  event_mortality_penalty
@@ -363,7 +334,6 @@ selectivities ShelfselMale ShelfselFemale
 penalty tagging_penalty
 initial_mortality 0.135
 table proportions
-year  30 40 50 60 70 80 90 100 110 120 130 140 150 160 170 180 190 200 210 220
 2001 0.0000 0.0000 0.0058 0.1395 0.4244 0.4245 0.0058 0.0000 0.0000 0.0000 0.0000 0.0000 0.0000 0.0000 0.0000 0.0000 0.0000 0.0000 0.0000 0.0000
 end_table
 n 175
@@ -378,7 +348,6 @@ selectivities ShelfselMale ShelfselFemale
 penalty tagging_penalty
 initial_mortality 0.135
 table proportions
-year  30 40 50 60 70 80 90 100 110 120 130 140 150 160 170 180 190 200 210 220
 2002  0 0 0 0 0 1 0 0 0 0 0 0 0 0 0 0 0 0 0 0
 end_table
 n 2
@@ -393,7 +362,6 @@ selectivities ShelfselMale ShelfselFemale
 penalty tagging_penalty
 initial_mortality 0.124
 table proportions
-year  30 40 50 60 70 80 90 100 110 120 130 140 150 160 170 180 190 200 210 220
 2003 0.0 0.0 0.0 0.0 0.5 0.5 0.0 0.0 0.0 0.0 0.0 0.0 0.0 0.0 0.0 0.0 0.0 0.0 0.0 0.0
 end_table
 n 2
@@ -408,7 +376,6 @@ selectivities ShelfselMale ShelfselFemale
 penalty tagging_penalty
 initial_mortality 0.1
 table proportions
-year 30 40 50 60 70 80 90 100 110 120 130 140 150 160 170 180 190 200 210 220
 2004  0.0000 0.0000 0.0533 0.2933 0.3533 0.2000 0.0535 0.0333 0.0133 0.0000 0.0000 0.0000 0.0000 0.0000 0.0000 0.0000 0.0000 0.0000 0.0000 0.0000
 end_table
 n 150
@@ -423,7 +390,6 @@ selectivities ShelfselMale ShelfselFemale
 penalty tagging_penalty
 initial_mortality 0.1
 table proportions
-year 30 40 50 60 70 80 90 100 110 120 130 140 150 160 170 180 190 200 210 220
 2005  0.0000 0.0000 0.0580 0.1546 0.3380 0.1981 0.1643 0.0531 0.0242 0.0097 0.0000 0.0000 0.0000 0.0000 0.0000 0.0000 0.0000 0.0000 0.0000 0.0000
 end_table
 n 207
@@ -438,7 +404,6 @@ selectivities ShelfselMale ShelfselFemale
 penalty tagging_penalty
 initial_mortality 0.1
 table proportions
-year 30 40 50 60 70 80 90 100 110 120 130 140 150 160 170 180 190 200 210 220
 2006 0.0294 0.0000 0.1765 0.3235 0.2059 0.1471 0.0882 0.0000 0.0000 0.0000 0.0294 0.0000 0.0000 0.0000 0.0000 0.0000 0.0000 0.0000 0.0000 0.0000
 end_table
 n 36
@@ -453,7 +418,6 @@ selectivities ShelfselMale ShelfselFemale
 penalty tagging_penalty
 initial_mortality 0.1
 table proportions
-year 30 40 50 60 70 80 90 100 110 120 130 140 150 160 170 180 190 200 210 220
 2007 0.0000 0.0000 0.2679 0.2857 0.2857 0.0714 0.0714 0.0179 0.0000 0.0000 0.0000 0.0000 0.0000 0.0000 0.0000 0.0000 0.0000 0.0000 0.0000 0.0000
 end_table
 n 56
@@ -468,7 +432,6 @@ selectivities ShelfselMale ShelfselFemale
 penalty tagging_penalty
 initial_mortality 0.1
 table proportions
-year 30 40 50 60 70 80 90 100 110 120 130 140 150 160 170 180 190 200 210 220
 2008 0.0172 0.0000 0.0517 0.2586 0.3622 0.2931 0.0172 0.0000 0.0000 0.0000 0.0000 0.0000 0.0000 0.0000 0.0000 0.0000 0.0000 0.0000 0.0000 0.0000
 end_table
 n 58
@@ -483,7 +446,6 @@ selectivities ShelfselMale ShelfselFemale
 penalty tagging_penalty
 initial_mortality 0.1
 table proportions
-year 30 40 50 60 70 80 90 100 110 120 130 140 150 160 170 180 190 200 210 220
 2009 0.0000 0.0000 0.0000 0.0616 0.1712 0.3016 0.1986 0.1712 0.0616 0.0137 0.0205 0.0000 0.0000 0.0000 0.0000 0.0000 0.0000 0.0000 0.0000 0.0000
 end_table
 n 146
@@ -498,7 +460,6 @@ selectivities ShelfselMale ShelfselFemale
 penalty tagging_penalty
 initial_mortality 0.1
 table proportions
-year 30 40 50 60 70 80 90 100 110 120 130 140 150 160 170 180 190 200 210 220
 2010 0.0000 0.0000 0.0125 0.1062 0.4688 0.2188 0.1000 0.0312 0.0125 0.0250 0.0188 0.0000 0.0000 0.0000 0.0062 0.0000 0.0000 0.0000 0.0000 0.0000
 end_table
 n 161
@@ -513,7 +474,6 @@ selectivities ShelfselMale ShelfselFemale
 penalty tagging_penalty
 initial_mortality 0.1
 table proportions
-year 30 40 50 60 70 80 90 100 110 120 130 140 150 160 170 180 190 200 210 220
 2011 0.0000 0.0000 0.0000 0.0100 0.1003 0.1774 0.1673 0.1672 0.1371 0.1070 0.0769 0.0401 0.0167 0.0000 0.0000 0.0000 0.0000 0.0000 0.0000 0.0000
 end_table
 n 299
@@ -528,7 +488,6 @@ selectivities ShelfselMale ShelfselFemale
 penalty tagging_penalty
 initial_mortality 0.1
 table proportions
-year 30 40 50 60 70 80 90 100 110 120 130 140 150 160 170 180 190 200 210 220
 2012 0.0000 0.0000 0.0037 0.0184 0.1624 0.3395 0.2030 0.0996 0.0627 0.0480 0.0369 0.0184 0.0037 0.0037 0.0000 0.0000 0.0000 0.0000 0.0000 0.0000
 end_table
 n 272
@@ -543,7 +502,6 @@ selectivities ShelfselMale ShelfselFemale
 penalty tagging_penalty
 initial_mortality 0.1
 table proportions
-year 30 40 50 60 70 80 90 100 110 120 130 140 150 160 170 180 190 200 210 220
 2013 0.0000 0.0000 0.0035 0.0174 0.1742 0.1951 0.2752 0.1429 0.0941 0.0418 0.0314 0.0139 0.0035 0.0035 0.0000 0.0035 0.0000 0.0000 0.0000 0.0000
 end_table
 n 287
@@ -558,7 +516,6 @@ selectivities ShelfselMale ShelfselFemale
 penalty tagging_penalty
 initial_mortality 0.1
 table proportions
-year 30 40 50 60 70 80 90 100 110 120 130 140 150 160 170 180 190 200 210 220
 2014 0.0000 0.0000 0.0000 0.0164 0.0779 0.2090 0.1803 0.1762 0.1434 0.0943 0.0656 0.0205 0.0164 0.0000 0.0000 0.0000 0.0000 0.0000 0.0000 0.0000
 end_table
 n 244
@@ -573,7 +530,6 @@ selectivities SlopeselMale SlopeselFemale
 penalty tagging_penalty
 initial_mortality 0.135
 table proportions
-year 30 40 50 60 70 80 90 100 110 120 130 140 150 160 170 180 190 200 210 220
 2001  0.0000 0.0000 0.0513 0.1538 0.1026 0.1539 0.3590 0.1538 0.0256 0.0000 0.0000 0.0000 0.0000 0.0000 0.0000 0.0000 0.0000 0.0000 0.0000 0.0000
 end_table
 n 39
@@ -588,7 +544,6 @@ selectivities SlopeselMale SlopeselFemale
 penalty tagging_penalty
 initial_mortality 0.135
 table proportions
-year 30 40 50 60 70 80 90 100 110 120 130 140 150 160 170 180 190 200 210 220
 2002 0.0000 0.0090 0.0685 0.1855 0.0595 0.1405 0.2919 0.1604 0.0631 0.0126 0.0072 0.0018 0.0000 0.0000 0.0000 0.0000 0.0000 0.0000 0.0000 0.0000
 end_table
 n 558
@@ -603,7 +558,6 @@ selectivities SlopeselMale SlopeselFemale
 penalty tagging_penalty
 initial_mortality 0.124
 table proportions
-year 30 40 50 60 70 80 90 100 110 120 130 140 150 160 170 180 190 200 210 220
 2003 0.0000 0.0065 0.0452 0.0581 0.0452 0.1065 0.3000 0.2837 0.1418 0.0065 0.0065 0.0000 0.0000 0.0000 0.0000 0.0000 0.0000 0.0000 0.0000 0.0000
 end_table
 n 311
@@ -618,7 +572,6 @@ selectivities SlopeselMale SlopeselFemale
 penalty tagging_penalty
 initial_mortality 0.1
 table proportions
-year 30 40 50 60 70 80 90 100 110 120 130 140 150 160 170 180 190 200 210 220
 2004 0.0010 0.0039 0.1120 0.2923 0.1091 0.0936 0.1458 0.1728 0.0531 0.0106 0.0048 0.0010 0.0000 0.0000 0.0000 0.0000 0.0000 0.0000 0.0000 0.0000
 end_table
 n 1037
@@ -633,7 +586,6 @@ selectivities SlopeselMale SlopeselFemale
 penalty tagging_penalty
 initial_mortality 0.1
 table proportions
-year 30 40 50 60 70 80 90 100 110 120 130 140 150 160 170 180 190 200 210 220
 2005 0.0000 0.0028 0.1095 0.2420 0.1320 0.1304 0.1800 0.1033 0.0593 0.0231 0.0090 0.0068 0.0006 0.0006 0.0006 0.0000 0.0000 0.0000 0.0000 0.0000
 end_table
 n 1780
@@ -648,7 +600,6 @@ selectivities SlopeselMale SlopeselFemale
 penalty tagging_penalty
 initial_mortality 0.1
 table proportions
-year 30 40 50 60 70 80 90 100 110 120 130 140 150 160 170 180 190 200 210 220
 2006 0.0000 0.0035 0.0525 0.1209 0.0761 0.0832 0.1091 0.1687 0.1499 0.0938 0.0832 0.0413 0.0089 0.0077 0.0000 0.0012 0.0000 0.0000 0.0000 0.0000
 end_table
 n 1698
@@ -663,7 +614,6 @@ selectivities SlopeselMale SlopeselFemale
 penalty tagging_penalty
 initial_mortality 0.1
 table proportions
-year 30 40 50 60 70 80 90 100 110 120 130 140 150 160 170 180 190 200 210 220
 2007 0.0005 0.0114 0.1176 0.1887 0.1555 0.1576 0.1413 0.0850 0.0435 0.0346 0.0371 0.0183 0.0069 0.0020 0.0000 0.0000 0.0000 0.0000 0.0000 0.0000
 end_table
 n 2033
@@ -678,7 +628,6 @@ selectivities SlopeselMale SlopeselFemale
 penalty tagging_penalty
 initial_mortality 0.1
 table proportions
-year 30 40 50 60 70 80 90 100 110 120 130 140 150 160 170 180 190 200 210 220
 2008 0.0000 0.0006 0.0592 0.1389 0.1757 0.1892 0.1659 0.0881 0.0559 0.0514 0.0334 0.0289 0.0122 0.0006 0.0000 0.0000 0.0000 0.0000 0.0000 0.0000
 end_table
 n 1559
@@ -693,7 +642,6 @@ selectivities SlopeselMale SlopeselFemale
 penalty tagging_penalty
 initial_mortality 0.1
 table proportions
-year 30 40 50 60 70 80 90 100 110 120 130 140 150 160 170 180 190 200 210 220
 2009 0.0000 0.0000 0.0347 0.2622 0.1575 0.1677 0.1170 0.0720 0.0373 0.0540 0.0424 0.0321 0.0186 0.0026 0.0013 0.0006 0.0000 0.0000 0.0000 0.0000
 end_table
 n 1567
@@ -708,7 +656,6 @@ selectivities SlopeselMale SlopeselFemale
 penalty tagging_penalty
 initial_mortality 0.1
 table proportions
-year 30 40 50 60 70 80 90 100 110 120 130 140 150 160 170 180 190 200 210 220
 2010 0.0007 0.0015 0.0066 0.0325 0.1095 0.1403 0.1625 0.1056 0.1152 0.1004 0.0916 0.0871 0.0340 0.0103 0.0022 0.0000 0.0000 0.0000 0.0000 0.0000
 end_table
 n 1354
@@ -723,7 +670,6 @@ selectivities SlopeselMale SlopeselFemale
 penalty tagging_penalty
 initial_mortality 0.1
 table proportions
-year 30 40 50 60 70 80 90 100 110 120 130 140 150 160 170 180 190 200 210 220
 2011 0.0000 0.0007 0.0055 0.0089 0.0245 0.1280 0.1922 0.1772 0.1302 0.1132 0.0873 0.0777 0.0382 0.0123 0.0034 0.0007 0.0000 0.0000 0.0000 0.0000
 end_table
 n 1468
@@ -738,7 +684,6 @@ selectivities SlopeselMale SlopeselFemale
 penalty tagging_penalty
 initial_mortality 0.1
 table proportions
-year 30 40 50 60 70 80 90 100 110 120 130 140 150 160 170 180 190 200 210 220
 2012 0.0000 0.0000 0.0000 0.0119 0.0183 0.0970 0.2415 0.2242 0.1471 0.1176 0.0787 0.0390 0.0167 0.0064 0.0016 0.0000 0.0000 0.0000 0.0000 0.0000
 end_table
 n 1258
@@ -753,7 +698,6 @@ selectivities SlopeselMale SlopeselFemale
 penalty tagging_penalty
 initial_mortality 0.1
 table proportions
-year 30 40 50 60 70 80 90 100 110 120 130 140 150 160 170 180 190 200 210 220
 2013 0.0000 0.0014 0.0027 0.0130 0.0363 0.0685 0.1541 0.1986 0.1849 0.1466 0.1055 0.0507 0.0288 0.0075 0.0007 0.0007 0.0000 0.0000 0.0000 0.0000
 end_table
 n 1460
@@ -768,7 +712,6 @@ selectivities SlopeselMale SlopeselFemale
 penalty tagging_penalty
 initial_mortality 0.1
 table proportions
-year 30 40 50 60 70 80 90 100 110 120 130 140 150 160 170 180 190 200 210 220
 2014 0.0000 0.0000 0.0021 0.0197 0.0254 0.0557 0.1317 0.1910 0.1966 0.1614 0.1163 0.0677 0.0197 0.0085 0.0028 0.0007 0.0007 0.0000 0.0000 0.0000
 end_table
 n 1420
@@ -783,7 +726,6 @@ selectivities NorthselMale NorthselFemale
 penalty tagging_penalty
 initial_mortality 0.135
 table proportions
-year 30 40 50 60 70 80 90 100 110 120 130 140 150 160 170 180 190 200 210 220
 2001 0.0000 0.0000 0.0000 0.0000 0.2857 0.5714 0.1429 0.0000 0.0000 0.0000 0.0000 0.0000 0.0000 0.0000 0.0000 0.0000 0.0000 0.0000 0.0000 0.0000
 end_table
 n 7
@@ -798,7 +740,6 @@ selectivities NorthselMale NorthselFemale
 penalty tagging_penalty
 initial_mortality 0.135
 table proportions
-year 30 40 50 60 70 80 90 100 110 120 130 140 150 160 170 180 190 200 210 220
 2002 0.0000 0.0196 0.0196 0.0392 0.1176 0.1176 0.3139 0.2157 0.0588 0.0784 0.0196 0.0000 0.0000 0.0000 0.0000 0.0000 0.0000 0.0000 0.0000 0.0000
 end_table
 n 51
@@ -813,7 +754,6 @@ selectivities NorthselMale NorthselFemale
 penalty tagging_penalty
 initial_mortality 0.124
 table proportions
-year 30 40 50 60 70 80 90 100 110 120 130 140 150 160 170 180 190 200 210 220
 2003 0.0022 0.0000 0.0065 0.0065 0.0239 0.0369 0.0629 0.1129 0.1561 0.3037 0.1800 0.0672 0.0347 0.0065 0.0000 0.0000 0.0000 0.0000 0.0000 0.0000
 end_table
 n 470
@@ -828,7 +768,6 @@ selectivities NorthselMale NorthselFemale
 penalty tagging_penalty
 initial_mortality 0.1
 table proportions
-year 30 40 50 60 70 80 90 100 110 120 130 140 150 160 170 180 190 200 210 220
 2004 0.0000 0.0000 0.0184 0.0276 0.0461 0.0691 0.0783 0.1336 0.0968 0.2353 0.1613 0.0875 0.0276 0.0000 0.0138 0.0046 0.0000 0.0000 0.0000 0.0000
 end_table
 n 221
@@ -843,7 +782,6 @@ selectivities NorthselMale NorthselFemale
 penalty tagging_penalty
 initial_mortality 0.1
 table proportions
-year 30 40 50 60 70 80 90 100 110 120 130 140 150 160 170 180 190 200 210 220
 2005 0.0000 0.0000 0.0074 0.0074 0.0112 0.0186 0.0483 0.0818 0.1338 0.2305 0.2194 0.1673 0.0483 0.0223 0.0037 0.0000 0.0000 0.0000 0.0000 0.0000
 end_table
 n 269
@@ -858,7 +796,6 @@ selectivities NorthselMale NorthselFemale
 penalty tagging_penalty
 initial_mortality 0.1
 table proportions
-year 30 40 50 60 70 80 90 100 110 120 130 140 150 160 170 180 190 200 210 220
 2006 0.0000 0.0000 0.0000 0.0026 0.0000 0.0026 0.0052 0.0234 0.0805 0.1974 0.3064 0.2156 0.1143 0.0364 0.0104 0.0052 0.0000 0.0000 0.0000 0.0000
 end_table
 n 385
@@ -873,7 +810,6 @@ selectivities NorthselMale NorthselFemale
 penalty tagging_penalty
 initial_mortality 0.1
 table proportions
-year 30 40 50 60 70 80 90 100 110 120 130 140 150 160 170 180 190 200 210 220
 2007 0.0000 0.0035 0.0158 0.0351 0.0281 0.0123 0.0193 0.0281 0.0492 0.2425 0.3148 0.1722 0.0562 0.0211 0.0018 0.0000 0.0000 0.0000 0.0000 0.0000
 end_table
 n 570
@@ -888,7 +824,6 @@ selectivities NorthselMale NorthselFemale
 penalty tagging_penalty
 initial_mortality 0.1
 table proportions
-year 30 40 50 60 70 80 90 100 110 120 130 140 150 160 170 180 190 200 210 220
 2008 0.0000 0.0047 0.0047 0.0047 0.0093 0.0093 0.0233 0.0186 0.0698 0.2184 0.2744 0.2140 0.1023 0.0465 0.0000 0.0000 0.0000 0.0000 0.0000 0.0000
 end_table
 n 215
@@ -903,7 +838,6 @@ selectivities NorthselMale NorthselFemale
 penalty tagging_penalty
 initial_mortality 0.1
 table proportions
-year 30 40 50 60 70 80 90 100 110 120 130 140 150 160 170 180 190 200 210 220
 2009 0.0000 0.0000 0.0179 0.0090 0.0179 0.0179 0.0045 0.0135 0.0716 0.2691 0.3274 0.1480 0.0942 0.0090 0.0000 0.0000 0.0000 0.0000 0.0000 0.0000
 end_table
 n 223
@@ -918,7 +852,6 @@ selectivities NorthselMale NorthselFemale
 penalty tagging_penalty
 initial_mortality 0.1
 table proportions
-year 30 40 50 60 70 80 90 100 110 120 130 140 150 160 170 180 190 200 210 220
 2010 0.0000 0.0000 0.0000 0.0000 0.0000 0.0000 0.0131 0.0079 0.0656 0.2205 0.3411 0.2415 0.0866 0.0079 0.0079 0.0079 0.0000 0.0000 0.0000 0.0000
 end_table
 n 381
@@ -933,7 +866,6 @@ selectivities NorthselMale NorthselFemale
 penalty tagging_penalty
 initial_mortality 0.1
 table proportions
-year 30 40 50 60 70 80 90 100 110 120 130 140 150 160 170 180 190 200 210 220
 2011 0.0000 0.0000 0.0000 0.0000 0.0000 0.0000 0.0186 0.0186 0.0435 0.1304 0.2982 0.2795 0.1491 0.0621 0.0000 0.0000 0.0000 0.0000 0.0000 0.0000
 end_table
 n 161
@@ -948,7 +880,6 @@ selectivities NorthselMale NorthselFemale
 penalty tagging_penalty
 initial_mortality 0.1
 table proportions
-year 30 40 50 60 70 80 90 100 110 120 130 140 150 160 170 180 190 200 210 220
 2012 0.0000 0.0000 0.0000 0.0064 0.0000 0.0043 0.0064 0.0043 0.0451 0.1352 0.2382 0.3069 0.1867 0.0494 0.0150 0.0021 0.0000 0.0000 0.0000 0.0000
 end_table
 n 469
@@ -963,7 +894,6 @@ selectivities NorthselMale NorthselFemale
 penalty tagging_penalty
 initial_mortality 0.1
 table proportions
-year 30 40 50 60 70 80 90 100 110 120 130 140 150 160 170 180 190 200 210 220
 2013 0.0000 0.0000 0.0000 0.0000 0.0000 0.0000 0.0000 0.0110 0.0166 0.0967 0.2569 0.3039 0.1906 0.0718 0.0359 0.0166 0.0000 0.0000 0.0000 0.0000
 end_table
 n 362
@@ -978,7 +908,6 @@ selectivities NorthselMale NorthselFemale
 penalty tagging_penalty
 initial_mortality 0.1
 table proportions
-year 30 40 50 60 70 80 90 100 110 120 130 140 150 160 170 180 190 200 210 220
 2014 0.0000 0.0000 0.0000 0.0000 0.0029 0.0000 0.0000 0.0000 0.0000 0.1295 0.2588 0.3176 0.2118 0.0559 0.0176 0.0059 0.0000 0.0000 0.0000 0.0000
 end_table
 n 340

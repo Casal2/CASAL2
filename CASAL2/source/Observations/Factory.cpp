@@ -17,6 +17,7 @@
 #include "Model/Model.h"
 #include "Observations/Age/Abundance/Process.h"
 #include "Observations/Age/Abundance/TimeStep.h"
+#include "Observations/Age/AgeLength.h"
 #include "Observations/Age/Biomass/Process.h"
 #include "Observations/Age/Biomass/TimeStep.h"
 #include "Observations/Age/ProcessRemovalsByAge.h"
@@ -69,6 +70,8 @@ Observation* Factory::Create(shared_ptr<Model> model, const string& object_type,
     if (object_type == PARAM_OBSERVATION) {
       if (sub_type == PARAM_ABUNDANCE)
         result = new age::TimeStepAbundance(model);
+      if (sub_type == PARAM_AGE_LENGTH)
+        result = new age::AgeLength(model);
       else if (sub_type == PARAM_PROCESS_ABUNDANCE)
         result = new age::ProcessAbundance(model);
       else if (sub_type == PARAM_BIOMASS)

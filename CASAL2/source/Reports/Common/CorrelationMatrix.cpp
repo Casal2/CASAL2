@@ -17,8 +17,8 @@ namespace ublas = boost::numeric::ublas;
  * Default constructor
  */
 CorrelationMatrix::CorrelationMatrix() {
-  run_mode_    = (RunMode::Type)(RunMode::kEstimation | RunMode::kMCMC);
-  model_state_ = State::kFinalise;
+  run_mode_    = (RunMode::Type)(RunMode::kEstimation | RunMode::kProfiling);
+  model_state_ = State::kIterationComplete;
 }
 
 /**

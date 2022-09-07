@@ -43,33 +43,37 @@ public:
 #' Return the Pdf for the dirichlet multinomial tried to copy from The thorson paper
 #' He deviates from the classic formulation by pulling out (x!) of the denominator from the right hand product
 #' and moving it to the left denominator has been validated agains extraDistr::ddirmnom
-#' @param: obs vector of observed compositions assumes sum(pi) = 1
-#' @param: fitted vector of fiited compositions assumes sum(pi_fitted) = 1 
-#' @param: beta variance inflation coefficient
-#' @param: n is the total number of samples in the available data (which is restricted to any non-negative real number),
+#' @param: obs, vector of observed compositions assumes sum(obs) = 1
+#' @param: est, vector of fiited compositions assumes sum(est) = 1
+#' @param: beta, the variance inflation coefficient (beta = n * theta)
+#' @param: n, the total number of samples in the available data (which is restricted to any non-negative real number),
 #' @return PDF
 #'
-ddirichmult = function(obs, beta, n, fitted, log = F) {
-  if(sum(pi) != 1)
-    stop("pi needs to sum to 1")
-  if(sum(fitted) != 1)
-    stop("pi_fitted needs to sum to 1")
-  val = (lgamma(n + 1) + lgamma(beta)) - (lgamma(n + beta) + sum(lgamma(n*obs + 1))) + sum(lgamma(n*obs + beta * fitted) - lgamma(beta* fitted))
-  if(log == F)
-    val = exp(val)
+ddirichmult = function(obs, beta, n, est, log_it = F) {
+  if(sum(obs) != 1)
+    stop("obs needs to sum to 1")
+  if(sum(est) != 1)
+    stop("est needs to sum to 1")
+
+  loglike <- lgamma(n + 1) + lgamma(beta) - lgamma(n + beta) +
+             sum(lgamma(n * obs + beta * est) - lgamma(beta * est)) - sum(lgamma(n * obs + 1))
+
+  val <- ifelse(log_it == T, loglike, exp(loglike))
+
   return(val)
 }
+
 set.seed(123)
-n = 1000
-pi = rnorm(10, 50, 10)
-pi_fitted = rnorm(10,  50, 10)
-pi = pi / sum(pi)
-pi_fitted = pi_fitted / sum(pi_fitted)
-size = n
-x = pi * n
-beta = 7
-theta = beta / n ## used in casal2 model
-ddirichmult(pi, beta = beta, n = sum(x), fitted = pi_fitted, log = T) # only take integers
+n <- 1000
+rand_obs <- rnorm(10, 50, 10)
+rand_obs_fitted <- rnorm(10,  50, 10)
+rand_obs <- rand_obs / sum(rand_obs)
+rand_obs_fitted <- rand_obs_fitted / sum(rand_obs_fitted)
+size <- n
+x <- rand_obs * n
+beta <- 7
+theta <- beta / n ## used in casal2 model
+ddirichmult(rand_obs, beta = beta, n = sum(x), est = rand_obs_fitted, log_it = T) # only take integers
 #[1] -51.41739 ## this is log-likelihood casal2 does negative-log-likelihood
 */
 

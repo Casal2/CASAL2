@@ -4,7 +4,7 @@
  * @date 21/6/2017
  * @section LICENSE
  *
- * Copyright NIWA Science ©2017 - www.niwa.co.nz
+ * Copyright NIWA Science ï¿½2017 - www.niwa.co.nz
  */
 #ifdef TESTMODE
 
@@ -34,8 +34,8 @@ const string constant_ycs =
     R"(
 @project future_ycs
 type constant
-parameter process[recruitment].ycs_values
-years 1999:2010
+parameter process[recruitment].recruitment_multipliers
+years 2001:2012
 values 0.478482 0.640663 0.640091 0.762361 0.560125 0.651637 0.764833 0.645498 0.678341 1.234 1.0423 1.4352
 )";
 

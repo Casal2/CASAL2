@@ -665,6 +665,13 @@ inline Double Max(const vector<Double>& Values) {
   return max;
 }
 
+template<class C>
+int in(const std::vector<C>& v,const C& c){
+  for (int i=0; i<v.size(); i++){
+    if (v[i]==c) return 1;}
+  return 0;
+}
+
 } /* namespace math */
 } /* namespace utilities */
 } /* namespace niwa */

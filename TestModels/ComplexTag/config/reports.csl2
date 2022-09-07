@@ -61,9 +61,6 @@ time_step One
 type partition_biomass
 time_step One
 
-@report CategoryInfo
-type Category_info
-
 @report CategoryList
 type Category_list
 

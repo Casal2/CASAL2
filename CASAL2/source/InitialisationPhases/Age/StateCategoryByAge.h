@@ -34,12 +34,12 @@ public:
   // methods
   explicit StateCategoryByAge(shared_ptr<Model> model);
   virtual ~StateCategoryByAge();
-  virtual void Execute() override final;
 
 protected:
   // methods
-  virtual void DoValidate() override final;
-  virtual void DoBuild() override final;
+  void DoValidate() override final;
+  void DoBuild() override final;
+  void DoExecute() override final;
 
 private:
   // members

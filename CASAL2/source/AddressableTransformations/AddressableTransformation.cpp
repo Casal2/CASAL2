@@ -141,8 +141,8 @@ void AddressableTransformation::Validate() {
               LOG_FATAL_P(PARAM_PARAMETERS) << "parameter " << parameter_labels_[param_counter] << " could not be converted to an unsigned integer";
             if (u_index <= 0 || u_index > addressable_vectors_[param_counter]->size())
               LOG_FATAL_P(PARAM_PARAMETERS) << "parameter " << parameter_labels_[param_counter] << " index not in range for this parameter, please check the input";
-            vector_and_u_map_indicies_[param_counter].push_back(u_index);
-            init_values_.push_back((*addressable_vectors_[param_counter])[u_index]);
+            vector_and_u_map_indicies_[param_counter].push_back(u_index - 1);
+            init_values_.push_back((*addressable_vectors_[param_counter])[u_index - 1]);
             ++n_params_;
           }
         } else {
@@ -344,6 +344,8 @@ void AddressableTransformation::Verify(shared_ptr<Model> model) {
   for(unsigned i = 0; i < target_objects_.size(); ++i) {
     if(target_objects_[i]->IsAddressableUsedFor(parameter_lookup_for_verify_[i], addressable::kEstimate))
       LOG_FATAL_P(PARAM_PARAMETERS) << "There is an @estimate block for " << parameter_lookup_for_verify_[i] << " this is not allowed for parameters with a @parameter_transformation block";
+    if(target_objects_[i]->IsAddressableUsedFor(parameter_lookup_for_verify_[i], addressable::kProfile) & (model_->run_mode() == RunMode::kProfiling))
+      LOG_FATAL_P(PARAM_PARAMETERS) << "foung an @profile block for " << parameter_lookup_for_verify_[i] << ". You cannot have a @parameter_transformation and a @profile block for the same parameter.";
   }
 }
 

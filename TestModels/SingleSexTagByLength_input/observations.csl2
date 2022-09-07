@@ -552,7 +552,7 @@ dispersion 5.6
 # this is for comparison with casal - use the one from the outputs for casal run
 @ageing_error Ageing_error
 type data
-table table
+table data
 0.999988 5.83201e-006 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
 0.00633814 0.987324 0.00633814 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
 5.83201e-006 0.0475884 0.904811 0.0475884 5.83201e-006 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0

@@ -66,9 +66,8 @@ type recruitment_beverton_holt
 categories stock
 proportions 1
 r0 4.04838e+006
-ycs_years 1989:1996
-standardise_ycs_years 1989 1990 1991 1992 1993 1994 1995 1996
-ycs_values      1.00 1.00 1.00 1.00 1.00 1.00 1.00 1.00
+standardise_years  1990 1991 1992 1993 1994 1995 1996 1997
+recruitment_multipliers      1.00 1.00 1.00 1.00 1.00 1.00 1.00 1.00
 steepness 0.9
 ssb biomass_t1
 age 1
@@ -160,7 +159,7 @@ years 1991 1992 1993 1994 1995
 likelihood multinomial
 time_step step1
 method_of_removal FishingEest
-mortality_instantaneous_process instant_mort
+mortality_process instant_mort
 categories stock
 plus_group false
 length_bins 0 20 40 60 80 110

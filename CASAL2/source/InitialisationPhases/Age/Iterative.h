@@ -4,7 +4,7 @@
  * @date 2/09/2014
  * @section LICENSE
  *
- * Copyright NIWA Science ©2014 - www.niwa.co.nz
+ * Copyright NIWA Science ï¿½2014 - www.niwa.co.nz
  *
  * @section DESCRIPTION
  *
@@ -38,12 +38,12 @@ public:
   // methods
   explicit Iterative(shared_ptr<Model> model);
   virtual ~Iterative() = default;
-  void Execute() override final;
 
 protected:
   // methods
   void DoValidate() override final;
   void DoBuild() override final;
+  void DoExecute() override final;
   bool CheckConvergence();
 
   // members

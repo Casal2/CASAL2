@@ -5,7 +5,7 @@
  * @date 6/03/2013
  * @section LICENSE
  *
- * Copyright NIWA Science ©2013 - www.niwa.co.nz
+ * Copyright NIWA Science ï¿½2013 - www.niwa.co.nz
  *
  * $Date: 2008-03-04 16:33:32 +1300 (Tue, 04 Mar 2008) $
  */
@@ -54,6 +54,18 @@ Double Beta::GetScore() {
 
   return score_;
 }
-
+/**
+ * GetPriorValues()
+ *
+ * @return vector of mu and sigma
+ */
+vector<Double>   Beta::GetPriorValues() {
+  vector<Double> result = {mu_, sigma_, a_, b_};
+  return result;
+}
+vector<string>   Beta::GetPriorLabels() {
+  vector<string> result = {PARAM_MU, PARAM_SIGMA, PARAM_A, PARAM_B};
+  return result;
+}
 } /* namespace estimates */
 } /* namespace niwa */

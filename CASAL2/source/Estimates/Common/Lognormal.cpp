@@ -30,6 +30,18 @@ Double Lognormal::GetScore() {
   Double score_ = log(value()) + 0.5 * pow(log(value() / mu_) / sigma_ + sigma_ * 0.5, 2);
   return score_;
 }
-
+/**
+ * GetPriorValues()
+ *
+ * @return vector of mu and sigma
+ */
+vector<Double>   Lognormal::GetPriorValues() {
+  vector<Double> result = {mu_, cv_};
+  return result;
+}
+vector<string>   Lognormal::GetPriorLabels() {
+  vector<string> result = {PARAM_MU, PARAM_CV};
+  return result;
+}
 } /* namespace estimates */
 } /* namespace niwa */

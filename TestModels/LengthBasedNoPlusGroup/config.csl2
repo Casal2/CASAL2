@@ -30,8 +30,8 @@ type null_process
 @process Recruit_BH
 type recruitment_beverton_holt
 ssb_offset 1
-ycs_years 1985:1986
-ycs_values 1.00 1 
+#ycs_years 1985:1986
+recruitment_multipliers 1.00 1 
 b0 1500
 categories uni
 proportions 1

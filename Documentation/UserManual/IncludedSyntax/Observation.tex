@@ -181,9 +181,11 @@ end_table
 \defType{Vector of strings}
 \defDefault{No default}
 
-\defSub{mortality\_instantaneous\_process}{The label of the mortality instantaneous process for the observation}
+
+\defSub{mortality\_process}{The label of the mortality instantaneous process for the observation}
 \defType{String}
 \defDefault{No default}
+\defNote{Allowed mortality process types are \subcommand{mortality\_instantaneous} and \subcommand{mortality\_hybrid}}
 
 \defSub{table obs}{The table of data specifying the observed values}
 \defType{Data table with label = obs}
@@ -253,9 +255,11 @@ end_table
 \defType{Vector of strings}
 \defDefault{No default}
 
-\defSub{mortality\_instantaneous\_process}{The label of the mortality instantaneous process for the observation}
+
+\defSub{mortality\_process}{The label of the mortality instantaneous process for the observation}
 \defType{String}
 \defDefault{No default}
+\defNote{Allowed mortality process types are \subcommand{mortality\_instantaneous\_retained}}
 
 \defSub{table obs}{The table of data specifying the observed values}
 \defType{Data table with label = obs}
@@ -326,9 +330,10 @@ end_table
 \defType{Vector of strings}
 \defDefault{No default}
 
-\defSub{mortality\_instantaneous\_process}{The label of the mortality instantaneous process for the observation}
+\defSub{mortality\_process}{The label of the mortality process for this observation}
 \defType{String}
 \defDefault{No default}
+\defNote{Allowed mortality process types are \subcommand{mortality\_instantaneous\_retained}}
 
 \defSub{table obs}{The table of data specifying the observed values}
 \defType{Data table with label = obs}
@@ -390,9 +395,11 @@ end_table
 \defType{Boolean}
 \defDefault{model}
 
-\defSub{mortality\_instantaneous\_process}{The label of the mortality instantaneous process for the observation}
+\defSub{mortality\_process}{The label of the mortality instantaneous process for the observation}
 \defType{String}
 \defDefault{No default}
+\defNote{Allowed mortality process types are \subcommand{mortality\_instantaneous} and \subcommand{mortality\_hybrid}}
+
 
 \defSub{table obs}{The table of data specifying the observed values}
 \defType{Data table with label = obs}
@@ -453,9 +460,10 @@ end_table
 \defType{Boolean}
 \defDefault{model}
 
-\defSub{mortality\_instantaneous\_process}{The label of the mortality instantaneous process for the observation}
+\defSub{mortality\_process}{The label of the mortality instantaneous process for the observation}
 \defType{String}
 \defDefault{No default}
+\defNote{Allowed mortality process types are \subcommand{mortality\_instantaneous\_retained}}
 
 \defSub{table obs}{The table of data specifying the observed values}
 \defType{Data table with label = obs}
@@ -518,9 +526,10 @@ end_table
 \defType{Boolean}
 \defDefault{true}
 
-\defSub{mortality\_instantaneous\_process}{The label of the mortality instantaneous process for the observation}
+\defSub{mortality\_process}{The label of the mortality instantaneous process for the observation}
 \defType{String}
 \defDefault{No default}
+\defNote{Allowed mortality process types are \subcommand{mortality\_instantaneous\_retained}}
 
 \defSub{table obs}{The table of data specifying the observed values}
 \defType{Data table with label = obs}
@@ -550,9 +559,10 @@ end_table
 \defRef{sec:Observation-ProcessRemovalsByWeight}
 \label{syntax:Observation-ProcessRemovalsByWeight}
 
-\defSub{mortality\_instantaneous\_process}{The label of the mortality instantaneous process for the observation}
+\defSub{mortality\_process}{The label of the mortality instantaneous process for the observation}
 \defType{String}
 \defDefault{No default}
+\defNote{Allowed mortality process types are \subcommand{mortality\_instantaneous}}
 
 \defSub{method\_of\_removal}{The label of observed method of removals}
 \defType{String}
@@ -694,6 +704,10 @@ end_table
 \defSub{length\_bins}{The length bins}
 \defType{Vector of real numbers (estimable)}
 \defDefault{true}
+
+\defSub{plus\_group}{Is the last length bin a plus group?}
+\defType{Boolean}
+\defDefault{true if the value of \commandsub{model}{length\_plus} is true, otherwise false}
 
 \defSub{sum\_to\_one}{Scale the year (row) observed values by the total, so they sum to 1}
 \defType{Boolean}
@@ -980,3 +994,46 @@ table scanned
 1994 3 4 43
 end_table
 \end{verbatim}
+
+
+
+\subsubsection{Observation of type Age Length}
+\commandlabsubarg{observation}{type}{age\_length}.
+\defRef{sec:Observation-Abundance}
+\label{syntax:Observation-AgeLength}
+
+\defSub{time\_step}{The label of the time step that the observation occurs in}
+\defType{String}
+\defDefault{No default}
+
+\defSub{selectivities}{The labels of the selectivities, one for each combined category}
+\defType{Vector of strings}
+\defDefault{true}
+
+\defSub{numerator\_categories}{A combined category label that defines categories that make up the numerator}
+\defType{Vector of strings}
+\defNote{These categories are required to have the same age-length definition and have the same selectivity.}
+\defDefault{the values defined in categories}
+
+\defSub{year}{The year this observation occurred in}
+\defType{Vector of non-negative integers}
+\defDefault{No default}
+
+\defSub{sample\_type}{The sample type}
+\defType{string}
+\defDefault{length}
+\defallowed{age, length, random}
+
+\defSub{ages}{vector of observed ages}
+\defType{Vector of positive integers}
+\defNote{Needs to be integers, with model age definition, and same number of elements as lengths}
+\defDefault{No default}
+
+\defSub{lengths}{vector of observed lengths}
+\defType{Vector of real numbers}
+\defNote{same number of elements as ages}
+\defDefault{No default}
+
+\defSub{ageing\_error}{The label of ageing error to use}
+\defType{String}
+\defDefault{No ageing error}

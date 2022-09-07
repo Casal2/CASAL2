@@ -16,7 +16,6 @@
 
 #include "../Model/Managers.h"
 #include "../Model/Model.h"
-
 #include "../Reports/Common/Addressable.h"
 #include "../Reports/Common/AddressableTransformation.h"
 #include "../Reports/Common/Catchability.h"
@@ -39,16 +38,16 @@
 #include "../Reports/Common/ObjectiveFunction.h"
 #include "../Reports/Common/Observation.h"
 #include "../Reports/Common/OutputParameters.h"
+#include "../Reports/Common/Partition.h"
+#include "../Reports/Common/PartitionBiomass.h"
 #include "../Reports/Common/Process.h"
-#include "../Reports/Common/Project.h"
 #include "../Reports/Common/Profile.h"
+#include "../Reports/Common/Project.h"
 #include "../Reports/Common/RandomNumberSeed.h"
 #include "../Reports/Common/Selectivity.h"
 #include "../Reports/Common/SelectivityByYear.h"
 #include "../Reports/Common/SimulatedObservation.h"
 #include "../Reports/Common/TimeVarying.h"
-#include "../Reports/Common/Partition.h"
-#include "../Reports/Common/PartitionBiomass.h"
 // Length
 #include "../Reports/Length/GrowthIncrement.h"
 #include "../Reports/Manager.h"
@@ -74,8 +73,10 @@ Report* Factory::Create(shared_ptr<Model> model, const string& object_type, cons
   if (object_type == PARAM_REPORT) {
     if (sub_type == PARAM_DEFAULT)
       result = new DefaultReports();
-    if (sub_type == PARAM_CATEGORY_INFO)
-      result = new CategoryInfo();
+    // Deprecating this report as its not useful nor used in anything but a basic run
+    // Note the R extract.mpd() function v22.06 also errors out for this report 
+    // if (sub_type == PARAM_CATEGORY_INFO)
+    //  result = new CategoryInfo();
     else if (sub_type == PARAM_CATEGORY_LIST)
       result = new CategoryList();
     else if (sub_type == PARAM_CATCHABILITY)
@@ -135,7 +136,7 @@ Report* Factory::Create(shared_ptr<Model> model, const string& object_type, cons
     else if (sub_type == PARAM_PARTITION_BIOMASS)
       result = new PartitionBiomass();
     else if (sub_type == PARAM_PARTITION)
-      result = new Partition();     
+      result = new Partition();
     else if (model->partition_type() == PartitionType::kAge) {
       if (object_type == PARAM_REPORT) {
         if (sub_type == PARAM_AGEING_ERROR)

@@ -39,6 +39,7 @@ enum Type {
   kTooManyIterations,
   kTooManyEvaluations,
   kStepSizeTooSmall,
+  kUnclearConvergence,
 };
 } /* namespace MinimiserResult */
 

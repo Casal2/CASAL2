@@ -4,7 +4,7 @@
  * @date 11/09/2013
  * @section LICENSE
  *
- * Copyright NIWA Science ©2013 - www.niwa.co.nz
+ * Copyright NIWA Science ï¿½2013 - www.niwa.co.nz
  *
  */
 
@@ -91,6 +91,13 @@ void Maturation::DoBuild() {
       LOG_ERROR_P(PARAM_SELECTIVITIES) << ": Selectivity label " << label << " was not found.";
     selectivities_.push_back(selectivity);
   }
+
+  // check there is a year for all model years
+  for(auto this_year : model_->years()) {
+    if(find(years_.begin(), years_.end(), this_year) == years_.end())
+      LOG_WARNING() << "At " << location() << " the model year " << this_year << " was not found in " << PARAM_YEARS << " this is suggest an error";
+  }
+
 }
 
 /**

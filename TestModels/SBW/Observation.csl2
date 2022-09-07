@@ -68,7 +68,7 @@ end_table
 @observation ObserverProportionsAtAge
 type process_removals_by_age
 likelihood multinomial
-mortality_instantaneous_process Instantaneous_Mortality
+mortality_process Instantaneous_Mortality
 method_of_removal Trawl
 plus_group true
 ageing_error No_ageing_error

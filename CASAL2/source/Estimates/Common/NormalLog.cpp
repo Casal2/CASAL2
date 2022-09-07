@@ -5,7 +5,7 @@
  * @date 8/03/2013
  * @section LICENSE
  *
- * Copyright NIWA Science ©2013 - www.niwa.co.nz
+ * Copyright NIWA Science ï¿½2013 - www.niwa.co.nz
  *
  * $Date: 2008-03-04 16:33:32 +1300 (Tue, 04 Mar 2008) $
  */
@@ -35,6 +35,20 @@ NormalLog::NormalLog(shared_ptr<Model> model) : Estimate(model) {
 Double NormalLog::GetScore() {
   Double score_ = log(value()) + 0.5 * pow((log(value()) - mu_) / sigma_, 2);
   return score_;
+}
+
+/**
+ * GetPriorValues()
+ *
+ * @return vector of mu and sigma
+ */
+vector<Double>   NormalLog::GetPriorValues() {
+  vector<Double> result = {mu_, sigma_};
+  return result;
+}
+vector<string>   NormalLog::GetPriorLabels() {
+  vector<string> result = {PARAM_MU, PARAM_SIGMA};
+  return result;
 }
 
 } /* namespace estimates */

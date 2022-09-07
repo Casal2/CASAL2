@@ -125,6 +125,8 @@ void AddressableInputLoader::LoadValues(unsigned index) {
     auto estimate = model_->managers()->estimate()->GetEstimate(iter.first);
     if (estimate != nullptr) {
       estimate->set_value(*iter.second);
+      estimate->set_initial_value(*iter.second);
+      estimate->flag_value_has_been_initialised();
       ++estimate_count;
     }
   }

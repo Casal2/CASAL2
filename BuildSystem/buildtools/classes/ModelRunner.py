@@ -30,10 +30,10 @@ class ModelRunner:
     success_count = 0
     fail_count = 0
     ##estimation_dir_list = {"Simple", "SBW"}    # requires a config.csl2 file (uses whatever minimiser is defined)
-    estimation_betadiff_dir_list = {"TwoSex", "SBW", "Simple","ComplexTag", "SexedLengthBased"}  # requires a config-betadiff.csl2 file
-    estimation_gammadiff_dir_list = {"TwoSex", "SBW", "Simple", "SexedLengthBased"} # requires a config-gammadiff.csl2 file
-    estimation_adolc_dir_list = {"TwoSex", "SBW", "Simple", "SexedLengthBased"}     # requires a config-adolc.csl2 file
-    simulate_dash_i_dir_list = {"ORH3B"} # if you change this you will need to formulate the report or python code below, not very general.
+    estimation_betadiff_dir_list = {"TwoSex", "TwoSexHybridMortality", "SBW", "Simple","ComplexTag", "SexedLengthBased", "BCO_tc", "HAK_tc", "HOK_tc", "LIN_tc", "ORH_tc", "SBW_tc", "SCI_tc", "LIN_tc_Dm"}  # requires a config-betadiff.csl2 file
+    estimation_gammadiff_dir_list = {"TwoSex", "TwoSexHybridMortality", "SBW", "Simple", "SexedLengthBased"} # requires a config-gammadiff.csl2 file
+    estimation_adolc_dir_list = {"TwoSex", "TwoSexHybridMortality", "SBW", "Simple", "SexedLengthBased"}     # requires a config-adolc.csl2 file
+    simulate_dash_i_dir_list = {"ORH3B", "SimAllObs"} # if you change this you will need to formulate the report or python code below, not very general.
     run_dash_i_dir_list = {"Complex_input","TwoSex_input"}
     resume_mcmc_from_mpd_dir_list = {"mcmc_start_mpd_mcmc_fixed","mcmc_start_mpd"}
     resume_mcmc_dir_list = {"mcmc_resume"}
@@ -72,21 +72,23 @@ class ModelRunner:
       start = time.time()
       
       result = False 
-      if os.system(f"{exe_path} -r > run.log 2>&1") != EX_OK:
+      if os.system(f"{exe_path} -r > run.log 2> run.err") != EX_OK:
         elapsed = time.time() - start
         print('[FAILED] - ' + folder + ' in ' + str(round(elapsed, 2)) + ' seconds')
-        print("--> Printing last 20 lines of run.log")
-        os.system("tail -n20 run.log")
+        print("--> Printing last 20 lines of run.err")
+        os.system("tail -n20 run.err")
         fail_count += 1
       else:
         elapsed = time.time() - start
         print('[OK] - ' + folder + ' in ' + str(round(elapsed, 2)) + ' seconds')
         success_count += 1
       os.chdir(cwd)   
+
     # test -i functionality 
     for folder in run_dash_i_dir_list:
+      start = time.time()
       os.chdir("../TestModels/" + folder)
-      if os.system(f"{exe_path} -r -i pars.out > run.log 2>&1") != EX_OK:
+      if os.system(f"{exe_path} -r -i pars.out > run.log 2> run.err") != EX_OK:
         elapsed = time.time() - start
         print('[FAILED] - ' + folder + ' -i run in ' + str(round(elapsed, 2)) + ' seconds')
         #print("--> Printing last 20 lines of run.log")
@@ -97,10 +99,12 @@ class ModelRunner:
         print('[OK] - ' + folder + ' -i run in ' + str(round(elapsed, 2)) + ' seconds')
         success_count += 1
       os.chdir(cwd) 
+
     # test -I functionality 
     for folder in run_dash_I_dir_list:
+      start = time.time()
       os.chdir("../TestModels/" + folder)
-      if os.system(f"{exe_path} -r -I pars.out > run.log 2>&1") != EX_OK:
+      if os.system(f"{exe_path} -r -I pars.out > run.log 2> run.err") != EX_OK:
         elapsed = time.time() - start
         print('[FAILED] - ' + folder + ' -I run in ' + str(round(elapsed, 2)) + ' seconds')
         #print("--> Printing last 20 lines of run.log")
@@ -111,16 +115,20 @@ class ModelRunner:
         print('[OK] - ' + folder + ' -I run in ' + str(round(elapsed, 2)) + ' seconds')
         success_count += 1
       os.chdir(cwd) 
+
     # test -s functionality 
     for folder in simulate_dash_i_dir_list:
+      start = time.time()
       os.chdir("../TestModels/" + folder)
-	  # create sim directory casal will fail if this doesn't exist
+
+	    # create sim directory casal will fail if this doesn't exist
       if not os.path.exists("sim"):
         os.mkdir("sim")	  
       ## first delete any previous simulated observations from previous model runners
       for filename in os.listdir('sim'):
         file_path = os.path.join('sim', filename)
         os.remove(file_path)
+
       if os.system(f"{exe_path} -s 10 -i samples.1  > multi_sim.log 2> multi_sim.err") != EX_OK:
         elapsed = time.time() - start
         print('[FAILED] - ' + folder + ' -s run in ' + str(round(elapsed, 2)) + ' seconds')
@@ -131,21 +139,33 @@ class ModelRunner:
         elapsed = time.time() - start
         print('[OK] - ' + folder + ' -s run in ' + str(round(elapsed, 2)) + ' seconds')
         success_count += 1
-      # check the correct files were generated
-      if not os.path.exists("sim/CPUEandes.1_01"):
-        print('[FAILED] - ' + folder + ' -s run in ' + str(round(elapsed, 2)) + ' expected simulated file sim/CPUEandes.1_01')
-        fail_count += 1
-      if not os.path.exists("sim/CPUEandes.9_10"):
-        print('[FAILED] - ' + folder + ' -s run in ' + str(round(elapsed, 2)) + ' expected simulated file sim/CPUEandes.9_10')
-        fail_count += 1		
-      if not os.path.exists("sim/Obs_Andes_LF.3_05"):
-        print('[FAILED] - ' + folder + ' -s run in ' + str(round(elapsed, 2)) + ' expected simulated file sim/Obs_Andes_LF.3_05')
-        fail_count += 1			
-      os.chdir(cwd)
+
+      if folder == "ORH3B":
+        # check the correct files were generated
+        if not os.path.exists("sim/CPUEandes.1_01"):
+          print('[FAILED] - ' + folder + ' -s run in ' + str(round(elapsed, 2)) + ' expected simulated file sim/CPUEandes.1_01')
+          fail_count += 1
+        if not os.path.exists("sim/CPUEandes.9_10"):
+          print('[FAILED] - ' + folder + ' -s run in ' + str(round(elapsed, 2)) + ' expected simulated file sim/CPUEandes.9_10')
+          fail_count += 1		
+        if not os.path.exists("sim/Obs_Andes_LF.3_05"):
+          print('[FAILED] - ' + folder + ' -s run in ' + str(round(elapsed, 2)) + ' expected simulated file sim/Obs_Andes_LF.3_05')
+          fail_count += 1			
+        os.chdir(cwd)
+      else:
+        if not os.path.exists("sim/sim_all_obs.1_01"):
+          print('[FAILED] - ' + folder + ' -s run in ' + str(round(elapsed, 2)) + ' expected simulated file sim/sim_all_obs.1_01')
+          fail_count += 1
+        if not os.path.exists("sim/sim_all_obs.1_10"):
+          print('[FAILED] - ' + folder + ' -s run in ' + str(round(elapsed, 2)) + ' expected simulated file sim/sim_all_obs.1_10')
+          fail_count += 1			
+        os.chdir(cwd)
+
     # test -M mpd.log functionality 
     for folder in resume_mcmc_from_mpd_dir_list:
+      start = time.time()
       os.chdir("../TestModels/" + folder)
-      if os.system(f"{exe_path} -E mpd.log > estimate.log 2>&1") != EX_OK:
+      if os.system(f"{exe_path} -E mpd.log > estimate.log 2> esimate.err") != EX_OK:
         elapsed = time.time() - start
         print('[FAILED] - ' + folder + ' -E mpd.log run in ' + str(round(elapsed, 2)) + ' seconds')
         #print("--> Printing last 20 lines of run.log")
@@ -155,7 +175,9 @@ class ModelRunner:
         elapsed = time.time() - start
         print('[OK] - ' + folder + ' -E mpd.log run in ' + str(round(elapsed, 2)) + ' seconds')
         success_count += 1
-      if os.system(f"{exe_path} -M mpd.log > mcmc.log 2>&1") != EX_OK:
+
+      start = time.time()
+      if os.system(f"{exe_path} -M mpd.log > mcmc.log 2> mcmc.err ") != EX_OK:
         elapsed = time.time() - start
         print('[FAILED] - ' + folder + ' -M mpd.log run in ' + str(round(elapsed, 2)) + ' seconds')
         #print("--> Printing last 20 lines of run.log")
@@ -166,8 +188,10 @@ class ModelRunner:
         print('[OK] - ' + folder + ' -M mpd.log run in ' + str(round(elapsed, 2)) + ' seconds')
         success_count += 1
       os.chdir(cwd)
+
     # test -R mpd.log 
     for folder in resume_mcmc_dir_list:
+      start = time.time()
       os.chdir("../TestModels/" + folder)
       if os.system(f"{exe_path} -R mpd.log --objective-file objectives.1 --sample-file samples.1 > mcmc.log 2>&1") != EX_OK:
         elapsed = time.time() - start
@@ -180,10 +204,12 @@ class ModelRunner:
         print('[OK] - ' + folder + ' -R run in ' + str(round(elapsed, 2)) + ' seconds')
         success_count += 1
       os.chdir(cwd)
+
     # test -e functionality
     for folder in estimation_betadiff_dir_list:
+      start = time.time()
       os.chdir("../TestModels/" + folder)
-      if os.system(f"{exe_path} -e -g 20 -c config_betadiff.csl2 > estimate_betadiff.log 2>&1") != EX_OK:
+      if os.system(f"{exe_path} -e -g 20 -c config_betadiff.csl2 > estimate_betadiff.log 2> estimate_betadiff.err") != EX_OK:
         elapsed = time.time() - start
         print('[FAILED] - ' + folder + ' betadiff estimation in ' + str(round(elapsed, 2)) + ' seconds')
         #print("--> Printing last 20 lines of estimate_betadiff.log")
@@ -194,9 +220,11 @@ class ModelRunner:
         print('[OK] - ' + folder + ' betadiff estimation in ' + str(round(elapsed, 2)) + ' seconds')
         success_count += 1
       os.chdir(cwd) 	  
+
     for folder in estimation_gammadiff_dir_list:
+      start = time.time()
       os.chdir("../TestModels/" + folder)
-      if os.system(f"{exe_path} -e -g 20 -c config_gammadiff.csl2 > estimate_gammadiff.log 2>&1") != EX_OK:
+      if os.system(f"{exe_path} -e -g 20 -c config_gammadiff.csl2 > estimate_gammadiff.log 2> estimate_gammadiff.err") != EX_OK:
         elapsed = time.time() - start
         print('[FAILED] - ' + folder + ' gammadiff estimation in ' + str(round(elapsed, 2)) + ' seconds')
         #print("--> Printing last 20 lines of estimate_gammadiff.log")
@@ -207,9 +235,11 @@ class ModelRunner:
         print('[OK] - ' + folder + ' gammadiff estimation in ' + str(round(elapsed, 2)) + ' seconds')
         success_count += 1
       os.chdir(cwd) 	  
+
     for folder in estimation_adolc_dir_list:
+      start = time.time()
       os.chdir("../TestModels/" + folder)
-      if os.system(f"{exe_path} -e -g 20 --config config_adolc.csl2 > estimate_adolc.log 2>&1") != EX_OK:
+      if os.system(f"{exe_path} -e -g 20 --config config_adolc.csl2 > estimate_adolc.log 2> estimate_adolc.err") != EX_OK:
         elapsed = time.time() - start
         print('[FAILED] - ' + folder + ' adolc estimation in ' + str(round(elapsed, 2)) + ' seconds')
         #print("--> Printing last 20 lines of estimate_adolc.log")
@@ -220,6 +250,7 @@ class ModelRunner:
         print('[OK] - ' + folder + ' adolc estimation in ' + str(round(elapsed, 2)) + ' seconds')
         success_count += 1
       os.chdir(cwd)  
+
     print('')
     print('Total Models: ' + str(success_count + fail_count))
     print('Failed Models: ' + str(fail_count))

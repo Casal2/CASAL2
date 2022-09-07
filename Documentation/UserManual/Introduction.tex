@@ -4,24 +4,26 @@
 
 \CNAME\ is an open-source integrated statistical catch-at-age assessment tool for modelling the population dynamics of marine populations. \CNAME\ is designed for quantitative assessments of marine populations, including fish, invertebrates, marine mammals and seabirds.
 
-\CNAME\ implements generalised age (\CNAME\ for age-based models) or length structured (\CNAME\ for length-based models) population models that allows for a great deal of choice in specifying the population dynamics, parameters and those parameters that should be estimated, and the model outputs. \CNAME\ is designed for flexibility. It allows implementation of age or length structured models from single species or stocks, to multiple species or stocks, using user-defined categories such as area, sex, and maturity stage. The categories are are generic, are not predefined, and are easily specified. \CNAME\ models can be used for a single population with a single anthropogenic event (i.e., a single fish stock with a single fishery), or for multiple species and populations, areas, and/or anthropogenic or exploitation methods, and including predator-prey interactions.
+\CNAME\ implements generalised age (\CNAME\ for age-based models) or length structured (\CNAME\ for length-based models) population models that allows for a great deal of choice in specifying the population dynamics, parameters and which parameters should be estimated, and the model outputs. \CNAME\ is designed for flexibility. It allows implementation of age or length structured models from single species or stocks, to multiple species or stocks, using user-defined categories such as area, sex, and maturity stage. The categories are generic, are not predefined, and are easily specified. \CNAME\ models can be used for a single population with a single anthropogenic event (i.e., a single fish stock with a single fishery), or for multiple species and populations, areas, and/or anthropogenic or exploitation methods, and can include predator-prey interactions.
 
 In \CNAME\ the processes and observations that occur over each year are defined by the user. Processes include recruitment, natural mortality, and anthropogenic mortality. Observations used to fit the models can be from many different sources, including removals-at-size or -age (e.g., a fishery), research survey or other biomass indices, and mark-recapture data. Model parameters can be estimated using penalised maximum likelihood or Bayesian methods.
 
-As well as the point estimates of the parameters, \CNAME\ can calculate the likelihood or posterior distribution profiles for estimated parameters, and can generate Bayesian posterior distributions using Markov chain Monte Carlo methods. \CNAME\ can project the population status into the future using both deterministic or stochastic population dynamics. \CNAME\ can also simulate observations from a given model for both actual or potential observations.
+As well as the point estimates of the parameters, \CNAME\ can calculate the likelihood or posterior distribution profiles for estimated parameters, and can generate Bayesian posterior distributions using Markov chain Monte Carlo methods. \CNAME\ can project the population status into the future using either deterministic or stochastic population dynamics. \CNAME\ can also simulate observations from a given model for both existing and potential observations.
 
 
-The \CNAME\ user manual has been split into two separate manuals one for the age-based functionality and the other for the length based functionality. These two manuals contain a great deal over common components but differ in processes and observations.
+The \CNAME\ user manual has been split into two separate manuals for the age-based functionality and for the length-based functionality. These two manuals contain many common components but differ in processes and observations.
 
 \subsection{\I{Citing \CNAME}}
 
-The reference for this document is \ManualRef
+The reference for this document is: \ManualRef
 
 The peer-reviewed journal article reference for \CNAME\ is \cite{doonan_casal2}.
 
+\CNAME\ has also been simulation tested using simulated data from CASAL to validate results \citep{dunn_integrated_2022}.
+
 \subsection{\I{\CNAME\ Contributors}}
 
-The \CNAME\ project is maintained by the \CNAME\ Development Team. \CNAME\ was started by Alistair Dunn. The software architect and lead author of the software code was Scott Rasmussen. Contributors to the development of \CNAME\ are Scott Rasmussen, Alistair Dunn, Ian Doonan, Craig Marsh, Teresa A'mar, Kath Large, Sophie Mormede, Samik Datta, Matt Dunn, Jingjing Zhang, and Marco Kienzle.
+The \CNAME\ project is maintained by the \CNAME\ Development Team. \CNAME\ was initiated by Alistair Dunn. The software architect and lead author of the software code was Scott Rasmussen. Contributors to the development of \CNAME\ are Scott Rasmussen, Alistair Dunn, Ian Doonan, Craig Marsh, Teresa A'mar, Kath Large, Sophie Mormede, Samik Datta, Matt Dunn, Jingjing Zhang, and Marco Kienzle.
 
 The development of \CNAME\ was funded by \href{http://www.niwa.co.nz}{National Institute of Water \& Atmospheric Research Ltd. (NIWA)}, with additional funding from the New Zealand \href{http://www.mpi.govt.nz}{Ministry for Primary Industries}.
 
@@ -39,7 +41,7 @@ There are installation packages available for Linux and Microsoft Windows. Relea
 
 \subsection{\I{System requirements}}
 
-\CNAME\ is available for most x86 compatible machines running 64-bit \I{Linux} and \I{Microsoft Windows} operating systems. \CNAME\ has not been compiled nor tested on macOS.
+\CNAME\ is available for most x86 compatible machines running 64-bit \I{Linux} and \I{Microsoft Windows} operating systems. \CNAME\ has not been compiled nor tested on MacOS.
 
 Several of \CNAME's tasks are computer intensive and a fast processor is recommended. Depending on the model implemented, some of the \CNAME\ tasks can take a considerable amount of processing time (minutes to hours), and in extreme cases may even take several days to complete an MCMC estimate.
 
@@ -47,9 +49,9 @@ Output files have the potential to be large, and the output from developing a mo
 
 \subsection{\I{Necessary files}}
 
-For both 64-bit Linux and Microsoft Windows, we recommend using the install package available on \github\ for Microsoft Windows or the Debian package (.deb) for Linux. Running \CNAME\ on a system requires the main binary (casal2.exe on Windows, or casa2 on Linux) and the associated dynamically linked libraries (DLL) for Windows or shared objects (.so) for Linux, and cannot be (easily) run by copying the binary to a working directory. \CNAME\ is not available for 32-bit operating systems or macOS.
+For both 64-bit Linux and Microsoft Windows, we recommend using the zip files available on \github\ for Microsoft Windows and Linux; older Linux systems can use Casal2.tar.gz. Running \CNAME\ on a system requires the main binary ("casal2.exe" on Windows, or "casal2" on Linux) and the associated dynamically linked libraries (DLL) for Windows or shared objects (.so) for Linux, and cannot be (easily) run by copying the binary to a working directory. \CNAME\ is not available for 32-bit operating systems or MacOS.
 
-\CNAME\ does not post-process model output. \CNAME\ writes all output to text files --- either the standard out or to files. A package that allows tabulation and graphing of model outputs is recommended. Software such as \href{http://www.r-project.org}{\R}\ \citep{R} is recommended. The \CNAME\ \R\ package is provided for extracting \CNAME\ output from reports and output files into \R\ (see Section \ref{sec:PostProcessing}). A separate \R\ package is also available that provides some examples of diagnostic and plot functionality.
+\CNAME\ does not post-process model output. \CNAME\ writes all output to text files --- either to standard output or directed to files. A package that allows tabulation and graphing of model outputs is recommended. Software such as \href{http://www.r-project.org}{\R}\ \citep{R} is recommended. The \CNAME\ \R\ package is provided for extracting \CNAME\ output from reports and output files into \R\ (see Section \ref{sec:PostProcessing}). A separate \R\ package, r4Casal2, is also available on GitHub and provides some examples of diagnostic and plot functionality.
 
 \subsection{Getting help\index{Getting help}\index{User assistance}\index{Repoerting issues or errors}}
 
@@ -57,11 +59,13 @@ For both 64-bit Linux and Microsoft Windows, we recommend using the install pack
 
 \subsection{Technical details\index{Technical specifications}}\label{sec:TechnicalDetails}
 
-\CNAME\ was compiled on Linux using \texttt{gcc} (\url{https://gcc.gnu.org}), the C/C++ compiler developed by the GNU Project. The 64-bit Linux \index{Linux} version was compiled using \texttt{gcc} version 10.3.0). The source code\index{\CNAME\ source code} for \CNAME\ is available in the GitHub repository at \github.
+The source code\index{\CNAME\ source code} for \CNAME\ is available in the GitHub repository at \github. \CNAME\ is compiled on GitHub using GitHub Actions on host operating systems Microsoft Windows Server 2019 and Ubuntu 20.04.
 
-The Microsoft Windows (\url{https://www.microsoft.com})\index{Microsoft Windows} version was compiled using TDM-gcc (\url{https://jmeubank.github.io/tdm-gcc/}) using \texttt{gcc} 10.3.0 (\url{http://gcc.gnu.org})\index{gcc}. The Microsoft Windows(\url{https://www.microsoft.com}) installer was built using the Inno Setup (\url{https://jrsoftware.org/isdl.php}). \textbf{Note:} for some previous gcc versions, there have been issues related to threading. This was indicated by failed unit tests which rely on threading such MCMCHamiltonian etc.
+\CNAME\ was compiled on Linux using \texttt{gcc} (\url{https://gcc.gnu.org}), the C/C++ compiler developed by the GNU Project. The 64-bit Linux \index{Linux} version was compiled using \texttt{gcc} version 10.3.0). 
 
-\CNAME\ includes several minimisers; different minimisers may perform better for some models than others. These include both numerical differences minimisers and auto-differentiation minimisers. Numerical differences minimisers will usually work form most problems, albeit more slowly than auto-differentiation based minimisers. The numerical differences minimisers are:
+The Microsoft Windows  (\url{https://www.microsoft.com})\index{Microsoft Windows} version was compiled using TDM-gcc (\url{https://jmeubank.github.io/tdm-gcc/}) using \texttt{gcc} 10.3.0 (\url{http://gcc.gnu.org})\index{gcc}. The Microsoft Windows (\url{https://www.microsoft.com}) installer was previously built using the Inno Setup (\url{https://jrsoftware.org/isdl.php}). \textbf{Note:} for some previous gcc versions, there have been issues related to threading. This was indicated by failed unit tests which rely on threading such MCMCHamiltonian etc.
+
+\CNAME\ includes several minimisers; different minimisers may perform better for some models than others. These include both numerical differences minimisers and automatic differentiation minimisers. Numerical differences minimisers will usually work for most problems, albeit more slowly than auto-differentiation based minimisers. The numerical differences minimisers are:
 
 \begin{enumerate}
 \item Numerical differences: A minimiser that is closely based on the main algorithm of \cite{779}, that uses finite difference gradients\index{Finite differences minimiser}.
@@ -72,12 +76,13 @@ The Microsoft Windows (\url{https://www.microsoft.com})\index{Microsoft Windows}
 There are two auto-differentiation minimisers, both based on ADOL-C. These are
 \begin{enumerate}
 \item Betadiff: A minimiser using an older version of ADOL-C (v1.8.4) that was used as the automatic differentiation minimiser in CASAL \citep{1388}, with the same minimising algorithm as used for the finite differences minimiser above, but based on the gradient from the auto-differentiation chain.
-\item ADOLC: A minimiser using version of ADOL-C (v2.5.1) \citep{walther1996adolc};, with a similar minimising algorithm as used for the finite differences minimiser above, but based on the gradient from the auto-differentiation chain.
+\item ADOL-C: A minimiser using version of ADOL-C (v2.5.1) \citep{walther1996adolc};, with a similar minimising algorithm as used for the finite differences minimiser above, but based on the gradient from the auto-differentiation chain.
 \end{enumerate}
 
 The random number generator\index{Random number generator} used in \CNAME\ uses an implementation of the Mersenne twister random number generator \citep{796}. This functionality, the command line functionality, matrix operations, and a number of other functions use the \href{http://www.boost.org/}{Boost} C++ library (Version 1.71.0)\index{Boost C++ library}.
 
 Note that the output from \CNAME\ may differ slightly on the different operating systems and operating system versions due to different precision arithmetic or other platform-dependent (including CPU hardware) implementation details. In particular, the implementation of the standard C++ library \texttt{math.h} differs slightly on different platforms, and hence the results from different platforms may be different.
 
-Unit tests of the underlying \CNAME\ code are carried out at build time, using the \href{https://github.com/google/googletest}{Google Test and Mock} unit testing and mocking framework. The unit test framework aims to cover a significant proportion of the key functionality within the \CNAME\ code base. The unit test code\index{Unit tests} for \CNAME\ is available as a part of the underlying source code.
+Unit tests of the underlying \CNAME\ code are run at build time, using the \href{https://github.com/google/googletest}{Google Test and Mock} unit testing and mocking framework. The unit test framework aims to cover a significant proportion of the key functionality within the \CNAME\ code base. The unit test code\index{Unit tests} for \CNAME\ is available as a part of the underlying source code.
+
 

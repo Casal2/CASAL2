@@ -52,8 +52,12 @@ public:
   virtual bool HasYear(unsigned year) const = 0;
 
   // accessors
-  const map<unsigned, Double>&             scores() const { return scores_; }
-  string&                                  likelihood() { return likelihood_type_; }
+  const map<unsigned, Double>&                   scores() const { return scores_; }
+  const string&                                  likelihood() { return likelihood_type_; }
+  const vector<string>&                          categories() { return category_labels_; }
+  const Double&                                  error_value_multiplier() { return error_value_multiplier_; }
+  const Double&                                  likelihood_multiplier() { return likelihood_multiplier_; }
+
   vector<obs::Comparison>&                 comparisons(unsigned year) { return comparisons_[year]; }
   map<unsigned, vector<obs::Comparison> >& comparisons() { return comparisons_; }
 
