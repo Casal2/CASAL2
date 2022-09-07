@@ -42,7 +42,7 @@ covariance true
 
 @assert ObjectiveFunction
 type objective_function
-value 6467.05644
+value 6490.79622
 error_type error
 tolerance 1e-3
 

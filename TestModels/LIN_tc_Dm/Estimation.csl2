@@ -39,6 +39,7 @@ cv 0.70
 
 ## Natural Mortality
 # male+female
+/*
 @estimate M_all_x0
 parameter selectivity[M_all].x0
 type uniform
@@ -62,6 +63,7 @@ parameter selectivity[M_all].y2
 type uniform
 lower_bound 0.01
 upper_bound 1.0
+*/
 
 
 ## male summer TAN survey selectivity (logistic)

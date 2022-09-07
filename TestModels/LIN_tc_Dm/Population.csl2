@@ -209,14 +209,15 @@ alpha  1
 
 
 ## Natural Mortality by age
+# estimated values from LIN_tc MPD
 @selectivity M_all
 type double_exponential
-x0 8
+x0 12.4965 # x0 8
 x1 3
 x2 25
-y0 0.18
-y1 0.25
-y2 0.5
+y0 0.132624 # y0 0.18
+y1 0.382802 # y1 0.25
+y2 0.351133 # y2 0.5
 alpha 1.0
 
 
