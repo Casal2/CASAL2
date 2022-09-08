@@ -35,6 +35,8 @@ public:
   virtual ~MockDirichletMultinomial() = default;
 
   void set_theta(Double new_theta) {theta_ = new_theta;};
+  void set_label(string new_label) {label_ = new_label;};
+
 };
 
 
@@ -116,6 +118,19 @@ TEST(Likelihood, DirichletMultinomial) {
   // Check initial score
   EXPECT_NEAR(casal2_result, expected_negative_log_likelihood, 0.0001);
 }
+
+/*
+* Check it will error out in validation when given a label that is the same as a type.
+*/
+TEST(Likelihood, DirichletMultinomial_expect_fail) {
+  utilities::RandomNumberGenerator::Instance().Reset(31373u);
+  MockDirichletMultinomial likelihood(nullptr);
+  likelihood.set_label(PARAM_MULTINOMIAL);
+  EXPECT_THROW(likelihood.Validate(), std::string); // cannot have a label with values in likelihood_types_with_no_labels_ defined in Likelihood.cpp constructor
+  likelihood.set_label(PARAM_LOGNORMAL);
+  EXPECT_THROW(likelihood.Validate(), std::string); // cannot have a label with values in likelihood_types_with_no_labels_ defined in Likelihood.cpp constructor
+}
+
 } /* namespace likelihoods */
 } /* namespace niwa */
 

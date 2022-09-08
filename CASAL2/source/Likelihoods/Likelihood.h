@@ -36,13 +36,14 @@ public:
   virtual ~Likelihood() = default;
   void           Validate();
   void           Build(){};
-  void           Verify(shared_ptr<Model> model){};
+  void           Verify(shared_ptr<Model> model){DoVerify(model);};
   void           Reset() final{};
   virtual Double AdjustErrorValue(const Double process_error, const Double error_value) = 0;
   virtual void   SimulateObserved(map<unsigned, vector<observations::Comparison> >& comparisons){};
   virtual Double GetInitialScore(map<unsigned, vector<observations::Comparison> >& comparisons, unsigned year) { return 0.0; };
   virtual void   GetScores(map<unsigned, vector<observations::Comparison> >& comparisons){};
   virtual void   DoValidate(){};
+  virtual void   DoVerify(shared_ptr<Model> model){};
 
   // accessors
   void set_multiplier(Double new_value) { multiplier_ = new_value; }
@@ -54,6 +55,7 @@ protected:
   shared_ptr<Model> model_                  = nullptr;
   Double            multiplier_             = 1.0;
   Double            error_value_multiplier_ = 1.0;
+  vector<string>    likelihood_types_with_no_labels_;
 };
 } /* namespace niwa */
 #endif /* LIKELIHOOD_H_ */

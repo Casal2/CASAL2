@@ -17,7 +17,7 @@
 
 #include "../../Utilities/Math.h"
 #include "../../Utilities/RandomNumberGenerator.h"
-
+#include "../../Model/Model.h"
 // Namespaces
 namespace niwa {
 namespace likelihoods {
@@ -33,13 +33,26 @@ DirichletMultinomial::DirichletMultinomial(shared_ptr<Model> model) : Likelihood
   RegisterAsAddressable(PARAM_THETA, &theta_);
 }
 
+/*
+* Validate user hasn't supplied a label that is a type from another likelihood.
+*/
 void DirichletMultinomial::DoValidate() {
   // check labels are not the same as possible type
-  vector<string> likelihood_types = {PARAM_PSEUDO, PARAM_NORMAL, PARAM_MULTINOMIAL, PARAM_LOGNORMAL_WITH_Q, PARAM_LOGNORMAL, PARAM_DIRICHLET, PARAM_BINOMIAL_APPROX, PARAM_BINOMIAL};
-  if(find(likelihood_types.begin(), likelihood_types.end(), label_) != likelihood_types.end()) 
+  if(find(likelihood_types_with_no_labels_.begin(), likelihood_types_with_no_labels_.end(), label_) != likelihood_types_with_no_labels_.end()) 
     LOG_ERROR_P(PARAM_LABEL) << "The label '" << label_ << "' matches a likelihood type. You cannot define a likelihood with a label that is the same as one of the known likelihood types.";
 }
 
+/*
+* Verify if theta has a transformation
+*/
+void DirichletMultinomial::DoVerify(shared_ptr<Model> model)  {
+  // only verify during an estimation mode or testing
+  if((model->run_mode() == RunMode::kEstimation) || (model->run_mode() == RunMode::kProfiling) || (model->run_mode() == RunMode::kMCMC) || (model->run_mode() == RunMode::kTesting)) {
+    if (!IsAddressableUsedFor(PARAM_THETA, addressable::kTransformation)) {
+      LOG_ERROR_P(PARAM_THETA) << " could not find an @" << PARAM_PARAMETER_TRANSFORMATION << " block for " << PARAM_THETA << ", this is recommeded.";
+    }
+  }
+}
 /**
  * Adjust the error value based on the process error
  *
@@ -68,6 +81,8 @@ void DirichletMultinomial::GetScores(map<unsigned, vector<observations::Comparis
     for (observations::Comparison& comparison : year_iterator->second) {
       observed_number = comparison.observed_ * comparison.error_value_;
       expected_number = comparison.expected_ * theta_ * comparison.error_value_;
+      // calcualte the 'effective' N as adjusted_error_
+      comparison.adjusted_error_ = (1.0 + theta_ * comparison.error_value_) / (1.0 + theta_);
       // calculate negative loglikelihood
       comparison.score_ = math::LnGamma(observed_number + 1.0) + math::LnGamma(expected_number) - math::LnGamma(observed_number + expected_number);
     }
