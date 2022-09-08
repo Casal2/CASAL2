@@ -2336,5 +2336,5 @@ ireturn = -1
 finished main minimiser loop
 Successful convergence in optimise
 [INFO] Completed
-[INFO] Total CPU time: -123.086 hours
-[INFO] Total elapsed time: 17 seconds
+[INFO] Total CPU time: -195.037 hours
+[INFO] Total elapsed time: 40 seconds
