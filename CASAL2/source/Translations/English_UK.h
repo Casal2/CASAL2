@@ -331,7 +331,7 @@
 #define PARAM_FUNCTION                            "function"
 #define PARAM_G_ALPHA                             "g_alpha"
 #define PARAM_G_BETA                              "g_beta"
-#define PARAM_G_DIFF                              "d_diff"
+#define PARAM_G_DIFF                              "g_diff"
 #define PARAM_GAMMADIFF                           "gammadiff"
 #define PARAM_GAMMA                               "gamma"
 #define PARAM_GRAMS                               "grams"
