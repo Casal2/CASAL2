@@ -25,11 +25,25 @@ namespace likelihoods {
 Manager::Manager() {}
 
 /**
+ * This method returns an existing likelihood or nullptr
+ *
+ * @param label potential likelihood label
+ * @return pointer to Likelihood
+ */
+Likelihood* Manager::GetLikelihood(const string& label) {
+  for (auto likelihood : objects_) {
+    if (likelihood->label() == label)
+      return likelihood;
+  }
+
+  return nullptr;
+}
+/**
  * This method returns the existing likelihood or creates and returns the likelihood
  *
  * @param model
  * @param observation_label
- * @param label
+ * @param label potential likelihood label
  * @return pointer to Likelihood
  */
 Likelihood* Manager::GetOrCreateLikelihood(shared_ptr<Model> model, const string& observation_label, const string& label) {

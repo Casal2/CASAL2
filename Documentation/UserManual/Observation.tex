@@ -1037,23 +1037,46 @@ Z \left(\theta,\delta \right) = \begin{cases}
 
 The default value of $\delta$ is $1 \times 10^{-11}$.
 
-%\subsubsection*{The dirichlet-multinomial likelihood\index{Multinomial likelihood}}
-%The Dirichlet-Mulitnomial follows from \citep{thorson2017model}. For the observed proportions at age $O_b$ for composition bin $b$ (age or length), with sample size $N$, and the expected proportions for the same bin denoted by $E_b$, the negative log-likelihood is:
-%
-%\begin{equation}
-%-\log \left(L \right) =  -\log \left(N! \right) + \sum\limits_b \log \left( \left(NO_b \right)! \right) - NO_b \log \left(Z \left(E_b,\delta \right) \right)
-%\end{equation}
-%
-%where $\sum\limits_b O_b = 1$ and $\sum\limits_b E_b = 1$. $Z \left(\theta,\delta \right)$ is a robustifying function to prevent division by zero errors, with parameter $\delta>0$.
-%
-%\begin{equation}
-%Z \left(\theta,\delta \right) = \begin{cases}
-%\theta, & \text{where $\theta \ge r$} \\
-%\delta/\left( 2-\theta/\delta \right), & \text{otherwise} \\
-%\end{cases}
-%\end{equation}
-%
-%The default value of $\delta$ is $1 \times 10^{-11}$.
+\subsubsection*{The Dirichlet multinomial likelihood\index{Dirichlet multinomial likelihood}}
+
+The Dirichlet multinomial can be applied using the linear re-parametrised approach from \citep{thorson2017model}. For the observed proportions $O_b$ for composition bin $b$ (age or length), with sample size $N$, expected proportions for the same bin denoted by $E_b$, and estimable overdispersion parameter \(\theta\), the negative log-likelihood is:
+
+\begin{align*}
+-\log \left(L \right) &=  -\log \Gamma \left(N + 1 \right) + \sum\limits_b \log \left( \Gamma \left(NO_b + 1\right) \right) + \\
+ & \ \ \ \log \Gamma \left(\theta N\right) + \log \Gamma \left(N + \theta N\right)  NO_b - \sum\limits_b \log (NO_b + \theta N E_b) - \log(\theta N E_b)
+\end{align*}
+
+which has an effective sample size \(n_{eff}\)
+
+\[
+n_{eff} = \frac{1 + \theta N}{1 + \theta} = \frac{1}{1 + \theta} + N\frac{\theta}{1 + \theta}
+\]
+
+where the effective sample size is a linear function of input sample size with intercept \((1 + \theta)^{-1}\)  and slope \(\frac{\theta}{1 + \theta}\). \CNAME\ will report the \(n_{eff}\) in the observation report under the column label \subcommand{adjusted\_error}.
+
+Interpreting \(\theta\):
+
+\begin{itemize}
+	\item if \(\theta\) is large then \(n_{eff} \rightarrow N\)
+	\item if \(\theta \ll N \) and \(N > 1\) then \(\theta\) can be interpreted as the ratio of the effective sample size over the input sample size.
+\end{itemize}
+
+If you estimate \(\theta\) it is recommended to apply a transformation such as log (see below for example syntax), \CNAME\ will error out if there is not transformation applied to \(\theta\). This likelihood is quite different to configure compared with other likelihood types because it has an estimable parameter you need to define a \command{likelihood} block and it cannot have a \subcommand{label} that is the same as a \subcommand{type} from any of the other likelihoods.
+
+{\small{\begin{verbatim}
+@likelihood DirichletMultinomialFisheryAge
+type dirichlet_multinomial
+theta 1
+
+@observation FisheryAge
+type proportions_at_age
+...
+likelihood DirichletMultinomialFisheryAge
+
+@parameter_transformation log_theta
+type log
+parameter likelihood[DirichletMultinomialFisheryAge].theta
+\end{verbatim}}}
 
 
 \subsubsection*{The lognormal likelihood\index{Lognormal likelihood}}
