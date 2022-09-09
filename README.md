@@ -7,15 +7,15 @@ Casal2 is an open-source age or length structured population dynamics modelling 
 
 This repository contains the required libraries and source code to compile and run Casal2. This project is covered under the GNU General Public License version 2. This program is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
 
+## Releases
+
+The most recent production version of Casal2 is available [here](https://github.com/NIWAFisheriesModelling/CASAL2/releases/tag/v22.08). The production version has been checked by comparing the 7 sets of Test Case MPD and MCMC results with CASAL and generating [Test Case reports](https://github.com/NIWAFisheriesModelling/Casal2-supporting-information/tree/main/TestCases/primary). We anticipate production versions being released once or twice a year, with validation of new key functionality and fixes.
+
+The most recent development version of Casal2 is available [here](https://github.com/NIWAFisheriesModelling/CASAL2/releases/tag/dev.2207). The development version may include updates to the Test Cases reports, and may not have undergone the same level of testing as the production versions. The development versions will made available more frequently than the production versions, as fixes and other updates are made between production releases.
+
 ## Auxiliary resources
 
 An R package that will help post processing Casal2 models can be found here [r4Casal2](https://github.com/NIWAFisheriesModelling/r4Casal2). It has a publicly hosted book [found here](https://niwafisheriesmodelling.github.io/r4Casal2/) which demonstrates functionality of the r4Casal2 R package.
-
-## Releases
-
-The most recent production version of Casal2 is available [here](https://github.com/NIWAFisheriesModelling/CASAL2/releases/tag/v21.11). The production version has been checked by comparing the 6 sets of Test Case MPD and MCMC results with CASAL and generating Test Case reports. We anticipate production versions being released once or twice a year, with validation of new key functionality and fixes.
-
-The most recent development version of Casal2 is available [here](https://github.com/NIWAFisheriesModelling/CASAL2/releases/tag/dev.202202). The development version may include updates to the Test Cases reports, and may not have undergone the same level of testing as the production versions. The development versions will made available more frequently than the production versions, as fixes and other updates are made between production releases.
 
 More information about Casal2, including release notes and project status, is available at https://casal2.github.io.
 
