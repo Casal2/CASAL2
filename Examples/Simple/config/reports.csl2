@@ -8,6 +8,9 @@ type estimate_value
 @report mpd
 type mpd
 
+@report profile
+type profile
+
 @report objective
 type objective_function
 
@@ -38,7 +41,7 @@ type mcmc_sample
 file_name samples
 write_mode incremental_suffix
 
-@report CategotyList
+@report CategoryList
 type category_list
 
 @report Hessian

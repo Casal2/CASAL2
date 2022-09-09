@@ -20,7 +20,7 @@ namespace reports {
  * Default constructor
  */
 CategoryList::CategoryList() {
-  run_mode_    = RunMode::kBasic;
+  run_mode_    = (RunMode::Type)(RunMode::kBasic | RunMode::kEstimation | RunMode::kProfiling);
   model_state_ = State::kFinalise;
 }
 
@@ -34,8 +34,15 @@ void CategoryList::DoExecute(shared_ptr<Model> model) {
   vector<string> names = categories->category_names();
   for (string name : names) {
     cache_ << name << " " << REPORT_R_LIST << REPORT_EOL;
-    cache_ << name << REPORT_EOL;
+    cache_ << "min_age: " << categories->min_age(name) << REPORT_EOL;
+    cache_ << "max_age: " << categories->max_age(name) << REPORT_EOL;
+
+    vector<unsigned> years = categories->years(name);
+    cache_ << "years: ";
+    for (unsigned year : years) cache_ << year << " ";
+    cache_ << REPORT_EOL;
     cache_ << REPORT_R_LIST_END << REPORT_EOL;
+
   }
   ready_for_writing_ = true;
 }

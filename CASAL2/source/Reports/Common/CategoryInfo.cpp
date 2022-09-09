@@ -23,7 +23,7 @@ namespace reports {
  * Default constructor
  */
 CategoryInfo::CategoryInfo() {
-  run_mode_    = RunMode::kBasic;
+  run_mode_    = (RunMode::Type)(RunMode::kBasic | RunMode::kEstimation | RunMode::kProfiling);
   model_state_ = State::kFinalise;
 }
 
