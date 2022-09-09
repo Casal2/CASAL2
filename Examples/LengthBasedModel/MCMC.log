@@ -1,11 +1,11 @@
 Environment: User=Casal2
-Call: ../../BuildSystem/Casal2/casal2 -M MPD.dat -g 0
-Date: Fri Sep  9 16:04:50 2022
+Call: ../../BuildSystem/Casal2/casal2 -M MPD.dat -g 0 
+Date: Fri Sep  9 15:09:32 2022
 Seed: 0
 Version: v22.09 (2022-09-09)
 Copyright (c) 2017-2022, NIWA (www.niwa.co.nz)
 niwauser
  Machine=localhost.localdomain (Linux 3.10.0-1160.76.1.el7.x86_64 x86_64)
- PID=50351
+ PID=47682
 
 

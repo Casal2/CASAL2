@@ -4,6 +4,9 @@ type estimate_value
 @report objective
 type objective_function
 
+@report profile
+type profile
+
 # Print default reports
 @report default
 type default

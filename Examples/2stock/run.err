@@ -1,4 +1,5 @@
 
+[INFO] Setting the random number seed to 92928
 [INFO] Estimable parameters were loaded from the free parameter file: free.dat
 [WARNING] obs sum total (1) for year (1989) doesn't sum to 1.0
 [WARNING] obs sum total (1) for year (1990) doesn't sum to 1.0
@@ -135,9 +136,10 @@
 [INFO] Creating default report for selectivity sel_Wspmg_Female
 [INFO] Creating default report for selectivity One
 [INFO] Creating default report for selectivity Point5
+[WARNING] Found an @estimate block for selectivity[Wspsl].a50. There are only a few time-varying types such as exogenous where this is okay. Please check this is a sensible configuration.
 [INFO] Initiating basic run mode
-[WARNING] estimated parameter 'process[recruit_E].ycs_values{1999}' was within 0.001 of lower bound 0.06
-[WARNING] estimated parameter 'process[recruit_W].ycs_values{1999}' was within 0.001 of lower bound 0.06
+[WARNING] estimated parameter 'process[recruit_E].recruitment_multipliers{2001}' was within 0.001 of lower bound 0.06
+[WARNING] estimated parameter 'process[recruit_W].recruitment_multipliers{2001}' was within 0.001 of lower bound 0.06
 [WARNING] estimated parameter 'selectivity[sel_Whome].v{7}' was within 0.001 of upper bound 1
 [WARNING] estimated parameter 'selectivity[sel_Espmg_Female].v{1}' was within 0.001 of lower bound 0
 [WARNING] estimated parameter 'selectivity[sel_Espmg_Female].v{8}' was within 0.001 of lower bound 0.6
@@ -149,4 +151,5 @@
 [WARNING] estimated parameter 'selectivity[SAsl].sigma_l' was within 0.001 of upper bound 44
 [WARNING] estimated parameter 'selectivity[SAsl].sigma_r' was within 0.001 of upper bound 44
 [INFO] Completed
-[INFO] Total elapsed time: 1 seconds
+[INFO] Total CPU time: -161.771 hours
+[INFO] Total elapsed time: 1 second

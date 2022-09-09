@@ -47,16 +47,7 @@
 [INFO] Creating default report for selectivity eastFSel
 [INFO] Creating default report for selectivity chatTANSel
 [INFO] Creating default report for selectivity One
-[INFO] The filename for the report 'objectives' has been modified to objectives.1 as the write_mode is incremental_suffix
-[INFO] The filename for the report 'samples' has been modified to samples.1 as the write_mode is incremental_suffix
+[INFO] The filename for the report 'objectives' has been modified to objectives.3 as the write_mode is incremental_suffix
+[INFO] The filename for the report 'samples' has been modified to samples.3 as the write_mode is incremental_suffix
 [INFO] Initiating MCMC run mode
-[INFO] Loading MPD from file MPD.dat
-[INFO] Beginning MCMC iterations
-[INFO] Starting MCMC random_walk
-[INFO] Adapting step_size from 0.02 to 0.0674167 after 1000 iterations
-[INFO] Adapting step_size from 0.0674167 to 0.148598 after 2000 iterations
-[INFO] Adapting step_size from 0.148598 to 0.137453 after 5000 iterations
-[INFO] Adapting step_size from 0.137453 to 0.150282 after 10000 iterations
-[INFO] MCMC execution complete
-[INFO] Completed
-[INFO] Total elapsed time: 1.617 minutes
+[FATAL_ERROR] The file MPD.dat is not a valid MPD file. The second line must be 'estimate_values:'

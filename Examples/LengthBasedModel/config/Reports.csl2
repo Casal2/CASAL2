@@ -27,6 +27,9 @@ type estimate_value
 @report estimate_summary
 type estimate_summary
 
+@report profile
+type profile
+
 @report partition_Oct-Jan 
 type partition
 time_step Oct-Jan 

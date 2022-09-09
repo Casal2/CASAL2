@@ -1,0 +1,53 @@
+
+[INFO] Setting the random number seed to 92971
+[INFO] Estimable parameters were loaded from the free parameter file: free.dat
+[INFO] Creating default report for catchability CPUE-Commercialq_1
+[INFO] Creating default report for catchability TrawlSurveyq_1
+[INFO] Creating default report for catchability TrawlSurveyq_2
+[INFO] Creating default report for derived quantity SSB
+[INFO] Creating default report for observation sim_CPUE-Trawl_1
+[INFO] Creating default report for observation sim_TrawlSurvey_1
+[INFO] Creating default report for observation sim_TrawlSurvey_2
+[INFO] Creating default report for observation sim_TrawlSurveyProportionAtLength_1
+[INFO] Creating default report for observation sim_TrawlSurveyProportionAtLength_2
+[INFO] Creating default report for observation sim_CommercialCatchLength_1
+[INFO] Creating default report for observation sim_CommercialCatchLength_2
+[INFO] Creating default report for observation sim_CommercialCatchLength_3
+[INFO] Creating default report for observation sim_Cryer_Oliver_maturity
+[INFO] Creating default report for observation sim_1997_recaptures1_1
+[INFO] Creating default report for observation sim_1997_recaptures1_2
+[INFO] Creating default report for observation sim_1997_recaptures2_1
+[INFO] Creating default report for observation sim_1997_recaptures2_2
+[INFO] Creating default report for observation sim_1997_recaptures2_3
+[INFO] Creating default report for observation sim_1997_recaptures3_1
+[INFO] Creating default report for observation sim_1997_recaptures3_2
+[INFO] Creating default report for observation sim_1997_recaptures3_3
+[INFO] Creating default report for process Recruit_BH
+[INFO] Creating default report for process mortality
+[INFO] Creating default report for process growth
+[INFO] Creating default report for process tag_1996_2_male
+[INFO] Creating default report for process tag_1996_2_female
+[INFO] Creating default report for process tag_1996_3_male
+[INFO] Creating default report for process tag_1996_3_female
+[INFO] Creating default report for process tag_1997_1_male
+[INFO] Creating default report for process tag_1997_1_female
+[INFO] Creating default report for selectivity FishingSel_1_male
+[INFO] Creating default report for selectivity FishingSel_1_female
+[INFO] Creating default report for selectivity FishingSel_2_male
+[INFO] Creating default report for selectivity FishingSel_2_female
+[INFO] Creating default report for selectivity TrawlSurveySel_1_male
+[INFO] Creating default report for selectivity TrawlSurveySel_1_female
+[INFO] Creating default report for selectivity TrawlSurveySel_2_male
+[INFO] Creating default report for selectivity TrawlSurveySel_2_female
+[INFO] Creating default report for selectivity maturity
+[INFO] Creating default report for selectivity One
+[INFO] Creating default report for selectivity tag_1996_2_male.one
+[INFO] Creating default report for selectivity tag_1996_2_female.one
+[INFO] Creating default report for selectivity tag_1996_3_male.one
+[INFO] Creating default report for selectivity tag_1996_3_female.one
+[INFO] Creating default report for selectivity tag_1997_1_male.one
+[INFO] Creating default report for selectivity tag_1997_1_female.one
+[INFO] Initiating basic run mode
+[INFO] Completed
+[INFO] Total CPU time: -27.2172 hours
+[INFO] Total elapsed time: 1 seconds

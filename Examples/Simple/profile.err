@@ -1,5 +1,5 @@
 
-[INFO] Setting the random number seed to 92255
+[INFO] Setting the random number seed to 96274
 [INFO] Estimable parameters were loaded from the free parameter file: free.dat
 [WARNING] obs sum total (0.9999) for year (1990) doesn't sum to 1.0
 [WARNING] obs sum total (1.0001) for year (1993) doesn't sum to 1.0
@@ -4382,5 +4382,5 @@ Ran out of iterations or evaluations in optimise
 [WARNING] estimated parameter 'process[Recruitment].recruitment_multipliers{2011}' was within 0.001 of upper bound 3
 [WARNING] estimated parameter 'process[Recruitment].recruitment_multipliers{2012}' was within 0.001 of upper bound 3
 [INFO] Completed
-[INFO] Total CPU time: -57.1528 hours
-[INFO] Total elapsed time: 14 seconds
+[INFO] Total CPU time: -59.5872 hours
+[INFO] Total elapsed time: 16 seconds

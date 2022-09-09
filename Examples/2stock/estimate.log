@@ -1,30 +1,32 @@
-Casal2
-Call: ..\..\BuildSystem\Casal2\casal2 -E MPD.dat -o free.dat 
-Date: Wed May 18 15:57:18 2022
-Seed: 46238
-Version: v22.05 (2022-05-18)
+Environment: User=Casal2
+Call: ../../BuildSystem/Casal2/casal2 -E MPD.dat -o free.dat
+Date: Fri Sep  9 15:08:26 2022
+Seed: 92905
+Version: v22.09 (2022-09-09)
 Copyright (c) 2017-2022, NIWA (www.niwa.co.nz)
-Environment: User=alist Machine=QUIET-5950X OS=Windows_NT PID=18144
+niwauser
+ Machine=localhost.localdomain (Linux 3.10.0-1160.76.1.el7.x86_64 x86_64)
+ PID=47615
 
 
-*initialisation_partition[Init]
+*initialisation_partition[Equilibrium_State]
 values {dataframe_with_row_labels}
 category 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17
 male.west.sa 0.000000 61290619.163415 13263627.659455 10018303.751663 8655351.178793 4900593.747856 9295212.114685 11704257.594213 11715924.797502 8731334.478606 6059803.057851 3849642.018184 2191100.540857 1087996.019797 455994.180857 154819.409864 51072.291708
-male.east.cr 0.000000 333503097.071545 112397181.963737 38295977.423484 14227514.582622 9954182.133324 5912640.601031 3376238.124152 6425777.098833 4788833.156973 3323591.127939 2111394.699668 1201742.407879 596727.960317 250096.942000 84913.059409 28011.374955
-male.west.cr 0.000000 500472406.695076 183730710.036703 68785779.710782 26959732.145489 13005527.570142 2865794.367218 2.341498 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000
-male.west.wc 0.000000 17118839.410446 27147790.765754 35331258.104766 35006164.790824 32286507.216989 27208250.094526 20675579.658812 13839041.340282 10313594.606806 7157938.146671 4547259.901010 2588163.673780 1285158.632910 538627.759130 182875.210487 60327.423444
+male.east.cr 0.000000 333503097.071544 112397181.963737 38295977.423484 14227514.582622 9954182.133324 5912640.601031 3376238.124152 6425777.098833 4788833.156973 3323591.127939 2111394.699668 1201742.407879 596727.960317 250096.942000 84913.059409 28011.374955
+male.west.cr 0.000000 500472406.695078 183730710.036704 68785779.710783 26959732.145489 13005527.570142 2865794.367218 2.341498 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000
+male.west.wc 0.000000 17118839.410446 27147790.765754 35331258.104766 35006164.790824 32286507.216990 27208250.094526 20675579.658813 13839041.340282 10313594.606806 7157938.146671 4547259.901010 2588163.673780 1285158.632910 538627.759130 182875.210487 60327.423444
 male.east.cs 0.000000 869436.358746 17071325.928540 27630640.084270 26564583.188979 19037979.082457 16827747.119721 15326937.164052 8335229.044012 6211858.986546 4311212.927857 2738806.241387 1558846.201402 774048.671422 324414.504691 110145.401578 36335.095739
-female.west.sa 0.000000 58692150.170871 24135967.388148 36067683.039986 26849291.982041 24610420.510739 27573383.224556 17621684.521899 20696130.415594 17654932.449910 14509151.904601 11387133.369346 8442829.197623 5835332.060170 3698189.529826 2105817.440379 1891115.125775
-female.east.cr 0.000000 284741269.003567 108311612.688919 54563950.065685 31611870.015220 26476960.863790 19889256.215327 12918679.387005 11954455.605255 10197805.191023 8380746.005677 6577412.182927 4876729.359498 3370592.311433 2136140.508701 1216357.869721 1092341.967389
-female.west.cr 0.000000 426352821.424822 164373085.981257 71493052.573906 33339822.830465 18926958.889579 4754380.743917 4.255496 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000
+female.west.sa 0.000000 58692150.170872 24135967.388148 36067683.039987 26849291.982041 24610420.510739 27573383.224556 17621684.521899 20696130.415594 17654932.449911 14509151.904601 11387133.369347 8442829.197623 5835332.060170 3698189.529826 2105817.440379 1891115.125775
+female.east.cr 0.000000 284741269.003565 108311612.688918 54563950.065685 31611870.015220 26476960.863790 19889256.215327 12918679.387005 11954455.605255 10197805.191023 8380746.005677 6577412.182927 4876729.359498 3370592.311433 2136140.508701 1216357.869721 1092341.967389
+female.west.cr 0.000000 426352821.424824 164373085.981258 71493052.573906 33339822.830465 18926958.889579 4754380.743917 4.255496 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000
 female.west.wc 0.000000 8104926.835067 12017757.561288 11066748.286334 27144835.225195 29508009.317522 32986215.816824 41226226.651384 31044195.626847 26482398.677813 21763727.859324 17080700.055921 12664243.797844 8752998.091229 5547284.295356 3158726.160920 2836672.688979
 female.east.cs 0.000000 110944.880482 7516264.835699 13957409.310034 18833783.719353 15715363.937467 17837268.313263 21072930.558956 17931683.410834 15296707.789052 12571119.010584 9866118.276014 7315094.040452 5055888.467982 3204210.763580 1824536.804882 1638512.951353
 *end
 
 *estimate_value[summary]
 values {dataframe}
-catchability[CSacous].q catchability[WCacous].q catchability[CRsum].q catchability[SAsum].q catchability[SAaut].q parameter_transformation[log_sum_b0].log_total_parameter parameter_transformation[log_sum_b0].total_proportion_parameter process[recruit_E].ycs_values{1975} process[recruit_E].ycs_values{1976} process[recruit_E].ycs_values{1977} process[recruit_E].ycs_values{1978} process[recruit_E].ycs_values{1979} process[recruit_E].ycs_values{1980} process[recruit_E].ycs_values{1981} process[recruit_E].ycs_values{1982} process[recruit_E].ycs_values{1983} process[recruit_E].ycs_values{1984} process[recruit_E].ycs_values{1985} process[recruit_E].ycs_values{1986} process[recruit_E].ycs_values{1987} process[recruit_E].ycs_values{1988} process[recruit_E].ycs_values{1989} process[recruit_E].ycs_values{1990} process[recruit_E].ycs_values{1991} process[recruit_E].ycs_values{1992} process[recruit_E].ycs_values{1993} process[recruit_E].ycs_values{1994} process[recruit_E].ycs_values{1995} process[recruit_E].ycs_values{1996} process[recruit_E].ycs_values{1997} process[recruit_E].ycs_values{1998} process[recruit_E].ycs_values{1999} process[recruit_E].ycs_values{2000} process[recruit_E].ycs_values{2001} process[recruit_E].ycs_values{2002} process[recruit_E].ycs_values{2003} process[recruit_E].ycs_values{2004} process[recruit_E].ycs_values{2005} process[recruit_E].ycs_values{2006} process[recruit_E].ycs_values{2007} process[recruit_E].ycs_values{2008} process[recruit_E].ycs_values{2009} process[recruit_E].ycs_values{2010} process[recruit_E].ycs_values{2011} process[recruit_E].ycs_values{2012} process[recruit_E].ycs_values{2013} process[recruit_E].ycs_values{2014} process[recruit_W].ycs_values{1975} process[recruit_W].ycs_values{1976} process[recruit_W].ycs_values{1977} process[recruit_W].ycs_values{1978} process[recruit_W].ycs_values{1979} process[recruit_W].ycs_values{1980} process[recruit_W].ycs_values{1981} process[recruit_W].ycs_values{1982} process[recruit_W].ycs_values{1983} process[recruit_W].ycs_values{1984} process[recruit_W].ycs_values{1985} process[recruit_W].ycs_values{1986} process[recruit_W].ycs_values{1987} process[recruit_W].ycs_values{1988} process[recruit_W].ycs_values{1989} process[recruit_W].ycs_values{1990} process[recruit_W].ycs_values{1991} process[recruit_W].ycs_values{1992} process[recruit_W].ycs_values{1993} process[recruit_W].ycs_values{1994} process[recruit_W].ycs_values{1995} process[recruit_W].ycs_values{1996} process[recruit_W].ycs_values{1997} process[recruit_W].ycs_values{1998} process[recruit_W].ycs_values{1999} process[recruit_W].ycs_values{2000} process[recruit_W].ycs_values{2001} process[recruit_W].ycs_values{2002} process[recruit_W].ycs_values{2003} process[recruit_W].ycs_values{2004} process[recruit_W].ycs_values{2005} process[recruit_W].ycs_values{2006} process[recruit_W].ycs_values{2007} process[recruit_W].ycs_values{2008} process[recruit_W].ycs_values{2009} process[recruit_W].ycs_values{2010} process[recruit_W].ycs_values{2011} process[recruit_W].ycs_values{2012} process[recruit_W].ycs_values{2013} process[recruit_W].ycs_values{2014} selectivity[M_male].x0 selectivity[M_male].y0 selectivity[M_male].y1 selectivity[M_male].y2 selectivity[M_female].x0 selectivity[M_female].y0 selectivity[M_female].y1 selectivity[M_female].y2 selectivity[sel_Whome].v{1} selectivity[sel_Whome].v{2} selectivity[sel_Whome].v{3} selectivity[sel_Whome].v{4} selectivity[sel_Whome].v{5} selectivity[sel_Whome].v{6} selectivity[sel_Whome].v{7} selectivity[sel_Espmg_Male].v{1} selectivity[sel_Espmg_Male].v{2} selectivity[sel_Espmg_Male].v{3} selectivity[sel_Espmg_Male].v{4} selectivity[sel_Espmg_Male].v{5} selectivity[sel_Espmg_Male].v{6} selectivity[sel_Espmg_Male].v{7} selectivity[sel_Espmg_Male].v{8} selectivity[sel_Wspmg_Male].v{1} selectivity[sel_Wspmg_Male].v{2} selectivity[sel_Wspmg_Male].v{3} selectivity[sel_Wspmg_Male].v{4} selectivity[sel_Wspmg_Male].v{5} selectivity[sel_Wspmg_Male].v{6} selectivity[sel_Wspmg_Male].v{7} selectivity[sel_Wspmg_Male].v{8} selectivity[sel_Espmg_Female].v{1} selectivity[sel_Espmg_Female].v{2} selectivity[sel_Espmg_Female].v{3} selectivity[sel_Espmg_Female].v{4} selectivity[sel_Espmg_Female].v{5} selectivity[sel_Espmg_Female].v{6} selectivity[sel_Espmg_Female].v{7} selectivity[sel_Espmg_Female].v{8} selectivity[sel_Wspmg_Female].v{1} selectivity[sel_Wspmg_Female].v{2} selectivity[sel_Wspmg_Female].v{3} selectivity[sel_Wspmg_Female].v{4} selectivity[sel_Wspmg_Female].v{5} selectivity[sel_Wspmg_Female].v{6} selectivity[sel_Wspmg_Female].v{7} selectivity[sel_Wspmg_Female].v{8} selectivity[Enspsl].mu selectivity[Enspsl].sigma_l selectivity[Enspsl].sigma_r selectivity[Wnspsl].mu selectivity[Wnspsl].sigma_l selectivity[Wnspsl].sigma_r selectivity[Espsl].a50 selectivity[Espsl].ato95 time_varying[shifted_a50].a selectivity[CRsl].mu selectivity[CRsl].sigma_l selectivity[CRsl].sigma_r selectivity[SAsl].mu selectivity[SAsl].sigma_l selectivity[SAsl].sigma_r 
+catchability[CSacous].q catchability[WCacous].q catchability[CRsum].q catchability[SAsum].q catchability[SAaut].q parameter_transformation[log_sum_b0].log_total_parameter parameter_transformation[log_sum_b0].total_proportion_parameter process[recruit_E].recruitment_multipliers{1977} process[recruit_E].recruitment_multipliers{1978} process[recruit_E].recruitment_multipliers{1979} process[recruit_E].recruitment_multipliers{1980} process[recruit_E].recruitment_multipliers{1981} process[recruit_E].recruitment_multipliers{1982} process[recruit_E].recruitment_multipliers{1983} process[recruit_E].recruitment_multipliers{1984} process[recruit_E].recruitment_multipliers{1985} process[recruit_E].recruitment_multipliers{1986} process[recruit_E].recruitment_multipliers{1987} process[recruit_E].recruitment_multipliers{1988} process[recruit_E].recruitment_multipliers{1989} process[recruit_E].recruitment_multipliers{1990} process[recruit_E].recruitment_multipliers{1991} process[recruit_E].recruitment_multipliers{1992} process[recruit_E].recruitment_multipliers{1993} process[recruit_E].recruitment_multipliers{1994} process[recruit_E].recruitment_multipliers{1995} process[recruit_E].recruitment_multipliers{1996} process[recruit_E].recruitment_multipliers{1997} process[recruit_E].recruitment_multipliers{1998} process[recruit_E].recruitment_multipliers{1999} process[recruit_E].recruitment_multipliers{2000} process[recruit_E].recruitment_multipliers{2001} process[recruit_E].recruitment_multipliers{2002} process[recruit_E].recruitment_multipliers{2003} process[recruit_E].recruitment_multipliers{2004} process[recruit_E].recruitment_multipliers{2005} process[recruit_E].recruitment_multipliers{2006} process[recruit_E].recruitment_multipliers{2007} process[recruit_E].recruitment_multipliers{2008} process[recruit_E].recruitment_multipliers{2009} process[recruit_E].recruitment_multipliers{2010} process[recruit_E].recruitment_multipliers{2011} process[recruit_E].recruitment_multipliers{2012} process[recruit_E].recruitment_multipliers{2013} process[recruit_E].recruitment_multipliers{2014} process[recruit_E].recruitment_multipliers{2015} process[recruit_E].recruitment_multipliers{2016} process[recruit_W].recruitment_multipliers{1977} process[recruit_W].recruitment_multipliers{1978} process[recruit_W].recruitment_multipliers{1979} process[recruit_W].recruitment_multipliers{1980} process[recruit_W].recruitment_multipliers{1981} process[recruit_W].recruitment_multipliers{1982} process[recruit_W].recruitment_multipliers{1983} process[recruit_W].recruitment_multipliers{1984} process[recruit_W].recruitment_multipliers{1985} process[recruit_W].recruitment_multipliers{1986} process[recruit_W].recruitment_multipliers{1987} process[recruit_W].recruitment_multipliers{1988} process[recruit_W].recruitment_multipliers{1989} process[recruit_W].recruitment_multipliers{1990} process[recruit_W].recruitment_multipliers{1991} process[recruit_W].recruitment_multipliers{1992} process[recruit_W].recruitment_multipliers{1993} process[recruit_W].recruitment_multipliers{1994} process[recruit_W].recruitment_multipliers{1995} process[recruit_W].recruitment_multipliers{1996} process[recruit_W].recruitment_multipliers{1997} process[recruit_W].recruitment_multipliers{1998} process[recruit_W].recruitment_multipliers{1999} process[recruit_W].recruitment_multipliers{2000} process[recruit_W].recruitment_multipliers{2001} process[recruit_W].recruitment_multipliers{2002} process[recruit_W].recruitment_multipliers{2003} process[recruit_W].recruitment_multipliers{2004} process[recruit_W].recruitment_multipliers{2005} process[recruit_W].recruitment_multipliers{2006} process[recruit_W].recruitment_multipliers{2007} process[recruit_W].recruitment_multipliers{2008} process[recruit_W].recruitment_multipliers{2009} process[recruit_W].recruitment_multipliers{2010} process[recruit_W].recruitment_multipliers{2011} process[recruit_W].recruitment_multipliers{2012} process[recruit_W].recruitment_multipliers{2013} process[recruit_W].recruitment_multipliers{2014} process[recruit_W].recruitment_multipliers{2015} process[recruit_W].recruitment_multipliers{2016} selectivity[M_male].x0 selectivity[M_male].y0 selectivity[M_male].y1 selectivity[M_male].y2 selectivity[M_female].x0 selectivity[M_female].y0 selectivity[M_female].y1 selectivity[M_female].y2 selectivity[sel_Whome].v{1} selectivity[sel_Whome].v{2} selectivity[sel_Whome].v{3} selectivity[sel_Whome].v{4} selectivity[sel_Whome].v{5} selectivity[sel_Whome].v{6} selectivity[sel_Whome].v{7} selectivity[sel_Espmg_Male].v{1} selectivity[sel_Espmg_Male].v{2} selectivity[sel_Espmg_Male].v{3} selectivity[sel_Espmg_Male].v{4} selectivity[sel_Espmg_Male].v{5} selectivity[sel_Espmg_Male].v{6} selectivity[sel_Espmg_Male].v{7} selectivity[sel_Espmg_Male].v{8} selectivity[sel_Wspmg_Male].v{1} selectivity[sel_Wspmg_Male].v{2} selectivity[sel_Wspmg_Male].v{3} selectivity[sel_Wspmg_Male].v{4} selectivity[sel_Wspmg_Male].v{5} selectivity[sel_Wspmg_Male].v{6} selectivity[sel_Wspmg_Male].v{7} selectivity[sel_Wspmg_Male].v{8} selectivity[sel_Espmg_Female].v{1} selectivity[sel_Espmg_Female].v{2} selectivity[sel_Espmg_Female].v{3} selectivity[sel_Espmg_Female].v{4} selectivity[sel_Espmg_Female].v{5} selectivity[sel_Espmg_Female].v{6} selectivity[sel_Espmg_Female].v{7} selectivity[sel_Espmg_Female].v{8} selectivity[sel_Wspmg_Female].v{1} selectivity[sel_Wspmg_Female].v{2} selectivity[sel_Wspmg_Female].v{3} selectivity[sel_Wspmg_Female].v{4} selectivity[sel_Wspmg_Female].v{5} selectivity[sel_Wspmg_Female].v{6} selectivity[sel_Wspmg_Female].v{7} selectivity[sel_Wspmg_Female].v{8} selectivity[Enspsl].mu selectivity[Enspsl].sigma_l selectivity[Enspsl].sigma_r selectivity[Wnspsl].mu selectivity[Wnspsl].sigma_l selectivity[Wnspsl].sigma_r selectivity[Espsl].a50 selectivity[Espsl].ato95 time_varying[shifted_a50].a selectivity[CRsl].mu selectivity[CRsl].sigma_l selectivity[CRsl].sigma_r selectivity[SAsl].mu selectivity[SAsl].sigma_l selectivity[SAsl].sigma_r
 0.602206 0.53057 0.0786665 0.0852433 0.0743877 14.0858 0.344627 0.320212 0.474292 0.527932 0.950687 0.72644 0.263055 0.350561 0.225327 0.38227 0.445788 0.376709 0.209973 1.01497 0.971011 0.441808 0.133921 0.413001 0.422599 0.399801 0.621993 0.277822 0.300084 0.507877 0.308013 0.06 0.531205 0.165909 0.301516 0.528492 0.588644 0.528448 0.665448 0.564791 0.380083 0.720355 0.118376 0.884766 0.329779 0.356359 2.01852 0.425919 0.701541 0.621057 0.602985 0.456942 0.502584 0.58791 0.484524 0.921127 0.833484 0.329759 0.153251 1.52261 0.876916 0.0838314 0.0773751 0.855881 1.29853 0.353712 1.01372 0.219875 0.201085 0.251273 0.187698 0.06 0.33393 0.0863491 0.738095 0.447908 0.492439 0.501238 0.725393 0.590129 0.679778 0.456964 0.121577 1.16738 0.349684 0.317474 2.01857 7.06399 0.182187 1.43768 1.57165 6.50365 0.0886871 1.72185 0.810937 0.13545 0.0518696 0.264775 0.366566 0.321253 0.719069 0.999999 0.0026002 0.131857 0.419112 0.651219 0.65666 0.739994 0.819483 0.564679 0.218326 0.671785 0.779087 0.801762 0.868218 0.745361 0.638533 0.54154 0.000389482 0.0648917 0.203694 0.373348 0.37247 0.472804 0.619945 0.6 0.121337 0.332407 0.234791 0.502737 0.545249 0.54469 0.700555 0.6 71.0877 10.7585 44 67.532 12.6179 27.028 44.8009 4 -0.0913725 64 17.064 38.312 84 44 44 
 *end
 
@@ -241,6 +243,7 @@ observation->SAautage->1998 16.7235
 observation->pspawn_1993 -7.19208
 observation->pspawn->1992 -5.75962
 observation->pspawn->1998 -7.38768
+penalty->CatchMustBeTaken 0
 prior->CSacousq->catchability[CSacous].q -0.380719
 prior->WCacousq->catchability[WCacous].q -0.319954
 prior->CRsumq->catchability[CRsum].q -2.23018
@@ -248,86 +251,86 @@ prior->SAsumq->catchability[SAsum].q -2.01471
 prior->SAautq->catchability[SAaut].q -1.89247
 prior->B0_E_with_total_log_b0_prior->parameter_transformation[log_sum_b0].log_total_parameter 0
 prior->B0_W_with_proportion_prior->parameter_transformation[log_sum_b0].total_proportion_parameter 12.5415
-prior->YCS_E->process[recruit_E].ycs_values{1975} -0.619628
-prior->YCS_E->process[recruit_E].ycs_values{1976} -0.605944
-prior->YCS_E->process[recruit_E].ycs_values{1977} -0.560567
-prior->YCS_E->process[recruit_E].ycs_values{1978} 0.00652892
-prior->YCS_E->process[recruit_E].ycs_values{1979} -0.319596
-prior->YCS_E->process[recruit_E].ycs_values{1980} -0.536375
-prior->YCS_E->process[recruit_E].ycs_values{1981} -0.637753
-prior->YCS_E->process[recruit_E].ycs_values{1982} -0.428531
-prior->YCS_E->process[recruit_E].ycs_values{1983} -0.643161
-prior->YCS_E->process[recruit_E].ycs_values{1984} -0.624045
-prior->YCS_E->process[recruit_E].ycs_values{1985} -0.643065
-prior->YCS_E->process[recruit_E].ycs_values{1986} -0.367004
-prior->YCS_E->process[recruit_E].ycs_values{1987} 0.10286
-prior->YCS_E->process[recruit_E].ycs_values{1988} 0.036942
-prior->YCS_E->process[recruit_E].ycs_values{1989} -0.62617
-prior->YCS_E->process[recruit_E].ycs_values{1990} 0.206999
-prior->YCS_E->process[recruit_E].ycs_values{1991} -0.638137
-prior->YCS_E->process[recruit_E].ycs_values{1992} -0.634854
-prior->YCS_E->process[recruit_E].ycs_values{1993} -0.64138
-prior->YCS_E->process[recruit_E].ycs_values{1994} -0.45657
-prior->YCS_E->process[recruit_E].ycs_values{1995} -0.565531
-prior->YCS_E->process[recruit_E].ycs_values{1996} -0.598785
-prior->YCS_E->process[recruit_E].ycs_values{1997} -0.57903
-prior->YCS_E->process[recruit_E].ycs_values{1998} -0.607945
-prior->YCS_E->process[recruit_E].ycs_values{1999} 2.01363
-prior->YCS_E->process[recruit_E].ycs_values{2000} -0.557405
-prior->YCS_E->process[recruit_E].ycs_values{2001} -0.105597
-prior->YCS_E->process[recruit_E].ycs_values{2002} -0.600537
-prior->YCS_E->process[recruit_E].ycs_values{2003} -0.56003
-prior->YCS_E->process[recruit_E].ycs_values{2004} -0.496187
-prior->YCS_E->process[recruit_E].ycs_values{2005} -0.560071
-prior->YCS_E->process[recruit_E].ycs_values{2006} -0.401584
-prior->YCS_E->process[recruit_E].ycs_values{2007} -0.522823
-prior->YCS_E->process[recruit_E].ycs_values{2008} -0.643164
-prior->YCS_E->process[recruit_E].ycs_values{2009} -0.32798
-prior->YCS_E->process[recruit_E].ycs_values{2010} 0.419442
-prior->YCS_E->process[recruit_E].ycs_values{2011} -0.0915989
-prior->YCS_E->process[recruit_E].ycs_values{2012} -0.626919
-prior->YCS_E->process[recruit_E].ycs_values{2013} -0.639672
-prior->YCS_E->process[recruit_E].ycs_values{2014} 1.51744
-prior->YCS_W->process[recruit_W].ycs_values{1975} -0.633548
-prior->YCS_W->process[recruit_W].ycs_values{1976} -0.353635
-prior->YCS_W->process[recruit_W].ycs_values{1977} -0.457716
-prior->YCS_W->process[recruit_W].ycs_values{1978} -0.479464
-prior->YCS_W->process[recruit_W].ycs_values{1979} -0.617544
-prior->YCS_W->process[recruit_W].ycs_values{1980} -0.583623
-prior->YCS_W->process[recruit_W].ycs_values{1981} -0.497029
-prior->YCS_W->process[recruit_W].ycs_values{1982} -0.598329
-prior->YCS_W->process[recruit_W].ycs_values{1983} -0.0375927
-prior->YCS_W->process[recruit_W].ycs_values{1984} -0.167025
-prior->YCS_W->process[recruit_W].ycs_values{1985} -0.626905
-prior->YCS_W->process[recruit_W].ycs_values{1986} 0.00190887
-prior->YCS_W->process[recruit_W].ycs_values{1987} 0.848448
-prior->YCS_W->process[recruit_W].ycs_values{1988} -0.103209
-prior->YCS_W->process[recruit_W].ycs_values{1989} 1.13924
-prior->YCS_W->process[recruit_W].ycs_values{1990} 1.33291
-prior->YCS_W->process[recruit_W].ycs_values{1991} -0.134211
-prior->YCS_W->process[recruit_W].ycs_values{1992} 0.525302
-prior->YCS_W->process[recruit_W].ycs_values{1993} -0.638852
-prior->YCS_W->process[recruit_W].ycs_values{1994} 0.100987
-prior->YCS_W->process[recruit_W].ycs_values{1995} -0.408054
-prior->YCS_W->process[recruit_W].ycs_values{1996} -0.325466
-prior->YCS_W->process[recruit_W].ycs_values{1997} -0.508336
-prior->YCS_W->process[recruit_W].ycs_values{1998} -0.253302
-prior->YCS_W->process[recruit_W].ycs_values{1999} 2.01363
-prior->YCS_W->process[recruit_W].ycs_values{2000} -0.629609
-prior->YCS_W->process[recruit_W].ycs_values{2001} 1.07026
-prior->YCS_W->process[recruit_W].ycs_values{2002} -0.303434
-prior->YCS_W->process[recruit_W].ycs_values{2003} -0.622871
-prior->YCS_W->process[recruit_W].ycs_values{2004} -0.592074
-prior->YCS_W->process[recruit_W].ycs_values{2005} -0.584771
-prior->YCS_W->process[recruit_W].ycs_values{2006} -0.321041
-prior->YCS_W->process[recruit_W].ycs_values{2007} -0.494479
-prior->YCS_W->process[recruit_W].ycs_values{2008} -0.382765
-prior->YCS_W->process[recruit_W].ycs_values{2009} -0.617531
-prior->YCS_W->process[recruit_W].ycs_values{2010} 0.37149
-prior->YCS_W->process[recruit_W].ycs_values{2011} 0.33116
-prior->YCS_W->process[recruit_W].ycs_values{2012} -0.637423
-prior->YCS_W->process[recruit_W].ycs_values{2013} -0.617247
-prior->YCS_W->process[recruit_W].ycs_values{2014} 1.51751
+prior->YCS_E->process[recruit_E].recruitment_multipliers{1977} -0.619628
+prior->YCS_E->process[recruit_E].recruitment_multipliers{1978} -0.605944
+prior->YCS_E->process[recruit_E].recruitment_multipliers{1979} -0.560567
+prior->YCS_E->process[recruit_E].recruitment_multipliers{1980} 0.00652892
+prior->YCS_E->process[recruit_E].recruitment_multipliers{1981} -0.319596
+prior->YCS_E->process[recruit_E].recruitment_multipliers{1982} -0.536375
+prior->YCS_E->process[recruit_E].recruitment_multipliers{1983} -0.637753
+prior->YCS_E->process[recruit_E].recruitment_multipliers{1984} -0.428531
+prior->YCS_E->process[recruit_E].recruitment_multipliers{1985} -0.643161
+prior->YCS_E->process[recruit_E].recruitment_multipliers{1986} -0.624045
+prior->YCS_E->process[recruit_E].recruitment_multipliers{1987} -0.643065
+prior->YCS_E->process[recruit_E].recruitment_multipliers{1988} -0.367004
+prior->YCS_E->process[recruit_E].recruitment_multipliers{1989} 0.10286
+prior->YCS_E->process[recruit_E].recruitment_multipliers{1990} 0.036942
+prior->YCS_E->process[recruit_E].recruitment_multipliers{1991} -0.62617
+prior->YCS_E->process[recruit_E].recruitment_multipliers{1992} 0.206999
+prior->YCS_E->process[recruit_E].recruitment_multipliers{1993} -0.638137
+prior->YCS_E->process[recruit_E].recruitment_multipliers{1994} -0.634854
+prior->YCS_E->process[recruit_E].recruitment_multipliers{1995} -0.64138
+prior->YCS_E->process[recruit_E].recruitment_multipliers{1996} -0.45657
+prior->YCS_E->process[recruit_E].recruitment_multipliers{1997} -0.565531
+prior->YCS_E->process[recruit_E].recruitment_multipliers{1998} -0.598785
+prior->YCS_E->process[recruit_E].recruitment_multipliers{1999} -0.57903
+prior->YCS_E->process[recruit_E].recruitment_multipliers{2000} -0.607945
+prior->YCS_E->process[recruit_E].recruitment_multipliers{2001} 2.01363
+prior->YCS_E->process[recruit_E].recruitment_multipliers{2002} -0.557405
+prior->YCS_E->process[recruit_E].recruitment_multipliers{2003} -0.105597
+prior->YCS_E->process[recruit_E].recruitment_multipliers{2004} -0.600537
+prior->YCS_E->process[recruit_E].recruitment_multipliers{2005} -0.56003
+prior->YCS_E->process[recruit_E].recruitment_multipliers{2006} -0.496187
+prior->YCS_E->process[recruit_E].recruitment_multipliers{2007} -0.560071
+prior->YCS_E->process[recruit_E].recruitment_multipliers{2008} -0.401584
+prior->YCS_E->process[recruit_E].recruitment_multipliers{2009} -0.522823
+prior->YCS_E->process[recruit_E].recruitment_multipliers{2010} -0.643164
+prior->YCS_E->process[recruit_E].recruitment_multipliers{2011} -0.32798
+prior->YCS_E->process[recruit_E].recruitment_multipliers{2012} 0.419442
+prior->YCS_E->process[recruit_E].recruitment_multipliers{2013} -0.0915989
+prior->YCS_E->process[recruit_E].recruitment_multipliers{2014} -0.626919
+prior->YCS_E->process[recruit_E].recruitment_multipliers{2015} -0.639672
+prior->YCS_E->process[recruit_E].recruitment_multipliers{2016} 1.51744
+prior->YCS_W->process[recruit_W].recruitment_multipliers{1977} -0.633548
+prior->YCS_W->process[recruit_W].recruitment_multipliers{1978} -0.353635
+prior->YCS_W->process[recruit_W].recruitment_multipliers{1979} -0.457716
+prior->YCS_W->process[recruit_W].recruitment_multipliers{1980} -0.479464
+prior->YCS_W->process[recruit_W].recruitment_multipliers{1981} -0.617544
+prior->YCS_W->process[recruit_W].recruitment_multipliers{1982} -0.583623
+prior->YCS_W->process[recruit_W].recruitment_multipliers{1983} -0.497029
+prior->YCS_W->process[recruit_W].recruitment_multipliers{1984} -0.598329
+prior->YCS_W->process[recruit_W].recruitment_multipliers{1985} -0.0375927
+prior->YCS_W->process[recruit_W].recruitment_multipliers{1986} -0.167025
+prior->YCS_W->process[recruit_W].recruitment_multipliers{1987} -0.626905
+prior->YCS_W->process[recruit_W].recruitment_multipliers{1988} 0.00190887
+prior->YCS_W->process[recruit_W].recruitment_multipliers{1989} 0.848448
+prior->YCS_W->process[recruit_W].recruitment_multipliers{1990} -0.103209
+prior->YCS_W->process[recruit_W].recruitment_multipliers{1991} 1.13924
+prior->YCS_W->process[recruit_W].recruitment_multipliers{1992} 1.33291
+prior->YCS_W->process[recruit_W].recruitment_multipliers{1993} -0.134211
+prior->YCS_W->process[recruit_W].recruitment_multipliers{1994} 0.525302
+prior->YCS_W->process[recruit_W].recruitment_multipliers{1995} -0.638852
+prior->YCS_W->process[recruit_W].recruitment_multipliers{1996} 0.100987
+prior->YCS_W->process[recruit_W].recruitment_multipliers{1997} -0.408054
+prior->YCS_W->process[recruit_W].recruitment_multipliers{1998} -0.325466
+prior->YCS_W->process[recruit_W].recruitment_multipliers{1999} -0.508336
+prior->YCS_W->process[recruit_W].recruitment_multipliers{2000} -0.253302
+prior->YCS_W->process[recruit_W].recruitment_multipliers{2001} 2.01363
+prior->YCS_W->process[recruit_W].recruitment_multipliers{2002} -0.629609
+prior->YCS_W->process[recruit_W].recruitment_multipliers{2003} 1.07026
+prior->YCS_W->process[recruit_W].recruitment_multipliers{2004} -0.303434
+prior->YCS_W->process[recruit_W].recruitment_multipliers{2005} -0.622871
+prior->YCS_W->process[recruit_W].recruitment_multipliers{2006} -0.592074
+prior->YCS_W->process[recruit_W].recruitment_multipliers{2007} -0.584771
+prior->YCS_W->process[recruit_W].recruitment_multipliers{2008} -0.321041
+prior->YCS_W->process[recruit_W].recruitment_multipliers{2009} -0.494479
+prior->YCS_W->process[recruit_W].recruitment_multipliers{2010} -0.382765
+prior->YCS_W->process[recruit_W].recruitment_multipliers{2011} -0.617531
+prior->YCS_W->process[recruit_W].recruitment_multipliers{2012} 0.37149
+prior->YCS_W->process[recruit_W].recruitment_multipliers{2013} 0.33116
+prior->YCS_W->process[recruit_W].recruitment_multipliers{2014} -0.637423
+prior->YCS_W->process[recruit_W].recruitment_multipliers{2015} -0.617247
+prior->YCS_W->process[recruit_W].recruitment_multipliers{2016} 1.51751
 prior->M_male_x0->selectivity[M_male].x0 0
 prior->M_male_y0->selectivity[M_male].y0 0
 prior->M_male_y1->selectivity[M_male].y1 0
@@ -390,7 +393,7 @@ prior->CRsl_s_r->selectivity[CRsl].sigma_r 0
 prior->SAsl_mu->selectivity[SAsl].mu 0
 prior->SAsl_s_l->selectivity[SAsl].sigma_l 0
 prior->SAsl_s_r->selectivity[SAsl].sigma_r 0
-additional_prior->YCS.eq.14 3.04348e-06
+additional_prior->YCS.eq.16 3.04348e-06
 additional_prior->sp.migr.F 1.6368e-20
 additional_prior->sp.migr.M 0.0535401
 additional_prior->prior_on_Mmale -3.98241
@@ -1496,6 +1499,7 @@ values {vector}
 *end
 
 *parameter_transformations[__log_sum_b0__]
+transformation_type: log_sum
 parameters: process[recruit_E].b0 process[recruit_W].b0 
 parameter_values: 451601 858805 
 log_total_parameter: 14.0858
@@ -1506,6 +1510,9 @@ negative_log_jacobian: 0
 *observation[CSacous]
 observation_type: biomass
 likelihood: lognormal
+error_value_multiplier: 1
+likelihood_multiplier: 1
+categories: male.east.cs+female.east.cs
 Values {dataframe}
 year category age length observed expected residual error_value process_error adjusted_error neglogLike pearsons_residuals normalised_residuals
 1991 male.east.cs+female.east.cs 0 0 88000 241366 -153366 0.41 0 0.41 1.85997 -1.54978 -2.36259
@@ -1532,6 +1539,9 @@ year category age length observed expected residual error_value process_error ad
 *observation[WCacous]
 observation_type: biomass
 likelihood: lognormal
+error_value_multiplier: 1
+likelihood_multiplier: 1
+categories: male.west.wc+female.west.wc
 Values {dataframe}
 year category age length observed expected residual error_value process_error adjusted_error neglogLike pearsons_residuals normalised_residuals
 1988 male.west.wc+female.west.wc 0 0 266000 330919 -64919.2 0.6 0 0.6 -0.582872 -0.326964 -0.116563
@@ -1549,6 +1559,9 @@ year category age length observed expected residual error_value process_error ad
 *observation[CRsumbio]
 observation_type: biomass
 likelihood: lognormal
+error_value_multiplier: 1
+likelihood_multiplier: 1
+categories: male.east.cr+female.east.cr+male.west.cr+female.west.cr
 Values {dataframe}
 year category age length observed expected residual error_value process_error adjusted_error neglogLike pearsons_residuals normalised_residuals
 1992 male.east.cr+female.east.cr+male.west.cr+female.west.cr 0 0 120190 139407 -19216.6 0.077 0.146332 0.165354 -1.46944 -0.83364 -0.820954
@@ -1580,6 +1593,9 @@ year category age length observed expected residual error_value process_error ad
 *observation[SAsumbio]
 observation_type: biomass
 likelihood: lognormal
+error_value_multiplier: 1
+likelihood_multiplier: 1
+categories: male.west.sa+female.west.sa
 Values {dataframe}
 year category age length observed expected residual error_value process_error adjusted_error neglogLike pearsons_residuals normalised_residuals
 1992 male.west.sa+female.west.sa 0 0 80285 68173.8 12111.2 0.068 0.374328 0.380454 -0.803003 0.466948 0.628589
@@ -1603,6 +1619,9 @@ year category age length observed expected residual error_value process_error ad
 *observation[SAautbio]
 observation_type: biomass
 likelihood: lognormal
+error_value_multiplier: 1
+likelihood_multiplier: 1
+categories: male.west.sa+female.west.sa
 Values {dataframe}
 year category age length observed expected residual error_value process_error adjusted_error neglogLike pearsons_residuals normalised_residuals
 1992 male.west.sa+female.west.sa 0 0 67832 75646.2 -7814.23 0.083 0.2 0.216539 -1.46055 -0.47705 -0.402322
@@ -1613,6 +1632,9 @@ year category age length observed expected residual error_value process_error ad
 *observation[Espage]
 observation_type: process_removals_by_age
 likelihood: multinomial
+error_value_multiplier: 1
+likelihood_multiplier: 1
+categories: male.east.cs female.east.cs
 Values {dataframe}
 year category age length observed expected residual error_value process_error adjusted_error neglogLike pearsons_residuals
 1988 male.east.cs 2 0 0.00058 0.0038034 -0.0032234 46 0 46 0.133835 -0.355168
@@ -2320,6 +2342,9 @@ year category age length observed expected residual error_value process_error ad
 *observation[Wspage]
 observation_type: process_removals_by_age
 likelihood: multinomial
+error_value_multiplier: 1
+likelihood_multiplier: 1
+categories: male.west.wc female.west.wc
 Values {dataframe}
 year category age length observed expected residual error_value process_error adjusted_error neglogLike pearsons_residuals
 1988 male.west.wc 2 0 0.001678 0.00546682 -0.00378882 16 0 16 0.124941 -0.205535
@@ -3111,6 +3136,9 @@ year category age length observed expected residual error_value process_error ad
 *observation[EnspOLF]
 observation_type: process_removals_by_age
 likelihood: multinomial
+error_value_multiplier: 1
+likelihood_multiplier: 1
+categories: male.west.cr+male.east.cr female.west.cr+female.east.cr
 Values {dataframe}
 year category age length observed expected residual error_value process_error adjusted_error neglogLike pearsons_residuals
 1992 male.west.cr+male.east.cr 1 0 0.001971 0.0033195 -0.0013485 10 0 10 0.101443 -0.0741374
@@ -3166,6 +3194,9 @@ year category age length observed expected residual error_value process_error ad
 *observation[Enspage]
 observation_type: process_removals_by_age
 likelihood: multinomial
+error_value_multiplier: 1
+likelihood_multiplier: 1
+categories: male.west.cr+male.east.cr female.west.cr+female.east.cr
 Values {dataframe}
 year category age length observed expected residual error_value process_error adjusted_error neglogLike pearsons_residuals
 1999 male.west.cr+male.east.cr 1 0 0.028365 0.0158833 0.0124817 38 0 38 4.49991 0.615423
@@ -3615,6 +3646,9 @@ year category age length observed expected residual error_value process_error ad
 *observation[WnspOLF]
 observation_type: process_removals_by_age
 likelihood: multinomial
+error_value_multiplier: 1
+likelihood_multiplier: 1
+categories: male.west.sa female.west.sa
 Values {dataframe}
 year category age length observed expected residual error_value process_error adjusted_error neglogLike pearsons_residuals
 1992 male.west.sa 2 0 0.000513 0.0105424 -0.0100294 34 0 34 0.0695825 -0.572592
@@ -3682,6 +3716,9 @@ year category age length observed expected residual error_value process_error ad
 *observation[Wnspage]
 observation_type: process_removals_by_age
 likelihood: multinomial
+error_value_multiplier: 1
+likelihood_multiplier: 1
+categories: male.west.sa female.west.sa
 Values {dataframe}
 year category age length observed expected residual error_value process_error adjusted_error neglogLike pearsons_residuals
 2001 male.west.sa 2 0 0.006428 0.0232763 -0.0168483 7 0 7 0.144857 -0.295639
@@ -4001,6 +4038,9 @@ year category age length observed expected residual error_value process_error ad
 *observation[CRsumage]
 observation_type: proportions_at_age
 likelihood: multinomial
+error_value_multiplier: 1
+likelihood_multiplier: 1
+categories: male.west.cr+male.east.cr female.west.cr+female.east.cr
 Values {dataframe}
 year category age length observed expected residual error_value process_error adjusted_error neglogLike pearsons_residuals
 1992 male.west.cr+male.east.cr 1 0 0.034966 0.0538864 -0.0189204 61 0 61 7.04926 -0.65446
@@ -4632,6 +4672,9 @@ year category age length observed expected residual error_value process_error ad
 *observation[SAsumage]
 observation_type: proportions_at_age
 likelihood: multinomial
+error_value_multiplier: 1
+likelihood_multiplier: 1
+categories: male.west.sa female.west.sa
 Values {dataframe}
 year category age length observed expected residual error_value process_error adjusted_error neglogLike pearsons_residuals
 1992 male.west.sa 2 0 0.005611 0.0129111 -0.00730014 22 0 22 0.477515 -0.303307
@@ -5087,6 +5130,9 @@ year category age length observed expected residual error_value process_error ad
 *observation[SAautage]
 observation_type: proportions_at_age
 likelihood: multinomial
+error_value_multiplier: 1
+likelihood_multiplier: 1
+categories: male.west.sa female.west.sa
 Values {dataframe}
 year category age length observed expected residual error_value process_error adjusted_error neglogLike pearsons_residuals
 1992 male.west.sa 2 0 0.013118 0.0138588 -0.000740833 12 0 12 0.60166 -0.0219522
@@ -5178,6 +5224,9 @@ year category age length observed expected residual error_value process_error ad
 *observation[pspawn_1993]
 observation_type: process_proportions_migrating
 likelihood: lognormal
+error_value_multiplier: 1
+likelihood_multiplier: 1
+categories: female.west.sa
 Values {dataframe}
 year category age length observed expected residual error_value process_error adjusted_error neglogLike pearsons_residuals normalised_residuals
 1993 female.west.sa 4 0 0.64 0.506167 0.133833 0.25 0 0.25 -0.822729 1.05761 1.07592
@@ -5185,12 +5234,15 @@ year category age length observed expected residual error_value process_error ad
 1993 female.west.sa 6 0 0.65 0.561369 0.088631 0.25 0 0.25 -1.14342 0.631535 0.718486
 1993 female.west.sa 7 0 0.66 0.673984 -0.0139843 0.25 0 0.25 -1.40081 -0.0829949 0.037955
 1993 female.west.sa 8 0 0.71 0.6054 0.1046 0.25 0 0.25 -1.10477 0.691114 0.770398
-1993 female.west.sa 9 0 0.6 0.6 -2.67129e-11 0.25 0 0.25 -1.39395 -1.78086e-10 0.12311
+1993 female.west.sa 9 0 0.6 0.6 -2.67127e-11 0.25 0 0.25 -1.39395 -1.78085e-10 0.12311
 *end
 
 *observation[pspawn]
 observation_type: process_proportions_migrating
 likelihood: lognormal
+error_value_multiplier: 1
+likelihood_multiplier: 1
+categories: female.west.sa
 Values {dataframe}
 year category age length observed expected residual error_value process_error adjusted_error neglogLike pearsons_residuals normalised_residuals
 1992 female.west.sa 3 0 0.13 0.264363 -0.134363 0.25 0 0.25 2.40623 -2.03301 -2.75962
@@ -5268,17 +5320,21 @@ categories: male.west.cr female.west.cr male.west.sa female.west.sa male.west.wc
 label: recruit_W
 proportions: 0.5 0.5 0 0 0 0
 r0: 3.44183e+09
+recruitment_multipliers: 1 1 1 1 1 0.425919 0.701541 0.621057 0.602985 0.456942 0.502584 0.58791 0.484524 0.921127 0.833484 0.329759 0.153251 1.52261 0.876916 0.0838314 0.0773751 0.855881 1.29853 0.353712 1.01372 0.219875 0.201085 0.251273 0.187698 0.06 0.33393 0.0863491 0.738095 0.447908 0.492439 0.501238 0.725393 0.590129 0.679778 0.456964 0.121577 1.16738 0.349684 0.317474 2.01857
 ssb: SSB_W
 ssb_offset: 2
-standardise_ycs_years: 1975 1976 1977 1978 1979 1980 1981 1982 1983 1984 1985 1986 1987 1988 1989 1990 1991 1992 1993 1994 1995 1996 1997 1998 1999 2000 2001 2002 2003 2004 2005 2006 2007 2008 2009 2010 2011
+standardise_ycs_years:
+standardise_years: 1977 1978 1979 1980 1981 1982 1983 1984 1985 1986 1987 1988 1989 1990 1991 1992 1993 1994 1995 1996 1997 1998 1999 2000 2001 2002 2003 2004 2005 2006 2007 2008 2009 2010 2011 2012 2013
 steepness: 0.75
 type: recruitment_beverton_holt
-ycs_years: 1970 1971 1972 1973 1974 1975 1976 1977 1978 1979 1980 1981 1982 1983 1984 1985 1986 1987 1988 1989 1990 1991 1992 1993 1994 1995 1996 1997 1998 1999 2000 2001 2002 2003 2004 2005 2006 2007 2008 2009 2010 2011 2012 2013 2014 
-standardised_ycs: 1 1 1 1 1 0.78934 1.30014 1.15098 1.11749 0.846834 0.93142 1.08955 0.897951 1.70709 1.54467 0.611131 0.284014 2.8218 1.62516 0.155362 0.143396 1.58617 2.40652 0.655522 1.8787 0.407486 0.372663 0.465675 0.347854 0.111196 0.61886 0.160028 1.36788 0.830092 0.91262 0.928926 1.34434 1.09366 1.25981 0.846874 0.225315 2.16346 0.349684 0.317474 2.01857 
-ycs_values: 1 1 1 1 1 0.425919 0.701541 0.621057 0.602985 0.456942 0.502584 0.58791 0.484524 0.921127 0.833484 0.329759 0.153251 1.52261 0.876916 0.0838314 0.0773751 0.855881 1.29853 0.353712 1.01372 0.219875 0.201085 0.251273 0.187698 0.06 0.33393 0.0863491 0.738095 0.447908 0.492439 0.501238 0.725393 0.590129 0.679778 0.456964 0.121577 1.16738 0.349684 0.317474 2.01857 
+model_year: 1972 1973 1974 1975 1976 1977 1978 1979 1980 1981 1982 1983 1984 1985 1986 1987 1988 1989 1990 1991 1992 1993 1994 1995 1996 1997 1998 1999 2000 2001 2002 2003 2004 2005 2006 2007 2008 2009 2010 2011 2012 2013 2014 2015 2016
+spawn_event_year: 1970 1971 1972 1973 1974 1975 1976 1977 1978 1979 1980 1981 1982 1983 1984 1985 1986 1987 1988 1989 1990 1991 1992 1993 1994 1995 1996 1997 1998 1999 2000 2001 2002 2003 2004 2005 2006 2007 2008 2009 2010 2011 2012 2013 2014
+standardised_recruitment_multipliers: 1 1 1 1 1 0.78934 1.30014 1.15098 1.11749 0.846834 0.93142 1.08955 0.897951 1.70709 1.54467 0.611131 0.284014 2.8218 1.62516 0.155362 0.143396 1.58617 2.40652 0.655522 1.8787 0.407486 0.372663 0.465675 0.347854 0.111196 0.61886 0.160028 1.36788 0.830092 0.91262 0.928926 1.34434 1.09366 1.25981 0.846874 0.225315 2.16346 0.349684 0.317474 2.01857
+recruitment_multipliers: 1 1 1 1 1 0.425919 0.701541 0.621057 0.602985 0.456942 0.502584 0.58791 0.484524 0.921127 0.833484 0.329759 0.153251 1.52261 0.876916 0.0838314 0.0773751 0.855881 1.29853 0.353712 1.01372 0.219875 0.201085 0.251273 0.187698 0.06 0.33393 0.0863491 0.738095 0.447908 0.492439 0.501238 0.725393 0.590129 0.679778 0.456964 0.121577 1.16738 0.349684 0.317474 2.01857
 true_ycs: 1 1 0.999756 0.999463 0.999192 0.788261 1.29613 1.14315 1.10916 0.840541 0.924461 1.08213 0.892153 1.69574 1.53421 0.606676 0.281414 2.77475 1.57566 0.148983 0.136362 1.50527 2.28781 0.620837 1.77512 0.388366 0.356241 0.445213 0.331059 0.105805 0.58048 0.145272 1.2003 0.686855 0.727678 0.736302 1.06303 0.889228 1.06311 0.735841 0.201555 1.96053 0.319381 0.292405 1.86518 
-Recruits: 3.44183e+09 3.44183e+09 3.44099e+09 3.43998e+09 3.43905e+09 2.71306e+09 4.46105e+09 3.93453e+09 3.81752e+09 2.893e+09 3.18184e+09 3.72452e+09 3.07064e+09 5.83645e+09 5.28049e+09 2.08807e+09 9.68578e+08 9.55022e+09 5.42316e+09 5.12773e+08 4.69333e+08 5.18089e+09 7.87427e+09 2.13682e+09 6.10967e+09 1.33669e+09 1.22612e+09 1.53235e+09 1.13945e+09 3.64164e+08 1.99791e+09 5.00003e+08 4.13123e+09 2.36404e+09 2.50454e+09 2.53423e+09 3.65878e+09 3.06057e+09 3.65903e+09 2.53264e+09 6.93719e+08 6.74781e+09 1.09925e+09 1.00641e+09 6.41964e+09 
-Recruit_event_SSB: 858805 858805 856293 853302 850556 844928 828030 793565 787780 788001 787648 793518 796671 794957 793886 789257 773090 713612 623705 567312 530430 522089 529260 514129 505123 539863 552942 553521 533824 532973 478869 387054 321000 245198 212059 207475 205675 228476 266685 305548 355674 383032 401574 423302 432246 
+recruits: 3.44183e+09 3.44183e+09 3.44099e+09 3.43998e+09 3.43905e+09 2.71306e+09 4.46105e+09 3.93453e+09 3.81752e+09 2.893e+09 3.18184e+09 3.72452e+09 3.07064e+09 5.83645e+09 5.28049e+09 2.08807e+09 9.68578e+08 9.55022e+09 5.42316e+09 5.12773e+08 4.69333e+08 5.18089e+09 7.87427e+09 2.13682e+09 6.10967e+09 1.33669e+09 1.22612e+09 1.53235e+09 1.13945e+09 3.64164e+08 1.99791e+09 5.00003e+08 4.13123e+09 2.36404e+09 2.50454e+09 2.53423e+09 3.65878e+09 3.06057e+09 3.65903e+09 2.53264e+09 6.93719e+08 6.74781e+09 1.09925e+09 1.00641e+09 6.41964e+09
+recruit_event_SSB: 858805 858805 856293 853302 850556 844928 828030 793565 787780 788001 787648 793518 796671 794957 793886 789257 773090 713612 623705 567312 530430 522089 529260 514129 505123 539863 552942 553521 533824 532973 478869 387054 321000 245198 212059 207475 205675 228476 266685 305548 355674 383032 401574 423302 432246
+ssb_offset: 2
 *end
 
 *process[recruit_E]
@@ -5289,17 +5345,21 @@ categories: male.east.cr female.east.cr male.east.cs female.east.cs
 label: recruit_E
 proportions: 0.5 0.5 0 0
 r0: 1.98806e+09
+recruitment_multipliers: 1 1 1 1 1 0.320212 0.474292 0.527932 0.950687 0.72644 0.263055 0.350561 0.225327 0.38227 0.445788 0.376709 0.209973 1.01497 0.971011 0.441808 0.133921 0.413001 0.422599 0.399801 0.621993 0.277822 0.300084 0.507877 0.308013 0.06 0.531205 0.165909 0.301516 0.528492 0.588644 0.528448 0.665448 0.564791 0.380083 0.720355 0.118376 0.884766 0.329779 0.356359 2.01852
 ssb: SSB_E
 ssb_offset: 2
-standardise_ycs_years: 1975 1976 1977 1978 1979 1980 1981 1982 1983 1984 1985 1986 1987 1988 1989 1990 1991 1992 1993 1994 1995 1996 1997 1998 1999 2000 2001 2002 2003 2004 2005 2006 2007 2008 2009 2010 2011
+standardise_ycs_years:
+standardise_years: 1977 1978 1979 1980 1981 1982 1983 1984 1985 1986 1987 1988 1989 1990 1991 1992 1993 1994 1995 1996 1997 1998 1999 2000 2001 2002 2003 2004 2005 2006 2007 2008 2009 2010 2011 2012 2013
 steepness: 0.75
 type: recruitment_beverton_holt
-ycs_years: 1970 1971 1972 1973 1974 1975 1976 1977 1978 1979 1980 1981 1982 1983 1984 1985 1986 1987 1988 1989 1990 1991 1992 1993 1994 1995 1996 1997 1998 1999 2000 2001 2002 2003 2004 2005 2006 2007 2008 2009 2010 2011 2012 2013 2014 
-standardised_ycs: 1 1 1 1 1 0.692688 1.026 1.14203 2.05654 1.57144 0.569044 0.758339 0.487431 0.826932 0.964334 0.814901 0.454217 2.1956 2.1005 0.955726 0.289699 0.89341 0.914173 0.864856 1.3455 0.600989 0.649145 1.09865 0.666298 0.129793 1.14911 0.358896 0.652244 1.14324 1.27336 1.14315 1.43951 1.22176 0.8222 1.55828 0.256073 1.91394 0.329779 0.356359 2.01852 
-ycs_values: 1 1 1 1 1 0.320212 0.474292 0.527932 0.950687 0.72644 0.263055 0.350561 0.225327 0.38227 0.445788 0.376709 0.209973 1.01497 0.971011 0.441808 0.133921 0.413001 0.422599 0.399801 0.621993 0.277822 0.300084 0.507877 0.308013 0.06 0.531205 0.165909 0.301516 0.528492 0.588644 0.528448 0.665448 0.564791 0.380083 0.720355 0.118376 0.884766 0.329779 0.356359 2.01852 
+model_year: 1972 1973 1974 1975 1976 1977 1978 1979 1980 1981 1982 1983 1984 1985 1986 1987 1988 1989 1990 1991 1992 1993 1994 1995 1996 1997 1998 1999 2000 2001 2002 2003 2004 2005 2006 2007 2008 2009 2010 2011 2012 2013 2014 2015 2016
+spawn_event_year: 1970 1971 1972 1973 1974 1975 1976 1977 1978 1979 1980 1981 1982 1983 1984 1985 1986 1987 1988 1989 1990 1991 1992 1993 1994 1995 1996 1997 1998 1999 2000 2001 2002 2003 2004 2005 2006 2007 2008 2009 2010 2011 2012 2013 2014
+standardised_recruitment_multipliers: 1 1 1 1 1 0.692688 1.026 1.14203 2.05654 1.57144 0.569044 0.758339 0.487431 0.826932 0.964334 0.814901 0.454217 2.1956 2.1005 0.955726 0.289699 0.89341 0.914173 0.864856 1.3455 0.600989 0.649145 1.09865 0.666298 0.129793 1.14911 0.358896 0.652244 1.14324 1.27336 1.14315 1.43951 1.22176 0.8222 1.55828 0.256073 1.91394 0.329779 0.356359 2.01852
+recruitment_multipliers: 1 1 1 1 1 0.320212 0.474292 0.527932 0.950687 0.72644 0.263055 0.350561 0.225327 0.38227 0.445788 0.376709 0.209973 1.01497 0.971011 0.441808 0.133921 0.413001 0.422599 0.399801 0.621993 0.277822 0.300084 0.507877 0.308013 0.06 0.531205 0.165909 0.301516 0.528492 0.588644 0.528448 0.665448 0.564791 0.380083 0.720355 0.118376 0.884766 0.329779 0.356359 2.01852
 true_ycs: 1 1 0.999742 0.9995 0.99915 0.690479 1.02034 1.13314 2.0398 1.55758 0.56418 0.755388 0.488334 0.830663 0.968044 0.816606 0.454948 2.19164 2.08847 0.946007 0.285905 0.884073 0.907296 0.853414 1.31698 0.586555 0.626966 1.04441 0.622752 0.119204 1.03441 0.319188 0.571812 0.966012 1.04705 0.934541 1.17236 1.02497 0.713495 1.38202 0.232399 1.76687 0.30813 0.334589 1.91216 
-Recruits: 1.98806e+09 1.98806e+09 1.98755e+09 1.98707e+09 1.98637e+09 1.37272e+09 2.0285e+09 2.25275e+09 4.05524e+09 3.09656e+09 1.12162e+09 1.50176e+09 9.70839e+08 1.65141e+09 1.92453e+09 1.62346e+09 9.04465e+08 4.35712e+09 4.15201e+09 1.88072e+09 5.68397e+08 1.75759e+09 1.80376e+09 1.69664e+09 2.61825e+09 1.16611e+09 1.24645e+09 2.07634e+09 1.23807e+09 2.36984e+08 2.05646e+09 6.34566e+08 1.1368e+09 1.92049e+09 2.08161e+09 1.85793e+09 2.33073e+09 2.03771e+09 1.41847e+09 2.74754e+09 4.62023e+08 3.51265e+09 6.12582e+08 6.65185e+08 3.80148e+09 
-Recruit_event_SSB: 451601 451601 450204 448906 447038 434905 423438 412743 411107 408005 409259 431377 461853 477326 473372 463204 460471 442019 422396 402038 389567 400803 413949 389014 358450 348648 317026 278216 245556 218589 193765 181160 168011 141057 125666 122764 120929 136684 159674 178464 203201 225933 245021 253602 270829 
+recruits: 1.98806e+09 1.98806e+09 1.98755e+09 1.98707e+09 1.98637e+09 1.37272e+09 2.0285e+09 2.25275e+09 4.05524e+09 3.09656e+09 1.12162e+09 1.50176e+09 9.70839e+08 1.65141e+09 1.92453e+09 1.62346e+09 9.04465e+08 4.35712e+09 4.15201e+09 1.88072e+09 5.68397e+08 1.75759e+09 1.80376e+09 1.69664e+09 2.61825e+09 1.16611e+09 1.24645e+09 2.07634e+09 1.23807e+09 2.36984e+08 2.05646e+09 6.34566e+08 1.1368e+09 1.92049e+09 2.08161e+09 1.85793e+09 2.33073e+09 2.03771e+09 1.41847e+09 2.74754e+09 4.62023e+08 3.51265e+09 6.12582e+08 6.65185e+08 3.80148e+09
+recruit_event_SSB: 451601 451601 450204 448906 447038 434905 423438 412743 411107 408005 409259 431377 461853 477326 473372 463204 460471 442019 422396 402038 389567 400803 413949 389014 358450 348648 317026 278216 245556 218589 193765 181160 168011 141057 125666 122764 120929 136684 159674 178464 203201 225933 245021 253602 270829
+ssb_offset: 2
 *end
 
 *process[Instant_mortality]
@@ -5595,6 +5655,7 @@ Values {vector}
 
 *info[messages_encountered]
 Values {string}
+Setting the random number seed to 92905
 Estimable parameters were loaded from the free parameter file: 
 Creating default report for catchability CSacous
 Creating default report for catchability WCacous
@@ -5743,8 +5804,9 @@ obs sum total (1) for year (2012) doesn't sum to 1.0
 obs sum total (0.999999) for year (2013) doesn't sum to 1.0
 obs sum total (1) for year (1998) doesn't sum to 1.0
 Estimates were removed because of matching lower and upper bounds. Originally had 150 estimates, now have 149
-estimated parameter 'process[recruit_E].ycs_values{1999}' was within 0.001 of lower bound 0.06
-estimated parameter 'process[recruit_W].ycs_values{1999}' was within 0.001 of lower bound 0.06
+Found an @estimate block for selectivity[Wspsl].a50. There are only a few time-varying types such as exogenous where this is okay. Please check this is a sensible configuration.
+estimated parameter 'process[recruit_E].recruitment_multipliers{2001}' was within 0.001 of lower bound 0.06
+estimated parameter 'process[recruit_W].recruitment_multipliers{2001}' was within 0.001 of lower bound 0.06
 estimated parameter 'selectivity[sel_Whome].v{7}' was within 0.001 of upper bound 1
 estimated parameter 'selectivity[sel_Espmg_Female].v{1}' was within 0.001 of lower bound 0
 estimated parameter 'selectivity[sel_Espmg_Female].v{8}' was within 0.001 of lower bound 0.6
@@ -5755,8 +5817,8 @@ estimated parameter 'selectivity[CRsl].mu' was within 0.001 of lower bound 64
 estimated parameter 'selectivity[SAsl].mu' was within 0.001 of upper bound 84
 estimated parameter 'selectivity[SAsl].sigma_l' was within 0.001 of upper bound 44
 estimated parameter 'selectivity[SAsl].sigma_r' was within 0.001 of upper bound 44
-estimated parameter 'process[recruit_E].ycs_values{1999}' was within 0.001 of lower bound 0.06
-estimated parameter 'process[recruit_W].ycs_values{1999}' was within 0.001 of lower bound 0.06
+estimated parameter 'process[recruit_E].recruitment_multipliers{2001}' was within 0.001 of lower bound 0.06
+estimated parameter 'process[recruit_W].recruitment_multipliers{2001}' was within 0.001 of lower bound 0.06
 estimated parameter 'selectivity[sel_Whome].v{7}' was within 0.001 of upper bound 1
 estimated parameter 'selectivity[sel_Espmg_Female].v{1}' was within 0.001 of lower bound 0
 estimated parameter 'selectivity[sel_Espmg_Female].v{8}' was within 0.001 of lower bound 0.6

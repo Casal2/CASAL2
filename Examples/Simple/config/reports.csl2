@@ -5,9 +5,6 @@
 @report summary
 type estimate_value
 
-@report mpd
-type mpd
-
 @report profile
 type profile
 
@@ -41,12 +38,9 @@ type mcmc_sample
 file_name samples
 write_mode incremental_suffix
 
-@report CategoryList
-type category_list
-
 @report Hessian
 type hessian_matrix
 
-@report MCMCCovariance
+@report MCMCcovariance
 type mcmc_covariance
 

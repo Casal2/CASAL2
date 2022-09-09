@@ -1,0 +1,68 @@
+
+[INFO] Setting the random number seed to 96728
+[INFO] Estimable parameters were loaded from the free parameter file: free.dat
+resizing from 40000 to 44000
+resizing from 44000 to 48400
+resizing from 48400 to 53240
+resizing from 53240 to 58564
+resizing from 58564 to 64420
+resizing from 64420 to 70862
+resizing from 70862 to 77948
+resizing from 77948 to 85742
+resizing from 85742 to 94316
+resizing from 94316 to 103747
+resizing from 103747 to 114121
+resizing from 114121 to 125533
+resizing from 125533 to 138086
+[IMPORTANT] Setting 'profile.dat' as the output file for the free parameters
+[WARNING] The report for profile was requested. There are no @profile blocks found in the input configuration file. The report will not be generated
+[INFO] Creating default report for catchability CPUE-Commercialq_1
+[INFO] Creating default report for catchability TrawlSurveyq_1
+[INFO] Creating default report for catchability TrawlSurveyq_2
+[INFO] Creating default report for derived quantity SSB
+[INFO] Creating default report for observation sim_CPUE-Trawl_1
+[INFO] Creating default report for observation sim_TrawlSurvey_1
+[INFO] Creating default report for observation sim_TrawlSurvey_2
+[INFO] Creating default report for observation sim_TrawlSurveyProportionAtLength_1
+[INFO] Creating default report for observation sim_TrawlSurveyProportionAtLength_2
+[INFO] Creating default report for observation sim_CommercialCatchLength_1
+[INFO] Creating default report for observation sim_CommercialCatchLength_2
+[INFO] Creating default report for observation sim_CommercialCatchLength_3
+[INFO] Creating default report for observation sim_Cryer_Oliver_maturity
+[INFO] Creating default report for observation sim_1997_recaptures1_1
+[INFO] Creating default report for observation sim_1997_recaptures1_2
+[INFO] Creating default report for observation sim_1997_recaptures2_1
+[INFO] Creating default report for observation sim_1997_recaptures2_2
+[INFO] Creating default report for observation sim_1997_recaptures2_3
+[INFO] Creating default report for observation sim_1997_recaptures3_1
+[INFO] Creating default report for observation sim_1997_recaptures3_2
+[INFO] Creating default report for observation sim_1997_recaptures3_3
+[INFO] Creating default report for process Recruit_BH
+[INFO] Creating default report for process mortality
+[INFO] Creating default report for process growth
+[INFO] Creating default report for process tag_1996_2_male
+[INFO] Creating default report for process tag_1996_2_female
+[INFO] Creating default report for process tag_1996_3_male
+[INFO] Creating default report for process tag_1996_3_female
+[INFO] Creating default report for process tag_1997_1_male
+[INFO] Creating default report for process tag_1997_1_female
+[INFO] Creating default report for selectivity FishingSel_1_male
+[INFO] Creating default report for selectivity FishingSel_1_female
+[INFO] Creating default report for selectivity FishingSel_2_male
+[INFO] Creating default report for selectivity FishingSel_2_female
+[INFO] Creating default report for selectivity TrawlSurveySel_1_male
+[INFO] Creating default report for selectivity TrawlSurveySel_1_female
+[INFO] Creating default report for selectivity TrawlSurveySel_2_male
+[INFO] Creating default report for selectivity TrawlSurveySel_2_female
+[INFO] Creating default report for selectivity maturity
+[INFO] Creating default report for selectivity One
+[INFO] Creating default report for selectivity tag_1996_2_male.one
+[INFO] Creating default report for selectivity tag_1996_2_female.one
+[INFO] Creating default report for selectivity tag_1996_3_male.one
+[INFO] Creating default report for selectivity tag_1996_3_female.one
+[INFO] Creating default report for selectivity tag_1997_1_male.one
+[INFO] Creating default report for selectivity tag_1997_1_female.one
+[VERIFY] Could not find a single @profile block. Casal2 needs a profile block to run in a profile.
+[INFO] Completed
+[INFO] Total CPU time: -101.423 hours
+[INFO] Total elapsed time: 1 second
