@@ -34,7 +34,11 @@ Method.TA1.8 <- function(model, observation_labels, plot.it = F, xlim = NULL, yl
     this_report <- get(observation_labels[i], model)
 
     if (all(names(this_report) != "type")) {
-      stop("This function cannot parse multiple outputs in the same output file")
+      if(length(names(this_report)) != 1) {
+        stop("This function cannot parse multiple outputs in the same output file")
+      } else {
+        this_report = this_report[[1]]
+      }
     }
 
     ## check that the Observation_label is of type observation
