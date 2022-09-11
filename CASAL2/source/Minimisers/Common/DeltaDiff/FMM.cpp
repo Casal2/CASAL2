@@ -292,7 +292,7 @@ void FMM::fMin(vector<double>& Candidates, double& Score, vector<double>& Gradie
     // Is StepSize too Small?
     if (dLambda < dLambdaMin) {
       iRet = -3;
-      LOG_IMPORTANT() << "FMM Linear step size too small (" << (double)dLambda << ")";
+      LOG_IMPORTANT() << "FMM: Linear step size too small (" << (double)dLambda << ")";
       return;
     }
 
