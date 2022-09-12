@@ -18,6 +18,7 @@
 #include "../../Model/Model.h"
 #include "../../Processes/Manager.h"
 #include "../../Processes/Process.h"
+#include "../../Utilities/To.h"
 
 // namespaces
 namespace niwa {
@@ -64,14 +65,14 @@ void Process::DoExecute(shared_ptr<Model> model) {
   if (!process_)
     LOG_CODE_ERROR() << "(!process): " << process_label_;
 
-  LOG_FINE() << " printing report " << label_ << " of type " << process_->type();
+  LOG_FINE() << " printing report " << label_ << " of type " << utilities::ToLowercase(process_->type());
 
   bool is_BH_recruitment = (process_->type() == PARAM_RECRUITMENT_BEVERTON_HOLT) | (process_->type() == PARAM_BEVERTON_HOLT);
   cache_ << ReportHeader(type_, process_label_, format_);
 
   auto parameters = process_->parameters().parameters();
   for (auto parameter : parameters) {
-    if (!(is_BH_recruitment && ((parameter.first == PARAM_YCS_YEARS || parameter.first == PARAM_YCS_VALUES)))) {
+    if (!(is_BH_recruitment && (parameter.first == PARAM_RECRUITMENT_MULTIPLIERS))) {
       // if this process is a Beverton Holt process don't print the parameters ycs_years or ycs_values. The reason is, this is printed in the storeForReport Function within the
       // process The reason this was done was, we can't update the input parameters to include future years in projection mode, specifically we push back on a vector and becomes
       // a nonsensical vector (when doing multiple projections), thus we went down the store for report method.

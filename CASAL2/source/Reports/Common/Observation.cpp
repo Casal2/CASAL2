@@ -14,6 +14,7 @@
 #include "../../Observations/Manager.h"
 #include "../../Observations/Observation.h"
 #include "../../Utilities/Math.h"
+#include "../../Utilities/To.h"
 
 // namespaces
 namespace niwa {
@@ -89,8 +90,8 @@ void Observation::DoExecute(shared_ptr<Model> model) {
     return;
 
   cache_ << ReportHeader(type_, observation_label_, format_);
-  cache_ << "observation_type: " << observation_->type() << REPORT_EOL;
-  cache_ << "likelihood: " << observation_->likelihood() << REPORT_EOL;
+  cache_ << "observation_type: " << utilities::ToLowercase(observation_->type()) << REPORT_EOL;
+  cache_ << "likelihood: " << utilities::ToLowercase(observation_->likelihood()) << REPORT_EOL;
   cache_ << "error_value_multiplier: " << observation_->error_value_multiplier() << REPORT_EOL;
   cache_ << "likelihood_multiplier: " << observation_->likelihood_multiplier() << REPORT_EOL;
   cache_ << "categories:";
@@ -201,8 +202,8 @@ void Observation::DoExecuteTabular(shared_ptr<Model> model) {
   if (first_run_) {
     first_run_ = false;
     cache_ << ReportHeader(type_, label_, format_);
-    cache_ << "observation_type: " << observation_->type() << REPORT_EOL;
-    cache_ << "likelihood: " << observation_->likelihood() << REPORT_EOL;
+    cache_ << "observation_type: " << utilities::ToLowercase(observation_->type()) << REPORT_EOL;
+    cache_ << "likelihood: " << utilities::ToLowercase(observation_->likelihood()) << REPORT_EOL;
     cache_ << "values " << REPORT_R_DATAFRAME << REPORT_EOL;
     string bin, year, label;
     /**
