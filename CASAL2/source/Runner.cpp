@@ -387,7 +387,7 @@ bool Runner::RunEstimation() {
 
     unsigned phases = managers->estimate()->GetNumberOfPhases();
     for (unsigned j = 1; j <= phases; ++j) {
-      LOG_INFO() << "Estimation_phase: " << j;
+      LOG_INFO() << "Estimation_phase " << j;
       managers->estimate()->SetActivePhase(j);
       minimiser->ExecuteThreaded(thread_pool_);
     }
