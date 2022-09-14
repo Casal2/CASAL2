@@ -75,11 +75,11 @@ void RecruitmentBevertonHolt::DoValidate() {
   LOG_TRACE();
   // Flag error
   if (parameters_.Get(PARAM_YCS_VALUES)->has_been_defined()) 
-    LOG_ERROR_P(PARAM_YCS_VALUES) << PARAM_YCS_VALUES << " is deprecated. The new input is " << PARAM_RECRUITMENT_MULTIPLIERS << ", refer to the user manual for more information";
+    LOG_FATAL_P(PARAM_YCS_VALUES) << PARAM_YCS_VALUES << " is deprecated. The new input is " << PARAM_RECRUITMENT_MULTIPLIERS << ", refer to the user manual for more information";
   if (parameters_.Get(PARAM_YCS_YEARS)->has_been_defined()) 
-    LOG_ERROR_P(PARAM_YCS_YEARS) << PARAM_YCS_YEARS << " is deprecated, refer to user manual for more information";
+    LOG_FATAL_P(PARAM_YCS_YEARS) << PARAM_YCS_YEARS << " is deprecated, refer to user manual for more information";
   if (parameters_.Get(PARAM_STANDARDISE_YCS_YEARS)->has_been_defined()) 
-    LOG_ERROR_P(PARAM_STANDARDISE_YCS_YEARS) << PARAM_STANDARDISE_YCS_YEARS << " is deprecated. Please use " << PARAM_STANDARDISE_YEARS << " to standardise. Note the years now refer to model years rather than the previous year_class_years. Refer to the user manual for more information";
+    LOG_FATAL_P(PARAM_STANDARDISE_YCS_YEARS) << PARAM_STANDARDISE_YCS_YEARS << " is deprecated. Please use " << PARAM_STANDARDISE_YEARS << " to standardise. Note the years now refer to model years rather than the previous year_class_years. Refer to the user manual for more information";
 
 
 
