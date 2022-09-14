@@ -16,6 +16,7 @@
 #include "../../Model/Managers.h"
 #include "../../Model/Model.h"
 #include "../../Model/Objects.h"
+#include "../../Utilities/Math.h"
 
 // namespaces
 namespace niwa {
@@ -47,8 +48,8 @@ void Orthogonal::DoValidate() {
   restored_values_[0] = sqrt(product_parameter_ * quotient_parameter_);
   restored_values_[1] = sqrt(product_parameter_/ quotient_parameter_);
   for(unsigned i = 0; i < parameter_labels_.size(); ++i) {
-    if(restored_values_[i] !=  init_values_[i])
-      LOG_CODE_ERROR() << "restored_values_[i] !=  init_values_[i]";
+    if(fabs(restored_values_[i] -  init_values_[i]) > 1e-5)
+      LOG_CODE_ERROR() << "restored_values_[i] !=  init_values_[i]. restored value = " <<  restored_values_[i] << " init value = " <<  init_values_[i];
   }
   
  if(prior_applies_to_restored_parameters_)
