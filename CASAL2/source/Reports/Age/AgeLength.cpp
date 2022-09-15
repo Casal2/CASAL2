@@ -52,6 +52,11 @@ void AgeLength::DoExecute(shared_ptr<Model> model) {
   cache_ << ReportHeader(type_, label_, format_);
   cache_ << "year: " << model->current_year() << REPORT_EOL;
   cache_ << "time_step: " << time_step_ << REPORT_EOL;
+  cache_ << "age:";
+  for (unsigned age = model->min_age(); age <= model->max_age(); ++age) 
+    cache_ << " " << age;
+  cache_ << REPORT_EOL;
+
   age_length_->FillReportCache(cache_);
   cache_ << REPORT_END << REPORT_EOL;
   ready_for_writing_ = true;
