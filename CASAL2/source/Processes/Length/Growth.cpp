@@ -40,9 +40,7 @@ Growth::Growth(shared_ptr<Model> model) : Process(model), partition_(model) {
  * 2. Assign the label from our parameters
  * 3. Check categories
  */
-void Growth::DoValidate() {
-
-}
+void Growth::DoValidate() {}
 
 /**
  * Build objects that are needed by this object during the execution phase. This
@@ -57,30 +55,28 @@ void Growth::DoBuild() {
   new_length_partition_.resize(model_->get_number_of_length_bins(), 0.0);
 }
 
-void Growth::DoReset() {
-  
-}
+void Growth::DoReset() {}
 
 /**
  * Execute our length growth class.
  */
 void Growth::DoExecute() {
   LOG_TRACE();
-  unsigned             time_step_index = model_->managers()->time_step()->current_time_step();
-  for (auto & category : partition_) {
+  unsigned time_step_index = model_->managers()->time_step()->current_time_step();
+  for (auto& category : partition_) {
     // reset container
     fill(new_length_partition_.begin(), new_length_partition_.end(), 0.0);
-    for(unsigned i = 0; i < model_->get_number_of_length_bins(); i++) {
-      for(unsigned j = 0; j < model_->get_number_of_length_bins(); j++) {
+    for (unsigned i = 0; i < model_->get_number_of_length_bins(); i++) {
+      for (unsigned j = 0; j < model_->get_number_of_length_bins(); j++) {
         new_length_partition_[j] += category->growth_increment_->get_transition_matrix(time_step_index)[i][j] * category->data_[i];
       }
     }
     // now copy it over;
-    for(unsigned i = 0; i < model_->get_number_of_length_bins(); i++) {
+    for (unsigned i = 0; i < model_->get_number_of_length_bins(); i++) {
       LOG_FINE() << "i = " << i << " previous value = " << category->data_[i] << " new value = " << new_length_partition_[i];
     }
     category->data_ = new_length_partition_;
-    for(unsigned i = 0; i < model_->get_number_of_length_bins(); i++) {
+    for (unsigned i = 0; i < model_->get_number_of_length_bins(); i++) {
       LOG_FINE() << "i = " << i << " updated value = " << category->data_[i];
     }
   }

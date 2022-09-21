@@ -53,7 +53,6 @@ categories uni
 
 @growth_increment growth_model ##
 type basic
-time_step_proportions 1
 l_alpha 20
 l_beta  40
 g_alpha 10

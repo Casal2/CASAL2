@@ -88,6 +88,7 @@
 
 \commandlabsubarg{Ageing\_Error}{type}{Data}
 
+\defSub{tolerance}{Tolerance of the row sum check for the misclassification matrix table}
 
 \commandlabsubarg{Ageing\_Error}{type}{None}
 
@@ -316,7 +317,6 @@
 
 \defSub{insert\_processes}{Specifies the additional processes that are not in the annual cycle to be inserted into this initialisation phase}
 \defSub{exclude\_processes}{Specifies the Processes in the annual cycle to be excluded from this initialisation phase}
-\defSub{casal\_initialisation\_switch}{Run an extra annual cycle to evaluate equilibrium SSBs. Warning - if true, this may not correctly evaluate the equilibrium state. Set to true if replicating a CASAL model}
 
 \commandlabsubarg{Initialisation\_Phase}{type}{Iterative}
 
@@ -349,6 +349,9 @@
 \defComLab{Likelihood}{Define an object of type \emph{Likelihood}}
 
 
+\commandlabsubarg{Likelihood}{type}{Bernoulli}
+
+
 \commandlabsubarg{Likelihood}{type}{Binomial}
 
 
@@ -357,6 +360,12 @@
 
 \commandlabsubarg{Likelihood}{type}{Dirichlet}
 
+
+\commandlabsubarg{Likelihood}{type}{Dirichlet\_Multinomial}
+
+\defSub{label}{Label for the Dirichlet-multinomial distribution}
+\defSub{type}{Type of likelihood}
+\defSub{theta}{Theta parameter (account for overdispersion)}
 
 \commandlabsubarg{Likelihood}{type}{Log\_Normal}
 
@@ -487,6 +496,19 @@
 \defSub{process\_error}{The process error}
 \defSub{years}{The years for which there are observations}
 
+\commandlabsubarg{Observation}{type}{Age\_Length}
+
+\defSub{year}{The year this observation occurs in.}
+\defSub{time\_step}{The label of the time step that the observation occurs in}
+\defSub{selectivities}{The labels of the selectivities}
+\defSub{process\_errors}{The process error}
+\defSub{ageing\_error}{The label of ageing error to use}
+\defSub{numerator\_categories}{The categories sampled (used in the numerator for the observation)}
+\defSub{sample\_type}{The sampling type used to collect this data}
+\defSub{time\_step\_proportion}{The proportion through the mortality block of the time step when the observation is evaluated}
+\defSub{ages}{Vector of individual ages}
+\defSub{lengths}{Vector of individual lengths. Has a one to one relationship with ages}
+
 \commandlabsubarg{Observation}{type}{Biomass}
 
 \defSub{time\_step}{The label of the time step that the observation occurs in}
@@ -506,7 +528,7 @@
 \defSub{process\_errors}{The label of process error to use}
 \defSub{ageing\_error}{The label of the ageing error to use}
 \defSub{method\_of\_removal}{The label of the observed method of removals}
-\defSub{mortality\_instantaneous\_process}{The label of the mortality instantaneous process for the observation}
+\defSub{mortality\_process}{The label of the mortality process for the observation}
 \defSub{simulated\_data\_sum\_to\_one}{Whether simulated data is discrete or scaled by totals to be proportions for each year}
 \defSub{sum\_to\_one}{Scale year (row) observed values by the total, so they sum = 1}
 
@@ -520,7 +542,7 @@
 \defSub{process\_errors}{The label of the process error to use}
 \defSub{ageing\_error}{The label of the ageing error to use}
 \defSub{method\_of\_removal}{The label of observed method of removals}
-\defSub{mortality\_instantaneous\_process}{The label of the mortality instantaneous process for the observation}
+\defSub{mortality\_process}{The label of the mortality instantaneous process for the observation}
 \defSub{simulated\_data\_sum\_to\_one}{Whether simulated data is discrete or scaled by totals to be proportions for each year}
 \defSub{sum\_to\_one}{Scale year (row) observed values by the total, so they sum = 1}
 
@@ -534,7 +556,7 @@
 \defSub{process\_errors}{The label of the process error to use}
 \defSub{ageing\_error}{The label of the ageing error to use}
 \defSub{method\_of\_removal}{The label of observed method of removals}
-\defSub{mortality\_instantaneous\_process}{The label of the mortality instantaneous process for the observation}
+\defSub{mortality\_process}{The label of the mortality instantaneous process for the observation}
 \defSub{simulated\_data\_sum\_to\_one}{Whether simulated data is discrete or scaled by totals to be proportions for each year}
 \defSub{sum\_to\_one}{Scale year (row) observed values by the total, so they sum = 1}
 
@@ -546,7 +568,7 @@
 \defSub{method\_of\_removal}{The label of observed method of removals}
 \defSub{length\_bins}{The length bins}
 \defSub{plus\_group}{Is the last length bin a plus group? (defaults to @model value)}
-\defSub{mortality\_instantaneous\_process}{The label of the mortality instantaneous process for the observation}
+\defSub{mortality\_process}{The label of the mortality instantaneous process for the observation}
 \defSub{simulated\_data\_sum\_to\_one}{Whether simulated data is discrete or scaled by totals to be proportions for each year}
 \defSub{sum\_to\_one}{Scale year (row) observed values by the total, so they sum = 1}
 
@@ -558,7 +580,7 @@
 \defSub{method\_of\_removal}{The label of observed method of removals}
 \defSub{length\_bins}{The length bins}
 \defSub{plus\_group}{Is the last length bin a plus group? (defaults to @model value)}
-\defSub{mortality\_instantaneous\_process}{The label of the mortality instantaneous process for the observation}
+\defSub{mortality\_process}{The label of the mortality instantaneous process for the observation}
 \defSub{simulated\_data\_sum\_to\_one}{Whether simulated data is discrete or scaled by totals to be proportions for each year}
 \defSub{sum\_to\_one}{Scale year (row) observed values by the total, so they sum = 1}
 
@@ -570,13 +592,13 @@
 \defSub{method\_of\_removal}{The label of observed method of removals}
 \defSub{length\_bins}{The length bins}
 \defSub{plus\_group}{Is the last length bin a plus group? (defaults to @model value)}
-\defSub{mortality\_instantaneous\_process}{The label of the mortality instantaneous process for the observation}
+\defSub{mortality\_process}{The label of the mortality instantaneous process for the observation}
 \defSub{simulated\_data\_sum\_to\_one}{Whether simulated data is discrete or scaled by totals to be proportions for each year}
 \defSub{sum\_to\_one}{Scale year (row) observed values by the total, so they sum = 1}
 
 \commandlabsubarg{Observation}{type}{Process\_Removals\_By\_Weight}
 
-\defSub{mortality\_instantaneous\_process}{The label of the mortality instantaneous process for the observation}
+\defSub{mortality\_process}{The label of the mortality instantaneous process for the observation}
 \defSub{method\_of\_removal}{The label of observed method of removals}
 \defSub{time\_step}{The time step to execute in}
 \defSub{years}{The years for which there are observations}
@@ -698,87 +720,8 @@
 \defSub{years}{The years to be associated with the maturity rates}
 \defSub{rates}{The rates to mature for each year}
 
-\commandlabsubarg{Process}{type}{Mortality\_Constant\_Rate}
+\commandlabsubarg{Process}{type}{Mortality}
 
-\defSub{categories}{The list of category labels}
-\defSub{m}{The mortality rates}
-\defSub{time\_step\_proportions}{The time step proportions for the mortality rates}
-\defSub{relative\_m\_by\_age}{The list of mortality by age ogive labels for the categories}
-
-\commandlabsubarg{Process}{type}{Mortality\_Event}
-
-\defSub{categories}{The categories}
-\defSub{years}{The years in which to apply the mortality process}
-\defSub{catches}{The number of removals (catches) to apply for each year}
-\defSub{u\_max}{The maximum exploitation rate ($U\_{max}$)}
-\defSub{selectivities}{The list of selectivities}
-\defSub{penalty}{The label of the penalty to apply if the total number of removals cannot be taken}
-
-\commandlabsubarg{Process}{type}{Mortality\_Event\_Biomass}
-
-\defSub{categories}{The category labels}
-\defSub{selectivities}{The labels of the selectivities for each of the categories}
-\defSub{years}{The years in which to apply the mortality process}
-\defSub{catches}{The biomass of removals (catches) to apply for each year}
-\defSub{u\_max}{The maximum exploitation rate, U\_max}
-\defSub{penalty}{The label of the penalty to apply if the total biomass of removals cannot be taken}
-
-\commandlabsubarg{Process}{type}{Mortality\_Holling\_Rate}
-
-\defSub{prey\_categories}{The prey categories labels}
-\defSub{predator\_categories}{The predator categories labels}
-\defSub{is\_abundance}{Is vulnerable amount of prey and predator an abundance [true] or biomass [false]}
-\defSub{a}{Parameter a}
-\defSub{b}{Parameter b}
-\defSub{x}{This parameter controls the functional form: Holling function type 2 (x=2) or 3 (x=3), or generalised (Michaelis Menten, x>=1)}
-\defSub{u\_max}{The maximum exploitation rate ($U\_{max}$)}
-\defSub{prey\_selectivities}{The selectivities for prey categories}
-\defSub{predator\_selectivities}{The selectivities for predator categories}
-\defSub{penalty}{The label of penalty}
-\defSub{years}{The years in which to apply the mortality process}
-
-\commandlabsubarg{Process}{type}{Mortality\_Initialisation\_Event}
-
-\defSub{categories}{The categories}
-\defSub{catch}{The number of removals (catches) to apply for each year}
-\defSub{u\_max}{The maximum exploitation rate ($U\_{max}$)}
-\defSub{selectivities}{The list of selectivities}
-\defSub{penalty}{The label of the penalty to apply if the total number of removals cannot be taken}
-
-\commandlabsubarg{Process}{type}{Mortality\_Initialisation\_Event\_Biomass}
-
-\defSub{categories}{The categories}
-\defSub{catch}{The number of removals (catches) to apply for each year}
-\defSub{u\_max}{The maximum exploitation rate ($U\_{max}$)}
-\defSub{selectivities}{The list of selectivities}
-\defSub{penalty}{The label of the penalty to apply if the total number of removals cannot be taken}
-
-\commandlabsubarg{Process}{type}{Mortality\_Instantaneous}
-
-\defSub{categories}{The categories for instantaneous mortality}
-\defSub{m}{The natural mortality rates for each category}
-\defSub{time\_step\_proportions}{The time step proportions for natural mortality}
-\defSub{biomass}{Indicator to denote if the catches are as biomass (true) or abundance (false)}
-\defSub{relative\_m\_by\_age}{The M-by-age ogives to apply to each category for natural mortality}
-
-\commandlabsubarg{Process}{type}{Mortality\_Instantaneous\_Retained}
-
-\defSub{categories}{The categories for instantaneous mortality}
-\defSub{m}{The natural mortality rates for each category}
-\defSub{time\_step\_proportions}{The time step proportions for natural mortality}
-\defSub{relative\_m\_by\_age}{The M-by-age ogives to apply on the categories for natural mortality}
-
-\commandlabsubarg{Process}{type}{Mortality\_Prey\_Suitability}
-
-\defSub{prey\_categories}{The prey categories labels}
-\defSub{predator\_categories}{The predator categories labels}
-\defSub{consumption\_rate}{The predator consumption rate}
-\defSub{electivities}{The prey electivities}
-\defSub{u\_max}{The maximum exploitation rate ($U\_{max}$)}
-\defSub{prey\_selectivities}{The selectivities for prey categories}
-\defSub{predator\_selectivities}{The selectivities for predator categories}
-\defSub{penalty}{The label of the penalty}
-\defSub{years}{The year that process occurs}
 
 \commandlabsubarg{Process}{type}{Nop}
 
@@ -794,9 +737,10 @@
 \defSub{steepness}{Steepness (h)}
 \defSub{ssb}{The SSB label (i.e., the derived quantity label)}
 \defSub{b0\_initialisation\_phase}{The initialisation phase label that B0 is from}
+\defSub{recruitment\_multipliers}{The YCS values}
+\defSub{standardise\_years}{The years that are included for year class standardisation}
 \defSub{ycs\_values}{The YCS values}
 \defSub{ycs\_years}{The recruitment years. A vector of years that relates to the year of the spawning event that created this cohort}
-\defSub{standardise\_ycs\_years}{The years that are included for year class standardisation}
 
 \commandlabsubarg{Process}{type}{Recruitment\_Beverton\_Holt\_With\_Deviations}
 
@@ -810,10 +754,10 @@
 \defSub{ssb}{The SSB label (i.e., the derived quantity label))}
 \defSub{sigma\_r}{The standard deviation of recruitment, sigma\_R}
 \defSub{b\_max}{The maximum bias adjustment}
-\defSub{last\_year\_with\_no\_bias}{The last year with no bias adjustment}
-\defSub{first\_year\_with\_bias}{The first year with full bias adjustment}
-\defSub{last\_year\_with\_bias}{The last year with full bias adjustment}
-\defSub{first\_recent\_year\_with\_no\_bias}{The first recent year with no bias adjustment}
+\defSub{last\_year\_with\_no\_bias}{The last year (recruited year) with no bias adjustment}
+\defSub{first\_year\_with\_bias}{The first year (recruited year) with full bias adjustment}
+\defSub{last\_year\_with\_bias}{The last year (recruited year) with full bias adjustment}
+\defSub{first\_recent\_year\_with\_no\_bias}{The first recent year (recruited year) with no bias adjustment}
 \defSub{b0\_initialisation\_phase}{The initialisation phase label that B0 is from}
 \defSub{deviation\_values}{The recruitment deviation values}
 \defSub{deviation\_years}{The recruitment years. A vector of years that relates to the year of the spawning event that created this cohort}
@@ -896,7 +840,7 @@
 \defSub{lower\_bound}{The lower value of the range}
 \defSub{upper\_bound}{The upper value of the range}
 \defSub{parameter}{The system parameter to profile}
-\defSub{same}{A parameter that is constrained to have the same value as the parameter being profiled}
+\defSub{same}{List of other parameters that are constrained to have the same value as this parameter}
 
 \defComLab{Project}{Define an object of type \emph{Project}}
 
@@ -962,11 +906,10 @@
 
 \defSub{catchability}{The catchability label}
 
+\commandlabsubarg{Report}{type}{Category\_Info}
 
-%\commandlabsubarg{Report}{type}{Category\_Info}
 
-
-%\commandlabsubarg{Report}{type}{Category\_List}
+\commandlabsubarg{Report}{type}{Category\_List}
 
 
 \commandlabsubarg{Report}{type}{Correlation\_Matrix}
@@ -1018,7 +961,7 @@
 \commandlabsubarg{Report}{type}{MCMCSample}
 
 
-%\commandlabsubarg{Report}{type}{MPD}
+\commandlabsubarg{Report}{type}{MPD}
 
 
 \commandlabsubarg{Report}{type}{Objective\_Function}

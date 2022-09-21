@@ -10,22 +10,22 @@
 #ifdef TESTMODE
 
 // headers
-#include "../../TestResources/TestFixtures/InternalEmptyModel.h"
 #include "../../BaseClasses/Object.h"
 #include "../../Model/Model.h"
-#include "../../Model/Objects.h"
 #include "../../Model/Objects.Mock.h"
+#include "../../Model/Objects.h"
+#include "../../TestResources/TestFixtures/InternalEmptyModel.h"
 
 namespace niwa {
 namespace model {
 using niwa::testfixtures::InternalEmptyModel;
 
 /*
-* This first set of tests check bounds sanity checks and also
-* checks the simplex work on string maps using process[Recruitment].proportions parameter must sum = 1
-*/
+ * This first set of tests check bounds sanity checks and also
+ * checks the simplex work on string maps using process[Recruitment].proportions parameter must sum = 1
+ */
 const string core_model =
-R"(
+    R"(
 @categories 
 format sex
 names uni
@@ -43,7 +43,6 @@ type null_process
 
 @growth_increment growth_model
 type basic
-time_step_proportions 1
 l_alpha 20
 l_beta  40
 g_alpha 10
@@ -62,7 +61,7 @@ units tonnes
 )";
 
 const string length_model_with_min_age =
-R"(
+    R"(
 @model
 type length
 start_year 1986 
@@ -76,7 +75,7 @@ time_steps Annual
 min_age 1
 )";
 const string length_model_with_max_age =
-R"(
+    R"(
 @model
 type length
 start_year 1986 

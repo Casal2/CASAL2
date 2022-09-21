@@ -8,7 +8,6 @@
 ##############
 @growth_increment male_growth 
 type basic
-time_step_proportions 1 0 0 
 l_alpha 20
 l_beta  40
 g_alpha 10
@@ -21,7 +20,6 @@ compatibility_option casal2
 
 @growth_increment female_growth ##
 type basic
-time_step_proportions 1 0 0 
 l_alpha 20
 l_beta  40
 g_alpha 9

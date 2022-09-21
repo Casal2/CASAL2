@@ -63,6 +63,53 @@
 \defType{Vector of non-negative integers}
 \defDefault{No default}
 
+\subsubsection{Observation of type Age\_Length}
+\commandlabsubarg{Observation}{type}{Age\_Length}.
+\defRef{sec:Observation-AgeLength}
+\label{syntax:Observation-AgeLength}
+
+\defSub{year}{The year this observation occurs in.}
+\defType{Non-negative integer}
+\defDefault{No default}
+
+\defSub{time\_step}{The label of the time step that the observation occurs in}
+\defType{String}
+\defDefault{No default}
+
+\defSub{selectivities}{The labels of the selectivities}
+\defType{Vector of strings}
+\defDefault{true}
+
+\defSub{process\_errors}{The process error}
+\defType{Vector of real numbers (estimable)}
+\defDefault{true}
+
+\defSub{ageing\_error}{The label of ageing error to use}
+\defType{String}
+\defDefault{No default}
+
+\defSub{numerator\_categories}{The categories sampled (used in the numerator for the observation)}
+\defType{Vector of strings}
+\defDefault{true}
+
+\defSub{sample\_type}{The sampling type used to collect this data}
+\defType{String}
+\defDefault{length}
+
+\defSub{time\_step\_proportion}{The proportion through the mortality block of the time step when the observation is evaluated}
+\defType{Real number (estimable)}
+\defDefault{0.5}
+\defLowerBound{0.0 (inclusive)}
+\defUpperBound{1.0 (inclusive)}
+
+\defSub{ages}{Vector of individual ages}
+\defType{Vector of non-negative integers}
+\defDefault{false}
+
+\defSub{lengths}{Vector of individual lengths. Has a one to one relationship with ages}
+\defType{Vector of real numbers}
+\defDefault{false}
+
 \subsubsection{Observation of type Biomass}
 \commandlabsubarg{Observation}{type}{Biomass}.
 \defRef{sec:Observation-Biomass}
@@ -130,7 +177,7 @@
 \defType{Vector of strings}
 \defDefault{No default}
 
-\defSub{mortality\_instantaneous\_process}{The label of the mortality instantaneous process for the observation}
+\defSub{mortality\_process}{The label of the mortality process for the observation}
 \defType{String}
 \defDefault{No default}
 
@@ -179,7 +226,7 @@
 \defType{Vector of strings}
 \defDefault{No default}
 
-\defSub{mortality\_instantaneous\_process}{The label of the mortality instantaneous process for the observation}
+\defSub{mortality\_process}{The label of the mortality instantaneous process for the observation}
 \defType{String}
 \defDefault{No default}
 
@@ -228,7 +275,7 @@
 \defType{Vector of strings}
 \defDefault{No default}
 
-\defSub{mortality\_instantaneous\_process}{The label of the mortality instantaneous process for the observation}
+\defSub{mortality\_process}{The label of the mortality instantaneous process for the observation}
 \defType{String}
 \defDefault{No default}
 
@@ -246,7 +293,7 @@
 \label{syntax:Observation-ProcessRemovalsByLength}
 
 \defSub{time\_step}{The time step to execute in}
-\defType{String}
+\defType{Vector of strings}
 \defDefault{No default}
 
 \defSub{years}{The years for which there are observations}
@@ -269,7 +316,7 @@
 \defType{Boolean}
 \defDefault{model}
 
-\defSub{mortality\_instantaneous\_process}{The label of the mortality instantaneous process for the observation}
+\defSub{mortality\_process}{The label of the mortality instantaneous process for the observation}
 \defType{String}
 \defDefault{No default}
 
@@ -310,7 +357,7 @@
 \defType{Boolean}
 \defDefault{model}
 
-\defSub{mortality\_instantaneous\_process}{The label of the mortality instantaneous process for the observation}
+\defSub{mortality\_process}{The label of the mortality instantaneous process for the observation}
 \defType{String}
 \defDefault{No default}
 
@@ -351,7 +398,7 @@
 \defType{Boolean}
 \defDefault{model}
 
-\defSub{mortality\_instantaneous\_process}{The label of the mortality instantaneous process for the observation}
+\defSub{mortality\_process}{The label of the mortality instantaneous process for the observation}
 \defType{String}
 \defDefault{No default}
 
@@ -368,7 +415,7 @@
 \defRef{sec:Observation-ProcessRemovalsByWeight}
 \label{syntax:Observation-ProcessRemovalsByWeight}
 
-\defSub{mortality\_instantaneous\_process}{The label of the mortality instantaneous process for the observation}
+\defSub{mortality\_process}{The label of the mortality instantaneous process for the observation}
 \defType{String}
 \defDefault{No default}
 

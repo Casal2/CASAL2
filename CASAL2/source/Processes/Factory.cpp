@@ -18,10 +18,10 @@
 #include "../Processes/Age/Ageing.h"
 #include "../Processes/Age/Maturation.h"
 #include "../Processes/Age/Mortality/MortalityConstantRate.h"
-#include "../Processes/Age/Mortality/MortalityHybrid.h"
 #include "../Processes/Age/Mortality/MortalityEvent.h"
 #include "../Processes/Age/Mortality/MortalityEventBiomass.h"
 #include "../Processes/Age/Mortality/MortalityHollingRate.h"
+#include "../Processes/Age/Mortality/MortalityHybrid.h"
 #include "../Processes/Age/Mortality/MortalityInitialisationBaranov.h"
 #include "../Processes/Age/Mortality/MortalityInitialisationEvent.h"
 #include "../Processes/Age/Mortality/MortalityInitialisationEventBiomass.h"
@@ -39,12 +39,13 @@
 #include "../Processes/Common/LoadPartition.h"
 #include "../Processes/Common/Nop.h"
 #include "../Processes/Length/Growth.h"
-#include "../Processes/Length/Tagging.h"
-#include "../Processes/Length/RecruitmentConstant.h"
-#include "../Processes/Length/RecruitmentBevertonHolt.h"
-#include "../Processes/Length/MortalityInstantaneous.h"
-#include "../Processes/Length/MortalityDiseaseRate.h"
 #include "../Processes/Length/MortalityConstantRate.h"
+#include "../Processes/Length/MortalityDiseaseRate.h"
+#include "../Processes/Length/MortalityInstantaneous.h"
+#include "../Processes/Length/RecruitmentBevertonHolt.h"
+#include "../Processes/Length/RecruitmentConstant.h"
+#include "../Processes/Length/Tagging.h"
+#include "../Processes/Length/TransitionCategory.h"
 #include "../Processes/Manager.h"
 
 // Namespaces
@@ -145,7 +146,7 @@ Process* Factory::Create(shared_ptr<Model> model, const string& object_type, con
       else if (sub == PARAM_MORTALITY_INSTANTANEOUS)
         result = new length::MortalityInstantaneous(model);
       else if (sub == PARAM_MORTALITY_DISEASE_RATE)
-        result = new length::MortalityDiseaseRate(model);     
+        result = new length::MortalityDiseaseRate(model);
       else if (sub == PARAM_TAGGING)
         result = new length::Tagging(model);
     }

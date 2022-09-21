@@ -2,6 +2,12 @@
 \defRef{sec:Likelihood}
 \label{syntax:Likelihood}
 
+\subsubsection{Likelihood of type Bernoulli}
+\commandlabsubarg{Likelihood}{type}{Bernoulli}.
+\defRef{sec:Likelihood-Bernoulli}
+\label{syntax:Likelihood-Bernoulli}
+
+The Bernoulli type has no additional subcommands.
 \subsubsection{Likelihood of type Binomial}
 \commandlabsubarg{Likelihood}{type}{Binomial}.
 \defRef{sec:Likelihood-Binomial}
@@ -20,6 +26,24 @@ The Binomial\_Approx type has no additional subcommands.
 \label{syntax:Likelihood-Dirichlet}
 
 The Dirichlet type has no additional subcommands.
+\subsubsection{Likelihood of type Dirichlet\_Multinomial}
+\commandlabsubarg{Likelihood}{type}{Dirichlet\_Multinomial}.
+\defRef{sec:Likelihood-DirichletMultinomial}
+\label{syntax:Likelihood-DirichletMultinomial}
+
+\defSub{label}{Label for the Dirichlet-multinomial distribution}
+\defType{String}
+\defDefault{No default}
+
+\defSub{type}{Type of likelihood}
+\defType{String}
+\defDefault{No default}
+
+\defSub{theta}{Theta parameter (account for overdispersion)}
+\defType{Real number (estimable)}
+\defDefault{No default}
+\defLowerBound{0.0 (inclusive)}
+
 \subsubsection{Likelihood of type Log\_Normal}
 \commandlabsubarg{Likelihood}{type}{Log\_Normal}.
 \defRef{sec:Likelihood-LogNormal}

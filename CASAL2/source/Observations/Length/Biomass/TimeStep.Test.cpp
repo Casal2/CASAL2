@@ -10,12 +10,13 @@
 #ifdef TESTMODE
 
 // Headers
+#include "TimeStep.h"
+
 #include <iostream>
 
 #include "ObjectiveFunction/ObjectiveFunction.h"
 #include "Observations/Manager.h"
 #include "TestResources/TestFixtures/InternalEmptyLengthModel.h"
-#include "TimeStep.h"
 
 // Namespaces
 namespace niwa {
@@ -129,7 +130,6 @@ categories untagged tag_1996
 
 @growth_increment growth_model
 type basic
-time_step_proportions 1
 l_alpha 20
 l_beta  40
 g_alpha 10
@@ -228,10 +228,11 @@ TEST_F(InternalEmptyLengthModel, Observation_Biomass_Length) {
 
   map<unsigned, vector<obs::Comparison> >& comparisons = observation->comparisons();
   // these values are from CASAL the config is below
-  vector<double> expected_vals = {3.44886 ,3.22994, 3.11268 ,3.04622, 3.00605 ,2.88496 ,2.77301, 2.63803 ,2.42906 ,2.29566 ,2.28474, 2.33494, 2.32469 ,2.33879, 2.40748, 2.47713 ,2.53735, 2.57141, 2.60089, 2.60103, 2.53537, 2.49959};
-  vector<unsigned> years = {1991, 1992, 1993, 1994, 1995, 1996, 1997, 1998, 1999, 2000, 2001, 2002, 2003, 2004, 2005, 2006, 2007, 2008, 2009, 2010, 2011, 2012};
+  vector<double>   expected_vals = {3.44886, 3.22994, 3.11268, 3.04622, 3.00605, 2.88496, 2.77301, 2.63803, 2.42906, 2.29566, 2.28474,
+                                    2.33494, 2.32469, 2.33879, 2.40748, 2.47713, 2.53735, 2.57141, 2.60089, 2.60103, 2.53537, 2.49959};
+  vector<unsigned> years         = {1991, 1992, 1993, 1994, 1995, 1996, 1997, 1998, 1999, 2000, 2001, 2002, 2003, 2004, 2005, 2006, 2007, 2008, 2009, 2010, 2011, 2012};
 
-  for(unsigned i = 0; i < expected_vals.size(); i++) {
+  for (unsigned i = 0; i < expected_vals.size(); i++) {
     EXPECT_NEAR(expected_vals[i], comparisons[years[i]][0].expected_, 1e-4);
   }
 }
@@ -244,11 +245,13 @@ population.csl
 @initialization
 B0 1500
 @n_equilibrium 200 # had plus-group growth >5% between year 99 and year 100
-@weightless_model False 
+@weightless_model False
 @size_based True
 @n_classes 68
-# class nos.   1    2    3    4    5    6    7    8    9  10  11  12  13  14  15  16  17  18  19  20  21  22  23  24  25  26  27  28  29  30  31  32  33  34  35  36  37  38  39  40  41  42  43  44  45  46  47  48  49  50  51  52  53  54  55  56  57  58  59  60  61  62  63  64  65 66 67 68
-@class_mins    1    2    3    4    5    6    7    8    9  10  11  12  13  14  15  16  17  18  19  20  21  22  23  24  25  26  27  28  29  30  31  32  33  34  35  36  37  38  39  40  41  42  43  44  45  46  47  48  49  50  51  52  53  54  55  56  57  58  59  60  61  62  63  64  65 66 67 68
+# class nos.   1    2    3    4    5    6    7    8    9  10  11  12  13  14  15  16  17  18  19  20  21  22  23  24  25  26  27  28  29  30  31  32  33  34  35  36  37  38  39  40
+41  42  43  44  45  46  47  48  49  50  51  52  53  54  55  56  57  58  59  60  61  62  63  64  65 66 67 68
+@class_mins    1    2    3    4    5    6    7    8    9  10  11  12  13  14  15  16  17  18  19  20  21  22  23  24  25  26  27  28  29  30  31  32  33  34  35  36  37  38  39  40
+41  42  43  44  45  46  47  48  49  50  51  52  53  54  55  56  57  58  59  60  61  62  63  64  65 66 67 68
 @plus_group_size 69
 @plus_group T
 @sex_partition F
@@ -265,7 +268,8 @@ step 2
 mature_only False
 number 40
 plus_group T
-props_all 0	0	0	0	0	0	0	0		0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0.025	0	0.05	0.025	0	0	0.025	0.05	0	0.05	0.175	0.15	0.025	0.025	0.075	0.05	0.025	0.075	0.05	0.025	0.025	0.05	0	0.025	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0 0 
+props_all 0	0	0	0	0	0	0	0		0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0.025	0	0.05	0.025	0	0	0.025	0.05	0	0.05	0.175	0.15	0.025	0.025	0.075	0.05
+0.025	0.075	0.05	0.025	0.025	0.05	0	0.025	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0 0
 
 @initial 1986
 @current 2012
@@ -278,10 +282,10 @@ spawning_time 1
 spawning_part_mort 0.5
 spawning_p 1
 n_growths 1
-growth_times 1 
+growth_times 1
 M_props 1
 baranov False
-fishery_names Trawl_1 #Trawl_2 Trawl_3 
+fishery_names Trawl_1 #Trawl_2 Trawl_3
 fishery_times 1 #1 1
 
 @y_enter 1
@@ -305,7 +309,7 @@ year_range      1985 2009
 @growth #step 1 growth
 type basic
 l         20     40
-g     10 1  #   9.76   2.08    
+g     10 1  #   9.76   2.08
 cv         0.00
 minsigma   2   #   1.17
 
@@ -318,10 +322,9 @@ all             0.20
 @fishery Trawl_1
 years     1987  1988  1989  1990  1991  1992  1993  1994  1995  1996  1997  1998  1999  2000  2001  2002  2003  2004  2005  2006  2007  2008 2009  2010 2011 2012
 #catches 0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0
-catches 0	0	0	16.19729814	136.5431735	64.99411365	73.01365139	29.60436938	66.48247047	107.1336092	60.94452902	150.8267401	126.7738246	101.141994	28.29833853	65.25326787	77.43894769	39.37986312	33.22696512	35.71771887	35.93582888	55.00361249	31.55442523	85.05248259	81.7369449	60.51004034
-future_constant_catches 58
-selectivity FishingSel_1
-U_max 0.9
+catches 0	0	0	16.19729814	136.5431735	64.99411365	73.01365139	29.60436938	66.48247047	107.1336092	60.94452902	150.8267401	126.7738246
+101.141994	28.29833853	65.25326787	77.43894769	39.37986312	33.22696512	35.71771887	35.93582888	55.00361249	31.55442523	85.05248259	81.7369449	60.51004034 future_constant_catches
+58 selectivity FishingSel_1 U_max 0.9
 
 @selectivity_names FishingSel_1 FishingSel_2  TrawlSurveySel_1  TrawlSurveySel_2   PhotoSurveySel   ssb-bio
 
@@ -341,10 +344,10 @@ all Tuck_logistic_m 30 3.5  1.0 1.0
 
 @selectivity PhotoSurveySel
 all logistic_capped 20 3.5 1.0
- 
- 
+
+
 @selectivity ssb-bio
- all  knife_edge  10 
+ all  knife_edge  10
 
 
 @size_weight # Cryer & Stotter (1997)
@@ -422,9 +425,6 @@ upper_bound  20000
 prior uniform
 
 */
-
-
-
 
 }  // namespace length
 } /* namespace niwa */

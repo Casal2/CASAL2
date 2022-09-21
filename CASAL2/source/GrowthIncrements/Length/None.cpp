@@ -13,5 +13,5 @@
 
 // namespaces
 namespace niwa {
-namespace growthincrements {} /* namespace lengthweights */
+namespace growthincrements {}  // namespace growthincrements
 } /* namespace niwa */

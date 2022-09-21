@@ -16,12 +16,12 @@
 // headers
 #include "../BaseClasses/Object.h"
 #include "../Model/Model.h"
-#include "../Utilities/Distribution.h"
 #include "../Utilities/Compatibility.h"
+#include "../Utilities/Distribution.h"
 
 // namespaces
 namespace niwa {
-  class LengthWeight;
+class LengthWeight;
 
 /**
  * class definition
@@ -36,14 +36,15 @@ public:
   void Build();
   void Verify(shared_ptr<Model> model){};
   void Reset();
-  void RebuildCache();          // should only be called by time-varying class
+  void RebuildCache();  // should only be called by time-varying class
   void FillReportCache(ostringstream& cache);
 
-  const Double&  get_mean_weight(unsigned length_bin_index) { return mean_weight_by_length_bin_index_[length_bin_index]; };
-  const vector<vector<Double>>&  get_transition_matrix(unsigned time_step_index) { return growth_transition_matrix_[time_step_index]; };
+  const Double&                 get_mean_weight(unsigned length_bin_index) { return mean_weight_by_length_bin_index_[length_bin_index]; };
+  const vector<vector<Double>>& get_transition_matrix(unsigned time_step_index) { return growth_transition_matrix_[time_step_index]; };
 
-  void  apply_growth();
-  const double&  get_time_step_proportions(unsigned time_step_index) { return time_step_proportions_[time_step_index]; };
+  void apply_growth();
+  // const double& get_time_step_proportions(unsigned time_step_index){return 1.0};
+  double get_time_step_proportions(unsigned time_step_index) { return 1.0; };
 
   // accessors
   /*
@@ -59,9 +60,9 @@ protected:
   virtual void DoBuild()    = 0;
   virtual void DoReset()    = 0;
 
-  virtual Double get_mean_increment(double length, double time_step_proportion)  = 0;
+  virtual Double get_mean_increment(double length, double time_step_proportion) = 0;
 
-  void    populate_growth_transition_matrix();
+  void populate_growth_transition_matrix();
 
   // accessors
 
@@ -79,11 +80,10 @@ protected:
   vector<double>                 model_min_length_bins_;
   vector<double>                 model_length_midpoints_;
   bool                           plus_group_;
-  CompatibilityType              compatibility_type_        = CompatibilityType::kUnknown;
-  string                         compatibility_  = "";
-  vector<double>                 time_step_proportions_;
-  vector<Double>                 mean_weight_by_length_bin_index_;
-
+  CompatibilityType              compatibility_type_ = CompatibilityType::kUnknown;
+  string                         compatibility_      = "";
+  // vector<double>                 time_step_proportions_;
+  vector<Double> mean_weight_by_length_bin_index_;
 };
 } /* namespace niwa */
 #endif /* GROWTH_INCREMENT_MODELS_H_ */

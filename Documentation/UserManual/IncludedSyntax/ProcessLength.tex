@@ -10,15 +10,6 @@
 \defType{String}
 \defDefault{No default}
 
-\subsubsection{Process of type Ageing}
-\commandlabsubarg{process}{type}{Ageing}.
-\defRef{sec:Process-Ageing}
-\label{syntax:Process-Ageing}
-
-\defSub{categories}{The labels of the categories to age}
-\defType{Vector of strings}
-\defDefault{No default}
-
 \subsubsection{Process of type Load Partition}
 \commandlabsubarg{process}{type}{Load\_Partition}.
 \defRef{sec:Process-LoadPartition}
@@ -29,31 +20,6 @@
 \defDefault{No default}
 \defValue{}
 \defNote{See \ref{sec:DataTable} for more details on specifying data tables}
-
-\subsubsection{Process of type Maturation}
-\commandlabsubarg{process}{type}{Maturation}.
-\defRef{sec:Process-Maturation}
-\label{syntax:Process-Maturation}
-
-\defSub{from}{The list of categories to mature from}
-\defType{Vector of strings}
-\defDefault{No default}
-
-\defSub{to}{The list of categories to mature to}
-\defType{Vector of strings}
-\defDefault{No default}
-
-\defSub{selectivities}{The list of selectivities to use for maturation}
-\defType{Vector of strings}
-\defDefault{No default}
-
-\defSub{years}{The years to be associated with the maturity rates}
-\defType{Vector of non-negative integers}
-\defDefault{No default}
-
-\defSub{rates}{The rates to mature for each year}
-\defType{Vector of real numbers (estimable)}
-\defDefault{No default}
 
 \subsubsection{Process of type Mortality Constant Rate}
 \commandlabsubarg{process}{type}{Mortality\_Constant\_Rate}.
@@ -78,194 +44,6 @@
 
 \defSub{relative\_m\_by\_age}{The list of mortality by age ogive labels for the categories}
 \defType{Vector of strings}
-\defDefault{No default}
-
-\subsubsection{Process of type Mortality Event}
-\commandlabsubarg{process}{type}{Mortality\_Event}.
-\defRef{sec:Process-MortalityEvent}
-\label{syntax:Process-MortalityEvent}
-
-\defSub{categories}{The categories}
-\defType{Vector of strings}
-\defDefault{No default}
-
-\defSub{years}{The years in which to apply the mortality process}
-\defType{Vector of non-negative integers}
-\defDefault{No default}
-
-\defSub{catches}{The number of removals (catches) to apply for each year}
-\defType{Vector of real numbers (estimable)}
-\defDefault{No default}
-
-\defSub{u\_max}{The maximum exploitation rate ($U\_{max}$)}
-\defType{Real number}
-\defDefault{0.99}
-\defLowerBound{0.0 (inclusive)}
-\defUpperBound{1.0 (inclusive)}
-
-\defSub{selectivities}{The list of selectivities}
-\defType{Vector of strings}
-\defDefault{No default}
-
-\defSub{penalty}{The label of the penalty to apply if the total number of removals cannot be taken}
-\defType{String}
-\defDefault{No default}
-
-\subsubsection{Process of type Mortality Event Biomass}
-\commandlabsubarg{process}{type}{Mortality\_Event\_Biomass}.
-\defRef{sec:Process-MortalityEventBiomass}
-\label{syntax:Process-MortalityEventBiomass}
-
-\defSub{categories}{The category labels}
-\defType{Vector of strings}
-\defDefault{No default}
-
-\defSub{selectivities}{The labels of the selectivities for each of the categories}
-\defType{Vector of strings}
-\defDefault{No default}
-
-\defSub{years}{The years in which to apply the mortality process}
-\defType{Vector of non-negative integers}
-\defDefault{No default}
-
-\defSub{catches}{The biomass of removals (catches) to apply for each year}
-\defType{Vector of real numbers (estimable)}
-\defDefault{No default}
-
-\defSub{u\_max}{The maximum exploitation rate ($U\_{max}$)}
-\defType{Real number (estimable)}
-\defDefault{0.99}
-\defLowerBound{0.0 (inclusive)}
-\defUpperBound{1.0 (inclusive)}
-
-\defSub{penalty}{The label of the penalty to apply if the total biomass of removals cannot be taken}
-\defType{String}
-\defDefault{No default}
-
-\subsubsection{Process of type Mortality Holling Rate}
-\commandlabsubarg{process}{type}{Mortality\_Holling\_Rate}.
-\defRef{sec:Process-MortalityHollingRate}
-\label{syntax:Process-MortalityHollingRate}
-
-\defSub{prey\_categories}{The prey categories labels}
-\defType{Vector of strings}
-\defDefault{No default}
-
-\defSub{predator\_categories}{The predator categories labels}
-\defType{Vector of strings}
-\defDefault{No default}
-
-\defSub{is\_abundance}{Is vulnerable amount of prey and predator an abundance [true] or biomass [false]}
-\defType{Boolean}
-\defDefault{true}
-
-\defSub{a}{Parameter a}
-\defType{Real number (estimable)}
-\defDefault{No default}
-\defLowerBound{0.0 (inclusive)}
-
-\defSub{b}{Parameter b}
-\defType{Real number (estimable)}
-\defDefault{No default}
-\defLowerBound{0.0 (inclusive)}
-
-\defSub{x}{This parameter controls the functional form: Holling function type 2 (x=2) or 3 (x=3), or generalised (Michaelis Menten, x>=1)}
-\defType{Real number (estimable)}
-\defDefault{No default}
-\defLowerBound{1.0 (inclusive)}
-
-\defSub{u\_max}{The maximum exploitation rate ($U\_{max}$)}
-\defType{Real number}
-\defDefault{0.99}
-\defLowerBound{0.0 (inclusive)}
-\defUpperBound{1.0 (exclusive)}
-
-\defSub{prey\_selectivities}{The selectivities for prey categories}
-\defType{Vector of strings}
-\defDefault{true}
-
-\defSub{predator\_selectivities}{The selectivities for predator categories}
-\defType{Vector of strings}
-\defDefault{true}
-
-\defSub{penalty}{The label of penalty}
-\defType{String}
-\defDefault{No default}
-
-\defSub{years}{The years in which to apply the mortality process}
-\defType{Vector of non-negative integers}
-\defDefault{No default}
-
-\defSub{table}{The table of data specifying the predator selectivities}
-\defType{Data table with label = \TODO{I don't know how this one works?}}
-\defDefault{No default}
-\defValue{}
-\defNote{See \ref{sec:DataTable} for more details on specifying data tables}
-
-\defSub{table}{The table of data specifying the prey selectivities}
-\defType{Data table with label = \TODO{I don't know how this one works?}}
-\defDefault{No default}
-\defValue{}
-\defNote{See \ref{sec:DataTable} for more details on specifying data tables}
-
-\subsubsection{Process of type Mortality Initialisation Event}
-\commandlabsubarg{process}{type}{Mortality\_Initialisation\_Event}.
-\defRef{sec:Process-MortalityInitialisationEvent}
-\label{syntax:Process-MortalityInitialisationEvent}
-
-\defSub{categories}{The categories}
-\defType{Vector of strings}
-\defDefault{No default}
-
-\defSub{catch}{The number of removals (catches) to apply for each year}
-\defType{Real number (estimable)}
-\defDefault{No default}
-
-\defSub{u\_max}{The maximum exploitation rate ($U\_{max}$)}
-\defType{Real number}
-\defDefault{0.99}
-\defLowerBound{0.0 (inclusive)}
-\defUpperBound{1.0 (exclusive)}
-
-\defSub{selectivities}{The list of selectivities}
-\defType{Vector of strings}
-\defDefault{No default}
-
-\defSub{penalty}{The label of the penalty to apply if the total number of removals cannot be taken}
-\defType{String}
-\defDefault{No default}
-
-\defSub{table}{The table of data specifying the catches for each fishery, the categories, years, and the $U_max$}
-\defType{Data table with label = \TODO{Craig? Can you specify this table?}}
-\defDefault{No default}
-\defValue{}
-\defNote{See \ref{sec:DataTable} for more details on specifying data tables}
-
-\subsubsection{Process of type Mortality Initialisation Event Biomass}
-\commandlabsubarg{process}{type}{Mortality\_Initialisation\_Event\_Biomass}.
-\defRef{sec:Process-MortalityInitialisationEventBiomass}
-\label{syntax:Process-MortalityInitialisationEventBiomass}
-
-\defSub{categories}{The categories}
-\defType{Vector of strings}
-\defDefault{No default}
-
-\defSub{catch}{The number of removals (catches) to apply for each year}
-\defType{Real number (estimable)}
-\defDefault{No default}
-
-\defSub{u\_max}{The maximum exploitation rate ($U\_{max}$)}
-\defType{Real number}
-\defDefault{0.99}
-\defLowerBound{0.0 (inclusive)}
-\defUpperBound{1.0 (inclusive)}
-
-\defSub{selectivities}{The list of selectivities}
-\defType{Vector of strings}
-\defDefault{No default}
-
-\defSub{penalty}{The label of the penalty to apply if the total number of removals cannot be taken}
-\defType{String}
 \defDefault{No default}
 
 \subsubsection{Process of type Mortality Instantaneous}
@@ -293,7 +71,7 @@
 \defType{Boolean}
 \defDefault{True}
 
-\defSub{relative\_m\_by\_age}{The M-by-age selectivities to apply to each of the categories for natural mortality}
+\defSub{relative\_m\_by\_length}{The M-by-length selectivities to apply to each of the categories for natural mortality}
 \defType{Vector of strings}
 \defDefault{No default}
 
@@ -302,84 +80,6 @@
 \defDefault{No default}
 \defValue{}
 \defNote{See \ref{sec:DataTable} for more details on specifying data tables}
-
-\subsubsection{Process of type Mortality Instantaneous Retained}
-\commandlabsubarg{process}{type}{Mortality\_Instantaneous\_Retained}.
-\defRef{sec:Process-MortalityInstantaneousRetained}
-\label{syntax:Process-MortalityInstantaneousRetained}
-
-\defSub{categories}{The categories for instantaneous mortality}
-\defType{Vector of strings}
-\defDefault{No default}
-
-\defSub{m}{The natural mortality rates for each category}
-\defType{Real number (estimable)}
-\defDefault{No default}
-\defLowerBound{0.0 (inclusive)}
-
-\defSub{time\_step\_proportions}{The time step proportions for natural mortality}
-\defType{Vector of real numbers}
-\defDefault{No default}
-\defLowerBound{0.0 (inclusive)}
-\defUpperBound{1.0 (inclusive)}
-\defValue{Proportions must sum to one}
-
-\defSub{relative\_m\_by\_age}{The M-by-age selectivities to apply on the categories for natural mortality}
-\defType{Vector of strings}
-\defDefault{No default}
-
-\defSub{table}{The table of data specifying the catches for each fishery, the categories, years, and the $U_max$}
-\defType{Data table with label = \TODO{Craig? Can you specify this table?}}
-\defDefault{No default}
-\defValue{}
-\defNote{See \ref{sec:DataTable} for more details on specifying data tables}
-
-\subsubsection{Process of type Mortality Prey Suitability}
-\commandlabsubarg{process}{type}{Mortality\_Prey\_Suitability}.
-\defRef{sec:Process-MortalityPreySuitability}
-\label{syntax:Process-MortalityPreySuitability}
-
-\defSub{prey\_categories}{The prey categories labels}
-\defType{Vector of strings}
-\defDefault{No default}
-
-\defSub{predator\_categories}{The predator categories labels}
-\defType{Vector of strings}
-\defDefault{No default}
-
-\defSub{consumption\_rate}{The predator consumption rate}
-\defType{Real number (estimable)}
-\defDefault{No default}
-\defLowerBound{0.0 (inclusive)}
-\defUpperBound{1.0 (inclusive)}
-
-\defSub{electivities}{The prey electivities}
-\defType{Vector of real numbers (estimable)}
-\defDefault{No default}
-\defLowerBound{0.0 (inclusive)}
-\defUpperBound{1.0 (inclusive)}
-
-\defSub{u\_max}{The maximum exploitation rate ($U\_{max}$)}
-\defType{Real number}
-\defDefault{0.99}
-\defLowerBound{0.0 (inclusive)}
-\defUpperBound{1.0 (exclusive)}
-
-\defSub{prey\_selectivities}{The selectivities for prey categories}
-\defType{Vector of strings}
-\defDefault{No default}
-
-\defSub{predator\_selectivities}{The selectivities for predator categories}
-\defType{Vector of strings}
-\defDefault{No default}
-
-\defSub{penalty}{The label of the penalty}
-\defType{String}
-\defDefault{No default}
-
-\defSub{years}{The year that process occurs}
-\defType{Vector of non-negative integers}
-\defDefault{No default}
 
 \subsubsection{Process of type null process}
 \commandlabsubarg{process}{type}{null\_process}.
@@ -412,8 +112,12 @@ The null\_process  type has no additional subcommands. Note that this process do
 \defType{Real number (estimable)}
 \defDefault{No default}
 
-\defSub{age}{The age at recruitment}
-\defType{Non-negative integer}
+\defSub{initial\_mean\_length}{The initial mean length at recruitment}
+\defType{Non-negative real number (estimable)}
+\defDefault{No default}
+
+\defSub{initial\_length\_cv}{The initial length cv at recruitment}
+\defType{Non-negative real number (estimable)}
 \defDefault{No default}
 
 \defSub{ssb\_offset}{The spawning biomass year offset}
@@ -434,21 +138,17 @@ The null\_process  type has no additional subcommands. Note that this process do
 \defType{String}
 \defDefault{No default}
 
-
 \defSub{ycs\_values}{Deprecated}
 \defSub{ycs\_years}{Deprecated}
 \defSub{standardise\_ycs\_years}{Deprecated}
-
 
 \defSub{recruitment\_multipliers}{The recruitment values also termed year class strengths.}
 \defType{Vector of real numbers (estimable)}
 \defDefault{No default}
 
-
 \defSub{standardise\_years}{The years that are included for year class standardisation, they refer to the recruited year not spawning or year class year.}
 \defType{Vector of non-negative integers}
 \defDefault{true}
-
 
 \subsubsection{Process of type Recruitment Constant}
 \commandlabsubarg{process}{type}{Recruitment\_Constant}.
@@ -463,7 +163,7 @@ The null\_process  type has no additional subcommands. Note that this process do
 \defType{Real number (estimable)}
 \defDefault{true}
 
-\defSub{age}{The age at recruitment}
+\defSub{length\_bins}{The length bin that recruits are uniformly distributed over at the time of recruitment}
 \defType{Non-negative integer}
 \defDefault{No default}
 
@@ -472,94 +172,10 @@ The null\_process  type has no additional subcommands. Note that this process do
 \defDefault{No default}
 \defLowerBound{0.0 (inclusive)}
 
-\subsubsection{Process of type Survival Constant Rate}
-\commandlabsubarg{process}{type}{Survival\_Constant\_Rate}.
-\defRef{sec:Process-SurvivalConstantRate}
-\label{syntax:Process-SurvivalConstantRate}
-
-\defSub{categories}{The list of categories}
-\defType{Vector of strings}
-\defDefault{No default}
-
-\defSub{s}{The survival rates}
-\defType{Real number (estimable)}
-\defDefault{No default}
-\defLowerBound{0.0 (inclusive)}
-\defUpperBound{1.0 (inclusive)}
-
-\defSub{time\_step\_proportions}{The time step proportions for the survival rate $S$}
-\defType{Vector of real numbers}
-\defDefault{true}
-\defLowerBound{0.0 (exclusive)}
-\defUpperBound{1.0 (inclusive)}
-\defValue{The proportions must sum to one}
-
-\defSub{selectivities}{The selectivity labels for each category}
-\defType{Vector of strings}
-\defDefault{No default}
-
-\subsubsection{Process of type Tag By Age}
-\commandlabsubarg{process}{type}{Tag\_By\_Age}.
-\defRef{sec:Process-TagByAge}
-\label{syntax:Process-TagByAge}
-
-\defSub{from}{The categories that are selected for tagging (i.e, transition from)}
-\defType{Vector of strings}
-\defDefault{No default}
-
-\defSub{to}{The categories that have tags (i.e., transition to)}
-\defType{Vector of strings}
-\defDefault{No default}
-
-\defSub{min\_age}{The minimum age tagged}
-\defType{Non-negative integer}
-\defDefault{No default}
-
-\defSub{max\_age}{The maximum age tagged}
-\defType{Non-negative integer}
-\defDefault{No default}
-
-\defSub{penalty}{The penalty label}
-\defType{String}
-\defDefault{No default}
-
-\defSub{u\_max}{The maximum exploitation rate ($U\_{max}$)}
-\defType{Real number}
-\defDefault{0.99}
-\defLowerBound{0.0 (inclusive)}
-\defUpperBound{1.0 (exclusive)}
-
-\defSub{years}{The years to execute the tagging in}
-\defType{Vector of non-negative integers}
-\defDefault{No default}
-
-\defSub{initial\_mortality}{The initial mortality value}
-\defType{Real number (estimable)}
-\defDefault{0.0}
-\defLowerBound{0.0 (inclusive)}
-
-\defSub{initial\_mortality\_selectivity}{The initial mortality selectivity label}
-\defType{String}
-\defDefault{No default}
-
-\defSub{selectivities}{The selectivity labels}
-\defType{Vector of strings}
-\defDefault{No default}
-
-\defSub{n}{N}
-\defType{Vector of real numbers (estimable)}
-\defDefault{true}
-
-\defSub{table}{The table of data specifying the n to tag from and to  each category, years, and the $U_max$}
-\defType{Data table with label = \TODO{Craig? Can you specify this table?}}
-\defDefault{No default}
-\defValue{}
-\defNote{See \ref{sec:DataTable} for more details on specifying data tables}
-
-\subsubsection{Process of type Tag By Length}
-\commandlabsubarg{process}{type}{Tag\_By\_Length}.
-\defRef{sec:Process-TagByLength}
-\label{syntax:Process-TagByLength}
+\subsubsection{Process of type Tagging}
+\commandlabsubarg{process}{type}{Tagging}.
+\defRef{sec:Process-Tagging}
+\label{syntax:Process-Tagging}
 
 \defSub{from}{The categories that are selected for tagging (i.e, transition from)}
 \defType{Vector of strings}
@@ -620,41 +236,6 @@ The null\_process  type has no additional subcommands. Note that this process do
 \defValue{}
 \defNote{See \ref{sec:DataTable} for more details on specifying data tables}
 
-\subsubsection{Process of type Tag Loss}
-\commandlabsubarg{process}{type}{Tag\_Loss}.
-\defRef{sec:Process-TagLoss}
-\label{syntax:Process-TagLoss}
-
-\defSub{categories}{The list of categories}
-\defType{Vector of strings}
-\defDefault{No default}
-\defValue{Valid category labels}
-
-\defSub{tag\_loss\_rate}{The tag loss rates}
-\defType{Vector of real numbers (estimable)}
-\defDefault{No default}
-\defLowerBound{0.0 (inclusive)}
-\defValue{The instantaneous rate of tag loss}
-
-\defSub{time\_step\_proportions}{The time step proportions for tag loss}
-\defType{Vector of real numbers (estimable)}
-\defDefault{true}
-\defLowerBound{0.0 (inclusive)}
-\defUpperBound{1.0 (inclusive)}
-
-\defSub{tag\_loss\_type}{The type of tag loss}
-\defType{String}
-\defDefault{single}
-\defValue{Valid options are \subcommand{single} \& \subcommand{double}}
-
-\defSub{selectivities}{The selectivities}
-\defType{Vector of strings}
-\defDefault{No default}
-
-\defSub{year}{The year the first tagging release process was executed}
-\defType{Non-negative integer}
-\defDefault{No default}
-
 \subsubsection{Process of type Transition Category}
 \commandlabsubarg{process}{type}{Transition\_Category}.
 \defRef{sec:Process-TransitionCategory}
@@ -680,49 +261,3 @@ The null\_process  type has no additional subcommands. Note that this process do
 \defType{Vector of strings}
 \defDefault{No default}
 \defValue{Valid selectivity labels}
-
-\subsubsection{Process of type Transition Category By Age}
-\commandlabsubarg{process}{type}{Transition\_Category\_By\_Age}.
-\defRef{sec:Process-TransitionCategoryByAge}
-\label{syntax:Process-TransitionCategoryByAge}
-
-\defSub{from}{The categories to transition from}
-\defType{Vector of strings}
-\defDefault{No default}
-\defValue{Valid category labels}
-
-\defSub{to}{The categories to transition to}
-\defType{Vector of strings}
-\defDefault{No default}
-\defValue{Valid category labels}
-
-\defSub{min\_age}{The minimum age to transition}
-\defType{Non-negative integer}
-\defDefault{No default}
-\defValue{Valid category labels}
-
-\defSub{max\_age}{The maximum age to transition}
-\defType{Non-negative integer}
-\defDefault{No default}
-
-\defSub{penalty}{The penalty label}
-\defType{String}
-\defDefault{No default}
-\defValue{A valid penalty label}
-
-\defSub{u\_max}{The maximum exploitation rate ($U\_{max}$)}
-\defType{Real number (estimable)}
-\defDefault{0.99}
-\defLowerBound{0.0 (inclusive)}
-\defUpperBound{1.0 (exclusive)}
-
-\defSub{years}{The years to execute the transition in}
-\defType{Vector of non-negative integers}
-\defDefault{No default}
-
-\defSub{table}{The table of data specifying the n to transition from and to each category, years, and the $U_max$}
-\defType{Data table with label = \TODO{Craig? Can you specify this table?}}
-\defDefault{No default}
-\defValue{}
-\defNote{See \ref{sec:DataTable} for more details on specifying data tables}
-
