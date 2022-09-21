@@ -149,6 +149,8 @@ Process* Factory::Create(shared_ptr<Model> model, const string& object_type, con
         result = new length::MortalityDiseaseRate(model);
       else if (sub == PARAM_TAGGING)
         result = new length::Tagging(model);
+      else if (sub == PARAM_TRANSITION_CATEGORY)
+        result = new length::TransitionCategory(model);
     }
   }
 

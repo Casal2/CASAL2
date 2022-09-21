@@ -35,7 +35,7 @@ MortalityConstantRate::MortalityConstantRate(shared_ptr<Model> model) : Process(
 
   parameters_.Bind<string>(PARAM_CATEGORIES, &category_labels_, "The list of categories labels", "");
   parameters_.Bind<Double>(PARAM_M, &m_input_, "The mortality rates", "")->set_lower_bound(0.0);
-  parameters_.Bind<Double>(PARAM_TIME_STEP_PROPORTIONS, &ratios_, "The time step proportions for the mortality rates", "", true)->set_range(0.0, 1.0);
+  parameters_.Bind<Double>(PARAM_TIME_STEP_PROPORTIONS, &ratios_, "The time step proportions for the mortality rates", "", false)->set_range(0.0, 1.0);
   parameters_.Bind<string>(PARAM_RELATIVE_M_BY_LENGTH, &selectivity_names_, "The M-by-length bin ogives to apply to each category for natural mortality", "");
 
   RegisterAsAddressable(PARAM_M, &m_);
@@ -68,11 +68,10 @@ void MortalityConstantRate::DoValidate() {
 
   if (selectivity_names_.size() != category_labels_.size()) {
     LOG_ERROR_P(PARAM_RELATIVE_M_BY_LENGTH) << ": The number of M-by-age ogives provided (" << selectivity_names_.size() << ") does not match the number of categories provided ("
-                                         << category_labels_.size() << ").";
+                                            << category_labels_.size() << ").";
   }
 
-  for (unsigned i = 0; i < m_input_.size(); ++i) 
-    m_[category_labels_[i]] = m_input_[i];
+  for (unsigned i = 0; i < m_input_.size(); ++i) m_[category_labels_[i]] = m_input_[i];
 
   // Check that the time step ratios sum to one
   Double total = 0.0;
@@ -93,7 +92,7 @@ void MortalityConstantRate::DoValidate() {
  */
 void MortalityConstantRate::DoBuild() {
   partition_.Init(category_labels_);
-  
+
   /**
    * Organise our time step ratios. Each time step can
    * apply a different ratio of M so here we want to verify
@@ -141,7 +140,7 @@ void MortalityConstantRate::DoExecute() {
   Double   amount;
   Double   total_amount = 0.0;
   for (auto category : partition_) {
-    Double m = m_[category->name_];
+    Double   m = m_[category->name_];
     unsigned j = 0;
     LOG_FINEST() << "category " << category->name_ << "; ratio: " << ratio;
     // StoreForReport(category->name_ + " ratio", ratio);

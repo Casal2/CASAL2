@@ -32,7 +32,7 @@ namespace accessor = niwa::partition::accessors;
 using utilities::OrderedMap;
 
 /**
- * Class defintiion
+ * Class definition
  */
 class TransitionCategory : public niwa::Process {
 public:
@@ -54,8 +54,8 @@ private:
   accessor::Categories       from_partition_;
   accessor::Categories       to_partition_;
   vector<Selectivity*>       selectivities_;
-  unsigned                   min_age_ = model_->min_age();
-  vector<vector<Double>>     abundance_to_move_categories_;
+  // unsigned                   min_age_ = model_->min_age();
+  vector<vector<Double>> abundance_to_move_categories_;
 };
 
 } /* namespace length */
