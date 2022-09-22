@@ -78,8 +78,7 @@ void EstimateSummary::DoExecute(shared_ptr<Model> model) {
 
   ready_for_writing_ = true;
 }
-
-void EstimateSummary::DoExecuteTabular(shared_ptr<Model> model) {
+void EstimateSummary::DoPrepareTabular(shared_ptr<Model> model) {
   LOG_INFO() << "Tabular mode for reports of type " << PARAM_ESTIMATE_SUMMARY << " has not been implemented";
 }
 

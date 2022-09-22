@@ -17,6 +17,15 @@ selectivities true
 type partition
 time_step step1
 
+@report age_length_step1
+type age_length
+age_length age_size
+time_step step1
+
+@report age_length_step2
+type age_length
+age_length age_size
+time_step step2
 
 @report estimate_value
 type estimate_value

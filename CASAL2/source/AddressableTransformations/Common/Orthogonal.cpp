@@ -72,7 +72,7 @@ void Orthogonal::DoBuild() {
 void Orthogonal::DoRestore() {
   restored_values_[0] = sqrt(product_parameter_ * quotient_parameter_);
   restored_values_[1] = sqrt(product_parameter_/ quotient_parameter_);
-  LOG_MEDIUM() << restored_values_[0] << " " << restored_values_[1];
+  LOG_FINE() << restored_values_[0] << " " << restored_values_[1];
   (this->*restore_function_)(restored_values_);
 
 }

@@ -56,7 +56,9 @@ void ADOLC::Execute() {
   LOG_INFO() << "Estimation with the " << PARAM_ADOLC << " minimiser";
 
   auto estimates = estimate_manager->GetIsEstimated();
+  LOG_MEDIUM() << "estimated parameters";
   for (auto estimate : estimates) {
+    LOG_MEDIUM() << estimate->parameter() << " value = " << estimate->value();
     lower_bounds.push_back(AS_DOUBLE(estimate->lower_bound()));
     upper_bounds.push_back(AS_DOUBLE(estimate->upper_bound()));
     start_values.push_back(estimate->value());

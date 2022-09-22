@@ -48,14 +48,13 @@ void GammaDiff::Execute() {
   vector<double> start_values;
 
   vector<Estimate*> estimates = estimate_manager->GetIsEstimated();
-  LOG_FINE() << "estimates.size(): " << estimates.size();
+  LOG_MEDIUM() << "estimates.size(): " << estimates.size();
   for (Estimate* estimate : estimates) {
     if (!estimate->estimated())
       continue;
 
-    LOG_FINE() << "Estimate: " << estimate;
-    LOG_FINE() << "transformed value: " << estimate->value();
-    LOG_FINE() << "Parameter: " << estimate->parameter();
+    LOG_MEDIUM() << "transformed value: " << estimate->value();
+    LOG_MEDIUM() << "Parameter: " << estimate->parameter();
 
     lower_bounds.push_back((double)estimate->lower_bound());
     upper_bounds.push_back((double)estimate->upper_bound());

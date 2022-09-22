@@ -72,12 +72,12 @@ void LogSum::DoBuild() {}
  * Restore objects
  */
 void LogSum::DoRestore() {
-  LOG_MEDIUM() << log_total_parameter_ << " " << total_proportion_parameter_;
+  LOG_FINE() << log_total_parameter_ << " " << total_proportion_parameter_;
 
   total_parameter_    = exp(log_total_parameter_);
   restored_values_[0] = total_parameter_ * total_proportion_parameter_;
   restored_values_[1] = total_parameter_ * (1 - total_proportion_parameter_);
-  LOG_MEDIUM() << restored_values_[0] << " " << restored_values_[1];
+  LOG_FINE() << restored_values_[0] << " " << restored_values_[1];
 
   (this->*restore_function_)(restored_values_);
 }

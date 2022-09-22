@@ -61,7 +61,7 @@ void Log::DoBuild() {
  */
 void Log::DoRestore() {
   restored_values_[0] = exp(log_value_);
-  LOG_MEDIUM() << "Setting Value to: " << restored_values_[0];
+  LOG_FINE() << "Setting Value to: " << restored_values_[0];
   (this->*restore_function_)(restored_values_);
 }
 
