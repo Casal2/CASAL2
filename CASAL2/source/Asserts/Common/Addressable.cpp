@@ -83,18 +83,24 @@ void Addressable::DoBuild() {
  * Execute/Run/Process the object.
  */
 void Addressable::Execute() {
+  std::streamsize prec = std::cout.precision();
+  std::cout.precision(12);
+
   if (model_->run_mode() == RunMode::kBasic) {
     Double expected = year_values_[model_->current_year()];
-    if (!utilities::math::IsBasicallyEqual(*addressable_, expected, tol_)) {
-      Double diff = *addressable_ - expected;
-      if (error_type_ == PARAM_ERROR) {
-        LOG_ERROR() << "Assert Failure: The Addressable " << parameter_ << " has value " << *addressable_ << ", when " << expected << " was expected. The difference was " << diff;
-      } else {
-        LOG_WARNING() << "Assert Failure: The Addressable " << parameter_ << " has value " << *addressable_ << ", when " << expected << " was expected. The difference was "
-                      << diff;
-      }
+    Double diff     = *addressable_ - expected;
+    if (error_type_ == PARAM_ERROR && !utilities::math::IsBasicallyEqual(*addressable_, expected, tol_)) {
+      LOG_ERROR() << "Assert Failure: The Addressable with label '" << label_ << "' and parameter " << parameter_ << " has value " << *addressable_ << " and " << expected
+                  << " was expected. The difference was " << diff;
+    } else if (!utilities::math::IsBasicallyEqual(*addressable_, expected, tol_)) {
+      LOG_WARNING() << "Assert Failure: The Addressable with label '" << label_ << "' and parameter " << parameter_ << " has value " << *addressable_ << " and " << expected
+                    << " was expected. The difference was " << diff;
+    } else {
+      LOG_INFO() << "Assert Passed: The Addressable with label '" << label_ << "' and parameter " << parameter_ << " has value " << *addressable_ << " and " << expected
+                 << " was expected.";
     }
   }
+  std::cout.precision(prec);
 }
 
 } /* namespace asserts */

@@ -63,29 +63,30 @@ void Partition::DoBuild() {
  * Execute/Run/Process the object.
  */
 void Partition::Execute() {
-  auto category = &model_->partition().category(category_label_);
+  std::streamsize prec = std::cout.precision();
+  std::cout.precision(12);
 
-  auto data = category->data_;
+  auto category = &model_->partition().category(category_label_);
+  auto data     = category->data_;
+
   if (data.size() != values_.size())
     LOG_FATAL_P(PARAM_VALUES) << ": number of values provided (" << values_.size() << ") does not match partition size (" << data.size() << ")";
 
   for (unsigned i = 0; i < values_.size(); ++i) {
-    if (!utilities::math::IsBasicallyEqual(values_[i], data[i], tol_)) {
-      std::streamsize prec = std::cout.precision();
-      std::cout.precision(12);
-
-      Double diff = values_[i] - data[i];
-      if (error_type_ == PARAM_ERROR) {
-        LOG_ERROR() << "Assert Failure: The Partition.Category " << category_label_ << " has value " << data[i] << ", when " << values_[i] << " was expected for element " << i + 1
-                    << ". The difference was " << diff;
-      } else {
-        LOG_WARNING() << "Assert Failure: The Partition.Category " << category_label_ << " has value " << data[i] << ", when " << values_[i] << " was expected for element "
-                      << i + 1 << ". The difference was " << diff;
-      }
-
-      std::cout.precision(prec);
+    Double diff = values_[i] - data[i];
+    if (error_type_ == PARAM_ERROR && (!utilities::math::IsBasicallyEqual(values_[i], data[i], tol_))) {
+      LOG_ERROR() << "Assert Failure: The Assert with label '" << label_ << "' and Partition.Category " << category_label_ << " has value " << data[i] << " and " << values_[i]
+                  << " was expected for element " << i + 1 << ". The difference was " << diff;
+    } else if (!utilities::math::IsBasicallyEqual(values_[i], data[i], tol_)) {
+      LOG_WARNING() << "Assert Failure: The Assert with label '" << label_ << "' and Partition.Category " << category_label_ << " has value " << data[i] << " and " << values_[i]
+                    << " was expected for element " << i + 1 << ". The difference was " << diff;
+    } else {
+      LOG_INFO() << "Assert Passed: The Assert with label '" << label_ << "' and Partition.Category " << category_label_ << " has value " << data[i] << " and " << values_[i]
+                 << " was expected for element " << i + 1 << ".";
     }
   }
+
+  std::cout.precision(prec);
 }
 
 } /* namespace asserts */

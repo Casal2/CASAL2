@@ -47,20 +47,21 @@ void ObjectiveFunction::DoBuild() {
  * Execute/Run/Process the object.
  */
 void ObjectiveFunction::Execute() {
-  niwa::ObjectiveFunction& obj = model_->objective_function();
-  if (!utilities::math::IsBasicallyEqual(AS_DOUBLE(value_), AS_DOUBLE(obj.score()), tol_)) {
-    std::streamsize prec = std::cout.precision();
-    std::cout.precision(9);
-    if (error_type_ == PARAM_ERROR) {
-      LOG_ERROR() << std::setprecision(10) << "Assert Failure: The Objective Function had value " << obj.score() << ", when " << value_ << " was expected. The difference was "
-                  << fabs(AS_DOUBLE(value_) - AS_DOUBLE(obj.score()));
-    } else {
-      LOG_WARNING() << std::setprecision(10) << "Assert Failure: The Objective Function had value " << obj.score() << ", when " << value_ << " was expected. The difference was "
-                    << fabs(AS_DOUBLE(value_) - AS_DOUBLE(obj.score()));
-    }
+  niwa::ObjectiveFunction& obj  = model_->objective_function();
+  std::streamsize          prec = std::cout.precision();
+  std::cout.precision(12);
 
-    std::cout.precision(prec);
+  if (error_type_ == PARAM_ERROR && !utilities::math::IsBasicallyEqual(AS_DOUBLE(value_), AS_DOUBLE(obj.score()), tol_)) {
+    LOG_ERROR() << "Assert Failure: The Assert with label '" << label_ << "' for the Objective Function had value " << obj.score() << " and " << value_
+                << " was expected. The difference was " << fabs(AS_DOUBLE(value_) - AS_DOUBLE(obj.score()));
+  } else if (!utilities::math::IsBasicallyEqual(AS_DOUBLE(value_), AS_DOUBLE(obj.score()), tol_)) {
+    LOG_WARNING() << "Assert Failure: The Assert with label '" << label_ << "' for the Objective Function had value " << obj.score() << " and " << value_
+                  << " was expected. The difference was " << fabs(AS_DOUBLE(value_) - AS_DOUBLE(obj.score()));
+  } else {
+    LOG_INFO() << "Assert Passed: The Assert with label '" << label_ << "' for the Objective Function had value " << obj.score() << " and " << value_ << " was expected.";
   }
+
+  std::cout.precision(prec);
 }
 
 } /* namespace asserts */
