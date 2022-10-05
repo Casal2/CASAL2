@@ -55,6 +55,11 @@ void Length::DoValidate() {
       LOG_ERROR_P(PARAM_PROJECTION_FINAL_YEAR) << "(" << projection_final_year_ << ") cannot be less than or equal to final_year (" << final_year_ << ")";
     }
   }
+  if(length_plus_) {
+    if (!parameters_.Get(PARAM_LENGTH_PLUS_GROUP)->has_been_defined())
+      LOG_ERROR_P(PARAM_LENGTH_PLUS) << "is not specified. This is required when " << PARAM_LENGTH_PLUS << " is true";
+
+  }
 
   number_of_model_length_bins_ = length_plus_ == true ? model_length_bins_.size() : model_length_bins_.size() - 1;
   LOG_FINE() << "number of length bins supplied = " << model_length_bins_.size() << " number length bins " << number_of_model_length_bins_;
