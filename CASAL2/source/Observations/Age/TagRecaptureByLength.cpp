@@ -50,7 +50,7 @@ TagRecaptureByLength::TagRecaptureByLength(shared_ptr<Model> model) : Observatio
   parameters_.Bind<string>(PARAM_TAGGED_SELECTIVITIES, &tagged_selectivity_labels_, "The labels of the tag category selectivities", "");
   // TODO:  is tolerance missing?
   parameters_.Bind<Double>(PARAM_PROCESS_ERRORS, &process_error_values_, "The process error", "", true);
-  parameters_.Bind<double>(PARAM_DETECTION_PARAMETER, &detection_, "The probability of detecting a recaptured individual", "")->set_range(0.0, 1.0);
+  parameters_.Bind<Double>(PARAM_DETECTION_PARAMETER, &detection_, "The probability of detecting a recaptured individual", "")->set_range(0.0, 1.0);
   parameters_.Bind<Double>(PARAM_DISPERSION, &despersion_, "The overdispersion parameter (phi)  ", "", Double(1.0))->set_lower_bound(0.0);
   parameters_.BindTable(PARAM_RECAPTURED, recaptures_table_, "The table of observed recaptured individuals in each length bin", "", false);
   parameters_.BindTable(PARAM_SCANNED, scanned_table_, "The table of observed scanned individuals in each length bin", "", false);
@@ -61,6 +61,8 @@ TagRecaptureByLength::TagRecaptureByLength(shared_ptr<Model> model) : Observatio
   // Don't ever make detection_ addressable or estimable. At line 427 it is multiplied to an observation which needs to remain a constant
   // if you make this estimatble we will break the auto-diff stack.
   mean_proportion_method_ = true;
+  
+  RegisterAsAddressable(PARAM_DETECTION_PARAMETER, &detection_);
 
   allowed_likelihood_types_.push_back(PARAM_BINOMIAL);
 }

@@ -48,7 +48,7 @@ protected:
   // Members
   vector<unsigned>      years_;
   string                time_step_label_ = "";
-  double                detection_;
+  Double                detection_;
   Double                despersion_ = 1.0;
   vector<Double>        process_error_values_;
   map<unsigned, Double> process_errors_by_year_;
