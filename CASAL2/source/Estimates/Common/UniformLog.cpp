@@ -28,6 +28,8 @@ UniformLog::UniformLog(shared_ptr<Model> model) : Estimate(model) {}
  * @return Score as log(param)
  */
 Double UniformLog::GetScore() {
+  if(value() <= 0.0)
+    LOG_FATAL() << "value for " << label_ << " was less than zero. The uniform log is only suitable for strictly positive parameters.";
   Double score_ = log(value());
   return score_;
 }
