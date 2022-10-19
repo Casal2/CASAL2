@@ -58,8 +58,6 @@ public:
     return removals_by_year_fishery_category_[year_ndx][fishery_ndx][category_ndx];};
 private:
   // Members
-  Double                              actual_catch_;
-
   Double                              f_;
   vector<string>                      selectivity_names_;
   accessor::Categories                partition_;

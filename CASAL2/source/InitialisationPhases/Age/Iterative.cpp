@@ -73,6 +73,7 @@ void Iterative::DoBuild() {
     string new_process    = pieces.size() == 3 ? pieces[2] : pieces[1];
 
     auto           time_step      = model_->managers()->time_step()->GetTimeStep(pieces[0]);
+    LOG_FINE() << "inserting " << new_process << " into time-step " << pieces[0] << " before the process " << target_process;
     vector<string> process_labels = time_step->initialisation_process_labels(label_);
 
     if (target_process == "") {
@@ -167,26 +168,26 @@ void Iterative::DoExecute() {
         LOG_FINE() << "year Convergence was reached = " << years;
         break;
       }
-      LOG_FINEST() << "Initial year = " << years;
+      LOG_FINE() << "Initial year = " << years;
     }
     LOG_FINE() << label_ << " ran for '" << counter_years << "' years.";
   }
 
-  LOG_FINEST() << "Number of Beverton-Holt recruitment processes in annual cycle = " << recruitment_process_.size();
-  LOG_FINEST() << "Number of Beverton-Holt recruitment processes with deviations in annual cycle = " << recruitment_process_with_devs_.size();
+  LOG_FINE() << "Number of Beverton-Holt recruitment processes in annual cycle = " << recruitment_process_.size();
+  LOG_FINE() << "Number of Beverton-Holt recruitment processes with deviations in annual cycle = " << recruitment_process_with_devs_.size() << " and partition has not been scaled";
   // We are at Equilibrium state here
   // Check if we have B0 initialised or R0 initialised recruitment
   bool B0_intial_recruitment = false;
   for (auto recruitment_process : recruitment_process_) {
     if (recruitment_process->b0_initialised() & !recruitment_process->has_partition_been_scaled()) {
-      LOG_FINEST() << PARAM_B0 << " has been defined for process labelled " << recruitment_process->label();
+      LOG_FINE() << PARAM_B0 << " has been defined for process labelled " << recruitment_process->label();
       recruitment_process->ScalePartition();
       B0_intial_recruitment = true;
     }
   }
   for (auto recruitment_process_with_devs : recruitment_process_with_devs_) {
     if (recruitment_process_with_devs->b0_initialised() & !recruitment_process_with_devs->has_partition_been_scaled()) {
-      LOG_FINEST() << PARAM_B0 << " has been defined for process labelled " << recruitment_process_with_devs->label();
+      LOG_FINE() << PARAM_B0 << " has been defined for process labelled " << recruitment_process_with_devs->label() << " and partition has not been scaled";
       recruitment_process_with_devs->ScalePartition();
       B0_intial_recruitment = true;
     }

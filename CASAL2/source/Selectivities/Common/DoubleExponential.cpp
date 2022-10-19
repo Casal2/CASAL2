@@ -26,15 +26,17 @@ DoubleExponential::DoubleExponential(shared_ptr<Model> model) : Selectivity(mode
   parameters_.Bind<Double>(PARAM_X0, &x0_, "The X0 parameter", "");
   parameters_.Bind<Double>(PARAM_X1, &x1_, "The X1 parameter", "");
   parameters_.Bind<Double>(PARAM_X2, &x2_, "The X2 parameter", "");
-  parameters_.Bind<Double>(PARAM_Y0, &y0_, "The Y0 parameter", "")->set_lower_bound(0.0);
-  parameters_.Bind<Double>(PARAM_Y1, &y1_, "The Y1 parameter", "")->set_lower_bound(0.0);
-  parameters_.Bind<Double>(PARAM_Y2, &y2_, "The Y2 parameter", "")->set_lower_bound(0.0);
+  parameters_.Bind<Double>(PARAM_Y0, &y0_, "The Y0 parameter", "")->set_lower_bound(0.0, false);
+  parameters_.Bind<Double>(PARAM_Y1, &y1_, "The Y1 parameter", "")->set_lower_bound(0.0, false);
+  parameters_.Bind<Double>(PARAM_Y2, &y2_, "The Y2 parameter", "")->set_lower_bound(0.0, false);
   parameters_.Bind<Double>(PARAM_ALPHA, &alpha_, "The maximum value of the selectivity", "", 1.0)->set_lower_bound(0.0, false);
 
   RegisterAsAddressable(PARAM_X0, &x0_);
   RegisterAsAddressable(PARAM_Y0, &y0_);
   RegisterAsAddressable(PARAM_Y1, &y1_);
   RegisterAsAddressable(PARAM_Y2, &y2_);
+  RegisterAsAddressable(PARAM_X2, &x2_);
+
   RegisterAsAddressable(PARAM_ALPHA, &alpha_);
 
   allowed_length_based_in_age_based_model_ = true;

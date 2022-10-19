@@ -225,22 +225,22 @@ void Derived::DoExecute() {
     old_plus_group = plus_group;
   }
 
-  LOG_FINEST() << "Number of Beverton-Holt recruitment processes in annual cycle = " << recruitment_process_.size();
+  LOG_FINE() << "Number of Beverton-Holt recruitment processes in annual cycle = " << recruitment_process_.size();
 
-  LOG_FINEST() << "Number of Beverton-Holt recruitment processes with deviations in annual cycle = " << recruitment_process_with_devs_.size();
+  LOG_FINE() << "Number of Beverton-Holt recruitment processes with deviations in annual cycle = " << recruitment_process_with_devs_.size();
   // We are at Equilibrium state here
   // Check if we have B0 initialised or R0 initialised recruitment
   bool B0_initial_recruitment = false;
   for (auto recruitment_process : recruitment_process_) {
     if (recruitment_process->b0_initialised() & !recruitment_process->has_partition_been_scaled()) {
-      LOG_FINEST() << PARAM_B0 << " has been defined for process labelled " << recruitment_process->label();
+      LOG_FINE() << PARAM_B0 << " has been defined for process labelled " << recruitment_process->label() << " and partition has not been scaled";
       recruitment_process->ScalePartition();
       B0_initial_recruitment = true;
     }
   }
   for (auto recruitment_process_with_devs : recruitment_process_with_devs_) {
     if (recruitment_process_with_devs->b0_initialised()& !recruitment_process_with_devs->has_partition_been_scaled()) {
-      LOG_FINEST() << PARAM_B0 << " has been defined for process labelled " << recruitment_process_with_devs->label();
+      LOG_FINE() << PARAM_B0 << " has been defined for process labelled " << recruitment_process_with_devs->label() << " and partition has not been scaled";
       recruitment_process_with_devs->ScalePartition();
       B0_initial_recruitment = true;
     }

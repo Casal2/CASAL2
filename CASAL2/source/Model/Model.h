@@ -77,10 +77,6 @@ public:
   virtual unsigned              start_year() const { return start_year_; }
   virtual unsigned              final_year() const { return final_year_; }
   unsigned                      projection_final_year() const { return projection_final_year_; }
-  Double                        b0(string derived_quantity_label) { return b0_[derived_quantity_label]; }
-  void                          set_b0(string derived_quantity_label, Double new_b0) { b0_[derived_quantity_label] = new_b0; }
-  Double                        binitial(string derived_quantity_label) { return binitial_[derived_quantity_label]; }
-  void                          set_binitial(string derived_quantity_label, Double new_binitial) { binitial_[derived_quantity_label] = new_binitial; }
   bool                          b0_initialised(string derived_quantity_label) { return b0_initialised_[derived_quantity_label]; }
   void                          set_b0_initialised(string derived_quantity_label, bool new_b0_initialised) { b0_initialised_[derived_quantity_label] = new_b0_initialised; }
   bool                          projection_final_phase() { return projection_final_phase_; }
@@ -159,8 +155,6 @@ protected:
   unsigned             max_age_                     = 0;
   string               base_weight_units_           = "";
   unsigned             number_of_model_length_bins_ = 0;
-  map<string, Double>  b0_;
-  map<string, Double>  binitial_;
   map<string, bool>    b0_initialised_;
   bool                 age_plus_ = true;
   vector<string>       initialisation_phases_;

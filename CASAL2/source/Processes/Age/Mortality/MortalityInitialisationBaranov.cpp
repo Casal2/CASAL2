@@ -68,7 +68,6 @@ void MortalityInitialisationBaranov::DoBuild() {
 
 
   // Pre allocate memory
-  actual_catch_ = 0.0;
 }
 
 /**
@@ -82,29 +81,23 @@ void MortalityInitialisationBaranov::DoReset() {
  * Execute the mortality event object
  */
 void MortalityInitialisationBaranov::DoExecute() {
-  LOG_TRACE();
+  LOG_FINE() << "execute: " << label_;
 
   if (model_->state() == State::kInitialise) {
     /**
      * Work our how much of the stock is vulnerable
      */
     unsigned i = 0;
-    Double   amount;
-    Double   total_amount = 0.0;
     for (auto category : partition_) {
       unsigned j = 0;
       LOG_FINEST() << "category " << category->name_ << "; min_age: " << category->min_age_;
       for (Double& data : category->data_) {
-        amount = data * (1 - exp(-selectivities_[i]->GetAgeResult(category->min_age_ + j, category->age_length_) * f_));
-        LOG_FINEST() << "numbers = " << data << " amount " << amount << " times = " << AS_DOUBLE((1 - exp(-selectivities_[i]->GetAgeResult(category->min_age_ + j, category->age_length_) * f_))) << " f = " << AS_DOUBLE(f_) << " selectivity = " << AS_DOUBLE(selectivities_[i]->GetAgeResult(category->min_age_ + j, category->age_length_)) ;
-
-        data -= amount;
-        total_amount += amount;
+        data *= exp(-selectivities_[i]->GetAgeResult(category->min_age_ + j, category->age_length_) * f_);
+        LOG_FINEST() << "numbers = " << data << " survivoriship = " << AS_DOUBLE(exp(-selectivities_[i]->GetAgeResult(category->min_age_ + j, category->age_length_) * f_)) << " f = " << AS_DOUBLE(f_) << " selectivity = " << AS_DOUBLE(selectivities_[i]->GetAgeResult(category->min_age_ + j, category->age_length_)) ;
         ++j;
       }
       ++i;
     }
-    actual_catch_ = total_amount;
   }
 }
 
@@ -114,8 +107,6 @@ void MortalityInitialisationBaranov::DoExecute() {
  * @param cache a cache object to print to
  */
 void MortalityInitialisationBaranov::FillReportCache(ostringstream& cache) {
-
-  cache << "actual_catch: " << actual_catch_ << REPORT_EOL;
   cache << "fishing_mortality: " << f_ << REPORT_EOL;
 }
 
@@ -128,12 +119,10 @@ void MortalityInitialisationBaranov::FillReportCache(ostringstream& cache) {
  */
 void MortalityInitialisationBaranov::FillTabularReportCache(ostringstream& cache, bool first_run) {
   if (first_run) {
-    cache << "actual_catch[" << label_ << "] ";
     cache << "fishing_mortality[" << label_ << "] ";
     cache << REPORT_EOL;
   }
 
-  cache << AS_DOUBLE(actual_catch_) << " ";
   cache << AS_DOUBLE(f_) << " ";
   cache << REPORT_EOL;
 }

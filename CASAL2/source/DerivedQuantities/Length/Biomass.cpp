@@ -83,14 +83,6 @@ void Biomass::Execute() {
       initialisation_values_[initialisation_phase].push_back(b0_value);
     }
 
-    // Store b0 or binitial on the model depending on what initialisation phase we are using
-    vector<string>       init_label = model_->initialisation_phases();
-    InitialisationPhase* Init_phase = model_->managers()->initialisation_phase()->GetInitPhase(init_label[initialisation_phase]);
-    string               type       = Init_phase->type();
-    if (type == PARAM_DERIVED || type == PARAM_ITERATIVE)
-      model_->set_b0(label_, b0_value);
-    if (type == PARAM_CINITIAL)
-      model_->set_binitial(label_, b0_value);
 
   } else {
     auto iterator = partition_.begin();
