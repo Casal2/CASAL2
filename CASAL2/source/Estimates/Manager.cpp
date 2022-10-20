@@ -206,7 +206,19 @@ unsigned Manager::GetIsEstimatedCount() {
 
   return count;
 }
-
+/**
+ * Iterate over all active estimated estimates and set the value to initial value
+ * This is used in by the profile class, to reset starting values inbetween profile iterations
+ * Craig Marsh encountered behaviour, where if one profile step would go into a funny space, the rest would
+ * do strange stuff because of the odd starting values.
+ *
+ */
+void Manager::SetEstimatedValuesToInitialValues() {
+  for (Estimate* estimate : objects_) {
+    if (estimate->estimated())
+      estimate->set_value(estimate->get_initial_value());
+  }
+}
 /**
  * Get a vector of pointers to the estimates
  *

@@ -550,10 +550,19 @@ bool Runner::RunProfiling() {
       managers->estimate()->UnFlagIsEstimated(profile->parameter());
       LOG_FINE() << "First-Stepping profile";
       profile->FirstStep();
+      // Need to reset 
       for (unsigned j = 0; j < profile->steps(); ++j) {
         LOG_FINE() << "Calling minimiser to begin the estimation (profiling)";
-        LOG_INFO() << "Profiling with parameter at step " << j + 1 << " of " << profile->steps() << " steps";
-        minimiser->ExecuteThreaded(thread_pool_);
+        LOG_INFO() << "Profiling with parameter at step " << j + 1 << " of " << profile->steps() << " steps value = " << AS_DOUBLE(profile->value());
+        unsigned phases = managers->estimate()->GetNumberOfPhases();
+        // set parameters to initial values
+        managers->estimate()->SetEstimatedValuesToInitialValues();
+        for (unsigned k = 1; k <= phases; ++k) {
+          LOG_INFO() << "Estimation_phase " << k;
+          managers->estimate()->SetActivePhase(k);
+          minimiser->ExecuteThreaded(thread_pool_);
+        }
+        //minimiser->ExecuteThreaded(thread_pool_);
         LOG_FINE() << "Finished estimation from " << j + 1 << " steps";
         master_model_->set_run_mode(RunMode::kBasic);
         master_model_->FullIteration();

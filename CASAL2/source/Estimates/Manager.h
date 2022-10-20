@@ -56,6 +56,7 @@ public:
   Estimate*         GetEstimateByLabel(const string& label);
   vector<Estimate*> GetEstimatesByLabel(const string& label);
   void              SetActivePhase(unsigned phase);
+  void              SetEstimatedValuesToInitialValues();
   unsigned          GetNumberOfPhases();
   vector<Double>    lower_bounds();
   vector<Double>    upper_bounds();
