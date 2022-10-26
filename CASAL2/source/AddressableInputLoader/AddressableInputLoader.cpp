@@ -23,7 +23,11 @@ namespace niwa {
 
 
 void AddressableInputLoader::Validate() {
-  LOG_INFO() << "Estimable parameters were loaded from the free parameter file: " << model_->global_configuration().get_free_parameter_input_file();
+  if(model_->global_configuration().get_free_parameter_input_file() != "") {
+    LOG_INFO() << "Estimable parameters were set from the free parameter file: " << model_->global_configuration().get_free_parameter_input_file();
+  } else {
+    LOG_INFO() << "Estimable parameters were set from the input configuration files";
+  }
 }
 
 /**
