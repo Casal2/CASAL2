@@ -20,7 +20,7 @@ have done the following checks before you submit a "pull request"
 
 Once these have bbeen succesfully completed, and all errors or issues 
 have been resolved, the resulting changes can be submitted to the 
-Development Team
+Development Team. 
 
 
 Developer Commandments (for contributors)
