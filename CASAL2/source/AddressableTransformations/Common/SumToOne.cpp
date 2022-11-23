@@ -12,7 +12,6 @@
 // headers
 #include "SumToOne.h"
 
-
 // namespaces
 namespace niwa {
 namespace addressabletransformations {
@@ -29,22 +28,22 @@ SumToOne::SumToOne(shared_ptr<Model> model) : AddressableTransformation(model) {
  */
 void SumToOne::DoValidate() {
   restored_values_.resize(parameter_labels_.size(), 0.0);
-  if(parameter_labels_.size() > 2) { // could be one
-    LOG_ERROR_P(PARAM_PARAMETERS) << "the " << type_ << " transformation only can transform 2 parameter at a time. You supplied " << parameter_labels_.size() << " parmaters" ;
+  if (parameter_labels_.size() > 2) {  // could be one
+    LOG_ERROR_P(PARAM_PARAMETERS) << "the " << type_ << " transformation only can transform 2 parameters at a time. You supplied " << parameter_labels_.size() << " paramaters";
   }
-    LOG_FINE() << "check values";
+  LOG_FINE() << "check values";
   difference_parameter_ = init_values_[0];
 
   restored_values_[0] = difference_parameter_;
   restored_values_[1] = 1.0 - difference_parameter_;
   // Check the transformations are correct
-  for(unsigned i = 0; i < parameter_labels_.size(); ++i) {
-    if(restored_values_[i] !=  init_values_[i])
+  for (unsigned i = 0; i < parameter_labels_.size(); ++i) {
+    if (restored_values_[i] != init_values_[i])
       LOG_CODE_ERROR() << "restored_values_[i] !=  init_values_[i]";
   }
- if(prior_applies_to_restored_parameters_)
-    LOG_FATAL_P(PARAM_PRIOR_APPLIES_TO_RESTORED_PARAMETERS) << "There is no jacobian calculated for this transformation. Statistically this may be in in-appropriate, so you are not allowed to do it";
-
+  if (prior_applies_to_restored_parameters_)
+    LOG_FATAL_P(PARAM_PRIOR_APPLIES_TO_RESTORED_PARAMETERS)
+        << "There is no Jacobian available for this transformation, hence defining priors on the untransformed parameters is not enabled";
 }
 
 /**
@@ -76,41 +75,34 @@ Double SumToOne::GetScore() {
  * PrepareForObjectiveFunction
  * if prior_applies_to_restored_parameters_
  */
-void SumToOne::PrepareForObjectiveFunction() {
-
-}
+void SumToOne::PrepareForObjectiveFunction() {}
 
 /**
  * RestoreForObjectiveFunction
  * if prior_applies_to_restored_parameters_
  */
-void SumToOne::RestoreForObjectiveFunction() {
-
-}
+void SumToOne::RestoreForObjectiveFunction() {}
 /**
  * Report stuff for this transformation
  */
 void SumToOne::FillReportCache(ostringstream& cache) {
   LOG_FINE() << "FillReportCache";
   cache << PARAM_PARAMETERS << ": ";
-  for(unsigned i = 0; i < parameter_labels_.size(); ++i)
-    cache << parameter_labels_[i] << " ";
+  for (unsigned i = 0; i < parameter_labels_.size(); ++i) cache << parameter_labels_[i] << " ";
   cache << REPORT_EOL;
   cache << "parameter_values: ";
-  for(unsigned i = 0; i < restored_values_.size(); ++i)
-    cache << restored_values_[i] << " ";
+  for (unsigned i = 0; i < restored_values_.size(); ++i) cache << restored_values_[i] << " ";
   cache << REPORT_EOL;
   cache << PARAM_PROPORTION_PARAMETER << ": " << difference_parameter_ << REPORT_EOL;
   cache << "negative_log_jacobian: " << jacobian_ << REPORT_EOL;
 }
 
-
 /**
  * Report stuff for this transformation
  */
-void SumToOne::FillTabularReportCache(ostringstream& cache, bool first_run)  {
+void SumToOne::FillTabularReportCache(ostringstream& cache, bool first_run) {
   LOG_FINEST() << "FillTabularReportCache";
-  if(first_run) {
+  if (first_run) {
     cache << PARAM_PROPORTION_PARAMETER << " " << parameter_labels_[0] << " " << parameter_labels_[1] << " negative_log_jacobian" << REPORT_EOL;
   }
   cache << difference_parameter_ << " " << restored_values_[0] << " " << restored_values_[1] << " " << jacobian_ << REPORT_EOL;

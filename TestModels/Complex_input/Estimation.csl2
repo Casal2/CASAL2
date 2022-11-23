@@ -135,7 +135,7 @@ upper_bound 9.1
 parameter selectivity[M_male].y0
 type uniform
 lower_bound 0.01
-upper_bound 0.30
+upper_bound 0.50
 
 @estimate M_male_y1
 parameter selectivity[M_male].y1
@@ -210,7 +210,7 @@ upper_bound 1 1 1 1 1 1 1 1
 @estimate sel_Wspmg_female
 parameter selectivity[sel_Wspmg_Female].v
 type uniform
-lower_bound 0 0 0 0 0 0 0 0.6
+lower_bound 0 0 0 0 0 0 0 0.2
 upper_bound 1 1 1 1 1 1 1 1
 
 # fishing selectivities
@@ -258,14 +258,14 @@ upper_bound 44
 parameter selectivity[Espsl].a50
 same selectivity[Wspsl].a50
 type uniform
-lower_bound 6 
+lower_bound 2 
 upper_bound 80
 
 @estimate Espsl_ato95
 parameter selectivity[Espsl].ato95
 same selectivity[Wspsl].ato95
 type uniform
-lower_bound 4
+lower_bound 3
 upper_bound 60
 
 ## Western spawning fishery time_varying parameter
@@ -281,7 +281,7 @@ upper_bound 2.24
 @estimate CRsl_mu
 parameter selectivity[CRsl].mu
 type uniform
-lower_bound 64 
+lower_bound 50 
 upper_bound 84
 
 @estimate CRsl_s_l
