@@ -97,6 +97,7 @@ private:
 #define LOG_VERIFY() LOG_IF_FOR_STREAM(logger::Severity::kVerify)
 // Warning messages (not an error, except during test)
 #define LOG_WARNING() LOG_IF_FOR_STREAM(logger::Severity::kWarning)
+#define LOG_WARNING_P(parameter) LOG_IF_FOR_STREAM(logger::Severity::kWarning) << this->parameters_.location(parameter)
 // Errors that do not cause an immediate stop, but are logged and reported all at once
 #define LOG_ERROR() LOG_IF_FOR_STREAM(logger::Severity::kError)
 #define LOG_ERROR_P(parameter) LOG_IF_FOR_STREAM(logger::Severity::kError) << this->parameters_.location(parameter)

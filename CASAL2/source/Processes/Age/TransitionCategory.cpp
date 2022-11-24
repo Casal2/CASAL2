@@ -160,7 +160,7 @@ void TransitionCategory::DoExecute() {
       LOG_FINEST() << "before = " << (*from_iter)->data_[offset];
       (*from_iter)->data_[offset] -= abundance_to_move_categories_[i][offset];
       (*to_iter)->data_[offset] += abundance_to_move_categories_[i][offset];
-      LOG_FINEST() << "age-ndx: " << offset << " Moving " << -abundance_to_move_categories_[i][offset] << " out of " << (*from_iter)->data_[offset] << " to "
+      LOG_FINEST() << "age-ndx: " << offset << " Moving " << abundance_to_move_categories_[i][offset] << " out of " << (*from_iter)->data_[offset] << " to "
                    << (*to_iter)->data_[offset];
       if ((*from_iter)->data_[offset] < 0.0)
         LOG_FATAL() << "TransitionCategory rate caused a negative partition if ((*from_iter)->data_[offset] < 0.0) ";
@@ -173,7 +173,7 @@ void TransitionCategory::DoExecute() {
  */
 void TransitionCategory::DoReset() {
   // reset proportions based on map
-  // Estiamting proportions_by_category_ but process report reports proportions_
+  // Estimating proportions_by_category_ but process report reports proportions_
   for (unsigned i = 0; i < to_category_names_.size(); ++i) {
     proportions_[i] = proportions_by_category_[to_category_names_[i]];
   }
