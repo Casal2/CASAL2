@@ -76,12 +76,11 @@ void AgeLength::Validate() {
   else
     LOG_ERROR() << "The age-length distribution '" << distribution_label_ << "' is not valid.";
 
-  if(compatibility_ == PARAM_CASAL) {
+  if (compatibility_ == PARAM_CASAL) {
     compatibility_type_ = CompatibilityType::kCasal;
-  } else if(compatibility_ == PARAM_CASAL2) {
+  } else if (compatibility_ == PARAM_CASAL2) {
     compatibility_type_ = CompatibilityType::kCasal2;
   }
-  
 
   DoValidate();
 }
@@ -112,7 +111,7 @@ void AgeLength::Build() {
 
   } else if (time_step_count != time_step_proportions_.size()) {
     LOG_ERROR_P(PARAM_TIME_STEP_PROPORTIONS) << "size (" << time_step_proportions_.size() << ") must match the number "
-                                             << "of defined time steps for this process (" << time_step_count << ")";
+                                             << "of defined time steps for the model (" << time_step_count << ")";
   }
 
   for (auto iter : time_step_proportions_) {
@@ -143,7 +142,7 @@ void AgeLength::Build() {
     mean_length_by_timestep_age_[time_step_ndx].resize(model_->age_spread(), 0.0);
     mean_weight_by_timestep_age_[time_step_ndx].resize(model_->age_spread(), 0.0);
   }
-  // age-lenght matrix assumes all down stream classes i.e. processes and observations have flagged BuildAgeLengthMatrixForTheseYears
+  // age-length matrix assumes all down stream classes i.e. processes and observations have flagged BuildAgeLengthMatrixForTheseYears
   LOG_FINE() << "years we need to build age-length matrix for = " << age_length_matrix_years_.size();
   if (age_length_matrix_years_.size() > 0) {
     age_length_transition_matrix_.resize(age_length_matrix_years_.size());
@@ -170,13 +169,13 @@ void AgeLength::Build() {
   // Build Age-length matrix
   PopulateAgeLengthMatrix();
   // used in get_pdf_with_sized_based_selectivity
-  quantiles_.resize(5,0);
-  inverse_values_.resize(5,0);
-  quantiles_[0]=0.1;
-  quantiles_[1]=0.3;
-  quantiles_[2]=0.5;
-  quantiles_[3]=0.7;
-  quantiles_[4]=0.9;
+  quantiles_.resize(5, 0);
+  inverse_values_.resize(5, 0);
+  quantiles_[0] = 0.1;
+  quantiles_[1] = 0.3;
+  quantiles_[2] = 0.5;
+  quantiles_[3] = 0.7;
+  quantiles_[4] = 0.9;
 }
 
 /**
@@ -195,8 +194,7 @@ void AgeLength::PopulateCV() {
         // TODO: Fix this #this test is robust but not compatible with testing framework, blah
         // If cv_last_ is not defined in the input then assume cv_first_ represents the cv for all age classes i.e constant cv
         LOG_FINEST() << "No cv_last defined";
-        for (unsigned age_ndx = 0; age_ndx < model_->age_spread(); ++age_ndx)
-          cvs_[year_ndx][step_iter][age_ndx] = (cv_first_);
+        for (unsigned age_ndx = 0; age_ndx < model_->age_spread(); ++age_ndx) cvs_[year_ndx][step_iter][age_ndx] = (cv_first_);
       } else if (by_length_) {  // if passed the first test we have a min and max CV. So ask if this is linear interpolated by length at age
         LOG_FINEST() << "cv_last defined with by_length = true";
         age = min_age_;  // needs resetting for each year and timestep
@@ -346,15 +344,13 @@ void AgeLength::PopulateAgeLengthMatrix() {
 
   LOG_FINE() << "age-length label: " << label_ << "; years: " << year_count << "; time_steps: " << time_step_count << "; length_bins: " << length_bin_count;
   LOG_FINEST() << "length_bin_count: " << length_bin_count;
-  for (unsigned i = 0; i < model_length_bins.size(); ++i)
-    length_bins[i] = model_length_bins[i];
-
+  for (unsigned i = 0; i < model_length_bins.size(); ++i) length_bins[i] = model_length_bins[i];
 
   for (unsigned year_iter = 0; year_iter < age_length_matrix_years_.size(); ++year_iter) {
     year                    = age_length_matrix_years_[year_iter];
     year_dim_in_age_length_ = age_length_matrix_year_key_[age_length_matrix_years_[year_iter]];
-    LOG_FINEST() << "year_iter " << year_iter << " year " << year << " age_length_matrix_years_[year_iter] " << age_length_matrix_years_[year_iter]
-                 << " year_dim_in_age_length_ " << year_dim_in_age_length_;
+    LOG_FINEST() << "year_iter " << year_iter << " year " << year << " age_length_matrix_years_[year_iter] " << age_length_matrix_years_[year_iter] << " year_dim_in_age_length_ "
+                 << year_dim_in_age_length_;
 
     for (unsigned time_step = 0; time_step < time_step_count; ++time_step) {
       age = min_age_;
@@ -376,11 +372,9 @@ void AgeLength::PopulateAgeLengthMatrix() {
         // LOG_FINEST() << "mu: " << mu;
         // LOG_FINEST() << "sigma: " << sigma;
 
-
-
         sum                            = 0;
         vector<Double>& prop_in_length = age_length_transition_matrix_[year_dim_in_age_length_][time_step][age_index];
-        if(distribution_ == Distribution::kNormal) {
+        if (distribution_ == Distribution::kNormal) {
           for (unsigned j = 0; j < length_bin_count; ++j) {
             LOG_FINEST() << "calculating pnorm for length " << length_bins[j];
             // If we are using CASAL's Normal CDF function use this switch
@@ -418,17 +412,16 @@ void AgeLength::PopulateAgeLengthMatrix() {
             LOG_FINEST() << "prop_in_length[length_bin_count - 1]: " << prop_in_length[length_bin_count - 1];
           }
 
-
-        } else if(distribution_ == Distribution::kLogNormal) {
+        } else if (distribution_ == Distribution::kLogNormal) {
           for (unsigned j = 0; j < length_bin_count; ++j) {
             LOG_FINEST() << "calculating plognorm for length " << length_bins[j];
             // If we are using CASAL's Normal CDF function use this switch
             if (compatibility_type_ == CompatibilityType::kCasal) {
               tmp = utilities::math::plognorm(length_bins[j], mu, sigma);
-               LOG_FINE() << "casal_lognormal_cdf: " << tmp << " utilities::math::pnorm(" << length_bins[j] << ", " << mu << ", " << sigma;
+              LOG_FINE() << "casal_lognormal_cdf: " << tmp << " utilities::math::pnorm(" << length_bins[j] << ", " << mu << ", " << sigma;
             } else if (compatibility_type_ == CompatibilityType::kCasal2) {
               tmp = utilities::math::plognorm2(length_bins[j], mu, sigma);
-               LOG_FINE() << "lognormal: " << tmp << " utilities::math::pnorm(" << length_bins[j] << ", " << mu << ", " << sigma;
+              LOG_FINE() << "lognormal: " << tmp << " utilities::math::pnorm(" << length_bins[j] << ", " << mu << ", " << sigma;
             } else {
               LOG_CODE_ERROR() << "Unknown compatibility option in the calculation of the distribution of age_length";
             }
@@ -498,10 +491,7 @@ void AgeLength::UpdateAgeLengthMatrixForThisYear(unsigned year) {
     vector<double> length_bins(model_length_bins.size(), 0.0);
     LOG_FINEST() << "length_bin_count: " << length_bin_count;
 
-
-    for (unsigned i = 0; i < model_length_bins.size(); ++i)
-      length_bins[i] = model_length_bins[i];
-    
+    for (unsigned i = 0; i < model_length_bins.size(); ++i) length_bins[i] = model_length_bins[i];
 
     year_dim_in_age_length_ = age_length_matrix_year_key_[year];
     for (unsigned time_step = 0; time_step < time_step_count; ++time_step) {
@@ -523,11 +513,9 @@ void AgeLength::UpdateAgeLengthMatrixForThisYear(unsigned year) {
         // LOG_FINEST() << "mu: " << mu;
         // LOG_FINEST() << "sigma: " << sigma;
 
-
-
         sum                            = 0;
         vector<Double>& prop_in_length = age_length_transition_matrix_[year_dim_in_age_length_][time_step][age_index];
-        if(distribution_ == Distribution::kNormal) {
+        if (distribution_ == Distribution::kNormal) {
           for (unsigned j = 0; j < length_bin_count; ++j) {
             LOG_FINEST() << "calculating pnorm for length " << length_bins[j];
             // If we are using CASAL's Normal CDF function use this switch
@@ -564,16 +552,16 @@ void AgeLength::UpdateAgeLengthMatrixForThisYear(unsigned year) {
             prop_in_length[length_bin_count - 1] = tmp - cum[length_bin_count - 1];
             LOG_FINEST() << "prop_in_length[length_bin_count - 1]: " << prop_in_length[length_bin_count - 1];
           }
-        } else if(distribution_ == Distribution::kLogNormal) {
+        } else if (distribution_ == Distribution::kLogNormal) {
           for (unsigned j = 0; j < length_bin_count; ++j) {
             LOG_FINEST() << "calculating plognorm for length " << length_bins[j];
             // If we are using CASAL's Normal CDF function use this switch
             if (compatibility_type_ == CompatibilityType::kCasal) {
               tmp = utilities::math::plognorm(length_bins[j], mu, sigma);
-               LOG_FINE() << "casal_lognormal_cdf: " << tmp << " utilities::math::pnorm(" << length_bins[j] << ", " << mu << ", " << sigma;
+              LOG_FINE() << "casal_lognormal_cdf: " << tmp << " utilities::math::pnorm(" << length_bins[j] << ", " << mu << ", " << sigma;
             } else if (compatibility_type_ == CompatibilityType::kCasal2) {
               tmp = utilities::math::plognorm2(length_bins[j], mu, sigma);
-               LOG_FINE() << "lognormal: " << tmp << " utilities::math::pnorm(" << length_bins[j] << ", " << mu << ", " << sigma;
+              LOG_FINE() << "lognormal: " << tmp << " utilities::math::pnorm(" << length_bins[j] << ", " << mu << ", " << sigma;
             } else {
               LOG_CODE_ERROR() << "Unknown compatibility option in the calculation of the distribution of age_length";
             }
@@ -731,11 +719,11 @@ void AgeLength::populate_numbers_at_length(vector<Double> numbers_at_age, vector
     unsigned i = age - min_age_;
     LOG_FINEST() << " age = " << age << " i = " << i;
     for (unsigned bin = 0; bin < size; ++bin) {
-      if (map_length_bin_ndx[bin] >= 0) { // values = -999 indicate see the function which makes this in the fucntion description
+      if (map_length_bin_ndx[bin] >= 0) {  // values = -999 indicate see the function which makes this in the fucntion description
         numbers_at_length[map_length_bin_ndx[bin]] += numbers_at_age[i] * age_length_transition_matrix_[year_dim_in_age_length_][this_time_step_][i][bin];
       }
-      LOG_FINEST() << "age_length_transition_matrix_[" << year_dim_in_age_length_ << "][" << this_time_step_ << "][" << i << "][" << bin << "] = "
-                   << age_length_transition_matrix_[year_dim_in_age_length_][this_time_step_][i][bin];
+      LOG_FINEST() << "age_length_transition_matrix_[" << year_dim_in_age_length_ << "][" << this_time_step_ << "][" << i << "][" << bin
+                   << "] = " << age_length_transition_matrix_[year_dim_in_age_length_][this_time_step_][i][bin];
       LOG_FINEST() << "age " << age << " map_length_bin_ndx[" << bin << "] " << map_length_bin_ndx[bin] << " numbers_at_age[i] " << numbers_at_age[i]
                    << " numbers_at_length[map_length_bin_ndx[bin]] " << numbers_at_length[map_length_bin_ndx[bin]];
     }
@@ -750,8 +738,8 @@ void AgeLength::populate_numbers_at_length(vector<Double> numbers_at_age, vector
  * @param numbers_at_age_with_exploitation vector of numbers at age to store values in
  * @param exploitation_by_length exploitation value by length
  * @param model_length_bin_ndx an index for the length bin.
- * @param selectivity Selectivity pointer  
-*/
+ * @param selectivity Selectivity pointer
+ */
 void AgeLength::populate_numbers_at_age_with_length_based_exploitation(vector<Double>& numbers_at_age, vector<Double>& numbers_at_age_with_exploitation,
                                                                        Double& exploitation_by_length, unsigned model_length_bin_ndx, Selectivity* selectivity) {
   LOG_FINEST() << "populate_numbers_at_age_with_length_based_exploitation";
@@ -796,8 +784,8 @@ void AgeLength::populate_numbers_at_age_with_length_based_exploitation(vector<Do
   for (unsigned age = min_age_; age <= max_age_; ++age) {
     unsigned i = age - min_age_;
     // LOG_FINEST() << " age = " << age << " i = " << i;
-    numbers_at_age_with_exploitation[i] += numbers_at_age[i] * age_length_transition_matrix_[year_dim_in_age_length_][this_time_step_][i][model_length_bin_ndx]
-                                           * exploitation_by_length;
+    numbers_at_age_with_exploitation[i]
+        += numbers_at_age[i] * age_length_transition_matrix_[year_dim_in_age_length_][this_time_step_][i][model_length_bin_ndx] * exploitation_by_length;
   }
 }
 /**
@@ -868,12 +856,12 @@ Double AgeLength::get_pdf(unsigned age, Double length, unsigned year, unsigned t
   Double mu    = calculate_mean_length(year, time_step, age);
   Double cv    = cvs_[year - year_offset_][time_step - time_step_offset_][age - age_offset_];
   Double sigma = cv * mu;
-  //LOG_FINE() << "year: " << year << "; time_step " << time_step << "; age: " << age << "; mu: " << mu << "; cv: " << cv << "; sigma: " << sigma;
+  // LOG_FINE() << "year: " << year << "; time_step " << time_step << "; age: " << age << "; mu: " << mu << "; cv: " << cv << "; sigma: " << sigma;
   if (distribution_ == Distribution::kLogNormal) {
     // Transform parameters in to log space
-    Double Lvar  = log(cv * cv + 1.0);
-    mu    = log(mu) - Lvar / 2.0;
-    sigma = sqrt(Lvar);
+    Double Lvar = log(cv * cv + 1.0);
+    mu          = log(mu) - Lvar / 2.0;
+    sigma       = sqrt(Lvar);
     return utilities::math::dlognorm(length, mu, sigma);
   } else {
     return utilities::math::dnorm(length, mu, sigma);
@@ -895,19 +883,21 @@ Double AgeLength::get_pdf(unsigned age, Double length, unsigned year, unsigned t
  */
 Double AgeLength::get_pdf_with_sized_based_selectivity(unsigned age, Double length, unsigned year, unsigned time_step, Selectivity* selectivity) {
   Double numerator = get_pdf(age, length, year, time_step) * selectivity->GetResult(length);
-  if (numerator == 0) return 0;
+  if (numerator == 0)
+    return 0;
   Double denominator = 0.0;
   // clear this inverse_values_ container
   fill(inverse_values_.begin(), inverse_values_.end(), 0.0);
   //
   get_cdf_inverse(age, year, time_step, inverse_values_);
   // now evaluate the selectivity over these integration points
-  for(unsigned i = 0; i < inverse_values_.size(); ++i) {
+  for (unsigned i = 0; i < inverse_values_.size(); ++i) {
     denominator += selectivity->GetResult(inverse_values_[i]);
   }
   // the integral is over
   LOG_FINE() << "numerator = " << numerator << " denominator " << denominator;
-  if (denominator == 0) return 0;
+  if (denominator == 0)
+    return 0;
   return numerator / (denominator * 0.2);
 }
 
@@ -925,17 +915,17 @@ void AgeLength::get_cdf_inverse(unsigned age, unsigned year, unsigned time_step,
   Double mu    = calculate_mean_length(year, time_step, age);
   Double cv    = cvs_[year - year_offset_][time_step - time_step_offset_][age - age_offset_];
   Double sigma = cv * mu;
-  if(inverse_result.size() != quantiles_.size())
+  if (inverse_result.size() != quantiles_.size())
     LOG_CODE_ERROR() << "inverse_result.size() != quantiles_.size()";
-  for(unsigned i = 0; i < inverse_result.size(); ++i) {
+  for (unsigned i = 0; i < inverse_result.size(); ++i) {
     if (distribution_ == Distribution::kLogNormal) {
       // Transform parameters in to log space
-      Double Lvar  = log(cv * cv + 1.0);
-      mu    = log(mu) - Lvar / 2.0;
-      sigma = sqrt(Lvar);
-      inverse_result[i] =  utilities::math::qlognorm(quantiles_[i],mu,sigma);
+      Double Lvar       = log(cv * cv + 1.0);
+      mu                = log(mu) - Lvar / 2.0;
+      sigma             = sqrt(Lvar);
+      inverse_result[i] = utilities::math::qlognorm(quantiles_[i], mu, sigma);
     } else {
-      inverse_result[i] =  utilities::math::qnorm(quantiles_[i],mu,sigma);
+      inverse_result[i] = utilities::math::qnorm(quantiles_[i], mu, sigma);
     }
   }
 }
@@ -953,18 +943,15 @@ void AgeLength::FillReportCache(ostringstream& cache) {
   LOG_FINE() << "FillReportCache time step = " << this_time_step << " year = " << year;
 
   cache << "cvs_by_age: ";
-  for (unsigned age = min_age; age <= max_age; ++age)
-    cache << cvs_[year - year_offset_][this_time_step - time_step_offset_][age - age_offset_] << " ";
+  for (unsigned age = min_age; age <= max_age; ++age) cache << cvs_[year - year_offset_][this_time_step - time_step_offset_][age - age_offset_] << " ";
   cache << REPORT_EOL;
 
   cache << "mean_length_at_age: ";
-  for (unsigned age = min_age; age <= max_age; ++age)
-    cache << mean_length_by_timestep_age_[this_time_step - time_step_offset_][age - age_offset_] << " ";
+  for (unsigned age = min_age; age <= max_age; ++age) cache << mean_length_by_timestep_age_[this_time_step - time_step_offset_][age - age_offset_] << " ";
   cache << REPORT_EOL;
   cache << "mean_weight_at_age: ";
 
-  for (unsigned age = min_age; age <= max_age; ++age)
-    cache << mean_weight_by_timestep_age_[this_time_step - time_step_offset_][age - age_offset_] << " ";
+  for (unsigned age = min_age; age <= max_age; ++age) cache << mean_weight_by_timestep_age_[this_time_step - time_step_offset_][age - age_offset_] << " ";
   cache << REPORT_EOL;
 
   if (std::find(age_length_matrix_years_.begin(), age_length_matrix_years_.end(), year) != age_length_matrix_years_.end()) {
@@ -990,7 +977,5 @@ void AgeLength::FillReportCache(ostringstream& cache) {
     }
   }
 }
-
-
 
 } /* namespace niwa */

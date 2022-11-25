@@ -10,6 +10,7 @@
 
 // headers
 #include "Manager.h"
+
 #include "Verification/Verification.h"
 
 // namespaces
@@ -28,25 +29,23 @@ Manager::Manager() {}
  * @return A pointer to the profile or empty pointer
  */
 Profile* Manager::GetProfile() {
-  if(objects_.size() > 1)
-    LOG_CODE_ERROR() << "if(objects_.size() > 1), Found more than 1 @profile object in the system. This should not be allowed.";
-  if(objects_.size() > 0) {
+  if (objects_.size() > 1)
+    LOG_CODE_ERROR() << "Found " << objects_.size() << " @profile blocks. Casal2 can only be run with one profile block.";
+  if (objects_.size() > 0) {
     return objects_[0];
   }
   return nullptr;
 }
 
 /**
- * @brief Verify our profiles 
+ * @brief Verify our profiles
  *
  * @param model
  */
 void Manager::Verify(shared_ptr<Model> model) {
   LOG_FINE() << "Verify profile";
   verification::DoVerification(model);
-  for (auto profile : objects_) 
-    profile->Verify(model);
-
+  for (auto profile : objects_) profile->Verify(model);
 }
 } /* namespace profiles */
 } /* namespace niwa */
