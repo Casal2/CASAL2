@@ -88,7 +88,7 @@ void Simplex::DoBuild() {
     LOG_FINE() << "looking for " << estimate_label;
     simplex_estimate_ = model_->managers()->estimate()->GetEstimate(estimate_label);
     if (!simplex_estimate_) {
-      LOG_WARNING() << "Could not find @estimate block for " << estimate_label << ". You cannot have a transformation and not estimate the transformed parameter";
+      LOG_WARNING() << "Could not find @estimate block for " << estimate_label << ". You cannot have a transformation and then not estimate the transformed parameter";
       continue;
     } else {
       // if last value and prior applies to restored value
@@ -141,8 +141,8 @@ void Simplex::DoBuild() {
       }
     } else {
       if (fabs(total_ - n_param_double_) > 0.0001) {
-        LOG_WARNING() << "Values in your vector supplied should sum = " << n_param_double_ << " but sum = " << total_
-                      << ", values returned will be rescaled to sum = " << n_param_double_;
+        LOG_WARNING_P(PARAM_PARAMETERS) << "Values in your vector supplied should have sum = " << n_param_double_ << " but the sum was = " << total_
+                                        << ", values returned will be rescaled to have sum = " << n_param_double_;
         for (unsigned i = 0; i < init_values_.size(); ++i) {
           unit_vector_[i] = init_values_[i] / total_;
           LOG_FINE() << unit_vector_[i];

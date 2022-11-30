@@ -121,7 +121,7 @@ void Data::DoBuild() {
     unsigned year = utilities::ToInline<string, unsigned>(row[0]);
     // Check year is valid
     if (find(model_->years().begin(), model_->years().end(), year) == model_->years().end())
-      LOG_WARNING() << "year " << year << " is not in the model run years, so this age length will not be used";
+      LOG_WARNING_P(PARAM_DATA) << "year " << year << " is not in the model run years, so this age length will not be used";
 
     for (unsigned i = 1; i < row.size(); ++i) {
       data_by_year_[year].push_back(utilities::ToInline<string, Double>(row[i]));
@@ -130,7 +130,7 @@ void Data::DoBuild() {
   }
 
   /*
-   * Build our average map for use in initialisation and simulation phases and projections (I am guessing, I havent' tested projections yet)
+   * Build our average map for use in initialisation and simulation phases and projections (I am guessing, I haven't' tested projections yet)
    */
   for (unsigned i = 0; i < model_->age_spread(); ++i) {
     data_by_age_time_step_[step_index_data_supplied_][model_->min_age() + i] = total_length[i] / number_of_years;

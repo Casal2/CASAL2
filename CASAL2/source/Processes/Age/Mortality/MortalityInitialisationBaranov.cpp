@@ -43,7 +43,6 @@ MortalityInitialisationBaranov::MortalityInitialisationBaranov(shared_ptr<Model>
  * 2. Assign any remaining variables
  */
 void MortalityInitialisationBaranov::DoValidate() {
-
   // Validate that the number of selectivities is the same as the number of categories
   if (category_labels_.size() != selectivity_names_.size()) {
     LOG_ERROR_P(PARAM_SELECTIVITIES) << " The number of selectivities provided (" << selectivity_names_.size() << ") does not match the number of categories provided ("
@@ -66,16 +65,13 @@ void MortalityInitialisationBaranov::DoBuild() {
     selectivities_.push_back(selectivity);
   }
 
-
   // Pre allocate memory
 }
 
 /**
  * Reset the runtime relationships
  */
-void MortalityInitialisationBaranov::DoReset() {
-
-}
+void MortalityInitialisationBaranov::DoReset() {}
 
 /**
  * Execute the mortality event object
@@ -93,7 +89,8 @@ void MortalityInitialisationBaranov::DoExecute() {
       LOG_FINEST() << "category " << category->name_ << "; min_age: " << category->min_age_;
       for (Double& data : category->data_) {
         data *= exp(-selectivities_[i]->GetAgeResult(category->min_age_ + j, category->age_length_) * f_);
-        LOG_FINEST() << "numbers = " << data << " survivoriship = " << AS_DOUBLE(exp(-selectivities_[i]->GetAgeResult(category->min_age_ + j, category->age_length_) * f_)) << " f = " << AS_DOUBLE(f_) << " selectivity = " << AS_DOUBLE(selectivities_[i]->GetAgeResult(category->min_age_ + j, category->age_length_)) ;
+        LOG_FINEST() << "numbers = " << data << " survivoriship = " << AS_DOUBLE(exp(-selectivities_[i]->GetAgeResult(category->min_age_ + j, category->age_length_) * f_))
+                     << " f = " << AS_DOUBLE(f_) << " selectivity = " << AS_DOUBLE(selectivities_[i]->GetAgeResult(category->min_age_ + j, category->age_length_));
         ++j;
       }
       ++i;
