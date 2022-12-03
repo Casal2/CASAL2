@@ -999,7 +999,7 @@ equation if(process[Recruitment].r0 > 23, 44,
 else R0 must be less than 10 return 66
 \end{verbatim}}}
 
-Only single values can be referenced, so an equation cannot be applied to a vector, e.g., \subcommand{process[Recruit].ycs\_values\{1974:1980\}} cannot be referenced. More information on which parameters can be included in the equation parser is available (Section~\ref{sec:syntax}). Any subcommand that has a \texttt{type estimable} could be referenced with the equation parser.
+Only single values can be referenced, so an equation cannot be applied to a vector, e.g., \subcommand{process[Recruit].recruitment\_multipliers\{1974:1980\}} cannot be referenced. More information on which parameters can be included in the equation parser is available (Section~\ref{sec:syntax}). Any subcommand that has a \texttt{type estimable} could be referenced with the equation parser.
 
 \textbf{Note:} the equation parser will not catch all user configuration errors, such as checking whether a parameter that exists in the system has been populated when it is required.
 
@@ -1011,7 +1011,7 @@ For example, the wrong year could be misspecified in the case of removals in yea
 		equation derived_quantity[percent_b0].values{2020}
 \end{verbatim}}}
 
-This example is a valid equation but it will have nonsensical results, since a value for 2020 is to be calculated using values for 2015. Although the equation parser adds flexibility, it is easy to misspecify equations.
+This example is a valid equation but it will have nonsensical results, since a value for 2020 is to be calculated using values for 2015. Although the equation parser adds flexibility, it is easy to incorrectly specify equations.
 
 \subsection{\I{Specifying projections}}\label{sec:Project} \STATUS{Untested}
 
@@ -1042,7 +1042,7 @@ The subcommands \subcommand{years} and \subcommand{parameter} are common to all 
 	\item user-defined
 \end{itemize}
 
-\CNAME\ has no default projection properties for parameters that are specified by year, e.g., recruitment multiplier parameters, time-varying parameters, and as a special case, future catches. For these, projections  must have a \command{project} command block. For example, \CNAME\ will produce errors if run in projection mode without a \command{project} block for the \subcommand{ycs\_values} parameter being specified.
+\CNAME\ has no default projection properties for parameters that are specified by year, e.g., recruitment multiplier parameters, time-varying parameters, and as a special case, future catches. For these, projections  must have a \command{project} command block. For example, \CNAME\ will produce errors if run in projection mode without a \command{project} block for the \subcommand{recruitment\_multipliers} parameter being specified.
 
 DEPRECATED: \textbf{Note for the year class parameters:} the definition of year applies to the \argument{ycs\_years}, not the model years. As defined in Section~
 \ifAgeBased
@@ -1057,7 +1057,7 @@ Future catches are also specified in a \command{project} block, one for each fis
 
 For a process called \textit{Fishing} that has three fisheries defined, it would be \textit{process[Fishing].method\_pot} to specify the fishery labelled \textit{pot}.
 
-The \CNAME\ command to run the model in projection mode is \texttt{Casal2 -f 1}. \TODO{review; NOT IN MANUAL OR ELSEWHERE]} This functionality allows for the exploration of many scenarios with a single set of parameters. The number of projections should be greater than 1 only if applying a projection type that is stochastic.
+The \CNAME\ command to run the model in projection mode is \texttt{Casal2 -f 1}. This functionality allows for the exploration of many scenarios with a single set of parameters. The number of projections should be greater than 1 only if applying a projection type that is stochastic.
 
 The \texttt{-{}-tabular} flag should be used when running projections after a Bayesian analysis. This option will output a tabular report (see Section~\ref{sec:Tabular}) which can then be analysed in \R.
 
@@ -1081,9 +1081,9 @@ A parameter can either be fixed during all projection years or specified individ
 {\small{\begin{verbatim}
 		@project Future_ycs
 		type      constant
-		parameter process[Recruitment].ycs_values
+		parameter process[Recruitment].recruitment_multipliers
 		years     2012:2016
-		values    1 2 1 2 0.5  #"values 3" means all years use 3
+		values    1 2 1 2 0.5  # "values 3" means all years use 3
 		multiplier 1
 		\end{verbatim}}}
 
@@ -1094,7 +1094,7 @@ Parameters that have time components associated with them can be sampled uniform
 {\small{\begin{verbatim}
 		@project   Future_ycs
 		type       empirical_sampling
-		parameter  process[Recruitment].ycs_values
+		parameter  process[Recruitment].recruitment_multipliers
 		years     2012:2016
 		start_year 1988     # re-sample from estimated values
 		final_year 2008     # from 1988 to 2008 inclusive
@@ -1116,21 +1116,21 @@ An example of applying this process to draw future year class parameters from a 
 {\small{\begin{verbatim}
 		@project Future_ycs
 		type     lognormal
-		parameter process[Recruitment].ycs_values
+		parameter process[Recruitment].recruitment_multipliers
 		years     2012:2016
-		mean      0     #mean 1 on un-transformed scale
+		mean      0     # mean 1 on un-transformed scale
 		sigma     0.8   # log scale
 		multiplier 1
 		\end{verbatim}}}
 
 \paragraph[Lognormal-Empirical]{Sampling from a lognormal distribution where the  variance is estimated from values over a specified year range, type  \argument{lognormal\_empirical} }\index{Projections!Lognormal-Empirical}\label{sec:Project-LogNormalEmpirical} \STATUS{Untested}
 
-This method applies a lognormal draw as in the \argument{LogNormal} method above and specifies a year range from which the standard deviation of the distribution is calculated. Then equation~\eqref{eq:lognormal} is used to generate future values with a specified $\mu$ and empirically calculated $\sigma$,
+This method applies a lognormal draw as in the \argument{Lognormal} method above and specifies a year range from which the standard deviation of the distribution is calculated. Then equation~\eqref{eq:lognormal} is used to generate future values with a specified $\mu$ and empirically calculated $\sigma$,
 
 {\small{\begin{verbatim}
 		@project Future_ycs
 		type      lognormal_empirical
-		parameter process[Recruitment].ycs_values
+		parameter process[Recruitment].recruitment_multipliers
 		years     2012:2016
 		mean      0
 		start_year 1988   # range of years to take the

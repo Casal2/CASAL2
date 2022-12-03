@@ -562,6 +562,7 @@ The available parameter transformations are,
 	\item Logistic (Univariate transformation) Section~\ref{subsec:Transformation-types} - \ref{sec:Transformation-Logistic}
 	\item Sum to one (Bivariate transformation) Section~\ref{subsec:Transformation-types} - \ref{sec:Transformation-SumToOne}
 	\item Simplex (Multivariate transformation) Section~\ref{subsec:Transformation-types} - \ref{sec:Transformation-Simplex}	
+	\item Square root (Univariate transformation) Section~\ref{subsec:Transformation-types} - \ref{sec:Transformation-Sqrt}	
 \end{enumerate}
 
 To see the parameters that can be used in \command{estimate} block for each estimable transformation see the \subcommand{estimable parameter} description in Section~\ref{subsec:Transformation-types}.
@@ -803,6 +804,29 @@ The jacobian for the density is evaluated as follows,
 		upper_bound 10
 
 		\end{verbatim}}}	
+	\item \subcommand{type} \subcommand{sqrt} : square root transformation\\
+	\subcommand{jacobian known = true}\\
+	\subcommand{estimable parameter = sqrt\_parameter}\\
+	$Y = sqrt(X)$\\
+	$f() = sqrt()$\\
+	$f^{-1}(x) = x * x$
+	\[
+	log \begin{vmatrix} \frac{\partial}{\partial y}  (y^2) \end{vmatrix} = sqrt \begin{vmatrix}  (y^2) \end{vmatrix} = sqrt(x)
+	\]
+	\label{sec:Transformation-Log}
+	{\small{\begin{verbatim}
+				@parameter_transformation sqrt_R0
+				type sqrt
+				parameters process[Recruitment].r0
+				
+				@estimate sqrt_R0
+				type uniform
+				parameter parameter_transformation[sqrt_r0].sqrt_parameter
+				lower_bound 1
+				upper_bound 25
+	\end{verbatim}}}
+	
+	
 \end{enumerate}
 
 
