@@ -88,22 +88,36 @@ void ProcessRemovalsByAgeRetained::DoValidate() {
    */
   if (min_age_ < model_->min_age())
     LOG_ERROR_P(PARAM_MIN_AGE) << ": min_age (" << min_age_ << ") is less than the model's min_age (" << model_->min_age() << ")";
+
   if (max_age_ > model_->max_age())
     LOG_ERROR_P(PARAM_MAX_AGE) << ": max_age (" << max_age_ << ") is greater than the model's max_age (" << model_->max_age() << ")";
-  if (process_error_values_.size() != 0 && process_error_values_.size() != years_.size()) {
-    LOG_ERROR_P(PARAM_PROCESS_ERRORS) << " number of values provided (" << process_error_values_.size() << ") does not match the number of years provided (" << years_.size()
-                                      << ")";
-  }
+
   for (auto year : years_) {
     if ((year < model_->start_year()) || (year > model_->final_year()))
       LOG_ERROR_P(PARAM_YEARS) << "Years cannot be less than start_year (" << model_->start_year() << "), or greater than final_year (" << model_->final_year() << ").";
   }
+
   for (Double process_error : process_error_values_) {
     if (process_error < 0.0)
       LOG_ERROR_P(PARAM_PROCESS_ERRORS) << ": process_error (" << AS_DOUBLE(process_error) << ") cannot be less than 0.0";
   }
-  if (process_error_values_.size() != 0)
+
+  // if only one value supplied then assume its the same for all years
+  if (process_error_values_.size() == 1) {
+    process_error_values_.resize(years_.size(), process_error_values_[0]);
+  }
+
+  if (process_error_values_.size() != 0) {
+    if (process_error_values_.size() != years_.size()) {
+      LOG_FATAL_P(PARAM_PROCESS_ERRORS) << "Supply a process error for each year. Values for " << process_error_values_.size() << " years were provided, but " << years_.size()
+                                        << " years are required";
+    }
     process_errors_by_year_ = utilities::Map::create(years_, process_error_values_);
+  } else {
+    Double process_val      = 0.0;
+    process_errors_by_year_ = utilities::Map::create(years_, process_val);
+  }
+
   if (delta_ < 0.0)
     LOG_ERROR_P(PARAM_DELTA) << ": delta (" << delta_ << ") cannot be less than 0.0";
 

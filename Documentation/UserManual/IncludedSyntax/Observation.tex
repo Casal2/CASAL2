@@ -169,9 +169,10 @@ end_table
 \defType{Vector of non-negative integers}
 \defDefault{No default}
 
-\defSub{process\_errors}{The label of process error to use}
-\defType{Vector of real numbers (estimable)}
-\defDefault{true}
+\defSub{process\_errors}{The process errors to use}
+\defType{Vector of real numbers (estimable) of length equal to the number of years}
+\defDefault{0.0}
+\defNote{If only one value is supplied, it will be repeated for all years in the observation}
 
 \defSub{ageing\_error}{The label of the ageing error to use}
 \defType{String}
@@ -243,9 +244,10 @@ end_table
 \defType{Vector of non-negative integers}
 \defDefault{No default}
 
-\defSub{process\_errors}{The label of the process error to use}
-\defType{Vector of real numbers (estimable)}
-\defDefault{true}
+\defSub{process\_errors}{The process errors to use}
+\defType{Vector of real numbers (estimable) of length equal to the number of years}
+\defDefault{0.0}
+\defNote{If only one value is supplied, it will be repeated for all years in the observation}
 
 \defSub{ageing\_error}{The label of the ageing error to use}
 \defType{String}
@@ -304,7 +306,6 @@ end_table
 \defType{Vector of strings}
 \defDefault{No default}
 
-
 \defSub{sum\_to\_one}{Scale the year (row) observed values by the total, so they sum to 1}
 \defType{Boolean}
 \defDefault{false}
@@ -313,14 +314,14 @@ end_table
 \defType{Boolean}
 \defDefault{true}
 
-
 \defSub{years}{The years for which there are observations}
 \defType{Vector of non-negative integers}
 \defDefault{No default}
 
-\defSub{process\_errors}{The label of the process error to use}
-\defType{Vector of real numbers (estimable)}
-\defDefault{true}
+\defSub{process\_errors}{The process errors to use}
+\defType{Vector of real numbers (estimable) of length equal to the number of years}
+\defDefault{0.0}
+\defNote{If only one value is supplied, it will be repeated for all years in the observation}
 
 \defSub{ageing\_error}{The label of the ageing error to use}
 \defType{String}
@@ -370,9 +371,10 @@ end_table
 \defType{Vector of non-negative integers}
 \defDefault{No default}
 
-\defSub{process\_errors}{The process error}
-\defType{Vector of real numbers (estimable)}
-\defDefault{true}
+\defSub{process\_errors}{The process errors to use}
+\defType{Vector of real numbers (estimable) of length equal to the number of years}
+\defDefault{0.0}
+\defNote{If only one value is supplied, it will be repeated for all years in the observation}
 
 \defSub{method\_of\_removal}{The label of observed method of removals}
 \defType{String}
@@ -381,7 +383,6 @@ end_table
 \defSub{length\_bins}{The length bins}
 \defType{Vector of real numbers (estimable)}
 \defDefault{No default}
-
 
 \defSub{sum\_to\_one}{Scale the year (row) observed values by the total, so they sum to 1}
 \defType{Boolean}
@@ -399,7 +400,6 @@ end_table
 \defType{String}
 \defDefault{No default}
 \defNote{Allowed mortality process types are \subcommand{mortality\_instantaneous} and \subcommand{mortality\_hybrid}}
-
 
 \defSub{table obs}{The table of data specifying the observed values}
 \defType{Data table with label = obs}
@@ -436,9 +436,10 @@ end_table
 \defType{Vector of non-negative integers}
 \defDefault{No default}
 
-\defSub{process\_errors}{The process error}
-\defType{Vector of real numbers (estimable)}
-\defDefault{true}
+\defSub{process\_errors}{The process errors to use}
+\defType{Vector of real numbers (estimable) of length equal to the number of years}
+\defDefault{0.0}
+\defNote{If only one value is supplied, it will be repeated for all years in the observation}
 
 \defSub{method\_of\_removal}{The label of observed method of removals}
 \defType{String}
@@ -501,9 +502,10 @@ end_table
 \defType{Vector of non-negative integers}
 \defDefault{No default}
 
-\defSub{process\_errors}{The process error}
-\defType{Vector of real numbers (estimable)}
-\defDefault{true}
+\defSub{process\_errors}{The process errors to use}
+\defType{Vector of real numbers (estimable) of length equal to the number of years}
+\defDefault{0.0}
+\defNote{If only one value is supplied, it will be repeated for all years in the observation}
 
 \defSub{method\_of\_removal}{The label of observed method of removals}
 \defType{String}
@@ -516,7 +518,6 @@ end_table
 \defSub{plus\_group}{Is the last length bin a plus group? (defaults to @model value)}
 \defType{Boolean}
 \defDefault{model}
-
 
 \defSub{sum\_to\_one}{Scale the year (row) observed values by the total, so they sum to 1}
 \defType{Boolean}
@@ -576,9 +577,10 @@ end_table
 \defType{Vector of non-negative integers}
 \defDefault{No default}
 
-\defSub{process\_errors}{The process error}
-\defType{Vector of real numbers (estimable)}
-\defDefault{true}
+\defSub{process\_errors}{The process errors to use}
+\defType{Vector of real numbers (estimable) of length equal to the number of years}
+\defDefault{0.0}
+\defNote{If only one value is supplied, it will be repeated for all years in the observation}
 
 \defSub{length\_weight\_cv}{The CV for the length-weight relationship}
 \defType{Real number (estimable)}
@@ -631,7 +633,6 @@ end_table
 \defType{String}
 \defDefault{No default}
 
-
 \defSub{years}{The years of the observed values}
 \defType{Vector of non-negative integers}
 \defDefault{No default}
@@ -640,9 +641,10 @@ end_table
 \defType{Vector of strings}
 \defDefault{true}
 
-\defSub{process\_errors}{The process error}
-\defType{Vector of real numbers (estimable)}
-\defDefault{true}
+\defSub{process\_errors}{The process errors to use}
+\defType{Vector of real numbers (estimable) of length equal to the number of years}
+\defDefault{0.0}
+\defNote{If only one value is supplied, it will be repeated for all years in the observation}
 
 \defSub{ageing\_error}{The label of ageing error to use}
 \defType{String}
@@ -655,7 +657,6 @@ end_table
 \defSub{simulated\_data\_sum\_to\_one}{Whether simulated data is discrete or scaled by totals to be proportions for each year}
 \defType{Boolean}
 \defDefault{true}
-
 
 \defSub{table obs}{The table of data specifying the observed values}
 \defType{Data table with label = obs}
@@ -697,9 +698,10 @@ end_table
 \defType{Vector of strings}
 \defDefault{true}
 
-\defSub{process\_errors}{The process error}
-\defType{Vector of real numbers (estimable)}
-\defDefault{true}
+\defSub{process\_errors}{The process errors to use}
+\defType{Vector of real numbers (estimable) of length equal to the number of years}
+\defDefault{0.0}
+\defNote{If only one value is supplied, it will be repeated for all years in the observation}
 
 \defSub{length\_bins}{The length bins}
 \defType{Vector of real numbers (estimable)}
@@ -841,9 +843,10 @@ end_table
 \defType{Vector of non-negative integers}
 \defDefault{No default}
 
-\defSub{process\_errors}{The process error}
-\defType{Vector of real numbers (estimable)}
-\defDefault{true}
+\defSub{process\_errors}{The process errors to use}
+\defType{Vector of real numbers (estimable) of length equal to the number of years}
+\defDefault{0.0}
+\defNote{If only one value is supplied, it will be repeated for all years in the observation}
 
 \defSub{ageing\_error}{The label of the ageing error to use}
 \defType{String}
@@ -914,7 +917,6 @@ table recaptured
 end_table
 \end{verbatim}
 
-
 \defSub{table scanned}{The table of data specifying the scanned fish}
 \defType{Data table with label = scanned}
 \defDefault{No default}
@@ -969,7 +971,6 @@ end_table
 \defLowerBound{0.0 (inclusive)}
 \defUpperBound{1.0 (inclusive)}
 
-
 \defSub{table recaptured}{The table of data specifying the recaptures}
 \defType{Data table with label = recaptured}
 \defDefault{No default}
@@ -982,7 +983,6 @@ table recaptured
 end_table
 \end{verbatim}
 
-
 \defSub{table scanned}{The table of data specifying the scanned fish}
 \defType{Data table with label = scanned}
 \defDefault{No default}
@@ -994,8 +994,6 @@ table scanned
 1994 3 4 43
 end_table
 \end{verbatim}
-
-
 
 \subsubsection{Observation of type Age Length}
 \commandlabsubarg{observation}{type}{age\_length}.

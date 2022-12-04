@@ -49,7 +49,8 @@ ProcessRemovalsByWeight::ProcessRemovalsByWeight(shared_ptr<Model> model) : Obse
       ->set_allowed_values({PARAM_NORMAL, PARAM_LOGNORMAL});
   parameters_.Bind<double>(PARAM_LENGTH_BINS, &length_bins_, "The length bins", "");
   parameters_.Bind<double>(PARAM_LENGTH_BINS_N, &length_bins_n_, "The average number in each length bin", "");
-  parameters_.Bind<string>(PARAM_UNITS, &units_, "The units for the weight bins (grams, kilograms (kgs), or tonnes)", "", PARAM_KGS)->set_allowed_values({PARAM_GRAMS, PARAM_TONNES, PARAM_KGS, PARAM_KILOGRAMS});
+  parameters_.Bind<string>(PARAM_UNITS, &units_, "The units for the weight bins (grams, kilograms (kgs), or tonnes)", "", PARAM_KGS)
+      ->set_allowed_values({PARAM_GRAMS, PARAM_TONNES, PARAM_KGS, PARAM_KILOGRAMS});
   parameters_.Bind<Double>(PARAM_FISHBOX_WEIGHT, &fishbox_weight_, "The target weight of each box", "", double(20.0))->set_lower_bound(0.0, false);
   parameters_.Bind<double>(PARAM_WEIGHT_BINS, &weight_bins_, "The weight bins", "");
   parameters_.BindTable(PARAM_OBS, obs_table_, "Table of observed values", "", false);
@@ -82,7 +83,7 @@ void ProcessRemovalsByWeight::DoValidate() {
     LOG_FATAL_P(PARAM_LENGTH_BINS) << ": No length bins have been specified in @model. This observation requires those to be defined";
 
   // Need to validate length bins are subclass of mdoel length bins.
-  if(!model_->are_length_bin_compatible_with_model_length_bins(length_bins_)) {
+  if (!model_->are_length_bin_compatible_with_model_length_bins(length_bins_)) {
     LOG_FATAL_P(PARAM_LENGTH_BINS) << "Length bins need to be a subset of the model length bins. See manual for more information";
   }
   // How many elements are expected in our observed table;
@@ -140,14 +141,16 @@ void ProcessRemovalsByWeight::DoValidate() {
       LOG_ERROR_P(PARAM_WEIGHT_BINS) << ": Weight bin values must be strictly increasing: " << weight_bins_[weight - 1] << " is greater than or equal to " << weight_bins_[weight];
   }
 
-  if (process_error_values_.size() != 0 && process_error_values_.size() != years_.size()) {
-    LOG_ERROR_P(PARAM_PROCESS_ERRORS) << " number of values provided (" << process_error_values_.size() << ") does not match the number of years provided (" << years_.size()
-                                      << ")";
-  }
   for (Double process_error : process_error_values_) {
     if (process_error < 0.0)
       LOG_ERROR_P(PARAM_PROCESS_ERRORS) << ": process_error (" << AS_DOUBLE(process_error) << ") cannot be less than 0.0";
   }
+
+  // if only one value supplied then assume its the same for all years
+  if (process_error_values_.size() == 1) {
+    process_error_values_.resize(years_.size(), process_error_values_[0]);
+  }
+
   if (process_error_values_.size() != 0) {
     if (process_error_values_.size() != years_.size()) {
       LOG_FATAL_P(PARAM_PROCESS_ERRORS) << "Supply a process error for each year. Values for " << process_error_values_.size() << " years were provided, but " << years_.size()
@@ -260,7 +263,7 @@ void ProcessRemovalsByWeight::DoValidate() {
       }
     }
     if (!utilities::math::IsOne(total)) {
-      LOG_WARNING()  << "obs sum total (" << total << ") for year (" << iter->first << ") doesn't sum to 1.0";
+      LOG_WARNING() << "obs sum total (" << total << ") for year (" << iter->first << ") doesn't sum to 1.0";
     }
   }
 }
@@ -270,13 +273,12 @@ void ProcessRemovalsByWeight::DoValidate() {
  * the labels for other objects are valid.
  */
 void ProcessRemovalsByWeight::DoBuild() {
-  partition_        = CombinedCategoriesPtr(new niwa::partition::accessors::CombinedCategories(model_, category_labels_));
+  partition_ = CombinedCategoriesPtr(new niwa::partition::accessors::CombinedCategories(model_, category_labels_));
   // flag age-length to Build age-length matrix for these years
-  auto partition_iter = partition_->Begin();  
+  auto partition_iter = partition_->Begin();
   for (unsigned category_offset = 0; category_offset < category_labels_.size(); ++category_offset, ++partition_iter) {
-    auto category_iter        = partition_iter->begin();
-    for (; category_iter != partition_iter->end();  ++category_iter)
-      (*category_iter)->age_length_->BuildAgeLengthMatrixForTheseYears(years_);
+    auto category_iter = partition_iter->begin();
+    for (; category_iter != partition_iter->end(); ++category_iter) (*category_iter)->age_length_->BuildAgeLengthMatrixForTheseYears(years_);
   }
 
   length_results_.resize(number_length_bins_ * category_labels_.size(), 0.0);
@@ -320,8 +322,8 @@ void ProcessRemovalsByWeight::DoBuild() {
                              << ". Check that the years are compatible with this process";
 
   fishery_ndx_to_get_catch_at_info_ = mortality_instantaneous_->get_fishery_ndx_for_catch_at(methods);
-  vector<unsigned> category_ndxs = mortality_instantaneous_->get_category_ndx_for_catch_at(split_category_labels);
-  for(unsigned category_ndx = 0; category_ndx < split_category_labels.size(); ++category_ndx) 
+  vector<unsigned> category_ndxs    = mortality_instantaneous_->get_category_ndx_for_catch_at(split_category_labels);
+  for (unsigned category_ndx = 0; category_ndx < split_category_labels.size(); ++category_ndx)
     category_lookup_for_ndx_to_get_catch_at_info_[split_category_labels[category_ndx]] = category_ndxs[category_ndx];
   year_ndx_to_get_catch_at_info_ = mortality_instantaneous_->get_year_ndx_for_catch_at(years_);
 
@@ -340,12 +342,11 @@ void ProcessRemovalsByWeight::DoBuild() {
   weight_bins_plus_ = weight_bins_;
   weight_bins_plus_.push_back(weight_bins_[number_weight_bins_ - 1] + (weight_bins_[number_weight_bins_ - 1] - weight_bins_[number_weight_bins_ - 2]));
 
-
   auto age_data_size = model_->age_spread();
-  partition_iter        = partition_->Begin();  // vector<vector<partition::Category> >
+  partition_iter     = partition_->Begin();  // vector<vector<partition::Category> >
   for (unsigned category_offset = 0; category_offset < category_labels_.size(); ++category_offset, ++partition_iter) {
     LOG_FINE() << "category: " << category_labels_[category_offset];
-    auto category_iter        = partition_iter->begin();
+    auto category_iter = partition_iter->begin();
     for (; category_iter != partition_iter->end(); ++category_iter) {
       auto category_name = (*category_iter)->name_;
       LOG_FINE() << "category name: " << category_name;
@@ -371,8 +372,8 @@ void ProcessRemovalsByWeight::DoBuild() {
 
   // get the units specified in the age-length relationship (returns length_weight_->weight_units())
   // weight_units    = age_length->weight_units();
-  string weight_units    = model_->base_weight_units();  // since age_length->GetMeanWeight() returns the model weight units, per Craig Marsh 2021-07-07
-  unit_multiplier_ = 1.0;
+  string weight_units = model_->base_weight_units();  // since age_length->GetMeanWeight() returns the model weight units, per Craig Marsh 2021-07-07
+  unit_multiplier_    = 1.0;
   // what value to multiply weight_units by to get units_
   if ((units_ == PARAM_TONNES) && (weight_units == PARAM_KGS || weight_units == PARAM_KILOGRAMS))
     unit_multiplier_ = 0.001;
@@ -388,7 +389,6 @@ void ProcessRemovalsByWeight::DoBuild() {
     unit_multiplier_ = 0.0001;
   else if (units_ == PARAM_TONNES && (weight_units == PARAM_GRAMS))
     unit_multiplier_ = 0.0000001;
-
 }
 
 /**
@@ -408,19 +408,18 @@ void ProcessRemovalsByWeight::PreExecute() {
  * Execute the ProcessRemovalsByWeight expected values calculations
  */
 void ProcessRemovalsByWeight::Execute() {
-  
   LOG_TRACE();
   /**
    * Verify our cached partition and partition sizes are correct
    */
   //  auto categories = model_->categories();
-  unsigned year      = model_->current_year();
-  std::pair<bool, int >  this_year_iter = utilities::findInVector(years_, year);
-  if(!this_year_iter.first)
+  unsigned             year           = model_->current_year();
+  std::pair<bool, int> this_year_iter = utilities::findInVector(years_, year);
+  if (!this_year_iter.first)
     LOG_CODE_ERROR() << "if(!this_year_iter.first)";
 
-  unsigned time_step = model_->managers()->time_step()->current_time_step();
-  auto                                                     partition_iter        = partition_->Begin();  // vector<vector<partition::Category> >
+  unsigned time_step      = model_->managers()->time_step()->current_time_step();
+  auto     partition_iter = partition_->Begin();  // vector<vector<partition::Category> >
 
   Double mean_length;
   Double mean_weight;
@@ -440,13 +439,12 @@ void ProcessRemovalsByWeight::Execute() {
     // std::fill(expected_values_length.begin(), expected_values_length.end(), 0.0);
     std::fill(expected_values_weight.begin(), expected_values_weight.end(), 0.0);
 
-
-    auto category_iter        = partition_iter->begin();
+    auto category_iter = partition_iter->begin();
     for (; category_iter != partition_iter->end(); ++category_iter) {
       auto category_name = (*category_iter)->name_;
       LOG_FINE() << "category name: " << category_name;
-      vector<Double>& Removals_at_age = mortality_instantaneous_->get_catch_at_by_year_fishery_category(year_ndx_to_get_catch_at_info_[this_year_iter.second], fishery_ndx_to_get_catch_at_info_[0], category_lookup_for_ndx_to_get_catch_at_info_[(*category_iter)->name_]);
-
+      vector<Double>& Removals_at_age = mortality_instantaneous_->get_catch_at_by_year_fishery_category(
+          year_ndx_to_get_catch_at_info_[this_year_iter.second], fishery_ndx_to_get_catch_at_info_[0], category_lookup_for_ndx_to_get_catch_at_info_[(*category_iter)->name_]);
 
       bool no_length_weight_change = true;
 
@@ -454,7 +452,8 @@ void ProcessRemovalsByWeight::Execute() {
         // NOTE: hardcoded for now with minimum age (used to get cv[year][time_step][age])
         mean_weight = unit_multiplier_ * (*category_iter)->age_length_->mean_weight_by_length(length_bins_[j], (*category_iter)->min_age_, year, time_step);
         LOG_FINEST() << "Mean weight at length " << length_bins_[j] << " (CVs for age " << (*category_iter)->min_age_ << "): " << mean_weight
-                     << " mean weight = " << (*category_iter)->age_length_->mean_weight_by_length(length_bins_[j], (*category_iter)->min_age_, year, time_step) << " multiplier = " << unit_multiplier_;
+                     << " mean weight = " << (*category_iter)->age_length_->mean_weight_by_length(length_bins_[j], (*category_iter)->min_age_, year, time_step)
+                     << " multiplier = " << unit_multiplier_;
 
         std_dev      = length_weight_cv_adj_[j] * mean_weight;
         auto tmp_vec = utilities::math::distribution2(weight_bins_plus_, weight_plus_, length_weight_distribution_, mean_weight, std_dev);
@@ -566,7 +565,6 @@ void ProcessRemovalsByWeight::Execute() {
                      process_errors_by_year_[model_->current_year()], error_values_[model_->current_year()][category_labels_[category_offset]][i], 0.0, delta_, 0.0);
     }
   }
-  
 }
 
 /**
