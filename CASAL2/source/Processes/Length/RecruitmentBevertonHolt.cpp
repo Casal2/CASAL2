@@ -436,6 +436,8 @@ void RecruitmentBevertonHolt::FillReportCache(ostringstream& cache) {
   cache << "\nrecruit_event_SSB: ";
   for (auto iter : ssb_values_) cache << AS_DOUBLE(iter) << " ";
   cache << "\nssb_offset: " << ssb_offset_;
+  cache << "\nrecruit_event_SSB_percent: ";
+  for (auto iter : ssb_values_) cache << AS_DOUBLE(iter) / AS_DOUBLE(b0_) * 100.0 << " ";
   cache << REPORT_EOL;
   for (unsigned i = 0; i < category_labels_.size(); i++) {
     cache << category_labels_[i] << "_initial_length_distribution:";

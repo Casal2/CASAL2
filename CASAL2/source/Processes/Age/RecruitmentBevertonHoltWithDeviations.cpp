@@ -459,6 +459,8 @@ void RecruitmentBevertonHoltWithDeviations::FillReportCache(ostringstream& cache
   for (auto iter : recruitment_values_) cache << AS_DOUBLE(iter) << " ";
   cache << "\nrecruit_event_SSB: ";
   for (auto iter : ssb_values_) cache << AS_DOUBLE(iter) << " ";
+  cache << "\nrecruit_event_SSB_percent: ";
+  for (auto iter : ssb_values_) cache << AS_DOUBLE(iter) / AS_DOUBLE(b0_) * 100.0 << " ";
   cache << REPORT_EOL;
 }
 
