@@ -106,6 +106,7 @@ void CommandLineParser::Parse(int argc, char* argv[], RunParameters& options) {
   } else if (parameters.count("version")) {
     options.run_mode_ = RunMode::kVersion;
     cout << "Casal2 Version: v" << VERSION << endl;
+    cout << "Casal2 repos: " << SOURCE_REPOS << endl;
     cout << "Release ID: v" << VERSION_NUMBER << " " << SOURCE_CONTROL_VERSION << "" << endl;
     cout << "Copyright (c) 2017-" << SOURCE_CONTROL_YEAR << ", NIWA (www.niwa.co.nz)" << endl;
     cout << "Date: ";
