@@ -67,7 +67,7 @@ void SquareRoot::DoRestore() {
 Double SquareRoot::GetScore() {
   LOG_TRACE()
   if (prior_applies_to_restored_parameters_)
-    jacobian_ = 1.0 / (2.0 * sqrt(SquareRoot_value_));
+    jacobian_ = log(1.0 / (2.0 * sqrt(SquareRoot_value_)));
   return jacobian_;
 }
 /**
