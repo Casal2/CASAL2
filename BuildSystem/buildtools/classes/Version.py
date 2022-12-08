@@ -42,7 +42,12 @@ class Version:
 		temp1 = str(subprocess.check_output('git config --get remote.origin.url', shell = True))
 		Globals.Git_repos = temp1[2:][:-7]
 		temp2 = str(subprocess.check_output('git branch --show-current', shell = True))
-		Globals.Git_repos = Globals.Git_repos + " (" + temp2[2:][:-3] + ")"
+		temp2 = temp2[2:][:-3]
+		if temp2.lower() =="master" or temp2.lower() == "main":
+			temp2 = ""
+		else:
+			temp2 = ":" + temp2
+		Globals.Git_repos = Globals.Git_repos + temp2
 
 		# Define version as YY.MM
 		Globals.Casal2_version_number = utc_time.strftime('%y') + "." + utc_time.strftime('%m')
