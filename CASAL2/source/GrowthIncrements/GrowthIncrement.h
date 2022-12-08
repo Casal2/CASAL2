@@ -8,7 +8,7 @@
  * @section DESCRIPTION
  * For length based models - this class builds the growth transition matrix
  * which describes the probability of moving from length bin i -> length j.
- * based on one of the children expected growth funs.
+ * based on one of the children expected growth functions.
  */
 #ifndef GROWTH_INCREMENT_MODELS_H_
 #define GROWTH_INCREMENT_MODELS_H_
@@ -40,12 +40,9 @@ public:
   void FillReportCache(ostringstream& cache);
 
   const Double&                 get_mean_weight(unsigned length_bin_index) { return mean_weight_by_length_bin_index_[length_bin_index]; };
-  const vector<vector<Double>>& get_transition_matrix(unsigned time_step_index) { return growth_transition_matrix_[time_step_index]; };
+  const vector<vector<Double>>& get_transition_matrix() { return growth_transition_matrix_; };
 
   void apply_growth();
-  // const double& get_time_step_proportions(unsigned time_step_index){return 1.0};
-  double get_time_step_proportions(unsigned time_step_index) { return 1.0; };
-
   // accessors
   /*
   const Double&  cv(unsigned year, unsigned time_step, unsigned age) { return cvs_[year - year_offset_][time_step - time_step_offset_][age - age_offset_]; };
@@ -68,22 +65,21 @@ protected:
 
   // members
 
-  shared_ptr<Model>              model_ = nullptr;
-  string                         distribution_label_;
-  Distribution                   distribution_;
-  string                         length_weight_label_;
-  LengthWeight*                  length_weight_ = nullptr;
-  vector<vector<vector<Double>>> growth_transition_matrix_;  // time_steps x length_bins x length_bins
-  Double                         cv_;
-  Double                         min_sigma_;
-  unsigned                       number_of_model_length_bins_;
-  vector<double>                 model_min_length_bins_;
-  vector<double>                 model_length_midpoints_;
-  bool                           plus_group_;
-  CompatibilityType              compatibility_type_ = CompatibilityType::kUnknown;
-  string                         compatibility_      = "";
-  // vector<double>                 time_step_proportions_;
-  vector<Double> mean_weight_by_length_bin_index_;
+  shared_ptr<Model>      model_ = nullptr;
+  string                 distribution_label_;
+  Distribution           distribution_;
+  string                 length_weight_label_;
+  LengthWeight*          length_weight_ = nullptr;
+  vector<vector<Double>> growth_transition_matrix_;  // length_bins x length_bins
+  Double                 cv_;
+  Double                 min_sigma_;
+  unsigned               number_of_model_length_bins_;
+  vector<double>         model_min_length_bins_;
+  vector<double>         model_length_midpoints_;
+  bool                   plus_group_;
+  CompatibilityType      compatibility_type_ = CompatibilityType::kUnknown;
+  string                 compatibility_      = "";
+  vector<Double>         mean_weight_by_length_bin_index_;
 };
 } /* namespace niwa */
 #endif /* GROWTH_INCREMENT_MODELS_H_ */

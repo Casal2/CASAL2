@@ -128,7 +128,7 @@ void ParameterList::Populate(shared_ptr<Model> model) {
 
   if (missing_parameters != "") {
     if (parameters_.find(PARAM_LABEL) == parameters_.end()) {
-      LOG_ERROR() << "At line " << defined_line_number_ << " in " << defined_file_name_ << " the following required parameters for the command  @" << parent_block_type_
+      LOG_ERROR() << "At line " << defined_line_number_ << " in " << defined_file_name_ << " the following required parameters for the command @" << parent_block_type_
                   << " are required but have not been defined: " << missing_parameters;
     } else {
       auto parameter = parameters_.find(PARAM_LABEL);
@@ -150,7 +150,9 @@ void ParameterList::Populate(shared_ptr<Model> model) {
    */
   for (auto iter : parameters_) {
     string label = iter.first;
-    if (label == PARAM_CATEGORIES || label == PARAM_FROM || label == PARAM_TO || label == PARAM_PREY_CATEGORIES || label == PARAM_PREDATOR_CATEGORIES || label == PARAM_TOTAL_CATEGORIES || label == PARAM_TAGGED_CATEGORIES || label == PARAM_TARGET_CATEGORIES || label == PARAM_INDIVIDUAL_CATEGORIES || label == PARAM_NUMERATOR_CATEGORIES) {
+    if (label == PARAM_CATEGORIES || label == PARAM_FROM || label == PARAM_TO || label == PARAM_PREY_CATEGORIES || label == PARAM_PREDATOR_CATEGORIES
+        || label == PARAM_TOTAL_CATEGORIES || label == PARAM_TAGGED_CATEGORIES || label == PARAM_TARGET_CATEGORIES || label == PARAM_INDIVIDUAL_CATEGORIES
+        || label == PARAM_NUMERATOR_CATEGORIES) {
       LOG_FINE() << "Expanding category name values for " << label << " at " << iter.second->location();
       LOG_FINE() << "Expanding " << boost::join(iter.second->values(), " ");
       vector<string> expanded_values = model->categories()->ExpandLabels(iter.second->values(), iter.second->location());

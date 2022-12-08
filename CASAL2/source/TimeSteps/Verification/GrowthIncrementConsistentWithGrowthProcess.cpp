@@ -33,11 +33,10 @@ namespace niwa::timesteps::verification {
 void GrowthIncrementConsistentWithGrowthProcess(shared_ptr<Model> model) {
   const vector<TimeStep*> ordered_time_steps = model->managers()->time_step()->ordered_time_steps();
   // loop through time steps
-  map<string, unsigned>              category_count;
-  map<string, unsigned>              category_in_growth;
-  map<string, map<unsigned, double>> growth_increment_;  // category x time_step_index x proportion
-  vector<string>                     all_categories = model->categories()->category_names();
-  unsigned                           time_step_ndx  = 0;
+  map<string, unsigned> category_count;
+  map<string, unsigned> category_in_growth;
+  vector<string>        all_categories = model->categories()->category_names();
+  unsigned              time_step_ndx  = 0;
   for (auto time_step : ordered_time_steps) {
     for (auto process : time_step->processes()) {
       if (process->process_type() == ProcessType::kGrowth) {
@@ -48,8 +47,6 @@ void GrowthIncrementConsistentWithGrowthProcess(shared_ptr<Model> model) {
         for (auto label : growth->category_labels()) {
           category_in_growth[label]++;
           category_count[label]++;
-          auto category                           = &model->partition().category(label);
-          growth_increment_[label][time_step_ndx] = category->growth_increment_->get_time_step_proportions(time_step_ndx);
         }
       }
     }
