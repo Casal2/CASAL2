@@ -42,7 +42,32 @@
 \defUpperBound{1.0 (inclusive)}
 \defValue{The time step proportions must sum to one. If only one value is supplied, then the each time step is allocated an equal proportion. Otherwise the number of values must equal the number of time steps}
 
-\defSub{relative\_m\_by\_age}{The list of mortality by age ogive labels for the categories}
+\defSub{relative\_m\_by\_length}{The list of mortality by length ogive labels for the categories}
+\defType{Vector of strings}
+\defDefault{No default}
+
+\subsubsection{Process of type Mortality Constant Exploitation}\commandlabsubarg{process}{type}{Mortality\_Constant\_Exploitation}.
+\defRef{sec:Process-MortalityConstantExploitation}
+\label{syntax:Process-MortalityConstantExploitation}
+
+\defSub{categories}{The list of category labels}
+\defType{Vector of strings}
+\defDefault{No default}
+
+\defSub{u}{The exploitation rates}
+\defType{Real number (estimable)}
+\defDefault{No default}
+\defLowerBound{0.0 (inclusive)}
+\defUpperBound{1.0 (inclusive)}
+
+\defSub{time\_step\_proportions}{The time step proportions for the exploitation rates}
+\defType{Vector of real numbers}
+\defDefault{false}
+\defLowerBound{0.0 (inclusive)}
+\defUpperBound{1.0 (inclusive)}
+\defValue{The time step proportions must sum to one. If only one value is supplied, then the each time step is allocated an equal proportion. Otherwise the number of values must equal the number of time steps}
+
+\defSub{relative\_u\_by\_length}{The list of exploitation by length ogive labels for the categories}
 \defType{Vector of strings}
 \defDefault{No default}
 

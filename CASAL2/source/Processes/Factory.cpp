@@ -17,6 +17,7 @@
 #include "../Model/Model.h"
 #include "../Processes/Age/Ageing.h"
 #include "../Processes/Age/Maturation.h"
+#include "../Processes/Age/Mortality/MortalityConstantExploitation.h"
 #include "../Processes/Age/Mortality/MortalityConstantRate.h"
 #include "../Processes/Age/Mortality/MortalityEvent.h"
 #include "../Processes/Age/Mortality/MortalityEventBiomass.h"
@@ -39,6 +40,7 @@
 #include "../Processes/Common/LoadPartition.h"
 #include "../Processes/Common/Nop.h"
 #include "../Processes/Length/Growth.h"
+#include "../Processes/Length/MortalityConstantExploitation.h"
 #include "../Processes/Length/MortalityConstantRate.h"
 #include "../Processes/Length/MortalityDiseaseRate.h"
 #include "../Processes/Length/MortalityInstantaneous.h"
@@ -98,6 +100,8 @@ Process* Factory::Create(shared_ptr<Model> model, const string& object_type, con
         result = new age::Maturation(model);
       else if (sub == PARAM_MORTALITY_CONSTANT_RATE)
         result = new age::MortalityConstantRate(model);
+      else if (sub == PARAM_MORTALITY_CONSTANT_EXPLOITATION)
+        result = new age::MortalityConstantExploitation(model);
       else if (sub == PARAM_MORTALITY_INITIALISATION_EVENT)
         result = new age::MortalityInitialisationEvent(model);
       else if (sub == PARAM_MORTALITY_INITIALISATION_EVENT_BIOMSS)
@@ -137,6 +141,8 @@ Process* Factory::Create(shared_ptr<Model> model, const string& object_type, con
         result = new length::Growth(model);
       else if (sub == PARAM_MORTALITY_CONSTANT_RATE)
         result = new length::MortalityConstantRate(model);
+      else if (sub == PARAM_MORTALITY_CONSTANT_EXPLOITATION)
+        result = new length::MortalityConstantExploitation(model);
       else if (sub == PARAM_RECRUITMENT_CONSTANT)
         result = new length::RecruitmentConstant(model);
       else if (sub == PARAM_RECRUITMENT_BEVERTON_HOLT)

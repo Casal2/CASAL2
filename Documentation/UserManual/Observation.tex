@@ -150,7 +150,7 @@ Defining an observation for a single category is used to model a set of proporti
 
 \CNAME\ then requires that there will be a single vector of proportions supplied, with one proportion for each age class within the defined age range, and that these proportions sum to one.
 
-For example, if the age range was 3 to 10, then 8 proportions should be supplied, one proportion for each of the the ages 3, 4, 5, 6, 7, 8, 9, and 10. The expected values will be the expected proportions of males within each of these age classes (after omitting males aged less than 3 and older than 10), after applying a selectivity at the year and time-step specified. The supplied vector of proportions (i.e., in this example, the 8 proportions) must sum to one, which is evaluated with a default tolerance of 0.001.
+For example, if the age range was 3 to 10, then 8 proportions should be supplied, one proportion for each of the ages 3, 4, 5, 6, 7, 8, 9, and 10. The expected values will be the expected proportions of males within each of these age classes (after omitting males aged less than 3 and older than 10), after applying a selectivity at the year and time-step specified. The supplied vector of proportions (i.e., in this example, the 8 proportions) must sum to one, which is evaluated with a default tolerance of 0.001.
 
 {\small{\begin{verbatim}
 		@observation MyProportions
@@ -201,7 +201,7 @@ Defining an observation across aggregated categories allows categories to be agg
 
 \CNAME\ then requires that there will be a single vector of proportions supplied, with one proportion for each age class, and that these proportions sum to one.
 
-For example, if there were two categories and the age range was 3 to 10, then 8 proportions should be supplied (one proportion for each of the the ages 3, 4, 5, 6, 7, 8, 9, and 10, for the sum of males and females within each age class). The expected values will be the expected proportions of males + females within each of these age classes (after omitting those aged less than 3 and older than 10), after applying a selectivity at the year and time-step specified. The supplied vector of proportions (i.e., in this example, the 8 proportions) must sum to one, which is evaluated with a default tolerance of 0.001.
+For example, if there were two categories and the age range was 3 to 10, then 8 proportions should be supplied (one proportion for each of the ages 3, 4, 5, 6, 7, 8, 9, and 10, for the sum of males and females within each age class). The expected values will be the expected proportions of males + females within each of these age classes (after omitting those aged less than 3 and older than 10), after applying a selectivity at the year and time-step specified. The supplied vector of proportions (i.e., in this example, the 8 proportions) must sum to one, which is evaluated with a default tolerance of 0.001.
 
 For example,
 
@@ -304,16 +304,13 @@ where, \(N^{c^*}_{a^*}\) is the number of fish of true age \(a^*\) and categorie
 
 When multiple categories are supplied by \subcommand{numerator\_categories}, then \(N^{c^*}_{a^*}\) is calculated as
 
-
 \[
 N_{a^*,c^*} = \sum\limits_{\tilde{c} \in c^*} N_{a^*,\tilde{c}} S_c(a^*)
 \]
 
 where, \(S_c(a^*)\) is a selectivity and \(N_{a^*,c^*}\) is numbers at age from an interpolation partway through the mortality block.
 
-
 For all the other sample types the expected value is a conditional probability, and is calculated as a fraction whose numerator is the same as for \(P(a,l) \) and with the denominator given in Table~\ref{tab:agelength:likelihoods}.
-
 
 If the user specifies a selectivity for an age-length observation, this is easy to deal with if the selectivity is age-based. If \(N^*_{a^*,c}\) is the number at true age \(a^*\) and category \(c\) before the selectivity is applied then \(N_{a^*,c} = N^*_{a^*,c}S_c(a^*)\), where \(S_c(.)\) is the selectivity function for category \(c\).
 

@@ -112,10 +112,11 @@ In the  example given above, $YCS$ are standardised to have mean one in the peri
 
 \subsubsection{\I{Mortality}\label{sec:Process-Mortality}}
 
-There are 3 types of mortality processes available in \CNAME length based models, and one tag release processes that also causes mortality (See Tagging Section~\ref{sec:Process-Tagging}):
+There are 4 types of mortality processes available in \CNAME length based models, and one tag release processes that also causes mortality (See Tagging Section~\ref{sec:Process-Tagging}):
 
 \begin{itemize}
 	\item constant rate,
+	\item constant exploitation,
 	\item instantaneous, and
 	\item disease.
 \end{itemize}
@@ -170,6 +171,36 @@ Length-specific mortality rates can also be applied. For example, the hypothesis
 
 
 In this definition \subcommand{m} is set to 1.0 and the rate is described through the selectivity. Otherwise, $M_{l} = S_{l} * m$. This concept can be constructed similarly for other mortality methods such as \subcommand{instantaneous\_mortality}.
+
+\paragraph{Constant mortality exploitation}\label{sec:Process-Length-MortalityConstantExploitation} 
+
+To specify a constant annual exploitation rate \index{Constant exploitation}(e.g. $U=0.2$) for categories "male" and "female"
+{\small{\begin{verbatim}
+			# A process with label IncidentalMortality
+			@process IncidentalMortality
+			type          mortality_constant_exploitation
+			categories    male female
+			relative_u_by_length One One
+			u             0.2 0.2
+\end{verbatim}}}
+
+The total number of individuals removed from a category
+
+\begin{equation}
+	D_{j,t} = \sum_l N_{l,j,t} S_{l,j} U_{l,j} p_t
+\end{equation}
+
+where $D_{j,t}$ is the total number of removals in category $j$ in time step $t$, $N_{l,j,t}$ is the number of individuals in category $j$ of length bin $l$ in time step $t$, $S_{l,j}$ is the selectivity value for length bin $l$ in category $j$, $U_{l,j}$ is the exploitation rate for category $j$ for length bin $l$, and $p_t$ is the proportion of the exploitation rates to apply in time step $t$.
+
+The exploitation rate process requires the specification of the mortality-by-length curve which is specified using a selectivity. To apply the same mortality rate over all length bins in a category, use a selectivity defined as $S_{l,j}=1.0$ for all lengths $l$ in category $j$
+
+{\small{\begin{verbatim}
+			@selectivity One
+			type constant
+			c 1
+\end{verbatim}}}
+
+Length-specific exploitation rates can also be applied. 
 
 \paragraph{Instantaneous mortality}\label{sec:Process-Length-MortalityInstantaneous}
 
