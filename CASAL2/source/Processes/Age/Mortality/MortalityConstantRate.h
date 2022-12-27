@@ -44,7 +44,7 @@ public:
   void DoExecute() override final;
   void FillReportCache(ostringstream& cache) override final;
   void FillTabularReportCache(ostringstream& cache, bool first_run) override final;
-  // inheritetd accessors from the parent Mortality class
+  // inherited accessors from the parent Mortality class
   // These should never be called so adding LOG_CODE_ERROR()
   // If they are called you need to change the source code so they are never able to be called.
   bool             check_categories_in_methods_for_removal_obs(vector<string> methods, vector<string> category_labels){LOG_CODE_ERROR() << "cannot call check_categories_in_methods_for_removal_obs() from MortalityConstantRate"; return false;};

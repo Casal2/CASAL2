@@ -28,10 +28,10 @@ namespace age {
  */
 MortalityInitialisationEvent::MortalityInitialisationEvent(shared_ptr<Model> model) : Mortality(model), partition_(model) {
   parameters_.Bind<string>(PARAM_CATEGORIES, &category_labels_, "The categories", "");
-  parameters_.Bind<Double>(PARAM_CATCH, &catch_, "The number of removals (catches) to apply for each year", "");
+  parameters_.Bind<Double>(PARAM_CATCH, &catch_, "The amount of removals (catches) to apply for each year", "");
   parameters_.Bind<double>(PARAM_U_MAX, &u_max_, "The maximum exploitation rate ($U_{max}$)", "", 0.99)->set_range(0.0, 1.0, false, false);
   parameters_.Bind<string>(PARAM_SELECTIVITIES, &selectivity_names_, "The list of selectivities", "");
-  parameters_.Bind<string>(PARAM_PENALTY, &penalty_name_, "The label of the penalty to apply if the total number of removals cannot be taken", "", "");
+  parameters_.Bind<string>(PARAM_PENALTY, &penalty_name_, "The label of the penalty to apply if the total amount of removals cannot be taken", "", "");
 
   RegisterAsAddressable(PARAM_CATCH, &catch_);
 
