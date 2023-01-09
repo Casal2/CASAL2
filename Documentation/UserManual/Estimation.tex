@@ -592,7 +592,7 @@ In equation~\ref{eq:jacobian} the term $p_X(f^{-1}(y)) = p_X(X)$ and in a Bayesi
 \subsubsection{Transformation types}\label{subsec:Transformation-types}
 \begin{enumerate}
 \item \subcommand{type} \subcommand{log} : natural logarithm transformation\\
-\subcommand{jacobian known = true}\\
+\subcommand{Jacobian defined = true}\\
 \subcommand{estimable parameter = log\_parameter}\\
 $Y = log(X)$\\
 $f() = log()$\\
@@ -615,7 +615,7 @@ upper_bound 25
 
 
 \item \subcommand{inverse}\\
-\subcommand{jacobian known = true}\\
+\subcommand{Jacobian defined = true}\\
 \subcommand{estimable parameter = inverse\_parameter}\\
 $Y = X^{-1}$
 \[
@@ -635,7 +635,7 @@ log \begin{vmatrix} \frac{\partial}{\partial y} \frac{1}{y} \end{vmatrix} = log 
 		\end{verbatim}}}
 	
 \item \subcommand{average\_difference} : two parameters $X_1$ and $X_2$ are transformed to $Y_1$ and $Y_2$, where $Y_1$ is the average of the original parameters and $Y_2$ is the difference between the mean and each parameter.\\
-\subcommand{jacobian known = false}\\
+\subcommand{Jacobian defined = false}\\
 \subcommand{estimable parameter = average\_parameter, difference\_parameter}\\
 $Y_1 = \frac{X_1 + X_2}{2}$\\
 $Y_2 =  (Y_1 - X_2)2 $\\
@@ -663,7 +663,7 @@ $\begin{vmatrix} \frac{\partial}{\partial y} f^{-1}(y) \end{vmatrix}$ Hasn't bee
 \end{verbatim}}}
 	
 \item \subcommand{log\_sum} : two parameters $X_1$ and $X_2$ are transformed to $Y_1$ and $Y_2$, where $Y_1$ is the natural logarithm of the sum of $X_1$ and $X_2$. $Y_2$ describes the proportion of the sum with respect to $X_1$\\
-\subcommand{jacobian known = false}\\
+\subcommand{Jacobian defined = false}\\
 \subcommand{estimable parameter = log\_total\_parameter, total\_proportion\_parameter}\\
 $Y_1 = ln(X_1 + X_2)$\\
 $Y_2 = X_1 / (X_1 + X_2)$\\
@@ -691,7 +691,7 @@ $\begin{vmatrix} \frac{\partial}{\partial y} f^{-1}(y) \end{vmatrix}$ Hasn't bee
 		\end{verbatim}}}
 	
 \item \subcommand{orthogonal} : two parameters $X_1$ and $X_2$ are transformed to $Y_1$ and $Y_2$, where $Y_1$ is the multiplication of $X_1$ and $X_2$. $Y_2$ is the division of $X_1$ and $X_2$\\
-\subcommand{jacobian defined = true}\\
+\subcommand{Jacobian defined = true}\\
 \subcommand{estimable parameter = product\_parameter, quotient\_parameter}\\
 $Y_1 = X_1 X_2$\\
 $Y_2 = X_1 / X_2$\\
@@ -720,7 +720,7 @@ $\begin{vmatrix} \frac{\partial}{\partial y} f^{-1}(y) \end{vmatrix} = 2Y_2$\\\\
 \end{verbatim}}}
 
 \item \subcommand{type} \subcommand{logistic} : logistic transformation\\
-\subcommand{jacobian known = true}\\
+\subcommand{Jacobian defined = true}\\
 \subcommand{estimable parameter = logistic\_parameter}\\
 $Y = logit(\frac{X - lb}{ub - lb})$\\
 $f^{-1}() = lb +(ub - lb)  logit^{-1}()$
@@ -743,7 +743,7 @@ $f^{-1}() = lb +(ub - lb)  logit^{-1}()$
 		\end{verbatim}}}
 	
 \item \subcommand{SumToOne} : given two parameters $X_1$ and $X_2$ that have the constraint $\sum_{i = 1}^2X_i$, estimate $X_1$ only given $X_2 = 1 - X_1$\\
-\subcommand{jacobian defined = false}\\
+\subcommand{Jacobian defined = false}\\
 \label{sec:Transformation-SumToOne}
 {\small{\begin{verbatim}
 			@parameter_transformation total_r0
@@ -787,7 +787,7 @@ The jacobian for the density is evaluated as follows,
 \begin{align*}
 |det \ J| = \prod_{i = 1}^{n - 1} Z_i \left(1 - Z_i\right) \left(1 - \sum_{j = 1}^{i - 1}X_j\right)
 \end{align*}
-\subcommand{jacobian defined = true}\\
+\subcommand{Jacobian defined = true}\\
 \subcommand{estimable parameter = simplex}\\
 \label{sec:Transformation-Simplex}
 {\small{\begin{verbatim}
@@ -805,7 +805,7 @@ The jacobian for the density is evaluated as follows,
 
 		\end{verbatim}}}	
 	\item \subcommand{type} \subcommand{sqrt} : square root transformation\\
-	\subcommand{jacobian known = true}\\
+	\subcommand{Jacobian defined = true}\\
 	\subcommand{estimable parameter = sqrt\_parameter}\\
 	$Y = sqrt(X)$\\
 	$f() = sqrt()$\\
@@ -813,7 +813,7 @@ The jacobian for the density is evaluated as follows,
 	\[
 	log \begin{vmatrix} \frac{\partial}{\partial y}  (y^2) \end{vmatrix} = sqrt \begin{vmatrix}  (y^2) \end{vmatrix} = sqrt(x)
 	\]
-	\label{sec:Transformation-Log}
+	\label{sec:Transformation-Sqrt}
 	{\small{\begin{verbatim}
 				@parameter_transformation sqrt_R0
 				type sqrt
