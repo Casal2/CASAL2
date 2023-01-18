@@ -33,7 +33,7 @@ SquareRoot::SquareRoot(shared_ptr<Model> model) : AddressableTransformation(mode
  */
 void SquareRoot::DoValidate() {
   if (parameter_labels_.size() != 1) {
-    LOG_ERROR_P(PARAM_PARAMETERS) << "The sqrt transformation only can transform 1 parameter at a time. You supplied " << parameter_labels_.size() << " parmaters";
+    LOG_ERROR_P(PARAM_PARAMETERS) << "The sqrt transformation only can only transform 1 parameter at a time. You supplied " << parameter_labels_.size() << " parmaters";
   }
   restored_values_.resize(parameter_labels_.size(), 0.0);
   SquareRoot_value_   = sqrt(init_values_[0]);  // this will get over-ridden by load estimables
@@ -62,12 +62,13 @@ void SquareRoot::DoRestore() {
 
 /**
  * Get Score
- * @return Jacobian if transforming with Jacobian, otherwise 0.0
+ * @return log(Jacobian) if transformed with Jacobian, otherwise 0.0
  */
 Double SquareRoot::GetScore() {
   LOG_TRACE()
   if (prior_applies_to_restored_parameters_)
-    jacobian_ = log(1.0 / (2.0 * sqrt(SquareRoot_value_)));
+    // -ln(J) = -ln(1/(2*sqrt(x)))
+    jacobian_ = log(1.0 / (2.0 * SquareRoot_value_));
   return jacobian_;
 }
 /**

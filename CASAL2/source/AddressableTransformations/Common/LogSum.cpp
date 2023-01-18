@@ -39,7 +39,7 @@ void LogSum::DoValidate() {
   number_of_parameters_       = parameter_labels_.size();
   restored_values_.resize(number_of_parameters_, 0.0);
   if (parameter_labels_.size() > 2) {  // could be one
-    LOG_ERROR_P(PARAM_PARAMETERS) << "the " << type_ << " transformation only can transform 2 parameters at a time. You supplied " << parameter_labels_.size() << " parmaters";
+    LOG_ERROR_P(PARAM_PARAMETERS) << "the " << type_ << " transformation can only transform 2 parameters at a time. You supplied " << parameter_labels_.size() << " parmaters";
   }
 
   LOG_FINE() << "check values";
@@ -60,7 +60,7 @@ void LogSum::DoValidate() {
   }
   if (prior_applies_to_restored_parameters_)
     LOG_FATAL_P(PARAM_PRIOR_APPLIES_TO_RESTORED_PARAMETERS)
-        << "There is no jacobian for this transformation. Statistically, this may be in inappropriate, so you are not allowed to do it";
+        << "There is no Jacobian calculated for this transformation. Statistically, this may not be appropriate, so you are not allowed to do it";
 }
 
 /**
@@ -99,6 +99,7 @@ void LogSum::RestoreForObjectiveFunction() {}
  */
 Double LogSum::GetScore() {
   LOG_TRACE()
+  // -ln(J) = NaN
   jacobian_ = 0.0;
   return jacobian_;
 }
@@ -122,10 +123,11 @@ void LogSum::FillReportCache(ostringstream& cache) {
 /**
  * Report stuff for this transformation
  */
-void LogSum::FillTabularReportCache(ostringstream& cache, bool first_run)  {
+void LogSum::FillTabularReportCache(ostringstream& cache, bool first_run) {
   LOG_FINEST() << "FillTabularReportCache";
-  if(first_run) {
-    cache << PARAM_LOG_TOTAL_PARAMETER << " " << PARAM_TOTAL_PROPORTION_PARAMETER << " " << parameter_labels_[0] << " " << parameter_labels_[1] << " negative_log_jacobian" << REPORT_EOL;
+  if (first_run) {
+    cache << PARAM_LOG_TOTAL_PARAMETER << " " << PARAM_TOTAL_PROPORTION_PARAMETER << " " << parameter_labels_[0] << " " << parameter_labels_[1] << " negative_log_jacobian"
+          << REPORT_EOL;
   }
   cache << log_total_parameter_ << " " << total_proportion_parameter_ << " " << restored_values_[0] << " " << restored_values_[1] << " " << jacobian_ << REPORT_EOL;
 }

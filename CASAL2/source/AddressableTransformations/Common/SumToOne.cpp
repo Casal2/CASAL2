@@ -29,7 +29,7 @@ SumToOne::SumToOne(shared_ptr<Model> model) : AddressableTransformation(model) {
 void SumToOne::DoValidate() {
   restored_values_.resize(parameter_labels_.size(), 0.0);
   if (parameter_labels_.size() > 2) {  // could be one
-    LOG_ERROR_P(PARAM_PARAMETERS) << "the " << type_ << " transformation only can transform 2 parameters at a time. You supplied " << parameter_labels_.size() << " paramaters";
+    LOG_ERROR_P(PARAM_PARAMETERS) << "the " << type_ << " transformation can only transform 2 parameters at a time. You supplied " << parameter_labels_.size() << " paramaters";
   }
   LOG_FINE() << "check values";
   difference_parameter_ = init_values_[0];
@@ -43,7 +43,7 @@ void SumToOne::DoValidate() {
   }
   if (prior_applies_to_restored_parameters_)
     LOG_FATAL_P(PARAM_PRIOR_APPLIES_TO_RESTORED_PARAMETERS)
-        << "There is no Jacobian available for this transformation, hence defining priors on the untransformed parameters is not enabled";
+        << "There is no Jacobian calculated for this transformation. Statistically, this may not be appropriate, so you are not allowed to do it";
 }
 
 /**
@@ -65,9 +65,10 @@ void SumToOne::DoRestore() {
 
 /**
  * GetScore
- * Calculate the Jacobian, to offset the bias of the transformation that enters the objective function
+ * @return -log(Jacobian) if transformed with Jacobian, otherwise 0.0
  */
 Double SumToOne::GetScore() {
+  // -ln(J) = NaN
   jacobian_ = 0.0;
   return jacobian_;
 }

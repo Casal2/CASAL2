@@ -210,7 +210,7 @@ void Simplex::DoRestore() {
 }
 
 /**
- *  Calculate the Jacobian, to offset the bias of the transformation that enters the objective function
+ * @return -log(Jacobian) if transformed with Jacobian, otherwise 0.0
  */
 Double Simplex::GetScore() {
   LOG_TRACE();
