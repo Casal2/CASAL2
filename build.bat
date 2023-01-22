@@ -2,12 +2,6 @@ cd BuildSystem
 
 call doBuild.bat version
 
-rem call doBuild.bat thirdparty
-rem call doBuild.bat thirdparty boost
-rem call doBuild.bat thirdparty adolc
-rem call doBuild.bat thirdparty betadiff
-rem call doBuild.bat thirdparty parser
-
 call doBuild.bat release
 call doBuild.bat release betadiff
 call doBuild.bat release adolc
