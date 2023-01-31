@@ -18,10 +18,10 @@
 #include "../../Categories/Categories.h"
 #include "../../DerivedQuantities/Manager.h"
 #include "../../Partition/Accessors/Categories.h"
+#include "../../Processes/Length/RecruitmentBevertonHolt.h"
 #include "../../Processes/Manager.h"
 #include "../../TimeSteps/Factory.h"
 #include "../../TimeSteps/Manager.h"
-#include "../../Processes/Length/RecruitmentBevertonHolt.h"
 
 // namespaces
 namespace niwa {
@@ -38,10 +38,12 @@ Iterative::Iterative(shared_ptr<Model> model) : InitialisationPhase(model), cach
   parameters_.Bind<unsigned>(PARAM_YEARS, &years_, "The number of iterations (years) over which to execute this initialisation phase", "");
   parameters_.Bind<string>(PARAM_INSERT_PROCESSES, &insert_processes_, "The processes in the annual cycle to be included in this initialisation phase", "", true);
   parameters_.Bind<string>(PARAM_EXCLUDE_PROCESSES, &exclude_processes_, "The processes in the annual cycle to be excluded from this initialisation phase", "", true);
-  parameters_.Bind<unsigned>(PARAM_CONVERGENCE_YEARS, &convergence_years_, "The iteration (year) when the test for converegence (lambda) is evaluated", "", true);
+  parameters_.Bind<unsigned>(PARAM_CONVERGENCE_YEARS, &convergence_years_, "The iteration (year) when the test for convergence (lambda) is evaluated", "", true);
   parameters_.Bind<Double>(PARAM_LAMBDA, &lambda_,
                            "The maximum value of the absolute sum of differences (lambda) between the partition at year-1 and year that indicates successful convergence", "",
-                           Double(0.0));
+                           Double(DEFAULT_CONVERGENCE));
+  parameters_.Bind<bool>(PARAM_PLUS_GROUP, &plus_group_, "Indicates if the convergence check applies only to the plus_group", "", false);
+  parameters_.Bind<bool>(PARAM_WARNING, &show_warnings_, "Indicates if [WARNING] messages for the convergence checks will be reported", "", false);
 }
 
 /**
@@ -127,7 +129,7 @@ void Iterative::DoBuild() {
         if (!recruitment_process_[i])
           LOG_CODE_ERROR() << "BevertonHolt Recruitment exists but dynamic cast pointer cannot be made, if (!recruitment) ";
         i++;
-      } 
+      }
     }
   }
 }
@@ -142,7 +144,7 @@ void Iterative::DoExecute() {
     time_step_manager.ExecuteInitialisation(label_, years_);
 
   } else {
-    unsigned total_years = 0;
+    unsigned total_years   = 0;
     unsigned counter_years = 0;
     for (unsigned years : convergence_years_) {
       counter_years = years;
@@ -158,12 +160,18 @@ void Iterative::DoExecute() {
       ++total_years;
 
       if (CheckConvergence()) {
-        LOG_FINE() << "year Convergence was reached = " << years;
+        if (show_warnings_)
+          LOG_INFO() << "Iterative initialisation convergence check: Convergence was reached after " << years << " years";
         break;
       }
       LOG_FINEST() << "Initial year = " << years;
     }
     LOG_FINE() << label_ << " ran for '" << counter_years << "' years.";
+  }
+
+  if (show_warnings_) {
+    if (!CheckConvergence())
+      LOG_WARNING() << "Iterative initialisation convergence check: Convergence was not achieved after " << years_ << " years";
   }
 
   // Check if we have B0 initialised or R0 initialised recruitment
@@ -175,7 +183,7 @@ void Iterative::DoExecute() {
       B0_initial_recruitment = true;
     }
   }
-  
+
   // if so re-run the model and populate model quantities with scaled values
   if (B0_initial_recruitment) {
     LOG_FINE() << "B0 initialised";
@@ -192,19 +200,31 @@ void Iterative::DoExecute() {
  */
 bool Iterative::CheckConvergence() {
   LOG_TRACE();
-  Double variance = 0.0;
-  auto cached_category = cached_partition_.begin();
-  auto category        = partition_.begin();
+  Double variance        = 0.0;
+  Double sum             = 0.0;
+  Double previous_sum    = 0.0;
+  auto   cached_category = cached_partition_.begin();
+  auto   category        = partition_.begin();
 
   for (; category != partition_.end(); ++cached_category, ++category) {
-    Double sum = (*category)->data_[(*category)->data_.size() - 1];
-    if (sum == 0.0)
-      return false;
-    // focus on the plus group
-    variance += fabs((*cached_category).data_[(*cached_category).data_.size() - 1] - (*category)->data_[(*category)->data_.size() - 1]) / sum;
+    if (plus_group_) {
+      sum += (*category)->data_[(*category)->data_.size() - 1];
+      previous_sum += cached_category->data_[cached_category->data_.size() - 1];
+    } else {
+      for (int i = 0; i < (int)(*category)->data_.size(); ++i) {
+        sum += (*category)->data_[i];
+        previous_sum += cached_category->data_[i];
+      }
+    }
   }
-
-  if (variance < lambda_)
+  LOG_FINE() << label_ << " had check values " << sum << " and " << previous_sum;
+  if (previous_sum == sum) {
+    if (show_warnings_)
+      LOG_WARNING() << "The iterative convergence check had sum = 0.0. This may be expected or could be an error. Please check your input configuration files.";
+    return (true);
+  }
+  variance += fabs(previous_sum - sum) / sum;
+  if (variance <= lambda_)
     return true;
 
   return false;

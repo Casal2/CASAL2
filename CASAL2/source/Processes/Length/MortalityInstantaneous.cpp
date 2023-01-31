@@ -17,8 +17,8 @@
 #include <boost/algorithm/string/split.hpp>
 #include <boost/algorithm/string/trim_all.hpp>
 
-#include "GrowthIncrements/GrowthIncrement.h"
 #include "Categories/Categories.h"
+#include "GrowthIncrements/GrowthIncrement.h"
 #include "Model/Managers.h"
 #include "Penalties/Manager.h"
 #include "Selectivities/Manager.h"
@@ -125,8 +125,8 @@ void MortalityInstantaneous::DoValidate() {
   }
 
   if (selectivity_labels_.size() != category_labels_.size()) {
-    LOG_FATAL_P(PARAM_RELATIVE_M_BY_LENGTH) << ": The number of M-by-length ogives provided is not the same as the number of categories provided. Categories: " << category_labels_.size()
-                                         << ", Ogives: " << selectivity_labels_.size();
+    LOG_FATAL_P(PARAM_RELATIVE_M_BY_LENGTH) << ": The number of M-by-length ogives provided is not the same as the number of categories provided. Categories: "
+                                            << category_labels_.size() << ", Ogives: " << selectivity_labels_.size();
   }
 
   if (m_input_.size() == 1) {
@@ -181,7 +181,6 @@ void MortalityInstantaneous::DoValidate() {
     LOG_FATAL_P(PARAM_METHOD) << "The required column " << PARAM_U_MAX << " was not found.";
   if (std::find(columns.begin(), columns.end(), PARAM_PENALTY) == columns.end())
     LOG_FATAL_P(PARAM_METHOD) << "The required column " << PARAM_PENALTY << " was not found.";
-
 
   unsigned fishery_index     = std::find(columns.begin(), columns.end(), PARAM_METHOD) - columns.begin();
   unsigned category_index    = std::find(columns.begin(), columns.end(), PARAM_CATEGORY) - columns.begin();
@@ -246,7 +245,6 @@ void MortalityInstantaneous::DoValidate() {
 
     boost::split(categories, row[category_index], boost::is_any_of(","));
     boost::split(selectivities, row[selectivity_index], boost::is_any_of(","));
-
 
     if (categories.size() != selectivities.size())
       LOG_FATAL_P(PARAM_METHOD) << "The number of categories (" << categories.size() << ") and selectivities (" << selectivities.size() << ") provided must be the same";
@@ -467,7 +465,7 @@ void MortalityInstantaneous::DoExecute() {
       selectivity_value               = category.selectivity_->GetLengthResult(i);
       category.exploitation_[i]       = 0.0;
       category.selectivity_values_[i] = selectivity_value;
-      category.exp_values_half_m_[i]  = exp(-0.5 * ratio * (*category.m_) * selectivity_value);  // this exp call should ony
+      category.exp_values_half_m_[i]  = exp(-0.5 * ratio * (*category.m_) * selectivity_value);  // this exp call should only be called once per length bin + category
       LOG_FINEST() << "category " << category.category_label_ << " length index " << i << " selectivity " << selectivity_value;
     }
   }
@@ -477,8 +475,7 @@ void MortalityInstantaneous::DoExecute() {
       continue;
 
     for (unsigned i = 0; i < fishery_category.selectivity_values_.size(); ++i) {
-      fishery_category.selectivity_values_[i]
-          = fishery_category.selectivity_->GetLengthResult(i);
+      fishery_category.selectivity_values_[i] = fishery_category.selectivity_->GetLengthResult(i);
       LOG_FINEST() << "fishery category " << fishery_category.fishery_label_ << " length index " << i << " selectivity " << selectivity_value;
     }
   }
@@ -508,8 +505,8 @@ void MortalityInstantaneous::DoExecute() {
       Double vulnerable = 0.0;
       if (is_catch_biomass_) {  // as biomass
         for (unsigned i = 0; i < category->data_.size(); ++i) {
-          vulnerable += category->data_[i] * category->growth_increment_->get_mean_weight(i) * fishery_category.selectivity_values_[i]
-                        * fishery_category.category_.exp_values_half_m_[i];
+          vulnerable
+              += category->data_[i] * category->growth_increment_->get_mean_weight(i) * fishery_category.selectivity_values_[i] * fishery_category.category_.exp_values_half_m_[i];
         }
       } else {  // as abundance
         for (unsigned i = 0; i < category->data_.size(); ++i) {
@@ -606,7 +603,7 @@ void MortalityInstantaneous::DoExecute() {
         LOG_FINE() << "fishery = " << fishery.label_ << " U_obs = " << fishery.uobs_fishery_ << " and u_max " << fishery.u_max_;
         LOG_FINE() << fishery.label_ << " rescaled exploitation rate = " << fishery.exploitation_;
 
-        recalculate_length_exploitation        = true;
+        recalculate_length_exploitation     = true;
         fishery.actual_catches_[year]       = fishery.vulnerability_ * fishery.exploitation_;
         fishery.exploitation_by_year_[year] = fishery.exploitation_;
 
@@ -650,8 +647,8 @@ void MortalityInstantaneous::DoExecute() {
     LOG_FINEST() << "Calculate proportions at length";
     if (find(process_years_.begin(), process_years_.end(), year) != process_years_.end()) {
       // only calculate observed fits for years the process exists for
-      unsigned get_number_of_length_bins      = model_->get_number_of_length_bins();
-      unsigned category_offset = 0;
+      unsigned get_number_of_length_bins = model_->get_number_of_length_bins();
+      unsigned category_offset           = 0;
       for (auto& categories : partition_) {
         for (auto& fishery_category : fishery_categories_) {
           if (fishery_category.category_label_ == categories->name_ && fisheries_[fishery_category.fishery_label_].time_step_index_ == time_step_index) {
@@ -660,8 +657,8 @@ void MortalityInstantaneous::DoExecute() {
                          << " category ndx = " << fishery_category.category_.category_ndx_;
             for (unsigned i = 0; i < get_number_of_length_bins; ++i) {
               removals_by_year_fishery_category_[this_year_iter.second][fishery_category.fishery_.fishery_ndx_][fishery_category.category_.category_ndx_][i]
-                  = categories->data_[i] * fishery_category.fishery_.exploitation_
-                    * fishery_category.selectivity_->GetLengthResult(i) * fishery_category.category_.exp_values_half_m_[i];
+                  = categories->data_[i] * fishery_category.fishery_.exploitation_ * fishery_category.selectivity_->GetLengthResult(i)
+                    * fishery_category.category_.exp_values_half_m_[i];
             }
           }
         }
@@ -682,13 +679,13 @@ void MortalityInstantaneous::DoExecute() {
                    << " exploitation = " << category.exploitation_[i] << " M = " << *category.m_ << " relative_m_by_length = " << category.selectivity_values_[i];
 
       category.category_->data_[i] *= category.exp_values_half_m_[i] * category.exp_values_half_m_[i] * (1.0 - category.exploitation_[i]);
-      LOG_FINEST() << "category " << category.category_label_ << ": updated numbers at length = " << category.category_->data_[i] << " length ndx " << i ;
+      LOG_FINEST() << "category " << category.category_label_ << ": updated numbers at length = " << category.category_->data_[i] << " length ndx " << i;
 
       if (category.category_->data_[i] < 0.0) {
         LOG_CODE_ERROR() << " Fishing caused a negative partition : if (categories->data_[i] < 0.0), category.category_->data_[i] = " << category.category_->data_[i]
-                         << " i = " << i + 1 << "; category " << category.category_label_ << ": numbers at length = " << category.category_->data_[i] << " length ndx "
-                         << i  << " exploitation = " << category.exploitation_[i] << " relative_m_by_length = " << category.selectivity_values_[i]
-                         << " M = " << *category.m_ << " time step = " << time_step_index << " used in time step = " << category.used_in_current_timestep_;
+                         << " i = " << i + 1 << "; category " << category.category_label_ << ": numbers at length = " << category.category_->data_[i] << " length ndx " << i
+                         << " exploitation = " << category.exploitation_[i] << " relative_m_by_length = " << category.selectivity_values_[i] << " M = " << *category.m_
+                         << " time step = " << time_step_index << " used in time step = " << category.used_in_current_timestep_;
       }
     }
     ++category_ndx;

@@ -92,7 +92,6 @@ bool Objects::VerifyAddressableForUse(const string& parameter_absolute_name, add
   return true;
 }
 
-
 /**
  * This method will locate an object and ask it if it is being used for usage
  *
@@ -106,7 +105,7 @@ bool Objects::IsParameterUsedFor(const string& parameter_absolute_name, addressa
   string label     = "";
   string parameter = "";
   string index     = "";
-  string error            = "";
+  string error     = "";
 
   ostringstream str;
 
@@ -188,7 +187,7 @@ vector<Double*>* Objects::GetAddressables(const string& addressable_absolute_nam
 }
 
 /**
- * This method searchs the model for the specific addressable and
+ * This method searches the model for the specific addressable and
  * returns a pointer to it if it exists.
  *
  * @param parameter_absolute_name The absolute parameter name, e.g., 'process[recruitment].r0'
@@ -377,7 +376,7 @@ void Objects::ExplodeString(const string& parameter_absolute_name, string& type,
 
   if (token_list.size() == 1) {
     addressable = utilities::ToLowercase(token_list[0]);
-  } else if(token_list.size() == 2) {
+  } else if (token_list.size() == 2) {
     addressable = utilities::ToLowercase(token_list[0]);
     index       = token_list[1];
   }

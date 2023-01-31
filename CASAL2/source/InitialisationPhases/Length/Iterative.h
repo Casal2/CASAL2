@@ -46,16 +46,17 @@ protected:
   bool CheckConvergence();
 
   // members
-  unsigned             years_;
-  vector<string>       insert_processes_;
-  vector<string>       exclude_processes_;
-  vector<TimeStep*>    time_steps_;
-  Double               lambda_;
-  vector<unsigned>     convergence_years_;
-  cached::Categories   cached_partition_;
-  accessor::Categories partition_;
-  vector<length::RecruitmentBevertonHolt*>               recruitment_process_;
-
+  unsigned                                 years_;
+  vector<string>                           insert_processes_;
+  vector<string>                           exclude_processes_;
+  vector<TimeStep*>                        time_steps_;
+  Double                                   lambda_;
+  bool                                     plus_group_;
+  bool                                     show_warnings_;
+  vector<unsigned>                         convergence_years_;
+  cached::Categories                       cached_partition_;
+  accessor::Categories                     partition_;
+  vector<length::RecruitmentBevertonHolt*> recruitment_process_;
 };
 
 }  // namespace length

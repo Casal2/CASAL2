@@ -42,7 +42,9 @@ Iterative::Iterative(shared_ptr<Model> model) : InitialisationPhase(model), cach
   parameters_.Bind<unsigned>(PARAM_CONVERGENCE_YEARS, &convergence_years_, "The iteration (year) when the test for convergence (lambda) is evaluated", "", true);
   parameters_.Bind<Double>(PARAM_LAMBDA, &lambda_,
                            "The maximum value of the absolute sum of differences (lambda) between the partition at year-1 and year that indicates successful convergence", "",
-                           Double(0.0));
+                           Double(DEFAULT_CONVERGENCE));
+  parameters_.Bind<bool>(PARAM_PLUS_GROUP, &plus_group_, "Indicates if the convergence check applies only to the plus_group", "", false);
+  parameters_.Bind<bool>(PARAM_WARNING, &show_warnings_, "Indicates if [WARNING] messages for the convergence checks will be reported", "", false);
 }
 
 /**
@@ -72,7 +74,7 @@ void Iterative::DoBuild() {
     string target_process = pieces.size() == 3 ? pieces[1] : "";
     string new_process    = pieces.size() == 3 ? pieces[2] : pieces[1];
 
-    auto           time_step      = model_->managers()->time_step()->GetTimeStep(pieces[0]);
+    auto time_step = model_->managers()->time_step()->GetTimeStep(pieces[0]);
     LOG_FINE() << "inserting " << new_process << " into time-step " << pieces[0] << " before the process " << target_process;
     vector<string> process_labels = time_step->initialisation_process_labels(label_);
 
@@ -147,7 +149,7 @@ void Iterative::DoExecute() {
 
   } else {
     unsigned counter_years = 0;
-    unsigned total_years = 0;
+    unsigned total_years   = 0;
     for (unsigned years : convergence_years_) {
       counter_years = years;
 
@@ -165,65 +167,78 @@ void Iterative::DoExecute() {
       ++total_years;
 
       if (CheckConvergence()) {
-        LOG_FINE() << "year Convergence was reached = " << years;
+        if (show_warnings_)
+          LOG_INFO() << "Iterative initialisation convergence check: Convergence was reached after " << years << " years";
         break;
       }
-      LOG_FINE() << "Initial year = " << years;
+      LOG_MEDIUM() << "Initial year = " << years;
     }
-    LOG_FINE() << label_ << " ran for '" << counter_years << "' years.";
+    LOG_MEDIUM() << label_ << " ran for '" << counter_years << "' years.";
+  }
+
+  if (show_warnings_) {
+    if (!CheckConvergence())
+      LOG_WARNING() << "Iterative initialisation convergence check: Convergence was not achieved after " << years_ << " years";
   }
 
   LOG_FINE() << "Number of Beverton-Holt recruitment processes in annual cycle = " << recruitment_process_.size();
   LOG_FINE() << "Number of Beverton-Holt recruitment processes with deviations in annual cycle = " << recruitment_process_with_devs_.size() << " and partition has not been scaled";
   // We are at Equilibrium state here
   // Check if we have B0 initialised or R0 initialised recruitment
-  bool B0_intial_recruitment = false;
+  bool B0_initial_recruitment = false;
   for (auto recruitment_process : recruitment_process_) {
     if (recruitment_process->b0_initialised() & !recruitment_process->has_partition_been_scaled()) {
       LOG_FINE() << PARAM_B0 << " has been defined for process labelled " << recruitment_process->label();
       recruitment_process->ScalePartition();
-      B0_intial_recruitment = true;
+      B0_initial_recruitment = true;
     }
   }
   for (auto recruitment_process_with_devs : recruitment_process_with_devs_) {
     if (recruitment_process_with_devs->b0_initialised() & !recruitment_process_with_devs->has_partition_been_scaled()) {
       LOG_FINE() << PARAM_B0 << " has been defined for process labelled " << recruitment_process_with_devs->label() << " and partition has not been scaled";
       recruitment_process_with_devs->ScalePartition();
-      B0_intial_recruitment = true;
+      B0_initial_recruitment = true;
     }
   }
-  if (B0_intial_recruitment) {
-    // Calculate derived quanitities in the right space if we have a B0 initialised model
+  if (B0_initial_recruitment) {
+    // Calculate derived quantities in the right space if we have a B0 initialised model
     timesteps::Manager& time_step_manager = *model_->managers()->time_step();
     time_step_manager.ExecuteInitialisation(label_, 1);
   }
-
 }
 
 /**
- * Check for convergence on the partition and return true if it exceeds the
+ * Check for convergence on the partition and return true if it less than the
  * lambda threshold to quit early and save time
  *
  * @return True if convergence, false otherwise
  */
 bool Iterative::CheckConvergence() {
   LOG_TRACE();
-
-  Double variance = 0.0;
-
-  auto cached_category = cached_partition_.begin();
-  auto category        = partition_.begin();
+  Double variance        = 0.0;
+  Double sum             = 0.0;
+  Double previous_sum    = 0.0;
+  auto   cached_category = cached_partition_.begin();
+  auto   category        = partition_.begin();
 
   for (; category != partition_.end(); ++cached_category, ++category) {
-    Double sum = 0.0;
-    for (Double value : (*category)->data_) sum += value;  // Can't use std::accum because of AutoDiff
-    if (sum == 0.0)
-      return false;
-
-    for (unsigned i = 0; i < (*category)->data_.size(); ++i) variance += fabs((*cached_category).data_[i] - (*category)->data_[i]) / sum;
+    if (plus_group_) {
+      sum += (*category)->data_[(*category)->data_.size() - 1];
+      previous_sum += cached_category->data_[cached_category->data_.size() - 1];
+    } else {
+      for (int i = 0; i < (int)(*category)->data_.size(); ++i) {
+        sum += (*category)->data_[i];
+        previous_sum += cached_category->data_[i];
+      }
+    }
   }
-
-  if (variance < lambda_)
+  LOG_FINE() << label_ << " had check values " << sum << " and " << previous_sum;
+  if (previous_sum == sum) {
+    LOG_WARNING() << "The iterative convergence check had sum = 0.0. This may be expected or could be an error. Please check your input configuration files.";
+    return (true);
+  }
+  variance += fabs(previous_sum - sum) / sum;
+  if (variance <= lambda_)
     return true;
 
   return false;

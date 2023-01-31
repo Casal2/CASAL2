@@ -14,6 +14,7 @@
 
 #include <cmath>
 #include <iostream>
+#include <string>
 
 #include "../../../Logging/Logging.h"
 #include "../../../Translations/Translations.h"
@@ -374,13 +375,11 @@ void FMM::fMin(vector<double>& Candidates, double& Score, vector<double>& Gradie
     dCurrentTolerance = 0.0;
     for (int i = 0; i < iVectorSize; ++i) {
       dCurrentTolerance = fmax(dCurrentTolerance, fabs(pGradient[i]) * fmax(1, fabs(pPreviousCandidates[i])) / fabs(dPreviousScore2));
-      // cout << "dCurrentTolerance = " << dCurrentTolerance << "; pGradient[i] = " << pGradient[i] << "; pPreviousCandidates[i] = " << pPreviousCandidates[i]
-      //  << "; dPreviousScore2 = " << dPreviousScore2 << endl;
+      // LOG_INFO() << "dCurrentTolerance = " << dCurrentTolerance << "; pGradient[i] = " << pGradient[i] << "; pPreviousCandidates[i] = " << pPreviousCandidates[i]
+      //            << "; dPreviousScore2 = " << dPreviousScore2 << endl;
     }
 
-    //    if(!(pConfig->getQuietMode())) {
-    LOG_INFO() << CONVERGENCE_CHECK << (double)dCurrentTolerance << ". " << CONVERGENCE_THRESHOLD << (double)dGradTol;
-    //    }
+    LOG_INFO() << "Convergence check: current value is " << (double)dCurrentTolerance << " and convergence tolerance is " << (double)dGradTol;
 
     if (dCurrentTolerance <= dGradTol) {
       iRet = -1;  // convergence!

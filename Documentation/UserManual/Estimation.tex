@@ -104,7 +104,7 @@ DeltaDiff applies the same minimiser as Numerical Differences, expect that it us
 
 \subsubsection{\I{The differential evolution minimiser}}\label{sec:Minimiser-DESolver}
 
-The differential evolution minimiser is a simple population-based, stochastic function minimizer, but is claimed to be quite powerful in solving minimisation problems. It is a method of mathematical optimization of multidimensional functions and belongs to the class of evolution strategy optimizers.
+The differential evolution minimiser (\argument{de\_solver}) is a simple population-based, stochastic function minimizer, but is claimed to be quite powerful in solving minimisation problems. It is a method of mathematical optimization of multidimensional functions and belongs to the class of evolution strategy optimizers.
 
 Initially, the procedure randomly generates and evaluates a number of solution vectors (the population size), each with $p$ parameters. Then, for each generation (iteration), the algorithm creates a candidate solution for each existing solution by random mutation and uniform crossover. The random mutation generates a new solution by multiplying the difference between two randomly selected solution vectors by some scale factor, then adding the result to a third vector. Then an element-wise crossover takes place with probability $P_{cr}$, to generate a potential candidate solution. If this is better than the initial solution vector, it replaces it, otherwise the original solution is retained. The algorithm terminates after either a predefined number of generations (\argument{max\_generations}) or when the maximum difference between the scaled individual parameters from the candidate solutions from all populations is less than some predefined amount \argument{tolerance}.
 
@@ -113,7 +113,7 @@ The differential evolution minimiser can be good at finding global minimums in s
 There is no proof of convergence for the differential evolution solver, but several papers have found it to be an efficient method of solving multidimensional problems. Some results suggest that it can often find a better minima and may be faster or longer (depending on the actual model specification) at finding a solution when compared with the numerical differences minimiser. Comparisons with automatic differentiation minimisers or other more sophisticated algorithms have not been made.
 
 {\small{\begin{verbatim}
-		@minimiser DE_solver
+		@minimiser DESolver
 		type de_solver
 		tolerance 1e-6
 		iterations 2500

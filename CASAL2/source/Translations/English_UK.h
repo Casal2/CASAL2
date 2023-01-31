@@ -77,7 +77,7 @@
 //
 //**********************************************************************
 #define CONVERGENCE_CHECK                     "Convergence check value = "
-#define CONVERGENCE_THRESHOLD                 "Convergence tolerance   = "
+#define CONVERGENCE_THRESHOLD                 "Convergence tolerance = "
 #define CONVERGENCE                           "Convergence = "
 #define DEFAULT_CONVERGENCE                   1e-5 
 
@@ -344,6 +344,7 @@
 #define PARAM_GROWTH_INCREMENTS                   "growth_increments"
 #define PARAM_GROWTH_PROPORTIONS                  "growth_proportions"
 #define PARAM_GROWTH_TIME_STEPS                   "growth_time_steps"
+#define PARAM_GROWTH_TRANSITION_MATRIX            "growth_transition_matrix"
 #define PARAM_H                                   "h"
 #define PARAM_DOUBLE_HALF                         "double_half"
 #define PARAM_HAMILTONIAN                         "hamiltonian"

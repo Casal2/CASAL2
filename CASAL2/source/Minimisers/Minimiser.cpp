@@ -124,6 +124,12 @@ void Minimiser::BuildCovarianceMatrix() {
 
   LOG_FINE() << "Building covariance matrix";
 
+  if (type_ == PARAM_DE_SOLVER) {
+    LOG_WARNING_P(PARAM_COVARIANCE) << ": cannot be specified as true for DESolver. This minimiser does not support generating a covariance matrix";
+    build_covariance_ = false;
+    return;
+  }
+
   ublas::matrix<double> hessian_matrix(hessian_size_, hessian_size_);
   vector<bool>          zero_row;
   for (unsigned i = 0; i < hessian_size_; ++i) {

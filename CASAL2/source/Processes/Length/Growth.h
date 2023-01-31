@@ -35,11 +35,12 @@ public:
   // Methods
   explicit Growth(shared_ptr<Model> model);
   virtual ~Growth() = default;
-  void                  DoValidate() override final;
-  void                  DoBuild() override final;
-  void                  DoReset() override final;
-  void                  DoExecute() override final;
-  const vector<string>& category_labels() const { return category_labels_; }
+  void                          DoValidate() override final;
+  void                          DoBuild() override final;
+  void                          DoReset() override final;
+  void                          DoExecute() override final;
+  const vector<string>&         category_labels() const { return category_labels_; }
+  const vector<vector<Double>>& transition_matrix() const { return transition_matrix_; }
 
 private:
   // Members

@@ -362,7 +362,7 @@ void MortalityInstantaneous::DoBuild() {
   for (unsigned i = 0; i < time_step_ratios_temp_.size(); ++i) time_step_ratios_[active_time_steps[i]] = time_step_ratios_temp_[i];
 
   /**
-   * Assign the selectivity, penalty and time step index to each fisher data object
+   * Assign the selectivity, penalty and time step index to each fishery data object
    */
   for (auto& fishery_category : fishery_categories_) {
     fishery_category.selectivity_ = model_->managers()->selectivity()->GetSelectivity(fishery_category.selectivity_label_);
@@ -531,7 +531,7 @@ void MortalityInstantaneous::DoExecute() {
       selectivity_value               = category.selectivity_->GetAgeResult(category.category_->min_age_ + i, category.category_->age_length_);
       category.exploitation_[i]       = 0.0;
       category.selectivity_values_[i] = selectivity_value;
-      category.exp_values_half_m_[i]  = exp(-0.5 * ratio * (*category.m_) * selectivity_value);  // this exp call should only
+      category.exp_values_half_m_[i]  = exp(-0.5 * ratio * (*category.m_) * selectivity_value);  // this exp call should only be called once per length bin + category
       LOG_FINEST() << "category " << category.category_label_ << " age index " << i << " selectivity " << selectivity_value << " has exp_values_half_m_ "
                    << category.exp_values_half_m_[i];
     }

@@ -55,7 +55,15 @@
 
 \defSub{lambda}{The maximum value of the absolute sum of differences (lambda) between the partition at year-1 and year that indicates successful convergence}
 \defType{Real number (estimable)}
-\defDefault{0.0}
+\defDefault{DEFAULT\_CONVERGENCE}
+
+\defSub{plus\_group}{Indicates if the convergence check applies only to the plus\_group}
+\defType{Boolean}
+\defDefault{false}
+
+\defSub{warning}{Indicates if [WARNING] messages for the convergence checks will be reported}
+\defType{Boolean}
+\defDefault{false}
 
 \subsubsection{Initialisation\_Phase of type State\_Category\_By\_Age}
 \commandlabsubarg{Initialisation\_Phase}{type}{State\_Category\_By\_Age}.
