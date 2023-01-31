@@ -108,11 +108,24 @@ void Iterative::DoBuild() {
       LOG_ERROR_P(PARAM_EXCLUDE_PROCESSES) << " process " << exclude << " does not exist in any time steps to be excluded.";
   }
 
+  // ensure a convergence test is carried out, only keep valid convergence years, and remove duplicates
   if (convergence_years_.size() != 0) {
-    std::sort(convergence_years_.begin(), convergence_years_.end());
-    if ((*convergence_years_.rbegin()) != years_)
+    if (std::find(convergence_years_.begin(), convergence_years_.end(), years_) == convergence_years_.end()) {
       convergence_years_.push_back(years_);
+    }
+  } else {
+    convergence_years_.push_back(years_);
   }
+  std::sort(convergence_years_.begin(), convergence_years_.end());
+  vector<unsigned> valid_years;
+  for (auto year : convergence_years_) {
+    if (year <= years_) {
+      if (std::find(valid_years.begin(), valid_years.end(), year) == valid_years.end()) {
+        valid_years.push_back(year);
+      }
+    }
+  }
+  convergence_years_ = valid_years;
 
   // Build our partition
   vector<string> categories = model_->categories()->category_names();
@@ -141,7 +154,7 @@ void Iterative::DoExecute() {
   LOG_TRACE();
   timesteps::Manager& time_step_manager = *model_->managers()->time_step();
   if (convergence_years_.size() == 0) {
-    time_step_manager.ExecuteInitialisation(label_, years_);
+    LOG_CODE_ERROR() << "In iterative convergence, convergence years have not been defined";
 
   } else {
     unsigned total_years   = 0;
@@ -224,6 +237,9 @@ bool Iterative::CheckConvergence() {
     return (true);
   }
   variance += fabs(previous_sum - sum) / sum;
+
+  convergence_lambda_.push_back(variance);
+
   if (variance <= lambda_)
     return true;
 

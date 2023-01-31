@@ -38,6 +38,11 @@ public:
   explicit Iterative(shared_ptr<Model> model);
   virtual ~Iterative() = default;
 
+  // accessors
+  vector<unsigned> getConvergenceYears() const { return convergence_years_; }
+  vector<Double>   getConvergenceLambda() const { return convergence_lambda_; }
+  // vector<Double>   getLambda() const { return lambda_; }
+
 protected:
   // methods
   void DoValidate() override final;
@@ -54,6 +59,7 @@ protected:
   bool                                     plus_group_;
   bool                                     show_warnings_;
   vector<unsigned>                         convergence_years_;
+  vector<Double>                           convergence_lambda_;
   cached::Categories                       cached_partition_;
   accessor::Categories                     partition_;
   vector<length::RecruitmentBevertonHolt*> recruitment_process_;
