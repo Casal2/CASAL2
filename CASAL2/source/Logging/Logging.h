@@ -95,6 +95,7 @@ private:
 #define LOG_IMPORTANT() LOG_IF_FOR_STREAM(logger::Severity::kImportant)
 // Verify messages (an error, except during unit tests) can be bypassed with --verifylevel warning or -V warning
 #define LOG_VERIFY() LOG_IF_FOR_STREAM(logger::Severity::kVerify)
+#define LOG_VERIFY_P(parameter) LOG_IF_FOR_STREAM(logger::Severity::kVerify) << this->parameters_.location(parameter)
 // Warning messages (not an error, except during test)
 #define LOG_WARNING() LOG_IF_FOR_STREAM(logger::Severity::kWarning)
 #define LOG_WARNING_P(parameter) LOG_IF_FOR_STREAM(logger::Severity::kWarning) << this->parameters_.location(parameter)
