@@ -55,7 +55,7 @@ void Basic::DoValidate() {
  * @param length length to calculate growth increment from
  *
  */
-Double Basic::get_mean_increment(double length, double time_step_proportion) {
+Double Basic::get_mean_increment(double length) {
   Double increment = g_a_ + (g_b_ - g_a_) * (length - l_a_) / (l_b_ - l_a_);
   LOG_FINEST() << "length = " << length << " increment = " << increment;
   return increment;

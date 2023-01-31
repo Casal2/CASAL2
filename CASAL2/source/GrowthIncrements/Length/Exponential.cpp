@@ -56,7 +56,7 @@ void Exponential::DoValidate() {
  * @param length length to calculate growth increment from
  *
  */
-Double Exponential::get_mean_increment(double length, double time_step_proportion) {
+Double Exponential::get_mean_increment(double length) {
   return g_a_ * pow(g_b_ / g_a_, (length - l_a_) / (l_b_ - l_a_));
 };
 

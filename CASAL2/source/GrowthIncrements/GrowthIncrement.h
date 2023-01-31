@@ -57,7 +57,7 @@ protected:
   virtual void DoBuild()    = 0;
   virtual void DoReset()    = 0;
 
-  virtual Double get_mean_increment(double length, double time_step_proportion) = 0;
+  virtual Double get_mean_increment(double length) = 0;
 
   void populate_growth_transition_matrix();
 

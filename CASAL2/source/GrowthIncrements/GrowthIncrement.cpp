@@ -142,7 +142,7 @@ void GrowthIncrement::populate_growth_transition_matrix() {
         LOG_FINE() << "in plus group set = 1.0";
         growth_transition_matrix_[i][i] = 1.0;  // stay in plus group
       } else {
-        mu                              = get_mean_increment(model_length_midpoints_[i], 1.0);
+        mu                              = get_mean_increment(model_length_midpoints_[i]);
         sigma                           = fmax(min_sigma_, mu * cv_);
         growth_transition_matrix_[i][i] = utilities::math::pnorm(model_min_length_bins_[i + 1] - model_length_midpoints_[i], mu, sigma);
         LOG_FINE() << " i = " << i + 1 << " mu = " << mu << " sigma = " << sigma << " val " << model_min_length_bins_[i + 1] - model_length_midpoints_[i] << " pnorm "
@@ -169,7 +169,7 @@ void GrowthIncrement::populate_growth_transition_matrix() {
         LOG_FINE() << "in plus group set = 1.0";
         growth_transition_matrix_[i][i] = 1.0;  // stay in plus group
       } else {
-        mu                              = get_mean_increment(model_length_midpoints_[i], 1.0);
+        mu                              = get_mean_increment(model_length_midpoints_[i]);
         sigma                           = fmax(min_sigma_, mu * cv_);
         growth_transition_matrix_[i][i] = utilities::math::pnorm2(model_min_length_bins_[i + 1] - model_length_midpoints_[i], mu, sigma);
         LOG_FINE() << " i = " << i + 1 << " mu = " << mu << " sigma = " << sigma << " val " << model_min_length_bins_[i + 1] - model_length_midpoints_[i] << " pnorm "
@@ -210,8 +210,7 @@ void GrowthIncrement::FillReportCache(ostringstream& cache) {
   Double mu    = 0.0;
   Double sigma = 0.0;
   for (unsigned i = 0; i < number_of_model_length_bins_; ++i) {
-    // mu    = get_mean_increment(model_length_midpoints_[i], time_step_proportions_[this_time_step]);
-    mu    = get_mean_increment(model_length_midpoints_[i], 1.0);
+    mu    = get_mean_increment(model_length_midpoints_[i]);
     sigma = fmax(min_sigma_, mu * cv_);
     cache << i + 1 << " " << model_length_midpoints_[i] << " " << AS_DOUBLE(mu) << " " << AS_DOUBLE(sigma) << " " << mean_weight_by_length_bin_index_[i] << REPORT_EOL;
   }

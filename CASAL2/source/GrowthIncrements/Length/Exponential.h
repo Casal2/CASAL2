@@ -33,11 +33,11 @@ public:
 
   // accessors
 protected:
-  Double get_mean_increment(double length, double time_step_proportion) override;
-  Double        g_a_;
-  Double        g_b_;
-  Double        l_a_;
-  Double        l_b_;
+  Double get_mean_increment(double length) override;
+  Double g_a_;
+  Double g_b_;
+  Double l_a_;
+  Double l_b_;
 };
 
 } /* namespace growthincrements */
