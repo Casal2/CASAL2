@@ -44,16 +44,14 @@ protected:
   void DoValidate() override final;
   void DoBuild() override final;
   void DoExecute() override final;
-  bool CheckConvergence();
+  bool CheckConvergence(unsigned year);
 
   // members
   unsigned             years_;
   vector<string>       insert_processes_;
   vector<string>       exclude_processes_;
   vector<TimeStep*>    time_steps_;
-  Double               lambda_;
   bool                 plus_group_;
-  bool                 show_warnings_;
   vector<unsigned>     convergence_years_;
   cached::Categories   cached_partition_;
   accessor::Categories partition_;

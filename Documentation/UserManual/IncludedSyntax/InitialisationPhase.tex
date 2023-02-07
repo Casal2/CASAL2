@@ -30,13 +30,9 @@
 \defType{Vector of non-negative integers}
 \defDefault{true}
 
-\defSub{lambda}{The maximum value of the proportional summed difference between the partition at year and year-1 that indicates successful convergence}
+\defSub{lambda}{The maximum value of the proportional summed difference between the partition at year and year+1 that indicates successful convergence}
 \defType{Real number}
-\defDefault{1e-5}
-
-\defSub{warnings}{Indicates if [WARNING] messages for the convergence checks will be reported}
-\defType{boolean}
-\defDefault{false}
+\defDefault{1e-10}
 
 \defSub{plus\_group}{Indicates if the convergence check applies only to the plus\_group of the partition}
 \defType{boolean}

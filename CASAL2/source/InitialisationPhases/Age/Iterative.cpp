@@ -39,12 +39,12 @@ Iterative::Iterative(shared_ptr<Model> model) : InitialisationPhase(model), cach
   parameters_.Bind<unsigned>(PARAM_YEARS, &years_, "The number of iterations (years) over which to execute this initialisation phase", "");
   parameters_.Bind<string>(PARAM_INSERT_PROCESSES, &insert_processes_, "The processes in the annual cycle to be include in this initialisation phase", "", true);
   parameters_.Bind<string>(PARAM_EXCLUDE_PROCESSES, &exclude_processes_, "The processes in the annual cycle to be excluded from this initialisation phase", "", true);
-  parameters_.Bind<unsigned>(PARAM_CONVERGENCE_YEARS, &convergence_years_, "The iteration (year) when the test for convergence (lambda) is evaluated", "", true);
+  parameters_.Bind<unsigned>(PARAM_CONVERGENCE_YEARS, &convergence_years_, "The iteration (year) when the test for convergence (lambda) is evaluated", "", true)
+      ->set_lower_bound(2, true);
   parameters_.Bind<Double>(PARAM_LAMBDA, &lambda_,
                            "The maximum value of the absolute sum of differences (lambda) between the partition at year-1 and year that indicates successful convergence", "",
-                           Double(DEFAULT_CONVERGENCE));
+                           Double(1e-10));
   parameters_.Bind<bool>(PARAM_PLUS_GROUP, &plus_group_, "Indicates if the convergence check applies only to the plus_group", "", false);
-  parameters_.Bind<bool>(PARAM_WARNING, &show_warnings_, "Indicates if [WARNING] messages for the convergence checks will be reported", "", false);
 }
 
 /**
@@ -107,11 +107,24 @@ void Iterative::DoBuild() {
       LOG_ERROR_P(PARAM_EXCLUDE_PROCESSES) << " process " << exclude << " does not exist in any time steps to be excluded.";
   }
 
+  // ensure a convergence test is carried out, only keep valid convergence years, and remove duplicates
   if (convergence_years_.size() != 0) {
-    std::sort(convergence_years_.begin(), convergence_years_.end());
-    if ((*convergence_years_.rbegin()) != years_)
+    if (std::find(convergence_years_.begin(), convergence_years_.end(), years_) == convergence_years_.end()) {
       convergence_years_.push_back(years_);
+    }
+  } else {
+    convergence_years_.push_back(years_);
   }
+  std::sort(convergence_years_.begin(), convergence_years_.end());
+  vector<unsigned> valid_years;
+  for (auto year : convergence_years_) {
+    if (year <= years_) {
+      if (std::find(valid_years.begin(), valid_years.end(), year) == valid_years.end()) {
+        valid_years.push_back(year);
+      }
+    }
+  }
+  convergence_years_ = valid_years;
 
   // Build our partition
   vector<string> categories = model_->categories()->category_names();
@@ -143,46 +156,43 @@ void Iterative::DoBuild() {
  * Execute the iterative initialisation phases
  */
 void Iterative::DoExecute() {
+  LOG_TRACE();
+
+  timesteps::Manager& time_step_manager = *model_->managers()->time_step();
   if (convergence_years_.size() == 0) {
-    timesteps::Manager& time_step_manager = *model_->managers()->time_step();
-    time_step_manager.ExecuteInitialisation(label_, years_);
-
+    LOG_CODE_ERROR() << "In iterative convergence, convergence years have not been defined. This should have been done in code if it was not supplied by the user";
   } else {
-    unsigned counter_years = 0;
     unsigned total_years   = 0;
-    for (unsigned years : convergence_years_) {
-      counter_years = years;
+    unsigned counter_years = 0;
 
-      timesteps::Manager& time_step_manager = *model_->managers()->time_step();
-      time_step_manager.ExecuteInitialisation(label_, years - (total_years + 1));
+    test_convergence_years_.resize(0);
+    test_convergence_lambda_.resize(0);
 
-      total_years += years - (total_years + 1);
-      if ((total_years + 1) >= years_) {
-        time_step_manager.ExecuteInitialisation(label_, 1);
-        break;
-      }
+    for (unsigned year : convergence_years_) {
+      counter_years = year;
+      time_step_manager.ExecuteInitialisation(label_, year - (total_years + 1));
 
       cached_partition_.BuildCache();
       time_step_manager.ExecuteInitialisation(label_, 1);
-      ++total_years;
-
-      if (CheckConvergence()) {
-        if (show_warnings_)
-          LOG_INFO() << "Iterative initialisation convergence check: Convergence was reached after " << years << " years";
+      total_years += year - (total_years + 1);
+      if ((total_years + 1) >= years_) {
+        // Have run for the maximum years_ defined
+        CheckConvergence(year);
         break;
+      } else {
+        // Check if convergence obtained - if so, break
+        if (CheckConvergence(year))
+          break;
       }
-      LOG_MEDIUM() << "Initial year = " << years;
+      ++total_years;
+      LOG_FINE() << "Initial year = " << year;
     }
-    LOG_MEDIUM() << label_ << " ran for '" << counter_years << "' years.";
-  }
-
-  if (show_warnings_) {
-    if (!CheckConvergence())
-      LOG_WARNING() << "Iterative initialisation convergence check: Convergence was not achieved after " << years_ << " years";
+    LOG_FINE() << label_ << " ran for '" << counter_years << "' years.";
   }
 
   LOG_FINE() << "Number of Beverton-Holt recruitment processes in annual cycle = " << recruitment_process_.size();
   LOG_FINE() << "Number of Beverton-Holt recruitment processes with deviations in annual cycle = " << recruitment_process_with_devs_.size() << " and partition has not been scaled";
+
   // We are at Equilibrium state here
   // Check if we have B0 initialised or R0 initialised recruitment
   bool B0_initial_recruitment = false;
@@ -213,7 +223,7 @@ void Iterative::DoExecute() {
  *
  * @return True if convergence, false otherwise
  */
-bool Iterative::CheckConvergence() {
+bool Iterative::CheckConvergence(unsigned year) {
   LOG_TRACE();
   Double variance        = 0.0;
   Double sum             = 0.0;
@@ -233,11 +243,14 @@ bool Iterative::CheckConvergence() {
     }
   }
   LOG_FINE() << label_ << " had check values " << sum << " and " << previous_sum;
-  if (previous_sum == sum) {
-    LOG_WARNING() << "The iterative convergence check had sum = 0.0. This may be expected or could be an error. Please check your input configuration files.";
-    return (true);
-  }
-  variance += fabs(previous_sum - sum) / sum;
+  if (sum == 0.0)
+    variance = INFINITY;
+  else
+    variance = fabs(previous_sum - sum) / sum;
+
+  test_convergence_years_.push_back(year);
+  test_convergence_lambda_.push_back(variance);
+
   if (variance <= lambda_)
     return true;
 

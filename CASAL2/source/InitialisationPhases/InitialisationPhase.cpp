@@ -53,7 +53,6 @@ void InitialisationPhase::Build() {
   DoBuild();
 }
 
-
 /**
  * Build the initialisation phase
  *

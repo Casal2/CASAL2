@@ -26,6 +26,10 @@ parameter_transformations true
 @report Init
 type initialisation_partition
 
+@report init_summary
+type initialisation
+
+
 #MCMC objectives
 @report objectives
 type MCMC_Objective

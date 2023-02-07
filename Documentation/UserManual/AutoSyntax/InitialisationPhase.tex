@@ -52,16 +52,13 @@
 \defSub{convergence\_years}{The iteration (year) when the test for convergence (lambda) is evaluated}
 \defType{Vector of non-negative integers}
 \defDefault{true}
+\defLowerBound{2 (inclusive)}
 
 \defSub{lambda}{The maximum value of the absolute sum of differences (lambda) between the partition at year-1 and year that indicates successful convergence}
 \defType{Real number (estimable)}
-\defDefault{DEFAULT\_CONVERGENCE}
+\defDefault{1e-10}
 
 \defSub{plus\_group}{Indicates if the convergence check applies only to the plus\_group}
-\defType{Boolean}
-\defDefault{false}
-
-\defSub{warning}{Indicates if [WARNING] messages for the convergence checks will be reported}
 \defType{Boolean}
 \defDefault{false}
 

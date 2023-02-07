@@ -30,6 +30,7 @@
 #include "../Reports/Common/EstimateValue.h"
 #include "../Reports/Common/EstimationResult.h"
 #include "../Reports/Common/HessianMatrix.h"
+#include "../Reports/Common/Initialisation.h"
 #include "../Reports/Common/InitialisationPartition.h"
 #include "../Reports/Common/MCMCCovariance.h"
 #include "../Reports/Common/MCMCObjective.h"
@@ -74,7 +75,7 @@ Report* Factory::Create(shared_ptr<Model> model, const string& object_type, cons
     if (sub_type == PARAM_DEFAULT)
       result = new DefaultReports();
     // Deprecating this report as its not useful nor used in anything but a basic run
-    // Note the R extract.mpd() function v22.06 also errors out for this report 
+    // Note the R extract.mpd() function v22.06 also errors out for this report
     // if (sub_type == PARAM_CATEGORY_INFO)
     //  result = new CategoryInfo();
     else if (sub_type == PARAM_CATEGORY_LIST)
@@ -131,6 +132,8 @@ Report* Factory::Create(shared_ptr<Model> model, const string& object_type, cons
       result = new SelectivityByYear();
     else if (sub_type == PARAM_TIME_VARYING)
       result = new TimeVarying();
+    else if (sub_type == PARAM_INITIALISATION)
+      result = new Initialisation();
     else if (sub_type == PARAM_INITIALISATION_PARTITION)
       result = new InitialisationPartition();
     else if (sub_type == PARAM_PARTITION_BIOMASS)

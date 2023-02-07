@@ -117,6 +117,7 @@ Hamiltonian_Monte_Carlo
 Hessian_Matrix
 Increasing
 Independence_Metropolis
+Initialisation
 Initialisation_Partition
 Inverse
 Inverse_Logistic
@@ -419,7 +420,6 @@ upper_bound
 v
 value
 values
-warning
 weight_bins
 width
 write_mode

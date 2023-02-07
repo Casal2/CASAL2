@@ -30,7 +30,7 @@ namespace initialisationphases {
 namespace age {
 
 /**
- * Default constrcutor
+ * Default constructor
  *
  * @param model Pointer to our core model object
  */
