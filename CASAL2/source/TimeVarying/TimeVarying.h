@@ -51,6 +51,7 @@ protected:
   void set_single_value(Double value);
   void set_vector_value(Double value);
   void set_map_value(Double value);
+  void set_string_map_value(Double value);
 
   // pure virtual methods
   virtual void DoValidate() = 0;
@@ -68,10 +69,12 @@ protected:
   vector<unsigned>       years_;
   string                 parameter_          = "";
   Double                 original_value_     = 0;
-  map<unsigned, Double>* addressable_map_    = 0;
+  map<unsigned, Double>* addressable_map_    = 0; // unsigned map
   vector<Double>*        addressable_vector_ = 0;
   Double*                addressable_        = 0;
+  OrderedMap<string, Double>*  addressable_sting_map_ = 0;
   map<unsigned, Double>  parameter_by_year_;
+  string                 string_map_key_;
 };
 
 typedef std::shared_ptr<TimeVarying> TimeVaryingPtr;

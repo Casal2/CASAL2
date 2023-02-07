@@ -55,24 +55,54 @@ void TimeVarying::Build() {
     LOG_FATAL_P(PARAM_PARAMETER) << "could not be verified for use in an @time_varying block. Error: " << error;
   }
 
+  // Split parameter label up
+  // I added this so if the user supplies a string map we can get the string key.
+  auto           pair      = model_->objects().ExplodeParameterAndIndex(parameter_);
+  string         parameter = pair.first;
+  string         index     = pair.second;
+  vector<string> indexes;
+  if (index != "") {
+    indexes = utilities::String::explode(index);
+    if (index != "" && indexes.size() == 0) {
+      LOG_FATAL_P(PARAM_PARAMETER) << " could not be split up to search for indexes because the format was invalid. "
+                                   << "Check the indices. Only the operators ',' and ':' (range) are supported";
+    }
+  }
+  LOG_FINE() << "sizes = " << indexes.size() << " parameter = " << parameter << " index = " << index << " param " << parameter_;
+
+
   // bind our function pointer for the update function, original value and addressible pointer
   addressable::Type addressable_type = model_->objects().GetAddressableType(parameter_);
+  LOG_FINE() << "addressable type = " << addressable_type;
   switch (addressable_type) {
     case addressable::kInvalid:
       LOG_ERROR_P(PARAM_PARAMETER) << error;
       break;
     case addressable::kSingle:
+      LOG_FINE() << "get time-vary kSingle";
       update_function_ = &TimeVarying::set_single_value;
       addressable_     = model_->objects().GetAddressable(parameter_);
       original_value_  = *addressable_;
       break;
     case addressable::kVector:
+      LOG_FINE() << "get time-vary kVector";
       update_function_    = &TimeVarying::set_vector_value;
       addressable_vector_ = model_->objects().GetAddressableVector(parameter_);
       break;
     case addressable::kUnsignedMap:
+      LOG_FINE() << "get time-vary kUnsignedMap";
       update_function_ = &TimeVarying::set_map_value;
       addressable_map_ = model_->objects().GetAddressableUMap(parameter_);
+      break;
+    case addressable::kStringMap:
+      LOG_FINE() << "get time-vary kStringMap";
+      update_function_ = &TimeVarying::set_string_map_value;
+      if(indexes.size() == 0)
+        LOG_FATAL_P(PARAM_PARAMETER) << "If you supply an addressable that is referenced by a string, you need to supply the index (values within the {}) for the time-vary class to handle it e.g., process[category_transition].proportions{OYS}";
+      if(indexes.size() != 1)
+        LOG_FATAL_P(PARAM_PARAMETER) << "Can only time-vary string maps with a single index i.e., one category label. The parameter supplied has " << indexes.size();
+      string_map_key_ = index;
+      addressable_sting_map_ = model_->objects().GetAddressableSMap(parameter_);
       break;
     default:
       LOG_ERROR() << "The addressable provided for use in the @time_varying block: " << parameter_ << " is not a parameter of a type that is supported";
@@ -123,13 +153,13 @@ void TimeVarying::RestoreOriginalValue() {
  *
  * @param value The value to assign to the addressable
  */
-void TimeVarying::set_single_value(Double value) {
-  *addressable_ = value;
+void TimeVarying::set_string_map_value(Double value) {
+  (*addressable_sting_map_)[string_map_key_] = value;
 }
 
 /**
  * Append a new value to the end of the addressable vector
- *
+ * TODO: I don't think this is correct. We need to look at AddressableTransformations for how to deal with this better
  * @param value The value to add to the addressable vector
  */
 void TimeVarying::set_vector_value(Double value) {
@@ -143,6 +173,15 @@ void TimeVarying::set_vector_value(Double value) {
  */
 void TimeVarying::set_map_value(Double value) {
   (*addressable_map_)[model_->current_year()] = value;
+}
+
+/**
+ * Change the value of the addressable
+ *
+ * @param value The value to assign to the addressable
+ */
+void TimeVarying::set_single_value(Double value) {
+  *addressable_ = value;
 }
 
 /**
