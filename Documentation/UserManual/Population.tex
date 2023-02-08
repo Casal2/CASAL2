@@ -230,6 +230,8 @@ lambda 0.0001
 convergence_years 20 40 # test for convergence at 20 and 40 iterations
 \end{verbatim}}}
 
+A report on the outcome of the iterative convergence evaluation is available (\command{report} of type \subcommand{initialisation}). This will print the years when convergence was tested and the result of the convergence tests.
+
 \paragraph{\I{Derived Initialisation}}\label{sec:InitialisationPhase-Derived}
 
 The \subcommand{derived} initialisation is an analytical solution that calculates the equilibrium age structure and the plus group using a geometric series solution. The benefit of this method is it can be solved in \texttt{max\_age - min\_age + 1} years or time-steps units, so it is computationally faster than the iterative initialisation phase. Under some process combinations (e.g., one-way migrations) this initialisation does not calculate the exact equilibrium partition. When using this initialisation, users can confirm that the plus group has reached an equilibrium state by either comparing with an iterative initialisation, or by adding a second iterative initialisation phase with a limited number of iterations for comparison.
