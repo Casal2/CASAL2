@@ -47,12 +47,14 @@ void Initialisation::DoExecute(shared_ptr<Model> model) {
   cache_ << PARAM_TYPE << ": " << initialisation_->type() << REPORT_EOL;
 
   if (initialisation_->type() == PARAM_ITERATIVE) {
-    years_             = initialisation_->GetTestConvergenceYears();
+    years_             = initialisation_->GetConvergenceYears();
     lambda_            = initialisation_->GetTestConvergenceLambda();
     Double true_lambda = initialisation_->GetConvergenceLambda();
     cache_ << "values " << REPORT_R_DATAFRAME << REPORT_EOL;
     cache_ << PARAM_YEAR << " " << PARAM_LAMBDA << " " << PARAM_VALUE << " converged" << REPORT_EOL;
     for (unsigned i = 0; i < years_.size(); ++i) {
+      if (lambda_[i] < 0.0)
+        break;
       if (true_lambda <= lambda_[i])
         cache_ << years_[i] << " " << true_lambda << " " << lambda_[i] << " FALSE" << REPORT_EOL;
       else

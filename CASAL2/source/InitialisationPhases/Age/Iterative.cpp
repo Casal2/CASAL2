@@ -125,6 +125,7 @@ void Iterative::DoBuild() {
     }
   }
   convergence_years_ = valid_years;
+  test_convergence_lambda_.resize(convergence_years_.size(), -1.0);  // -1.0 is interpreted in the Initialisation report as not evaluated
 
   // Build our partition
   vector<string> categories = model_->categories()->category_names();
@@ -165,10 +166,8 @@ void Iterative::DoExecute() {
     unsigned total_years   = 0;
     unsigned counter_years = 0;
 
-    test_convergence_years_.resize(0);
-    test_convergence_lambda_.resize(0);
-
-    for (unsigned year : convergence_years_) {
+    for (unsigned index = 0; index < convergence_years_.size(); ++index) {
+      unsigned year = convergence_years_[index];
       counter_years = year;
       time_step_manager.ExecuteInitialisation(label_, year - (total_years + 1));
 
@@ -177,11 +176,11 @@ void Iterative::DoExecute() {
       total_years += year - (total_years + 1);
       if ((total_years + 1) >= years_) {
         // Have run for the maximum years_ defined
-        CheckConvergence(year);
+        CheckConvergence(index);
         break;
       } else {
         // Check if convergence obtained - if so, break
-        if (CheckConvergence(year))
+        if (CheckConvergence(index))
           break;
       }
       ++total_years;
@@ -223,7 +222,7 @@ void Iterative::DoExecute() {
  *
  * @return True if convergence, false otherwise
  */
-bool Iterative::CheckConvergence(unsigned year) {
+bool Iterative::CheckConvergence(unsigned index) {
   LOG_TRACE();
   Double variance        = 0.0;
   Double sum             = 0.0;
@@ -248,8 +247,7 @@ bool Iterative::CheckConvergence(unsigned year) {
   else
     variance = fabs(previous_sum - sum) / sum;
 
-  test_convergence_years_.push_back(year);
-  test_convergence_lambda_.push_back(variance);
+  test_convergence_lambda_[index] = variance;
 
   if (variance <= lambda_)
     return true;

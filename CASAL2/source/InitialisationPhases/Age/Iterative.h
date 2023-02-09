@@ -52,7 +52,6 @@ protected:
   vector<string>       exclude_processes_;
   vector<TimeStep*>    time_steps_;
   bool                 plus_group_;
-  vector<unsigned>     convergence_years_;
   cached::Categories   cached_partition_;
   accessor::Categories partition_;
 

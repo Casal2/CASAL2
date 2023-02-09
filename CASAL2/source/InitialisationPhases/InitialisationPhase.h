@@ -37,7 +37,7 @@ public:
   void Reset(){};
   void Execute();
 
-  vector<unsigned> GetTestConvergenceYears() const { return test_convergence_years_; }
+  vector<unsigned> GetConvergenceYears() const { return convergence_years_; }
   vector<Double>   GetTestConvergenceLambda() const { return test_convergence_lambda_; }
   Double           GetConvergenceLambda() const { return lambda_; }
 
@@ -49,8 +49,8 @@ protected:
 
   // members
   shared_ptr<Model> model_ = nullptr;
-  vector<unsigned>  test_convergence_years_;
   vector<Double>    test_convergence_lambda_;
+  vector<unsigned>  convergence_years_;
   Double            lambda_ = 0.0;
 };
 } /* namespace niwa */
