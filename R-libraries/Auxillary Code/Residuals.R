@@ -1,6 +1,6 @@
 ## R script for calculating Residuals.
 
-## Utilty functions
+## Utility functions
 Paste = function(..., sep = ""){paste(..., sep = sep)}
 robustify = function(X,r = 0.0001) {
   robust = vector();
