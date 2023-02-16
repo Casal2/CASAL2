@@ -44,6 +44,11 @@ void RandomDraw::DoValidate() {}
  * Build
  */
 void RandomDraw::DoBuild() {
+  if (model_->run_mode() == RunMode::kEstimation) {
+    LOG_WARNING() << "Time varying of type " << type_ << " was found during estimation. Note that this is NOT recommended as it is not a true random effect."
+                  << " The purpose of this is for investigating model behaviour in simulations or projections";
+  }
+
   Estimate* estimate = model_->managers()->estimate()->GetEstimate(parameter_);
   if (estimate) {
     has_at_estimate_ = true;

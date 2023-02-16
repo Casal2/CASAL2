@@ -19,7 +19,7 @@ namespace reports {
  * Default constructor
  */
 TimeVarying::TimeVarying() {
-  run_mode_    = (RunMode::Type)(RunMode::kBasic | RunMode::kProjection | RunMode::kEstimation | RunMode::kSimulation);
+  run_mode_    = (RunMode::Type)(RunMode::kBasic | RunMode::kProjection | RunMode::kSimulation | RunMode::kEstimation | RunMode::kProfiling);
   model_state_ = (State::Type)(State::kIterationComplete);
 
   parameters_.Bind<string>(PARAM_TIME_VARYING, &time_varying_label_, "The time varying label that is reported", "", "");
@@ -52,18 +52,24 @@ void TimeVarying::DoBuild(shared_ptr<Model> model) {
  */
 void TimeVarying::DoExecute(shared_ptr<Model> model) {
   LOG_TRACE();
+
+  if (!is_valid())
+    return;
+
+  std::cout << ".... here\n";
+
   auto manager      = model->managers()->time_varying();
   auto time_varying = manager->objects();
+
   if (manager->size() > 0 && time_varying.size() > 0) {
     cache_ << ReportHeader(type_, time_varying_label_, format_);
 
     for (auto time_var : time_varying) {
       LOG_FINEST() << "Reporting for @time_varying block " << time_varying_label_;
+      cache_ << "Reporting for @time_varying block " << time_varying_label_ << REPORT_EOL;
       cache_ << "values " << REPORT_R_DATAFRAME << REPORT_EOL;
-
       map<unsigned, Double>& parameter_by_year = time_var->get_parameter_by_year();
-      cache_ << "year"
-             << " Value" << REPORT_EOL;
+      cache_ << "year value" << REPORT_EOL;
       for (auto param : parameter_by_year) {
         cache_ << param.first << "  " << AS_DOUBLE(param.second) << REPORT_EOL;
       }

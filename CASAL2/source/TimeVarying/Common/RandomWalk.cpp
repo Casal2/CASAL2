@@ -49,10 +49,10 @@ void RandomWalk::DoValidate() {
  *
  */
 void RandomWalk::DoBuild() {
-  // Warn users that they have a time-varying parameter in estimation mode.  //TODO: Figure out why this is here
+  // Warn users that they have a time-varying parameter in estimation mode.
   if (model_->run_mode() == RunMode::kEstimation) {
-    LOG_WARNING() << "Time varying of type " << type_
-                  << " during estimation, Not the correct implementation of a random effect. Its purpose is for simulating/projecting adding variation.";
+    LOG_WARNING() << "Time varying of type " << type_ << " was found during estimation. Note that this is NOT recommended as it is not a true random effect."
+                  << " The purpose of this is for investigating model behaviour in simulations or projections";
   }
   if (model_->objects().GetAddressableType(parameter_) != addressable::kSingle)
     LOG_ERROR_P(PARAM_TYPE) << "@time_varying blocks of type " << PARAM_RANDOMWALK << " can be used only with parameters that are scalars or single values";

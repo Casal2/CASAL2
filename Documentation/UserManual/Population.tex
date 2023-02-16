@@ -855,11 +855,9 @@ Method types for a time-varying parameter are:
 \item \subcommand{random\_draw}.
 \end{itemize}
 
-This option allows for a parameter to be fixed in a year, or be the result of a deterministic or stochastic equation. \textbf{Note:} the stochastic time-varying functionality was added for simulation purposes. \textbf{It has not been tested in an estimation context.}
+This option allows for a parameter to be fixed in a year, or be the result of a deterministic or stochastic process. \textbf{Note: the stochastic time-varying methods (e.g., random\_walk and random\_draw) were added for simulation purposes --- they has not yet been tested in an estimation context.} To implement a hierarchical model using the time-varying functionality, use MCMC estimation as a way to calculate the integral which is required to obtain unbiased estimates. Here, the prior parameter values need to be estimated using hyper-priors. In an MCMC context, a Gibbs sampler is assumed. That is, every draw is from a conditional distribution and so every draw is a candidate value.
 
-To implement hierarchical models, the prior parameter values need to be estimated using hyperpriors. To implement a hierarchical model using the time-varying functionality, use MCMC estimation as a way to calculate the integral which is required to obtain unbiased estimates. In an MCMC context, a Gibbs sampler is assumed. That is, every draw is from a conditional distribution and so every draw is a candidate value. \TODO{review}
-
-When allowing removals with annually varying catchabilities, selectivities, and/or other model components, simulated observations more closely model real data. Implementing time-varying parameters also allows for mean or location parameters of selectivities to change between years based on an linked variable.
+When allowing removals with annually varying catchabilities, selectivities, and/or other model components, simulated observations more closely model real data. Implementing time-varying parameters also allows for mean or location parameters of selectivities to change between years based on a linked variable.
 
 An example of this is in the New Zealand hoki stock assessment where the $\mu$ and $a_{50}$ parameters are allowed to shift depending on when the fishing season occurs. Descriptive analysis showed that when fishing was earlier relative to other years smaller fish were caught and vice versa. This can be shown in the Examples/2stock directory, implemented at line: \texttt{382} in the \texttt{population.csl2} file. [Craig to edit]
 
@@ -898,7 +896,7 @@ To make the catchability be same over the year block we need to estimate it for 
 		upper_bound 2
 		\end{verbatim}}}
 
-\textbf{Caution}: do not estimate both the actual parameter and its time-varying counterpart, as the time-varying value will overwrite the actual parameter making the actual value unidentifiable. [Craig to edit]
+\textbf{Caution}: do not estimate both the actual parameter and its time-varying counterpart, as the time-varying value will overwrite the actual parameter making the actual value unidentifiable. \TODO{this section required a re-write and clarification of the code and the text}
 
 \subsubsection[Random Walk]{\argument{random\_walk}}\index{Time-varying Parameters!Random Walk}\label{sec:TimeVarying-RandomWalk}
 
