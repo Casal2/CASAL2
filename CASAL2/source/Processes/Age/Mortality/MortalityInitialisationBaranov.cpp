@@ -45,7 +45,7 @@ MortalityInitialisationBaranov::MortalityInitialisationBaranov(shared_ptr<Model>
 void MortalityInitialisationBaranov::DoValidate() {
   // Validate that the number of selectivities is the same as the number of categories
   if (category_labels_.size() != selectivity_names_.size()) {
-    LOG_ERROR_P(PARAM_SELECTIVITIES) << " The number of selectivities provided (" << selectivity_names_.size() << ") does not match the number of categories provided ("
+    LOG_ERROR_P(PARAM_SELECTIVITIES) << "The number of selectivities provided (" << selectivity_names_.size() << ") does not match the number of categories provided ("
                                      << category_labels_.size() << ").";
   }
 }

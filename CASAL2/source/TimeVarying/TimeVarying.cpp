@@ -64,12 +64,11 @@ void TimeVarying::Build() {
   if (index != "") {
     indexes = utilities::String::explode(index);
     if (index != "" && indexes.size() == 0) {
-      LOG_FATAL_P(PARAM_PARAMETER) << " could not be split up to search for indexes because the format was invalid. "
+      LOG_FATAL_P(PARAM_PARAMETER) << "could not be split up to search for indexes because the format was invalid. "
                                    << "Check the indices. Only the operators ',' and ':' (range) are supported";
     }
   }
   LOG_FINE() << "sizes = " << indexes.size() << " parameter = " << parameter << " index = " << index << " param " << parameter_;
-
 
   // bind our function pointer for the update function, original value and addressible pointer
   addressable::Type addressable_type = model_->objects().GetAddressableType(parameter_);
@@ -97,11 +96,12 @@ void TimeVarying::Build() {
     case addressable::kStringMap:
       LOG_FINE() << "get time-vary kStringMap";
       update_function_ = &TimeVarying::set_string_map_value;
-      if(indexes.size() == 0)
-        LOG_FATAL_P(PARAM_PARAMETER) << "If you supply an addressable that is referenced by a string, you need to supply the index (values within the {}) for the time-vary class to handle it e.g., process[category_transition].proportions{OYS}";
-      if(indexes.size() != 1)
+      if (indexes.size() == 0)
+        LOG_FATAL_P(PARAM_PARAMETER)
+            << "If you supply an addressable that is referenced by a string, you need to supply the index (values within the {}) for the time-vary class to handle it e.g., process[category_transition].proportions{OYS}";
+      if (indexes.size() != 1)
         LOG_FATAL_P(PARAM_PARAMETER) << "Can only time-vary string maps with a single index i.e., one category label. The parameter supplied has " << indexes.size();
-      string_map_key_ = index;
+      string_map_key_        = index;
       addressable_sting_map_ = model_->objects().GetAddressableSMap(parameter_);
       break;
     default:
@@ -202,17 +202,20 @@ void TimeVarying::Reset() {
  * Verify the TimeVarying object
  * This parameter is not in @estimate
  * This parameter is not in @profile during profile run mode
- * This parameter is not in @parameter_tranformation during profile run mode
+ * This parameter is not in @parameter_transformation during profile run mode
  */
 void TimeVarying::Verify(shared_ptr<Model> model) {
   LOG_FINE() << "Verify parameters useage = " << parameter_;
-  if (model->objects().IsParameterUsedFor(parameter_ , addressable::kEstimate)) {
-    LOG_WARNING() << "Found an @estimate block for " << parameter_ << ". There are only a few time-varying types such as exogenous where this is okay. Please check this is a sensible configuration.";
+  if (model->objects().IsParameterUsedFor(parameter_, addressable::kEstimate)) {
+    // TODO: exclude OK types from this warning message
+    LOG_WARNING() << "Found an @estimate block for " << parameter_ << ". "
+                  << "There are only a few time-varying types (e.g., exogenous where this is okay. Please check this is a sensible configuration.";
   }
-  if (model->objects().IsParameterUsedFor(parameter_ , addressable::kTransformation)) {
-    LOG_FATAL_P(PARAM_PARAMETER) << "Found an @parameter_transformation block for " << parameter_ << ". You cannot have a time-varying block and a parameter-transformation for the same parameter.";
+  if (model->objects().IsParameterUsedFor(parameter_, addressable::kTransformation)) {
+    LOG_FATAL_P(PARAM_PARAMETER) << "Found an @parameter_transformation block for " << parameter_
+                                 << ". You cannot have a time-varying block and a parameter-transformation for the same parameter.";
   }
-  if (model->objects().IsParameterUsedFor(parameter_ , addressable::kProfile)) {
+  if (model->objects().IsParameterUsedFor(parameter_, addressable::kProfile)) {
     LOG_FATAL_P(PARAM_PARAMETER) << "Found an @profile block for " << parameter_ << ". You cannot have a time-varying block and a @profile for the same parameter.";
   }
 }

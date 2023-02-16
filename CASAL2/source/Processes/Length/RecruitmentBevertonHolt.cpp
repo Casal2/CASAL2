@@ -123,13 +123,13 @@ void RecruitmentBevertonHolt::DoValidate() {
                                                << " defined. These inputs must be of equal length.";
   }
 
-  // initialise ycs_values and check values arn't < 0.0
+  // initialise ycs_values and check values aren't < 0.0
   unsigned ycs_iter = 0;
   for (unsigned ycs_year : years_) {
     recruitment_multipliers_by_year_[ycs_year]              = recruitment_multipliers_[ycs_iter];
     standardised_recruitment_multipliers_by_year_[ycs_year] = recruitment_multipliers_[ycs_iter];
     if (recruitment_multipliers_[ycs_iter] < 0.0)
-      LOG_ERROR_P(PARAM_RECRUITMENT_MULTIPLIERS) << " value " << recruitment_multipliers_[ycs_iter] << " cannot be less than 0.0";
+      LOG_ERROR_P(PARAM_RECRUITMENT_MULTIPLIERS) << "value " << recruitment_multipliers_[ycs_iter] << " cannot be less than 0.0";
     ycs_iter++;
   }
 
@@ -140,19 +140,18 @@ void RecruitmentBevertonHolt::DoValidate() {
     for (unsigned i = 1; i < standardise_years_.size(); ++i) {
       LOG_FINE() << "standardised year = " << standardise_years_[i];
       if (standardise_years_[i] < model_->start_year())
-        LOG_ERROR_P(PARAM_STANDARDISE_YEARS) << " cannot be less than model start year.";
+        LOG_ERROR_P(PARAM_STANDARDISE_YEARS) << "cannot be less than model start year.";
       if (standardise_years_[i] > model_->final_year())
-        LOG_ERROR_P(PARAM_STANDARDISE_YEARS) << " cannot be greater than model final year.";
+        LOG_ERROR_P(PARAM_STANDARDISE_YEARS) << "cannot be greater than model final year.";
 
       if (standardise_years_[i - 1] >= standardise_years_[i])
-        LOG_ERROR_P(PARAM_STANDARDISE_YEARS) << " values must be in strictly increasing order. Value " << standardise_years_[i - 1] << " is not less than "
-                                             << standardise_years_[i];
+        LOG_ERROR_P(PARAM_STANDARDISE_YEARS) << "values must be in strictly increasing order. Value " << standardise_years_[i - 1] << " is not less than " << standardise_years_[i];
     }
     // need to focus on first value
     if (standardise_years_[0] < model_->start_year())
-      LOG_ERROR_P(PARAM_STANDARDISE_YEARS) << " cannot be less than model start year.";
+      LOG_ERROR_P(PARAM_STANDARDISE_YEARS) << "cannot be less than model start year.";
     if (standardise_years_[0] > model_->final_year())
-      LOG_ERROR_P(PARAM_STANDARDISE_YEARS) << " cannot be greater than model final year.";
+      LOG_ERROR_P(PARAM_STANDARDISE_YEARS) << "cannot be greater than model final year.";
   }
 
   // Populate the proportions category, assumes there is a one to one relationship between categories, and proportions.

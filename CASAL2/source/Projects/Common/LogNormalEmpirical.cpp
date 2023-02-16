@@ -59,7 +59,7 @@ void LogNormalEmpirical::DoReset() {
     Random_draw = floor(rng.uniform((double)start_year_, ((double)final_year_ + 0.99999)));
     year        = 0;
     if (!utilities::To<Double>(Random_draw, year))
-      LOG_ERROR() << " Random draw " << Random_draw << " could not be converted to Double";
+      LOG_ERROR() << "Random draw " << Random_draw << " could not be converted to Double";
     resampled_years_[project_year] = year;
     LOG_FINEST() << "Value from year: " << year << " used in projection year: " << project_year;
   }

@@ -77,12 +77,12 @@ bool Objects::VerifyAddressableForUse(const string& parameter_absolute_name, add
   }
 
   if (!object->HasAddressable(parameter)) {
-    error = parameter + " is not a valid addressable on " + type + "." + label;
+    error = parameter + " is not a valid addressable on " + type + "[" + label + "]";
     return false;
   }
 
   if (!object->HasAddressableUsage(parameter, usage)) {
-    error = parameter + " on " + type + "." + label + " cannot be used for this purpose due to usage restrictions";
+    error = parameter + " on " + type + "[" + label + "] cannot be used for this purpose due to usage restrictions";
     return false;
   }
   LOG_FINE() << "set addressable for parameter = " << parameter << " = " << usage;

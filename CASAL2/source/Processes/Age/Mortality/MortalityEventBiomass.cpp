@@ -11,13 +11,12 @@
 // headers
 #include "MortalityEventBiomass.h"
 
+#include "AgeLengths/AgeLength.h"
 #include "Categories/Categories.h"
 #include "Model/Model.h"
 #include "Penalties/Manager.h"
 #include "Selectivities/Manager.h"
 #include "TimeSteps/Manager.h"
-#include "AgeLengths/AgeLength.h"
-
 #include "Utilities/Math.h"
 
 // namespaces
@@ -48,19 +47,19 @@ MortalityEventBiomass::MortalityEventBiomass(shared_ptr<Model> model) : Mortalit
  */
 void MortalityEventBiomass::DoValidate() {
   if (u_max_ <= 0.0 || u_max_ >= 1.0)
-    LOG_ERROR_P(PARAM_U_MAX) << " (" << u_max_ << ") must be between 0.0 and 1.0 exclusive";
+    LOG_ERROR_P(PARAM_U_MAX) << "(" << u_max_ << ") must be between 0.0 and 1.0 exclusive";
 
   if (category_labels_.size() != selectivity_labels_.size())
-    LOG_ERROR_P(PARAM_SELECTIVITIES) << " The number of selectivities provided (" << selectivity_labels_.size() << ") must match the number of "
+    LOG_ERROR_P(PARAM_SELECTIVITIES) << "The number of selectivities provided (" << selectivity_labels_.size() << ") must match the number of "
                                      << "categories provided (" << category_labels_.size() << ")";
   if (years_.size() != catches_.size())
-    LOG_ERROR_P(PARAM_CATCHES) << " The number of catches provided (" << catches_.size() << ") must match the number of "
+    LOG_ERROR_P(PARAM_CATCHES) << "The number of catches provided (" << catches_.size() << ") must match the number of "
                                << "years provided (" << years_.size() << ")";
 
   // Validate: catches_ and years_
   for (unsigned i = 0; i < years_.size(); ++i) {
     if (catch_years_.find(years_[i]) != catch_years_.end()) {
-      LOG_ERROR_P(PARAM_YEARS) << " year '" << years_[i] << "' has already been specified.";
+      LOG_ERROR_P(PARAM_YEARS) << "year '" << years_[i] << "' has already been specified.";
     }
     catch_years_[years_[i]] = catches_[i];
   }

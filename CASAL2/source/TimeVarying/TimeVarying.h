@@ -63,18 +63,18 @@ protected:
   UpdateFunction update_function_ = 0;
 
   // members
-  shared_ptr<Model>      model_         = nullptr;
-  base::Object*          target_object_ = nullptr;
-  string                 type_          = "";
-  vector<unsigned>       years_;
-  string                 parameter_          = "";
-  Double                 original_value_     = 0;
-  map<unsigned, Double>* addressable_map_    = 0; // unsigned map
-  vector<Double>*        addressable_vector_ = 0;
-  Double*                addressable_        = 0;
-  OrderedMap<string, Double>*  addressable_sting_map_ = 0;
-  map<unsigned, Double>  parameter_by_year_;
-  string                 string_map_key_;
+  shared_ptr<Model>           model_         = nullptr;
+  base::Object*               target_object_ = nullptr;
+  string                      type_          = "";
+  vector<unsigned>            years_;
+  string                      parameter_             = "";
+  Double                      original_value_        = 0;
+  map<unsigned, Double>*      addressable_map_       = 0;  // unsigned map
+  vector<Double>*             addressable_vector_    = 0;
+  Double*                     addressable_           = 0;
+  OrderedMap<string, Double>* addressable_sting_map_ = 0;
+  map<unsigned, Double>       parameter_by_year_;
+  string                      string_map_key_;
 };
 
 typedef std::shared_ptr<TimeVarying> TimeVaryingPtr;

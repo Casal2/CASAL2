@@ -92,9 +92,9 @@ void RecruitmentBevertonHoltWithDeviations::DoValidate() {
     LOG_FATAL() << "Specify either R0 or B0 to initialise the model for Beverton-Holt recruitment";
 
   if (age_ < model_->min_age())
-    LOG_ERROR_P(PARAM_AGE) << " (" << age_ << ") cannot be less than the model's min_age (" << model_->min_age() << ")";
+    LOG_ERROR_P(PARAM_AGE) << "(" << age_ << ") cannot be less than the model's min_age (" << model_->min_age() << ")";
   if (age_ > model_->max_age())
-    LOG_ERROR_P(PARAM_AGE) << " (" << age_ << ") cannot be greater than the model's max_age (" << model_->max_age() << ")";
+    LOG_ERROR_P(PARAM_AGE) << "(" << age_ << ") cannot be greater than the model's max_age (" << model_->max_age() << ")";
 
   if (category_labels_.size() != proportions_.size())
     LOG_ERROR_P(PARAM_CATEGORIES) << "One proportion is required to be defined per category. There are " << category_labels_.size() << " categories and " << proportions_.size()

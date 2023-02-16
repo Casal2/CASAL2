@@ -83,7 +83,7 @@ void MortalityConstantRate::DoValidate() {
     total += value;
   }
   if (!utilities::math::IsOne(total)) {
-    LOG_ERROR_P(PARAM_TIME_STEP_PROPORTIONS) << " need to sum to one";
+    LOG_ERROR_P(PARAM_TIME_STEP_PROPORTIONS) << "need to sum to one";
   }
   */
 }
@@ -122,7 +122,7 @@ void MortalityConstantRate::DoBuild() {
     for (unsigned i : active_time_steps) time_step_ratios_[i] = 1.0;
   } else {
     if (ratios_.size() != active_time_steps.size())
-      LOG_ERROR_P(PARAM_TIME_STEP_PROPORTIONS) << " The number of time step proportions (" << ratios_.size()
+      LOG_ERROR_P(PARAM_TIME_STEP_PROPORTIONS) << "The number of time step proportions (" << ratios_.size()
                                                << ") does not match the number of time steps this process has been assigned to (" << active_time_steps.size() << ")";
 
     for (double value : ratios_) {

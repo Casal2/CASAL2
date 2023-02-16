@@ -18,6 +18,7 @@
 #include <boost/algorithm/string/trim_all.hpp>
 
 #include "../../Partition/Accessors/Cached/CombinedCategories.h"
+#include "AgeLengths/AgeLength.h"
 #include "Categories/Categories.h"
 #include "Model/Model.h"
 #include "Partition/Accessors/All.h"
@@ -26,7 +27,6 @@
 #include "Utilities/Map.h"
 #include "Utilities/Math.h"
 #include "Utilities/To.h"
-#include "AgeLengths/AgeLength.h"
 
 // namespaces
 namespace niwa {
@@ -61,7 +61,7 @@ TagRecaptureByLength::TagRecaptureByLength(shared_ptr<Model> model) : Observatio
   // Don't ever make detection_ addressable or estimable. At line 427 it is multiplied to an observation which needs to remain a constant
   // if you make this estimatble we will break the auto-diff stack.
   mean_proportion_method_ = true;
-  
+
   RegisterAsAddressable(PARAM_DETECTION_PARAMETER, &detection_);
 
   allowed_likelihood_types_.push_back(PARAM_BINOMIAL);
@@ -79,17 +79,18 @@ void TagRecaptureByLength::DoValidate() {
   if (model_->length_bins().size() == 0)
     LOG_ERROR_P(PARAM_LABEL) << ": No length bins have been specified in @model. This observation requires those to be defined";
 
-  if(length_plus_ & !model_->length_plus())
-    LOG_ERROR_P(PARAM_LENGTH_PLUS) << "you have specified a plus group on this observation, but the global length bins don't have a plus group. This is an inconsistency that must be fixed. Try changing the model plus group to false or this plus group to true";
+  if (length_plus_ & !model_->length_plus())
+    LOG_ERROR_P(PARAM_LENGTH_PLUS)
+        << "you have specified a plus group on this observation, but the global length bins don't have a plus group. This is an inconsistency that must be fixed. Try changing the model plus group to false or this plus group to true";
 
   /**
    * Do some simple checks
    * e.g Validate that the length_bins are strictly increasing
-   */  
+   */
   vector<double> model_length_bins = model_->length_bins();
   if (length_bins_.size() == 0) {
     LOG_FINE() << "using model length bins";
-    length_bins_ = model_length_bins;
+    length_bins_            = model_length_bins;
     using_model_length_bins = true;
     // length_plus_     = model_->length_plus();
   } else {
@@ -98,49 +99,48 @@ void TagRecaptureByLength::DoValidate() {
     using_model_length_bins = false;
     // check users haven't just respecified the moedl length bins
     bool length_bins_match = false;
-    LOG_FINE() << length_bins_.size()  << "  " << model_length_bins.size();
-    if(length_bins_.size() == model_length_bins.size()) {
+    LOG_FINE() << length_bins_.size() << "  " << model_length_bins.size();
+    if (length_bins_.size() == model_length_bins.size()) {
       length_bins_match = true;
-      for(unsigned len_ndx = 0; len_ndx < length_bins_.size(); len_ndx++) {
-        if(length_bins_[len_ndx] != model_length_bins[len_ndx])
+      for (unsigned len_ndx = 0; len_ndx < length_bins_.size(); len_ndx++) {
+        if (length_bins_[len_ndx] != model_length_bins[len_ndx])
           length_bins_match = false;
       }
     }
-    if(length_bins_match) {
+    if (length_bins_match) {
       LOG_FINE() << "using have actually just respecified model bins so we are ignoring bespoke length bin code";
       using_model_length_bins = true;
     } else {
       // Need to validate length bins are subclass of mdoel length bins.
-      if(!model_->are_length_bin_compatible_with_model_length_bins(length_bins_)) {
+      if (!model_->are_length_bin_compatible_with_model_length_bins(length_bins_)) {
         LOG_ERROR_P(PARAM_LENGTH_BINS) << "Length bins need to be a subset of the model length bins. See manual for more information";
       }
       LOG_FINE() << "length bins = " << length_bins_.size();
       map_local_length_bins_to_global_length_bins_ = model_->get_map_for_bespoke_length_bins_to_global_length_bins(length_bins_, length_plus_);
 
       LOG_FINE() << "check index";
-      for(unsigned i = 0; i < map_local_length_bins_to_global_length_bins_.size(); ++i) {
+      for (unsigned i = 0; i < map_local_length_bins_to_global_length_bins_.size(); ++i) {
         LOG_FINE() << "i = " << i << " " << map_local_length_bins_to_global_length_bins_[i];
       }
     }
   }
   // more checks on the model length bins.
   /*
-  * TODO: this should be moved to the model to check rather than replicating in every child
-  */
+   * TODO: this should be moved to the model to check rather than replicating in every child
+   */
   for (unsigned length = 0; length < length_bins_.size(); ++length) {
     if (length_bins_[length] < 0.0)
       LOG_ERROR_P(PARAM_LENGTH_BINS) << ": Observation length bin values must be positive. '" << length_bins_[length] << "' is less than 0";
 
     if (length > 0 && length_bins_[length - 1] >= length_bins_[length])
       LOG_ERROR_P(PARAM_LENGTH_BINS) << ": Observation length bins must be strictly increasing. " << length_bins_[length - 1] << " is greater than or equal to "
-                                      << length_bins_[length];
+                                     << length_bins_[length];
 
     if (std::find(model_length_bins.begin(), model_length_bins.end(), length_bins_[length]) == model_length_bins.end())
       LOG_ERROR_P(PARAM_LENGTH_BINS) << ": Observation length bin values must be in the set of model length bins. Length '" << length_bins_[length]
-                                      << "' is not in the set of model length bins.";
+                                     << "' is not in the set of model length bins.";
   }
-  number_bins_                         = length_plus_ ? length_bins_.size() : length_bins_.size() - 1;
-
+  number_bins_ = length_plus_ ? length_bins_.size() : length_bins_.size() - 1;
 
   // Check if number of categories is equal to number of selectivities for category and tagged_categories
   unsigned expected_selectivity_count = 0;
@@ -203,38 +203,38 @@ void TagRecaptureByLength::DoValidate() {
    */
   unsigned obs_expected = number_bins_ * tagged_category_labels_.size() + 1;
   LOG_FINE() << "expected obs = " << obs_expected << " number of bins = " << number_bins_ << " tagged categories = " << tagged_category_labels_.size();
-  vector<vector<string>>& recpatures_data = recaptures_table_->data();
-  if (recpatures_data.size() != years_.size()) {
-    LOG_ERROR_P(PARAM_RECAPTURED) << " has " << recpatures_data.size() << " rows defined, but " << years_.size() << " should match the number of years provided";
+  vector<vector<string>>& recaptures_data = recaptures_table_->data();
+  if (recaptures_data.size() != years_.size()) {
+    LOG_ERROR_P(PARAM_RECAPTURED) << "has " << recaptures_data.size() << " rows defined, but " << years_.size() << " should match the number of years provided";
   }
 
-  for (vector<string>& recaptures_data_line : recpatures_data) {
+  for (vector<string>& recaptures_data_line : recaptures_data) {
     unsigned year = 0;
 
     if (recaptures_data_line.size() != obs_expected) {
-      LOG_ERROR_P(PARAM_RECAPTURED) << " has " << recaptures_data_line.size() << " values defined, but " << obs_expected
+      LOG_ERROR_P(PARAM_RECAPTURED) << "has " << recaptures_data_line.size() << " values defined, but " << obs_expected
                                     << " should match the age spread * categories + 1 (for year)";
       return;
     }
 
     if (!utilities::To<unsigned>(recaptures_data_line[0], year)) {
-      LOG_ERROR_P(PARAM_RECAPTURED) << " value " << recaptures_data_line[0] << " could not be converted to an unsigned integer. It should be the year for this line";
+      LOG_ERROR_P(PARAM_RECAPTURED) << "value " << recaptures_data_line[0] << " could not be converted to an unsigned integer. It should be the year for this line";
       return;
     }
 
     if (std::find(years_.begin(), years_.end(), year) == years_.end()) {
-      LOG_ERROR_P(PARAM_RECAPTURED) << " value " << year << " is not a valid year for this observation";
+      LOG_ERROR_P(PARAM_RECAPTURED) << "value " << year << " is not a valid year for this observation";
       return;
     }
 
     for (unsigned i = 1; i < recaptures_data_line.size(); ++i) {
       double value = 0.0;
       if (!utilities::To<double>(recaptures_data_line[i], value))
-        LOG_ERROR_P(PARAM_RECAPTURED) << " value (" << recaptures_data_line[i] << ") could not be converted to a Double";
+        LOG_ERROR_P(PARAM_RECAPTURED) << "value (" << recaptures_data_line[i] << ") could not be converted to a Double";
       recaptures_by_year[year].push_back(value);
     }
     if (recaptures_by_year[year].size() != obs_expected - 1)
-      LOG_FATAL_P(PARAM_RECAPTURED) << " " << recaptures_by_year[year].size() << " columns but " << obs_expected - 1 << " required. Check that the table is specified correctly";
+      LOG_FATAL_P(PARAM_RECAPTURED) << recaptures_by_year[year].size() << " columns but " << obs_expected - 1 << " required. Check that the table is specified correctly";
   }
 
   /**
@@ -242,24 +242,24 @@ void TagRecaptureByLength::DoValidate() {
    */
   vector<vector<string>>& scanned_values_data = scanned_table_->data();
   if (scanned_values_data.size() != years_.size()) {
-    LOG_ERROR_P(PARAM_SCANNED) << " has " << scanned_values_data.size() << " rows defined, but " << years_.size() << " should match the number of years provided";
+    LOG_ERROR_P(PARAM_SCANNED) << "has " << scanned_values_data.size() << " rows defined, but " << years_.size() << " should match the number of years provided";
   }
 
   for (vector<string>& scanned_values_data_line : scanned_values_data) {
     unsigned year = 0;
 
     if (scanned_values_data_line.size() != 2 && scanned_values_data_line.size() != obs_expected) {
-      LOG_ERROR_P(PARAM_SCANNED) << " has " << scanned_values_data_line.size() << " values defined, but " << obs_expected
+      LOG_ERROR_P(PARAM_SCANNED) << "has " << scanned_values_data_line.size() << " values defined, but " << obs_expected
                                  << " should match the age spread * categories + 1 (for year)";
     } else if (!utilities::To<unsigned>(scanned_values_data_line[0], year)) {
-      LOG_ERROR_P(PARAM_SCANNED) << " value " << scanned_values_data_line[0] << " could not be converted to an unsigned integer. It should be the year for this line";
+      LOG_ERROR_P(PARAM_SCANNED) << "value " << scanned_values_data_line[0] << " could not be converted to an unsigned integer. It should be the year for this line";
     } else if (std::find(years_.begin(), years_.end(), year) == years_.end()) {
-      LOG_ERROR_P(PARAM_SCANNED) << " value " << year << " is not a valid year for this observation";
+      LOG_ERROR_P(PARAM_SCANNED) << "value " << year << " is not a valid year for this observation";
     } else {
       for (unsigned i = 1; i < scanned_values_data_line.size(); ++i) {
         double value = 0.0;
         if (!utilities::To<double>(scanned_values_data_line[i], value)) {
-          LOG_ERROR_P(PARAM_SCANNED) << " value (" << scanned_values_data_line[i] << ") could not be converted to a Double";
+          LOG_ERROR_P(PARAM_SCANNED) << "value (" << scanned_values_data_line[i] << ") could not be converted to a Double";
         } else if (likelihood_type_ == PARAM_MULTINOMIAL && value < 0.0) {
           LOG_ERROR_P(PARAM_ERROR_VALUES) << ": error_value (" << value << ") cannot be less than 0.0";
         }
@@ -271,7 +271,7 @@ void TagRecaptureByLength::DoValidate() {
         scanned_by_year[year].assign(obs_expected - 1, val_s);
       }
       if (scanned_by_year[year].size() != obs_expected - 1) {
-        LOG_FATAL_P(PARAM_SCANNED) << " " << scanned_by_year[year].size() << " columns but " << obs_expected - 1 << " required. Check that the table is specified correctly";
+        LOG_FATAL_P(PARAM_SCANNED) << scanned_by_year[year].size() << " columns but " << obs_expected - 1 << " required. Check that the table is specified correctly";
       }
     }
   }
@@ -318,8 +318,7 @@ void TagRecaptureByLength::DoValidate() {
           }
         }
       }
-      for (auto& split_category : split_category_labels) 
-        category_split_labels_[category_counter].push_back(split_category);
+      for (auto& split_category : split_category_labels) category_split_labels_[category_counter].push_back(split_category);
     } else
       category_split_labels_[category_counter].push_back(category);
     category_counter++;
@@ -367,20 +366,17 @@ void TagRecaptureByLength::DoBuild() {
   tagged_partition_        = CombinedCategoriesPtr(new niwa::partition::accessors::CombinedCategories(model_, tagged_category_labels_));
   tagged_cached_partition_ = CachedCombinedCategoriesPtr(new niwa::partition::accessors::cached::CombinedCategories(model_, tagged_category_labels_));
 
-  auto partition_iter = partition_->Begin();  
+  auto partition_iter = partition_->Begin();
   for (unsigned category_offset = 0; category_offset < category_labels_.size(); ++category_offset, ++partition_iter) {
-    auto category_iter        = partition_iter->begin();
-    for (; category_iter != partition_iter->end();  ++category_iter)
-      (*category_iter)->age_length_->BuildAgeLengthMatrixForTheseYears(years_);
+    auto category_iter = partition_iter->begin();
+    for (; category_iter != partition_iter->end(); ++category_iter) (*category_iter)->age_length_->BuildAgeLengthMatrixForTheseYears(years_);
   }
 
-  partition_iter = tagged_partition_->Begin();  
+  partition_iter = tagged_partition_->Begin();
   for (unsigned category_offset = 0; category_offset < tagged_category_labels_.size(); ++category_offset, ++partition_iter) {
-    auto category_iter        = partition_iter->begin();
-    for (; category_iter != partition_iter->end();  ++category_iter)
-      (*category_iter)->age_length_->BuildAgeLengthMatrixForTheseYears(years_);
+    auto category_iter = partition_iter->begin();
+    for (; category_iter != partition_iter->end(); ++category_iter) (*category_iter)->age_length_->BuildAgeLengthMatrixForTheseYears(years_);
   }
-
 
   // Build Selectivity pointers
   for (string label : selectivity_labels_) {
@@ -425,7 +421,7 @@ void TagRecaptureByLength::DoBuild() {
   tagged_numbers_at_length_.resize(tagged_category_labels_.size());
   tagged_cached_numbers_at_length_.resize(tagged_category_labels_.size());
 
-  for(unsigned category_offset = 0; category_offset < category_labels_.size(); ++category_offset) {
+  for (unsigned category_offset = 0; category_offset < category_labels_.size(); ++category_offset) {
     numbers_at_length_[category_offset].resize(number_bins_, 0.0);
     cached_numbers_at_length_[category_offset].resize(number_bins_, 0.0);
     tagged_numbers_at_length_[category_offset].resize(number_bins_, 0.0);
@@ -434,7 +430,6 @@ void TagRecaptureByLength::DoBuild() {
 
   length_results_.resize(number_bins_, 0.0);
   tagged_length_results_.resize(number_bins_, 0.0);
-
 }
 
 /**
@@ -467,16 +462,16 @@ void TagRecaptureByLength::Execute() {
   /**
    * Verify our cached partition and partition sizes are correct
    */
-  auto partition_iter               = partition_->Begin();  // vector<vector<partition::Category> >
-  auto tagged_partition_iter        = tagged_partition_->Begin();  // vector<vector<partition::Category> >
-  // Reset some comtainers
+  auto partition_iter        = partition_->Begin();         // vector<vector<partition::Category> >
+  auto tagged_partition_iter = tagged_partition_->Begin();  // vector<vector<partition::Category> >
+  // Reset some containers
 
   /**
    * Loop through the provided categories. Each provided category (combination) will have a list of observations
-   * with it. 
+   * with it.
    * This is equal between the category_labels_ == tagged_category_labels_
    */
-  for (unsigned category_offset = 0; category_offset < category_labels_.size(); ++category_offset, ++partition_iter,  ++tagged_partition_iter) {
+  for (unsigned category_offset = 0; category_offset < category_labels_.size(); ++category_offset, ++partition_iter, ++tagged_partition_iter) {
     LOG_FINEST() << "Observing first collection of categories " << category_labels_[category_offset];
     Double start_value = 0.0;
     Double end_value   = 0.0;
@@ -488,37 +483,48 @@ void TagRecaptureByLength::Execute() {
     std::fill(tagged_numbers_at_length_[category_offset].begin(), tagged_numbers_at_length_[category_offset].end(), 0.0);
     std::fill(length_results_.begin(), length_results_.end(), 0.0);
     std::fill(tagged_length_results_.begin(), tagged_length_results_.end(), 0.0);
-   /**
+    /**
      * Loop through the  combined categories if they are supplied, building up the
      * numbers at length
      */
-    auto category_iter        = partition_iter->begin();
+    auto category_iter = partition_iter->begin();
     for (; category_iter != partition_iter->end(); ++category_iter) {
       // get numbers at length
-      if(using_model_length_bins) {
+      if (using_model_length_bins) {
         (*category_iter)->age_length_->populate_numbers_at_length((*category_iter)->data_, numbers_at_length_[category_offset], selectivities_[category_offset]);
         (*category_iter)->age_length_->populate_numbers_at_length((*category_iter)->cached_data_, cached_numbers_at_length_[category_offset], selectivities_[category_offset]);
       } else {
-        (*category_iter)->age_length_->populate_numbers_at_length((*category_iter)->data_, numbers_at_length_[category_offset], selectivities_[category_offset], map_local_length_bins_to_global_length_bins_);
-        (*category_iter)->age_length_->populate_numbers_at_length((*category_iter)->cached_data_, cached_numbers_at_length_[category_offset], selectivities_[category_offset], map_local_length_bins_to_global_length_bins_);
+        (*category_iter)
+            ->age_length_->populate_numbers_at_length((*category_iter)->data_, numbers_at_length_[category_offset], selectivities_[category_offset],
+                                                      map_local_length_bins_to_global_length_bins_);
+        (*category_iter)
+            ->age_length_->populate_numbers_at_length((*category_iter)->cached_data_, cached_numbers_at_length_[category_offset], selectivities_[category_offset],
+                                                      map_local_length_bins_to_global_length_bins_);
       }
     }
     /**
      * Loop through the  combined categories if they are supplied, building up the
      * numbers at length
      */
-    auto tagged_category_iter        = tagged_partition_iter->begin();
+    auto tagged_category_iter = tagged_partition_iter->begin();
     for (; tagged_category_iter != tagged_partition_iter->end(); ++tagged_category_iter) {
       // get numbers at length
-      if(using_model_length_bins) {
-        (*tagged_category_iter)->age_length_->populate_numbers_at_length((*tagged_category_iter)->data_, tagged_numbers_at_length_[category_offset], tagged_selectivities_[category_offset]);
-        (*tagged_category_iter)->age_length_->populate_numbers_at_length((*tagged_category_iter)->cached_data_, tagged_cached_numbers_at_length_[category_offset], tagged_selectivities_[category_offset]);
+      if (using_model_length_bins) {
+        (*tagged_category_iter)
+            ->age_length_->populate_numbers_at_length((*tagged_category_iter)->data_, tagged_numbers_at_length_[category_offset], tagged_selectivities_[category_offset]);
+        (*tagged_category_iter)
+            ->age_length_->populate_numbers_at_length((*tagged_category_iter)->cached_data_, tagged_cached_numbers_at_length_[category_offset],
+                                                      tagged_selectivities_[category_offset]);
       } else {
-        (*tagged_category_iter)->age_length_->populate_numbers_at_length((*tagged_category_iter)->data_, tagged_numbers_at_length_[category_offset], tagged_selectivities_[category_offset], map_local_length_bins_to_global_length_bins_);
-        (*tagged_category_iter)->age_length_->populate_numbers_at_length((*tagged_category_iter)->cached_data_, tagged_cached_numbers_at_length_[category_offset], tagged_selectivities_[category_offset], map_local_length_bins_to_global_length_bins_);
+        (*tagged_category_iter)
+            ->age_length_->populate_numbers_at_length((*tagged_category_iter)->data_, tagged_numbers_at_length_[category_offset], tagged_selectivities_[category_offset],
+                                                      map_local_length_bins_to_global_length_bins_);
+        (*tagged_category_iter)
+            ->age_length_->populate_numbers_at_length((*tagged_category_iter)->cached_data_, tagged_cached_numbers_at_length_[category_offset],
+                                                      tagged_selectivities_[category_offset], map_local_length_bins_to_global_length_bins_);
       }
     }
-    // Interpolate between the cached and current values for bothe tagged and untagged
+    // Interpolate between the cached and current values for both the tagged and untagged
     for (unsigned length_offset = 0; length_offset < number_bins_; ++length_offset) {
       start_value = tagged_cached_numbers_at_length_[category_offset][length_offset];
       end_value   = tagged_numbers_at_length_[category_offset][length_offset];
@@ -553,9 +559,9 @@ void TagRecaptureByLength::Execute() {
       Double expected = 0.0;
       double observed = 0.0;
       if (length_results_[i] != 0.0) {
-        //expected = detection_ * tagged_length_results_[i] / length_results_[i];
+        // expected = detection_ * tagged_length_results_[i] / length_results_[i];
         expected = detection_ * tagged_length_results_[i] / length_results_[i];
-        LOG_FINEST() << " total numbers at length " << length_bins_[i] << " = " << tagged_length_results_[i] << ", denominator = " << length_results_[i];
+        LOG_FINEST() << "total numbers at length " << length_bins_[i] << " = " << tagged_length_results_[i] << ", denominator = " << length_results_[i];
       }
 
       if (scanned_[model_->current_year()][category_labels_[category_offset]][i] == 0.0)

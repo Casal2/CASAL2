@@ -12,10 +12,10 @@
 // Headers
 #include "Tagging.h"
 
+#include "../../Utilities/Math.h"
 #include "Categories/Categories.h"
 #include "Penalties/Manager.h"
 #include "Selectivities/Manager.h"
-#include "../../Utilities/Math.h"
 
 // Namespaces
 namespace niwa {
@@ -26,7 +26,7 @@ namespace length {
  * Default constructor
  */
 Tagging::Tagging(shared_ptr<Model> model) : Process(model), to_partition_(model), from_partition_(model) {
-  process_type_        = ProcessType::kMortality;  
+  process_type_ = ProcessType::kMortality;
   // Why this was changed from type transition to mortality. CASAL includes this in the 'mortality block'
   // CASAL reference see population_section.cpp line: 1924-2006
   // There is mortality in this process, so does make sense
@@ -44,7 +44,6 @@ Tagging::Tagging(shared_ptr<Model> model) : Process(model), to_partition_(model)
   parameters_.Bind<Double>(PARAM_N, &n_, "Number of tags (N)", "");
   parameters_.Bind<double>(PARAM_TOLERANCE, &tolerance_, "Tolerance for checking the specificed proportions sum to one", "", 1e-5)->set_range(0, 1.0);
   parameters_.BindTable(PARAM_PROPORTIONS, proportions_table_, "The table of proportions to move", "", true, true);
-
 }
 
 /**
@@ -64,14 +63,15 @@ Tagging::~Tagging() {
 void Tagging::DoValidate() {
   LOG_TRACE();
   if (from_category_labels_.size() != to_category_labels_.size()) {
-    LOG_ERROR_P(PARAM_TO) << " number of values supplied (" << to_category_labels_.size() << ") does not match the number of from categories provided ("
+    LOG_ERROR_P(PARAM_TO) << "number of values supplied (" << to_category_labels_.size() << ") does not match the number of from categories provided ("
                           << from_category_labels_.size() << ")";
   }
 
   // Load data from proportions table using n parameter
   vector<string> columns = proportions_table_->columns();
   if (columns.size() != (model_->get_number_of_length_bins() + 1))
-    LOG_ERROR_P(PARAM_PROPORTIONS) << "The number of columns provided (" << columns.size() << ") does not match the model's length bins + 1 (" << (model_->get_number_of_length_bins() + 1) << ")";
+    LOG_ERROR_P(PARAM_PROPORTIONS) << "The number of columns provided (" << columns.size() << ") does not match the model's length bins + 1 ("
+                                   << (model_->get_number_of_length_bins() + 1) << ")";
   if (columns[0] != PARAM_YEAR)
     LOG_ERROR_P(PARAM_PROPORTIONS) << "The first column label (" << columns[0] << ") provided must be 'year'";
 
@@ -89,23 +89,23 @@ void Tagging::DoValidate() {
   Double                 proportion = 0.0;
   for (auto iter : data) {
     if (!utilities::To<unsigned>(iter[0], year))
-      LOG_ERROR_P(PARAM_PROPORTIONS) << " value (" << iter[0] << ") could not be converted to an unsigned integer";
+      LOG_ERROR_P(PARAM_PROPORTIONS) << "value (" << iter[0] << ") could not be converted to an unsigned integer";
     Double total_proportion = 0.0;
     for (unsigned i = 1; i < iter.size(); ++i) {
       if (!utilities::To<Double>(iter[i], proportion))
-        LOG_ERROR_P(PARAM_PROPORTIONS) << " value (" << iter[i] << ") could not be converted to a Double";
+        LOG_ERROR_P(PARAM_PROPORTIONS) << "value (" << iter[i] << ") could not be converted to a Double";
       if (numbers_[year].size() == 0)
         numbers_[year].resize(model_->get_number_of_length_bins(), 0.0);
       numbers_[year][i - 1] = n_by_year[year] * proportion;
       total_proportion += proportion;
     }
     if (fabs(1.0 - total_proportion) > tolerance_)
-      LOG_ERROR_P(PARAM_PROPORTIONS) << " total (" << total_proportion << ") do not sum to 1.0 for year " << year;
+      LOG_ERROR_P(PARAM_PROPORTIONS) << "total (" << total_proportion << ") do not sum to 1.0 for year " << year;
   }
 
   for (auto iter : numbers_) {
     if (std::find(years_.begin(), years_.end(), iter.first) == years_.end())
-      LOG_ERROR_P(PARAM_PROPORTIONS) << " table contains year " << iter.first << " which is not a valid year defined in this process";
+      LOG_ERROR_P(PARAM_PROPORTIONS) << "table contains year " << iter.first << " which is not a valid year defined in this process";
   }
 }
 
@@ -132,7 +132,6 @@ void Tagging::DoBuild() {
   }
   if (initial_mortality_selectivity_label_ != "")
     initial_mortality_selectivity_ = selectivity_manager.GetSelectivity(initial_mortality_selectivity_label_);
-
 }
 
 /**
@@ -153,9 +152,8 @@ void Tagging::DoExecute() {
 
   LOG_FINEST() << "numbers_.size(): " << numbers_.size();
   LOG_FINEST() << "numbers_[current_year].size(): " << numbers_[current_year].size();
-  
-  for (unsigned i = 0; i < numbers_[current_year].size(); ++i)
-    LOG_FINEST() << "numbers_[current_year][" << i << "]: " << numbers_[current_year][i];
+
+  for (unsigned i = 0; i < numbers_[current_year].size(); ++i) LOG_FINEST() << "numbers_[current_year][" << i << "]: " << numbers_[current_year][i];
 
   Double total_stock_with_selectivities = 0.0;
   LOG_FINE() << "age_spread: " << model_->get_number_of_length_bins() << " in year " << current_year;
@@ -165,8 +163,7 @@ void Tagging::DoExecute() {
     from_iter = from_partition_.begin();
     to_iter   = to_partition_.begin();
     LOG_FINEST() << "selectivity.size(): " << selectivities_.size();
-    for (auto iter : selectivities_)
-      LOG_FINE() << "selectivity: " << iter.first;
+    for (auto iter : selectivities_) LOG_FINE() << "selectivity: " << iter.first;
 
     total_stock_with_selectivities = 0.0;
     for (; from_iter != from_partition_.end(); from_iter++, to_iter++) {
@@ -187,23 +184,20 @@ void Tagging::DoExecute() {
     for (; from_iter != from_partition_.end(); from_iter++, to_iter++) {
       LOG_FINE() << "--";
       LOG_FINE() << "Working with categories: from " << (*from_iter)->name_ << "; to " << (*to_iter)->name_;
-      string   category_label = (*from_iter)->name_;
+      string category_label = (*from_iter)->name_;
 
       if (numbers_[current_year][i] == 0)
         continue;
 
-      Double current
-          = numbers_[current_year][i]
-            * ((*from_iter)->data_[i] * selectivities_[category_label]->GetLengthResult(i) / total_stock_with_selectivities);
+      Double current = numbers_[current_year][i] * ((*from_iter)->data_[i] * selectivities_[category_label]->GetLengthResult(i) / total_stock_with_selectivities);
 
-      Double exploitation
-          = current / utilities::math::ZeroFun((*from_iter)->data_[i] * selectivities_[category_label]->GetLengthResult(i));
+      Double exploitation = current / utilities::math::ZeroFun((*from_iter)->data_[i] * selectivities_[category_label]->GetLengthResult(i));
       if (exploitation > u_max_) {
         LOG_FINE() << "Exploitation(" << exploitation << ") triggered u_max(" << u_max_ << ") with current(" << current << ")";
 
         current = (*from_iter)->data_[i] * selectivities_[category_label]->GetLengthResult(i) * u_max_;
-        LOG_FINE() << "tagging amount overridden with " << current << " = " << (*from_iter)->data_[i] << " * "
-                   << selectivities_[category_label]->GetLengthResult(i) << " * " << u_max_;
+        LOG_FINE() << "tagging amount overridden with " << current << " = " << (*from_iter)->data_[i] << " * " << selectivities_[category_label]->GetLengthResult(i) << " * "
+                   << u_max_;
 
         if (penalty_)
           penalty_->Trigger(numbers_[current_year][i], current);
@@ -215,8 +209,7 @@ void Tagging::DoExecute() {
       LOG_FINE() << "selectivity: " << selectivities_[category_label]->GetLengthResult(i);
       if (exploitation > u_max_) {
         LOG_FINE() << "exploitation: " << u_max_ << " (u_max)";
-        LOG_FINE() << "tagging amount: " << current << " = " << (*from_iter)->data_[i] << " * "
-                   << selectivities_[category_label]->GetLengthResult(i) << " * " << u_max_;
+        LOG_FINE() << "tagging amount: " << current << " = " << (*from_iter)->data_[i] << " * " << selectivities_[category_label]->GetLengthResult(i) << " * " << u_max_;
       } else {
         LOG_FINE() << "exploitation: " << exploitation << "; calculated as " << current << " / (" << (*from_iter)->data_[i] << " * "
                    << selectivities_[category_label]->GetLengthResult(i) << ")";
@@ -231,8 +224,7 @@ void Tagging::DoExecute() {
       LOG_FINEST() << "tagging_amount_with_mortality: " << current_with_mortality << "; initial mortality: " << initial_mortality_;
       if (initial_mortality_selectivity_) {
         current_with_mortality *= initial_mortality_selectivity_->GetLengthResult(i);
-        LOG_FINEST() << "tagging_amount_with_mortality: " << current_with_mortality
-                     << "; initial_mortality_selectivity : " << initial_mortality_selectivity_->GetLengthResult(i);
+        LOG_FINEST() << "tagging_amount_with_mortality: " << current_with_mortality << "; initial_mortality_selectivity : " << initial_mortality_selectivity_->GetLengthResult(i);
       }
       LOG_FINEST() << "Removing " << current << " from " << (*from_iter)->name_;
       LOG_FINEST() << "Adding " << current_with_mortality << " to " << (*to_iter)->name_;
@@ -243,7 +235,7 @@ void Tagging::DoExecute() {
 
   for (unsigned year : years_) {
     if (numbers_.find(year) == numbers_.end())
-      LOG_ERROR_P(PARAM_YEARS) << " value (" << year << ") does not have a corresponding entry in the numbers or proportions table";
+      LOG_ERROR_P(PARAM_YEARS) << "value (" << year << ") does not have a corresponding entry in the numbers or proportions table";
   }
 }
 

@@ -26,7 +26,7 @@ AnnualShift::AnnualShift(shared_ptr<Model> model) : TimeVarying(model) {
   parameters_.Bind<Double>(PARAM_B, &b_, "Parameter B", "");
   parameters_.Bind<Double>(PARAM_C, &c_, "Parameter C", "");
   parameters_.Bind<unsigned>(PARAM_SCALING_YEARS, &scaling_years_, "The scaling years", "", true);
-  parameters_.Bind<Double>(PARAM_VALUES, &values_, "The values", "");
+  parameters_.Bind<Double>(PARAM_VALUES, &values_, "The values for each year", "");
 
   RegisterAsAddressable(PARAM_A, &a_);
   RegisterAsAddressable(PARAM_B, &b_);
@@ -39,14 +39,14 @@ AnnualShift::AnnualShift(shared_ptr<Model> model) : TimeVarying(model) {
  */
 void AnnualShift::DoValidate() {
   if (years_.size() != values_.size())
-    LOG_ERROR_P(PARAM_YEARS) << " provided (" << years_.size() << ") does not match the number of values provided (" << values_.size() << ")";
+    LOG_ERROR_P(PARAM_YEARS) << "provided (" << years_.size() << ") does not match the number of values provided (" << values_.size() << ")";
 
   if (scaling_years_.size() == 0)
     scaling_years_ = years_;
 
   for (unsigned year : scaling_years_) {
     if (std::find(years_.begin(), years_.end(), year) == years_.end())
-      LOG_ERROR_P(PARAM_SCALING_YEARS) << " value (" << year << ") has not been defined as one of the years";
+      LOG_ERROR_P(PARAM_SCALING_YEARS) << "value (" << year << ") has not been defined as one of the years";
   }
 }
 

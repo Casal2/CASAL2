@@ -25,7 +25,7 @@ NormalByStdev::NormalByStdev(shared_ptr<Model> model) : Estimate(model) {
   parameters_.Bind<Double>(PARAM_SIGMA, &sigma_, "The normal variance (sigma) parameter", "")->set_lower_bound(0.0, false);
   parameters_.Bind<bool>(
       PARAM_LOGNORMAL_TRANSFORMATION, &assume_lognormal_,
-      "Add a Jacobian if the derived outcome of the estimate is assumed to be lognormal, e.g., used for rectuitment deviations in the recruitment process. See the User Manual for more information",
+      "Add a Jacobian if the derived outcome of the estimate is assumed to be lognormal, e.g., used for recruitment deviations in the recruitment process. See the User Manual for more information",
       "", false);
 
   RegisterAsAddressable(PARAM_MU, &mu_);
@@ -49,11 +49,11 @@ Double NormalByStdev::GetScore() {
  *
  * @return vector of mu and sigma
  */
-vector<Double>   NormalByStdev::GetPriorValues() {
+vector<Double> NormalByStdev::GetPriorValues() {
   vector<Double> result = {mu_, sigma_};
   return result;
 }
-vector<string>   NormalByStdev::GetPriorLabels() {
+vector<string> NormalByStdev::GetPriorLabels() {
   vector<string> result = {PARAM_MU, PARAM_SIGMA};
   return result;
 }

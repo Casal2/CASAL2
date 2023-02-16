@@ -54,14 +54,14 @@ void MortalityEvent::DoValidate() {
 
   // Validate that the number of selectivities is the same as the number of categories
   if (category_labels_.size() != selectivity_names_.size()) {
-    LOG_ERROR_P(PARAM_SELECTIVITIES) << " The number of selectivities provided (" << selectivity_names_.size() << ") does not match the number of categories provided ("
+    LOG_ERROR_P(PARAM_SELECTIVITIES) << "The number of selectivities provided (" << selectivity_names_.size() << ") does not match the number of categories provided ("
                                      << category_labels_.size() << ").";
   }
 
   // Validate: catches_ and years_
   for (unsigned i = 0; i < years_.size(); ++i) {
     if (catch_years_.find(years_[i]) != catch_years_.end()) {
-      LOG_ERROR_P(PARAM_YEARS) << " year '" << years_[i] << "' has already been specified";
+      LOG_ERROR_P(PARAM_YEARS) << "year '" << years_[i] << "' has already been specified";
     }
 
     catch_years_[years_[i]] = catches_[i];

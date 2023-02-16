@@ -4,7 +4,7 @@
  * @date 24/09/2014
  * @section LICENSE
  *
- * Copyright NIWA Science ©2014 - www.niwa.co.nz
+ * Copyright NIWA Science ï¿½2014 - www.niwa.co.nz
  *
  */
 
@@ -24,7 +24,7 @@ NormalByStdev::NormalByStdev(shared_ptr<Model> model) : Creator(model) {
   parameters_.Bind<Double>(PARAM_SIGMA, &sigma_, "The normal standard deviation (sigma) parameter", "");
   parameters_.Bind<bool>(
       PARAM_LOGNORMAL_TRANSFORMATION, &assume_lognormal_,
-      "Add a jacobian if the derived outcome of the estimate is assumed to be lognormal, e.g., used for rectuitment deviations in the recruitment process. See the User Manual for more information",
+      "Add a jacobian if the derived outcome of the estimate is assumed to be lognormal, e.g., used for recruitment deviations in the recruitment process. See the User Manual for more information",
       "", false);
 }
 

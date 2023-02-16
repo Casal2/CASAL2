@@ -48,7 +48,7 @@ MortalityInitialisationEvent::MortalityInitialisationEvent(shared_ptr<Model> mod
 void MortalityInitialisationEvent::DoValidate() {
   // Validate that the number of selectivities is the same as the number of categories
   if (category_labels_.size() != selectivity_names_.size()) {
-    LOG_ERROR_P(PARAM_SELECTIVITIES) << " The number of selectivities provided does not match the number of categories provided."
+    LOG_ERROR_P(PARAM_SELECTIVITIES) << "The number of selectivities provided does not match the number of categories provided."
                                      << " Categories: " << category_labels_.size() << ", Selectivities: " << selectivity_names_.size();
   }
 

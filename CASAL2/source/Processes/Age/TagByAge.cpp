@@ -28,7 +28,7 @@ namespace age {
  * Default constructor
  */
 TagByAge::TagByAge(shared_ptr<Model> model) : Process(model), to_partition_(model), from_partition_(model) {
-  process_type_        = ProcessType::kMortality;  
+  process_type_ = ProcessType::kMortality;
   // Why this was changed from type transition to mortality. CASAL includes this in the 'mortality block'
   // CASAL reference see population_section.cpp line: 1924-2006
   // There is mortality in this process, so does make sense
@@ -68,14 +68,14 @@ void TagByAge::DoValidate() {
   age_spread_ = (max_age_ - min_age_) + 1;
 
   if (from_category_labels_.size() != to_category_labels_.size()) {
-    LOG_ERROR_P(PARAM_TO) << " number of values supplied (" << to_category_labels_.size() << ") does not match the number of from categories provided ("
+    LOG_ERROR_P(PARAM_TO) << "number of values supplied (" << to_category_labels_.size() << ") does not match the number of from categories provided ("
                           << from_category_labels_.size() << ")";
   }
 
   if (min_age_ < model_->min_age())
-    LOG_ERROR_P(PARAM_MIN_AGE) << " (" << min_age_ << ") is less than the model's minimum age (" << model_->min_age() << ")";
+    LOG_ERROR_P(PARAM_MIN_AGE) << "(" << min_age_ << ") is less than the model's minimum age (" << model_->min_age() << ")";
   if (max_age_ > model_->max_age())
-    LOG_ERROR_P(PARAM_MAX_AGE) << " (" << max_age_ << ") is greater than the model's maximum age (" << model_->max_age() << ")";
+    LOG_ERROR_P(PARAM_MAX_AGE) << "(" << max_age_ << ") is greater than the model's maximum age (" << model_->max_age() << ")";
 
   // Get our first year
   first_year_ = years_[0];
@@ -157,23 +157,23 @@ void TagByAge::DoValidate() {
     Double                 proportion = 0.0;
     for (auto iter : data) {
       if (!utilities::To<unsigned>(iter[0], year))
-        LOG_ERROR_P(PARAM_PROPORTIONS) << " value (" << iter[0] << ") could not be converted to an unsigned integer";
+        LOG_ERROR_P(PARAM_PROPORTIONS) << "value (" << iter[0] << ") could not be converted to an unsigned integer";
       Double total_proportion = 0.0;
       for (unsigned i = 1; i < iter.size(); ++i) {
         if (!utilities::To<Double>(iter[i], proportion))
-          LOG_ERROR_P(PARAM_PROPORTIONS) << " value (" << iter[i] << ") could not be converted to a Double";
+          LOG_ERROR_P(PARAM_PROPORTIONS) << "value (" << iter[i] << ") could not be converted to a Double";
         if (numbers_[year].size() == 0)
           numbers_[year].resize(age_spread_, 0.0);
         numbers_[year][i - 1] = n_by_year[year] * proportion;
         total_proportion += proportion;
       }
       if (!utilities::math::IsOne(total_proportion))
-        LOG_ERROR_P(PARAM_PROPORTIONS) << " total (" << total_proportion << ") do not sum to 1.0 for year " << year;
+        LOG_ERROR_P(PARAM_PROPORTIONS) << "total (" << total_proportion << ") do not sum to 1.0 for year " << year;
     }
 
     for (auto iter : numbers_) {
       if (std::find(years_.begin(), years_.end(), iter.first) == years_.end())
-        LOG_ERROR_P(PARAM_PROPORTIONS) << " table contains year " << iter.first << " which is not a valid year defined in this process";
+        LOG_ERROR_P(PARAM_PROPORTIONS) << "table contains year " << iter.first << " which is not a valid year defined in this process";
     }
   }
 }
@@ -182,7 +182,6 @@ void TagByAge::DoValidate() {
  * Build relationships between this object and others
  */
 void TagByAge::DoBuild() {
-
   from_partition_.Init(from_category_labels_);
   to_partition_.Init(to_category_labels_);
 
@@ -206,7 +205,6 @@ void TagByAge::DoBuild() {
  * Execute this process
  */
 void TagByAge::DoExecute() {
-
   if (model_->current_year() < first_year_)
     return;
 
@@ -220,9 +218,8 @@ void TagByAge::DoExecute() {
 
   LOG_FINEST() << "numbers_.size(): " << numbers_.size();
   LOG_FINEST() << "numbers_[current_year].size(): " << numbers_[current_year].size();
-  
-  for (unsigned i = 0; i < numbers_[current_year].size(); ++i)
-    LOG_FINEST() << "numbers_[current_year][" << i << "]: " << numbers_[current_year][i];
+
+  for (unsigned i = 0; i < numbers_[current_year].size(); ++i) LOG_FINEST() << "numbers_[current_year][" << i << "]: " << numbers_[current_year][i];
 
   Double total_stock_with_selectivities = 0.0;
   LOG_FINE() << "age_spread: " << age_spread_ << " in year " << current_year;
@@ -233,8 +230,7 @@ void TagByAge::DoExecute() {
     to_iter   = to_partition_.begin();
 
     LOG_FINEST() << "selectivity.size(): " << selectivities_.size();
-    for (auto iter : selectivities_)
-      LOG_FINE() << "selectivity: " << iter.first;
+    for (auto iter : selectivities_) LOG_FINE() << "selectivity: " << iter.first;
 
     total_stock_with_selectivities = 0.0;
     for (; from_iter != from_partition_.end(); from_iter++, to_iter++) {

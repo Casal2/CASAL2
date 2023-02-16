@@ -35,7 +35,7 @@ Exogenous::Exogenous(shared_ptr<Model> model) : TimeVarying(model) {
  */
 void Exogenous::DoValidate() {
   if (years_.size() != exogenous_.size())
-    LOG_ERROR_P(PARAM_YEARS) << " provided (" << years_.size() << ") does not match the number of values provided (" << exogenous_.size() << ")";
+    LOG_ERROR_P(PARAM_YEARS) << "provided (" << years_.size() << ") does not match the number of values provided (" << exogenous_.size() << ")";
 }
 
 /**
