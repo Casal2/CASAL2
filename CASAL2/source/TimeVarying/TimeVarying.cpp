@@ -75,7 +75,7 @@ void TimeVarying::Build() {
   LOG_FINE() << "addressable type = " << addressable_type;
   switch (addressable_type) {
     case addressable::kInvalid:
-      LOG_ERROR_P(PARAM_PARAMETER) << error;
+      LOG_ERROR_Q(PARAM_PARAMETER) << error;
       break;
     case addressable::kSingle:
       LOG_FINE() << "get time-vary kSingle";

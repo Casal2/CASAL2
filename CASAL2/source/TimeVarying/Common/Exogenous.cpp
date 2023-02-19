@@ -45,7 +45,7 @@ void Exogenous::DoValidate() {
 void Exogenous::DoBuild() {
   // Check that the parameter is of type scalar
   if (model_->objects().GetAddressableType(parameter_) != addressable::kSingle)
-    LOG_ERROR_P(PARAM_PARAMETER) << "Parameter must be a scalar. Other addressable types not supported";
+    LOG_ERROR_Q(PARAM_PARAMETER) << ": parameter '" << parameter_ << "'must be a scalar. Other addressable types not supported";
   // calculate mean;
   Double total = 0.0;
   for (Double value : exogenous_) total += value;

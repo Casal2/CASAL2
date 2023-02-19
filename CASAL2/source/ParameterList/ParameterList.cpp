@@ -345,6 +345,27 @@ string ParameterList::location(const string& label) {
 }
 
 /**
+ * Find the location string for one of our parameters, but write a quiet string.
+ *
+ * @param label The label for the parameter
+ * @return The location string for a quiet error message
+ */
+string ParameterList::quiet_location(const string& label) {
+  map<string, Parameter*>::iterator iter       = parameters_.find(label);
+  auto                              table_iter = tables_.find(label);
+  if (iter == parameters_.end() && table_iter == tables_.end()) {
+    LOG_CODE_ERROR() << "Trying to find the configuration file location for the parameter " << label
+                     << " failed because it has not been previously bound to this object. This is a developer"
+                     << " error most likely caused by using mismatched PARAM_X values";
+  }
+
+  if (iter != parameters_.end())
+    return iter->second->location() + " ";
+
+  return table_iter->second->location();
+}
+
+/**
  * Bind a table pointer to the map so it can be recognised and retrieved by the configuration loader
  *
  * @param label The label of the table to bind

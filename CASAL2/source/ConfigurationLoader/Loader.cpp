@@ -281,8 +281,13 @@ void Loader::ParseBlock(shared_ptr<Model> model, vector<FileLine>& block) {
   Object* object = model->factory().CreateObject(block_type, sub_type, partition_type);
   LOG_FINEST() << "Object created";
 
-  if (!object)
-    LOG_FATAL() << "At line " << block[0].line_number_ << " in " << block[0].file_name_ << ": The specified type (" << sub_type << ") is invalid for the command @" << block_type;
+  if (!object) {
+    if (sub_type != "")
+      LOG_FATAL() << "At line " << block[0].line_number_ << " in " << block[0].file_name_ << ": The specified type (" << sub_type << ") is invalid for the command @" << block_type;
+    else
+      LOG_FATAL() << "At line " << block[0].line_number_ << " in " << block[0].file_name_ << ": The subcommand 'type' was not specified. This is required for the command @"
+                  << block_type;
+  }
 
   LOG_TRACE();
   if (block_label != "" && !object->parameters().Add(PARAM_LABEL, block_label, block[0].file_name_, block[0].line_number_))

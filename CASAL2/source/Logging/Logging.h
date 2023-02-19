@@ -96,15 +96,19 @@ private:
 // Verify messages (an error, except during unit tests) can be bypassed with --verifylevel warning or -V warning
 #define LOG_VERIFY() LOG_IF_FOR_STREAM(logger::Severity::kVerify)
 #define LOG_VERIFY_P(parameter) LOG_IF_FOR_STREAM(logger::Severity::kVerify) << this->parameters_.location(parameter)
+#define LOG_VERIFY_Q(parameter) LOG_IF_FOR_STREAM(logger::Severity::kVerify) << this->parameters_.quiet_location(parameter)
 // Warning messages (not an error, except during test)
 #define LOG_WARNING() LOG_IF_FOR_STREAM(logger::Severity::kWarning)
 #define LOG_WARNING_P(parameter) LOG_IF_FOR_STREAM(logger::Severity::kWarning) << this->parameters_.location(parameter)
+#define LOG_WARNING_Q(parameter) LOG_IF_FOR_STREAM(logger::Severity::kWarning) << this->parameters_.quiet_location(parameter)
 // Errors that do not cause an immediate stop, but are logged and reported all at once
 #define LOG_ERROR() LOG_IF_FOR_STREAM(logger::Severity::kError)
 #define LOG_ERROR_P(parameter) LOG_IF_FOR_STREAM(logger::Severity::kError) << this->parameters_.location(parameter)
+#define LOG_ERROR_Q(parameter) LOG_IF_FOR_STREAM(logger::Severity::kError) << this->parameters_.quiet_location(parameter)
 // Errors that do cause an immediate stop and exit of the program
 #define LOG_FATAL() LOG_FOR(logger::Severity::kFatal) r.stream()
 #define LOG_FATAL_P(parameter) LOG_FOR(logger::Severity::kFatal) r.stream() << this->parameters_.location(parameter)
+#define LOG_FATAL_Q(parameter) LOG_FOR(logger::Severity::kFatal) r.stream() << this->parameters_.quiet_location(parameter)
 // Code errors that require a developer to fix
 #define LOG_CODE_ERROR() LOG_FOR(logger::Severity::kCodeError) r.stream()
 

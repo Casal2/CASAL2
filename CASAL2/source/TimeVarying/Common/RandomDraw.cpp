@@ -56,7 +56,7 @@ void RandomDraw::DoBuild() {
     upper_bound_ = AS_DOUBLE(estimate->upper_bound());
     lower_bound_ = AS_DOUBLE(estimate->lower_bound());
     if (model_->run_mode() == RunMode::kEstimation) {
-      LOG_ERROR_P(PARAM_PARAMETER) << "This @estimate block cannot have a parameter that is time varying of type " << type_
+      LOG_ERROR_Q(PARAM_PARAMETER) << ": the @estimate block cannot have a parameter that is time_varying of type " << type_
                                    << ", as Casal2 will overwrite the estimate and a false minimum will be found";
     }
   }

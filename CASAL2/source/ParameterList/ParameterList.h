@@ -110,6 +110,7 @@ public:
 
   // accessors
   string                   location(const string& label);
+  string                   quiet_location(const string& label);
   void                     set_parent_block_type(const string& block_type) { parent_block_type_ = block_type; }
   void                     set_defined_file_name(string value) { defined_file_name_ = value; }
   string                   defined_file_name() const { return defined_file_name_; }
