@@ -5,12 +5,14 @@
  * @date 28/01/2019
  * @section LICENSE
  *
- * Copyright NIWA Science ©2018 - www.niwa.co.nz
+ * Copyright NIWA Science ï¿½2018 - www.niwa.co.nz
  *
  */
 #ifdef TESTMODE
 
 // Headers
+#include "Objects.h"
+
 #include <gmock/gmock.h>
 #include <gtest/gtest.h>
 
@@ -23,7 +25,6 @@
 #include "../Selectivities/Common/Constant.Mock.h"
 #include "../TestResources/MockClasses/Model.h"
 #include "Objects.Mock.h"
-#include "Objects.h"
 
 // Namespaces
 namespace niwa {
@@ -154,7 +155,7 @@ TEST(Objects, VerifyAddressableForUse) {
   // Find addressable, but it's not allowed to be used for simulation
   EXPECT_EQ(false, objects.VerifyAddressableForUse("process[unit_tester].a", addressable::kSimulate, error));
   ASSERT_EQ(true, (error.length() > 16));
-  EXPECT_EQ("a on process.uni", error.substr(0, 16));
+  EXPECT_EQ("a on process[uni", error.substr(0, 16));
 
   // Working query
   // Find addressable, but it's not allowed to be used for simulation
