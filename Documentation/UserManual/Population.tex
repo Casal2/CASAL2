@@ -855,11 +855,13 @@ Method types for a time-varying parameter are:
 \item \subcommand{random\_draw}.
 \end{itemize}
 
-This option allows for a parameter to be fixed in a year, or be the result of a deterministic or stochastic process. \textbf{Note: the stochastic time-varying methods (e.g., random\_walk and random\_draw) were added for simulation purposes --- they has not yet been tested in an estimation context.} To implement a hierarchical model using the time-varying functionality, use MCMC estimation as a way to calculate the integral which is required to obtain unbiased estimates. Here, the prior parameter values need to be estimated using hyper-priors. In an MCMC context, a Gibbs sampler is assumed. That is, every draw is from a conditional distribution and so every draw is a candidate value.
+This option allows for a parameter to be fixed in a year, or be the result of a deterministic or stochastic process. Note that the stochastic time-varying methods (e.g., random\_walk and random\_draw) are intended for simulations or projections --- they should not be used in estimation as they utilise random numbers to generate parameter values. 
 
-When allowing removals with annually varying catchabilities, selectivities, and/or other model components, simulated observations more closely model real data. Implementing time-varying parameters also allows for mean or location parameters of selectivities to change between years based on a linked variable.
+To implement a hierarchical model using the time-varying functionality, use MCMC estimation as a way to calculate the integral which is required to obtain unbiased estimates. Here, the prior parameter values need to be estimated using hyper-priors. In an MCMC context, a Gibbs sampler is assumed. That is, every draw is from a conditional distribution and so every draw is a candidate value.
 
-An example of this is in the New Zealand hoki stock assessment where the $\mu$ and $a_{50}$ parameters are allowed to shift depending on when the fishing season occurs. Descriptive analysis showed that when fishing was earlier relative to other years smaller fish were caught and vice versa. This can be shown in the Examples/2stock directory, implemented at line: \texttt{382} in the \texttt{population.csl2} file. [Craig to edit]
+When allowing time-varying parameters (such as in catchability coefficients or selectivities parameters), a model is given freedom to more closely match the observed data. Time-varying parameters can be used to allow the mean or shape parameters of selectivities to change between years, and potentially as a function of a linked variable.
+
+An example of this is in the New Zealand hoki stock assessment where the $\mu$ and $a_{50}$ parameters are allowed to shift depending on when the fishing during the season occurs. Descriptive analysis showed that when fishing was earlier relative to other years, smaller fish were caught and vice versa. This can be shown in the Examples/2stock directory, implemented at line: \texttt{382} in the \texttt{population.csl2} file.
 
 \subsubsection[Constant (year blocks)]{\argument{constant}}\index{Time-varying Parameters!Constant}\label{sec:TimeVarying-Constant}
 
@@ -872,7 +874,7 @@ To allow survey catchability to be different in the year block 1975 to 1988 from
 		type          constant
 		parameter     catchability[survey_q].q
 		years         1975:1988
-		values        0.001      #same for all years
+		values        0.001 # the same for all years
 		\end{verbatim}}}
 
 To estimate catchability for 1975 and 1976, use the following:
@@ -882,7 +884,7 @@ To estimate catchability for 1975 and 1976, use the following:
 		type uniform   #prior
 		parameter time_varying[q_time_var].values{1975:1976}
 		lower_bound 1e-6 1e-6
-		upper_bound 2     2
+		upper_bound 2    2
 		\end{verbatim}}}
 
 To make the catchability be same over the year block we need to estimate it for one year (say 1975) and use the \textit{same} subcommand to make the others take the same value
@@ -926,8 +928,6 @@ A constraint whilst using this functionality is that a parameter cannot be less 
 		\end{verbatim}}}
 
 This configuration will insure the random walk time-varying process will set the any new candidate values within the lower and upper bound of the \command{estimate} block.
-
-\TODO{Syntax abuse: now overloaded many parameters with just one universal one?}
 
 \subsubsection[Annual shift]{\argument{annual\_shift}}\index{Time-varying Parameters!Annual shift} \label{sec:TimeVarying-AnnualShift}
 
