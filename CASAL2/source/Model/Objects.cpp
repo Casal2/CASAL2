@@ -304,7 +304,7 @@ base::Object* Objects::FindObject(const string& parameter_absolute_name) {
 
   if (!result) {
     LOG_CODE_ERROR() << "Parameter absolute " << parameter_absolute_name << " was not found. "
-                     << "Please check that VerfiyAddressableForUse() was called prior to any model_.objects() methods";
+                     << "Please check that VerifyAddressableForUse() was called prior to any model_.objects() methods";
   }
 
   return result;

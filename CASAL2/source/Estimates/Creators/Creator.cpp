@@ -56,7 +56,7 @@ void Creator::CreateEstimates() {
    */
   string error = "";
   if (!model_->objects().VerifyAddressableForUse(parameter_, addressable::kEstimate, error)) {
-    LOG_FATAL_Q(PARAM_PARAMETER) << ": The parameter " << parameter_ << " could not be verified for use in an @estimate block. Error: " << error;
+    LOG_FATAL_Q(PARAM_PARAMETER) << "the parameter " << parameter_ << " could not be verified for use in an @estimate block. Error: " << error;
   }
 
   string         new_parameter = parameter_;
@@ -67,7 +67,7 @@ void Creator::CreateEstimates() {
   if (index != "") {
     indexes = utilities::String::explode(index);
     if (index != "" && indexes.size() == 0) {
-      LOG_FATAL_Q(PARAM_PARAMETER) << ": The parameter " << parameter_ << " could not be split up to search for indexes because the format was invalid. "
+      LOG_FATAL_Q(PARAM_PARAMETER) << "the parameter " << parameter_ << " could not be split up to search for indexes because the format was invalid. "
                                    << "Check the indices. Only the operators ',' and ':' (range) are supported";
     }
 

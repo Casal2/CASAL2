@@ -36,8 +36,8 @@ void DerivedQuantity::DoBuild(shared_ptr<Model> model) {
   derived_quantity_ = model->managers()->derived_quantity()->GetDerivedQuantity(derived_quantity_label_);
   if (!derived_quantity_) {
 #ifndef TESTMODE
-    LOG_WARNING() << "The report for " << PARAM_DERIVED_QUANTITY << " with label '" << derived_quantity_label_ << "' was requested. This " << PARAM_DERIVED_QUANTITY
-                  << " was not found in the input configuration file and the report will not be generated";
+    LOG_WARNING_Q(PARAM_DERIVED_QUANTITY) << "the report for " << PARAM_DERIVED_QUANTITY << " with label '" << derived_quantity_label_ << "' was requested. This "
+                                          << PARAM_DERIVED_QUANTITY << " was not found in the input configuration file and the report will not be generated";
 #endif
     is_valid_ = false;
   }
@@ -74,9 +74,7 @@ void DerivedQuantity::DoExecute(shared_ptr<Model> model) {
 void DerivedQuantity::DoPrepareTabular(shared_ptr<Model> model) {
   cache_ << ReportHeader(type_, derived_quantity_label_, format_);
   cache_ << "values " << REPORT_R_DATAFRAME << REPORT_EOL;
-
 }
-
 
 /**
  * Execute the tabular report
@@ -86,7 +84,7 @@ void DerivedQuantity::DoExecuteTabular(shared_ptr<Model> model) {
   string                       derived_type = derived_quantity_->type();
   const map<unsigned, Double>  values       = derived_quantity_->values();
   const vector<vector<Double>> init_values  = derived_quantity_->initialisation_values();
-  if(first_run_) {
+  if (first_run_) {
     first_run_ = false;
     for (unsigned i = 0; i < init_values.size(); ++i) {
       cache_ << derived_type << "[" << derived_quantity_->label() << "][initialisation_phase_" << i + 1 << "] ";
@@ -104,7 +102,7 @@ void DerivedQuantity::DoExecuteTabular(shared_ptr<Model> model) {
     Double weight = iter->second;
     cache_ << AS_DOUBLE(weight) << " ";
   }
-  
+
   cache_ << REPORT_EOL;
 }
 

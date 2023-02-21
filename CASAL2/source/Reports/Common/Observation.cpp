@@ -57,7 +57,7 @@ void Observation::DoBuild(shared_ptr<Model> model) {
   observation_ = model->managers()->observation()->GetObservation(observation_label_);
   if (!observation_) {
 #ifndef TESTMODE
-    LOG_WARNING() << "The report for " << PARAM_OBSERVATION << " with label '" << observation_label_ << "' was requested. This " << PARAM_OBSERVATION
+    LOG_WARNING() << "the report for " << PARAM_OBSERVATION << " with label '" << observation_label_ << "' was requested. This " << PARAM_OBSERVATION
                   << " was not found in the input configuration file and the report will not be generated";
 #endif
     is_valid_ = false;
@@ -95,9 +95,8 @@ void Observation::DoExecute(shared_ptr<Model> model) {
   cache_ << "error_value_multiplier: " << observation_->error_value_multiplier() << REPORT_EOL;
   cache_ << "likelihood_multiplier: " << observation_->likelihood_multiplier() << REPORT_EOL;
   cache_ << "categories:";
-  for(auto category : observation_->categories()) 
-    cache_ << " " <<  category;
-  cache_<< REPORT_EOL;
+  for (auto category : observation_->categories()) cache_ << " " << category;
+  cache_ << REPORT_EOL;
 
   cache_ << "Values " << REPORT_R_DATAFRAME << REPORT_EOL;
   map<unsigned, vector<obs::Comparison>>& comparisons = observation_->comparisons();

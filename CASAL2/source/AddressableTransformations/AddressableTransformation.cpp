@@ -29,7 +29,7 @@ namespace utils = niwa::utilities;
  *
  */
 AddressableTransformation::AddressableTransformation(shared_ptr<Model> model) : model_(model) {
-  parameters_.Bind<string>(PARAM_LABEL, &label_, "Label for the transformation block", "");
+  parameters_.Bind<string>(PARAM_LABEL, &label_, "Label of the transformation", "");
   parameters_.Bind<string>(PARAM_TYPE, &type_, "The type of transformation", "");
   parameters_.Bind<string>(PARAM_PARAMETERS, &parameter_labels_, "The parameters used in the transformation", "");
   parameters_.Bind<bool>(PARAM_PRIOR_APPLIES_TO_RESTORED_PARAMETERS, &prior_applies_to_restored_parameters_,
@@ -52,7 +52,7 @@ void AddressableTransformation::Validate() {
   string error = "";
   for (auto param : parameter_labels_) {
     if (!model_->objects().VerifyAddressableForUse(param, addressable::kTransformation, error)) {
-      LOG_FATAL_P(PARAM_PARAMETERS) << "The parameter " << param << " could not be verified for use in an @parameter_transformation block. Error: " << error;
+      LOG_FATAL_Q(PARAM_PARAMETERS) << "the parameter " << param << " could not be verified for use in an @parameter_transformation block. Error: " << error;
     }
   }
   vector_and_u_map_indicies_.resize(parameter_labels_.size());

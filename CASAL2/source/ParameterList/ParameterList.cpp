@@ -360,7 +360,7 @@ string ParameterList::quiet_location(const string& label) {
   }
 
   if (iter != parameters_.end())
-    return iter->second->location() + " ";
+    return iter->second->location() + ": ";
 
   return table_iter->second->location();
 }
