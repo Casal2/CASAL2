@@ -63,9 +63,10 @@ protected:
   UpdateFunction update_function_ = 0;
 
   // members
-  shared_ptr<Model>           model_         = nullptr;
-  base::Object*               target_object_ = nullptr;
-  string                      type_          = "";
+  shared_ptr<Model>           model_           = nullptr;
+  base::Object*               target_object_   = nullptr;
+  string                      type_            = "";
+  bool                        IsEstimableType_ = false;
   vector<unsigned>            years_;
   string                      parameter_             = "";
   Double                      original_value_        = 0;

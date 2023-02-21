@@ -20,7 +20,7 @@ namespace reports {
  *
  */
 Selectivity::Selectivity() {
-  run_mode_    = (RunMode::Type)(RunMode::kBasic | RunMode::kProjection | RunMode::kSimulation | RunMode::kEstimation | RunMode::kProfiling);
+  run_mode_    = (RunMode::Type)(RunMode::kBasic | RunMode::kProjection | RunMode::kSimulation | RunMode::kProfiling);
   model_state_ = (State::Type)(State::kIterationComplete);
   parameters_.Bind<string>(PARAM_SELECTIVITY, &selectivity_label_, "Selectivity name", "", "");
   parameters_.Bind<double>(PARAM_LENGTH_VALUES, &length_values_, "Length values to evaluate the length-based selectivity in an age based model.", "", true);
@@ -44,8 +44,8 @@ void Selectivity::DoBuild(shared_ptr<Model> model) {
     selectivity_ = model->managers()->selectivity()->GetSelectivity(selectivity_label_);
     if (!selectivity_) {
 #ifndef TESTMODE
-      LOG_WARNING() << "The report for " << PARAM_SELECTIVITY << " with label '" << selectivity_label_ << "' was requested. This " << PARAM_SELECTIVITY
-                    << " was not found in the input configuration file and the report will not be generated";
+      LOG_WARNING_Q(PARAM_SELECTIVITY) << "the report for " << PARAM_SELECTIVITY << " with label '" << selectivity_label_ << "' was requested. This " << PARAM_SELECTIVITY
+                                       << " was not found in the input configuration file and the report will not be generated";
 #endif
       is_valid_ = false;
     } else {

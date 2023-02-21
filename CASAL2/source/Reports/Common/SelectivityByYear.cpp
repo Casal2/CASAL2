@@ -11,6 +11,7 @@
 #include "SelectivityByYear.h"
 
 #include "../../Model/Model.h"
+#include "../../Partition/Accessors/All.h"
 #include "../../Selectivities/Manager.h"
 
 namespace niwa {
@@ -20,14 +21,13 @@ namespace reports {
  *
  */
 SelectivityByYear::SelectivityByYear() {
-  run_mode_    = (RunMode::Type)(RunMode::kBasic | RunMode::kProjection | RunMode::kSimulation | RunMode::kEstimation | RunMode::kProfiling);
+  run_mode_    = (RunMode::Type)(RunMode::kBasic | RunMode::kProjection);
   model_state_ = State::kExecute;
   skip_tags_   = true;
+
   parameters_.Bind<string>(PARAM_SELECTIVITY, &selectivity_label_, "Selectivity label", "", "");
   parameters_.Bind<unsigned>(PARAM_YEARS, &years_, "Years", "", true);
-  parameters_.Bind<string>(PARAM_TIME_STEP, &time_step_, "Time Step when to print the selectivity", "", "");
-
-
+  parameters_.Bind<string>(PARAM_TIME_STEP, &time_step_, "Time Step when to print the selectivity", "");
 }
 
 /**
@@ -40,7 +40,6 @@ void SelectivityByYear::DoValidate(shared_ptr<Model> model) {
   }
   if (selectivity_label_ == "")
     selectivity_label_ = label_;
-    
 }
 /**
  * Build object
@@ -49,7 +48,7 @@ void SelectivityByYear::DoBuild(shared_ptr<Model> model) {
   selectivity_ = model->managers()->selectivity()->GetSelectivity(selectivity_label_);
   if (!selectivity_) {
 #ifndef TESTMODE
-    LOG_WARNING() << "The report for " << PARAM_SELECTIVITY << " with label '" << selectivity_label_ << "' was requested. This " << PARAM_SELECTIVITY
+    LOG_WARNING() << "the report for " << PARAM_SELECTIVITY << " with label '" << selectivity_label_ << "' was requested. This " << PARAM_SELECTIVITY
                   << " was not found in the input configuration file and the report will not be generated";
 #endif
     is_valid_ = false;
@@ -57,11 +56,14 @@ void SelectivityByYear::DoBuild(shared_ptr<Model> model) {
 }
 
 void SelectivityByYear::DoExecute(shared_ptr<Model> model) {
+  niwa::partition::accessors::All all_view(model);
+
   LOG_TRACE();
-  if(model->partition_type() == PartitionType::kAge) {
+  selectivity_ = model->managers()->selectivity()->GetSelectivity(selectivity_label_);
+
+  if (model->partition_type() == PartitionType::kAge) {
     if (!selectivity_->IsSelectivityLengthBased()) {
       LOG_FINEST() << "Printing age-based selectivity by year";
-      selectivity_ = model->managers()->selectivity()->GetSelectivity(selectivity_label_);
 
       cache_ << ReportHeader(type_, label_, format_);
       cache_ << "selectivity: " << selectivity_label_ << REPORT_EOL;
@@ -78,13 +80,14 @@ void SelectivityByYear::DoExecute(shared_ptr<Model> model) {
       }
 
       cache_ << "Values " << REPORT_R_VECTOR << REPORT_EOL;
-      for (unsigned i = model->min_age(); i <= model->max_age(); ++i) cache_ << i << " " << AS_DOUBLE(selectivity_->GetAgeResult(i, nullptr)) << "\n";
+      for (unsigned i = model->min_age(); i <= model->max_age(); ++i) {
+        cache_ << i << " " << AS_DOUBLE(selectivity_->GetAgeResult(i, nullptr)) << "\n";
+      }
       cache_ << REPORT_END << REPORT_EOL;
       ready_for_writing_ = true;
     }
-  } else if(model->partition_type() == PartitionType::kLength) {
+  } else if (model->partition_type() == PartitionType::kLength) {
     LOG_FINEST() << "Printing length -based selectivity by year";
-    selectivity_ = model->managers()->selectivity()->GetSelectivity(selectivity_label_);
 
     cache_ << ReportHeader(type_, label_, format_);
     cache_ << "year: " << model->current_year() << REPORT_EOL;
@@ -101,20 +104,20 @@ void SelectivityByYear::DoExecute(shared_ptr<Model> model) {
     }
 
     cache_ << "Values " << REPORT_R_VECTOR << REPORT_EOL;
-    for (unsigned i = 0; i < model->get_number_of_length_bins(); ++i)
+    for (unsigned i = 0; i < model->get_number_of_length_bins(); ++i) {
       cache_ << model->length_bin_mid_points()[i] << " " << AS_DOUBLE(selectivity_->GetLengthResult(i)) << "\n";
+    }
     cache_ << REPORT_END << REPORT_EOL;
     ready_for_writing_ = true;
   }
-
 }
 /*
-* write the header for tabular report
-*/
+ * write the header for tabular report
+ */
 void SelectivityByYear::DoPrepareTabular(shared_ptr<Model> model) {
   if (!is_valid())
     return;
-  if(model->partition_type() == PartitionType::kAge) {
+  if (model->partition_type() == PartitionType::kAge) {
     if (!selectivity_->IsSelectivityLengthBased()) {
       cache_ << ReportHeader(type_, label_, format_);
       cache_ << "values " << REPORT_R_DATAFRAME << REPORT_EOL;
@@ -128,39 +131,37 @@ void SelectivityByYear::DoPrepareTabular(shared_ptr<Model> model) {
       }
       cache_ << REPORT_EOL;
     }
-  } else if(model->partition_type() == PartitionType::kLength) {
-      cache_ << ReportHeader(type_, label_, format_);
-      cache_ << "values " << REPORT_R_DATAFRAME << REPORT_EOL;
-      string length, selectivity_by_length_label;
+  } else if (model->partition_type() == PartitionType::kLength) {
+    cache_ << ReportHeader(type_, label_, format_);
+    cache_ << "values " << REPORT_R_DATAFRAME << REPORT_EOL;
+    string length, selectivity_by_length_label;
 
-      for (auto length_mid_vals : model->length_bin_mid_points()) {
-        if (!utilities::To<double, string>(length_mid_vals, length))
-          LOG_CODE_ERROR() << "Could not convert the value " << length_mid_vals << " to a string for storage in the tabular report";
-        selectivity_by_length_label = "selectivity[" + selectivity_->label() + "]." + length;
-        cache_ << selectivity_by_length_label << " ";
-      }
-      cache_ << REPORT_EOL;
+    for (auto length_mid_vals : model->length_bin_mid_points()) {
+      if (!utilities::To<double, string>(length_mid_vals, length))
+        LOG_CODE_ERROR() << "Could not convert the value " << length_mid_vals << " to a string for storage in the tabular report";
+      selectivity_by_length_label = "selectivity[" + selectivity_->label() + "]." + length;
+      cache_ << selectivity_by_length_label << " ";
+    }
+    cache_ << REPORT_EOL;
   }
-
 }
 
 void SelectivityByYear::DoExecuteTabular(shared_ptr<Model> model) {
   if (!is_valid())
     return;
-  if(model->partition_type() == PartitionType::kAge) {
+  if (model->partition_type() == PartitionType::kAge) {
     if (!selectivity_->IsSelectivityLengthBased()) {
       for (unsigned i = model->min_age(); i <= model->max_age(); ++i) {
         cache_ << AS_DOUBLE(selectivity_->GetAgeResult(i, nullptr)) << " ";
       }
       cache_ << REPORT_EOL;
     }
-  } else if(model->partition_type() == PartitionType::kLength) {
-      for (unsigned i = 0; i < model->get_number_of_length_bins(); ++i) {
-        cache_ << AS_DOUBLE(selectivity_->GetLengthResult(i)) << " ";
-      }
-      cache_ << REPORT_EOL;
+  } else if (model->partition_type() == PartitionType::kLength) {
+    for (unsigned i = 0; i < model->get_number_of_length_bins(); ++i) {
+      cache_ << AS_DOUBLE(selectivity_->GetLengthResult(i)) << " ";
+    }
+    cache_ << REPORT_EOL;
   }
-
 }
 
 void SelectivityByYear::DoFinaliseTabular(shared_ptr<Model> model) {

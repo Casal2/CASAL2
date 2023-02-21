@@ -142,9 +142,12 @@ void Manager::Build(shared_ptr<Model> model) {
 
   LOG_FINEST() << "objects_.size(): " << objects_.size();
   for (auto report : objects_) {
-    if ((RunMode::Type)(report->run_mode() & run_mode) == run_mode)
-      if (report->is_valid())
-        report->Build(model);
+    if ((RunMode::Type)(report->run_mode() & run_mode) == run_mode && report->is_valid()) {
+      LOG_FINE() << "Building report: " << report->label() << " because run mode is right (" << (int)report->run_mode() << " & " << (int)run_mode << ")";
+      report->Build(model);
+    } else {
+      LOG_FINE() << "Skipping report: " << report->label() << " because run mode is not right (" << (int)report->run_mode() << " & " << (int)run_mode << ")";
+    }
   }
 
   // move any objects from the internal vector to the objects vector
@@ -162,12 +165,12 @@ void Manager::Build(shared_ptr<Model> model) {
    * - Take report and add it to the state or time step report lists based on it's execution type
    * - Check if we have some basic reports for the current run mode
    */
-  [[maybe_unused]] bool exists_MCMC_sample    = false;  // Ignore unused because
-  [[maybe_unused]] bool exists_MCMC_objective = false;  // we only check if it's valid
-  [[maybe_unused]] bool exists_estimate_value = false;  // during non-test modes
-  [[maybe_unused]] bool exists_profile = false;  // during non-test modes
+  [[maybe_unused]] bool exists_MCMC_sample        = false;  // Ignore unused because
+  [[maybe_unused]] bool exists_MCMC_objective     = false;  // we only check if it's valid
+  [[maybe_unused]] bool exists_estimate_value     = false;  // during non-test modes
+  [[maybe_unused]] bool exists_profile            = false;  // during non-test modes
   [[maybe_unused]] bool exists_objective_function = false;  // during non-test modes
-  [[maybe_unused]] bool exists_simulation_report = false;  // during non-test modes
+  [[maybe_unused]] bool exists_simulation_report  = false;  // during non-test modes
 
   for (auto report : objects_) {
     if ((RunMode::Type)(report->run_mode() & RunMode::kInvalid) == RunMode::kInvalid)
@@ -206,18 +209,18 @@ void Manager::Build(shared_ptr<Model> model) {
     LOG_VERIFY() << "You are running an MCMC but there was no @report of type = " << PARAM_MCMC_OBJECTIVE << " found. This is probably an error";
   if (run_mode == RunMode::Type::kEstimation && !exists_estimate_value)
     LOG_VERIFY() << "You are running an estimation but there was no @report of type = " << PARAM_ESTIMATE_VALUE << " found. This is probably an error";
-  if (run_mode == RunMode::Type::kSimulation && !exists_simulation_report) 
+  if (run_mode == RunMode::Type::kSimulation && !exists_simulation_report)
     LOG_VERIFY() << "You are running a simulation but there was no @report of type = " << PARAM_SIMULATED_OBSERVATION << " found. This is probably an error";
 
   if (run_mode == RunMode::Type::kProfiling) {
-    if(!exists_estimate_value)
+    if (!exists_estimate_value)
       LOG_VERIFY() << "You are running an profile but there was no @report of type = " << PARAM_ESTIMATE_VALUE << " found. This is probably an error";
-    if(!exists_profile)
+    if (!exists_profile)
       LOG_VERIFY() << "You are running an profile but there was no @report of type = " << PARAM_PROFILE << " found. This is probably an error";
-    if(!exists_objective_function)
+    if (!exists_objective_function)
       LOG_VERIFY() << "You are running an profile but there was no @report of type = " << PARAM_OBJECTIVE_FUNCTION << " found. This is probably an error";
   }
-  
+
 #endif
 
   has_built_ = true;
@@ -252,7 +255,7 @@ void Manager::Execute(shared_ptr<Model> model, State::Type model_state) {
       else
         report->Execute(model);
     } else
-      LOG_FINE() << "Skipping report: " << report->label() << " because run mode is incorrect";
+      LOG_FINE() << "Skipping report: " << report->label() << " because run mode is not right (" << (int)report->run_mode() << " & " << (int)run_mode << ")";
   }
 }
 
@@ -270,14 +273,16 @@ void Manager::Execute(shared_ptr<Model> model, unsigned year, const string& time
 
   if (model->global_configuration().disable_all_reports())
     return;
-  LOG_FINEST() << "year: " << year << "; time_step_label: " << time_step_label << "; reports: " << time_step_reports_[time_step_label].size();
+  LOG_FINEST() << "year: " << year << "; time_step_label: " << time_step_label << "; reports: " << time_step_reports_[time_step_label].size()
+               << "; model run_mode: " << model->run_mode() << "; model state: " << model->state();
 
   RunMode::Type run_mode = model->run_mode();
   bool          tabular  = model->global_configuration().print_tabular();
   for (auto report : time_step_reports_[time_step_label]) {
-    LOG_FINE() << "executing report " << report->label();
+    LOG_FINE() << "executing report " << report->label() << "; isValid: " << report->is_valid();
+    // if ((RunMode::Type)(report->run_mode() != run_mode) && report->is_valid()) {
     if ((RunMode::Type)(report->run_mode() & run_mode) != run_mode && report->is_valid()) {
-      LOG_FINEST() << "Skipping report: " << report->label() << " because run mode is not right";
+      LOG_FINE() << "Skipping report: " << report->label() << " because run mode is not right (" << (int)report->run_mode() << " & " << (int)run_mode << ")";
       continue;
     }
     if (!report->HasYear(year)) {
@@ -308,7 +313,7 @@ void Manager::Prepare(shared_ptr<Model> model) {
   bool          tabular  = model->global_configuration().print_tabular();
   for (auto report : objects_) {
     if ((RunMode::Type)(report->run_mode() & run_mode) != run_mode) {
-      LOG_FINEST() << "Skipping report: " << report->label() << " because run mode is not right";
+      LOG_FINE() << "Skipping report: " << report->label() << " because run mode is not right (" << (int)report->run_mode() << " & " << (int)run_mode << ")";
       continue;
     }
     if (!report->is_valid())

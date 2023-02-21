@@ -27,6 +27,13 @@ TimeVarying::TimeVarying(shared_ptr<Model> model) : model_(model) {
       ->set_allowed_values({PARAM_ANNUAL_SHIFT, PARAM_CONSTANT, PARAM_EXOGENOUS, PARAM_LINEAR, PARAM_RANDOMWALK, PARAM_RANDOMDRAW});
   parameters_.Bind<string>(PARAM_PARAMETER, &parameter_, "The name of the parameter to vary in each year", "");
   parameters_.Bind<unsigned>(PARAM_YEARS, &years_, "The years in which to vary the paramter", "");
+
+  // Define if we recommended that this be allowed to be estimable
+  if (type_ == PARAM_RANDOMDRAW || type_ == PARAM_RANDOMWALK) {
+    IsEstimableType_ = false;
+  } else {
+    IsEstimableType_ = true;
+  }
 }
 
 /**
@@ -52,7 +59,7 @@ void TimeVarying::Build() {
   // Verify our addressable is allowed to be used for TimeVarying
   string error = "";
   if (!model_->objects().VerifyAddressableForUse(parameter_, addressable::kTimeVarying, error)) {
-    LOG_FATAL_P(PARAM_PARAMETER) << "could not be verified for use in an @time_varying block. Error: " << error;
+    LOG_FATAL_Q(PARAM_PARAMETER) << "the parameter " << parameter_ << " could not be verified for use in an @time_varying block. Error: " << error;
   }
 
   // Split parameter label up
@@ -207,16 +214,16 @@ void TimeVarying::Reset() {
 void TimeVarying::Verify(shared_ptr<Model> model) {
   LOG_FINE() << "Verify parameters useage = " << parameter_;
   if (model->objects().IsParameterUsedFor(parameter_, addressable::kEstimate)) {
-    // TODO: exclude OK types from this warning message
-    LOG_WARNING() << "Found an @estimate block for " << parameter_ << ". "
-                  << "There are only a few time-varying types (e.g., exogenous where this is okay. Please check this is a sensible configuration.";
+    if (!IsEstimableType_)
+      LOG_WARNING_Q(PARAM_PARAMETER) << "found an @estimate block for " << parameter_ << " which is of type " << type_
+                                     << ". Estimation is not recommended for some time-varying types (e.g., " << PARAM_RANDOMDRAW << "). Please check your configuration file.";
   }
   if (model->objects().IsParameterUsedFor(parameter_, addressable::kTransformation)) {
-    LOG_FATAL_P(PARAM_PARAMETER) << "Found an @parameter_transformation block for " << parameter_
+    LOG_FATAL_Q(PARAM_PARAMETER) << "found an @parameter_transformation block for " << parameter_
                                  << ". You cannot have a time-varying block and a parameter-transformation for the same parameter.";
   }
   if (model->objects().IsParameterUsedFor(parameter_, addressable::kProfile)) {
-    LOG_FATAL_P(PARAM_PARAMETER) << "Found an @profile block for " << parameter_ << ". You cannot have a time-varying block and a @profile for the same parameter.";
+    LOG_FATAL_Q(PARAM_PARAMETER) << "found an @profile block for " << parameter_ << ". You cannot have a time-varying block and a @profile for the same parameter.";
   }
 }
 } /* namespace niwa */
