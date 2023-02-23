@@ -82,8 +82,9 @@ protected:
   bool                           plus_group_;
   CompatibilityType              compatibility_type_ = CompatibilityType::kUnknown;
   string                         compatibility_      = "";
-  // vector<double>                 time_step_proportions_;
-  vector<Double> mean_weight_by_length_bin_index_;
+  // vector<double>              time_step_proportions_;
+  vector<Double>                 mean_weight_by_length_bin_index_;
+  bool                           is_growth_type_none_ = false;
 };
 } /* namespace niwa */
 #endif /* GROWTH_INCREMENT_MODELS_H_ */
