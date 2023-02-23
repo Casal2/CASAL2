@@ -107,6 +107,7 @@ void TransitionCategory::DoBuild() {
     Selectivity* selectivity = model_->managers()->selectivity()->GetSelectivity(label);
     if (!selectivity)
       LOG_ERROR_P(PARAM_SELECTIVITIES) << ": Selectivity label " << label << " was not found.";
+    LOG_FINEST() << "using selectivity " << label;
     selectivities_.push_back(selectivity);
   }
 
@@ -131,11 +132,13 @@ void TransitionCategory::DoExecute() {
 
   // calculate before we take it. a category can be in multiple 'froms'
   for (unsigned i = 0; from_iter != from_partition_.end() && to_iter != to_partition_.end(); ++from_iter, ++to_iter, ++i) {
-    LOG_FINEST() << "category = " << (*from_iter)->name_ << " to category = " << (*to_iter)->name_ << " i = " << i << " prop = " << proportions_by_category_[(*to_iter)->name_];
+    //LOG_FINEST() << "category = " << (*from_iter)->name_ << " to category = " << (*to_iter)->name_ << " i = " << i << " prop = " << proportions_by_category_[(*to_iter)->name_];
     fill(abundance_to_move_categories_[i].begin(), abundance_to_move_categories_[i].end(), 0.0);
-    for (unsigned offset = 0; offset < (*from_iter)->data_.size(); ++offset)
-      abundance_to_move_categories_[i][offset] = proportions_by_category_[(*to_iter)->name_] * selectivities_[i]->GetLengthResult(i) * (*from_iter)->data_[offset];
-  }
+    for (unsigned offset = 0; offset < (*from_iter)->data_.size(); ++offset) {
+      abundance_to_move_categories_[i][offset] = proportions_by_category_[(*to_iter)->name_] * selectivities_[i]->GetLengthResult(offset) * (*from_iter)->data_[offset];
+      //LOG_FINEST() << "offset " << offset << "  Nage " << (*from_iter)->data_[offset] << " selectivity = " << selectivities_[i]->GetLengthResult(offset) << " prop = " << proportions_by_category_[(*to_iter)->name_];
+    }
+   }
   from_iter = from_partition_.begin();
   to_iter   = to_partition_.begin();
   // now we move it
