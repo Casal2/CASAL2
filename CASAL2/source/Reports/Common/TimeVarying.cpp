@@ -28,15 +28,15 @@ TimeVarying::TimeVarying() {
 /**
  * Validate object
  */
-void TimeVarying::DoValidate(shared_ptr<Model> model) {
-  if (time_varying_label_ == "")
-    time_varying_label_ = label_;
-}
+void TimeVarying::DoValidate(shared_ptr<Model> model) {}
 
 /**
  *  Build object
  */
 void TimeVarying::DoBuild(shared_ptr<Model> model) {
+  // If user supplied
+  if (time_varying_label_ == "")
+    time_varying_label_ = label_;  // if no explicit time-varying-label given try the report label
   timevarying_ = model->managers()->time_varying()->GetTimeVarying(time_varying_label_);
   if (!timevarying_) {
 #ifndef TESTMODE
@@ -52,24 +52,17 @@ void TimeVarying::DoBuild(shared_ptr<Model> model) {
  */
 void TimeVarying::DoExecute(shared_ptr<Model> model) {
   LOG_TRACE();
-
-  if (!is_valid())
-    return;
-
-  auto manager      = model->managers()->time_varying();
-  auto time_varying = manager->objects();
-
-  if (manager->size() > 0 && time_varying.size() > 0) {
+  // single valid time-varying report value
+  if (is_valid_) {
     cache_ << ReportHeader(type_, time_varying_label_, format_);
+    LOG_FINEST() << "Reporting for @time_varying block " << time_varying_label_;
+    cache_ << "values " << REPORT_R_DATAFRAME << REPORT_EOL;
 
-    for (auto time_var : time_varying) {
-      LOG_FINEST() << "Reporting for @time_varying block " << time_varying_label_;
-      cache_ << "values " << REPORT_R_DATAFRAME << REPORT_EOL;
-      map<unsigned, Double>& parameter_by_year = time_var->get_parameter_by_year();
-      cache_ << "year value" << REPORT_EOL;
-      for (auto param : parameter_by_year) {
-        cache_ << param.first << "  " << AS_DOUBLE(param.second) << REPORT_EOL;
-      }
+    map<unsigned, Double>& parameter_by_year = timevarying_->get_parameter_by_year();
+    cache_ << "year"
+           << " Value" << REPORT_EOL;
+    for (auto param : parameter_by_year) {
+      cache_ << param.first << "  " << AS_DOUBLE(param.second) << REPORT_EOL;
     }
     ready_for_writing_ = true;
   }

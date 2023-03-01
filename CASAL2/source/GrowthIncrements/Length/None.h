@@ -33,7 +33,7 @@ public:
 
   // accessors
 protected:
-  Double get_mean_increment(double length) override final { return 1.0; };
+  Double get_mean_increment(double length) override final { return 0.0; };
 
   // accessors
 };

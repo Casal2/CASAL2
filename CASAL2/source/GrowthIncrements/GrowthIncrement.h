@@ -65,21 +65,22 @@ protected:
 
   // members
 
-  shared_ptr<Model>      model_ = nullptr;
-  string                 distribution_label_;
-  Distribution           distribution_;
-  string                 length_weight_label_;
-  LengthWeight*          length_weight_ = nullptr;
-  vector<vector<Double>> growth_transition_matrix_;  // length_bins x length_bins
-  Double                 cv_;
-  Double                 min_sigma_;
-  unsigned               number_of_model_length_bins_;
-  vector<double>         model_min_length_bins_;
-  vector<double>         model_length_midpoints_;
-  bool                   plus_group_;
-  CompatibilityType      compatibility_type_ = CompatibilityType::kUnknown;
-  string                 compatibility_      = "";
-  vector<Double>         mean_weight_by_length_bin_index_;
+  shared_ptr<Model>              model_ = nullptr;
+  string                         distribution_label_;
+  Distribution                   distribution_;
+  string                         length_weight_label_;
+  LengthWeight*                  length_weight_ = nullptr;
+  vector<vector<vector<Double>>> growth_transition_matrix_;  // length_bins x length_bins * time_steps
+  Double                         cv_;
+  Double                         min_sigma_;
+  unsigned                       number_of_model_length_bins_;
+  vector<double>                 model_min_length_bins_;
+  vector<double>                 model_length_midpoints_;
+  bool                           plus_group_;
+  CompatibilityType              compatibility_type_ = CompatibilityType::kUnknown;
+  string                         compatibility_      = "";
+  vector<Double>                 mean_weight_by_length_bin_index_;
+  bool                           is_growth_type_none_ = false;
 };
 } /* namespace niwa */
 #endif /* GROWTH_INCREMENT_MODELS_H_ */
