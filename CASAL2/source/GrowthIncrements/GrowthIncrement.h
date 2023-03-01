@@ -43,15 +43,9 @@ public:
   const vector<vector<Double>>& get_transition_matrix() { return growth_transition_matrix_; };
 
   void apply_growth();
+
   // accessors
-  /*
-  const Double&  cv(unsigned year, unsigned time_step, unsigned age) { return cvs_[year - year_offset_][time_step - time_step_offset_][age - age_offset_]; };
-  virtual string distribution_label() { return distribution_label_; };
-  Distribution   distribution() const { return distribution_; }
-  string         compatibility() const { return compatibility_; }
-  const Double&  mean_weight(unsigned time_step, unsigned age) { return mean_weight_by_timestep_age_[time_step - time_step_offset_][age - age_offset_]; };
-  const Double&  mean_length(unsigned time_step, unsigned age) { return mean_length_by_timestep_age_[time_step - time_step_offset_][age - age_offset_]; };
-  */
+
 protected:
   virtual void DoValidate() = 0;
   virtual void DoBuild()    = 0;
@@ -65,22 +59,23 @@ protected:
 
   // members
 
-  shared_ptr<Model>              model_ = nullptr;
-  string                         distribution_label_;
-  Distribution                   distribution_;
-  string                         length_weight_label_;
-  LengthWeight*                  length_weight_ = nullptr;
-  vector<vector<vector<Double>>> growth_transition_matrix_;  // length_bins x length_bins * time_steps
-  Double                         cv_;
-  Double                         min_sigma_;
-  unsigned                       number_of_model_length_bins_;
-  vector<double>                 model_min_length_bins_;
-  vector<double>                 model_length_midpoints_;
-  bool                           plus_group_;
-  CompatibilityType              compatibility_type_ = CompatibilityType::kUnknown;
-  string                         compatibility_      = "";
-  vector<Double>                 mean_weight_by_length_bin_index_;
-  bool                           is_growth_type_none_ = false;
+  shared_ptr<Model>      model_ = nullptr;
+  string                 distribution_label_;
+  Distribution           distribution_;
+  string                 length_weight_label_;
+  LengthWeight*          length_weight_ = nullptr;
+  vector<vector<Double>> growth_transition_matrix_;  // length_bins x length_bins
+  Double                 cv_;
+  Double                 min_sigma_;
+  unsigned               number_of_model_length_bins_;
+  vector<double>         model_min_length_bins_;
+  vector<double>         model_length_midpoints_;
+  bool                   plus_group_;
+  CompatibilityType      compatibility_type_ = CompatibilityType::kUnknown;
+  string                 compatibility_      = "";
+  // vector<double>              time_step_proportions_;
+  vector<Double> mean_weight_by_length_bin_index_;
+  bool           is_growth_type_none_ = false;
 };
 } /* namespace niwa */
 #endif /* GROWTH_INCREMENT_MODELS_H_ */
