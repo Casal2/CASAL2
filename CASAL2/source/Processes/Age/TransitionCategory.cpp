@@ -96,6 +96,15 @@ void TransitionCategory::DoValidate() {
     }
   }
 
+  // Validate no categories are in both to_ and from_
+  for (unsigned i = 0; i < to_category_names_.size(); ++i) {
+    for (unsigned j = 0; j < from_category_names_.size(); ++j) {
+      if (to_category_names_[i] == from_category_names_[j]) {
+        LOG_ERROR_P(PARAM_TO) << ": A 'from' category (" << from_category_names_[j] << ") cannot be the same as a 'to' category (" << to_category_names_[i] << ")";
+      }
+    }
+  }
+
   for (unsigned i = 0; i < to_category_names_.size(); ++i) {
     proportions_by_category_[to_category_names_[i]] = proportions_[i];
     LOG_FINE() << "i = " << i << " from  category = " << from_category_names_[i] << " to = " << to_category_names_[i] << " selectivity = " << selectivity_names_[i]

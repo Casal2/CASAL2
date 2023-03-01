@@ -102,6 +102,14 @@ void TransitionCategoryByAge::DoValidate() {
       n_[year][i - 1] = n_value;
     }
   }
+  // Validate no categories are in both to_ and from_
+  for (unsigned i = 0; i < to_category_labels_.size(); ++i) {
+    for (unsigned j = 0; j < from_category_labels_.size(); ++j) {
+      if (to_category_labels_[i] == from_category_labels_[j]) {
+        LOG_ERROR_P(PARAM_TO) << ": A 'from' category (" << from_category_labels_[j] << ") cannot be the same as a 'to' category (" << to_category_labels_[i] << ")";
+      }
+    }
+  }
 }
 
 /**
