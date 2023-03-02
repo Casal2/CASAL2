@@ -60,7 +60,6 @@ void Process::Build() {
   DoBuild();
 }
 
-
 /**
  * Store the label and type in the print values and
  * then call the child build method.

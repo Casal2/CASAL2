@@ -5,7 +5,7 @@
  * @date 18/09/2012
  * @section LICENSE
  *
- * Copyright NIWA Science ©2012 - www.niwa.co.nz
+ * Copyright NIWA Science ï¿½2012 - www.niwa.co.nz
  *
  * @section DESCRIPTION
  *
@@ -36,10 +36,12 @@ public:
   // Methods
   explicit Ageing(shared_ptr<Model> model);
   virtual ~Ageing() = default;
-  void DoValidate() override final;
-  void DoBuild() override final;
-  void DoReset() override final{};
-  void DoExecute() override final;
+  void                  DoValidate() override final;
+  void                  Verify(shared_ptr<Model> model){};
+  void                  DoBuild() override final;
+  void                  DoReset() override final{};
+  void                  DoExecute() override final;
+  const vector<string>& category_labels() const { return category_labels_; }
 
 private:
   // Members
