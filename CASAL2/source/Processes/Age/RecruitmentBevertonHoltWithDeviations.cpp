@@ -82,7 +82,8 @@ void RecruitmentBevertonHoltWithDeviations::DoValidate() {
   if (!parameters_.Get(PARAM_AGE)->has_been_defined()) {
     age_ = model_->min_age();
   } else if (age_ != model_->min_age()) {
-    LOG_WARNING() << "The age supplied = " << age_ << ", but the model min_age = " << model_->min_age() << ".";
+    LOG_WARNING_P(PARAM_AGE) << "(" << age_ << ") is not equal to the model min_age (" << model_->min_age()
+                             << "). This is likely an error. Please check your input configuration files";
   }
 
   if (parameters_.Get(PARAM_R0)->has_been_defined() && parameters_.Get(PARAM_B0)->has_been_defined())
