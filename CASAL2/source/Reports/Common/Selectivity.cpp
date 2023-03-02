@@ -20,7 +20,7 @@ namespace reports {
  *
  */
 Selectivity::Selectivity() {
-  run_mode_    = (RunMode::Type)(RunMode::kBasic | RunMode::kProjection | RunMode::kSimulation | RunMode::kProfiling);
+  run_mode_    = (RunMode::Type)(RunMode::kBasic | RunMode::kEstimation | RunMode::kProjection | RunMode::kSimulation | RunMode::kProfiling);
   model_state_ = (State::Type)(State::kIterationComplete);
   parameters_.Bind<string>(PARAM_SELECTIVITY, &selectivity_label_, "Selectivity name", "", "");
   parameters_.Bind<double>(PARAM_LENGTH_VALUES, &length_values_, "Length values to evaluate the length-based selectivity in an age based model.", "", true);
