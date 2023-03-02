@@ -43,10 +43,8 @@ void AgeingProcessExists(shared_ptr<Model> model) {
     }
   }
   if (missing_categories.size() > 0) {
-    string category_list;
-    for (unsigned i = 0; i < missing_categories.size() - 1; ++i) category_list = category_list + missing_categories[i] + ", ";
-    category_list = category_list + missing_categories[missing_categories.size() - 1];
-    LOG_WARNING() << "The following categories were not included in any ageing processes: " << category_list << ". Please check your input configuration file";
+    LOG_WARNING() << "The following categories were not included in any ageing processes: " << utilities::String::join(missing_categories, ", ")
+                  << ". Please check your input configuration file";
   }
 
   if (!model_has_ageing) {

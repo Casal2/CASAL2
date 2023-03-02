@@ -65,13 +65,16 @@ void Bindable<T>::Bind() {
    */
   if (range_.lower_flagged_ || range_.upper_flagged_) {
     if (range_.lower_flagged_ && (*target_ < range_.lower_bound_ || (*target_ == range_.lower_bound_ && !range_.lower_inclusive_)))
-      LOG_ERROR() << location() << " value " << *target_ << " exceeds the lower bound: " << range_.lower_bound_;
+      LOG_ERROR() << location() << ", the value of the parameter '" << label_ << "' (" << *target_ << ") "
+                  << "is less than the allowed lower bound (" << range_.lower_bound_ << ")";
     if (range_.upper_flagged_ && (*target_ > range_.upper_bound_ || (*target_ == range_.upper_bound_ && !range_.upper_inclusive_)))
-      LOG_ERROR() << location() << " value " << *target_ << " exceeds the upper bound: " << range_.upper_bound_;
+      LOG_ERROR() << location() << ", the value of the parameter '" << label_ << "' (" << *target_ << ") "
+                  << "is greater than the allowed upper bound (" << range_.upper_bound_ << ")";
   }
   if (allowed_values_.size() != 0) {
     if (std::find(allowed_values_.begin(), allowed_values_.end(), *target_) == allowed_values_.end())
-      LOG_ERROR() << location() << " value " << *target_ << " is not in the list of allowed values: " << utilities::String::join(allowed_values_, ", ");
+      LOG_ERROR() << location() << ", the value specified for parameter '" << label_ << "' with value '" << *target_
+                  << "' is not valid for this parameter. Valid values are: " << utilities::String::join(allowed_values_, ", ");
   }
 }
 

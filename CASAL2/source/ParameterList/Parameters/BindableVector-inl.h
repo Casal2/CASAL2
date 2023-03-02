@@ -4,7 +4,7 @@
  * @date 31/10/2013
  * @section LICENSE
  *
- * Copyright NIWA Science ©2013 - www.niwa.co.nz
+ * Copyright NIWA Science ï¿½2013 - www.niwa.co.nz
  *
  */
 #ifndef PARAMETERS_BINDABLEVECTOR_INL_H_
@@ -57,7 +57,8 @@ void BindableVector<T>::Bind() {
   if (allowed_values_.size() > 0) {
     for (T value : *target_) {
       if (std::find(allowed_values_.begin(), allowed_values_.end(), value) == allowed_values_.end())
-        LOG_ERROR() << location() << " value " << value << " is not in the allowed values list: " << utilities::String::join<T>(allowed_values_, ", ");
+        LOG_ERROR() << location() << ", the value specified for parameter '" << label_ << "' with value '" << value
+                    << "' is not valid for this parameter. Valid values are: " << utilities::String::join(allowed_values_, ", ");
     }
   }
 
@@ -67,15 +68,18 @@ void BindableVector<T>::Bind() {
   if (range_.lower_flagged_ || range_.upper_flagged_) {
     for (T value : *target_) {
       if (range_.lower_flagged_ && (value < range_.lower_bound_ || (value == range_.lower_bound_ && !range_.lower_inclusive_)))
-        LOG_ERROR() << location() << " value " << value << " exceeds the lower bound: " << range_.lower_bound_;
+        LOG_ERROR() << location() << ", the value of the parameter '" << label_ << "' (" << value << ") "
+                    << "is less than the allowed lower bound (" << range_.lower_bound_ << ")";
       if (range_.upper_flagged_ && (value > range_.upper_bound_ || (value == range_.upper_bound_ && !range_.upper_inclusive_)))
-        LOG_ERROR() << location() << " value " << value << " exceeds the upper bound: " << range_.upper_bound_;
+        LOG_ERROR() << location() << ", the value of the parameter '" << label_ << "' (" << value << ") "
+                    << "is greater than the allowed upper bound (" << range_.upper_bound_ << ")";
     }
   }
   if (allowed_values_.size() != 0) {
     for (T value : *target_) {
       if (std::find(allowed_values_.begin(), allowed_values_.end(), value) == allowed_values_.end())
-        LOG_ERROR() << location() << " value " << value << " is not in the allowed values list: " << utilities::String::join(allowed_values_, ", ");
+        LOG_ERROR() << location() << ", the value specified for parameter '" << label_ << "' with value '" << value
+                    << "' is not valid for this parameter. Valid values are: " << utilities::String::join(allowed_values_, ", ");
     }
   }
 }
@@ -112,7 +116,7 @@ void BindableVector<T>::set_allowed_values(std::initializer_list<T> list) {
  * @param lower_bound The lowest value the object can be (default inclusive)
  * @param upper_bound The highest value the object can be (default inclusive)
  * @param lower_inclusive Is the lower bound value inclusive (default true)
- * @param upper_inclusie Is the upper bound value inclusive (default true)
+ * @param upper_inclusive Is the upper bound value inclusive (default true)
  */
 template <typename T>
 void BindableVector<T>::set_range(T lower_bound, T upper_bound, bool lower_inclusive, bool upper_inclusive) {
