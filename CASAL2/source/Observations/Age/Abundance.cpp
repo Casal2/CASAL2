@@ -125,6 +125,7 @@ void Abundance::DoBuild() {
     nuisance_catchability_ = dynamic_cast<Nuisance*>(catchability_);
     if (!nuisance_catchability_)
       LOG_ERROR_P(PARAM_CATCHABILITY) << ": catchability label " << catchability_label_ << " could not create dynamic cast for nuisance catchability";
+    catchability_->SaveObservationLabel(label_);
   }
 
   partition_        = CombinedCategoriesPtr(new niwa::partition::accessors::CombinedCategories(model_, category_labels_));
