@@ -31,10 +31,12 @@ public:
   virtual ~Catchability() = default;
   void         Validate();
   void         Build() { DoBuild(); };
-  void         Verify(shared_ptr<Model> model){};
+  void         Verify(shared_ptr<Model> model) {DoVerify(model);};
   void         Reset(){};
+  void         SaveObservationLabel(string observation_label) {observation_labels_.push_back(observation_label);};
   virtual void DoValidate() = 0;
   virtual void DoBuild()    = 0;
+  virtual void DoVerify(shared_ptr<Model> model) {};
 
   // Accessors
   Double q() const { return q_; };
@@ -43,6 +45,7 @@ protected:
   // members
   shared_ptr<Model> model_ = nullptr;
   Double            q_     = 0.0;
+  vector<string>    observation_labels_;
 };
 
 } /* namespace niwa */
