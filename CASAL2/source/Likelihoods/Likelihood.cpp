@@ -22,9 +22,10 @@ namespace niwa {
  */
 Likelihood::Likelihood(shared_ptr<Model> model) : model_(model) {
   // more complex likelihoods (have estimable parameters) have label subcommands. 
-  // These labels cannot be the 
+  // The labels for these complex likelihood cannot be the same as likelihoods that don't require a label
   likelihood_types_with_no_labels_.push_back(PARAM_PSEUDO);
   likelihood_types_with_no_labels_.push_back(PARAM_NORMAL);
+  likelihood_types_with_no_labels_.push_back(PARAM_POISSON);
   likelihood_types_with_no_labels_.push_back(PARAM_MULTINOMIAL);
   likelihood_types_with_no_labels_.push_back(PARAM_LOGNORMAL_WITH_Q);
   likelihood_types_with_no_labels_.push_back(PARAM_LOGNORMAL);

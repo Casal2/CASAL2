@@ -24,6 +24,7 @@
 #include "../Likelihoods/Common/LogNormalWithQ.h"
 #include "../Likelihoods/Common/Multinomial.h"
 #include "../Likelihoods/Common/Normal.h"
+#include "../Likelihoods/Common/Poisson.h"
 #include "../Likelihoods/Common/Pseudo.h"
 #include "../Likelihoods/Manager.h"
 #include "../Model/Managers.h"
@@ -60,6 +61,8 @@ Likelihood* Factory::Create(shared_ptr<Model> model, const string& object_type, 
     result = new Multinomial(model);
   else if (sub_type == PARAM_NORMAL)
     result = new Normal(model);
+  else if (sub_type == PARAM_POISSON)
+    result = new Poisson(model);
   else if (sub_type == PARAM_PSEUDO)
     result = new Pseudo(model);
 
