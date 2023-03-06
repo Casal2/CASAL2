@@ -51,8 +51,8 @@ void Process::DoBuild(shared_ptr<Model> model) {
   process_ = model->managers()->process()->GetProcess(process_label_);
   if (!process_) {
 #ifndef TESTMODE
-    LOG_WARNING_Q(PARAM_PROCESS) << "the report for " << PARAM_PROCESS << " with label '" << process_label_ << "' was requested. This " << PARAM_PROCESS
-                                 << " was not found in the input configuration file and the report will not be generated";
+    LOG_WARNING() << "The " << PARAM_PROCESS << " report with label '" << process_label_ << "' was requested. This " << PARAM_PROCESS
+                  << " was not found in the input configuration file and the report will not be generated";
 #endif
     is_valid_ = false;
   }

@@ -36,8 +36,8 @@ void DerivedQuantity::DoBuild(shared_ptr<Model> model) {
   derived_quantity_ = model->managers()->derived_quantity()->GetDerivedQuantity(derived_quantity_label_);
   if (!derived_quantity_) {
 #ifndef TESTMODE
-    LOG_WARNING_Q(PARAM_DERIVED_QUANTITY) << "the report for " << PARAM_DERIVED_QUANTITY << " with label '" << derived_quantity_label_ << "' was requested. This "
-                                          << PARAM_DERIVED_QUANTITY << " was not found in the input configuration file and the report will not be generated";
+    LOG_WARNING() << "The " << PARAM_DERIVED_QUANTITY << " report with label '" << derived_quantity_label_ << "' was requested. This " << PARAM_DERIVED_QUANTITY
+                  << " was not found in the input configuration file and the report will not be generated";
 #endif
     is_valid_ = false;
   }

@@ -51,8 +51,8 @@ void Project::DoBuild(shared_ptr<Model> model) {
     project_ = model->managers()->project()->GetProject(project_label_);
     if (!project_) {
 #ifndef TESTMODE
-      LOG_WARNING_Q(PARAM_PROJECT) << "the report for " << PARAM_PROJECT << " with label '" << project_label_ << "' was requested. This " << PARAM_PROJECT
-                                   << " was not found in the input configuration file. The report will not be generated";
+      LOG_WARNING() << "The " << PARAM_PROJECT << " report with label '" << project_label_ << "' was requested. This " << PARAM_PROJECT
+                    << " was not found in the input configuration file. The report will not be generated";
 #endif
       is_valid_ = false;
     }

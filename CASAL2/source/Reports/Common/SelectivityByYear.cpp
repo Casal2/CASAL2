@@ -48,7 +48,7 @@ void SelectivityByYear::DoBuild(shared_ptr<Model> model) {
   selectivity_ = model->managers()->selectivity()->GetSelectivity(selectivity_label_);
   if (!selectivity_) {
 #ifndef TESTMODE
-    LOG_WARNING() << "the report for " << PARAM_SELECTIVITY << " with label '" << selectivity_label_ << "' was requested. This " << PARAM_SELECTIVITY
+    LOG_WARNING() << "The " << PARAM_SELECTIVITY_BY_YEAR << " report with label '" << selectivity_label_ << "' was requested. This " << PARAM_SELECTIVITY
                   << " was not found in the input configuration file and the report will not be generated";
 #endif
     is_valid_ = false;

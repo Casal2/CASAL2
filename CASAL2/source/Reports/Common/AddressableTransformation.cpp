@@ -39,8 +39,8 @@ void AddressableTransformation::DoBuild(shared_ptr<Model> model) {
   if (!transformation_) {
 #ifndef TESTMODE
     // LOG_ERROR_P(PARAM_PARAMETER_TRANSFORMATION) << "Could not find @" << PARAM_PARAMETER_TRANSFORMATION << " labelled " << addressable_label_;
-    LOG_WARNING_Q(PARAM_PARAMETER_TRANSFORMATION) << "the report for " << PARAM_PARAMETER_TRANSFORMATION << " with label '" << addressable_label_ << "' was requested. This "
-                                                  << PARAM_PARAMETER_TRANSFORMATION << " was not found in the input configuration file and the report will not be generated";
+    LOG_WARNING() << "The " << PARAM_PARAMETER_TRANSFORMATION << " report with label '" << addressable_label_ << "' was requested. This " << PARAM_PARAMETER_TRANSFORMATION
+                  << " was not found in the input configuration file and the report will not be generated";
 #endif
     is_valid_ = false;
   }

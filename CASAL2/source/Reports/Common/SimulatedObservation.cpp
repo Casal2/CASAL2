@@ -45,8 +45,8 @@ void SimulatedObservation::DoBuild(shared_ptr<Model> model) {
     // if users supplied a label check it exists
     Observation* observation = model->managers()->observation()->GetObservation(observation_label_);
     if (!observation) {
-      LOG_WARNING_Q(PARAM_SIMULATED_OBSERVATION) << "the report for " << PARAM_SIMULATED_OBSERVATION << " with label '" << observation_label_ << "' was requested. This "
-                                                 << PARAM_OBSERVATION << " was not found in the input configuration file and the report will not be generated";
+      LOG_WARNING() << "The " << PARAM_SIMULATED_OBSERVATION << "report with label '" << observation_label_ << "' was requested. This " << PARAM_OBSERVATION
+                    << " was not found in the input configuration file and the report will not be generated";
       is_valid_ = false;
     }
   }

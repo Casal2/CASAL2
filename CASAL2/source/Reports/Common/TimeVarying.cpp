@@ -40,8 +40,8 @@ void TimeVarying::DoBuild(shared_ptr<Model> model) {
   timevarying_ = model->managers()->time_varying()->GetTimeVarying(time_varying_label_);
   if (!timevarying_) {
 #ifndef TESTMODE
-    LOG_WARNING_Q(PARAM_TIME_VARYING) << "the report for " << PARAM_TIME_VARYING << " with label '" << time_varying_label_ << "' was requested. This " << PARAM_TIME_VARYING
-                                      << " was not found in the input configuration file and the report will not be generated";
+    LOG_WARNING() << "The " << PARAM_TIME_VARYING << " report with label '" << time_varying_label_ << "' was requested. This " << PARAM_TIME_VARYING
+                  << " was not found in the input configuration file and the report will not be generated";
 #endif
     is_valid_ = false;
   }

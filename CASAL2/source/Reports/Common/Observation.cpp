@@ -57,7 +57,7 @@ void Observation::DoBuild(shared_ptr<Model> model) {
   observation_ = model->managers()->observation()->GetObservation(observation_label_);
   if (!observation_) {
 #ifndef TESTMODE
-    LOG_WARNING() << "the report for " << PARAM_OBSERVATION << " with label '" << observation_label_ << "' was requested. This " << PARAM_OBSERVATION
+    LOG_WARNING() << "The " << PARAM_OBSERVATION << " report with label '" << observation_label_ << "' was requested. This " << PARAM_OBSERVATION
                   << " was not found in the input configuration file and the report will not be generated";
 #endif
     is_valid_ = false;

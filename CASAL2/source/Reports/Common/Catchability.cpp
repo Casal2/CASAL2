@@ -37,8 +37,8 @@ void Catchability::DoBuild(shared_ptr<Model> model) {
     catchability_ = model->managers()->catchability()->GetCatchability(catchability_label_);
     if (!catchability_) {
 #ifndef TESTMODE
-      LOG_WARNING_Q(PARAM_CATCHABILITY) << "the report for " << PARAM_CATCHABILITY << " with label '" << catchability_label_ << "' was requested. This " << PARAM_CATCHABILITY
-                                        << " was not found in the input configuration file and the report will not be generated";
+      LOG_WARNING() << "The " << PARAM_CATCHABILITY << " report with label '" << catchability_label_ << "' was requested. This " << PARAM_CATCHABILITY
+                    << " was not found in the input configuration file and the report will not be generated";
 #endif
       is_valid_ = false;
     }
