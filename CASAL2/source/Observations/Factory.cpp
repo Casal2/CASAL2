@@ -37,6 +37,7 @@
 #include "Observations/Age/ProportionsMigrating.h"
 #include "Observations/Age/TagRecaptureByAge.h"
 #include "Observations/Age/TagRecaptureByLength.h"
+#include "Observations/Age/TagRecaptureByFishery.h"
 #include "Observations/Manager.h"
 
 // Length
@@ -108,6 +109,8 @@ Observation* Factory::Create(shared_ptr<Model> model, const string& object_type,
         result = new age::ProcessProportionsByCategory(model);
       else if (sub_type == PARAM_PROPORTIONS_BY_CATEGORY)
         result = new age::TimeStepProportionsByCategory(model);
+      else if (sub_type == PARAM_TAG_RECAPTURE_BY_FISHERY)
+        result = new age::TagRecaptureByFishery(model);
       else if (sub_type == PARAM_TAG_RECAPTURE_BY_AGE)
         result = new age::TagRecaptureByAge(model);
       else if (sub_type == PARAM_TAG_RECAPTURE_BY_LENGTH)

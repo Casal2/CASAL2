@@ -428,6 +428,7 @@ For example,
 		...
 		\end{verbatim}}}
 
+
 \paragraph*{\I{Tag Recapture by length}\label{sec:Observation-TagRecaptureByLength}}
 
 Tag data is primarily used to estimate the population abundance of fish. In some models, this estimation can only be made outside the model and the result is used as an estimate of abundance in the model. But in \CNAME\ the tagging data can, alternatively, be fitted within the model.
@@ -968,6 +969,39 @@ A list of \texttt{types} that are associated with this set of observations are:
 			\end{verbatim}}}
 	
 \end{itemize}
+
+
+\paragraph*{\I{Tag Recapture by fishery}\label{sec:Observation-TagRecaptureByFishery}}
+
+Tag recaptures can be linked to a specific fishery in a given year and time-step using the \subcommand{tag\_recapture\_by\_fishery} observation. This observation assumes expected tag recaptures are derived from a fishery and are aggregated over all ages and tagged categories for year and time-step. The observation can account for tag reporting rates or detection rates which can be estimated.
+
+Currently \CNAME\ can only apply this observation to mortality processes of type \subcommand{mortality\_hybrid} and \subcommand{mortality\_instantaneous}. The tagged categories labelled in this observation must be also defined in the mortality process, otherwise \CNAME\ will return an error. Ignoring, tag reporting, \CNAME\ will calculate the expected tag recaptures by age and category in the same way as in \subcommand{process\_removals\_by\_age} (see Section~\ref{sec:Observation-ProcessRemovalsByAge}).
+
+
+Let \(N^f_{a,c,t, y}\) denote the numbers at age for tagged category \(c\) caught by fishery \(f\) in year \(y\) and time-step \(t\). This observation will aggregate over all categories and ages to produce expected values as
+\[
+E[N^f_{t, y}] = \sum\limits_a\sum\limits_c N^f_{a,c,t, y}
+\]
+
+You must specify aggregated observed recaptures for a given year, fishery, time-step and group of tagged categories as shown in the following example (see also Section~\ref{syntax:Observation-TagRecaptureByFishery} for more information on syntax for this observation)
+{\small{\begin{verbatim}
+			@observation tag_recapture_by_fishing
+			years 2000 2001
+			type tag_recapture_by_fishery
+			tagged_categories R1 R2 R3 R4 
+			likelihood poisson
+			time_step step1
+			mortality_process fishing
+			method_of_removal Fishing
+			reporting_rate 0.8
+			table recaptured
+			2000 10120
+			2001 8000
+			end_table
+\end{verbatim}}}
+
+There is currently only one likelihood available for this observation and that is the Poisson ().
+
 \else
 % Two column version
 \begin{itemize}
@@ -1246,6 +1280,17 @@ Z \left(\theta,\delta \right) = \begin{cases}
 \end{equation}
 
 The default value of $\delta$ is $1 \times 10^{-11}$.
+
+
+\subsubsection*{The Poisson likelihood\index{Poisson likelihood}}
+
+For observed value $O_i$ and expected value $E_i$ the negative log-likelihood is defined as;
+
+\begin{equation}
+	-\log \left(L \right) = -\left(-Z\left(E_i,\delta \right) + O_i log\left(Z\left(E_i,\delta \right)\right) - log \Gamma \left(O_i+1\right) \right)
+\end{equation}
+
+where $Z \left(\theta,\delta \right)$ is a robustifying function to prevent log of zero errors, with parameter $\delta>0$.
 
 \subsection{\I{Process error}}
 

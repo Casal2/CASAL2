@@ -853,6 +853,52 @@ end_table
 \defType{String}
 \defDefault{No default}
 
+\subsubsection{Observation of type Tag Recapture by Fishery}
+\commandlabsubarg{observation}{type}{tag\_recapture\_by\_fishery}.
+\defRef{sec:Observation-TagRecaptureByFishery}
+\label{syntax:Observation-TagRecaptureByFishery}
+
+\defSub{tagged\_categories}{The tagged categories that we want to generate recaptures for. Categories need to be space separated no use of the '+' category syntax.}
+\defType{Vector of strings}
+\defDefault{No default}
+
+\defSub{time\_step}{The label of time-step that the observation occurs in}
+\defType{Vector of strings}
+\defDefault{No default}
+
+\defSub{reporting\_rate}{The reporting rate for this observation}
+\defType{Real number (estimable)}
+\defDefault{No default}
+\defLowerBound{0.0 (inclusive)}
+\defUpperBound{1.0 (inclusive)}
+
+
+\defSub{years}{The years for which there are observations}
+\defType{Vector of non-negative integers}
+\defDefault{No default}
+
+\defSub{method\_of\_removal}{The label of the observed method of removals}
+\defType{Vector of strings}
+\defDefault{No default}
+
+
+\defSub{mortality\_process}{The label of the mortality instantaneous process for the observation}
+\defType{String}
+\defDefault{No default}
+\defNote{Allowed mortality process types are \subcommand{mortality\_instantaneous} and \subcommand{mortality\_hybrid}}
+
+\defSub{table recaptured}{The table of recaptures in each year}
+\defType{Data table with label = \subcommand{recaptured}}
+\defDefault{No default}
+\defValue{A $n\times 2$ matrix, where $n=$ the years and the first column specifies the year and the second column specifies the observed tag recaptures.}
+\defNote{example below}
+\begin{verbatim}
+table recaptured
+2000 10120
+2001 90123
+end_table
+\end{verbatim}
+
 \subsubsection{Observation of type Tag Recapture By Age}
 \commandlabsubarg{observation}{type}{Tag\_Recapture\_By\_Age}.
 \defRef{sec:Observation-TagRecaptureByAge}
