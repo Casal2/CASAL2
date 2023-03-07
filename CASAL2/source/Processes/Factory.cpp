@@ -36,6 +36,7 @@
 #include "../Processes/Age/TagByLength.h"
 #include "../Processes/Age/TagLoss.h"
 #include "../Processes/Age/TransitionCategory.h"
+#include "../Processes/Age/MarkovianMovement.h"
 #include "../Processes/Age/TransitionCategoryByAge.h"
 #include "../Processes/Common/LoadPartition.h"
 #include "../Processes/Common/Nop.h"
@@ -120,6 +121,8 @@ Process* Factory::Create(shared_ptr<Model> model, const string& object_type, con
         result = new age::MortalityInstantaneousRetained(model);
       else if (sub == PARAM_MORTALITY_HOLLING_RATE)
         result = new age::MortalityHollingRate(model);
+      else if (sub == PARAM_MARKOVIAN_MOVEMENT)
+        result = new age::MarkovianMovement(model);
       else if (sub == PARAM_PREY_SUITABILITY_PREDATION)
         result = new age::MortalityPreySuitability(model);
       else if (sub == PARAM_NOP)

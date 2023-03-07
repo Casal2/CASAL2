@@ -246,5 +246,20 @@ void Nuisance::CalculateQ(map<unsigned, vector<observations::Comparison> >& comp
   LOG_FINEST() << "Setting q = " << q_;
 }
 
+/**
+ * Verify this objects
+ */
+void Nuisance::DoVerify(shared_ptr<Model> model) {
+  if(observation_labels_.size() == 0)
+    LOG_WARNING() << "The @catchability block " << label_ << " is not assigned to an @observation.";
+  if(observation_labels_.size() > 1) {
+    string all_observation_labels;
+    for(unsigned i = 0; i < observation_labels_.size(); ++i)
+      all_observation_labels = all_observation_labels + string(", ") + observation_labels_[i];
+    LOG_VERIFY() << "The @catchability block " << label_ << " is assigned to more than one @observation. These were " << all_observation_labels;
+  }
+
+}
+
 } /* namespace catchabilities */
 } /* namespace niwa */

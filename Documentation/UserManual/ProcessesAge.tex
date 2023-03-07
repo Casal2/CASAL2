@@ -9,6 +9,7 @@ Current population processes available include:
 \item growth\index{Growth} (Section~\ref{sec:AgeLength}),
 \item maturation\index{Maturation} (Section~\ref{sec:Process-TransitionCategory}),
 \item mortality\index{Mortality} events (e.g., natural and fishing) (Section~\ref{sec:Process-Mortality}), 
+\item Markovian movement\index{Markovian movement} which is a specialised version of a category transition processes, 
 \item category transition processes\index{Category transition}, i.e., processes that move individuals between categories while preserving their overall age structure (Section~\ref{sec:Process-TransitionCategory}), and
 \item tagging and tag loss (Section~\ref{sec:Process-TagByAge}).
 \end{itemize}
@@ -1020,6 +1021,99 @@ For example, a biomass prey-suitability mortality process with an overall consum
 		predator_categories predatorSpecies
 		predator_selectivities One
 		u_max 0.8
+\end{verbatim}}}
+
+\subsubsection{\I{Markovian Movement}}\label{sec:Process-MarkovianMovement}
+This process will move fish from multiple categories to multiple categories in a markovian movement process. This cannot be done in the transition by category process because that process does not allow categories to be both in the \subcommand{from} and \subcommand{to} categories, which is required to apply markovian movement.
+
+This process is set up be users specified a one to one relationship between \subcommand{from} and \subcommand{to} category inputs. The process will iterate over each user defined combination of \subcommand{from} and \subcommand{to} category inputs calculating the numbers at age that will move from category \(i\) into category \(j\) denoted by \(\tilde{N}_{a,i,j}\) following,
+
+\begin{align}
+	\tilde{N}_{a,i,j} \mathrel{+}=& N_{a,i} \times P_i \times S_{a,i}, & \forall \ i \\
+	N_{a,i} \mathrel{-}=& \tilde{N}_{a,i,j}, & \forall \ i \\
+	N_{a,j} \mathrel{+}=& \tilde{N}_{a,i,j}, & \forall \ j
+\end{align}
+where $N_{a,j}$ is the number of individuals that have moved to the \subcommand{to} category $j$ from the \subcommand{from} category $i$ in age $a$, $N_{a,i}$ is the number of individuals in category $i$, $P_i$ is the proportion parameter for category $i$, and $S_{a,i}$ is the selectivity at age $a$ for category $i$. See Section~\ref{syntax:Process-MarkovianMovement} for the syntax description. 
+
+
+For example, to specify a simple spawning migration of mature males from a western area to an eastern (spawning) area, the syntax is
+
+{\small{\begin{verbatim}
+			@process movement
+			type markovian_movement
+			from R1 * 2 R2 * 2
+			to R1  R2 R1  R2
+			selectivities One
+			proportions 0.7 0.3 0.4 0.6
+\end{verbatim}}}
+
+The above example can be thought of as defining a two by two movement matrix as follows
+\[
+ \kbordermatrix{
+	& R1 & R2 & \\
+	R1 & 0.7 & 0.3  \\
+	R2 & 0.4  & 0.6
+}
+\]
+
+\CNAME\ will check that each unique \subcommand{from} category will have proportions sum to one across all \subcommand{to} categories for that unique \subcommand{from} category. This means users need to define the proportion of fish that stay in the \subcommand{from} category.
+
+The input \subcommand{proportions} are estimable and they are indexed using the "from-to" category label. For example, if we wanted to estimate or transform the proportion of R1 moving to R2 you would specify the parameter as \subcommand{process[movement].proportions\{R1-R2\}}. If you estimate these movement proportion parameters, it is recommended that you use the simplex transformation (Section~\ref{sec:Transformation}). An example of estimating these movement rates is shown below.
+
+{\small{\begin{verbatim}
+			@parameter_transformation movement_simplex_move_from_R1
+			type simplex
+			parameters process[movement].proportions{R1-R1} process[movement].proportions{R1-R2}
+			
+			@parameter_transformation movement_simplex_move_from_R2
+			type simplex
+			parameters process[movement].proportions{R2-R1} 		process[movement].proportions{R2-R2}			
+\end{verbatim}}}
+
+This is an inherently spatial process and it can get cumbersome when you have other partition attributes other than space i.e., tag or sex. Currently, if you want to move these other attributes at the same rates among regions you need to specify all of the category combinations. Below is an example with a male and female partition members.
+
+{\small{\begin{verbatim}
+# Specify the untagged movement process
+@process movement
+type markovian_movement
+from male.R1 * 2 male.R2 * 2 female.R1 * 2 female.R2 * 2
+to male.R1  male.R2 male.R1  male.R2 female.R1 female.R2 female.R1  female.R2
+selectivities One
+proportions 0.7 0.3 0.4 0.6 0.7 0.3 0.4 0.6
+
+@parameter_transformation simplex_move_from_R1_male
+type simplex
+parameters process[movement].proportions{male.R1-male.R1}
+           process[movement].proportions{male.R1-male.R2}
+
+@parameter_transformation simplex_move_from_R2_male
+type simplex
+parameters process[movement].proportions{male.R2-male.R1}
+           process[movement].proportions{male.R2-male.R2}
+			
+@parameter_transformation simplex_move_from_R1_female
+type simplex
+parameters process[movement].proportions{female.R1-female.R1} 
+           process[movement].proportions{female.R1-female.R2}
+
+@parameter_transformation simplex_move_from_R2_female
+type simplex
+parameters process[movement].proportions{female.R2-female.R1} 
+           process[movement].proportions{female.R2-female.R2}
+
+@estimate movement_simplex_move_from_R1
+type uniform
+parameter parameter_transformation[simplex_move_from_R1_male].simplex
+same parameter_transformation[simplex_move_from_R1_female].simplex
+lower_bound -10
+upper_bound 10
+
+@estimate movement_simplex_move_from_R2
+type uniform
+parameter parameter_transformation[simplex_move_from_R2_male].simplex
+same parameter_transformation[simplex_move_from_R2_female].simplex
+lower_bound -10
+upper_bound 10
 \end{verbatim}}}
 
 \subsubsection{\I{Transition By Category}}\label{sec:Process-TransitionCategory}

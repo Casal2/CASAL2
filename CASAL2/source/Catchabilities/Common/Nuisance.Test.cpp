@@ -375,7 +375,7 @@ type derived_quantity
 
 const std::string lognormal_biomass =
     R"(
-@observation chatTANbiomass
+@observation chatTANbiomass_lognormal
 type biomass
 time_step step1
 categories stock
@@ -518,6 +518,7 @@ TEST_F(InternalEmptyModel, Catchabilities_nuisance_lognormal_prior_lognormal) {
   Catchability* catchability = model_->managers()->catchability()->GetCatchability("chatTANq");
   EXPECT_NEAR(0.057507359866387671, catchability->q(), 1e-6);
 }
+
 } /* namespace catchabilities */
 } /* namespace niwa */
 

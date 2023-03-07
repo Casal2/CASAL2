@@ -34,6 +34,8 @@ public:
   virtual ~Nuisance(){};
   void DoValidate() final{};
   void DoBuild() final;
+  void DoVerify(shared_ptr<Model> model) final;
+
   void CalculateQ(map<unsigned, vector<observations::Comparison> >& comparisons, string_view likelihood);
 
 private:
