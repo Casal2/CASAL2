@@ -719,7 +719,7 @@
 #define PARAM_TAG_LOSS_TYPE                       "tag_loss_type"
 #define PARAM_TAG_LOSS                            "tag_loss"
 #define PARAM_TAG_RECAPTURE_BY_AGE                "tag_recapture_by_age"
-#define PARAM_TAG_RECAPTURE_BY_AGE_AND_FISHERY    "tag_recapture_by_age_and_fishery"
+#define PARAM_TAG_RECAPTURE_BY_FISHERY            "tag_recapture_by_fishery"
 #define PARAM_TAG_RECAPTURE_BY_LENGTH             "tag_recapture_by_length"
 #define PARAM_TAG_RECAPTURE_BY_LENGTH_FOR_GROWTH  "tag_recapture_by_length_for_growth"
 #define PARAM_TAGGING                             "tagging"

@@ -503,6 +503,31 @@ end_table
 \defSub{years}{The year that process occurs}
 \defType{Vector of non-negative integers}
 \defDefault{No default}
+\subsubsection{Markovian Movement}
+\commandlabsubarg{process}{type}{markovian\_movement}.
+\defRef{sec:Process-MarkovianMovement}
+\label{syntax:Process-MarkovianMovement}
+
+\defSub{from}{The categories to transition from}
+\defType{Vector of strings}
+\defDefault{No default}
+\defValue{Valid category labels}
+
+\defSub{to}{The categories to transition to}
+\defType{Vector of strings}
+\defDefault{No default}
+\defValue{Valid category labels}
+
+\defSub{proportions}{The proportions to transition for each category}
+\defType{Real number (estimable)}
+\defDefault{No default}
+\defLowerBound{0.0 (inclusive)}
+\defUpperBound{1.0 (inclusive)}
+
+\defSub{selectivities}{The selectivities to apply to each proportion}
+\defType{Vector of strings}
+\defDefault{No default}
+\defValue{Valid selectivity labels}
 
 \subsubsection{Process of type null process}
 \commandlabsubarg{process}{type}{null\_process}.
