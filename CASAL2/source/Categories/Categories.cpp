@@ -45,7 +45,7 @@ Categories::Categories(shared_ptr<Model> model) : model_(model) {
   // parameters_.Bind<string>(PARAM_YEARS, &years_, "The years that individual categories will be activated (if different from the model for these categories)", "", true);
   parameters_.Bind<string>(PARAM_AGE_LENGTHS, &age_length_labels_, "The age-length relationship labels for each category", "")->set_partition_type(PartitionType::kAge);
   parameters_.Bind<string>(PARAM_GROWTH_INCREMENT, &growth_increment_labels_, "The growth increment model label for each category", "")->set_partition_type(PartitionType::kLength);
-  //parameters_.Bind<string>(PARAM_AGE_WEIGHT, &age_weight_labels_, "The age-weight relationships labels for each category", "", true)->set_partition_type(PartitionType::kAge);
+  // parameters_.Bind<string>(PARAM_AGE_WEIGHT, &age_weight_labels_, "The age-weight relationships labels for each category", "", true)->set_partition_type(PartitionType::kAge);
 }
 
 /**
@@ -91,8 +91,8 @@ void Categories::Validate() {
     // get the age sizes
     if (age_length_labels_.size() != names_.size())
       LOG_ERROR_P(PARAM_AGE_LENGTHS) << " number of age-length labels (" << age_length_labels_.size() << " were specified) must be the same as the number of categories ("
-                                      << names_.size() << ")";
-  
+                                     << names_.size() << ")";
+
     vector<string> format_chunks;
     boost::split(format_chunks, format_, boost::is_any_of("."), boost::token_compress_on);
     // build our categories vector
@@ -108,6 +108,11 @@ void Categories::Validate() {
       if (category_chunks.size() != category_chunks.size())
         LOG_ERROR_P(PARAM_NAMES) << "The category named " << names_[i] << " does not match the format " << format_;
 
+      // ensure category names start with a letter
+      if (!isalpha(names_[i][0])) {
+        LOG_FATAL_P(PARAM_NAMES) << "must start with a letter (i.e., a-z or A-Z when used as a category name)";
+      }
+
       // Create a new CategoryInfo object
       CategoryInfo new_category_info;
       new_category_info.name_    = names_[i];
@@ -121,8 +126,8 @@ void Categories::Validate() {
   } else if (model_->partition_type() == PartitionType::kLength) {
     // get the age sizes
     if (growth_increment_labels_.size() > 0 && growth_increment_labels_.size() != names_.size())
-      LOG_ERROR_P(PARAM_GROWTH_INCREMENT) << " number of length-weight labels (" << growth_increment_labels_.size() << " were specified) must be the same as the number of categories ("
-                                       << names_.size() << ")";
+      LOG_ERROR_P(PARAM_GROWTH_INCREMENT) << " number of length-weight labels (" << growth_increment_labels_.size()
+                                          << " were specified) must be the same as the number of categories (" << names_.size() << ")";
 
     vector<string> format_chunks;
     boost::split(format_chunks, format_, boost::is_any_of("."), boost::token_compress_on);
@@ -136,6 +141,11 @@ void Categories::Validate() {
       boost::split(category_chunks, names_[i], boost::is_any_of("."), boost::token_compress_on);
       if (category_chunks.size() != category_chunks.size())
         LOG_ERROR_P(PARAM_NAMES) << "The category named " << names_[i] << " does not match the format " << format_;
+
+      // ensure category names start with a letter
+      if (!isalpha(names_[i][0])) {
+        LOG_FATAL_P(PARAM_NAMES) << "must start with a letter (i.e., a-z or A-Z when used as a category name)";
+      }
 
       // Create a new CategoryInfo object
       CategoryInfo new_category_info;
@@ -210,10 +220,10 @@ void Categories::Build() {
         LOG_ERROR_P(PARAM_AGE_LENGTHS) << "Age-length label (" << iter->second << ") was not found.";
 
       categories_[iter->first].age_length_ = age_size;
-    }  
+    }
   } else if (model_->partition_type() == PartitionType::kLength) {
     growthincrements::Manager* growth_increment_manager = model_->managers()->growth_increment();
-    auto                    iter                  = category_growth_increment_labels_.begin();
+    auto                       iter                     = category_growth_increment_labels_.begin();
     for (; iter != category_growth_increment_labels_.end(); ++iter) {
       GrowthIncrement* growth_increment = growth_increment_manager->GetGrowthIncrement(iter->second);
       if (!growth_increment)
@@ -558,7 +568,6 @@ AgeLength* Categories::age_length(const string& category_name) {
 
   return categories_[category_name].age_length_;
 }
-
 
 /**
  *  Return the corresponding length weight pointer for this category

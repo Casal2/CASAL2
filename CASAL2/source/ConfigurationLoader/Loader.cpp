@@ -202,6 +202,10 @@ void Loader::ParseBlock(shared_ptr<Model> model, vector<FileLine>& block) {
     LOG_FATAL() << "Labels of commands cannot start with a double underscore (i.e., '__'). Found in " << block[0].line_ << " on line " << block[0].line_number_ << " in "
                 << block[0].file_name_;
   }
+  if (!(block_label == "" || isdigit(block_label[0]) || isalpha(block_label[0]) || block_label.substr(0, 1) == std::string("_"))) {
+    LOG_FATAL() << "Labels of commands must start with a number, letter, or an underscore. The first character in the label of command " << block[0].line_ << " on line "
+                << block[0].line_number_ << " in " << block[0].file_name_ << " is not valid";
+  }
 
 #ifdef USE_AUTODIFF
   // We're using auto-diff. So we want to skip loading MCMCs
