@@ -1,7 +1,7 @@
 #' Utility extract function
 #'
 #' @author Craig Marsh
-#'
+#' @param x variable to check
 
 "check_short_hand" <- function(x) {
   string_ndx <- rep(F, length(x))

@@ -17,7 +17,7 @@ upper_bound 100
 
 @observation sim_CPUE-Trawl_1
 catchability CPUE-Commercialq_1 
-categories untagged.male+1997_1.male+1996_2.male+1996_3.male+untagged.female+1997_1.female+1996_2.female+1996_3.female 
+categories untagged.male + t1997_1.male + t1996_2.male + t1996_3.male + untagged.female + t1997_1.female + t1996_2.female + t1996_3.female 
 likelihood lognormal
 process_error 0.0371726 
 selectivities FishingSel_1_male FishingSel_1_male FishingSel_1_male FishingSel_1_male FishingSel_1_female FishingSel_1_female FishingSel_1_female FishingSel_1_female 
@@ -63,7 +63,7 @@ end_table
 
 @observation sim_TrawlSurvey_1
 catchability TrawlSurveyq_1 
-categories untagged.male+1997_1.male+1996_2.male+1996_3.male+untagged.female+1997_1.female+1996_2.female+1996_3.female 
+categories untagged.male+t1997_1.male+t1996_2.male+t1996_3.male+untagged.female+t1997_1.female+t1996_2.female+t1996_3.female 
 likelihood lognormal
 process_error 0.000124945 
 selectivities TrawlSurveySel_1_male TrawlSurveySel_1_male TrawlSurveySel_1_male TrawlSurveySel_1_male TrawlSurveySel_1_female TrawlSurveySel_1_female TrawlSurveySel_1_female TrawlSurveySel_1_female 
@@ -81,7 +81,7 @@ end_table
 
 @observation sim_TrawlSurvey_2
 catchability TrawlSurveyq_2 
-categories untagged.male+1997_1.male+1996_2.male+1996_3.male+untagged.female+1997_1.female+1996_2.female+1996_3.female 
+categories untagged.male+t1997_1.male+t1996_2.male+t1996_3.male+untagged.female+t1997_1.female+t1996_2.female+t1996_3.female 
 likelihood lognormal
 process_error 0.826995 
 selectivities TrawlSurveySel_2_male TrawlSurveySel_2_male TrawlSurveySel_2_male TrawlSurveySel_2_male TrawlSurveySel_2_female TrawlSurveySel_2_female TrawlSurveySel_2_female TrawlSurveySel_2_female 
@@ -101,7 +101,7 @@ end_table
 
 
 @observation sim_TrawlSurveyProportionAtLength_1
-categories untagged.male+1997_1.male+1996_2.male+1996_3.male untagged.female+1997_1.female+1996_2.female+1996_3.female 
+categories untagged.male + t1997_1.male + t1996_2.male + t1996_3.male untagged.female + t1997_1.female + t1996_2.female + t1996_3.female 
 delta 0.00001 
 length_bins 15 16 17 18 19 20 21 22 23 24 25 26 27 28 29 30 31 32 33 34 35 36 37 38 39 40 41 42 43 44 45 46 47 48 49 50 51 52 53 54 55 56 57 58 59 60 61 62 63 64 65 66 67 68 
 likelihood multinomial
@@ -129,7 +129,7 @@ end_table
 
 
 @observation sim_TrawlSurveyProportionAtLength_2
-categories untagged.male+1997_1.male+1996_2.male+1996_3.male untagged.female+1997_1.female+1996_2.female+1996_3.female 
+categories untagged.male + t1997_1.male + t1996_2.male + t1996_3.male untagged.female + t1997_1.female + t1996_2.female + t1996_3.female 
 delta 0.00001 
 length_bins 15 16 17 18 19 20 21 22 23 24 25 26 27 28 29 30 31 32 33 34 35 36 37 38 39 40 41 42 43 44 45 46 47 48 49 50 51 52 53 54 55 56 57 58 59 60 61 62 63 64 65 66 67 68 
 likelihood multinomial
@@ -161,7 +161,7 @@ end_table
 
 
 @observation sim_CommercialCatchLength_1
-categories untagged.male+1997_1.male+1996_2.male+1996_3.male untagged.female+1997_1.female+1996_2.female+1996_3.female 
+categories untagged.male + t1997_1.male + t1996_2.male + t1996_3.male untagged.female + t1997_1.female + t1996_2.female + t1996_3.female 
 delta 0.00001 
 length_bins 15 16 17 18 19 20 21 22 23 24 25 26 27 28 29 30 31 32 33 34 35 36 37 38 39 40 41 42 43 44 45 46 47 48 49 50 51 52 53 54 55 56 57 58 59 60 61 62 63 64 65 66 67 68 
 likelihood multinomial
@@ -213,7 +213,7 @@ end_table
 
 
 @observation sim_CommercialCatchLength_2
-categories untagged.male+1997_1.male+1996_2.male+1996_3.male untagged.female+1997_1.female+1996_2.female+1996_3.female 
+categories untagged.male + t1997_1.male + t1996_2.male + t1996_3.male untagged.female + t1997_1.female + t1996_2.female + t1996_3.female 
 delta 0.00001 
 length_bins 15 16 17 18 19 20 21 22 23 24 25 26 27 28 29 30 31 32 33 34 35 36 37 38 39 40 41 42 43 44 45 46 47 48 49 50 51 52 53 54 55 56 57 58 59 60 61 62 63 64 65 66 67 68 
 likelihood multinomial
@@ -253,7 +253,7 @@ end_table
 
 
 @observation sim_CommercialCatchLength_3
-categories untagged.male+1997_1.male+1996_2.male+1996_3.male untagged.female+1997_1.female+1996_2.female+1996_3.female 
+categories untagged.male + t1997_1.male + t1996_2.male + t1996_3.male untagged.female + t1997_1.female + t1996_2.female + t1996_3.female 
 delta 0.00001 
 length_bins 15 16 17 18 19 20 21 22 23 24 25 26 27 28 29 30 31 32 33 34 35 36 37 38 39 40 41 42 43 44 45 46 47 48 49 50 51 52 53 54 55 56 57 58 59 60 61 62 63 64 65 66 67 68 
 likelihood multinomial
@@ -295,7 +295,7 @@ end_table
 
 
 @observation sim_Cryer_Oliver_maturity
-categories untagged.male+1997_1.male+1996_2.male+1996_3.male+untagged.female+1997_1.female+1996_2.female+1996_3.female 
+categories untagged.male + t1997_1.male + t1996_2.male + t1996_3.male + untagged.female + t1997_1.female + t1996_2.female + t1996_3.female 
 delta 0.00001 
 length_bins 10 11 12 13 14 15 16 17 18 19 20 21 22 23 24 25 26 27 28 29 30 31 32 33 34 35 36 37 38 39 40 41 42 43 44 45 46 47 48 49 50 51 52 53 54 55 56 57 58 59 60 
 likelihood binomial
@@ -304,7 +304,7 @@ selectivities maturity
 selectivities_for_total_categories One 
 time_step Feb-Apr 
 time_step_proportion 1.0 
-total_categories untagged.male+1997_1.male+1996_2.male+1996_3.male+untagged.female+1997_1.female+1996_2.female+1996_3.female 
+total_categories untagged.male + t1997_1.male + t1996_2.male + t1996_3.male + untagged.female + t1997_1.female + t1996_2.female + t1996_3.female 
 type proportions_by_category
 years 1995 
 table obs
@@ -316,7 +316,7 @@ end_table
 
 
 @observation sim_1997_recaptures1_1
-categories 1996_2.male 1996_2.female 
+categories t1996_2.male t1996_2.female 
 delta 1e-11 
 likelihood multinomial
 selectivities One One 
@@ -330,7 +330,7 @@ end_table
 
 
 @observation sim_1997_recaptures1_2
-categories 1996_3.male 1996_3.female 
+categories t1996_3.male t1996_3.female 
 delta 1e-11 
 likelihood multinomial
 selectivities One One 
@@ -344,7 +344,7 @@ end_table
 
 
 @observation sim_1997_recaptures2_1
-categories 1996_2.male 1996_2.female 
+categories t1996_2.male t1996_2.female 
 delta 1e-11 
 likelihood multinomial
 selectivities One One 
@@ -358,7 +358,7 @@ end_table
 
 
 @observation sim_1997_recaptures2_2
-categories 1996_3.male 1996_3.female 
+categories t1996_3.male t1996_3.female 
 delta 1e-11 
 likelihood multinomial
 selectivities One One 
@@ -372,7 +372,7 @@ end_table
 
 
 @observation sim_1997_recaptures2_3
-categories 1997_1.male 1997_1.female 
+categories t1997_1.male t1997_1.female 
 delta 1e-11 
 likelihood multinomial
 selectivities One One 
@@ -386,7 +386,7 @@ end_table
 
 
 @observation sim_1997_recaptures3_1
-categories 1996_2.male 1996_2.female 
+categories t1996_2.male t1996_2.female 
 delta 1e-11 
 likelihood multinomial
 selectivities One One 
@@ -400,7 +400,7 @@ end_table
 
 
 @observation sim_1997_recaptures3_2
-categories 1996_3.male 1996_3.female 
+categories t1996_3.male t1996_3.female 
 delta 1e-11 
 likelihood multinomial
 selectivities One One 
@@ -414,7 +414,7 @@ end_table
 
 
 @observation sim_1997_recaptures3_3
-categories 1997_1.male 1997_1.female 
+categories t1997_1.male t1997_1.female 
 delta 1e-11 
 likelihood multinomial
 selectivities One One 

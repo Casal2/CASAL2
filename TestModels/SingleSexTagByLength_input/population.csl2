@@ -15,7 +15,7 @@ length_plus False
 
 @categories
 format tagyear #sex.tagyear
-names untagged 2001 2002 2003 2004 2005 2006 2007 2008 2009 2010 2011 2012 2013 2014
+names untagged t2001 t2002 t2003 t2004 t2005 t2006 t2007 t2008 t2009 t2010 t2011 t2012 t2013 t2014
 age_lengths age_length*15
 #names male,female.untagged,2001:2014
 #age_lengths age_length_male_untagged age_length_male_tagged*14 age_length_female_untagged*1 age_length_female_tagged*14
@@ -63,7 +63,7 @@ proportions 1.0
 #categories tagyear=untagged
 #proportions 0.5 0.5
 b0 80000
-standardise_years 2004:2010 #changed to 2014 to replicate casal which is T or F
+standardise_years 2004:2010 #changed to t2014 to replicate casal which is T or F
 recruitment_multipliers 1*21
 steepness 0.75
 ssb SSB
@@ -265,7 +265,7 @@ year 2004
 type tag_by_length
 years 2001
 from untagged
-to 2001
+to t2001
 #from male.untagged  female.untagged
 #to male.2001  female.2001
 selectivities Shelfsel#Male ShelfselFemale
@@ -282,7 +282,7 @@ compatibility_option casal
 type tag_by_length
 years 2002
 from untagged
-to 2002
+to t2002
 #from male.untagged  female.untagged
 #to male.2002  female.2002
 selectivities Shelfsel#Male ShelfselFemale
@@ -298,7 +298,7 @@ U_max 0.999
 type tag_by_length
 years 2003
 from untagged
-to 2003
+to t2003
 #from male.untagged  female.untagged
 #to male.2003  female.2003
 selectivities Shelfsel#Male ShelfselFemale
@@ -314,7 +314,7 @@ U_max 0.999
 type tag_by_length
 years 2004
 from untagged
-to 2004
+to t2004
 #from male.untagged  female.untagged
 #to male.2004  female.2004
 selectivities Shelfsel#Male ShelfselFemale
@@ -330,7 +330,7 @@ U_max 0.999
 type tag_by_length
 years 2005
 from untagged
-to 2005
+to t2005
 #from male.untagged  female.untagged
 #to male.2005  female.2005
 selectivities Shelfsel#Male ShelfselFemale
@@ -346,7 +346,7 @@ U_max 0.999
 type tag_by_length
 years 2006
 from untagged
-to 2006
+to t2006
 #from male.untagged  female.untagged
 #to male.2006  female.2006
 selectivities Shelfsel#Male ShelfselFemale
@@ -362,7 +362,7 @@ U_max 0.999
 type tag_by_length
 years 2007
 from untagged
-to 2007
+to t2007
 #from male.untagged  female.untagged
 #to male.2007  female.2007
 selectivities Shelfsel#Male ShelfselFemale
@@ -378,7 +378,7 @@ U_max 0.999
 type tag_by_length
 years 2008
 from untagged
-to 2008
+to t2008
 #from male.untagged  female.untagged
 #to male.2008 female.2008
 selectivities Shelfsel#Male ShelfselFemale
@@ -394,7 +394,7 @@ U_max 0.999
 type tag_by_length
 years 2009
 from untagged
-to 2009
+to t2009
 #from male.untagged  female.untagged
 #to male.2009  female.2009
 selectivities Shelfsel#Male ShelfselFemale
@@ -410,7 +410,7 @@ U_max 0.999
 type tag_by_length
 years 2010
 from untagged
-to 2010
+to t2010
 #from male.untagged  female.untagged
 #to male.2010  female.2010
 selectivities Shelfsel#Male ShelfselFemale
@@ -426,7 +426,7 @@ U_max 0.999
 type tag_by_length
 years 2011
 from untagged
-to 2011
+to t2011
 #from male.untagged  female.untagged
 #to male.2011  female.2011
 selectivities Shelfsel#Male ShelfselFemale
@@ -442,7 +442,7 @@ U_max 0.999
 type tag_by_length
 years 2012
 from untagged
-to 2012
+to t2012
 #from male.untagged  female.untagged
 #to male.2012  female.2012
 selectivities Shelfsel#Male ShelfselFemale
@@ -458,7 +458,7 @@ U_max 0.999
 type tag_by_length
 years 2013
 from untagged
-to 2013
+to t2013
 #from male.untagged  female.untagged
 #to male.2013  female.2013
 selectivities Shelfsel#Male ShelfselFemale
@@ -474,7 +474,7 @@ U_max 0.999
 type tag_by_length
 years 2014
 from untagged
-to 2014
+to t2014
 #from male.untagged  female.untagged
 #to male.2014  female.2014
 selectivities Shelfsel#Male ShelfselFemale
@@ -490,7 +490,7 @@ U_max 0.999
 type tag_by_length
 years 2001
 from untagged
-to 2001
+to t2001
 #from male.untagged  female.untagged
 #to male.2001  female.2001
 selectivities Slopesel#Male SlopeselFemale
@@ -506,7 +506,7 @@ U_max 0.999
 type tag_by_length
 years 2002
 from untagged
-to 2002
+to t2002
 #from male.untagged  female.untagged
 #to male.2002  female.2002
 selectivities Slopesel#Male SlopeselFemale
@@ -522,7 +522,7 @@ U_max 0.999
 type tag_by_length
 years 2003
 from untagged
-to 2003
+to t2003
 #from male.untagged  female.untagged
 #to male.2003  female.2003
 selectivities Slopesel#Male SlopeselFemale
@@ -538,7 +538,7 @@ U_max 0.999
 type tag_by_length
 years 2004
 from untagged
-to 2004
+to t2004
 #from male.untagged  female.untagged
 #to male.2004  female.2004
 selectivities Slopesel#Male SlopeselFemale
@@ -554,7 +554,7 @@ U_max 0.999
 type tag_by_length
 years 2005
 from untagged
-to 2005
+to t2005
 #from male.untagged  female.untagged
 #to male.2005  female.2005
 selectivities Slopesel#Male SlopeselFemale
@@ -570,7 +570,7 @@ U_max 0.999
 type tag_by_length
 years 2006
 from untagged
-to 2006
+to t2006
 #from male.untagged  female.untagged
 #to male.2006  female.2006
 selectivities Slopesel#Male SlopeselFemale
@@ -586,7 +586,7 @@ U_max 0.999
 type tag_by_length
 years 2007
 from untagged
-to 2007
+to t2007
 #from male.untagged  female.untagged
 #to male.2007  female.2007
 selectivities Slopesel#Male SlopeselFemale
@@ -602,7 +602,7 @@ U_max 0.999
 type tag_by_length
 years 2008
 from untagged
-to 2008
+to t2008
 #from male.untagged  female.untagged
 #to male.2008  female.2008
 selectivities Slopesel#Male SlopeselFemale
@@ -618,7 +618,7 @@ U_max 0.999
 type tag_by_length
 years 2009
 from untagged
-to 2009
+to t2009
 #from male.untagged  female.untagged
 #to male.2009  female.2009
 selectivities Slopesel#Male SlopeselFemale
@@ -634,7 +634,7 @@ U_max 0.999
 type tag_by_length
 years 2010
 from untagged
-to 2010
+to t2010
 #from male.untagged  female.untagged
 #to male.2010  female.2010
 selectivities Slopesel#Male SlopeselFemale
@@ -650,7 +650,7 @@ U_max 0.999
 type tag_by_length
 years 2011
 from untagged
-to 2011
+to t2011
 #from male.untagged  female.untagged
 #to male.2011  female.2011
 selectivities Slopesel#Male SlopeselFemale
@@ -666,7 +666,7 @@ U_max 0.999
 type tag_by_length
 years 2012
 from untagged
-to 2012
+to t2012
 #from male.untagged  female.untagged
 #to male.2012  female.2012
 selectivities Slopesel#Male SlopeselFemale
@@ -682,7 +682,7 @@ U_max 0.999
 type tag_by_length
 years 2013
 from untagged
-to 2013
+to t2013
 #from male.untagged  female.untagged
 #to male.2013  female.2013
 selectivities Slopesel#Male SlopeselFemale
@@ -698,7 +698,7 @@ U_max 0.999
 type tag_by_length
 years 2014
 from untagged
-to 2014
+to t2014
 #from male.untagged  female.untagged
 #to male.2014  female.2014
 selectivities Slopesel#Male SlopeselFemale
@@ -714,7 +714,7 @@ U_max 0.999
 type tag_by_length
 years 2001
 from untagged
-to 2001
+to t2001
 #from male.untagged female.untagged
 #to male.2001 female.2001
 selectivities Northsel#Male NorthselFemale
@@ -730,7 +730,7 @@ U_max 0.999
 type tag_by_length
 years 2002
 from untagged
-to 2002
+to t2002
 #from male.untagged female.untagged
 #to male.2002  female.2002
 selectivities Northsel#Male NorthselFemale
@@ -746,7 +746,7 @@ U_max 0.999
 type tag_by_length
 years 2003
 from untagged
-to 2003
+to t2003
 #from male.untagged female.untagged
 #to male.2003 female.2003
 selectivities Northsel#Male NorthselFemale
@@ -762,7 +762,7 @@ U_max 0.999
 type tag_by_length
 years 2004
 from untagged
-to 2004
+to t2004
 #from male.untagged female.untagged
 #to male.2004 female.2004
 selectivities Northsel#Male NorthselFemale
@@ -778,7 +778,7 @@ U_max 0.999
 type tag_by_length
 years 2005
 from untagged
-to 2005
+to t2005
 #from male.untagged female.untagged
 #to male.2005 female.2005
 selectivities Northsel#Male NorthselFemale
@@ -794,7 +794,7 @@ U_max 0.999
 type tag_by_length
 years 2006
 from untagged
-to 2006
+to t2006
 #from male.untagged female.untagged
 #to male.2006 female.2006
 selectivities Northsel#Male NorthselFemale
@@ -810,7 +810,7 @@ U_max 0.999
 type tag_by_length
 years 2007
 from untagged
-to 2007
+to t2007
 #from male.untagged female.untagged
 #to male.2007 female.2007
 selectivities Northsel#Male NorthselFemale
@@ -826,7 +826,7 @@ U_max 0.999
 type tag_by_length
 years 2008
 from untagged
-to 2008
+to t2008
 #from male.untagged female.untagged
 #to male.2008 female.2008
 selectivities Northsel#Male NorthselFemale
@@ -842,7 +842,7 @@ U_max 0.999
 type tag_by_length
 years 2009
 from untagged
-to 2009
+to t2009
 #from male.untagged female.untagged
 #to male.2009 female.2009
 selectivities Northsel#Male NorthselFemale
@@ -858,7 +858,7 @@ U_max 0.999
 type tag_by_length
 years 2010
 from untagged
-to 2010
+to t2010
 #from male.untagged female.untagged
 #to male.2010 female.2010
 selectivities Northsel#Male NorthselFemale
@@ -874,7 +874,7 @@ U_max 0.999
 type tag_by_length
 years 2011
 from untagged
-to 2011
+to t2011
 #from male.untagged female.untagged
 #to male.2011 female.2011
 selectivities Northsel#Male NorthselFemale
@@ -890,7 +890,7 @@ U_max 0.999
 type tag_by_length
 years 2012
 from untagged
-to 2012
+to t2012
 #from male.untagged female.untagged
 #to male.2012 female.2012
 selectivities Northsel#Male NorthselFemale
@@ -906,7 +906,7 @@ U_max 0.999
 type tag_by_length
 years 2013
 from untagged
-to 2013
+to t2013
 #from male.untagged female.untagged
 #to male.2013 female.2013
 selectivities Northsel#Male NorthselFemale
@@ -922,7 +922,7 @@ U_max 0.999
 type tag_by_length
 years 2014
 from untagged
-to 2014
+to t2014
 #from male.untagged female.untagged
 #to male.2014 female.2014
 selectivities Northsel#Male NorthselFemale

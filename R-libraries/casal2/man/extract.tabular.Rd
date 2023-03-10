@@ -2,7 +2,7 @@
 % Please edit documentation in R/extract.tabular.R
 \name{extract.tabular}
 \alias{extract.tabular}
-\title{extract Tabular function for readin in Casal2 output that has been generated from a -r, -e, -f, -p run mode with the --tabular.}
+\title{extract Tabular function for reading in Casal2 output that has been generated from a -r, -e, -f, -p run mode with the --tabular.}
 \usage{
 extract.tabular(file, path = "", fileEncoding = "", quiet = FALSE)
 }

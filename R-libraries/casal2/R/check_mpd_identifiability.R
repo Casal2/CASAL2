@@ -7,11 +7,12 @@
 #' This eigenvalue decomposition has been widely used in the estimation literature
 #'
 #' @author C.Marsh
-#' @param model <casal2MPD> object that are generated from the extract.mpd() function. It expects the report of type
-#' covariance_matrix to be present.
+#' @param cas2_mod Model object that are generated from the extract.mpd() function. It expects the report of type covariance_matrix to be present.
+#' @param delta delta value
 #' @return a data frame or message about the model
 #' @rdname check_mpd_identifiability
 #' @export check_mpd_identifiability
+
 check_mpd_identifiability <- function(cas2_mod, delta = .Machine$double.eps) {
   # check that there is covariance and estimate_value report in this output
   covar_ndx <- 0

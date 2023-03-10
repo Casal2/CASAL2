@@ -1,4 +1,4 @@
-#' @title extract Tabular function for readin in Casal2 output that has been generated from a -r, -e, -f, -p run mode with the --tabular.
+#' @title extract Tabular function for reading in Casal2 output that has been generated from a -r, -e, -f, -p run mode with the --tabular.
 #'
 #' @description
 #' An extract function that reads Casal2 output that are produced from a '-r' or '-e' or '-f' or '-p' model run. This function

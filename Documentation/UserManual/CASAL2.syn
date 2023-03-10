@@ -137,6 +137,7 @@ MCMCCovariance
 MCMCObjective
 MCMCSample
 MPD
+Markovian_Movement
 Maturation
 Mortality
 Multinomial
@@ -153,6 +154,7 @@ Orthogonal
 Output_Parameters
 Partition
 Partition_Biomass
+Poisson
 Process
 Process_Removals_By_Age
 Process_Removals_By_Age_Retained
@@ -190,6 +192,7 @@ Tag_By_Age
 Tag_By_Length
 Tag_Loss
 Tag_Recapture_By_Age
+Tag_Recapture_By_Fishery
 Tag_Recapture_By_Length
 Time_Varying
 Transition_Category
@@ -366,6 +369,7 @@ r
 r0
 rates
 recruitment_multipliers
+reporting_rate
 rho
 s
 same

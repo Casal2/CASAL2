@@ -4,14 +4,14 @@
 \alias{combine.tabular}
 \title{combine.tabular used to return a list that combines multiple tabular reports into a single tabular report}
 \usage{
-combine.tabular(tab_objects, Row = NULL, verbose = F)
+combine.tabular(tab_objects, Row = NULL, verbose = FALSE)
 }
 \arguments{
 \item{tab_objects}{list object of tab_object casal2TAB objects}
 
-\item{verbose}{print extra info.}
+\item{Row}{Optionally, the Row number to burn in from. Note this is not the iteration but the row that corresponds to your iteration that you want to burn-in from. if keep > 1 then the iteration and row will be different}
 
-\item{Optionally, }{the Row number to burn in from. Note this is not the iteration but the row that corresponds to your iteration that you want to burn-in from. if keep > 1 then the iteration and row will be different}
+\item{verbose}{print extra info.}
 }
 \value{
 a 'casal2TAB' object which has been manipulated.

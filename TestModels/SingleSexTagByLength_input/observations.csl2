@@ -159,7 +159,7 @@ delta 1e-11
 
 @observation Tag2001
 type tag_recapture_by_length
-tagged_categories 2001 #male.2001 + female.2001
+tagged_categories t2001 #male.2001 + female.2001
 categories *+
 likelihood binomial
 selectivities One
@@ -190,7 +190,7 @@ dispersion 5.6
 
 @observation Tag2002
 type tag_recapture_by_length
-tagged_categories 2002 #male.2002 + female.2002
+tagged_categories t2002 #male.2002 + female.2002
 categories *+
 likelihood binomial
 selectivities One
@@ -220,7 +220,7 @@ dispersion 5.6
 
 @observation Tag2003
 type tag_recapture_by_length
-tagged_categories 2003 #male.2003 + female.2003
+tagged_categories t2003 #male.2003 + female.2003
 categories *+
 likelihood binomial
 selectivities One
@@ -250,7 +250,7 @@ dispersion 5.6
 
 @observation Tag2004
 type tag_recapture_by_length
-tagged_categories 2004 #male.2004 + female.2004
+tagged_categories t2004 #male.2004 + female.2004
 categories *+
 likelihood binomial
 selectivities One
@@ -280,7 +280,7 @@ dispersion 5.6
 
 @observation Tag2005
 type tag_recapture_by_length
-tagged_categories 2005 #male.2005 + female.2005
+tagged_categories t2005 #male.2005 + female.2005
 categories *+
 likelihood binomial
 selectivities One
@@ -310,7 +310,7 @@ dispersion 5.6
 
 @observation Tag2006
 type tag_recapture_by_length
-tagged_categories 2006 #male.2006 + female.2006
+tagged_categories t2006 #male.2006 + female.2006
 categories *+
 likelihood binomial
 selectivities One
@@ -340,7 +340,7 @@ dispersion 5.6
 
 @observation Tag2007
 type tag_recapture_by_length
-tagged_categories 2007 #male.2007 + female.2007
+tagged_categories t2007 #male.2007 + female.2007
 categories *+
 likelihood binomial
 selectivities One
@@ -370,7 +370,7 @@ dispersion 5.6
 
 @observation Tag2008
 type tag_recapture_by_length
-tagged_categories 2008 #male.2008 + female.2008
+tagged_categories t2008 #male.2008 + female.2008
 categories *+
 likelihood binomial
 selectivities One
@@ -400,7 +400,7 @@ dispersion 5.6
 
 @observation Tag2009
 type tag_recapture_by_length
-tagged_categories 2009 #male.2009 + female.2009
+tagged_categories t2009 #male.2009 + female.2009
 categories *+
 likelihood binomial
 selectivities One
@@ -430,7 +430,7 @@ dispersion 5.6
 
 @observation Tag2010
 type tag_recapture_by_length
-tagged_categories 2010 #male.2010 + female.2010
+tagged_categories t2010 #male.2010 + female.2010
 categories *+
 likelihood binomial
 selectivities One
@@ -458,7 +458,7 @@ dispersion 5.6
 
 @observation Tag2011
 type tag_recapture_by_length
-tagged_categories 2011 #male.2011 + female.2011
+tagged_categories t2011 #male.2011 + female.2011
 categories *+
 likelihood binomial
 selectivities One
@@ -484,7 +484,7 @@ dispersion 5.6
 
 @observation Tag2012
 type tag_recapture_by_length
-tagged_categories 2012 #male.2012 + female.2012
+tagged_categories t2012 #male.2012 + female.2012
 categories *+
 likelihood binomial
 selectivities One
@@ -508,7 +508,7 @@ dispersion 5.6
 
 @observation Tag2013
 type tag_recapture_by_length
-tagged_categories 2013 #male.2013 + female.2013
+tagged_categories t2013 #male.2013 + female.2013
 categories *+
 likelihood binomial
 selectivities One
@@ -530,7 +530,7 @@ dispersion 5.6
 
 @observation Tag2014
 type tag_recapture_by_length
-tagged_categories 2014 #male.2014 + female.2014
+tagged_categories t2014 #male.2014 + female.2014
 categories *+
 likelihood binomial
 selectivities One
