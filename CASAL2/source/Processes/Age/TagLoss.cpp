@@ -30,19 +30,19 @@ namespace age {
  */
 TagLoss::TagLoss(shared_ptr<Model> model) : Process(model), partition_(model) {
   LOG_TRACE();
-  process_type_        = ProcessType::kMortality;  
-  // Why this was changed from type transition to mortality. CASAL includes this in the 'mortality block' so when you are deriving observations
-  // partway through a time-step Casal incorporates F and TagLoss. Casal2 wasn't including tag-loss into mid time-step interpolations. This fix will have annoying ramifications because a mortality block is definied 
-  // as continuous processes. so if you have a time-step with the following processes: F, tag-release, tag-loss. Casal2 may complain.
-  // CASAL reference see population_section.cpp line: 1924-2006
-  
+  process_type_ = ProcessType::kMortality;
+  // Why this was changed from type transition to mortality. CASAL includes this in the 'mortality block' so when you are
+  // deriving observations partway through a time-step Casal incorporates F and TagLoss. Casal2 wasn't including tag-loss
+  // into mid time-step interpolations. This fix will have annoying ramifications because a mortality block is defined
+  // as continuous processes. so if you have a time-step with the following processes: F, tag-release, tag-loss. Casal2
+  // may complain. CASAL reference see population_section.cpp line: 1924-2006
+
   partition_structure_ = PartitionType::kAge;
 
   parameters_.Bind<string>(PARAM_CATEGORIES, &category_labels_, "The list of categories to apply", "");
   parameters_.Bind<Double>(PARAM_TAG_LOSS_RATE, &tag_loss_input_, "The tag loss rates", "")->set_lower_bound(0.0, true);
   parameters_.Bind<Double>(PARAM_TIME_STEP_PROPORTIONS, &ratios_, "The time step proportions for tag loss", "", true)->set_range(0.0, 1.0);
-  parameters_.Bind<string>(PARAM_TAG_LOSS_TYPE, &tag_loss_type_, "The type of tag loss", "", PARAM_SINGLE)
-      ->set_allowed_values({PARAM_SINGLE, PARAM_DOUBLE_TAG});
+  parameters_.Bind<string>(PARAM_TAG_LOSS_TYPE, &tag_loss_type_, "The type of tag loss", "", PARAM_SINGLE)->set_allowed_values({PARAM_SINGLE, PARAM_DOUBLE_TAG});
   parameters_.Bind<string>(PARAM_SELECTIVITIES, &selectivity_names_, "The selectivities", "");
   parameters_.Bind<unsigned>(PARAM_YEAR, &year_, "The year the first tagging release process was executed", "");
 
@@ -86,9 +86,22 @@ void TagLoss::DoValidate() {
   for (Double tag_loss : tag_loss_input_) {
     if (tag_loss < 0.0)
       LOG_ERROR_P(PARAM_TAG_LOSS_RATE) << ": Tag loss rate " << tag_loss << " must be greater or equal to 0.0";
+    if (tag_loss > 1.0)
+      LOG_ERROR_P(PARAM_TAG_LOSS_RATE) << ": Tag loss rate " << tag_loss << " must be less or equal to 1.0";
   }
 
   for (unsigned i = 0; i < tag_loss_input_.size(); ++i) tag_loss_[category_labels_[i]] = tag_loss_input_[i];
+
+  // Validate the time step proportions sum to one
+  Double total = 0.0;
+  for (Double value : ratios_) {
+    total += value;
+  }
+#ifndef TESTMODE
+  if (!utilities::math::IsOne(total)) {
+    LOG_ERROR_P(PARAM_TIME_STEP_PROPORTIONS) << "summed to " << total << ". They must be specified to sum to one.";
+  }
+#endif
 }
 
 /**
@@ -133,8 +146,7 @@ void TagLoss::DoBuild() {
         LOG_ERROR_P(PARAM_TIME_STEP_PROPORTIONS) << " Time step proportions (" << value << ") must be between 0.0 and 1.0 inclusive";
     }
 
-    for (unsigned i = 0; i < ratios_.size(); ++i) 
-      time_step_ratios_[active_time_steps[i]] = ratios_[i];
+    for (unsigned i = 0; i < ratios_.size(); ++i) time_step_ratios_[active_time_steps[i]] = ratios_[i];
   }
 }
 
@@ -148,13 +160,12 @@ void TagLoss::DoExecute() {
 
     // get the ratio to apply first
     unsigned time_step = model_->managers()->time_step()->current_time_step();
-
     LOG_FINEST() << "Ratios.size() " << time_step_ratios_.size() << " : time_step: " << time_step << "; ratio: " << time_step_ratios_[time_step];
     Double ratio = time_step_ratios_[time_step];
 
     // StoreForReport("year", model_->current_year());
 
-    if(tag_loss_type_ == PARAM_SINGLE) {
+    if (tag_loss_type_ == PARAM_SINGLE) {
       unsigned i = 0;
       for (auto category : partition_) {
         Double tag_loss = tag_loss_[category->name_];
@@ -173,15 +184,27 @@ void TagLoss::DoExecute() {
       }
     } else if (tag_loss_type_ == PARAM_DOUBLE_TAG) {
       unsigned i = 0;
+      // identify years since tagging
+      double time = double(model_->current_year() - year_);
       for (auto category : partition_) {
-        Double tag_loss = tag_loss_[category->name_];
-        unsigned j = 0;
+        Double   tag_loss        = tag_loss_[category->name_];
+        Double   double_tag_loss = 0.0;
+        Double   A               = (1 - exp(-tag_loss * (time - 1)));
+        Double   B               = (1 - exp(-tag_loss * time));
+        unsigned j               = 0;
         LOG_FINEST() << "category " << category->name_ << "; min_age: " << category->min_age_ << "; ratio: " << ratio;
         // StoreForReport(category->name_ + " ratio", ratio);
         for (Double& data : category->data_) {
-          Double amount = data * (1.0 - exp(-selectivities_[i]->GetAgeResult(category->min_age_ + j, category->age_length_) * tag_loss * ratio));
-          amount = 1.0 - ((1.0 - amount) * (1.0 - amount));
-          LOG_FINEST() << "Category " << category->name_ << " numbers at age: " << category->min_age_ + j << " = " << data << " removing " << amount;
+          if (time > 0.0) {
+            double_tag_loss = ((B * B) - (A * A)) / (1 - (A * A));
+          }
+          Double amount = data * selectivities_[i]->GetAgeResult(category->min_age_ + j, category->age_length_) * double_tag_loss * ratio;
+          LOG_FINEST() << "Category " << category->name_ << " numbers at age: " << category->min_age_ + j << " = " << data << " removing " << amount
+                       << ". Selectivity: " << selectivities_[i]->GetAgeResult(category->min_age_ + j, category->age_length_) << ". tag_loss: " << tag_loss
+                       << ". double_tag_loss: " << double_tag_loss << ". ratio: " << ratio;
+          //          std::cerr << "Category " << category->name_ << " numbers at age: " << category->min_age_ + j << " = " << data << " removing " << amount
+          //                    << ". Selectivity: " << selectivities_[i]->GetAgeResult(category->min_age_ + j, category->age_length_) << ". tag_loss: " << tag_loss
+          //                    << ". double_tag_loss: " << double_tag_loss << ". ratio: " << ratio << ". time: " << time << ". A: " << A << ". B: " << B << "\n";
           data -= amount;
           ++j;
         }

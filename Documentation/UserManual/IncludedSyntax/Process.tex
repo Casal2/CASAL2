@@ -881,13 +881,15 @@ end_table
 \defType{Vector of real numbers (estimable)}
 \defDefault{No default}
 \defLowerBound{0.0 (inclusive)}
-\defValue{The instantaneous rate of tag loss}
+\defUpperBound{1.0 (inclusive)}
+\defValue{The instantaneous rate of tag loss (supplied as either a single value that is applied to all categories, or a vector of length equal to the number of categories defined for this process}
 
 \defSub{time\_step\_proportions}{The time step proportions for tag loss}
 \defType{Vector of real numbers (estimable)}
 \defDefault{true}
 \defLowerBound{0.0 (inclusive)}
 \defUpperBound{1.0 (inclusive)}
+\defNote{The sum of the values of time\_step\_proportions must equal 1.0}
 
 \defSub{tag\_loss\_type}{The type of tag loss}
 \defType{String}
@@ -901,6 +903,7 @@ end_table
 \defSub{year}{The year the first tagging release process was executed}
 \defType{Non-negative integer}
 \defDefault{No default}
+\defNote{For the double tag loss rate, this is also assumed to be the first year in the calculation of the annual loss rates}
 
 \subsubsection{Process of type Transition Category}
 \commandlabsubarg{process}{type}{Transition\_Category}.

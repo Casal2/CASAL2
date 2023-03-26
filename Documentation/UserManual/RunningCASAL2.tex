@@ -55,7 +55,7 @@ and where \emph{task} must be one of the following (\textbf{[]} indicates a seco
 \begin{description}
 \item [\texttt{-h [-{}-help]}] Display help (this page)
 \item [\texttt{-l [-{}-licence]}] Display the reference for the software license (GPL v2)
-\item [\texttt{-v [-{}-version]}] Display the \CNAME\ version number
+\item [\texttt{-v [-{}-version]}] Display the \CNAME\ version number and version details (including the location of the GitHub repository from which the source code was compiled)
 
 \item [\texttt{-r [-{}-run]}] \emph{Run} the model once using the parameter values in the \config, or optionally with the free parameter values from the file specified with argument \texttt{-i} or \texttt{-I}.
 \item [\texttt{-e [-{}-estimate]}] Do a point \emph{estimate} using the values in the \config\ as the starting point for the parameters to be estimated, or optionally with the free parameter values from the file specified with argument \texttt{-i} or \texttt{-I}.
@@ -310,7 +310,7 @@ Single-stepping means \CNAME\ can 'pause' after each year in the annual cycle du
 
 \subsection{\I{Logging and Verifying Models}}\label{sec:LogandVerify}\index{Logging and Verifying Models}
 
-\CNAME\ has a  number of information, warning, and error message outputs. This option is enabled using the \subcommand{--loglevel} or \subcommand{-L} command line option. See Section~\ref{sec:TroubleShooting-logging} for details on logging. 
+\CNAME\ has a  number of standard information, warning, and error message outputs. Additional logging and debugging information is available using the \subcommand{--loglevel} or \subcommand{-L} command line option. See Section~\ref{sec:TroubleShooting-logging} for details on logging. 
 
 \CNAME\ also applies sanity checks on model configurations. These can be bypassed using the command line option \subcommand{--verifylevel} or \subcommand{-V}. These sanity checks are based on expected model structures, i.e., \CNAME\ verifies models have an ageing process. Currently only a few sanity checks are implemented.
 

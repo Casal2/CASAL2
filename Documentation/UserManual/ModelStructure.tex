@@ -37,7 +37,7 @@ The \textit{names} subcommand can also be specified with:
 {\small{\begin{verbatim}names spawn,nonspawn.male,female.immature,mature
 \end{verbatim}}}
 
-which defines the categories above in a more efficient manner, (again, note the "." to separate the factors and "," to separate the levels within each factor (see the next section for more details). A visualisation of the partition is in Figure \ref{Fig:part}.
+which defines the categories above in a more efficient manner, (again, note the ``.'' to separate the factors and ``,'' to separate the levels within each factor (see the next section for more details). A visualisation of the partition is in Figure \ref{Fig:part}.
 
 When using this short-cut syntax in \textit{names}, the order of level combinations is for the levels of the first factor to change the slowest, then the next factor will change faster, and so on with the last factor to changing levels the fastest. The order is important because linking categories to their characteristics, e.g., growth curve or selectivity, is done in other subcommands where these must be specified in the same order.
 
@@ -53,11 +53,9 @@ To make recruitment to enter the partition in the non-spawning area, use
 
 \subsection{Shorthand syntax for categories}\label{sec:ShorthandSyntax}
 
-This can be skipped on the first reading.
-
 Some specifications have long lists of categories or years or initial values for parameters and the like, e.g., for YCS from 1900 to 2019, 120 years and 120 initial vales of YCS must be specified; this is hard to do by hand and it can be error prone as well as difficult to match values for each year. Here, the range short cut (\textit{:)} can be used so the  the year specification is \textit{1900:2019}, and the multiplier short cut (\textit{*)} to give the initial values specification as \textit{1*120}.
 
-There is also shorthand notation for categories since each category can be quite complicated\label{sec:Categories}. First use the \texttt{format} subcommand in the \textit{@categories} block to define the factors that make up the sections of the category names. A "." (period) character delineates each factor and this structure allows a shorthand syntax to compose category names.
+There is also shorthand notation for categories since each category can be quite complicated\label{sec:Categories}. First use the \texttt{format} subcommand in the \textit{@categories} block to define the factors that make up the sections of the category names. A ``.'' (period) character delineates each factor and this structure allows a shorthand syntax to compose category names.
 
 The \texttt{names} subcommand is used to list the category names. Sections within the shorthand syntax for \textit{names} are required to match the order of factors in the \textit{format} subcommand so \CNAME\ can organise and search on them. In these sections, levels for each factor use the "list specifier" and range characters, e.g.,
 

@@ -1253,24 +1253,32 @@ $$\widetilde{N}_{a,j} = \widetilde{N}_{a,j}\left(1.0 - h_a\right)$$
 
 \subsubsection{\I{Tag loss}}\label{sec:Process-TagLoss} 
 
-Tag Loss is the process which accounts for tagged fish being removed from the partition. For example tag related mortality or tag failure. This process is applied as an instantaneous mortality rate that can happen over multiple time steps in the annual cycle. This method assumes that when tags are lost the individuals are deleted from the model.
+Tag loss is the process which accounts for tagged fish being removed from the partition by, for example, tag related mortality or tag failure. This process is applied as an instantaneous mortality rate that can happen over multiple time steps in the annual cycle. This process assumes that when tags are lost, the individuals are removed from the partition.
 
-Two options are available depending on whether the tag release event were tagged with a single tag (\subcommand{tag\_type single}) and double tag (\subcommand{tag\_type double}).
+Two options are available depending on whether the individuals in the tag release event were tagged with a single tag (\subcommand{tag\_type single}) or were double tagged (\subcommand{tag\_type double}).
 
-For elements in the partition indexed by age \(a\) and category \(c\), the number of tag lost (\(N^*_{c,a}\)) at time step \(t\) with loss rate \(r\) and proportion denoted by \(p^t\) for type \subcommand{single} is
-
-\begin{equation}
-	N^*_{c,a} = N_{c,a} exp\left( - r_a p^t\right)
-\end{equation}
-
-where \(N_{c,a}\) is the number of tagged fish before the process is applied.
-
-For tag type \subcommand{double}
+For tag loss type \subcommand{single}\index{Tag loss: single}, the annual loss rate is simply an exponential decay, i.e, for elements in the partition indexed by age ($a$) and category ($c$), the number of tags lost ($N^*_{c,a}$) in each time step $t$, assuming a loss rate $r$, selectivity at age $S_a$, and proportion in the time step $p^t$ is; 
 
 \begin{equation}
-N^*_{c,a} = 1 - \left(1 - N_{c,a} exp\left( - r_a p^t\right)\right)\left(1 - N_{c,a} exp\left( - r_a p^t\right)\right)
+	N^*_{c,a} = N_{c,a} (1 -e^{-r_c}) p^t S_a
 \end{equation}
 
+where $N_{c,a}$ is the number of tagged fish before the process is applied, and $r_c$ is the tag loss rate for category $c$
+
+For tag loss type \subcommand{double}\index{Tag loss: double}, the annual loss rate (i.e., the proportion that do not retain at least one tag) is a function of the number of years since tagging occurred, $t$. Here,
+
+\begin{equation}
+	\begin{aligned}
+	\text{let } A_{c,a} &= 1-e^{-r_c (t-1)} \text{\ and\ }
+	            B_{c,a} = 1-e^{-r_c t} \text{\ ,}\\ 
+	\text{then\ } 
+	P^t_{c,a} &= (B^2_{c,a} - A^2_{c,a}) / (1-A^2_{c,a}) 
+	\text{\ is the the proportion of individuals that lost at least two tags, hence\ } \\
+	N^*_{c,a} &= N_{c,a} P^t_{c,a} p^t S_a
+\end{aligned}
+\end{equation}
+
+For tag loss type \subcommand{double}, the \subcommand{year} of tagging is assumed to be the initial year for determining the years ($t$) since tagging occurred.
 
 The syntax for the tag loss process follows
 
@@ -1297,3 +1305,5 @@ and double tagged
 	tag_loss_type double
 	year 1985
 \end{verbatim}}}
+
+See Section \ref{syntax:Process-TagLoss} for more information on the syntax for tag loss.
