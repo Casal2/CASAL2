@@ -184,27 +184,23 @@ void TagLoss::DoExecute() {
       }
     } else if (tag_loss_type_ == PARAM_DOUBLE_TAG) {
       unsigned i = 0;
-      // identify years since tagging
-      double time = double(model_->current_year() - year_);
+      // identify years (time) since tagging
+      Double time = Double(model_->current_year() - year_);
       for (auto category : partition_) {
-        Double   tag_loss        = tag_loss_[category->name_];
-        Double   double_tag_loss = 0.0;
-        Double   A               = (1 - exp(-tag_loss * (time - 1)));
-        Double   B               = (1 - exp(-tag_loss * time));
-        unsigned j               = 0;
-        LOG_FINEST() << "category " << category->name_ << "; min_age: " << category->min_age_ << "; ratio: " << ratio;
+        Double tag_loss        = tag_loss_[category->name_];
+        Double double_tag_loss = 0.0;
+        if (time > 0.0) {
+          Double A        = (1 - exp(-tag_loss * (time - 1)));
+          Double B        = (1 - exp(-tag_loss * time));
+          double_tag_loss = -log(1.0 - ((B * B) - (A * A)) / (1 - (A * A)));
+        }
+        unsigned j = 0;
         // StoreForReport(category->name_ + " ratio", ratio);
         for (Double& data : category->data_) {
-          if (time > 0.0) {
-            double_tag_loss = ((B * B) - (A * A)) / (1 - (A * A));
-          }
-          Double amount = data * selectivities_[i]->GetAgeResult(category->min_age_ + j, category->age_length_) * double_tag_loss * ratio;
+          Double amount = data * (1.0 - exp(-selectivities_[i]->GetAgeResult(category->min_age_ + j, category->age_length_) * double_tag_loss * ratio));
           LOG_FINEST() << "Category " << category->name_ << " numbers at age: " << category->min_age_ + j << " = " << data << " removing " << amount
-                       << ". Selectivity: " << selectivities_[i]->GetAgeResult(category->min_age_ + j, category->age_length_) << ". tag_loss: " << tag_loss
-                       << ". double_tag_loss: " << double_tag_loss << ". ratio: " << ratio;
-          //          std::cerr << "Category " << category->name_ << " numbers at age: " << category->min_age_ + j << " = " << data << " removing " << amount
-          //                    << ". Selectivity: " << selectivities_[i]->GetAgeResult(category->min_age_ + j, category->age_length_) << ". tag_loss: " << tag_loss
-          //                    << ". double_tag_loss: " << double_tag_loss << ". ratio: " << ratio << ". time: " << time << ". A: " << A << ". B: " << B << "\n";
+                       << " Selectivity: " << selectivities_[i]->GetAgeResult(category->min_age_ + j, category->age_length_) << " tag_loss: " << tag_loss
+                       << " double_tag_loss: " << double_tag_loss << " ratio: " << ratio << " time: " << time;
           data -= amount;
           ++j;
         }

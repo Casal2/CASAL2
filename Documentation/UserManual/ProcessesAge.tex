@@ -1258,24 +1258,24 @@ Tag loss is the process which accounts for tagged fish being removed from the pa
 Two options are available depending on whether the individuals in the tag release event were tagged with a single tag (\subcommand{tag\_type single}) or were double tagged (\subcommand{tag\_type double}).
 
 For tag loss type \subcommand{single}\index{Tag loss: single}, the annual loss rate is simply an exponential decay, i.e, for elements in the partition indexed by age ($a$) and category ($c$), the number of tags lost ($N^*_{c,a}$) in each time step $t$, assuming a loss rate $r$, selectivity at age $S_a$, and proportion in the time step $p^t$ is; 
-
 \begin{equation}
-	N^*_{c,a} = N_{c,a} (1 -e^{-r_c}) p^t S_a
+	N^*_{c,a} = N_{c,a} (1 -e^{-r_c p^t S_a})
 \end{equation}
 
-where $N_{c,a}$ is the number of tagged fish before the process is applied, and $r_c$ is the tag loss rate for category $c$
+where $N_{c,a}$ is the number of tagged fish before the process is applied, and $r_c$ is the tag loss rate for category $c$.
 
-For tag loss type \subcommand{double}\index{Tag loss: double}, the annual loss rate (i.e., the proportion that do not retain at least one tag) is a function of the number of years since tagging occurred, $t$. Here,
-
+For tag loss type \subcommand{double}\index{Tag loss: double}, the annual loss rate (i.e., the proportion that do not retain at least one tag) is a function of the time since tagging occurred, $t$, given the number at time $t-1$. Here, let
 \begin{equation}
-	\begin{aligned}
-	\text{let } A_{c,a} &= 1-e^{-r_c (t-1)} \text{\ and\ }
-	            B_{c,a} = 1-e^{-r_c t} \text{\ ,}\\ 
-	\text{then\ } 
-	P^t_{c,a} &= (B^2_{c,a} - A^2_{c,a}) / (1-A^2_{c,a}) 
-	\text{\ is the the proportion of individuals that lost at least two tags, hence\ } \\
-	N^*_{c,a} &= N_{c,a} P^t_{c,a} p^t S_a
-\end{aligned}
+	A_c = 1-e^{-r_c (t-1)} \text{\ and\ }
+	B_c = 1-e^{-r_c t} \text{\ ,} 
+\end{equation}
+then 
+\begin{equation}
+	r^t_c = -\ln(1 - (B^2_c - A^2_c) / (1-A^2_c))
+\end{equation}
+is the negative log proportion that lost at least two tags at time $t$. Therefore, 
+\begin{equation}
+	N^*_{c,a} = N_{c,a} (1-e^{-r^t_c p^t S_a})
 \end{equation}
 
 For tag loss type \subcommand{double}, the \subcommand{year} of tagging is assumed to be the initial year for determining the years ($t$) since tagging occurred.
