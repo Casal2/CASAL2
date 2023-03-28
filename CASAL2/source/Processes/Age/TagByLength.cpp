@@ -588,7 +588,7 @@ void TagByLength::DoExecute() {
       }
     }
 
-    from_iter          = from_partition_.begin();
+    from_iter          = from_partition_.begin();    
     from_category_iter = 0;
 
     for (; from_iter != from_partition_.end(); from_iter++, from_category_iter++) {
@@ -598,9 +598,10 @@ void TagByLength::DoExecute() {
       }
     }
 
-    from_iter          = from_partition_.begin();
+    from_iter           = from_partition_.begin();
+    to_iter             = to_partition_.begin();
     from_category_iter = 0;
-    for (; from_iter != from_partition_.end(); from_iter++, from_category_iter++) {
+    for (; from_iter != from_partition_.end(); from_iter++, from_category_iter++, to_iter++) {
       Double amount = 0.0;
       LOG_FINE() << "category = " << (*from_iter)->name_;
       for (unsigned age_ndx = 0; age_ndx < model_->age_spread(); ++age_ndx) {
