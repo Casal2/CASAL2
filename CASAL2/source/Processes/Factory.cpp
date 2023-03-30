@@ -16,9 +16,11 @@
 #include "../Model/Managers.h"
 #include "../Model/Model.h"
 #include "../Processes/Age/Ageing.h"
+#include "../Processes/Age/MarkovianMovement.h"
 #include "../Processes/Age/Maturation.h"
 #include "../Processes/Age/Mortality/MortalityConstantExploitation.h"
 #include "../Processes/Age/Mortality/MortalityConstantRate.h"
+#include "../Processes/Age/Mortality/MortalityDiseaseRate.h"
 #include "../Processes/Age/Mortality/MortalityEvent.h"
 #include "../Processes/Age/Mortality/MortalityEventBiomass.h"
 #include "../Processes/Age/Mortality/MortalityHollingRate.h"
@@ -36,7 +38,6 @@
 #include "../Processes/Age/TagByLength.h"
 #include "../Processes/Age/TagLoss.h"
 #include "../Processes/Age/TransitionCategory.h"
-#include "../Processes/Age/MarkovianMovement.h"
 #include "../Processes/Age/TransitionCategoryByAge.h"
 #include "../Processes/Common/LoadPartition.h"
 #include "../Processes/Common/Nop.h"
@@ -101,6 +102,8 @@ Process* Factory::Create(shared_ptr<Model> model, const string& object_type, con
         result = new age::Maturation(model);
       else if (sub == PARAM_MORTALITY_CONSTANT_RATE)
         result = new age::MortalityConstantRate(model);
+      else if (sub == PARAM_MORTALITY_DISEASE_RATE)
+        result = new age::MortalityDiseaseRate(model);
       else if (sub == PARAM_MORTALITY_CONSTANT_EXPLOITATION)
         result = new age::MortalityConstantExploitation(model);
       else if (sub == PARAM_MORTALITY_INITIALISATION_EVENT)

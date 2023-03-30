@@ -1,11 +1,11 @@
 /**
  * @file MortalityDiseaseRate.cpp
- * @author  C.Marsh
+ * @author  C.Marsh/A. Dunn
  * @version 1.0
- * @date 2022
+ * @date 2023
  * @section LICENSE
  * @description
- * This class applies an exponential mortality rate to certain years
+ * This class applies an exponential mortality rate to certain years. A copy of the length based process
  */
 
 // Headers
@@ -13,14 +13,14 @@
 
 #include <numeric>
 
-#include "../../Categories/Categories.h"
-#include "../../TimeSteps/Manager.h"
-#include "Selectivities/Manager.h"
+#include "../../../Categories/Categories.h"
+#include "../../../Selectivities/Manager.h"
+#include "../../../TimeSteps/Manager.h"
 
 // Namespaces
 namespace niwa {
 namespace processes {
-namespace length {
+namespace age {
 
 /**
  * Default constructor
@@ -28,7 +28,7 @@ namespace length {
 MortalityDiseaseRate::MortalityDiseaseRate(shared_ptr<Model> model) : Process(model), partition_(model) {
   LOG_TRACE();
   process_type_        = ProcessType::kMortality;
-  partition_structure_ = PartitionType::kLength;
+  partition_structure_ = PartitionType::kAge;
 
   parameters_.Bind<string>(PARAM_CATEGORIES, &category_labels_, "The list of categories labels", "");
   parameters_.Bind<Double>(PARAM_DISEASE_MORTALITY_RATE, &dm_input_, "The disease mortality rate", "")->set_range(0.0, 10, true, true);
@@ -41,7 +41,7 @@ MortalityDiseaseRate::MortalityDiseaseRate(shared_ptr<Model> model) : Process(mo
 }
 
 /**
- * Validate the Mortality Constant Rate process
+ * Validate the Mortality Disease Rate process
  *
  * - Validate the required parameters
  * - Assign the label from the parameters
@@ -51,7 +51,7 @@ MortalityDiseaseRate::MortalityDiseaseRate(shared_ptr<Model> model) : Process(mo
  */
 void MortalityDiseaseRate::DoValidate() {
   if (year_effect_input_.size() != process_years_.size()) {
-    LOG_ERROR_P(PARAM_YEAR_EFFECTS) << " Supply a value for each year the process is applied. You supplied '" << year_effect_input_.size() << "' but there are '"
+    LOG_ERROR_P(PARAM_YEAR_EFFECTS) << ": Supply a value for each year the process is applied. You supplied '" << year_effect_input_.size() << "' but there are'"
                                     << process_years_.size() << "' years";
   }
 
@@ -92,7 +92,7 @@ void MortalityDiseaseRate::DoBuild() {
   for (string label : selectivity_names_) {
     Selectivity* selectivity = model_->managers()->selectivity()->GetSelectivity(label);
     if (!selectivity)
-      LOG_ERROR_P(PARAM_SELECTIVITIES) << ": selectivity label " << label << " was not found.";
+      LOG_ERROR_P(PARAM_SELECTIVITIES) << ": The selectivity with label " << label << " was not found.";
     selectivities_.push_back(selectivity);
   }
 
@@ -100,7 +100,7 @@ void MortalityDiseaseRate::DoBuild() {
   for (unsigned i = 0; i < process_years_.size(); i++) {
     results_[i].resize(category_labels_.size());
     for (unsigned j = 0; j < category_labels_.size(); j++) {
-      results_[i][j].resize(model_->get_number_of_length_bins(), 0.0);
+      results_[i][j].resize(model_->age_spread(), 0.0);
     }
   }
 }
@@ -121,7 +121,7 @@ void MortalityDiseaseRate::DoExecute() {
         LOG_CODE_ERROR() << "Unable to find year, this should have been caught in the above if statement";
       }
 
-      LOG_FINE() << "apply disease mortality in regular year " << year;
+      LOG_FINE() << "apply disease mortality in year " << year;
 
       // get the ratio to apply first
       unsigned i = 0;
@@ -132,10 +132,10 @@ void MortalityDiseaseRate::DoExecute() {
         LOG_FINEST() << "category " << category->name_;
         // StoreForReport(category->name_ + " ratio", ratio);
         for (Double& data : category->data_) {
-          amount                   = data * (1 - exp(-selectivities_[i]->GetLengthResult(j) * dm * year_effect_by_year_[year]));
+          amount                   = data * (1 - exp(-selectivities_[i]->GetAgeResult(category->min_age_ + j, category->age_length_) * dm * year_effect_by_year_[year]));
           results_[year_ndx][i][j] = amount;
           LOG_FINEST() << "j = " << j << " data " << data << " dm " << dm << " Year effect " << year_effect_by_year_[year];
-          data *= exp(-selectivities_[i]->GetLengthResult(j) * dm * year_effect_by_year_[year]);
+          data *= exp(-selectivities_[i]->GetAgeResult(category->min_age_ + j, category->age_length_) * dm * year_effect_by_year_[year]);
           ++j;
         }
         ++i;
@@ -178,7 +178,7 @@ void MortalityDiseaseRate::FillReportCache(ostringstream& cache) {
     cache << "Abundance_removed_in_year_" << process_years_[year_ndx] << " " << REPORT_R_DATAFRAME_ROW_LABELS << REPORT_EOL;
     // header
     cache << "category ";
-    for (unsigned i = 0; i < model_->get_number_of_length_bins(); i++) cache << model_->length_bin_mid_points()[i] << " ";
+    for (unsigned i = 0; i < model_->age_spread(); i++) cache << model_->min_age() + i << " ";
     cache << REPORT_EOL;
     // into it
     for (unsigned j = 0; j < category_labels_.size(); j++) {
@@ -197,6 +197,6 @@ void MortalityDiseaseRate::FillTabularReportCache(ostringstream& cache, bool fir
   }
 }
 
-} /* namespace length */
+}  // namespace age
 } /* namespace processes */
 } /* namespace niwa */

@@ -71,6 +71,34 @@
 \defType{Vector of strings}
 \defDefault{No default}
 
+\subsubsection{Process of type Mortality Disease Rate}
+\commandlabsubarg{process}{type}{Mortality\_Disease\_Rate}.
+\defRef{sec:Process-Length-DiseaseMortalityRate}
+\label{syntax:Process-MortalityDiseaseRate}
+
+\defSub{categories}{The list of category labels}
+\defType{Vector of strings}
+\defDefault{No default}
+
+\defSub{disease\_mortality\_rate}{The disease mortality rates}
+\defType{Real number (estimable)}
+\defDefault{No default}
+\defLowerBound{0.0 (inclusive)}
+\defUpperBound{10.0 (inclusive)}
+
+\defSub{year\_effects}{Annual deviations around the disease mortality rate}
+\defType{Vector of real numbers (estimable)}
+\defDefault{No default}
+\defLowerBound{0.0 (inclusive)}
+
+\defSub{selectivities}{The list of selectivities}
+\defType{Vector of strings}
+\defDefault{No default}
+
+\defSub{years}{Years in which to apply the disease mortality in}
+\defType{Vector of non-negative integers}
+\defDefault{No default}
+
 \subsubsection{Process of type Mortality Instantaneous}
 \commandlabsubarg{process}{type}{Mortality\_Instantaneous}.
 \defRef{sec:Process-MortalityInstantaneous}

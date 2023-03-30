@@ -276,6 +276,7 @@ There are 9 types of mortality processes available in \CNAME, and three tag rela
 	\item constant exploitation,
 	\item event,
 	\item biomass-event,
+	\item disease mortality
 	\item instantaneous,
 	\item instantaneous retained (discards),
 	\item Holling,
@@ -413,6 +414,27 @@ The exploitation rate process requires the specification of the mortality-by-age
 \end{verbatim}}}
 
 Age-specific exploitation rates can also be applied.
+
+\paragraph{Disease mortality rate}\label{sec:Process-Age-DiseaseMortalityRate}
+
+Disease mortality is a special, additional, mortality that is implemented to occur after natural and fishing mortality during a time step. This process removes individuals from the partition, is applied to all areas, and can depend on sex/age class.
+
+The partition is updated as follows
+\begin{equation}
+	n'_{c,j} = n_{c,j}  exp\{-t_y M_{c} S_{c,j} \}
+\end{equation}
+
+where \(n_{c,j}\) is the partition for category \(c\) and age class \(j\) before mortality, and \(n'_{c,j}\)  is after the process. \(t_y\) is an annual multiplicative scalar (estimable), \(M_{c}\) is the category specific mortality rate and \(S_{c,j}\) is the selectivity.
+
+{\small{\begin{verbatim}
+			@process DiseaseMortality
+			type mortality_disease_rate
+			disease_mortality_rate 1.0
+			selectivities DiseaseSel 
+			categories OYS
+			year_effect 0.05 0.11 0.39 0.38 0.20 
+			years 2000 2001 2002 2003 2004 2005 
+\end{verbatim}}}
 
 \paragraph{Event and biomass-event mortality}\label{sec:Process-MortalityEvent}\label{sec:Process-MortalityEventBiomass} \STATUS{Untested?}
 
