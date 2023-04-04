@@ -21,7 +21,6 @@
 #include "../Reports/Manager.h"
 #include "../Utilities/Math.h"
 #include "../Utilities/RandomNumberGenerator.h"
-
 // namespaces
 namespace niwa {
 
@@ -161,7 +160,7 @@ void MCMC::Execute(shared_ptr<ThreadPool> thread_pool) {
   LOG_MEDIUM() << "First iteration estimates";
   for (unsigned i = 0; i < estimate_count_; ++i) {
     LOG_MEDIUM() << estimates_[i]->label() << " : " << candidates_[i] << " is fixed " << estimates_[i]->mcmc_fixed();
-    if(!estimates_[i]->mcmc_fixed())
+    if (!estimates_[i]->mcmc_fixed())
       estimates_[i]->set_value(candidates_[i]);
   }
 
@@ -262,7 +261,7 @@ void MCMC::GenerateRandomStart() {
     candidates_ = original_candidates;
     FillMultivariateNormal(start_);
     for (unsigned i = 0; i < estimates.size(); ++i) {
-      if (estimates[i]->lower_bound() > candidates_[i] || estimates[i]->upper_bound() < candidates_[i]) {
+      if (estimates[i]->lower_bound() > candidates_[i] || estimates[i]->upper_bound() < candidates_[i] || std::isnan(candidates_[i])) {
         candidates_pass = false;
         break;
       }
@@ -306,7 +305,7 @@ void MCMC::FillMultivariateNormal(double step_size) {
     for (unsigned j = 0; j < estimate_count_; ++j) {
       dv[i] += covariance_matrix_lt(i, j) * normals[j];
     }
-    if(!estimates_[i]->mcmc_fixed())
+    if (!estimates_[i]->mcmc_fixed())
       candidates_[i] += dv[i] * step_size;
   }
 }
@@ -332,7 +331,7 @@ void MCMC::FillMultivariateT(double step_size) {
     for (unsigned j = 0; j < estimate_count_; ++j) {
       row_sum += covariance_matrix_lt(i, j) * normals[j] * chisquares[j];
     }
-    if(!estimates_[i]->mcmc_fixed())
+    if (!estimates_[i]->mcmc_fixed())
       candidates_[i] += row_sum * step_size;
   }
 }
@@ -480,6 +479,11 @@ bool MCMC::DoCholeskyDecomposition() {
       for (unsigned k = 0; k < i; ++k) sum += covariance_matrix_lt(j, k) * covariance_matrix_lt(i, k);
       covariance_matrix_lt(j, i) = (covariance_matrix_(j, i) - sum) / covariance_matrix_lt(i, i);
     }
+    if (std::isnan(covariance_matrix_(i, i))) {
+      LOG_FATAL() << "Found NaN's in the covariance_matrix, for row and column " << i + 1 << " parameter = " << estimates_[i]->parameter() << " sum = " << sum
+                  << " value = " << covariance_matrix_(i, i);
+      return false;
+    }
   }
 
   sum = 0.0;
@@ -560,7 +564,7 @@ void MCMC::UpdateCovarianceMatrix() {
     vector<double> mean_var(n_params, 1.0);
 
     for (int i = 0; i < n_params; ++i) {
-      if(estimates_[i]->mcmc_fixed()) {
+      if (estimates_[i]->mcmc_fixed()) {
         temp_covariance(i, i) = 1.0;
         continue;
       }

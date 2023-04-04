@@ -47,10 +47,10 @@ public:
   void AddSame(const string& label, Double* target);
 
   // pure methods
-  virtual void   DoValidate() = 0;
-  virtual Double GetScore()   = 0;
-  virtual vector<Double>   GetPriorValues() = 0;
-  virtual vector<string>   GetPriorLabels() = 0;
+  virtual void           DoValidate()     = 0;
+  virtual Double         GetScore()       = 0;
+  virtual vector<Double> GetPriorValues() = 0;
+  virtual vector<string> GetPriorLabels() = 0;
   // Accessors
   void                   set_target(Double* new_target) { target_ = new_target; };
   void                   set_creator_parameter(const string& parameter) { creator_parameter_ = parameter; }
@@ -68,8 +68,8 @@ public:
   Double                 value() { return *target_; }
   Double                 get_initial_value() { return initial_value_; }
   void                   set_value(Double new_value);
-  void                   set_initial_value(Double new_value) {initial_value_ = new_value;}; // currently used by AddressableInputLoader if users use -i
-  void                   flag_value_has_been_initialised() {value_been_initialised_ = true;};
+  void                   set_initial_value(Double new_value) { initial_value_ = new_value; };  // currently used by AddressableInputLoader if users use -i
+  void                   flag_value_has_been_initialised() { value_been_initialised_ = true; };
   bool                   mcmc_fixed() const { return mcmc_fixed_; }
   void                   set_in_objective_function(bool value) { in_objective_ = value; }
   bool                   in_objective_function() const { return in_objective_; }
@@ -90,9 +90,9 @@ protected:
   unsigned        estimation_phase_ = 1;
   vector<string>  same_labels_;
   vector<Double*> sames_;
-  bool            estimated_    = true;
-  bool            estimated_in_phasing_               = true;
-  bool            in_objective_ = true;
+  bool            estimated_            = true;
+  bool            estimated_in_phasing_ = true;
+  bool            in_objective_         = true;
   Double          initial_value_;
   bool            value_been_initialised_ = false;
 };
