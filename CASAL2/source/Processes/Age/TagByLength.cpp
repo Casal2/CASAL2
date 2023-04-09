@@ -74,8 +74,8 @@ void TagByLength::DoValidate() {
   age_spread_ = model_->age_spread();
 
   if (tolerance_ > 0.01) {
-    LOG_ERROR_P(PARAM_TOLERANCE) << "Your tolerance is larger than " << 0.01
-                                 << " this mean Casal2 may tag less fish than you think it should. It is recommended that you pick a smaller number.";
+    LOG_WARNING_P(PARAM_TOLERANCE) << "Your tolerance is larger than " << 0.01
+                                   << " this mean Casal2 may tag less fish than you think it should. It is recommended that you pick a smaller number.";
   }
   // Check length bins
   if (model_->length_bins().size() == 0)
@@ -355,6 +355,9 @@ void TagByLength::DoExecute() {
   // Implemented for comparison, backwards compatiability, and model validation/translation
   if (compatibility_ == PARAM_CASAL) {
     LOG_FINE() << "compatibility_ == PARAM_CASAL";
+    LOG_WARNING_P(PARAM_COMPATIBILITY)
+        << ": Using the 'casal' compatibility option. Note this is provided for backwards compatibility with CASAL - the recommended compatibility option is '" << PARAM_CASAL2
+        << "'";
 
     fill(exploitation_by_age_.begin(), exploitation_by_age_.end(), 0.0);
     for (unsigned i = 0; i < model_->age_spread(); ++i) {
@@ -588,7 +591,7 @@ void TagByLength::DoExecute() {
       }
     }
 
-    from_iter          = from_partition_.begin();    
+    from_iter          = from_partition_.begin();
     from_category_iter = 0;
 
     for (; from_iter != from_partition_.end(); from_iter++, from_category_iter++) {
@@ -598,8 +601,8 @@ void TagByLength::DoExecute() {
       }
     }
 
-    from_iter           = from_partition_.begin();
-    to_iter             = to_partition_.begin();
+    from_iter          = from_partition_.begin();
+    to_iter            = to_partition_.begin();
     from_category_iter = 0;
     for (; from_iter != from_partition_.end(); from_iter++, from_category_iter++, to_iter++) {
       Double amount = 0.0;
@@ -617,7 +620,7 @@ void TagByLength::DoExecute() {
         }
         // fish to move
         amount = (*from_iter)->data_[age_ndx] * exploitation_by_age_category_[from_category_iter][age_ndx];
-        LOG_FINEST() << " exploitaiton = " << exploitation_by_age_category_[from_category_iter][age_ndx] << " amount - " << amount;
+        LOG_FINEST() << " exploitation = " << exploitation_by_age_category_[from_category_iter][age_ndx] << " amount - " << amount;
         actual_tagged_fish_to_[year_ndx][from_category_iter][age_ndx] += amount;
         // account for mortality
         if ((initial_mortality_selectivity_label_ != "") && (initial_mortality_ > 0.0))
