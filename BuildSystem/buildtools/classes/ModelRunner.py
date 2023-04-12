@@ -279,7 +279,7 @@ class UnitTests:
     print('')
     start = time.time()
       
-    if os.system(f"{exe_path} > run.log 2>&1") != EX_OK:
+    if os.system(f"{exe_path} > unit_tests.log 2>&1") != EX_OK:
     #if os.system(f"{exe_path}") != EX_OK:
       elapsed = time.time() - start
       print('[FAILED] in ' + str(round(elapsed, 2)) + ' seconds')
