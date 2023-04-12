@@ -12,13 +12,14 @@
 #ifdef TESTMODE
 
 // Headers
+#include "TimeStep.h"
+
 #include <iostream>
 
 #include "Model/Factory.h"
 #include "Observations/Manager.h"
 #include "Partition/Partition.h"
 #include "TestResources/TestFixtures/InternalEmptyModel.h"
-#include "TimeStep.h"
 #include "TimeSteps/Manager.h"
 
 // Namespaces
@@ -71,6 +72,7 @@ type constant_rate
 categories immature.male immature.female mature.male mature.female
 m 0.065
 relative_m_by_age constant_one
+time_step_proportions 1.0
 
 @selectivity constant_one
 type constant

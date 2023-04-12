@@ -32,10 +32,7 @@ MortalityConstantRate::MortalityConstantRate(shared_ptr<Model> model) : Mortalit
   LOG_TRACE();
   parameters_.Bind<string>(PARAM_CATEGORIES, &category_labels_, "The list of category labels", "");
   parameters_.Bind<Double>(PARAM_M, &m_input_, "The mortality rates", "")->set_lower_bound(0.0);
-  // TODO: Change this so that PARAM_TIME_STEP_PROPORTIONS is a required subcommand
-  // replaced with optional, as a nightmare to add due to all of the unit-tests that use this ...
-  // parameters_.Bind<double>(PARAM_TIME_STEP_PROPORTIONS, &ratios_, "The time step proportions for the mortality rates", "", false)->set_range(0.0, 1.0);
-  parameters_.Bind<double>(PARAM_TIME_STEP_PROPORTIONS, &ratios_, "The time step proportions for the mortality rates", "", true)->set_range(0.0, 1.0);
+  parameters_.Bind<double>(PARAM_TIME_STEP_PROPORTIONS, &ratios_, "The time step proportions for the mortality rates", "", false)->set_range(0.0, 1.0);
   parameters_.Bind<string>(PARAM_RELATIVE_M_BY_AGE, &selectivity_names_, "The list of mortality by age ogive labels for the categories", "");
 
   RegisterAsAddressable(PARAM_M, &m_);
@@ -76,16 +73,13 @@ void MortalityConstantRate::DoValidate() {
   for (unsigned i = 0; i < m_input_.size(); ++i) m_[category_labels_[i]] = m_input_[i];
 
   // Check that the time step ratios sum to one
-  // commented out as a nightmare to add due to unit-tests...
-  /*
   Double total = 0.0;
   for (Double value : ratios_) {
     total += value;
   }
   if (!utilities::math::IsOne(total)) {
-    LOG_ERROR_P(PARAM_TIME_STEP_PROPORTIONS) << "need to sum to one";
+    LOG_ERROR_P(PARAM_TIME_STEP_PROPORTIONS) << "summed to " << total << ". They must be specified to sum to one.";
   }
-  */
 }
 
 /**

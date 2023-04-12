@@ -78,6 +78,15 @@ void SurvivalConstantRate::DoValidate() {
     if (s < 0.0 || s > 1.0)
       LOG_ERROR_P(PARAM_S) << ": s value " << AS_DOUBLE(s) << " must be between 0.0 and 1.0 (inclusive)";
   }
+
+  Double total = 0.0;
+  for (Double value : ratios_) {
+    total += value;
+  }
+  if (!utilities::math::IsOne(total)) {
+    LOG_ERROR_P(PARAM_TIME_STEP_PROPORTIONS) << "summed to " << total << ". They must be specified to sum to one.";
+  }
+
   // Assign survival rates to a map s_
   for (unsigned i = 0; i < s_input_.size(); ++i) s_[category_labels_[i]] = s_input_[i];
 }

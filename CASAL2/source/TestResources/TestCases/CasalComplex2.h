@@ -96,6 +96,7 @@ type constant_rate
 categories male female
 relative_m_by_age [type=constant; c=1] halfm.one
 m 0.10 0.10
+time_step_proportions 1.0
 
 @mortality fishing
 type event_biomass

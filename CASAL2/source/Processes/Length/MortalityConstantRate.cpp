@@ -79,7 +79,7 @@ void MortalityConstantRate::DoValidate() {
     total += value;
   }
   if (!utilities::math::IsOne(total)) {
-    LOG_ERROR_P(PARAM_TIME_STEP_PROPORTIONS) << " need to sum to one";
+    LOG_ERROR_P(PARAM_TIME_STEP_PROPORTIONS) << "summed to " << total << ". They must be specified to sum to one.";
   }
 }
 

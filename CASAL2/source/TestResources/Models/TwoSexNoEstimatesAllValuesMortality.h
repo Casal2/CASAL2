@@ -79,6 +79,7 @@ type constant_rate
 categories *
 M 0.065 0.065 0.065 0.065
 relative_m_by_age av av av av
+time_step_proportions 1.0
 
 @selectivity av
 type all_values

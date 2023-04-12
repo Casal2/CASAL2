@@ -80,6 +80,14 @@ MortalityInstantaneous::~MortalityInstantaneous() {
  * Note: all parameters are populated from configuration files
  */
 void MortalityInstantaneous::DoValidate() {
+  Double total = 0.0;
+  for (Double value : time_step_ratios_temp_) {
+    total += value;
+  }
+  if (!utilities::math::IsOne(total)) {
+    LOG_ERROR_P(PARAM_TIME_STEP_PROPORTIONS) << "summed to " << total << ". They must be specified to sum to one.";
+  }
+
   /**
    * Load a temporary map of the fishery catch data so we can use this
    * when we load our vector of FisheryData objects

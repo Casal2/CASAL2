@@ -12,12 +12,13 @@
 #ifdef TESTMODE
 
 // headers
+#include "CombinedCategories.h"
+
 #include "../../../Model/Factory.h"
 #include "../../../Model/Models/Age.h"
 #include "../../../Partition/Partition.h"
 #include "../../../TestResources/TestFixtures/BasicModel.h"
 #include "../../../TimeSteps/Manager.h"
-#include "CombinedCategories.h"
 
 // namespaces
 namespace niwa {
@@ -60,6 +61,7 @@ TEST_F(BasicModel, Accessors_Cached_CombinedCategories) {
   process->parameters().Add(PARAM_CATEGORIES, mortality_categories, __FILE__, __LINE__);
   process->parameters().Add(PARAM_M, "0.065", __FILE__, __LINE__);
   process->parameters().Add(PARAM_RELATIVE_M_BY_AGE, "constant_one", __FILE__, __LINE__);
+  process->parameters().Add(PARAM_TIME_STEP_PROPORTIONS, "1.0", __FILE__, __LINE__);
 
   // Ageing process
   vector<string> ageing_categories = {"immature.male", "immature.female"};

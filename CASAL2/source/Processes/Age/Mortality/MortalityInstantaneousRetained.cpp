@@ -17,6 +17,7 @@
 #include <boost/algorithm/string/split.hpp>
 #include <boost/algorithm/string/trim_all.hpp>
 
+#include "AgeLengths/AgeLength.h"
 #include "AgeWeights/Manager.h"
 #include "Categories/Categories.h"
 #include "Model/Managers.h"
@@ -26,7 +27,6 @@
 #include "TimeSteps/TimeStep.h"
 #include "Utilities/Math.h"
 #include "Utilities/To.h"
-#include "AgeLengths/AgeLength.h"
 
 // namespaces
 namespace niwa {
@@ -82,6 +82,14 @@ void MortalityInstantaneousRetained::DoValidate() {
       LOG_ERROR_P(PARAM_TIME_STEP_PROPORTIONS) << "Natural mortality time step proportions cannot be less than 0.0 for a given time step";
   }
 
+  Double total = 0.0;
+  for (Double value : time_step_ratios_temp_) {
+    total += value;
+  }
+  if (!utilities::math::IsOne(total)) {
+    LOG_ERROR_P(PARAM_TIME_STEP_PROPORTIONS) << "summed to " << total << ". They must be specified to sum to one.";
+  }
+
   /**
    * Load a temporary map of the fishery catch data so we can use this
    * when we load our vector of FisheryData objects
@@ -114,7 +122,7 @@ void MortalityInstantaneousRetained::DoValidate() {
       if (!utilities::To<string, Double>(row[i], value))
         LOG_ERROR_P(PARAM_CATCHES) << "value " << row[i] << " for fishery " << columns[i] << " could not be converted to a Double";
       fishery_year_catch[columns[i]][year] = value;
-      fishery_catch_[columns[i]][year]  = value; // needed for Mortality.h checks
+      fishery_catch_[columns[i]][year]     = value;  // needed for Mortality.h checks
     }
   }
 
@@ -527,23 +535,22 @@ void MortalityInstantaneousRetained::DoExecute() {
   for (auto& category : categories_) {
     // Is this category used?
     category.used_in_current_timestep_ = false;
-    bool used = false;
+    bool used                          = false;
     for (auto& fishery_category : fishery_categories_) {
       if (fishery_category.category_label_ == category.category_label_ && fishery_category.fishery_.time_step_index_ == time_step_index) {
-        used = true;
+        used                               = true;
         category.used_in_current_timestep_ = used;
       }
       LOG_FINEST() << "category.category_label_ = " << category.category_label_ << ", fishery_category.category_label_ = " << fishery_category.category_label_
                    << ", fishery_.time_step_index_ = " << fishery_category.fishery_.time_step_index_ << ", time_step_index = " << time_step_index
                    << ", category.used_in_current_timestep_ = " << category.used_in_current_timestep_;
 
-
       for (unsigned i = 0; i < category.category_->age_spread(); ++i) {
         selectivity_value               = category.selectivity_->GetAgeResult(category.category_->min_age_ + i, category.category_->age_length_);
         category.exploitation_[i]       = 0.0;
         category.selectivity_values_[i] = selectivity_value;
         // if (used)
-          category.exp_values_half_m_[i] = exp(-0.5 * ratio * (*category.m_) * selectivity_value);
+        category.exp_values_half_m_[i] = exp(-0.5 * ratio * (*category.m_) * selectivity_value);
       }
     }
   }
@@ -600,8 +607,8 @@ void MortalityInstantaneousRetained::DoExecute() {
                        << " exp values half m = " << fishery_category.category_.exp_values_half_m_[i]
                        << " mean weight = " << category->age_length_->mean_weight(time_step_index, category->min_age_ + i);
 
-          vulnerable = category->data_[i] * category->age_length_->mean_weight(time_step_index, category->min_age_ + i)
-                       * fishery_category.selectivity_values_[i] * fishery_category.category_.exp_values_half_m_[i];
+          vulnerable = category->data_[i] * category->age_length_->mean_weight(time_step_index, category->min_age_ + i) * fishery_category.selectivity_values_[i]
+                       * fishery_category.category_.exp_values_half_m_[i];
 
           fishery_category.fishery_.total_vulnerability_ += vulnerable;
           fishery_category.fishery_.retained_vulnerability_ += vulnerable * fishery_category.retained_selectivity_values_[i];
@@ -774,9 +781,8 @@ void MortalityInstantaneousRetained::DoExecute() {
 
               removals_by_year_fishery_category_[year][fishery_category.fishery_label_][categories->name_][i]
                   = categories->data_[i - age_offset] * fishery_category.fishery_.exploitation_
-                    * fishery_category.selectivity_->GetAgeResult(categories->min_age_ + i, categories->age_length_)
-                    * fishery_category.category_.exp_values_half_m_[i];
-                    // * exp(-0.5 * ratio * m_[categories->name_] * selectivities_[category_offset]->GetAgeResult(categories->min_age_ + i, categories->age_length_));
+                    * fishery_category.selectivity_->GetAgeResult(categories->min_age_ + i, categories->age_length_) * fishery_category.category_.exp_values_half_m_[i];
+              // * exp(-0.5 * ratio * m_[categories->name_] * selectivities_[category_offset]->GetAgeResult(categories->min_age_ + i, categories->age_length_));
 
               retained_by_year_fishery_category_[year][fishery_category.fishery_label_][categories->name_][i]
                   = removals_by_year_fishery_category_[year][fishery_category.fishery_label_][categories->name_][i]
@@ -810,8 +816,7 @@ void MortalityInstantaneousRetained::DoExecute() {
               LOG_FINEST() << "fishery_category.fishery_.exploitation_ = " << fishery_category.fishery_.exploitation_;
               LOG_FINEST() << "mean weight by age = " << fishery_category.category_.category_->age_length_->mean_weight(time_step_index, i + model_->min_age());
 
-              total_catch_by_age = category.category_->data_[i] * category.exp_values_half_m_[i] * fishery_category.selectivity_values_[i]
-                                   * fishery_category.fishery_.exploitation_
+              total_catch_by_age = category.category_->data_[i] * category.exp_values_half_m_[i] * fishery_category.selectivity_values_[i] * fishery_category.fishery_.exploitation_
                                    * fishery_category.category_.category_->age_length_->mean_weight(time_step_index, i + model_->min_age());
               LOG_FINE() << "Total catch: " << total_catch_by_age;
 
@@ -841,7 +846,8 @@ void MortalityInstantaneousRetained::DoExecute() {
     for (unsigned i = 0; i < category.category_->data_.size(); ++i) {
       // removals_by_category_age_[category_ndx][i] = category.category_->data_[i]; // initial numbers before process
       LOG_FINEST() << "category " << category.category_label_ << ": numbers at age = " << category.category_->data_[i] << " age " << i + model_->min_age()
-                   << " exploitation = " << category.exploitation_[i] << " M = " << *category.m_ << " ratio = " << ratio << " relative_m_by_age = " << category.selectivity_values_[i];
+                   << " exploitation = " << category.exploitation_[i] << " M = " << *category.m_ << " ratio = " << ratio
+                   << " relative_m_by_age = " << category.selectivity_values_[i];
 
       category.category_->data_[i] *= category.exp_values_half_m_[i] * category.exp_values_half_m_[i] * (1 - category.exploitation_[i]);
       LOG_FINEST() << "category " << category.category_label_ << ": updated numbers at age = " << category.category_->data_[i] << " age " << i + model_->min_age();

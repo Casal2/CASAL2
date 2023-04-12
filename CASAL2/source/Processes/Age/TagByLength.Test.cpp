@@ -81,7 +81,7 @@ type mortality_constant_rate
 categories *
 m 0.14
 relative_m_by_age [type=constant; c=1] [type=constant; c=1]
-
+time_step_proportions 1.0
 
 @age_length age_size
 type von_bertalanffy

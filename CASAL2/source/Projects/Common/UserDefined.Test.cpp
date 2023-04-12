@@ -82,7 +82,7 @@ type mortality_constant_rate
 categories stock
 M 0.19
 relative_m_by_age One
-time_step_proportions 0.25 0.33
+time_step_proportions 0.25 0.75
 
 @derived_quantity biomass_t1
 type biomass
@@ -269,11 +269,11 @@ TEST_F(InternalEmptyModel, Projects_UserDefined_Catches) {
   map<unsigned, Double>& values_14 = project_2014->projected_parameters();
   map<unsigned, Double>& values_13 = project_2013->projected_parameters();
 
-  EXPECT_DOUBLE_EQ(6287849.7554903105, values_15[2015]);
-  EXPECT_DOUBLE_EQ(6985248.6047034459, values_14[2014]);
-  EXPECT_DOUBLE_EQ(7674997.1589622563, values_13[2013]);
+  EXPECT_DOUBLE_EQ(2750310.2521946696, values_15[2015]);
+  EXPECT_DOUBLE_EQ(2883585.3187201433, values_14[2014]);
+  EXPECT_DOUBLE_EQ(2967714.3926208527, values_13[2013]);
 
-  vector<double> Expect = {34926243.023517229, 31439248.777451552, 28200217.436245844};
+  vector<double> Expect = {14417926.593600716, 13751551.260973347, 13026652.091120256};
   for (unsigned i = 0; i < 3; ++i) {
     unsigned year = 2013 + i;
     EXPECT_DOUBLE_EQ(Expect[i], dq->GetValue(year)) << " for year " << year << " and value " << Expect[i];

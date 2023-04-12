@@ -13,8 +13,9 @@
 #ifdef TESTMODE
 
 // headers
-#include "../../Model/Models/Age.h"
 #include "../../ObjectiveFunction/ObjectiveFunction.h"
+
+#include "../../Model/Models/Age.h"
 #include "../../TestResources/TestFixtures/InternalEmptyModel.h"
 #include "ObjectiveFunction.h"
 
@@ -76,6 +77,7 @@ type constant_rate
 categories *
 M 0.065 0.065 0.065 0.065
 relative_m_by_age One One One One
+time_step_proportions 1.0
 
 @mortality Fishing
 type event
@@ -221,6 +223,7 @@ type constant_rate
 categories *
 M 0.065 0.065 0.065 0.065
 relative_m_by_age One One One One
+time_step_proportions 1.0
 
 @mortality Fishing
 type event
