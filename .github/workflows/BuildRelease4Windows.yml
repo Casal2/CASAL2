@@ -3,15 +3,86 @@ on: [push, pull_request]
 ## for a release idea linux is fairly easy
 ## for windows look at this example https://github.com/freenet/wininstaller-innosetup/actions/runs/768471071/workflow
 jobs:
-  Compile-Casal2-Windows:
-    runs-on: windows-latest 
+ Compile-Casal2-Setip:
+    runs-on: windows-2019
+    timeout-minutes: 180
     steps:
       - uses: actions/checkout@v2
-      - uses: actions/setup-python@v2    
+
+      - uses: actions/setup-python@v2.2.2
         with:
           python-version: '3.8'
       - name: Install python dependencies
-        run: pip install pytz python-dateutil --upgrade pip
+        run: python.exe -m pip install pytz python-dateutil --user --upgrade pip
+
+      - name: Install gcc
+        uses: bwoodsend/setup-winlibs-action@v1
+        with:
+          # see https://github.com/marketplace/actions/setup-winlibs
+          # and https://github.com/brechtsanders/winlibs_mingw/tags
+          #tag: '10.3.0-12.0.0-9.0.0-r2'
+          tag: '10.3.1-snapshot20211112-9.0.0-ucrt-r1' # previous tag as of 2022-03-31
+          #tag: '11.1.0-12.0.0-9.0.0-r1' # reference tag in documentation
+          #tag: '11.2.1-snapshot20220219-9.0.0-ucrt-r1' # caused issues with Casal2 unit tests
+          #tag: '12.0.1-snapshot20220123-9.0.0-msvcrt-r1'
+      - name: Build third-party library - adolc
+        run: |
+          cd BuildSystem
+          ./doBuild.bat thirdparty adolc
+      - name: Build third-party library - betadiff
+        run: |
+          cd BuildSystem
+          ./doBuild.bat thirdparty betadiff
+      - name: Build third-party library - boost
+        run: |
+          cd BuildSystem
+          ./doBuild.bat thirdparty boost
+      - name: Build third-party libraries - google test and mock
+        run: |
+          cd BuildSystem
+          ./doBuild.bat thirdparty googletest_googlemock
+      - name: Build third-party libraries - parser
+        run: |
+          cd BuildSystem
+          ./doBuild.bat thirdparty parser
+      - name: Build release library
+        run: |
+          cd BuildSystem
+          ./doBuild.bat library release
+      - name: Build "Betadiff" library
+        run: |
+          cd BuildSystem
+          ./doBuild.bat library betadiff
+      - name: Build "ADOL-C" library
+        run: |
+          cd BuildSystem
+          ./doBuild.bat library adolc
+      - name: Build "Unit Test" library
+        run: |
+          cd BuildSystem
+          ./doBuild.bat library test
+      - name: Build Frontend
+        run: |
+          cd BuildSystem
+          ./doBuild.bat frontend
+        shell: bash
+
+      - name: Build Windows Archive
+        continue-on-error: true
+        run: |
+          cd BuildSystem
+          ./doBuild.bat archive true
+        shell: bash
+
+      - name: Archive Windows build
+        continue-on-error: true
+        uses: actions/upload-artifact@v2.2.4
+        with:
+          name: Casal2-Windows-build
+          path: BuildSystem/Casal2
+
+      - name: Run Windows model runner
+        continue-on-error: false
 
       - name: Build installer iss file
         run: |
