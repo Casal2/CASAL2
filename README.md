@@ -15,11 +15,11 @@ This respository is a clone of Casal2 of https://github.com/NIWAFisheriesModelli
 
 The most recent production version of Casal2 is available [here](https://github.com/NIWAFisheriesModelling/CASAL2/releases/tag/v22.08). The production version has been checked by comparing the 7 sets of Test Case MPD and MCMC results with CASAL and generating [Test Case reports]
 
-The most recent development version of Casal2 is available from https://github.com/NIWAFisheriesModelling/CASAL2. The development version may include updates to the Test Cases reports, and may not have undergone the same level of testing as the production versions. The development versions will made available more frequently than the production versions, as fixes and other updates are made between production releases.
+The most recent development version of Casal2 from this repository is available from https://github.com/alistairdunn1/CASAL2.
 
 ## Auxiliary resources
 
-An R package that will help post processing Casal2 models can be found here [r4Casal2](https://github.com/NIWAFisheriesModelling/r4Casal2). It has a publicly hosted book [found here](https://niwafisheriesmodelling.github.io/r4Casal2/) which demonstrates functionality of the r4Casal2 R package.
+An R package that will help post processing Casal2 models can be found here [r4Casal2](https://github.com/alistairdunn1/r4Casal2). It has a publicly hosted book [found here](https://niwafisheriesmodelling.github.io/r4Casal2/) which demonstrates functionality of the r4Casal2 R package.
 
 More information about Casal2, see https://github.com/NIWAFisheriesModelling/CASAL2
 
