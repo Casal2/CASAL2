@@ -1,5 +1,5 @@
-![Validation Pass](https://github.com/alistairdunn1/CASAL2/actions/workflows/Casal2_testsuite_modelrunner_archive.yml/badge.svg)
-[![Casal2 release action](https://github.com/alistairdunn1/CASAL2/actions/workflows/BuildRelease4Windows.yml/badge.svg)](https://github.com/alistairdunn1/CASAL2/actions/workflows/BuildRelease4Windows.yml)
+![Code validation Pass](https://github.com/alistairdunn1/CASAL2/actions/workflows/Casal2_testsuite_modelrunner_archive.yml/badge.svg)
+[![Casal2 Windows release build](https://github.com/alistairdunn1/CASAL2/actions/workflows/BuildRelease4Windows.yml/badge.svg)](https://github.com/alistairdunn1/CASAL2/actions/workflows/BuildRelease4Windows.yml)
 
 Casal2
 ======
