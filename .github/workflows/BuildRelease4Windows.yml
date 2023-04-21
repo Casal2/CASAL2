@@ -1,7 +1,5 @@
 name: Casal2 build Windows install
 on: workflow_dispatch
- schedule:
-   - cron: '0 12 28 * *'
 jobs: Compile-Casal2-Setup:
     runs-on: windows-2019
     timeout-minutes: 180
