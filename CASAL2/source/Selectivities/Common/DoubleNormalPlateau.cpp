@@ -13,7 +13,6 @@
 // Headers
 #include "DoubleNormalPlateau.h"
 
-
 #include "../../Model/Model.h"
 
 // Namespaces
@@ -28,9 +27,8 @@ DoubleNormalPlateau::DoubleNormalPlateau(shared_ptr<Model> model) : Selectivity(
   parameters_.Bind<Double>(PARAM_SIGMA_R, &sigma_r_, "The sigma R parameter", "")->set_lower_bound(0.0, false);
   parameters_.Bind<Double>(PARAM_A1, &a1_, "The a1 parameter", "")->set_lower_bound(0.0, false);
   parameters_.Bind<Double>(PARAM_A2, &a2_, "The a2 parameter", "")->set_lower_bound(0.0, false);
-  parameters_.Bind<Double>(PARAM_ALPHA, &alpha_, "The maximum value of the selectivity", "", 1.0)->set_lower_bound(0.0, false); // The equivalent of a_max
-
-
+  parameters_.Bind<Double>(PARAM_ALPHA, &alpha_, "The maximum value of the selectivity", "", 1.0)->set_lower_bound(0.0, false);  // The equivalent of a_max
+  parameters_.Bind<Double>(PARAM_BETA, &beta_, "The minimum age for which the selectivity applies", "", 0.0)->set_lower_bound(0.0, true);
 
   RegisterAsAddressable(PARAM_A1, &a1_);
   RegisterAsAddressable(PARAM_A2, &a2_);
@@ -51,36 +49,38 @@ DoubleNormalPlateau::DoubleNormalPlateau(shared_ptr<Model> model) : Selectivity(
  * rules for the model.
  */
 void DoubleNormalPlateau::DoValidate() {
-  if (alpha_ <= 0.0)
-    LOG_ERROR_P(PARAM_ALPHA) << ": alpha cannot be less than or equal to 0.0";
-  if (sigma_l_ <= 0.0)
-    LOG_ERROR_P(PARAM_SIGMA_L) << ": sigma_l cannot be less than or equal to 0.0";
-  if (sigma_r_ <= 0.0)
-    LOG_ERROR_P(PARAM_SIGMA_R) << ": sigmal_r cannot be less than or equal to 0.0";
+  if (beta_ > model_->max_age())
+    LOG_ERROR_P(PARAM_BETA) << ": beta (" << AS_DOUBLE(beta_) << ") cannot be greater than the model maximum age";
 }
 
 /**
  * The core function
  */
 Double DoubleNormalPlateau::get_value(Double value) {
+  if (value < beta_)
+    return (0.0);
+
   if (value < a1_)
-    return alpha_ * pow(2.0,-((value - a1_) / sigma_l_ * (value-a1_)/sigma_l_));
-  else if (value < (a1_ + a2_)) 
+    return alpha_ * pow(2.0, -((value - a1_) / sigma_l_ * (value - a1_) / sigma_l_));
+  else if (value < (a1_ + a2_))
     return alpha_;
-  else 
-    return alpha_*pow(2.0,-((value-(a1_ + a2_))/sigma_r_ * (value-(a1_ + a2_))/sigma_r_));
+  else
+    return alpha_ * pow(2.0, -((value - (a1_ + a2_)) / sigma_r_ * (value - (a1_ + a2_)) / sigma_r_));
 }
 
 /**
  * The core function
  */
 Double DoubleNormalPlateau::get_value(unsigned value) {
+  if (value < beta_)
+    return (0.0);
+
   if (value < a1_)
-    return alpha_ * pow(2.0,-((value - a1_) / sigma_l_ * (value-a1_)/sigma_l_));
-  else if (value < (a1_ + a2_)) 
+    return alpha_ * pow(2.0, -((value - a1_) / sigma_l_ * (value - a1_) / sigma_l_));
+  else if (value < (a1_ + a2_))
     return alpha_;
-  else 
-    return alpha_*pow(2.0,-((value-(a1_ + a2_))/sigma_r_ * (value-(a1_ + a2_))/sigma_r_));
+  else
+    return alpha_ * pow(2.0, -((value - (a1_ + a2_)) / sigma_r_ * (value - (a1_ + a2_)) / sigma_r_));
 }
 } /* namespace selectivities */
 } /* namespace niwa */

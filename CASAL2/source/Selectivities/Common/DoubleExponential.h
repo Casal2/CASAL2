@@ -33,8 +33,8 @@ public:
   virtual ~DoubleExponential() = default;
   void DoValidate() override final;
 
-  Double get_value(Double value)  override final; 
-  Double get_value(unsigned value)  override final; 
+  Double get_value(Double value) override final;
+  Double get_value(unsigned value) override final;
 
 private:
   // Members
@@ -45,6 +45,7 @@ private:
   Double y1_;
   Double y2_;
   Double alpha_;
+  Double beta_;
 };
 
 } /* namespace selectivities */

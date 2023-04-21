@@ -474,7 +474,6 @@ names Stock
 \end{verbatim}}}
 
 \subsection{\I{Weightless model}\label{sec:weightless-model}}
-\STATUS{Untested}
 
 To model abundance (i.e., to model the population in numbers and not convert to biomass), the \command{length\_weight} argument is turned off by specifying the keyword \subcommand{none} in the \command{age\_length} block
 
@@ -515,16 +514,17 @@ In length-based models \CNAME\ will use length midpoints when calculating select
 
 There are a number of different parametric forms, including logistic and double normal curves. Selectivities are defined in command block \command{selectivity <label>}, where the unique label of the selectivity is used by observations and processes to specify which selectivity to apply.
 
-For example, a logistic selectivity can be defined with
+Many selectivities can be forced to apply to ages or lengths from a specified age (or length), i.e., a logistic selectivity 
+ can be defined with
 
 {\small{\begin{verbatim}
 @selectivity trawlSel    #label for the trawl fishery selectivity
 type      logistic       # type of curve
 a50       4.4            # age at 50% selection
 ato95     1.5            # interval (yr) from a50 to the age at 95% selection
-                         #  age at 95% selectivity is 5.9 yr; at 5%, 2.9 yr
-
-# at_length true         #if used, then a50 & ato95 refer to length
+                         #   age at 95% selectivity is 5.9 yr; at 5%, 2.9 yr
+beta      2              # minimum age selected, so that individuals with age < beta have selectivity = 0
+# at_length true         # if used, then a50, ato95, and beta refer to length
 # intervals 10			 # integration points for when at_length = true
 \end{verbatim}}}
 
@@ -554,15 +554,21 @@ See Figure \ref{fig:select examples} for plots of example selectivities (p. \pag
 
 \subsubsection[Constant]{{constant}}\label{sec:Selectivity-Constant}
 
+The constant selectivity is constant ($C$) for all age/lengths greater than $\beta$. For $x < \beta$, the selectivity is zero.
+
 \begin{equation}
-f(x)=C
+f(x)= \begin{cases}
+	0, & \text{if $x < \beta$} \\
+	C, & otherwise \\
+\end{cases}
 \end{equation}
 
-The constant selectivity has the estimable parameter C.
+The constant selectivity has the estimable parameter $C$.
 
 Input fragment: {\small{\begin{verbatim}
 type constant
 c    0.5
+beta 0.0 # the default is 0.0
 \end{verbatim}}}
 
 \subsubsection[Knife-edge]{\argument{knife\_edge}}\label{sec:Selectivity-KnifeEdge} 
@@ -613,7 +619,6 @@ Selectivities \subcommand{all\_values} and \subcommand{all\_values\_bounded} can
 		@additional_prior smooth_maturity
 		type vector_smooth
 		parameter selectivity[maturity].values{3:8}
-
 		\end{verbatim}}}
 
 \subsubsection[Increasing ]{\argument{increasing}}\index{Selectivities!Increasing} \STATUS{Untested?}\label{sec:Selectivity-Increasing}
@@ -638,24 +643,36 @@ v     0.2 0.3 0.4 0.5 0.6
 \subsubsection[Logistic]{\argument{logistic}}\index{Selectivities!Logistic}\label{sec:Selectivity-Logistic}
 
 \begin{equation}
-  f(x) = \alpha / [1+19^{(a_{50}-x)/a_{to95}}]
+  f(x) = \begin{cases}
+  	0, & \text{if $x < \beta$} \\
+   \alpha / [1+19^{(a_{50}-x)/a_{to95}}], & \text{otherwise} \\
+   \end{cases}
 \end{equation}
 
-The logistic selectivity has estimable parameters $a_{50}$ and $a_{to95}$. $\alpha$ is a scaling parameter (input files, \textit{alpha}, with default value of $\alpha = 1$). The logistic selectivity takes values $0.5 \alpha$ at $x=a_{50}$ and $0.95 \alpha$ at $x=a_{50}+a_{to95}$.
+The logistic selectivity has estimable parameters $a_{50}$ and $a_{to95}$. $\alpha$ is a scaling parameter, with default value of $\alpha = 1$. $\beta$ is the minimum age to which the selectivity applies. 
+
+The logistic selectivity has values $0.5 \alpha$ at $x=a_{50}$ and $0.95 \alpha$ at $x=a_{50}+a_{to95}$. For $x < \beta$, the selectivity is zero.
 
 \subsubsection[Inverse logistic]{\argument{inverse\_logistic}}\index{Selectivities!Inverse-logistic}\label{sec:Selectivity-InverseLogistic} 
 
 \begin{equation}
-  f(x) = \alpha - \alpha / [1+19^{(a_{50}-x)/a_{to95}}]
+  f(x) = \begin{cases}
+	0, & \text{if $x < \beta$} \\
+    \alpha - \alpha / [1+19^{(a_{50}-x)/a_{to95}}], & \text{otherwise} \\
+   \end{cases}
 \end{equation}
 
-The inverse logistic selectivity has estimable parameters $a_{50}$ and $a_{to95}$. $\alpha$ is a scaling parameter (\textit{alpha}, with default value of $\alpha = 1$. The logistic selectivity takes values $0.5 \alpha$ at $x=a_{50}$ and $0.95 \alpha$ at $x=a_{50}-a_{to95}$.
+The inverse logistic selectivity has estimable parameters $a_{50}$ and $a_{to95}$. $\alpha$ is a scaling parameter, with default value of $\alpha = 1$. 
+
+The inverse logistic selectivity has values $0.5 \alpha$ at $x=a_{50}$ and $0.95 \alpha$ at $x=a_{50}-a_{to95}$. For $x < \beta$, the selectivity is zero.
+
 
 Input fragment: {\small{\begin{verbatim}
 type  inverse_logistic
 a50   4
 ato95 1
-alpha 0.5   #default is 1.0
+alpha 0.5 # the default is 1.0
+beta  0.0 # the default is 0.0
 \end{verbatim}}}
 
 \subsubsection[Logistic producing]{\argument{logistic\_producing}}\index{Selectivities!Logistic-producing}\label{sec:Selectivity-LogisticProducing}
@@ -671,7 +688,7 @@ f(x)=\begin{cases}
 
 The logistic-producing selectivity has non-estimable parameters $L$ and $H$. The estimable parameters are $a_{50}$ and $a_{to95}$. $\alpha$ is a scaling parameter, with default value of $\alpha = 1$.
 
-For category transitions, $f(x)$ represents the proportion moving, not the proportion that have moved. This selectivity was designed for use in an age-based model to model maturity. In such a model, a logistic-producing maturation selectivity will, in the absence of other influences, make the proportions mature follow a logistic curve with parameters $a_{50}$ and $a_{to95}$.
+For category transitions, $f(x)$ represents the proportion moving, not the proportion that have moved. This selectivity was designed for use in an age-based model to model either movement or maturity. In such a model, a logistic-producing  selectivity will, in the absence of other influences, make the proportions moved or mature follow a logistic curve with parameters $a_{50}$ and $a_{to95}$.
 
 Input fragment: {\small{\begin{verbatim}
 type  logistic_producing
@@ -679,17 +696,14 @@ l      2
 h      8
 a50    4
 ato95  1
-#alpha 1.0
+# alpha 1.0
 \end{verbatim}}}
 
 CASAL's implementation of this selectivity adds the following checks.
 \begin{align*}
 	&for(\text{i in selectivity\_bins}) \\
 	& \ \ if((a_{50} - i)/a_{to95} < -5.0))\\
-	&selectivity[i] = 1
-\end{align*}
-
-\begin{align*}
+	&selectivity[i] = 1 \\ \\ 
 &for(\text{i in selectivity\_bins}) \\
 & \ \ if((a_{50} - i)/a_{to95} > 5.0))\\
 &selectivity[i] = 0
@@ -701,41 +715,49 @@ CASAL's implementation of this selectivity adds the following checks.
 
 \begin{equation}
   f(x) = \begin{cases}
+     0, & \text{if $x < \beta$} \\
     \alpha 2^{-[(x- \mu)/\sigma_L ]^2}, & \text{if $x \leq \mu$} \\
     \alpha 2^{-[(x- \mu)/\sigma_R ]^2}, & \text{if $x \ge \mu$}\\
   \end{cases}
 \end{equation}
 
-The double-normal selectivity has estimable parameters $a_1$, $s_L$, and $s_R$. $\alpha$ is a scaling parameter, with default value of $\alpha = 1$. It has values $\alpha$ at $x=a_1$, and $0.5 \alpha$ at $x=a_1-s_L$ and $x=a_1+s_R$.
+The double-normal selectivity has estimable parameters $a_1$, $s_L$, and $s_R$. $\alpha$ is a scaling parameter, with default value of $\alpha = 1$. 
+
+It has values $\alpha$ at $x=a_1$, and $0.5 \alpha$ at $x=a_1-s_L$ and $x=a_1+s_R$. For $x < \beta$, the selectivity is zero.
 
 Input fragment: {\small{\begin{verbatim}
 type  double_normal
-mu       6     #age at switch over from left to right normal curves
-               #  = mean for both normal curves
-sigma_1  1     # standard deviation for left normal
-sigma_2  10    # standard deviation for right normal
-#alpha 1.0
+mu       6   # age at switch over from left to right normal curves
+             #  = mean for both normal curves
+sigma_1  1   # standard deviation for left normal
+sigma_2 10   # standard deviation for right normal
+# alpha  1.0
+# beta   0.0
 \end{verbatim}}}
 
 \subsubsection[Double-normal-plateau]{\argument{double\_normal\_plateau}}\index{Selectivities!Double-normal-plateau}\label{sec:Selectivity-DoubleNormalPlateau}
 
 \begin{equation}
 f(x) = \begin{cases}
+0, & \text{if $x < \beta$} \\
 \alpha 2^{-[(x- a1)/\sigma_L ]^2}, & \text{if $x \leq a1$} \\
 \alpha, 							& \text{if $a1 \le x \leq a1 + a2 $}\\
 \alpha 2^{-[(x- (a1 + a2))/\sigma_R ]^2}, & \text{if $x \ge a1 + a2 $}\\
 \end{cases}
 \end{equation}
 
-The \texttt{double\_normal\_plateau} ogive has estimable parameters \(a1\), \(a2\), \(\sigma_l\), \(\sigma_r\), and \(\alpha\). When \(\alpha = 1\) and \(a2 = 0\), it is identical to the \texttt{double\_normal}, and otherwise follows a double normal form with values \(\alpha\) at \(a1 \le x \leq a1+a2\), and \(0.5 x \alpha\) at \(x= a1-\sigma_l\) or \(x=a1+a2+\sigma_r\).
+The \texttt{double\_normal\_plateau} ogive has estimable parameters \(a1\), \(a2\), \(\sigma_l\), \(\sigma_r\), and \(\alpha\). 
+
+When \(\alpha = 1\) and \(a2 = 0\), it is identical to the \texttt{double\_normal}, and otherwise follows a double normal form with values \(\alpha\) at \(a1 \le x \leq a1+a2\), and \(0.5 x \alpha\) at \(x= a1-\sigma_l\) or \(x=a1+a2+\sigma_r\). For $x < \beta$, the selectivity is zero.
 
 Input fragment: {\small{\begin{verbatim}
 		type  double_normal_plateau
 		a1       6    
 		a2 	     2
-		sigma_1  1     # standard deviation for left normal
-		sigma_2  10    # standard deviation for right normal
-		#alpha 1.0
+		sigma_1  1   # standard deviation for left normal
+		sigma_2  10  # standard deviation for right normal
+		# alpha 1.0
+		# beta  0.0
 		\end{verbatim}}}
 
 \subsubsection[Double-normal-stocksynthesis]{\argument{double\_normal\_stock\_synthesis}}\index{Selectivities!Double-normal-stocksynthesis}\label{sec:Selectivity-DoubleNormalStockSynthesis}
@@ -769,22 +791,26 @@ This is to ensure the values stay between 0 and 1. The down side is that the sta
 
 \begin{equation}
 f(x)=\begin{cases}
+	  0, & \text{if $x < \beta$} \\
 	  \alpha y_0(y_1 / y_0)^{(x-x_0)/(x_1-x_0)}, & \text{if $x \le x_0$} \\
 	  \alpha y_0(y_2 / y_0)^{(x-x_0)/(x_2-x_0)}, & \text{if $x > x_0$} \\
   \end{cases}
 \end{equation}
 
-The double-exponential selectivity has non-estimable parameters $x_1$ and $x_2$. The estimable parameters are $x_0$, $y_0$, $y_1$, and $y_2$.  $\alpha$ is a scaling parameter, with default value of $\alpha = 1$. This selectivity curve can be "U-shaped". Bounds for $x_0$ must be such that $x_1 < x_0 < x_2$. With $\alpha=1$, the selectivity passes through the points $(x_1, y)$, $(x_0, y_0)$, and $(x_2, y_2)$. If both $y_1$ and $y_2$ are greater than $y_0$ the selectivity is "U-shaped" with minimum at $(x_0, y_0)$.
+The double-exponential selectivity has non-estimable parameters $x_1$ and $x_2$. The estimable parameters are $x_0$, $y_0$, $y_1$, and $y_2$.  $\alpha$ is a scaling parameter, with default value of $\alpha = 1$. 
+
+This selectivity curve can be "U-shaped". Bounds for $x_0$ must be such that $x_1 < x_0 < x_2$. With $\alpha=1$, the selectivity passes through the points $(x_1, y)$, $(x_0, y_0)$, and $(x_2, y_2)$. If both $y_1$ and $y_2$ are greater than $y_0$ the selectivity is "U-shaped" with minimum at $(x_0, y_0)$.  For $x < \beta$, the selectivity is zero.
 
 Input fragment: {\small{\begin{verbatim}
 type  double_exponential
 x0    15   # age at middle point
 y0    0.1  # selection at x0; here a minimum --> U shape
 x1    1    # left point
-y1    0.5  #  selection at x1
+y1    0.5  # selection at x1
 x2    30   # right point
 y2    0.8  # selection at x2
-#alpha 1.0
+# alpha 1.0
+# beta  0.0
 \end{verbatim}}}
 
 %\subsubsection[Spline]{\argument{spline}}\index{Selectivities!Spline}\label{sec:Selectivity-Spline}

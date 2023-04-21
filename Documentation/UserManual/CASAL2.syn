@@ -241,6 +241,7 @@ b0
 b0_initialisation_phase
 b_max
 base_weight_units
+beta
 burn_in
 by_length
 c

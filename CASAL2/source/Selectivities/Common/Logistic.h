@@ -31,10 +31,9 @@ public:
   // Methods
   explicit Logistic(shared_ptr<Model> model);
   virtual ~Logistic() = default;
-  void DoValidate() override final;
-  Double get_value(Double value)  override final;    
-  Double get_value(unsigned value)  override final; 
-
+  void   DoValidate() override final;
+  Double get_value(Double value) override final;
+  Double get_value(unsigned value) override final;
 
 protected:
   // Methods
@@ -44,6 +43,7 @@ private:
   Double a50_;
   Double ato95_;
   Double alpha_;
+  Double beta_;
 };
 
 } /* namespace selectivities */

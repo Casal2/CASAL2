@@ -61,6 +61,11 @@
 \defType{Real number (estimable)}
 \defDefault{No default}
 
+\defSub{beta}{The minimum age/length for which the selectivity applies}
+\defType{Real number (constant)}
+\defDefault{0}
+\defLowerBound{0.0 (inclusive)}
+
 \subsubsection{Selectivity of type Double Exponential}
 \commandlabsubarg{selectivity}{type}{Double\_Exponential}.
 \defRef{sec:Selectivity-DoubleExponential}
@@ -98,6 +103,11 @@
 \defDefault{1.0}
 \defLowerBound{0.0 (exclusive)}
 
+\defSub{beta}{The minimum age/length for which the selectivity applies}
+\defType{Real number (constant)}
+\defDefault{0}
+\defLowerBound{0.0 (inclusive)}
+
 \subsubsection{Selectivity of type Double Normal}
 \commandlabsubarg{selectivity}{type}{Double\_Normal}.
 \defRef{sec:Selectivity-DoubleNormal}
@@ -122,7 +132,10 @@
 \defDefault{1.0}
 \defLowerBound{0.0 (exclusive)}
 
-
+\defSub{beta}{The minimum age/length for which the selectivity applies}
+\defType{Real number (constant)}
+\defDefault{0}
+\defLowerBound{0.0 (inclusive)}
 
 \subsubsection{Selectivity of type Double Normal Plateau}
 \commandlabsubarg{selectivity}{type}{Double\_Normal\_Plateau}.
@@ -152,6 +165,10 @@
 \defDefault{1.0}
 \defLowerBound{0.0 (exclusive)}
 
+\defSub{beta}{The minimum age/length for which the selectivity applies}
+\defType{Real number (constant)}
+\defDefault{0}
+\defLowerBound{0.0 (inclusive)}
 
 \subsubsection{Selectivity of type Double Normal Stock Synthesis}
 \commandlabsubarg{selectivity}{type}{Double\_Normal\_Stock\_Synthesis}.
@@ -236,11 +253,15 @@
 \defDefault{No default}
 \defLowerBound{0.0 (exclusive)}
 
-
 \defSub{alpha}{The maximum value of the selectivity }
 \defType{Real number (estimable)}
 \defDefault{1.0}
 \defLowerBound{0.0 (exclusive)}
+
+\defSub{beta}{The minimum age/length for which the selectivity applies}
+\defType{Real number (constant)}
+\defDefault{0}
+\defLowerBound{0.0 (inclusive)}
 
 \subsubsection{Selectivity of type Knife Edge}
 \commandlabsubarg{selectivity}{type}{Knife\_Edge}.
@@ -274,6 +295,11 @@
 \defDefault{1.0}
 \defLowerBound{0.0 (exclusive)}
 
+\defSub{beta}{The minimum age/length for which the selectivity applies}
+\defType{Real number (constant)}
+\defDefault{0}
+\defLowerBound{0.0 (inclusive)}
+
 \subsubsection{Selectivity of type Logistic Producing}
 \commandlabsubarg{selectivity}{type}{Logistic\_Producing}.
 \defRef{sec:Selectivity-LogisticProducing}
@@ -300,7 +326,6 @@
 \defType{Real number (estimable)}
 \defDefault{1.0}
 \defLowerBound{0.0 (exclusive)}
-
 
 \subsubsection{Selectivity of type Compound Right }
 \commandlabsubarg{selectivity}{type}{compound\_right}.
@@ -336,7 +361,6 @@
 \defDefault{1.0}
 \defLowerBound{0.0 (exclusive)}
 
-
 \subsubsection{Selectivity of type Compound Left }
 \commandlabsubarg{selectivity}{type}{compound\_left}.
 \defRef{sec:Selectivity-CompoundLeft}
@@ -365,7 +389,6 @@
 \defType{Real number (estimable)}
 \defDefault{1.0}
 \defLowerBound{0.0 (exclusive)}
-
 
 \subsubsection{Selectivity of type Compound Middle }
 \commandlabsubarg{selectivity}{type}{compound\_middle}.
@@ -400,7 +423,6 @@
 \defType{Real number (estimable)}
 \defDefault{1.0}
 \defLowerBound{0.0 (exclusive)}
-
 
 \subsubsection{Selectivity of type Compound All }
 \commandlabsubarg{selectivity}{type}{compound\_all}.
