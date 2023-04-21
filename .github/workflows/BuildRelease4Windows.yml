@@ -1,9 +1,8 @@
-name: Casal2 release action
-on: [push, pull_request]
-## for a release idea linux is fairly easy
-## for windows look at this example https://github.com/freenet/wininstaller-innosetup/actions/runs/768471071/workflow
-jobs:
- Compile-Casal2-Setip:
+name: Casal2 build Windows install
+on: 
+ schedule:
+   - cron: '0 12 28 * *'
+jobs: Compile-Casal2-Setup:
     runs-on: windows-2019
     timeout-minutes: 180
     steps:
