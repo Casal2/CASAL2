@@ -1,5 +1,5 @@
 name: Casal2 build Windows install
-on: 
+on: workflow_dispatch
  schedule:
    - cron: '0 12 28 * *'
 jobs: Compile-Casal2-Setup:
