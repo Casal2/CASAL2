@@ -152,7 +152,7 @@ void Manager::Build(shared_ptr<Model> model) {
   if (model->is_primary_thread_model() && model->global_configuration().create_free_parameter_output_file()) {
     string free_parameter_file_name  = model->global_configuration().get_free_parameter_output_file();
     string free_parameter_write_mode = model->global_configuration().free_parameter_write_mode();
-    LOG_IMPORTANT() << "Setting '" << free_parameter_file_name << "' as the output file for the free parameters";
+    LOG_IMPORTANT() << "Setting '" << free_parameter_file_name << "' as the output file for the free parameters using " << free_parameter_write_mode;
     model->managers()->report()->Pause();
     reports::EstimateValue* report = new reports::EstimateValue();
     report->set_block_type(PARAM_REPORT);
