@@ -46,7 +46,7 @@ TagLoss::TagLoss(shared_ptr<Model> model) : Process(model), partition_(model) {
   parameters_.Bind<string>(PARAM_SELECTIVITIES, &selectivity_names_, "The selectivities", "");
   parameters_.Bind<unsigned>(PARAM_YEAR, &year_, "The year the first tagging release process was executed", "");
 
-  RegisterAsAddressable(PARAM_TAG_LOSS, &tag_loss_);
+  RegisterAsAddressable(PARAM_TAG_LOSS_RATE, &tag_loss_);
 }
 
 /**
