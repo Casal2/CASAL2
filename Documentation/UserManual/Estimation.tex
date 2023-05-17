@@ -634,7 +634,7 @@ log \begin{vmatrix} \frac{\partial}{\partial y} \frac{1}{y} \end{vmatrix} = log 
 		upper_bound 1
 		\end{verbatim}}}
 	
-\item \subcommand{difference} : two parameters $X_1$ and $X_2$ are transformed to $X_1$ and $X_1 - d$, where $d$ is the difference between the the original parameters.\\
+\item \subcommand{difference} : two parameters $X_1$ and $X_2$ are transformed to $X_1$ and $X_1 - d$, where $d$ is the difference between the original parameters.\\
 \subcommand{Jacobian defined = true}\\
 \subcommand{estimable parameter = difference\_parameter}\\
 $Y_1 = X_1$\\
@@ -647,6 +647,7 @@ $X_2 = X_1 - d$\\
 			@parameter_transformation diff
 			type difference
 			parameters process[InstantMortality].m{male} process[InstantMortality].m{female}
+			difference_parameter 0.05
 			
 			@estimate diff_m
 			type uniform
