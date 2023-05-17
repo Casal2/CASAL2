@@ -15,6 +15,7 @@
 #include "../Model/Managers.h"
 #include "../Model/Model.h"
 #include "Common/AverageDifference.h"
+#include "Common/Difference.h"
 #include "Common/Inverse.h"
 #include "Common/Log.h"
 #include "Common/LogSum.h"
@@ -54,6 +55,8 @@ AddressableTransformation* Factory::Create(shared_ptr<Model> model, const string
       result = new Simplex(model);
     else if (sub_type == PARAM_AVERAGE_DIFFERENCE)
       result = new AverageDifference(model);
+    else if (sub_type == PARAM_DIFFERENCE)
+      result = new Difference(model);
     else if (sub_type == PARAM_SUM_TO_ONE)
       result = new SumToOne(model);
     else if (sub_type == PARAM_SQUARE_ROOT)
