@@ -98,6 +98,7 @@ Default_Reports
 Delta_Diff
 Derived
 Derived_Quantity
+Difference
 Dirichlet
 Dirichlet_Multinomial
 Double_Exponential
@@ -267,6 +268,7 @@ detection
 deviation_values
 deviation_years
 df
+difference_parameter
 difference_scale
 dispersion
 distribution

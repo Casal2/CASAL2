@@ -556,6 +556,7 @@ The available parameter transformations are,
 \begin{enumerate}
 	\item log (Univariate transformation) Section~\ref{subsec:Transformation-types} - \ref{sec:Transformation-Log}
 	\item inverse (Univariate transformation) Section~\ref{subsec:Transformation-types} - \ref{sec:Transformation-Inverse}
+	\item difference (Bivariate transformation) Section~\ref{subsec:Transformation-types} - \ref{sec:Transformation-Difference}
 	\item average difference (Bivariate transformation) Section~\ref{subsec:Transformation-types} - \ref{sec:Transformation-AverageDifference}
 	\item log sum (Bivariate transformation) Section~\ref{subsec:Transformation-types} - \ref{sec:Transformation-LogSum}	
 	\item Orthogonal (Bivariate transformation) Section~\ref{subsec:Transformation-types} - \ref{sec:Transformation-Orthogonal}
@@ -613,7 +614,6 @@ lower_bound 1
 upper_bound 25
 \end{verbatim}}}
 
-
 \item \subcommand{inverse}\\
 \subcommand{Jacobian defined = true}\\
 \subcommand{estimable parameter = inverse\_parameter}\\
@@ -634,16 +634,36 @@ log \begin{vmatrix} \frac{\partial}{\partial y} \frac{1}{y} \end{vmatrix} = log 
 		upper_bound 1
 		\end{verbatim}}}
 	
+\item \subcommand{difference} : two parameters $X_1$ and $X_2$ are transformed to $X_1$ and $X_1 - d$, where $d$ is the difference between the the original parameters.\\
+\subcommand{Jacobian defined = true}\\
+\subcommand{estimable parameter = difference\_parameter}\\
+$Y_1 = X_1$\\
+$Y_2 = X_1 - d$\\
+Restore transformations\\
+$X_1 = Y_1$\\
+$X_2 = X_1 - d$\\
+\label{sec:Transformation-Difference}
+{\small{\begin{verbatim}
+			@parameter_transformation diff
+			type difference
+			parameters process[InstantMortality].m{male} process[InstantMortality].m{female}
+			
+			@estimate diff_m
+			type uniform
+			parameter parameter_transformation[diff].difference_parameter
+			lower_bound -0.5
+			upper_bound 0.5		
+\end{verbatim}}}
+
 \item \subcommand{average\_difference} : two parameters $X_1$ and $X_2$ are transformed to $Y_1$ and $Y_2$, where $Y_1$ is the average of the original parameters and $Y_2$ is the difference between the mean and each parameter.\\
 \subcommand{Jacobian defined = false}\\
 \subcommand{estimable parameter = average\_parameter, difference\_parameter}\\
 $Y_1 = \frac{X_1 + X_2}{2}$\\
-$Y_2 =  (Y_1 - X_2)2 $\\
+$Y_2 =  (Y_1 - X_2)^2 $\\
 Restore transformations\\
 $X_1 = Y_1 + 0.5Y_2$\\
 $X_2 = X_1 - 0.5Y_2$\\
-$\begin{vmatrix} \frac{\partial}{\partial y} f^{-1}(y) \end{vmatrix}$ Hasn't been assessed (i.e it could exist) \TODO{?????}\\
-\label{sec:Transformation-AverageDifference}
+$\begin{vmatrix} \frac{\partial}{\partial y} f^{-1}(y) \end{vmatrix}$ Hasn't been assessed (i.e it could exist) \label{sec:Transformation-AverageDifference}
 {\small{\begin{verbatim}
 		@parameter_transformation avg_diff
 		type average_difference

@@ -23,10 +23,10 @@ namespace addressabletransformations {
  * Default constructor
  */
 Difference::Difference(shared_ptr<Model> model) : AddressableTransformation(model) {
-  parameters_.Bind<Double>(PARAM_DIFFERENCE, &difference_parameter_, "The difference between the parameters", "", false);
+  parameters_.Bind<Double>(PARAM_DIFFERENCE_PARAMETER, &difference_parameter_, "The difference between the parameters", "", false);
 
   RegisterAsAddressable(PARAM_PARAMETER, &first_parameter_);
-  RegisterAsAddressable(PARAM_DIFFERENCE, &difference_parameter_);
+  RegisterAsAddressable(PARAM_DIFFERENCE_PARAMETER, &difference_parameter_);
 }
 /**
  * Validate objects
