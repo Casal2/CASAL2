@@ -14,6 +14,7 @@
 
 #include <boost/lexical_cast.hpp>
 #include <boost/tokenizer.hpp>
+#include <iostream>
 
 #include "../AddressableTransformations/Manager.h"
 #include "../AgeLengths/Manager.h"
@@ -32,7 +33,6 @@
 #include "../TimeVarying/Manager.h"
 #include "../Utilities/String.h"
 #include "../Utilities/To.h"
-
 // namespaces
 namespace niwa {
 
@@ -285,14 +285,14 @@ base::Object* Objects::FindObjectOrNull(const string& parameter_absolute_name) {
     result = model_->managers()->growth_increment()->GetGrowthIncrement(label);
 
   } else {
-    LOG_FATAL() << "Currently the type " << type << " is not registered for addressable finding, first please check you have spelt it correctly, if you are "
-                << "confident you have it may not be coded to find addressable, please add it the class to FindObject() "
-                << "in Model/Objects.cpp by contacting the development team";
+    if (type.substr(0, 1) == "@") {
+      LOG_FATAL() << "The specified type '" << type << "' was not found as a valid addressable parameter name. Did you forget to remove the '@' symbol?";
+    } else {
+      LOG_FATAL() << "The specified type '" << type << "' was not found as a valid addressable parameter name. Please check you have spelt it correctly";
+    }
   }
-
   return result;
 }
-
 /**
  * This method finds the object and returns an Object pointer to it.
  *
