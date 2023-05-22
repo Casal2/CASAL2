@@ -59,10 +59,10 @@ TagRecaptureByLength::TagRecaptureByLength(shared_ptr<Model> model) : Observatio
                     Double(0.5))
       ->set_range(0.0, 1.0);
   // Don't ever make detection_ addressable or estimable. At line 427 it is multiplied to an observation which needs to remain a constant
-  // if you make this estimatble we will break the auto-diff stack.
-  mean_proportion_method_ = true;
+  // if you make this estimable we will break the auto-diff stack.
+  // RegisterAsAddressable(PARAM_DETECTION_PARAMETER, &detection_);
 
-  RegisterAsAddressable(PARAM_DETECTION_PARAMETER, &detection_);
+  mean_proportion_method_ = true;
 
   allowed_likelihood_types_.push_back(PARAM_BINOMIAL);
 }
@@ -97,7 +97,7 @@ void TagRecaptureByLength::DoValidate() {
     LOG_FINE() << "using bespoke length bins";
     // allow for the use of observation-defined length bins, as long as all values are in the set of model length bin values
     using_model_length_bins = false;
-    // check users haven't just respecified the moedl length bins
+    // check users haven't just respecified the model length bins
     bool length_bins_match = false;
     LOG_FINE() << length_bins_.size() << "  " << model_length_bins.size();
     if (length_bins_.size() == model_length_bins.size()) {
@@ -111,7 +111,7 @@ void TagRecaptureByLength::DoValidate() {
       LOG_FINE() << "using have actually just respecified model bins so we are ignoring bespoke length bin code";
       using_model_length_bins = true;
     } else {
-      // Need to validate length bins are subclass of mdoel length bins.
+      // Need to validate length bins are subclass of model length bins.
       if (!model_->are_length_bin_compatible_with_model_length_bins(length_bins_)) {
         LOG_ERROR_P(PARAM_LENGTH_BINS) << "Length bins need to be a subset of the model length bins. See manual for more information";
       }
@@ -126,7 +126,7 @@ void TagRecaptureByLength::DoValidate() {
   }
   // more checks on the model length bins.
   /*
-   * TODO: this should be moved to the model to check rather than replicating in every child
+   * //TODO: this should be moved to the model to check rather than replicating in every child
    */
   for (unsigned length = 0; length < length_bins_.size(); ++length) {
     if (length_bins_[length] < 0.0)

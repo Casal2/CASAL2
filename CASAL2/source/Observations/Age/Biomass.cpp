@@ -11,6 +11,7 @@
 // headers
 #include "Biomass.h"
 
+#include "../../AgeLengths/AgeLength.h"
 #include "AgeWeights/Manager.h"
 #include "Catchabilities/Common/Nuisance.h"
 #include "Catchabilities/Manager.h"
@@ -18,7 +19,6 @@
 #include "TimeSteps/Manager.h"
 #include "Utilities/Map.h"
 #include "Utilities/To.h"
-#include "../../AgeLengths/AgeLength.h"
 
 // namespaces
 namespace niwa {
@@ -141,7 +141,6 @@ void Biomass::DoBuild() {
       LOG_ERROR_P(PARAM_CATCHABILITY) << ": catchability label " << catchability_label_ << " could not create dynamic cast for nuisance catchability";
 
     catchability_->SaveObservationLabel(label_);
-
   }
 
   partition_        = CombinedCategoriesPtr(new niwa::partition::accessors::CombinedCategories(model_, category_labels_));
@@ -175,7 +174,6 @@ void Biomass::DoBuild() {
                                         "of categories provided ("
                                      << partition_->category_count() << ")";
 }
-
 
 /**
  * Reset
@@ -294,11 +292,10 @@ void Biomass::CalculateScore() {
    */
   LOG_FINEST() << "Calculating neglogLikelihood for observation = " << label_;
 
-  // Check if we have a nusiance q or a free q
+  // Check if we have a nuisance q or a free q
   if (model_->run_mode() == RunMode::kSimulation) {
-    
     if (catchability_->type() == PARAM_NUISANCE) {
-      if(  calculate_nuisance_q_ ) {
+      if (calculate_nuisance_q_) {
         nuisance_catchability_->CalculateQ(comparisons_, likelihood_type_);
         // Log out the new q
         LOG_FINE() << "Q = " << nuisance_catchability_->q();
@@ -310,7 +307,7 @@ void Biomass::CalculateScore() {
             LOG_FINE() << "---- Expected After nuisance Q applied = " << comparison.expected_;
           }
         }
-        calculate_nuisance_q_ = false; 
+        calculate_nuisance_q_ = false;
       }
     }
 
@@ -321,7 +318,7 @@ void Biomass::CalculateScore() {
     /**
      * Convert the expected_values
      */
-    // Check if we have a nusiance q or a free q
+    // Check if we have a nuisance q or a free q
     if (catchability_->type() == PARAM_NUISANCE) {
       nuisance_catchability_->CalculateQ(comparisons_, likelihood_type_);
 
