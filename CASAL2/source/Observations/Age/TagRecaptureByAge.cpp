@@ -34,7 +34,7 @@ namespace age {
 TagRecaptureByAge::TagRecaptureByAge(shared_ptr<Model> model) : Observation(model) {
   recaptures_table_ = new parameters::Table(PARAM_RECAPTURED);
   scanned_table_    = new parameters::Table(PARAM_SCANNED);
-
+  // clang-format off
   parameters_.Bind<unsigned>(PARAM_MIN_AGE, &min_age_, "The minimum age", "");
   parameters_.Bind<unsigned>(PARAM_MAX_AGE, &max_age_, "The maximum age", "");
   parameters_.Bind<bool>(PARAM_PLUS_GROUP, &plus_group_, "Is the maximum age the age plus group?", "", true);
@@ -45,17 +45,17 @@ TagRecaptureByAge::TagRecaptureByAge(shared_ptr<Model> model) : Observation(mode
   parameters_.Bind<string>(PARAM_TAGGED_SELECTIVITIES, &target_selectivity_labels_, "The categories of tagged individuals for the observation", "");
   // TODO:  is tolerance missing?
   parameters_.Bind<Double>(PARAM_PROCESS_ERRORS, &process_error_values_, "The process error", "", true);
-  parameters_.Bind<double>(PARAM_DETECTION_PARAMETER, &detection_, "The probability of detecting a recaptured individual", "")->set_range(0.0, 1.0);
+  parameters_.Bind<Double>(PARAM_DETECTION_PARAMETER, &detection_, "The probability of detecting a recaptured individual", "")->set_range(0.0, 1.0);
+  parameters_.Bind<Double>(PARAM_DISPERSION, &dispersion_, "The overdispersion parameter (phi)  ", "", Double(1.0))->set_lower_bound(0.0);
   parameters_.BindTable(PARAM_RECAPTURED, recaptures_table_, "The table of observed recaptured individuals in each age class", "", false);
   parameters_.BindTable(PARAM_SCANNED, scanned_table_, "The table of observed scanned individuals in each age class", "", false);
-  parameters_
-      .Bind<Double>(PARAM_TIME_STEP_PROPORTION, &time_step_proportion_, "The proportion through the mortality block of the time step when the observation is evaluated", "",
-                    Double(0.5))
-      ->set_range(0.0, 1.0);
+  parameters_.Bind<Double>(PARAM_TIME_STEP_PROPORTION, &time_step_proportion_, "The proportion through the mortality block of the time step when the observation is evaluated", "", Double(0.5))->set_range(0.0, 1.0);
+  // clang-format on
+
+  RegisterAsAddressable(PARAM_DETECTION_PARAMETER, &detection_);
 
   mean_proportion_method_ = true;
-  // Don't ever make detection_ addressable or estimable. At line 427 it is multiplied to an observation which needs to remain a constant
-  // if you make this estimatble we will break the auto-diff stack.
+
   allowed_likelihood_types_.push_back(PARAM_BINOMIAL);
 }
 
@@ -285,7 +285,7 @@ void TagRecaptureByAge::Execute() {
    * Verify our cached partition and partition sizes are correct
    */
   auto cached_partition_iter        = cached_partition_->Begin();
-  auto partition_iter               = partition_->Begin();  // vector<vector<partition::Category> >
+  auto partition_iter               = partition_->Begin();         // vector<vector<partition::Category> >
   auto target_cached_partition_iter = target_cached_partition_->Begin();
   auto target_partition_iter        = target_partition_->Begin();  // vector<vector<partition::Category> >
 
@@ -409,12 +409,11 @@ void TagRecaptureByAge::Execute() {
       Double expected = 0.0;
       double observed = 0.0;
       if (age_results[i] != 0.0)
-        expected = target_age_results[i] / age_results[i];
+        expected = detection_ * target_age_results[i] / age_results[i];
       if (scanned_[model_->current_year()][category_labels_[category_offset]][i] == 0.0)
         observed = 0.0;
       else
-        observed = (1.0 / detection_ * recaptures_[model_->current_year()][category_labels_[category_offset]][i])
-                   / scanned_[model_->current_year()][category_labels_[category_offset]][i];
+        observed = (recaptures_[model_->current_year()][category_labels_[category_offset]][i]) / scanned_[model_->current_year()][category_labels_[category_offset]][i];
 
       LOG_MEDIUM() << "Comparison for age " << min_age_ + i << ": expected = " << expected << " observed = " << observed
                    << " error = " << scanned_[model_->current_year()][category_labels_[category_offset]][i]
@@ -449,6 +448,9 @@ void TagRecaptureByAge::CalculateScore() {
       for (obs::Comparison comparison : comparisons_[year]) {
         LOG_FINEST() << "[" << year << "] + neglogLikelihood: " << comparison.score_;
         scores_[year] += comparison.score_;
+
+        // Add the dispersion factor to the likelihood score
+        scores_[year] /= dispersion_;
       }
     }
 

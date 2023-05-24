@@ -39,28 +39,24 @@ namespace age {
 TagRecaptureByLength::TagRecaptureByLength(shared_ptr<Model> model) : Observation(model) {
   recaptures_table_ = new parameters::Table(PARAM_RECAPTURED);
   scanned_table_    = new parameters::Table(PARAM_SCANNED);
-
+  // clang-format off
   parameters_.Bind<unsigned>(PARAM_YEARS, &years_, "The years for which there are observations", "");
   parameters_.Bind<string>(PARAM_TIME_STEP, &time_step_label_, "The time step to execute in", "");
   parameters_.Bind<double>(PARAM_LENGTH_BINS, &length_bins_, "The length bins", "", true);  // optional
-  parameters_.Bind<bool>(PARAM_PLUS_GROUP, &length_plus_, "Is the last length bin a plus group? (defaults to @model value)", "",
-                         model->length_plus());                                             // default to the model value
+  parameters_.Bind<bool>(PARAM_PLUS_GROUP, &length_plus_, "Is the last length bin a plus group? (defaults to @model value)", "", model->length_plus());  // default to the model value
   parameters_.Bind<string>(PARAM_TAGGED_CATEGORIES, &tagged_category_labels_, "The categories of tagged individuals for the observation", "");
   parameters_.Bind<string>(PARAM_SELECTIVITIES, &selectivity_labels_, "The labels of the selectivities used for untagged categories", "", true);
   parameters_.Bind<string>(PARAM_TAGGED_SELECTIVITIES, &tagged_selectivity_labels_, "The labels of the tag category selectivities", "");
   // TODO:  is tolerance missing?
   parameters_.Bind<Double>(PARAM_PROCESS_ERRORS, &process_error_values_, "The process error", "", true);
   parameters_.Bind<Double>(PARAM_DETECTION_PARAMETER, &detection_, "The probability of detecting a recaptured individual", "")->set_range(0.0, 1.0);
-  parameters_.Bind<Double>(PARAM_DISPERSION, &despersion_, "The overdispersion parameter (phi)  ", "", Double(1.0))->set_lower_bound(0.0);
+  parameters_.Bind<Double>(PARAM_DISPERSION, &dispersion_, "The overdispersion parameter (phi)  ", "", Double(1.0))->set_lower_bound(0.0);
   parameters_.BindTable(PARAM_RECAPTURED, recaptures_table_, "The table of observed recaptured individuals in each length bin", "", false);
   parameters_.BindTable(PARAM_SCANNED, scanned_table_, "The table of observed scanned individuals in each length bin", "", false);
-  parameters_
-      .Bind<Double>(PARAM_TIME_STEP_PROPORTION, &time_step_proportion_, "The proportion through the mortality block of the time step when the observation is evaluated", "",
-                    Double(0.5))
-      ->set_range(0.0, 1.0);
-  // Don't ever make detection_ addressable or estimable. At line 427 it is multiplied to an observation which needs to remain a constant
-  // if you make this estimable we will break the auto-diff stack.
-  // RegisterAsAddressable(PARAM_DETECTION_PARAMETER, &detection_);
+  parameters_.Bind<Double>(PARAM_TIME_STEP_PROPORTION, &time_step_proportion_, "The proportion through the mortality block of the time step when the observation is evaluated", "", Double(0.5))->set_range(0.0, 1.0);
+  // clang-format on
+
+  RegisterAsAddressable(PARAM_DETECTION_PARAMETER, &detection_);
 
   mean_proportion_method_ = true;
 
@@ -559,7 +555,6 @@ void TagRecaptureByLength::Execute() {
       Double expected = 0.0;
       double observed = 0.0;
       if (length_results_[i] != 0.0) {
-        // expected = detection_ * tagged_length_results_[i] / length_results_[i];
         expected = detection_ * tagged_length_results_[i] / length_results_[i];
         LOG_FINEST() << "total numbers at length " << length_bins_[i] << " = " << tagged_length_results_[i] << ", denominator = " << length_results_[i];
       }
@@ -600,7 +595,7 @@ void TagRecaptureByLength::CalculateScore() {
       }
 
       // Add the dispersion factor to the likelihood score
-      scores_[year] /= despersion_;
+      scores_[year] /= dispersion_;
     }
 
     LOG_FINEST() << "Finished calculating neglogLikelihood for = " << label_;

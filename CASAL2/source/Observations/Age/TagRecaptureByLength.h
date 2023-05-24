@@ -49,7 +49,7 @@ protected:
   vector<unsigned>      years_;
   string                time_step_label_ = "";
   Double                detection_;
-  Double                despersion_ = 1.0;
+  Double                dispersion_ = 1.0;
   vector<Double>        process_error_values_;
   map<unsigned, Double> process_errors_by_year_;
   vector<double>        length_bins_;
@@ -81,10 +81,10 @@ protected:
   //
   vector<Double>         length_results_;
   vector<Double>         tagged_length_results_;
-  vector<vector<Double>>         numbers_at_length_;
-  vector<vector<Double>>         tagged_cached_numbers_at_length_;
-  vector<vector<Double>>         cached_numbers_at_length_;
-  vector<vector<Double>>         tagged_numbers_at_length_;
+  vector<vector<Double>> numbers_at_length_;
+  vector<vector<Double>> tagged_cached_numbers_at_length_;
+  vector<vector<Double>> cached_numbers_at_length_;
+  vector<vector<Double>> tagged_numbers_at_length_;
 
   map<unsigned, map<string, vector<double>>> recaptures_;
   map<unsigned, map<string, vector<double>>> scanned_;
