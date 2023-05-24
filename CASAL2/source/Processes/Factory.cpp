@@ -31,6 +31,7 @@
 #include "../Processes/Age/Mortality/MortalityInstantaneous.h"
 #include "../Processes/Age/Mortality/MortalityInstantaneousRetained.h"
 #include "../Processes/Age/Mortality/MortalityPreySuitability.h"
+#include "../Processes/Age/Mortality/SurvivalConstantRate.h"
 #include "../Processes/Age/RecruitmentBevertonHolt.h"
 #include "../Processes/Age/RecruitmentBevertonHoltWithDeviations.h"
 #include "../Processes/Age/RecruitmentConstant.h"
@@ -103,6 +104,8 @@ Process* Factory::Create(shared_ptr<Model> model, const string& object_type, con
         result = new age::Maturation(model);
       else if (sub == PARAM_MORTALITY_CONSTANT_RATE)
         result = new age::MortalityConstantRate(model);
+      else if (sub == PARAM_SURVIVAL_CONSTANT_RATE)
+        result = new age::SurvivalConstantRate(model);
       else if (sub == PARAM_MORTALITY_DISEASE_RATE)
         result = new age::MortalityDiseaseRate(model);
       else if (sub == PARAM_MORTALITY_CONSTANT_EXPLOITATION)

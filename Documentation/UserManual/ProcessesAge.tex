@@ -269,17 +269,18 @@ Note: the ageing process is \emph{NOT} applied by \CNAME\ by default --- it need
 
 \subsubsection{\I{Mortality}\label{sec:Process-Mortality}}
 
-There are 9 types of mortality processes available in \CNAME, and three tag related processes that also cause mortality:
+There are several types of mortality processes available in \CNAME including tag related processes that also cause mortality:
 
 \begin{itemize}
-	\item constant rate,
+	\item constant mortality rate,
+    \item constant survival rate,
 	\item constant exploitation,
-	\item event,
-	\item biomass-event,
+	\item event mortality,
+	\item biomass-event mortality,
 	\item disease mortality
-	\item instantaneous,
-	\item instantaneous retained (discards),
-	\item Holling,
+	\item instantaneous mortality,
+	\item instantaneous retained (discards) mortality,
+	\item Holling mortality,
 	\item initialisation,
 	\item a density-dependent relationship based on prey suitability,
 	\item Tag-release by age,
@@ -383,6 +384,36 @@ m             1.0 1.0
 
 In this definition \subcommand{m} is set to 1.0 and the rate is described through the selectivity. Otherwise, $M_{age} = S_{age} * m$. This concept can be constructed similarly for other mortality methods such as \subcommand{instantaneous\_mortality}.
 
+\paragraph{Constant survival rate}\label{sec:Process-SurvivalConstantRate} 
+
+To specify a constant annual survival rate \index{Constant survival}(e.g. $M=0.2$) for categories "male" and "female"
+
+{\small{\begin{verbatim}
+			# A process with label Survival
+			@process survival
+			type          survival_constant_rate
+			categories    male female
+			# effectively age related mortality
+			relative_m_by_age One One
+			s             0.8 0.8
+\end{verbatim}}}
+
+The total number of individuals that remain in a category
+
+\begin{equation}
+	D_{j,t} = \sum_a N_{a,j,t} [1 - \exp(-S_{a,j} (1-s_{a,j}) p_t)]
+\end{equation}
+
+where $D_{j,t}$ is the total number of deaths in category $j$ in time step $t$, $N_{a,j,t}$ is the number of individuals in category $j$ of age $a$ in time step $t$, $S_{a,j}$ is the selectivity value for age $a$ in category $j$, $s_{a,j}$ is the survival rate for category $j$ for age $a$, and $p_t$ is the proportion of the survival rate to apply in time step $t$.
+
+The survival rate process requires the specification of the survival-by-age curve which is specified using a selectivity. To apply the same survival rate over all age classes in a category, use a selectivity defined as $S_{a,j}=1.0$ for all ages $a$ in category $j$
+
+{\small{\begin{verbatim}
+			@selectivity One
+			type constant
+			c 1
+\end{verbatim}}}
+
 \paragraph{Constant exploitation rate}\label{sec:Process-MortalityConstantExploitation} 
 
 To specify a constant annual exploitation rate \index{Constant exploitation}(e.g. $U=0.2$) for categories "male" and "female"
@@ -415,7 +446,7 @@ The exploitation rate process requires the specification of the mortality-by-age
 
 Age-specific exploitation rates can also be applied.
 
-\paragraph{Disease mortality rate}\label{sec:Process-Age-DiseaseMortalityRate}
+\paragraph{Disease mortality rate}\label{sec:Process-Age-DiseaseMortalityRate}\label{sec:Process-MortalityDiseaseRate}
 
 Disease mortality is a special, additional, mortality that is implemented to occur after natural and fishing mortality during a time step. This process removes individuals from the partition, is applied to all areas, and can depend on sex/age class.
 
@@ -1138,7 +1169,7 @@ lower_bound -10
 upper_bound 10
 \end{verbatim}}}
 
-\subsubsection{\I{Transition By Category}}\label{sec:Process-TransitionCategory}
+\subsubsection{\I{Transition By Category}}\label{sec:Process-TransitionCategory}\label{sec:Process-Maturation}
 
 The transition by category process moves individuals between categories. This process is used to specify transitions such as maturation (individuals move from an immature to mature state) and migration (individuals move from one area to another).
 

@@ -252,31 +252,6 @@ The Nop type has no additional subcommands.
 \defDefault{No default}
 \defLowerBound{0.0 (inclusive)}
 
-\subsubsection{Process of type Survival\_Constant\_Rate}
-\commandlabsubarg{Process}{type}{Survival\_Constant\_Rate}.
-\defRef{sec:Process-SurvivalConstantRate}
-\label{syntax:Process-SurvivalConstantRate}
-
-\defSub{categories}{The list of categories}
-\defType{Vector of strings}
-\defDefault{No default}
-
-\defSub{s}{The survival rates}
-\defType{Real number (estimable)}
-\defDefault{No default}
-\defLowerBound{0.0 (inclusive)}
-\defUpperBound{1.0 (inclusive)}
-
-\defSub{time\_step\_proportions}{The time step proportions for the survival rate S}
-\defType{Vector of real numbers}
-\defDefault{true}
-\defLowerBound{0.0 (exclusive)}
-\defUpperBound{1.0 (inclusive)}
-
-\defSub{selectivities}{The selectivity labels for each category}
-\defType{Vector of strings}
-\defDefault{No default}
-
 \subsubsection{Process of type Tag\_By\_Age}
 \commandlabsubarg{Process}{type}{Tag\_By\_Age}.
 \defRef{sec:Process-TagByAge}

@@ -32,7 +32,7 @@ SurvivalConstantRate::SurvivalConstantRate(shared_ptr<Model> model) : Process(mo
   partition_structure_ = PartitionType::kAge;
 
   parameters_.Bind<string>(PARAM_CATEGORIES, &category_labels_, "The list of categories", "");
-  parameters_.Bind<Double>(PARAM_S, &s_input_, "The survival rates", "")->set_range(0.0, 1.0);
+  parameters_.Bind<Double>(PARAM_S, &s_input_, "The survival rates", "")->set_lower_bound(0.0, true);
   parameters_.Bind<double>(PARAM_TIME_STEP_PROPORTIONS, &ratios_, "The time step proportions for the survival rate S", "", true)->set_range(0.0, 1.0, false, true);
   parameters_.Bind<string>(PARAM_SELECTIVITIES, &selectivity_names_, "The selectivity labels for each category", "");
 
@@ -46,7 +46,7 @@ SurvivalConstantRate::SurvivalConstantRate(shared_ptr<Model> model) : Process(mo
  * - Assign the label from the parameters
  * - Assign and validate remaining parameters
  * - Duplicate 's' and 'selectivities' if only one value specified
- * - Check s is between 0.0 and 1.0
+ * - Check s is >= 0
  * - Check the categories are real
  */
 void SurvivalConstantRate::DoValidate() {
@@ -76,7 +76,7 @@ void SurvivalConstantRate::DoValidate() {
   // Validate our S's are between 1.0 and 0.0
   for (Double s : s_input_) {
     if (s < 0.0 || s > 1.0)
-      LOG_ERROR_P(PARAM_S) << ": s value " << AS_DOUBLE(s) << " must be between 0.0 and 1.0 (inclusive)";
+      LOG_ERROR_P(PARAM_S) << ": the survival rate value (" << AS_DOUBLE(s) << ") must be between 0.0 and 1.0 (inclusive)";
   }
 
   Double total = 0.0;

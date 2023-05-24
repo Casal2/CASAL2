@@ -426,7 +426,7 @@ For example,
 		\end{verbatim}}}
 
 
-\paragraph*{\I{Tag Recapture by length}\label{sec:Observation-TagRecaptureByLength}}
+\paragraph*{\I{Tag recaptures by age or length}\label{sec:Observation-TagRecaptures}\label{sec:Observation-TagRecaptureByAge}\label{sec:Observation-TagRecaptureByLength}}
 
 Tag data is primarily used to estimate the population abundance of fish. In some models, this estimation can only be made outside the model and the result is used as an estimate of abundance in the model. But in \CNAME\ the tagging data can, alternatively, be fitted within the model.
 
@@ -434,11 +434,11 @@ Before adding a tag-recapture time series, a tag-release process (Section~\ref{s
 
 The observations are divided into two parts: (i) the number of fish that were scanned, and (ii) the number of tags that were recaptured. Each number can be specified by categories, or for combinations of categories. The precise content of the scanned and recaptured observations depends on the sampling method.
 
-The available options are:
+The options for tag-recaptures are available:
 
 \begin{itemize}
-	\item age: both the scanned and recaptured are vectors containing numbers-at-age. Only available in an age-based model. The selectivity ogive is redundant and cannot be supplied.
-	\item size: both the scanned and recaptured are vectors containing numbers-at-size. Can be used in either an age- or size-based model. The selectivity ogive is redundant and cannot be supplied.
+	\item age: both the scanned and recaptured are vectors containing numbers-at-age. Only available in an age-based model. 
+	\item size: both the scanned and recaptured are vectors containing numbers-at-length. Can be used in either an age- or length-based model.
 \end{itemize}
 
 When defining the tag-recapture time series, the following are also required:
@@ -446,13 +446,12 @@ When defining the tag-recapture time series, the following are also required:
 \begin{itemize}
 	\item the time step,
 	\item the years (unlike a tag-release process, the tag-recapture observations can occur over several years),
-	\item the probability that each scanned tagged fish is detected as tagged (may be less than 1 if the observers are not infallible). The expected number of tags detected is calculated by multiplying this number by the number of tagged fish in the sample,
+	\item the probability that each scanned tagged fish is detected as tagged (may be less than 1 if the observers are not infallible). The expected number of tags detected is calculated by multiplying the expected number of tagged fish in the observation by the detection probability,
 	\item the tagged category or categories (Make up the recaptures),
 	\item the categories scanned (All the fish sampled for tags),
-	\item A selectivity used in the recapture process,
-	\item the size classes if the observations are size-based in an age-based model.
+	\item the length bins if the observations are length-based in an age-based model,
+	\item The selectivities for the categories. 
 \end{itemize}
-
 
 An example of a tag recapture observation:
 

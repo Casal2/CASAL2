@@ -657,10 +657,6 @@
 \defRef{sec:Observation-TagRecaptureByAge}
 \label{syntax:Observation-TagRecaptureByAge}
 
-\defSub{min\_age}{The minimum age}
-\defType{Non-negative integer}
-\defDefault{No default}
-
 \defSub{max\_age}{The maximum age}
 \defType{Non-negative integer}
 \defDefault{No default}
@@ -690,10 +686,15 @@
 \defDefault{No default}
 
 \defSub{detection}{The probability of detecting a recaptured individual}
-\defType{Real number}
+\defType{Real number (estimable)}
 \defDefault{No default}
 \defLowerBound{0.0 (inclusive)}
 \defUpperBound{1.0 (inclusive)}
+
+\defSub{dispersion}{The overdispersion parameter (phi)}
+\defType{Real number (estimable)}
+\defDefault{1.0}
+\defLowerBound{0.0 (inclusive)}
 
 \defSub{time\_step\_proportion}{The proportion through the mortality block of the time step when the observation is evaluated}
 \defType{Real number (estimable)}
@@ -736,10 +737,6 @@
 \commandlabsubarg{Observation}{type}{Tag\_Recapture\_By\_Length}.
 \defRef{sec:Observation-TagRecaptureByLength}
 \label{syntax:Observation-TagRecaptureByLength}
-
-\defSub{years}{The years for which there are observations}
-\defType{Vector of non-negative integers}
-\defDefault{No default}
 
 \defSub{time\_step}{The time step to execute in}
 \defType{String}

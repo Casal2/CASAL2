@@ -706,6 +706,7 @@
 #define PARAM_STEEPNESS                           "steepness"
 #define PARAM_STRING                              "categorical"
 #define PARAM_SUM_TO_ONE                          "sum_to_one"
+#define PARAM_SURVIVAL_CONSTANT_RATE              "survival_constant_rate"
 #define PARAM_T                                   "t"
 #define PARAM_T0                                  "t0"
 #define PARAM_TABLE                               "table"
