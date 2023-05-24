@@ -718,6 +718,7 @@
 #define PARAM_TAG_LOSS_YEARS                      "tag_loss_years"
 #define PARAM_TAG_LOSS_TYPE                       "tag_loss_type"
 #define PARAM_TAG_LOSS                            "tag_loss"
+#define PARAM_TAG_LOSS_EMPIRICAL                  "tag_loss_empirical"
 #define PARAM_TAG_RECAPTURE_BY_AGE                "tag_recapture_by_age"
 #define PARAM_TAG_RECAPTURE_BY_FISHERY            "tag_recapture_by_fishery"
 #define PARAM_TAG_RECAPTURE_BY_LENGTH             "tag_recapture_by_length"
@@ -797,6 +798,7 @@
 #define PARAM_YEAR                                "year"
 #define PARAM_YEAR_EFFECTS                        "year_effect"
 #define PARAM_YEARS                               "years"
+#define PARAM_YEARS_AT_LIBERTY                    "years_at_liberty"
 #define PARAM_ZERO                                "0 (zero)"
 // clang-format on
 #endif /* ENGLISH_H_ */

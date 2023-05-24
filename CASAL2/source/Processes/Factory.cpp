@@ -37,6 +37,7 @@
 #include "../Processes/Age/TagByAge.h"
 #include "../Processes/Age/TagByLength.h"
 #include "../Processes/Age/TagLoss.h"
+#include "../Processes/Age/TagLossEmpirical.h"
 #include "../Processes/Age/TransitionCategory.h"
 #include "../Processes/Age/TransitionCategoryByAge.h"
 #include "../Processes/Common/LoadPartition.h"
@@ -136,6 +137,8 @@ Process* Factory::Create(shared_ptr<Model> model, const string& object_type, con
         result = new age::TagByLength(model);
       else if (sub == PARAM_TAG_LOSS)
         result = new age::TagLoss(model);
+      else if (sub == PARAM_TAG_LOSS_EMPIRICAL)
+        result = new age::TagLossEmpirical(model);
       else if (sub == PARAM_TRANSITION_CATEGORY)
         result = new age::TransitionCategory(model);
       else if (sub == PARAM_TRANSITION_CATEGORY_BY_AGE)

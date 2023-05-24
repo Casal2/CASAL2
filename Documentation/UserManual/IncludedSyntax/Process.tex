@@ -909,7 +909,7 @@ end_table
 \defType{Vector of real numbers (estimable)}
 \defDefault{No default}
 \defLowerBound{0.0 (inclusive)}
-\defValue{The instantaneous rate of tag loss (supplied as either a single value that is applied to all categories, or a vector of length equal to the number of categories defined for this process}
+\defValue{The instantaneous rate of tag loss (supplied as either a single value that is applied to all categories, or a vector of length equal to the number of categories defined for this process)}
 
 \defSub{time\_step\_proportions}{The time step proportions for tag loss}
 \defType{Vector of real numbers (estimable)}
@@ -931,6 +931,44 @@ end_table
 \defType{Non-negative integer}
 \defDefault{No default}
 \defNote{For the double tag loss rate, this is also assumed to be the first year in the calculation of the annual loss rates}
+
+\subsubsection{Process of type Tag Loss Empirical}
+\commandlabsubarg{process}{type}{Tag\_Loss\_Empirical}.
+\defRef{sec:Process-TagLossEmpirical}
+\label{syntax:Process-TagLossEmpirical}
+
+\defSub{categories}{The list of categories}
+\defType{Vector of strings}
+\defDefault{No default}
+\defValue{Valid category labels}
+
+\defSub{tag\_loss\_rate}{The instantaneous tag loss rates}
+\defType{Vector of real numbers (estimable)}
+\defDefault{No default}
+\defLowerBound{0.0 (inclusive)}
+\defValue{The instantaneous rate of tag loss (supplied as either a single value that is applied to all years at liberty, or a vector of length equal to the number of years at liberty defined for this process)}
+
+\defSub{time\_step\_proportions}{The time step proportions for tag loss}
+\defType{Vector of real numbers (estimable)}
+\defDefault{true}
+\defLowerBound{0.0 (inclusive)}
+\defUpperBound{1.0 (inclusive)}
+\defNote{The sum of the values of time\_step\_proportions must equal 1.0}
+
+\defSub{selectivities}{The selectivities}
+\defType{Vector of strings}
+\defDefault{No default}
+
+\defSub{year}{The year the first tagging release process was executed}
+\defType{Non-negative integer}
+\defDefault{No default}
+\defNote{For the tag loss rate, this is also assumed to be the first year at liberty in the calculation of the annual loss rates}
+
+\defSub{years\_at\_liberty}{The years at liberty that the tag\_loss\_rate applies to}
+\defType{Non-negative integer}
+\defDefault{No default}
+\defLowerBound{0 (inclusive)}
+\defNote{years at liberty must be a valid value between 0 and the maximum number of years in the model. The tag\_loss\_rate is not applied for years at liberty that are not specified}
 
 \subsubsection{Process of type Transition Category}
 \commandlabsubarg{process}{type}{Transition\_Category}.

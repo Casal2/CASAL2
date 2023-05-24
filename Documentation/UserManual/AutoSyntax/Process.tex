@@ -397,9 +397,8 @@ The Nop type has no additional subcommands.
 
 \defSub{time\_step\_proportions}{The time step proportions for tag loss}
 \defType{Vector of real numbers (estimable)}
-\defDefault{true}
+\defDefault{false}
 \defLowerBound{0.0 (inclusive)}
-\defUpperBound{1.0 (inclusive)}
 
 \defSub{tag\_loss\_type}{The type of tag loss}
 \defType{String}
@@ -412,6 +411,34 @@ The Nop type has no additional subcommands.
 \defSub{year}{The year the first tagging release process was executed}
 \defType{Non-negative integer}
 \defDefault{No default}
+
+\subsubsection{Process of type Tag\_Loss\_Empirical}
+\commandlabsubarg{Process}{type}{Tag\_Loss\_Empirical}.
+\defRef{sec:Process-TagLossEmpirical}
+\label{syntax:Process-TagLossEmpirical}
+
+\defSub{categories}{The list of categories to apply}
+\defType{Vector of strings}
+\defDefault{No default}
+
+\defSub{time\_step\_proportions}{The time step proportions for tag loss}
+\defType{Vector of real numbers (estimable)}
+\defDefault{true}
+\defLowerBound{0.0 (inclusive)}
+\defUpperBound{1.0 (inclusive)}
+
+\defSub{selectivities}{The selectivities}
+\defType{Vector of strings}
+\defDefault{No default}
+
+\defSub{year}{The year the first tagging release process was executed}
+\defType{Non-negative integer}
+\defDefault{No default}
+
+\defSub{years\_at\_liberty}{Years at liberty to apply the annual tag loss rates of tags}
+\defType{Vector of non-negative integers}
+\defDefault{No default}
+\defLowerBound{0 (inclusive)}
 
 \subsubsection{Process of type Transition\_Category}
 \commandlabsubarg{Process}{type}{Transition\_Category}.

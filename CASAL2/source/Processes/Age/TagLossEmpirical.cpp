@@ -1,17 +1,14 @@
 /**
- * @file TagLoss.cpp
- * @author  C.Marsh
+ * @file TagLossEmpirical.cpp
+ * @author  A. Dunn
  * @version 1.0
- * @date 20/04/2016
+ * @date 20/05/2023
  * @section LICENSE
  *
- * Copyright NIWA Science �2012 - www.niwa.co.nz
- *
- * $Date: 2008-03-04 16:33:32 +1300 (Tue, 04 Mar 2008) $
  */
 
 // Headers
-#include "TagLoss.h"
+#include "TagLossEmpirical.h"
 
 #include <numeric>
 
@@ -28,7 +25,7 @@ namespace age {
 /**
  * Default Constructor
  */
-TagLoss::TagLoss(shared_ptr<Model> model) : Process(model), partition_(model) {
+TagLossEmpirical::TagLossEmpirical(shared_ptr<Model> model) : Process(model), partition_(model) {
   LOG_TRACE();
   process_type_ = ProcessType::kMortality;
   // Why this was changed from type transition to mortality. CASAL includes this in the 'mortality block' so when you are
@@ -40,13 +37,14 @@ TagLoss::TagLoss(shared_ptr<Model> model) : Process(model), partition_(model) {
   partition_structure_ = PartitionType::kAge;
 
   parameters_.Bind<string>(PARAM_CATEGORIES, &category_labels_, "The list of categories to apply", "");
+  // Note: This process differs from TagLoss in that every category gets the same tag loss rate in each year
   parameters_.Bind<Double>(PARAM_TAG_LOSS_RATE, &tag_loss_input_, "The tag loss rates", "")->set_lower_bound(0.0, true);
-  parameters_.Bind<Double>(PARAM_TIME_STEP_PROPORTIONS, &ratios_, "The time step proportions for tag loss", "", false)->set_lower_bound(0.0);
-  parameters_.Bind<string>(PARAM_TAG_LOSS_TYPE, &tag_loss_type_, "The type of tag loss", "", PARAM_SINGLE)->set_allowed_values({PARAM_SINGLE, PARAM_DOUBLE_TAG});
+  parameters_.Bind<Double>(PARAM_TIME_STEP_PROPORTIONS, &ratios_, "The time step proportions for tag loss", "", true)->set_range(0.0, 1.0);
   parameters_.Bind<string>(PARAM_SELECTIVITIES, &selectivity_names_, "The selectivities", "");
   parameters_.Bind<unsigned>(PARAM_YEAR, &year_, "The year the first tagging release process was executed", "");
+  parameters_.Bind<unsigned>(PARAM_YEARS_AT_LIBERTY, &years_at_liberty_, "Years at liberty to apply the annual tag loss rates of tags", "")->set_lower_bound(0, true);
 
-  RegisterAsAddressable(PARAM_TAG_LOSS_RATE, &tag_loss_);
+  RegisterAsAddressable(PARAM_TAG_LOSS_RATE, &tag_loss_input_);
 }
 
 /**
@@ -59,12 +57,12 @@ TagLoss::TagLoss(shared_ptr<Model> model) : Process(model), partition_(model) {
  * - Check m is between 0.0 and 1.0
  * - Check the categories are real
  */
-void TagLoss::DoValidate() {
-  LOG_FINEST() << "the number of categories = " << category_labels_.size() << ", the number of proportions = " << tag_loss_input_.size();
+void TagLossEmpirical::DoValidate() {
+  LOG_FINEST() << "the number of years = " << years_at_liberty_.size() << ", the number of proportions = " << tag_loss_input_.size();
 
   if (tag_loss_input_.size() == 1) {
     auto val_t = tag_loss_input_[0];
-    tag_loss_input_.assign(category_labels_.size(), val_t);
+    tag_loss_input_.assign(years_at_liberty_.size(), val_t);
   }
 
   if (selectivity_names_.size() == 1) {
@@ -72,9 +70,9 @@ void TagLoss::DoValidate() {
     selectivity_names_.assign(category_labels_.size(), val_s);
   }
 
-  if (tag_loss_input_.size() != category_labels_.size()) {
-    LOG_ERROR_P(PARAM_TAG_LOSS_RATE) << ": the number of tag loss values provided is not the same as the number of categories provided. Categories: " << category_labels_.size()
-                                     << ", tag loss size " << tag_loss_input_.size();
+  if (tag_loss_input_.size() != years_at_liberty_.size()) {
+    LOG_ERROR_P(PARAM_TAG_LOSS_RATE) << ": the number of tag loss values provided is not the same as the number of years at liberty provided. Years at liberty: "
+                                     << years_at_liberty_.size() << ", tag loss size " << tag_loss_input_.size();
   }
 
   if (selectivity_names_.size() != category_labels_.size()) {
@@ -82,24 +80,28 @@ void TagLoss::DoValidate() {
                                      << ", selectivities size " << selectivity_names_.size();
   }
 
-  // Validate our instantaneous rates greater than 0.0
+  // Validate our Ms are between 1.0 and 0.0
   for (Double tag_loss : tag_loss_input_) {
     if (tag_loss < 0.0)
       LOG_ERROR_P(PARAM_TAG_LOSS_RATE) << ": Tag loss rate " << tag_loss << " must be greater or equal to 0.0";
   }
-
-  for (unsigned i = 0; i < tag_loss_input_.size(); ++i) tag_loss_[category_labels_[i]] = tag_loss_input_[i];
 
   // Validate the time step proportions sum to one
   Double total = 0.0;
   for (Double value : ratios_) {
     total += value;
   }
-#ifndef TESTMODE
   if (!utilities::math::IsOne(total)) {
     LOG_ERROR_P(PARAM_TIME_STEP_PROPORTIONS) << ": The time_step_proportions must be specified to sum to one, but they summed to " << total << ".";
   }
-#endif
+  // validate years at liberty
+  for (unsigned value : years_at_liberty_) {
+    if (value < 0)
+      LOG_ERROR_P(PARAM_YEARS) << ": The years at liberty cannot be less than zero (the value '" << value << "' was found";
+    if (value > (model_->final_year() - model_->start_year() + 1))
+      LOG_WARNING_P(PARAM_YEARS) << ": The years at liberty (value = " << value << ") specified are larger than the number of years in the model. " << PARAM_YEARS
+                                 << " should be the number of years at liberty for each " << PARAM_TAG_LOSS_RATE << " supplied";
+  }
 }
 
 /**
@@ -108,7 +110,7 @@ void TagLoss::DoValidate() {
  * - Build the list of selectivities
  * - Build the ratios for the number of time steps
  */
-void TagLoss::DoBuild() {
+void TagLossEmpirical::DoBuild() {
   partition_.Init(category_labels_);
 
   for (string label : selectivity_names_) {
@@ -151,58 +153,33 @@ void TagLoss::DoBuild() {
 /**
  * Execute the process
  */
-void TagLoss::DoExecute() {
+void TagLossEmpirical::DoExecute() {
   // To reduce computation only execute in relevant years.
   if (model_->current_year() >= year_) {
     LOG_FINEST() << "year: " << model_->current_year();
 
-    // get the ratio to apply first
-    unsigned time_step = model_->managers()->time_step()->current_time_step();
-    LOG_FINEST() << "Ratios.size() " << time_step_ratios_.size() << " : time_step: " << time_step << "; ratio: " << time_step_ratios_[time_step];
-    Double ratio = time_step_ratios_[time_step];
+    unsigned time = model_->current_year() - year_;
+    unsigned i    = 0;
+    // apply the correct rate for the specific time at liberty
+    for (unsigned year = 0; year < years_at_liberty_.size(); ++year) {
+      if (time == years_at_liberty_[year]) {
+        // get the ratio to apply first
+        unsigned time_step = model_->managers()->time_step()->current_time_step();
+        LOG_FINEST() << "Ratios.size() " << time_step_ratios_.size() << " : time_step: " << time_step << "; ratio: " << time_step_ratios_[time_step];
+        Double ratio = time_step_ratios_[time_step];
 
-    // StoreForReport("year", model_->current_year());
-
-    if (tag_loss_type_ == PARAM_SINGLE) {
-      unsigned i = 0;
-      for (auto category : partition_) {
-        Double tag_loss = tag_loss_[category->name_];
-
-        unsigned j = 0;
-        LOG_FINEST() << "category " << category->name_ << "; min_age: " << category->min_age_ << "; ratio: " << ratio;
-        // StoreForReport(category->name_ + " ratio", ratio);
-        for (Double& data : category->data_) {
-          // Deleting this partition. In future we may have a target category to migrate to.
-          Double amount = data * (1.0 - exp(-selectivities_[i]->GetAgeResult(category->min_age_ + j, category->age_length_) * tag_loss * ratio));
-          LOG_FINEST() << "Category " << category->name_ << " numbers at age: " << category->min_age_ + j << " = " << data << " removing " << amount;
-          data -= amount;
-          ++j;
+        // apply over each category and age
+        for (auto category : partition_) {
+          unsigned j = 0;
+          LOG_FINEST() << "category " << category->name_ << "; min_age: " << category->min_age_ << "; ratio: " << ratio;
+          for (Double& data : category->data_) {
+            Double amount = data * (1.0 - exp(-selectivities_[i]->GetAgeResult(category->min_age_ + j, category->age_length_) * tag_loss_input_[year] * ratio));
+            LOG_FINEST() << "Category " << category->name_ << " numbers at age: " << category->min_age_ + j << " = " << data << " removing " << amount;
+            data -= amount;
+            ++j;
+          }
+          ++i;
         }
-        ++i;
-      }
-    } else if (tag_loss_type_ == PARAM_DOUBLE_TAG) {
-      unsigned i = 0;
-      // identify years (time) since tagging
-      Double time = Double(model_->current_year() - year_);
-      for (auto category : partition_) {
-        Double tag_loss        = tag_loss_[category->name_];
-        Double double_tag_loss = 0.0;
-        if (time > 0.0) {
-          Double A        = (1 - exp(-tag_loss * (time - 1)));
-          Double B        = (1 - exp(-tag_loss * time));
-          double_tag_loss = -log(1.0 - ((B * B) - (A * A)) / (1 - (A * A)));
-        }
-        unsigned j = 0;
-        // StoreForReport(category->name_ + " ratio", ratio);
-        for (Double& data : category->data_) {
-          Double amount = data * (1.0 - exp(-selectivities_[i]->GetAgeResult(category->min_age_ + j, category->age_length_) * double_tag_loss * ratio));
-          LOG_FINEST() << "Category " << category->name_ << " numbers at age: " << category->min_age_ + j << " = " << data << " removing " << amount
-                       << " Selectivity: " << selectivities_[i]->GetAgeResult(category->min_age_ + j, category->age_length_) << " tag_loss: " << tag_loss
-                       << " double_tag_loss: " << double_tag_loss << " ratio: " << ratio << " time: " << time;
-          data -= amount;
-          ++j;
-        }
-        ++i;
       }
     }
   }
@@ -211,7 +188,7 @@ void TagLoss::DoExecute() {
 /**
  * Reset the tag loss process
  */
-void TagLoss::DoReset() {}
+void TagLossEmpirical::DoReset() {}
 
 } /* namespace age */
 } /* namespace processes */

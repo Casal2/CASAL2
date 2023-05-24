@@ -48,7 +48,6 @@ format stage.sex
 names immature.male mature.male immature.female mature.female
 age_lengths no_age_length*4
 
-
 @age_length no_age_length
 type none
 length_weight no_length_weight
@@ -89,6 +88,7 @@ end_table
 @process TagLoss
 type tag_loss
 categories mature.male mature.female
+time_step_proportions 1.0
 tag_loss_rate 0
 selectivities loss_rate1=[type=constant; c=1] lossrate2=[type=constant; c=1]
 tag_loss_type single
@@ -150,7 +150,6 @@ format stage.sex
 names immature.male mature.male immature.female mature.female
 age_lengths no_age_length*4
 
-
 @age_length no_age_length
 type none
 length_weight no_length_weight
@@ -192,6 +191,7 @@ end_table
 type tag_loss
 categories mature.male mature.female
 tag_loss_rate 0.02
+time_step_proportions 1.0
 selectivities loss_rate1=[type=constant; c=1] lossrate2=[type=constant; c=1]
 tag_loss_type single
 year 2008
@@ -250,7 +250,6 @@ format stage.sex
 names immature.male mature.male immature.female mature.female
 age_lengths no_age_length*4
 
-
 @age_length no_age_length
 type none
 length_weight no_length_weight
@@ -294,6 +293,7 @@ end_table
 type tag_loss
 categories mature.male mature.female
 tag_loss_rate 0.02
+time_step_proportions 1.0
 selectivities lr1=[type=logistic; a50=11.9; ato95=5.25] lr2=[type=constant; c=0.5]
 tag_loss_type single
 year 2008
@@ -362,7 +362,6 @@ format stage.sex
 names immature.male mature.male immature.female mature.female
 age_lengths no_age_length*4
 
-
 @age_length no_age_length
 type none
 length_weight no_length_weight
@@ -406,6 +405,7 @@ end_table
 type tag_loss
 categories mature.male mature.female
 tag_loss_rate 0.02
+time_step_proportions 1.0
 selectivities lr1=[type=logistic; a50=11.9; ato95=5.25] lr2=[type=constant; c=0.5]
 tag_loss_type single
 year 2008
@@ -469,7 +469,6 @@ format stage.sex
 names immature.male mature.male immature.female mature.female
 age_lengths no_age_length*4
 
-
 @age_length no_age_length
 type none
 length_weight no_length_weight
@@ -514,6 +513,7 @@ end_table
 type tag_loss
 categories mature.male mature.female
 tag_loss_rate 0.02
+time_step_proportions 1.0
 selectivities lr1=[type=logistic; a50=11.9; ato95=5.25] lr2=[type=constant; c=0.5]
 tag_loss_type single
 year 2008

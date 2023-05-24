@@ -1329,3 +1329,29 @@ and double tagged
 \end{verbatim}}}
 
 See Section \ref{syntax:Process-TagLoss} for more information on the syntax for tag loss.
+
+\subsubsection{\I{Tag loss empirical}}\label{sec:Process-TagLossEmpirical} 
+
+Tag loss is the process which accounts for tag failure or loss where tagged individuals lose their tags. It is applied as a removal, where individuals are removed from the partition as an instantaneous mortality rate, that can happen over multiple time steps in the annual cycle. The empirical tag loss process allows the user to specify specific tag loss rates for each year at liberty for tagged individuals.
+
+For empirical tag loss\index{Tag loss: empirical}, the annual loss rate is simply an instantaneous rate applied for each year of liberty for the specified categories, i.e, for elements in the partition indexed by age ($a$) and category ($c$), the number of tags lost ($N^*_{c,a}$) in each time step $t$, assuming the loss rate $r$ for category $c$, selectivity at age $S_a$, and proportion in the time step $p^t$ is; 
+\begin{equation}
+	N^*_{c,a} = N_{c,a} (1 -e^{-r_c p^t S_a})
+\end{equation}
+
+where $N_{c,a}$ is the number of tagged fish before the process is applied, and $r_c$ is the tag loss rate for category $c$.
+
+The syntax for the empirical tag loss process follows
+
+{\small{\begin{verbatim}
+			@process Tag_loss_empirical
+			type tag_loss_empirical
+			categories single_tagged_fish
+			tag_loss_rate 0.02 0.03 0.04 0.05
+			time_step_proportions 0.25 0.75
+			selectivities One
+			year 1985
+			years_at_liberty 1 2 3 4
+\end{verbatim}}}
+
+See Section \ref{syntax:Process-TagLossEmpirical} for more information on the syntax for empirical tag loss.
