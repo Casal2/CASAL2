@@ -16,7 +16,7 @@ CV.for.CPUE(year, cpue, f, plot.it = TRUE)
 \item{plot.it}{If TRUE, plot the index and the smoothed fit. Otherwise, return a dataframe of the year, index, smoothed fitted value, and cv)}
 }
 \value{
-The function either plots the CPUE, together with a lowess line fitted to it, and returns the c.v. of the residuals to the fit. Or returns a dataframe of the lowess line fits and assocated c.v.s for each point.
+The function either plots the CPUE, together with a lowess line fitted to it, and returns the c.v. of the residuals to the fit. Or returns a dataframe of the lowess line fits and associated c.v.s for each point.
 }
 \description{
 This function is useful for deciding on a c.v. to be used with a CPUE series in a stock assessment model.

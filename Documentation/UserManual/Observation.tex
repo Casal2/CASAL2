@@ -1198,9 +1198,9 @@ This reflects the distributional assumptions that  $O_i$ has the normal distribu
 \subsubsection{Likelihoods for tag recapture by age and length observations}
 \paragraph*{The binomial likelihood\index{Binomial likelihood ! tag-recapture-by-length}}
 
-This likelihood is for situations where the size frequencies or age frequencies of the recaptured tagged fish and of the scanned fish are known. Available in both age or size based models.
+This likelihood is for situations where the length frequencies or age frequencies of both recaptured tagged fish and of the scanned fish are known. Available in both age or length based models.
 
-The likelihood is defined as a binomial, but based on sizes, rather than ages
+The likelihood is defined as a binomial, and based on lengths or ages for both the tag recaptures and scanned individuals. 
 
 \begin{equation}
 \begin{split}
@@ -1211,13 +1211,13 @@ The likelihood is defined as a binomial, but based on sizes, rather than ages
 
 where
 
-$n_i$ = number of fish at size or age $i$ that were scanned
+$n_i$ = number of fish at length or age $i$ that were scanned
 
-$m_i$ = number of fish at size or age $i$ that were recaptured
+$m_i$ = number of fish at length or age $i$ that were recaptured
 
-$N_i$ = number of fish at size or age $i$ in the available population (tagged and untagged)
+$N_i$ = number of fish at length or age $i$ in the available population (tagged and untagged)
 
-$M_i$ = number of fish at size or age $i$ in the available population that have the tag after a detection probability $p_d$ has been applied, $M_i = M_i'p_d$, where $M_i'$ is the expected available population that have the tag.
+$M_i$ = number of fish at length or age $i$ in the available population that have the tag after a detection probability $p_d$ has been applied, $M_i = M_i'p_d$, where $M_i'$ is the expected available population that have the tag.
 
 $Z(x,\delta)$ is a robustifying function with parameter $r > 0$ (to prevent division by zero errors).
 
@@ -1228,9 +1228,11 @@ x       & \text{where } x \geq \delta\\
 \end{cases}
 \]
 
-If a dispersion parameter ($\tau$) is described in the observation then the final negative log likelihood $-log(L)$ contribution is
+If an over-dispersion parameter ($\tau$) is specified then the final negative log likelihood $-log(L)$ contribution is
 
 $$-log(L) = -log(L)' / \tau$$
+
+Note that the over-dispersion is mathematically equivalent to the inverse of a likelihood multiplier on the final negative log-likelihood value, and hence either can be used to achieve the same effect. 
 
 \subsubsection{Likelihoods for proportions-by-category observations}
 

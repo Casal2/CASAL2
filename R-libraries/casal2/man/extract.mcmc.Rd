@@ -30,8 +30,8 @@ extract.mcmc(
 a 'casal2MCMC' that can be integrated using the str() function.
 }
 \description{
-An extract function that reads objective and sample output that are produced from a 'casal2 -m' model run. This funciton
-also create a 'casal2.mcmc' class which can be used in plotting and summary functions.
+An extract function that reads objective and sample output that are produced from a 'casal2 -m' model run. This function
+also creates a 'casal2.mcmc' class which can be used in plotting and summary functions.
 }
 \author{
 C. Marsh

@@ -1,8 +1,8 @@
 #' @title extract.mcmc function for casal2 output
 #'
 #' @description
-#' An extract function that reads objective and sample output that are produced from a 'casal2 -m' model run. This funciton
-#' also create a 'casal2.mcmc' class which can be used in plotting and summary functions.
+#' An extract function that reads objective and sample output that are produced from a 'casal2 -m' model run. This function
+#' also creates a 'casal2.mcmc' class which can be used in plotting and summary functions.
 #'
 #' @author C. Marsh
 #' @param samples.file <string> the name of the input file containing the samples.file output by casal2

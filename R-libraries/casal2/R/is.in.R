@@ -3,6 +3,6 @@
 #' @author Dan Fu
 #' @keywords internal
 #'
-is.in = function(x, y) {
+is.in <- function(x, y) {
   x %in% y
 }

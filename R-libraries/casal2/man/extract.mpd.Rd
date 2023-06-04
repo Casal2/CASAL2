@@ -19,13 +19,13 @@ extract.mpd(file, path = "", fileEncoding = "", quiet = FALSE)
 a 'casal2MPD' object which is essentially a list, that can be integrated using the str() function.
 }
 \description{
-An extract function that reads Casal2 output that are produced from a '-r' or '-e' or '-f' or '-p' model run. This funciton
-also create a 'casal2.mpd' class which can be used in plotting and summary functions. See the casal2 manual for more information.
+An extract function that reads Casal2 output that are produced from a '-r' or '-e' or '-f' or '-p' model run. This function
+also creates a 'casal2.mpd' class which can be used in plotting and summary functions. See the casal2 manual for more information.
 }
 \examples{
 \donttest{
 library(casal2)
-data <- extract.mpd(file = system.file("extdata", "MPD.log", package="casal2"))
+data <- extract.mpd(file = system.file("extdata", "MPD.log", package = "casal2"))
 class(data)
 }
 }

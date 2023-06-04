@@ -4,7 +4,7 @@
 \alias{Regexpr}
 \title{Utility extract function}
 \usage{
-Regexpr(x, y, fixed = T)
+Regexpr(x, y, fixed = T, ...)
 }
 \description{
 Utility extract function

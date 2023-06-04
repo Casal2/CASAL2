@@ -57,7 +57,7 @@
             if (tables[k] == "table") {
               this_table <- eval(parse(text = paste("object[[i]][[j]]$", tables[k], sep = "")))
               for (Nrow in 1:nrow(this_table)) {
-                Line <- paste(this_table[Nrow,], collapse = " ")
+                Line <- paste(this_table[Nrow, ], collapse = " ")
                 cat(Line, file = filename, sep = "", fill = F, labels = NULL, append = T)
                 cat("\n", file = filename, sep = "", fill = F, labels = NULL, append = T)
               }

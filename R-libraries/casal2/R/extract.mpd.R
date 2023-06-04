@@ -1,8 +1,8 @@
 #' @title extract MPD function for readin in Casal2 output that has been generated from a -r, -e, -f, -p run mode.
 #'
 #' @description
-#' An extract function that reads Casal2 output that are produced from a '-r' or '-e' or '-f' or '-p' model run. This funciton
-#' also create a 'casal2.mpd' class which can be used in plotting and summary functions. See the casal2 manual for more information.
+#' An extract function that reads Casal2 output that are produced from a '-r' or '-e' or '-f' or '-p' model run. This function
+#' also creates a 'casal2.mpd' class which can be used in plotting and summary functions. See the casal2 manual for more information.
 #'
 #' @author Dan Fu
 #' @param file the name of the input file containing model output to extract
@@ -11,10 +11,10 @@
 #' @param quiet suppress print or cat statements to screen.
 #' @return a 'casal2MPD' object which is essentially a list, that can be integrated using the str() function.
 #' @export
-#' @examples 
+#' @examples
 #' \donttest{
 #' library(casal2)
-#' data <- extract.mpd(file = system.file("extdata", "MPD.log", package="casal2"))
+#' data <- extract.mpd(file = system.file("extdata", "MPD.log", package = "casal2"))
 #' class(data)
 #' }
 "extract.mpd" <- function(file, path = "", fileEncoding = "", quiet = FALSE) {
@@ -24,7 +24,7 @@
     attributes(object)$class <- c(new.class, attributes(object)$class[attributes(object)$class != new.class])
     object
   }
-  multi_input_args = c("-i", "-I", "--input-force", "--input", "-s", "--simulation", "--profile", "-p", "--projection", "-f")
+  multi_input_args <- c("-i", "-I", "--input-force", "--input", "-s", "--simulation", "--profile", "-p", "--projection", "-f")
   filename <- make.filename(path = path, file = file)
   file <- convert.to.lines(filename, fileEncoding = fileEncoding, quiet = quiet)
 
@@ -36,7 +36,7 @@
     header$seed <- file[4]
     header$version <- file[5]
     header$environment <- file[7]
-    result[["header"]]<-header
+    result[["header"]] <- header
     temp <- substr(result[["header"]]$version, 11, 15)
     if (temp != casal2.binary.version()) {
       cat("WARNING: The output file was generated with a different version than the R libray being used to read the output.\n")
@@ -47,8 +47,9 @@
   }
 
   ## Check this isn't a tabular report by looking at the Call:
-  if (grepl(pattern = "--tabular", x = file[2]) | grepl(pattern = "-t", x = file[2]))
+  if (grepl(pattern = "--tabular", x = file[2]) | grepl(pattern = "-t", x = file[2])) {
     stop("This model was run with the command '--tabular' or '-t'. Please use the extract.tabular() function to import this model run.")
+  }
 
   temp <- get.lines(file, starts.with = "\\*", fixed = F)
   if (length(temp) != 0) {
@@ -62,15 +63,16 @@
     counter <- length(temp)
     ## iterate over all reports and see if this is a multi input run, this is identified by checking if -i in the header &
     ## if ALL reports are duplicated. Some reports will be duplicated because they are year based reports
-    mult_input_run <- FALSE;
-	## check if run is multi parameter
-	for(i in 1:length(multi_input_args)) {
-	  if (grepl(pattern = multi_input_args[i], x = file[2])) {
-	    mult_input_run <- TRUE
-		if(!quiet)
-		  cat("loading a Casal2 output from a multi parameter input format\n")
+    mult_input_run <- FALSE
+    ## check if run is multi parameter
+    for (i in 1:length(multi_input_args)) {
+      if (grepl(pattern = multi_input_args[i], x = file[2])) {
+        mult_input_run <- TRUE
+        if (!quiet) {
+          cat("loading a Casal2 output from a multi parameter input format\n")
+        }
       }
-	}
+    }
 
 
     multi_year_reports <- c("partition", "Partition", "partition_biomass", "PartitionBiomass", "partition_mean_weight", "PartitionMeanWeight", "age_length", "growth_increment", "selectivity_by_year")
@@ -102,9 +104,9 @@
             result[[label]][[as.character(length(result[[label]]) + 1)]][[as.character(report$year)]] <- report
             result[[label]][[as.character(length(result[[label]]))]][[as.character(report$year)]][["type"]] <- NULL
             result[[label]][[as.character(length(result[[label]]))]][[as.character(report$year)]][["year"]] <- NULL
-            result[[label]][[as.character(length(result[[label]]))]][["type"]] = type
+            result[[label]][[as.character(length(result[[label]]))]][["type"]] <- type
           } else {
-            result[[label]][[as.character(length(result[[label]]))]][[as.character(report$year)]] = report
+            result[[label]][[as.character(length(result[[label]]))]][[as.character(report$year)]] <- report
             result[[label]][[as.character(length(result[[label]]))]][[as.character(report$year)]][["type"]] <- NULL
             result[[label]][[as.character(length(result[[label]]))]][[as.character(report$year)]][["year"]] <- NULL
           }
@@ -112,7 +114,7 @@
           ## a simple report
           result[[label]][[as.character(length(result[[label]]) + 1)]] <- report
         }
-        file = get.lines(file, clip.to = "*end")
+        file <- get.lines(file, clip.to = "*end")
       } else {
         ## deal with the single input run.
         if (type %in% multi_year_reports) {
