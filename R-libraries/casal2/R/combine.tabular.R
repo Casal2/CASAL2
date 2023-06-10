@@ -1,8 +1,5 @@
 #' @title combine.tabular used to return a list that combines multiple tabular reports into a single tabular report
-#'
-#' @description
-#' returns a casal2TAB class that is several casal2TAB objects combined into one. Used when tabular output from different chains of the same model are to be combined into a single chain
-#'
+#' @description returns a casal2TAB class that is several casal2TAB objects combined into one. Used when tabular output from different chains of the same model are to be combined into a single chain
 #' @author Alistair Dunn
 #' @param tab_objects list object of tab_object casal2TAB objects
 #' @param Row  Optionally, the Row number to burn in from. Note this is not the iteration but the row that corresponds to your iteration that you want to burn-in from. if keep > 1 then the iteration and row will be different

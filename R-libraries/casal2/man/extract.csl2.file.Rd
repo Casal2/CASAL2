@@ -30,5 +30,5 @@ a list of the Casal2 commands, subcommands, and arguments
 This function reads a Casal2 configuration file and returns a list object in R. Where each element is a command and subcommand from the configuration file
 }
 \author{
-Craig Marsh
+Craig Marsh & Alistair Dunn
 }

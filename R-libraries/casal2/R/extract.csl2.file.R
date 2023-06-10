@@ -2,7 +2,7 @@
 #'
 #' This function reads a Casal2 configuration file and returns a list object in R. Where each element is a command and subcommand from the configuration file
 #'
-#' @author Craig Marsh
+#' @author Craig Marsh & Alistair Dunn
 #' @param file the name of the input file containing model configuration
 #' @param path Optionally, the path to the file
 #' @param fileEncoding Optional, allows the R-library to read in files that have been encoded in alternative UTF formats, see the manual for the error message that would indicate when to use this switch.
