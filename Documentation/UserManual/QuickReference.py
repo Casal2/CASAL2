@@ -48,7 +48,7 @@ Keywords1 = []
 Keywords2 = []
 Keywords3 = ["F","False","T","True","t","f","true","false"]
 Keywords4 = []
-Keywords5 = []
+Keywords5 = ['table','end_table']
 Keywords6 = []
 
 for i in range(len(FILE)):
@@ -96,23 +96,26 @@ for i in range(len(FILE)):
       
 OUTFILE.write('\n\\normalsize\n')  
 
-# Add additional keywords
-Keywords5 = ['table','end_table']
-
 ###############################################################
 # Additional sorting and reformatting of Keywords
 ###############################################################
 Keywords1 = list(set(Keywords1))
-Keywords1.sort()
 Keywords2 = list(set(Keywords2))
-Keywords2.sort()
 Keywords3 = list(set(Keywords3))
-Keywords3.sort()
 Keywords4 = list(set(Keywords4))
-Keywords4.sort()
 Keywords5 = list(set(Keywords5))
-Keywords5.sort()
 Keywords6 = list(set(Keywords6))
+Keywords1.sort()
+Keywords2.sort()
+Keywords3.sort()
+for i in range(len(Keywords4)):
+  if Keywords4[i][0:5] == 'table':
+    Keywords5.append(Keywords4[i])
+    Keywords4[i] = ''
+Keywords4 = list(set(Keywords4))
+Keywords5 = list(set(Keywords5))
+Keywords4.sort()
+Keywords5.sort()
 Keywords6.sort()
 
 for i in range(len(Keywords1)):

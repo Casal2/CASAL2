@@ -229,6 +229,7 @@ true
 
 
 [Keywords 4]
+
 a
 a1
 a2
@@ -436,17 +437,6 @@ step_size
 steps
 sum_to_one
 t0
-table
-table catches
-table data
-table error_values
-table method
-table n
-table numbers
-table obs
-table proportions
-table recaptured
-table scanned
 tag_loss_rate
 tag_loss_type
 tagged_categories
@@ -495,5 +485,15 @@ years_at_liberty
 [Keywords 5]
 end_table
 table
+table catches
+table data
+table error_values
+table method
+table n
+table numbers
+table obs
+table proportions
+table recaptured
+table scanned
 
 [Preprocessor keywords]
