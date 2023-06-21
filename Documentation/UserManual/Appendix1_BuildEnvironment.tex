@@ -1,0 +1,240 @@
+\section{Compiling \CNAME}\label{sec:build_environment}
+
+This section describes how to set up the environment on your local machine that will allow you to build and compile \CNAME. The build environment can be on either Microsoft Windows or Linux systems. At present the \CNAME\ build system supports Microsoft Windows 10+ and Linux (with GCC/G++ 4.9.0+). Apple OSX or other platforms are not currently supported.
+
+\subsection{Overview}
+
+The build system is made up of a collection of python scripts that do various tasks. These are located in \path{CASAL2/BuildSystem/buildtools/classes/}. Each python script has its own set of functionality and undertakes one set of actions.
+
+The top level of the build system can be found at \path{CASAL2/BuildSystem/}. In this directory you can run \texttt{doBuild.bat help} from a command terminal in Microsoft Windows systems or \texttt{./doBuild.sh help} from a terminal in Linux systems.
+The script will take one or two parameters depending on what style of build you'd like to achieve. These commands allow the building of various stand-alone binaries, shared libraries, and the documentation. Note that you will need additional software installed on your system in order to build \CNAME .  These requirements are described below.
+
+A summary of all of the doBuild arguments can be found using the command \texttt{doBuild help} in the BuildSystem directory.
+
+The arguments to doBuild are:
+
+Usage: doBuild $<$build\_target$>$ $<$argument$>$
+\begin{description}
+  \item{help} Print out the doBuild help (this output)
+  \item{check} Do a check of the build system
+  \item{clean} Remove debug/release build files
+  \item{clean\_all} Remove all build files and ALL prebuilt binaries
+  \item{version} Build the current version files for C++, R, and LaTeX
+\end{description}
+
+Build required libraries (DLLs/shared objects for Casal2)
+\begin{description}
+  \item{thirdparty} Build the third party libraries
+  \begin{description}
+    \item{$<$option$>$} Optionally specify the target third party library to build, either adolc or betadiff (default is none)
+  \end{description}
+\end{description}
+
+Build development and test versions (for development builds only)
+\begin{description}
+\item{release} Build stand-alone release executable
+  \begin{description}
+	\item{$<$option$>$} Optionally specify the target third party library to build, either adolc or betadiff (default is none)
+  \end{description}
+  \item{debug} Build stand-alone debug executable
+  \begin{description}
+	\item{$<$option$>$} Optionally specify the target third party library to build, either adolc or betadiff (default is none)
+  \end{description}
+  \item{test} Build stand-alone unit tests executable
+  \item{unittests} Run the unit tests
+  \item{modelrunner} Run the test suite (requires "test" to have been built)
+\end{description}
+
+Build the Casal2 end-user application
+\begin{description}
+  \item{library} Build shared library for use by front end application
+  \begin{description}
+    \item{$<$argument$>$} Required argument to specify the target library to build: release, adolc, betadiff, or test
+  \end{description}
+  \item{frontend} Build \CNAME\ front end application
+\end{description}
+
+Create the archive, R Library, documentation, and the installers
+\begin{description}
+  \item{documentation} Build the \CNAME\ user manuals
+  \item{rlibrary} Create the R library
+  \item{archive} Create a zipped archive of the \CNAME\ application.
+  \begin{description}
+     \item{$<$true$>$} if specified build skips everything but frontend
+  \end{description}
+  \item{installer} Create the Microsoft Windows installer package
+  \item{deb} Create Linux .deb installer
+\end{description}
+
+The outputs from the build system commands will be placed in sub-folders of \path{CASAL2/BuildSystem/bin/<operating system>/<build_type>}
+
+For example:
+
+\path{CASAL2/BuildSystem/windows/debug}
+
+\path{CASAL2/BuildSystem/windows/library_release}
+
+\path{CASAL2/BuildSystem/windows/thirdparty/}
+
+\path{CASAL2/BuildSystem/linux/library_release}
+
+\subsection{Building on Windows}
+
+\subsubsection{Prerequisite Software}
+
+The building of \CNAME\ requires additional build tools and software, including git version control, GCC compiler, LaTeX compiler, and a Windows package builder. \CNAME\ requires specific implementations of these packages and versions in order to build without modifying the build scripts.
+
+\textbf{C++ and Fortran Compiler}
+
+Source: tdm-gcc (MinGW-w64) from \url{https://jmeubank.github.io/tdm-gcc/}.
+
+\CNAME\ is designed to compile under GCC on Microsoft Windows and Linux. While it may be possible to build the package using different compilers, the \CNAME\ Development Team does provide any assistance or recommendations. We recommend using 64-bit TDM-GCC with a version of at least 10.3.0. Ensure you have the "fortran" and "openmp" options installed as a part of the "gcc" install option drop-down tick boxes as these are required. For example, from  \url{https://jmeubank.github.io/tdm-gcc/articles/2021-05/10.3.0-release}, select the 64+32-bit MinGW-w64 edition, then select the Custom install and tick all boxes. 
+
+Note that a common error that can be made is having a different GCC compiler in your path when attempting to compile. For example, rtools includes a version of the GCC compiler. We recommend removing these from your path prior to compiling.
+
+\textbf{GIT Version Control}
+
+Source: Command line GIT from \url{https://www.git-scm.com/downloads}.
+
+\CNAME\ automatically adds a version details to its files and any output based on the GIT version of the latest commit to its repository. This includes the name of source repository that was used. The command line version of GIT is used  to generate the version details.
+
+\textbf{MiKTeX Latex Processor}
+
+Source: Portable version from \url{http://www.miktex.org/portable}.
+
+The main user documentation for \CNAME\ is a PDF manual generated from LaTeX. The LaTeX syntax sections of the documentation are generated, in part, directly from the code. In order to regenerate the user documentation, you will need the MiKTeX LaTeX compiler.
+
+\textbf{7-Zip}
+
+Source: 7-Zip from \url{http://www.7-zip.org/download.html}.
+
+The BuildSystem calls 7zip.exe to unzip files in the build system; it is advised to have this in the path.
+
+\textbf{Inno Setup Installer Builder (optional)}
+
+Source: Inno Setup 5 from \url{http://www.jrsoftware.org/isdl.php}
+
+If you wish to build a Microsoft Windows compatible Installer for \CNAME\ then you will need the Inno Setup 5 application installed on the machine. The installation path must be \path{C:\Program Files (x86)\Inno Setup 5\} in order for the build scripts to fins and use it.
+
+\subsubsection{Pre-Build Requirements}
+
+Prior to building \CNAME\ you will need to ensure you have both G++ and GIT in your path. You can check both of these by typing the following commands and checking that they return the correct version number:
+
+\texttt{g++ -{}-version}
+
+\texttt{git -{}-version}
+
+This also allows you to check that there are no alternative versions of a GCC compiler that may confuse the \CNAME\ build. It’s also worth checking to ensure GFortran has been installed with the G++ compiler by typing:
+
+\texttt{gfortran -{}-version}
+
+If you wish to build the documentation bibtex will also need to be in the path, e.g., to check, try:
+
+\texttt{bibtex -{}-version}
+
+\subsubsection{Building \CNAME}
+
+The build process is relatively straightforward. Before you start the build process, you can run \texttt{doBuild check} from the command prompt to check if your build environment is complete. Make sure that you are within \path{CASAL2/BuildSystem/} to run \texttt{doBuild}. 
+
+\texttt{doBuild check} will summarise Windows environment PATH as a part of its output, and this can be used to check that the paths for g++ and gfortran and the g++ point to where the correct version of GCC is installed. 
+
+The build process is as follows: 
+\begin{enumerate}
+  \item Download a clone of the code on your local machine
+  \item Navigate to the BuildSystem folder in \path{CASAL2/BuildSystem}
+  \item You need to build the third party libraries with the following commands from the command prompt:
+  \begin{itemize}
+    \item \texttt{doBuild thirdparty}
+  \end{itemize}
+  \item You need to build the binary you want to use:
+  \begin{itemize}
+    \item \texttt{doBuild release}
+  \end{itemize}
+  \item You can build the documentation if you want:
+  \begin{itemize}
+    \item \texttt{doBuild documentation}
+  \end{itemize}
+\end{enumerate}
+
+\subsection{Building on Linux}
+
+This guide has been written against a fresh install of Ubuntu 20.04. With Ubuntu we use apt-get to install new packages. You’ll need to be familiar with the package manager for your distribution to correctly install the required prerequisite software. For this you will require administrator level access.
+
+\subsubsection{Prerequisite Software}
+
+\textbf{Compiler G++}
+
+If gfortran is not installed, install this with: \texttt{sudo apt-get install gfortran}.
+
+\textbf{GIT Version Control}
+
+Git may not be installed by default and it can be installed with \texttt{sudo apt-get install git}
+
+\CNAME\ automatically adds a version details to its files and any output based on the GIT version of the latest commit to its repository. This includes the name of source repository that was used. The command line version of GIT is used  to generate the version details.
+
+\textbf{CMake}
+
+CMake is required to build multiple third-party libraries and the main code base. You can do this with \texttt{sudo apt-get install cmake}
+
+\textbf{Python2 Modules}
+
+There are a number of Python2 modules that are required to build \CNAME. These can be installed with \texttt{sudo apt-get install \texttt{module-name}}. For example, You may need to install \texttt{datetime}, \texttt{re}, and \texttt{distutils} Python modules. 
+
+Latex on Linux is required, and the Texlive Latex Processor is recommended. This can be installed with:
+
+\texttt{sudo apt-get install texlive-binaries}
+\texttt{sudo apt-get install texlive-latex-base}
+\texttt{sudo apt-get install texlive-latex-recommended}
+\texttt{sudo apt-get install texlive-latex-extra}
+
+Alternatively you can install the complete package with 
+\texttt{sudo apt-get install texlive-full}
+
+\subsubsection{Building \CNAME}
+
+The build process is relatively straightforward. You can run \texttt{./doBuild.sh check} to see if your build environment is ready.
+
+\begin{enumerate}
+	\item Download a clone of the code on your local machine
+	\item Navigate to the BuildSystem folder in \path{CASAL2/BuildSystem}
+	\item You need to build the third party libraries with:
+	\begin{itemize}
+	    \item \texttt{./doBuild.sh thirdparty}
+	\end{itemize}
+	\item You need to build the binary you want to use:
+	\begin{itemize}
+		\item \texttt{./doBuild.sh release}
+	\end{itemize}
+	\item You can build the documentation:
+	\begin{itemize}
+		\item \texttt{./doBuild.sh documentation}
+	\end{itemize}
+\end{enumerate}
+
+\subsection{Troubleshooting}
+
+\subsubsection{Third-party Libraries}
+
+It's possible that there will be build errors or issues building the third-party libraries. If you encounter an error, then check the log files to locate the source of the problem. Each third-party build system stores a log of everything that was done. The files will be named
+
+\begin{itemize}
+	\item casal2\_unzip.log
+	\item casal2\_configure.log
+	\item casal2\_make.log
+	\item casal2\_build.log
+	\item \dots etc,.
+\end{itemize}
+
+Some of the third-party libraries require very specialised environments for compiling under GCC on Windows. These libraries are packaged with MSYS (MinGW Linux style shell system). The log files for these will be found in \path{ThirdParty/<library name>/msys/1.0/<library name>/}
+
+e.g., \path{ThirdParty/adolc/msys/1.0/adolc/ADOL-C-2.5.2/casal2_make.log}\\
+e.g., \path{ThirdParty/boost/boost_1_58_0/casal2_build.log}
+
+A common issue when running doBuild thirdparty are Python error messages about missing modules, e.g., ModuleNotFoundError: No module named 'dateutil'. This type of error message indicates that a Python module (library) is missing and will need to be installed. For instance, to install the 'dateutil' module, type the following into a command prompt or terminal window: pip3 install python-dateutil.  
+
+\subsubsection{Main Code Base}
+
+If the unmodified code base does not compile, the most likely cause is an issue with the third-party libraries not being built correctly. As updates and revisions are outside the control of the Development Team, problems can arise that may require the developers of the third party libraries to resolve first. However, versions of these libraries are included in the \CNAME\ source code and these should work. For any specific issues contact a local expert with regard to your specific system environment, or else the \CNAME\ development team for help.
+
+
+

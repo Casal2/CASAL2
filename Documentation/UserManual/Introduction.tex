@@ -23,9 +23,9 @@ The peer-reviewed journal article reference for \CNAME\ is \cite{doonan_casal2}.
 
 \subsection{\I{\CNAME\ Contributors}}
 
-The \CNAME\ project is maintained by the \CNAME\ Development Team. \CNAME\ was initiated by Alistair Dunn. The software architect and lead author of the software code was Scott Rasmussen. Contributors to the development of \CNAME\ are Scott Rasmussen, Alistair Dunn, Ian Doonan, Craig Marsh, Teresa A'mar, Kath Large, Sophie Mormede, Samik Datta, Matt Dunn, Jingjing Zhang, and Marco Kienzle.
+The \CNAME\ project is maintained by the \CNAME\ Development Team. \CNAME\ was initiated by Alistair Dunn. The software architect and lead author of the software code was Scott Rasmussen. Contributors to the development of \CNAME\ are Scott Rasmussen, Alistair Dunn, Ian Doonan, Craig Marsh, Teresa A'mar, Kath Large, Sophie Mormede, Samik Datta, Matt Dunn, Jingjing Zhang, Marco Kienzle, and Arnaud Gr\"{u}ss.
 
-The development of \CNAME\ was funded by \href{http://www.niwa.co.nz}{National Institute of Water \& Atmospheric Research Ltd. (NIWA)}, with additional funding from the New Zealand \href{http://www.mpi.govt.nz}{Ministry for Primary Industries}.
+The development of \CNAME\ was funded by \href{http://www.niwa.co.nz}{National Institute of Water \& Atmospheric Research Ltd. (NIWA)}, with additional funding from the New Zealand \href{http://www.mpi.govt.nz}{Ministry for Primary Industries}. More recent developments of this version were funded by Ocean Environmental Ltd.
 
 \subsection{\I{Software license}}
 
@@ -35,9 +35,11 @@ Copyright \copyright 2016-\SourceControlYearDoc, \href{https://www.niwa.co.nz}{\
 
 \subsection{\I{Where to get \CNAME }}
 
-See \url{https://www.niwa.co.nz/} for information about \CNAME. The \CNAME\ source code is hosted on GitHub, and can be found at \url{http://github.com/NIWAFisheriesModelling/CASAL2}\index{GitHub}.
+This version of \CNAME\ is hosted on GitHub, and can be found at \url{https://github.com/alistairdunn1/CASAL2}\index{GitHub}.
 
-There are installation packages available for Linux and Microsoft Windows. Release versions of the package includes the \CNAME\ binary, the \CNAME\ \R\ library, the \CNAME\ User Manual and associated documentation, example models, and other information. The installation packages can be downloaded at \url{https://github.com/NIWAFisheriesModelling/CASAL2/releases}.
+There are installation packages available for Linux and Microsoft Windows. Release versions of the package includes the \CNAME\ binary, the \CNAME\ \R\ library, the \CNAME\ User Manual and associated documentation, example models, and other information. The installation packages for older versions of \CNAME\ can be downloaded at \url{https://github.com/NIWAFisheriesModelling/CASAL2/releases}. For more recent versions of the compiled packages, please contact the \CNAME\ Development Team. 
+
+See \url{https://www.niwa.co.nz/} or \url{https://github.com/alistairdunn1/CASAL2} for more information about \CNAME.
 
 \subsection{\I{System requirements}}
 
@@ -83,6 +85,6 @@ The random number generator\index{Random number generator} used in \CNAME\ uses 
 
 Note that the output from \CNAME\ may differ slightly on the different operating systems and operating system versions due to different precision arithmetic or other platform-dependent (including CPU hardware) implementation details. In particular, the implementation of the standard C++ library \texttt{math.h} differs slightly on different platforms, and hence the results from different platforms may be different.
 
-Unit tests of the underlying \CNAME\ code are run at build time, using the \href{https://github.com/google/googletest}{Google Test and Mock} unit testing and mocking framework. The unit test framework aims to cover a significant proportion of the key functionality within the \CNAME\ code base. The unit test code\index{Unit tests} for \CNAME\ is available as a part of the underlying source code.
+\CNAME\ uses unit tests and post-compile model validations to verify the source code. Unit tests of the underlying \CNAME\ code are run at build time using the \href{https://github.com/google/googletest}{Google Test and Mock} unit testing and mocking framework. The unit test framework aims to cover a significant proportion of the key functionality within the \CNAME\ code base. The unit test code\index{Unit tests} for \CNAME\ is available as a part of the underlying source code. Post-compile models are run using Python scripts at the end of every build and with each commit to the GitHub repository. See Appendix \ref{sec:buildrules} for more information. 
 
 

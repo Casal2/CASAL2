@@ -315,11 +315,12 @@ Single-stepping means \CNAME\ can 'pause' after each year in the annual cycle du
 
 \CNAME\ also applies sanity checks on model configurations. These can be bypassed using the command line option \subcommand{--verifylevel} or \subcommand{-V}. These sanity checks are based on expected model structures, i.e., \CNAME\ verifies models have an ageing process. Currently only a few sanity checks are implemented.
 
-\subsection{\I{Validating models across versions}}\label{sec:Assert}\index{Asserts}\index{Unit tests}
+\subsection{\I{Validating models between different versions of Casal2}}\label{sec:Assert}\index{Asserts}\index{Unit tests}
 
-\CNAME\ has a number of built-in capabilities to validate and verify the code across versions. Unit tests of the \CNAME\ code are carried out at build time, using the \href{https://github.com/google/googletest}{Google Test and Mock} unit testing and mocking framework. The unit test framework aims to cover a significant proportion of the key functionality within the \CNAME\ code base. The unit test code\index{Unit tests} for \CNAME\ is available as a part of the source code.
+\CNAME\ can validate or check addressables parameters for testing and validation using the \command{assert} command. Asserts check the value of a specific addressable (for example, an observation, parameter, or the objective function) against a user defined predefined value. See Section \ref{syntax:Assert} for more information.
 
-\CNAME\ can also validate or check certain addressables parameters as a part of testing and validation with the assert command. Asserts check the value of a specific addressable (for example, observations, parameters, or the objective function) with a predefined value. Asserts are one aspect of the internal and system tests \CNAME\ has to ensure consistency across versions and revisions (see Section \ref{syntax:Assert})
+Asserts are one of a number of the internal and system tests used by \CNAME\ to ensure consistency across versions and revisions. \CNAME\ also uses unit tests and post-compile model validations to verify the source code. See Appendix \ref{sec:buildrules} for more information. 
+
 
 \subsection{\CNAME\ exit status values\index{Exit status value}}
 

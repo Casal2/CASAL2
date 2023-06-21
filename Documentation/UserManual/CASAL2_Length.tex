@@ -192,11 +192,11 @@
 \newcommand{\authors}{\CNAME\ Development Team}
 % hyper ref for Development Team email
 \newcommand{\emaillink}{\href{mailto:"Casal2 Development Team"<casal2@niwa.co.nz>?subject=Casal2:}{\texttt{Casal2 Development Team}}}
-\newcommand{\github}{\url{https://github.com/NIWAFisheriesModelling/CASAL2}}
+\newcommand{\github}{\url{https://github.com/alistairdunn1/CASAL2}}
 \newcommand{\authorlink}{\href{mailto:"Casal2 Development Team"<casal2@niwa.co.nz>?subject=Casal2:}{authors}}
 % hyper ref for email
 \newcommand{\Organisation}{National Institute of Water \& Atmospheric Research Ltd.} %NIWA
-\newcommand{\ManualRef}{\authors\ (\DocYear). \CNAME\ user manual for length-based models, \VER. \Organisation\ \emph{NIWA Technical Report 139}. \ref{TotPages} p. (Using source code from \SourceRepos)} % full document reference
+\newcommand{\ManualRef}{\authors\ (\DocYear). \CNAME\ user manual for age-based models, \VER. \Organisation\ \emph{NIWA Technical Report 139}. \ref{TotPages} p. (Using source code from \SourceRepos)} % full document reference
 
 % Special commands for TODOs and Status checking
 %% Use these for developers
@@ -366,11 +366,13 @@ Citation: \ManualRef
 \let\section\stdsection
 
 % Appendices
+\clearemptydoublepage{}
+\begin{appendices}
+\include{Appendix1_BuildEnvironment}
 %\clearemptydoublepage{}
-%\include{Appendix1}
-
-%\clearemptydoublepage{}
+\include{Appendix2_BuildRules}
 %\include{Appendix2}
+\end{appendices}
 
 \end{document}
 %End

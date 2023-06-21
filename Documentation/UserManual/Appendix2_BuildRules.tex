@@ -1,0 +1,71 @@
+\section{\CNAME\ build guidelines and validation\label{sec:buildrules}}
+
+\subsection{\CNAME\ coding practice and style}\label{subsec:codepractive}
+
+\CNAME\ is written in C++ and uses the Google C++ style guide (see \url{https://google.github.io/styleguide/cppguide.html}). 
+
+In general when editing or writing code for \CNAME\:
+\begin{enumerate}
+  \item Using consistent indentations inside functions and loops, and descriptive and human readable variable or function names.
+  \item Use of the characters `\_' on the end of class variables defined in the .h files. 
+  \item Annotate and comment the code, especially where it would help another contributor understand the program logic and rationale.
+  \item Add descriptive log messages to aid in debugging and checking of the program logic flow.
+  \item Implement unit tests, internal models, and external models to test and validate the new or changed functionality.
+  \item Document the functionality in the \CNAME\ user manual.
+\end{enumerate}
+
+\CNAME\ allows printing of logging messages art runtime using the --loglevel command line argument. The levels of logging in \CNAME\ are:
+\begin{itemize}
+	\item LOG\_MEDIUM()  usually reserved for iterative functionality (e.g. estimates during estimation phase)
+	\item LOG\_FINE() the level of reporting between an actual report and a fine scale detail that end users are not interested in (Developers)
+	\item LOG\_FINEST() Minor fine scale details within a function or routine.
+	\item LOG\_TRACE() put at the beginning of every function
+\end{itemize}
+
+e.g., to run \CNAME\ with logging, use 
+
+\texttt{casal2 -r --loglevel finest > MyReports.csl2 2> log.out}
+
+This will output all the logged information to \texttt{log.out}.
+
+\subsection{Units tests and model validation}
+
+The \CNAME\ development places an emphasis on maintaining software integrity and reproducibility between revisions. \CNAME\ uses model validations and built in unit tests to validate and verify the code each time \CNAME\ is compiled and built. 
+
+There are three different validation approaches in \CNAME. These are 
+\begin{enumerate}
+	\item Mocking specific classes.
+	\item Implementing internal models (implemented in C++ source code with extension \texttt{.Test.cpp}) that have variable test cases for specific classes. 
+	\item Implementing externally run models (found in the TestModel folder) that are validated to generate expected output.
+\end{enumerate}
+
+To implement mocking of classes and internal models, \CNAME\ uses the Google testing framework and the Google mocking framework.
+
+To implement testing of full models, input configuration files are run using the compiled \CNAME\ binaries, and the output compared with expected output using @assert commands.
+
+\subsubsection{Mocking specific classes}
+
+Classes are unit tested using unit tests that are a part of the source code. These are designed to check the components of the code to validate that functions provide expected output. These unit tests are run each time \CNAME\ is compiled.
+
+When adding unit tests, they should to be developed and tested outside of \CNAME\. This gives confidence that the test does not contain any calculation errors. 
+
+Mocking specific classes is used to validate specific functionality and is encouraged because it is the easiest to isolate simple errors that may be introduced with code changes. 
+
+As examples, see (i) the file \texttt{VonBertalanffy.Test.cpp} mocks the von Bertalanffy age-length class and tests the mean length calculation, and (ii) the \texttt{Partition} class has the file \texttt{Partition.Test.cpp} that validates user inputs and model expectations.
+
+\subsubsection{Internal mocking of simple models}
+
+Mocking of simple models is done using a number of internal models. Most of the functionality for implementing these are in the source folder \texttt{/CASAL2/source/TestResources}. 
+
+These implements simple models and run test cases with differing class implementations by running an internal empty model and testing the output of classes from a model run. 
+
+As examples, see (i) the \texttt{LogNormal.Test.cpp} in the \texttt{Projects} class that test the lognormal distribution when used for projections, and (ii) the \texttt{TagByLength} process in \texttt{TagByLength.Test.cpp} that tests functionality of the tagging process.
+
+\subsubsection{External testing using test models}
+
+External tests are run following compilation using the Python modelrunner.py scripts (i.e., using the \texttt{DoBuild modelrunner} script in the BuildSystem folder). These models are used to test model runs, minimisation routines, and MCMC output.
+
+The test model input configuration files are located in the \texttt{TestModel} folder and the command calls to run these are in the modelrunner.py script.  
+
+Contributors are encouraged to add additional models to the list of test models as these be used to validate the combined functionality of a range of interrelated commands and subcommands in \CNAME. 
+
