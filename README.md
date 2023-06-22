@@ -10,17 +10,14 @@ This repository contains the required libraries and source code to compile and r
 
 ## Casal2 clone
 
-This respository is a clone of Casal2 of https://github.com/NIWAFisheriesModelling/CASAL2. It is intended to have additional bug fixes and enhancements for potential inclusion into the original NIWA Casal2 codebase. 
+This repository is a clone of Casal2 of https://github.com/NIWAFisheriesModelling/CASAL2. It is intended to have additional bug fixes and enhancements for potential inclusion into the original NIWA Casal2 codebase. 
 
 ## Releases
 
-The most recent production version of Casal2 is available [here](https://github.com/NIWAFisheriesModelling/CASAL2/releases/tag/v22.08). The production version has been checked by comparing the 7 sets of Test Case MPD and MCMC results with CASAL and generating [Test Case reports]
-
-The most recent development version of Casal2 from this repository is available from https://github.com/alistairdunn1/CASAL2.
+The most recent development version of Casal2 from this repository is available from https://github.com/alistairdunn1/CASAL2.  The most recent NIWA version of Casal2 is available from https://github.com/NIWAFisheriesModelling/CASAL2, but that may not contain all of the bug-fixes and enhancements found in this version.
 
 ## Auxiliary resources
 
-An R package that will help post processing Casal2 models can be found here [r4Casal2](https://github.com/alistairdunn1/r4Casal2). It has a publicly hosted book [found here](https://niwafisheriesmodelling.github.io/r4Casal2/) which demonstrates functionality of the r4Casal2 R package.
+An R package that will help post processing Casal2 models can be found here [r4Casal2](https://github.com/alistairdunn1/r4Casal2). It has a publicly hosted book [found here](https://alistairdunn1.github.io/r4Casal2/) which demonstrates functionality of the r4Casal2 R package. The r4Casal2 package is a clone of r4Casal2 from https://github.com/NIWAFisheriesModelling/r4Casal2. It is intended to have additional bug fixes and enhancements for potential inclusion into the original NIWA r4Casal2 codebase. 
 
-More information about Casal2, see https://github.com/NIWAFisheriesModelling/CASAL2
-
+More information about Casal2, see https://github.com/alistairdunn1/CASAL2 and https://github.com/NIWAFisheriesModelling/CASAL2
