@@ -405,7 +405,7 @@
 
 \defComLab{model}{Define an object of type \emph{Model}}
 
-\defSub{type}{Type of model (only type=age is currently implemented)}
+\defSub{type}{Type of model (either type=age or type=length)}
 \defSub{base\_weight\_units}{Define the units for the base weight measurement unit (grams, kilograms (kgs), or tonnes). This will be the default unit of any weight input values}
 \defSub{threads}{The number of threads to use for this model}
 
@@ -415,7 +415,7 @@
 \defSub{final\_year}{Define the final year of the model, excluding years in the projection period}
 \defSub{min\_age}{Minimum age of individuals in the population}
 \defSub{max\_age}{Maximum age of individuals in the population}
-\defSub{age\_plus}{Define the oldest age or extra length midpoint (plus group size) as a plus group}
+\defSub{age\_plus}{Define the oldest age as a plus group}
 \defSub{initialisation\_phases}{Define the labels of the phases of the initialisation}
 \defSub{time\_steps}{Define the labels of the time steps, in the order that they are applied, to form the annual cycle}
 \defSub{projection\_final\_year}{Define the final year of the model when running projections}
@@ -821,10 +821,6 @@
 
 \defSub{categories}{The labels of the categories to age}
 
-\commandlabsubarg{process}{type}{Load\_Partition}
-
-\defSub{table}{The table of data specifying the n in each partition category and age}
-
 \commandlabsubarg{process}{type}{Maturation}
 
 \defSub{from}{The list of categories to mature from}
@@ -1087,10 +1083,6 @@
 \defSub{label}{The label of the process}
 \defSub{type}{The type of process}
 
-\commandlabsubarg{process}{type}{Load\_Partition}
-
-\defSub{table}{The table of data specifying the n in each partition category and age}
-
 \commandlabsubarg{process}{type}{Mortality\_Constant\_Rate}
 
 \defSub{categories}{The list of category labels}
@@ -1286,9 +1278,6 @@
 
 
 \commandlabsubarg{report}{type}{Initialisation\_Partition}
-
-
-\commandlabsubarg{report}{type}{Initialisation\_Partition\_Mean\_Weight}
 
 
 \commandlabsubarg{report}{type}{MCMC\_Covariance}

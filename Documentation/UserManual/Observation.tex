@@ -4,15 +4,15 @@ The command and subcommand syntax for the estimation section is given in Section
 
 \subsection{\I{Observations}\index{Observations}}
 
-The objective function calculates the goodness-of-fit of the model to the observation data. Observations are typically supplied at an instance in time, over a group of aggregated categories. Most observations are sampled over time, i.e., data which were recorded for one or more years, in the same format each year. Examples of time series data types include relative abundance indices, commercial catch length frequencies, and survey numbers-at-age.
+The objective function calculates the goodness-of-fit of the model to the observation data. Observations are typically supplied at an instance in time, over a group of aggregated categories. Most observations are sampled over time, i.e., data which were recorded for one or more years, in the same format each year. Examples of time series data types include relative abundance indices, commercial catch length frequencies, and survey \ifAgeBased numbers-at-age. \else numbers-at-length. \fi
 
 Definitions for each type of observation are described below, including how the observed values should be formatted, how \CNAME\ calculates the expected values, and the likelihoods that are available for each type of observation.
 
-There are two main types of observations available in \CNAME. The first type is observations that are associated with a process, and the second are associated with a mortality block (See Section \ref{sec:MortalityBlock}.
+There are two main types of observations available in \CNAME. The first type is observations that are associated with a process, and the second are associated with a mortality block (See Section \ref{sec:Process-Mortality}.
 
 Observations for a process are indicated by their type --- these use the word process as a part of the type name, e,.g., \defComArg{observation}{type}{abundance} is an observation of relative abundance that occurs during a mortality block within a time step, and \defComArg{observation}{type}{process\_abundance} is a observation  of relative abundance that occurs during a process within a time step.
 
-\subsubsection{\I{Mortality block associated observations}}
+\subsubsection{\I{Mortality block associated observations}}\label{sec:MortalityBlockObservations}
 
 All observations within this class are calculated similarly. That is, the expected values are calculated at the beginning of the mortality block and at the end of the mortality block. \CNAME\ then uses a linear interpolation to approximate the expected values part way through a mortality block using the subcommand \subcommand{time\_step\_proportion}. This feature could be useful if a survey occurs part way through an exploitation phase, which may be part way through a fishing season when modelling a fish population. Each observation in this class will evaluate different expectations of the partition (explained in the following descriptions).
 
@@ -21,18 +21,22 @@ The observation \texttt{types} available with this class of observations are:
 \begin{itemize}
 	\item \subcommand{abundance}
 	\item \subcommand{biomass}
+	\ifAgeBased
 	\item \subcommand{proportions\_at\_age}
+	\fi
 	\item \subcommand{proportions\_at\_length}
 	\item \subcommand{proportions\_by\_category}
 	\item \subcommand{tag\_recapture\_by\_length}
+	\ifAgeBased
 	\item \subcommand{tag\_recapture\_by\_age}
+	\fi
 \end{itemize}
 
 \paragraph*{\I{Abundance or biomass observations}}\label{sec:Observation-Abundance}\label{sec:Observation-Biomass}
 
-Abundance (or biomass) observations are observations of either a relative or absolute number (or biomass) of individuals from a set of categories after applying a selectivity. The observation classes are the same, except that a biomass observation will use the biomass as the observed (and expected) value (calculated from mean weight of individuals within each age and category) while an abundance observation is the number of individuals.
+Abundance (or biomass) observations are observations of either a relative or absolute number (or biomass) of individuals from a set of categories after applying a selectivity. The observation classes are the same, except that a biomass observation will use the biomass as the observed (and expected) value (calculated from mean weight of individuals within each \ifAgeBased age \else length \fi and category) while an abundance observation is the number of individuals.
 
-Each observation is for a given year and time-step, for some selected age classes of the population (for a range of ages multiplied by a selectivity), for aggregated categories. Furthermore, the label of the catchability coefficient $q$ is required;  $q$ can either be estimated of fixed. For absolute abundance or absolute biomass observations, define a catchability where $q=1$. Catchabilities can be estimated as either free parameters or as nuisance parameters (see Section \ref{subsec:catchabilities}).
+Each observation is for a given year and time-step, for some selected \ifAgeBased age \else length \fi classes of the population (for a range of \ifAgeBased age \else length \fi classes multiplied by a selectivity), for aggregated categories. Furthermore, the label of the catchability coefficient $q$ is required;  $q$ can either be estimated of fixed. For absolute abundance or absolute biomass observations, define a catchability where $q=1$. Catchabilities can be estimated as either free parameters or as nuisance parameters (see Section \ref{subsec:catchabilities}).
 
 
 The observations can be supplied for any set of categories. For example, for a model with the two categories \emph{male} and \emph{female}, an observation of the total abundance/biomass (male $+$ female) or male-only abundance/biomass could be provided. The subcommand \subcommand{categories} defines the categories used to aggregate the abundance/biomass. In addition, each category must have an associated selectivity, defined by \subcommand{selectivities}.
@@ -46,7 +50,7 @@ For example,
 
 defines an observation for males after applying the selectivity male-selectivity. \CNAME\ then requires that an observation is supplied. The expected values for the observations will be the expected abundance (or biomass) of males, after applying the selectivities, at the year and time-step specified.
 
-\CNAME\ calculates the expected values by summing over the defined ages (via the age range and selectivity) and categories at both the beginning and end of a mortality block. \CNAME\ will approximate the expectation part way through the mortality block using the \texttt{time\_step\_proportion}. The default \texttt{time\_step\_proportion} value is 0.5. \CNAME\ does linear interpolation between the start and end abundance (or biomass) from the mortality block.
+\CNAME\ calculates the expected values by summing over the defined \ifAgeBased age \else length \fi classes (via the \ifAgeBased age \else length \fi range and selectivity) and categories at both the beginning and end of a mortality block. \CNAME\ will approximate the expectation part way through the mortality block using the \texttt{time\_step\_proportion}. The default \texttt{time\_step\_proportion} value is 0.5. \CNAME\ does linear interpolation between the start and end abundance (or biomass) from the mortality block.
 
 For an abundance observation the expected value is
 
@@ -58,7 +62,7 @@ E_{i,1} = \sum_{c=1}^{} \sum_{a=1}^{A} S_{a,c} N_{a,c,i,1}
 E_{i,2} = \sum_{c=1}^{} \sum_{a=1}^{A} S_a N_{a,c,i,2}
 \end{equation}
 
-Where $E_{i,1}$ is the expectation at the beginning of time step and $E_{i,2}$ is the expectation at the end of the time-step. $S_a$ is the selectivity for age $a$ and category $c$. If there is no mortality related to this observation then $E_i$ which is used in the likelihood contribution is $E_{i,1}$. If this was a biomass observation, then $N_{a,c,i,1}$ in Equations~\eqref{eq:expec_1} and~\eqref{eq:expec_2} is replaced with $N_{a,c,i,1} \bar{w}_{a,c}$, where $\bar{w}_{a,c}$ is the mean weight of category $c$ at age $a$. If the user wishes to apply 100\% mortality then $E_i = E_{i,2}$.
+Where $E_{i,1}$ is the expectation at the beginning of time step and $E_{i,2}$ is the expectation at the end of the time-step. $S_a$ is the selectivity for \ifAgeBased age \else length \fi $a$ and category $c$. If there is no mortality related to this observation then $E_i$ which is used in the likelihood contribution is $E_{i,1}$. If this was a biomass observation, then $N_{a,c,i,1}$ in Equations~\eqref{eq:expec_1} and~\eqref{eq:expec_2} is replaced with $N_{a,c,i,1} \bar{w}_{a,c}$, where $\bar{w}_{a,c}$ is the mean weight of category $c$ at \ifAgeBased age \else length \fi $a$. If the user wishes to apply 100\% mortality then $E_i = E_{i,2}$.
 
 For applying quantities of mortality between these values ($M_i$), the linear interpolation is
 
@@ -117,9 +121,8 @@ To define a biomass observation instead of an abundance observation, use
 type biomass
 ...
 \end{verbatim}}}
-\ifAgeBased
-% One column version
 
+\ifAgeBased
 \paragraph*{\I{Proportions-at-age}}\label{sec:Observation-ProportionsAtAge}
 
 Proportions-at-age observations are observations of the relative number of individuals at age, via some selectivity.
@@ -732,7 +735,7 @@ A list of \texttt{types} that are associated with this set of observations:
 	\item \texttt{process\_proportions\_by\_category}
 \end{itemize}
 
-These observations have the same expectations as the mortality block versions described in Section~\ref{sec:MortalityBlock}. With the exception that instead of wrapping a mortality block they can wrap any process type available in \CNAME.
+These observations have the same expected values as the mortality block versions described in Section \ref{sec:MortalityBlockObservations}. With the exception that instead of wrapping a mortality block they can wrap any process type available in \CNAME.
 
 \subsubsection{\I{Specific process observations}}
 
@@ -999,7 +1002,6 @@ You must specify aggregated observed recaptures for a given year, fishery, time-
 There is currently only one likelihood available for this observation and that is the Poisson ().
 
 \else
-% Two column version
 \begin{itemize}
 	\item \texttt{process\_removals\_by\_length}
 	
@@ -1409,16 +1411,16 @@ When the $(O_i)$ are assumed to be normally distributed and the prior is log-uni
 \hat q = \frac{-S_1 + \sqrt{S_1^2 + 4(n + 1)S_2}}{2(n+1)}
 \end{equation}
 
-but $\hat q$ with either a normal or lognormal prior cannot be solved for.
+but $\hat q$ with either a Normal or Lognormal prior cannot be solved for.
 
-When the $O_i$ are assumed to be lognormally distributed and the prior is log-uniform, equation~\eqref{EQ:6} becomes
+When the $O_i$ are assumed to be Lognormally distributed and the prior is log-uniform, equation~\eqref{EQ:6} becomes
 
 
 \begin{equation}\label{EQ:8}
 \hat q = exp\frac{0.5n -1 + S_3}{S_4}
 \end{equation}
 
-and if the prior is lognormal,
+and if the prior is Lognormal,
 
 \begin{equation}\label{EQ:9}
 \hat q = exp\frac{0.5n -1.5 + log(\mu_q)/\sigma_q^2 + S_3}{S_4 + 1 / \sigma_q^2}
@@ -1441,12 +1443,12 @@ An example of specifying the syntax and an equivalent additional prior
 	cv 0.2
 \end{verbatim}}}
 
-
+\ifAgeBased
 \subsection{\I{Ageing error}}\label{sec:AgeingError}
 
 \CNAME\ can apply ageing error to expected age frequencies estimated by the model. The ageing error is applied as a misclassification matrix, which has the effect of 'smearing' the expected age frequencies. This is mimicking the error involved in identifying the age of individuals. For example, fish species are aged by reading the ear bones (otoliths) which can be quite difficult depending on the species. These age frequencies are used in calculating the fits to the observed values, and hence the contribution to the total objective function.
 
-Ageing error is optional, and if it is used, it may be omitted for any individual time series. Different ageing error models may be applied for different observation commands. See Section \ref{syntax:AgeingError} for reporting the misclassification matrix at the end of model run.
+Ageing error is optional, and if it is used, it may be omitted for any individual time series. Different ageing error models may be applied for different observation commands. See Section \ref{syntax:Report-AgeingErrorMatrix} for reporting the misclassification matrix at the end of model run.
 
 The ageing error models implemented are
 
@@ -1458,6 +1460,7 @@ The ageing error models implemented are
 \end{itemize}
 
 The expected values (fits) reported by \CNAME\ for observations with ageing error will have had the ageing error applied.
+\fi
 
 \subsection{\I{Simulating observations}}\label{sec:Simulate}
 

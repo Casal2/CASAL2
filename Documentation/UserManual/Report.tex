@@ -32,8 +32,6 @@ Reports from \CNAME\ can be defined to print partition and states objects at a p
 		etc., ...
 \end{verbatim}
 
-
-
 \subsection{Report output format}
 
 Reports from \CNAME\ have a standard style\index{Reports ! standard style} (with the exception of \texttt{output\_parameters} and \texttt{simulated\_observation}, see below). The standard style is that reports are prefixed with an asterisk followed by a user-defined label and type of report in brackets (e.g., \texttt{*label (type)}), with the report ending with the line \texttt{*end}. For example,
@@ -91,10 +89,13 @@ This report prints the numbers of individuals in each age class and category in 
 \subsection{\I{Print the partition biomass}}\index{Reports ! Partition biomass}\label{sec:Report-PartitionBiomass}
 
 This report prints the biomass in each age class and category in the partition for each given year or given years and time step. This report is evaluated at the end of the time step in the given year(s). This report will print out in run modes \texttt{-r, -e, -f}.
-\ifAgeBased
-% One column version
 
-\subsection{\I{Print the age length and length weight values}}\index{Reports ! Age-length}\label{sec:Report-AgeLength}\label{sec:Report-LenthWeight}
+\subsection{\I{Print the values(s) of an addressable}}\index{Reports ! Addressable}\label{sec:Report-Addressable}
+
+This report prints the value or values of an addressable for each given year or given years and time step. This report is evaluated at the end of the time step in the given year(s). This report will print out in run modes \texttt{-r, -e, -f}.
+
+\ifAgeBased
+\subsection{\I{Print the age length and length weight values}}\index{Reports ! Age-length}\label{sec:Report-AgeLength}\label{sec:Report-LengthWeight}
 
 This report prints the length and weight value for each age class and category in the partition for each given year or given years and time step. This report is evaluated at the end of the time step in the given year(s). This report will print out in run modes \texttt{-r, -e, -f}.
 
@@ -109,10 +110,7 @@ years 1900:2013
 
 This report prints the ageing error misclassification matrix used to offset observations within during model the model fitting procedure.
 
-
 \else
-% Two column version
-
 \subsection{\I{Print the Growth models}}\index{Reports ! Growth-Increment}\label{sec:Report-GrowthIncrement}
 
 This report prints the length and weight relationship as well as growth increment model used to move fish along the length partition. This will print the growth transition matrix and other important values. This report is evaluated at the end of the time step in the given year(s). This report will print out in run modes \texttt{-r, -e, -f}.
@@ -125,7 +123,7 @@ years 1900:2013
 growth_increment growth_model
 \end{verbatim}
 
-\fi % end if
+\fi
 
 \subsection{\I{Print a parameter transformation}}\index{Reports ! Parameter Transformations}\label{sec:Report-ParameterTransformations}
 
@@ -156,6 +154,13 @@ This report prints a summary of the estimated parameters using the type \texttt{
 \subsection{\I{Print the estimate values (the free parameters in the free parameter file format)}}\index{Reports ! Estimated parameters}\label{sec:Report-EstimateValue}
 
 This report prints the estimated parameter values out as a vector. The \texttt{estimate\_values} report prints the name of the parameter, followed by the value for that run. This report will print out in run modes \texttt{-r, -e}.
+
+\subsection{\I{Print the output parameters}}\index{Reports ! Output paramters}\label{sec:Report-OutputParameters}
+This report prints the output (i.e., the free) parameters and their values as a simple table. This report will print out in run modes \texttt{-r, -e, -f}.
+
+\subsection{\I{Print the result of an estimation}}\index{Reports ! Estimated result}\label{sec:Report-EstimationResult}
+
+This report prints a summary of the minimisers convergence or success status from an estimation. This report will print out in run modes \texttt{-e, -p}.
 
 \subsection{\I{Print the objective function}}\index{Reports ! Objective function}\label{sec:Report-ObjectiveFunction}
 

@@ -6,17 +6,23 @@ In \CNAME\, the concept of user defined categories was introduced to allow for m
 
 \subsection{Specifying the partition using categories}
 
-A key element of the \CNAME\ model is the partition which holds the current state of the population. The partition can be conceptualised as a matrix, where each row represents a category and the columns are the age classes (Figure~\ref{Fig:part}). Each row represents all individuals in that category as a numbers-at-age vector.  There must be at least one category defined for each model.
+A key element of the \CNAME\ model is the partition which holds the current state of the population. The partition can be conceptualised as a matrix, where each row represents a category and the columns are the \ifAgeBased age \else length \fi \ classes (Figure~\ref{Fig:part}). Each row represents all individuals in that category as a \ifAgeBased numbers-at-age \else numbers-at-length \fi vector.  There must be at least one category defined for each model.
 
 \begin{figure}[H]
 	\centering
-	\includegraphics[scale=0.4]{Figures/partition2.png}
-		\caption{A visual representation of a partition.}\label{Fig:part}
+	\ifAgeBased
+	\includegraphics[scale=0.4]{Figures/partition2-age.png}
+	\caption{A visual representation of the partition for a simple age-based model.}
+	\else
+	\includegraphics[scale=0.4]{Figures/partition2-length.png}
+	\caption{A visual representation of the partition for a simple length-based model.}
+	\fi
+    \label{Fig:part}
 \end{figure}
 
 The categories can include combinations of levels from one or more factors such as sex, maturity state, area, stock, or even species. \CNAME\ has no predefined categories; \emph{all} categories are defined by the user. Note that the partition only has the current state of the model; past states are not kept (\textit{See} the section on derived quantities about saving summary values from the partition, p. \pageref{sec:DerivedQuantity}).
 
-To illustrate categories, consider a model of a fish population with two fisheries, one on spawning fish at the spawning grounds and another on the non-spawning population in the rest of the stock area. The mature fish will migrate to the spawning area, where the spawning fishery occurs. At the end of spawning, these fish, along with the recruits from the previous year, migrate back to the non-spawning area. The fish population can be represented  by factors sex (levels \textit{male} and \textit{female}), maturity (levels \textit{immature} and \textit{mature}), and area (levels \textit{spawning} and \textit{non-spawning}). So the partition has 8 rows of numbers-at-age, for 2 sexes $\times$ 2 maturity levels $\times$ 2 areas.
+To illustrate categories, consider a model of a fish population with two fisheries, one on spawning fish at the spawning grounds and another on the non-spawning population in the rest of the stock area. The mature fish will migrate to the spawning area, where the spawning fishery occurs. At the end of spawning, these fish, along with the recruits from the previous year, migrate back to the non-spawning area. The fish population can be represented  by factors sex (levels \textit{male} and \textit{female}), maturity (levels \textit{immature} and \textit{mature}), and area (levels \textit{spawning} and \textit{non-spawning}). So the partition has 8 rows of \ifAgeBased numbers-at-age\else numbers-at-length\fi, for 2 sexes $\times$ 2 maturity levels $\times$ 2 areas.
 
 These categories are specified in a categories block which starts with a \textit{@categories} line followed on the next line by a \textit{format} subcommand that specifies the factors to use and their order. Factor names are user defined and have no intrinsic meaning in \CNAME.
 
@@ -30,7 +36,7 @@ The command block for this example is:
 
 Note the "." syntax to separate the factor names.
 
-Next comes the \textit{names} subcommand which specifies the combinations of levels that makes up each category. In a sense, the \textit{format} subcommand is not needed since the \textit{names} subcommand can define all categories. However, \textit{format} allows a more  digestible and shorter syntax to define categories here and in other blocks such as matching observation to categories that provided the data (including combinations of categories, e.g., age compositions that combine both sexes).
+Next comes the \textit{names} subcommand which specifies the combinations of levels that makes up each category. In a sense, the \textit{format} subcommand is not needed since the \textit{names} subcommand can define all categories. However, \textit{format} allows a more  digestible and shorter syntax to define categories here and in other blocks such as matching observation to categories that provided the data (including combinations of categories, e.g., \ifAgeBased age \else length \fi compositions that combine both sexes).
 
 The \textit{names} subcommand can also be specified with:
 
@@ -108,6 +114,7 @@ A shorter way to specify the exact same partition structure  using \textit{lists
 
 \CNAME\ requires categories in processes and observations so that the correct model dynamics can be applied to the correct categories of the partition.
 
+\ifAgeBased
 This block illustrates using categories required for the ageing process:
 
 {\small{\begin{verbatim}
@@ -127,7 +134,7 @@ This block illustrates using categories required for the ageing process:
 		@ageing my_ageing
 		categories sex=male sex=female
 \end{verbatim}}}
-
+\fi
 To combine/aggregate categories together, use the "\texttt{+}" special character. For example, this feature can be used to specify that the total biomass of the population is made up of both males and females.
 
 For example,
@@ -279,17 +286,17 @@ For vector parameters (i.e., no key values), the index is an integer starting wi
 {\small{\begin{verbatim}
 @selectivity MatSel
 type         all_values_bounded
-# lower bound at age 2
+# lower bound at age (if age-based) or length class (if length-based) of 2
 L            2
-# upper bound at age 4
+# upper bound at age (if age-based) or length class (if length-based) of 4
 H            4
-# 3 values, one for each age 2, 3, and 4
+# 3 values, one for each 2, 3, and 4
 v            0.1 0.2 0.7
 
 @estimate  mature
 # prior = uniform
 type       uniform
-# estimate the 2nd value only, i.e., age 3
+# estimate the 2nd value only, i.e., at 3
 parameter selectivity[MatSel].v{2}
 # lower parameter range
 lower_bound 0.1

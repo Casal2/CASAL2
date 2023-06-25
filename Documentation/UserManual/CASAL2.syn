@@ -105,12 +105,10 @@ Hessian_Matrix
 Increasing
 Initialisation
 Initialisation_Partition
-Initialisation_Partition_Mean_Weight
 Inverse_Logistic
 Iterative
 Knife_Edge
 Linear
-Load_Partition
 Log_Normal
 Log_Normal_With_Q
 Logistic

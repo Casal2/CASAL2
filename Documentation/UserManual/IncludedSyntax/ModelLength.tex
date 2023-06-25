@@ -15,9 +15,9 @@
 \defDefault{1}
 \defLowerBound{1 (inclusive)}
 
-\subsubsection{Model of type Age}
-\commandlabsubarg{model}{type}{Age}.
-\label{syntax:Model-Age}
+\subsubsection{Model of type Length}
+\commandlabsubarg{model}{type}{length}.
+\label{syntax:Model-Length}
 
 \defSub{start\_year}{Define the first year of the model, immediately following initialisation}
 \defType{Non-negative integer}
@@ -28,21 +28,6 @@
 \defType{Non-negative integer}
 \defDefault{No default}
 \defValue{Defines the last year of the model, i.e., the model is run from start\_year to final\_year}
-
-\defSub{min\_age}{Minimum age of individuals in the population}
-\defType{Non-negative integer}
-\defDefault{0}
-\defValue{$0 \le$ age\textlow{min} $\le$ age\textlow{max}}
-
-\defSub{max\_age}{Maximum age of individuals in the population}
-\defType{Non-negative integer}
-\defDefault{0}
-\defValue{$0 \le$ age\textlow{min} $\le$ age\textlow{max}}
-
-\defSub{age\_plus}{Define the oldest age as a plus group}
-\defType{Boolean}
-\defDefault{true}
-\defValue{true, false}
 
 \defSub{initialisation\_phases}{Define the labels of the phases of the initialisation}
 \defType{Vector of strings}
@@ -73,4 +58,3 @@
 \defType{Real number (estimable)}
 \defDefault{0}
 \defValue{length\textlow{max} $<$ length\_plus\_group}
-

@@ -240,11 +240,19 @@ This sets up a process block using the \textit{mortality\_instantaneous} process
 
 Next we specify the values for natural mortality (\textit{m}), an argument for this process, to 0.17 and specify that fisheries acts on all categories. Note there are two values for natural mortality, one for each category. The parameters \textit{m} can be estimated, if required. The command block fragment:
 
+\ifAgeBased 
 {\small{\begin{verbatim}
-m 0.17 0.17   # natural mortality  for each category
-relative_m_by_age One One # natural mortality multiplier
-categories *  # fishing acts on all categories ("*" shorthand for male female)
+			m 0.17 0.17   # natural mortality  for each category
+			relative_m_by_age One One # natural mortality multiplier
+			categories *  # fishing acts on all categories ("*" shorthand for male female)
 \end{verbatim}}}
+\else 
+{\small{\begin{verbatim}
+			m 0.17 0.17   # natural mortality  for each category
+			relative_m_by_length One One # natural mortality multiplier
+			categories *  # fishing acts on all categories ("*" shorthand for male female)
+\end{verbatim}}}
+\fi
 
 Catches are supplied via a \textit{table} format using three columns: one for year and one for each of the two fisheries, which take the labels \textit{line} and \textit{pot}. Column names are on the first line of the table and these columns can be in any order,
 
@@ -258,7 +266,7 @@ year line pot       #names columns so can identity catch for each fishery
 end_table           # end of table marker
 \end{verbatim}}}
 
-Other information required is supplied in the methods table which has a fixed number of columns (again these can be in any order), one for each piece of information needed to specify a fishery. The method column defines the fishery name which is used in the catch table and also in other observations like age composition from that fishery. The categories that the fishery operates on (all in this case, but it could be just males for one and females for the other) are in the category column, the fishing selectivity to be used is given as a selectivity block name which is define somewhere else in the files, $U_max$ is the maximum exploitation rate that is allowed in any year, then the time step the fishing operates in, and lastly the block name of a penalty function that is used to penalise estimable parameter values that result in the supplied catch not being caught. Again, the penalty block is define elsewhere in the files. After the row with the column names, there is one row for each fishery:
+Other information required is supplied in the methods table which has a fixed number of columns (again these can be in any order), one for each piece of information needed to specify a fishery. The method column defines the fishery name which is used in the catch table and also in other observations like \ifAgeBased age \else length \fi \ composition from that fishery. The categories that the fishery operates on (all in this case, but it could be just males for one and females for the other) are in the category column, the fishing selectivity to be used is given as a selectivity block name which is define somewhere else in the files, $U_max$ is the maximum exploitation rate that is allowed in any year, then the time step the fishing operates in, and lastly the block name of a penalty function that is used to penalise estimable parameter values that result in the supplied catch not being caught. Again, the penalty block is define elsewhere in the files. After the row with the column names, there is one row for each fishery:
 
 {\small{\begin{verbatim}
 table method        # supply arguments and name selectivity etc
@@ -313,7 +321,7 @@ Single-stepping means \CNAME\ can 'pause' after each year in the annual cycle du
 
 \CNAME\ has a  number of standard information, warning, and error message outputs. Additional logging and debugging information is available using the \subcommand{--loglevel} or \subcommand{-L} command line option. See Section~\ref{sec:TroubleShooting-logging} for details on logging. 
 
-\CNAME\ also applies sanity checks on model configurations. These can be bypassed using the command line option \subcommand{--verifylevel} or \subcommand{-V}. These sanity checks are based on expected model structures, i.e., \CNAME\ verifies models have an ageing process. Currently only a few sanity checks are implemented.
+\CNAME\ also applies sanity checks on model configurations. These can be bypassed using the command line option \subcommand{--verifylevel} or \subcommand{-V}. These sanity checks are based on expected model structures, i.e., in age-based models \CNAME\ verifies models have an ageing process. Currently only a few sanity checks are implemented.
 
 \subsection{\I{Validating models between different versions of Casal2}}\label{sec:Assert}\index{Asserts}\index{Unit tests}
 
