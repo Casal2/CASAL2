@@ -35,6 +35,7 @@
 #include "../Processes/Age/RecruitmentBevertonHolt.h"
 #include "../Processes/Age/RecruitmentBevertonHoltWithDeviations.h"
 #include "../Processes/Age/RecruitmentConstant.h"
+#include "../Processes/Age/RecruitmentRicker.h"
 #include "../Processes/Age/TagByAge.h"
 #include "../Processes/Age/TagByLength.h"
 #include "../Processes/Age/TagLoss.h"
@@ -100,6 +101,8 @@ Process* Factory::Create(shared_ptr<Model> model, const string& object_type, con
         result = new age::RecruitmentBevertonHoltWithDeviations(model);
       else if (sub == PARAM_RECRUITMENT_CONSTANT)
         result = new age::RecruitmentConstant(model);
+      else if (sub == PARAM_RECRUITMENT_RICKER)
+        result = new age::RecruitmentRicker(model);
       else if (sub == PARAM_MATURATION)
         result = new age::Maturation(model);
       else if (sub == PARAM_MORTALITY_CONSTANT_RATE)

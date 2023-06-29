@@ -252,6 +252,67 @@ The Nop type has no additional subcommands.
 \defDefault{No default}
 \defLowerBound{0.0 (inclusive)}
 
+\subsubsection{Process of type Recruitment\_Ricker}
+\commandlabsubarg{Process}{type}{Recruitment\_Ricker}.
+\defRef{sec:Process-RecruitmentRicker}
+\label{syntax:Process-RecruitmentRicker}
+
+\defSub{categories}{The category labels}
+\defType{Vector of strings}
+\defDefault{No default}
+
+\defSub{r0}{R0, the mean recruitment used to scale annual recruits or initialise the model}
+\defType{Real number (estimable)}
+\defDefault{false}
+\defLowerBound{0.0 (inclusive)}
+
+\defSub{b0}{B0, the SSB corresponding to R0, and used to scale annual recruits or initialise the model}
+\defType{Real number (estimable)}
+\defDefault{false}
+\defLowerBound{0.0 (inclusive)}
+
+\defSub{proportions}{The proportion for each category}
+\defType{Real number (estimable)}
+\defDefault{No default}
+
+\defSub{age}{The age at recruitment}
+\defType{Non-negative integer}
+\defDefault{true}
+
+\defSub{ssb\_offset}{The spawning biomass year offset}
+\defType{Non-negative integer}
+\defDefault{true}
+
+\defSub{steepness}{Steepness (h)}
+\defType{Real number (estimable)}
+\defDefault{1.0}
+\defLowerBound{0.2 (inclusive)}
+\defUpperBound{1.0 (inclusive)}
+
+\defSub{ssb}{The SSB label (i.e., the derived quantity label)}
+\defType{String}
+\defDefault{No default}
+
+\defSub{b0\_initialisation\_phase}{The initialisation phase label that B0 is from}
+\defType{String}
+\defDefault{No default}
+
+\defSub{recruitment\_multipliers}{The YCS values}
+\defType{Vector of real numbers (estimable)}
+\defDefault{No default}
+
+\defSub{standardise\_years}{The years that are included for year class standardisation}
+\defType{Vector of non-negative integers}
+\defDefault{true}
+
+\defSub{ycs\_values}{The YCS values}
+\defType{Vector of real numbers (estimable)}
+\defDefault{true}
+
+\defSub{ycs\_years}{The recruitment years. A vector of years that relates to the year of the spawning event that created this cohort}
+\defType{Vector of non-negative integers}
+\defDefault{true}
+
 \subsubsection{Process of type Tag\_By\_Age}
 \commandlabsubarg{Process}{type}{Tag\_By\_Age}.
 \defRef{sec:Process-TagByAge}
