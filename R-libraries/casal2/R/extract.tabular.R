@@ -41,7 +41,7 @@
     end_file_locations <- which("*end" == file)
 
     ## Check this isn't a tabular report by looking at the Call:
-    if (!grepl(pattern = "--tabular", x = file[2]) & !grepl(pattern = "-t", x = file[2])) {
+    if (!grepl(pattern = "--tabular", x = file[2]) & !grepl(pattern = "-t ", x = file[2])) {
       stop("This model was NOT run with the command '--tabular'. Please use the extract.mpd() function to import model runs without --tabular or -t")
     }
 

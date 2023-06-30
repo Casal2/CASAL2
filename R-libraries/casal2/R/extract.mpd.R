@@ -47,7 +47,7 @@
   }
 
   ## Check this isn't a tabular report by looking at the Call:
-  if (grepl(pattern = "--tabular", x = file[2]) | grepl(pattern = "-t", x = file[2])) {
+  if (grepl(pattern = "--tabular", x = file[2]) | grepl(pattern = "-t ", x = file[2])) {
     stop("This model was run with the command '--tabular' or '-t'. Please use the extract.tabular() function to import this model run.")
   }
 
