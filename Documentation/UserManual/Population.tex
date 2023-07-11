@@ -1,4 +1,4 @@
-\section{\I {The population section: model structure and the population dynamics}\label{sec:Population}}
+\section{\I{The population section: model structure and the population dynamics}}\label{sec:Population}
 
 The command and subcommand syntax for the estimation section is given in Section \ref{syntax:Population}.
 
@@ -111,7 +111,7 @@ There is an implicit annual cycle that orders the sequence of processes within t
 
 Figure \ref{Fig:annual} shows an example of the annual cycle for an age-based models using three time-steps (for length-based models, the example is the same, except that the growth process would be replaced by a growth increment process).
 
-\begin{figure}[H]
+\begin{figure}
 	\centering
 	\includegraphics[scale=0.5]{Figures/annual_cycle.jpg}
 	\caption{A example sequence for an annual cycle for an age-based model.}\label{Fig:annual}
@@ -574,10 +574,10 @@ beta      2              # minimum age selected, so that individuals with
 			@selectivity trawlSel    # label for the trawl fishery selectivity
 			type      logistic       # type of curve
 			a50       4.4            # length class at 50% selection
-			ato95     1.5            # interval (yr) from a50 to the length class at 95% selection
+			ato95     1.5            # interval (yr) from a50 to the length
+			                         #   class at 95% selection
 			beta      2              # minimum length class selected, so that individuals with 
 			                         #   length < beta have selectivity = 0
-true
 \end{verbatim}}}
 \fi
 

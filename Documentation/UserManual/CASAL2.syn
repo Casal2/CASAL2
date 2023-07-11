@@ -163,6 +163,7 @@ Random_Walk
 Recruitment_Beverton_Holt
 Recruitment_Beverton_Holt_With_Deviations
 Recruitment_Constant
+Recruitment_Ricker
 Schnute
 Selectivity
 Simulated_Observation

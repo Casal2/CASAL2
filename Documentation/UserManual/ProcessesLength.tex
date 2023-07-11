@@ -127,13 +127,12 @@ In the  example given above, $YCS$ are standardised to have mean one in the peri
 		type recruitment_beverton_holt
 		...            #subcommand above
 		standardise_years 1995:2004
-		recruitment_multipliers 0.65 0.87  1.6 1.13 1.02 0.38 2.65 1.35    1    1    1    1    1
+		recruitment_multipliers 0.65 0.87 1.6 1.13 1.02 0.38 2.65 1.35 1 1 1 1 1
 		\end{verbatim}}}
-
 
 \subsubsection{\I{Mortality}\label{sec:Process-Mortality}}
 
-There are 4 types of mortality processes available in \CNAME length based models, and one tag release processes that also causes mortality (See Tagging Section~\ref{sec:Process-Tagging}):
+There are 4 types of mortality processes available in \CNAME length based models, plus the tag release processes that can also cause mortality (See Tagging Section~\ref{sec:Process-Tagging}):
 
 \begin{itemize}
 	\item constant rate,
@@ -343,7 +342,7 @@ If you want to estimate the proportion parameter, the parameter is addressed usi
 		...
 		\end{verbatim}}}
 
-\subsubsection{\I{Tagging}}\label{sec:Process-Tagging}
+\subsubsection{\I{Tagging}}\label{sec:Process-Tagging}\label{sec:Process-TagByLength}
 
 Tag release events (also known as mark-recapture events or tag-release events) allow \CNAME\ to incorporate tagging data into the model.
 

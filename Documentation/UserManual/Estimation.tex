@@ -785,9 +785,9 @@ $f^{-1}() = lb +(ub - lb)  logit^{-1}()$
 \end{verbatim}}}
 
 % useful reference for the simplex https://mc-stan.org/docs/2_27/reference-manual/simplex-transform-section.html#fn15
-\item \subcommand{simplex} : given the vector of parameters $\boldmath{X} = (X_1, \dots, X_n)$ which either has the constraint $\sum_{i = 1}^n X_i = 1$ or $\sum_{i = 1}^n X_i = n$. Then the simplex is a suitable transformation. It translates to a new vector parameter \(\boldmath{Y} = (Y_1, \dots, Y_{n - 1})\) which has unconstrained parameter space i.e \(Y_i \in (-\infty, \infty)\). Note that the calculation of the Jacobian for the simplex is still experimental and may not be suitable in all circumstances.\\
+\item \subcommand{simplex} : given the vector of parameters $\mathbf{X} = (X_1, \dots, X_n)$ which either has the constraint $\sum_{i = 1}^n X_i = 1$ or $\sum_{i = 1}^n X_i = n$. Then the simplex is a suitable transformation. It translates to a new vector parameter \(\mathbf{Y} = (Y_1, \dots, Y_{n - 1})\) which has unconstrained parameter space i.e \(Y_i \in (-\infty, \infty)\). Note that the calculation of the Jacobian for the simplex is still experimental and may not be suitable in all circumstances.\\
 
-This transformation follows the implementation in stan, where an intermediate variable \(Z_i\) is used. The transformation going from $\boldmath{X}$ to $\boldmath{Y}$ follows\\
+This transformation follows the implementation in stan, where an intermediate variable \(Z_i\) is used. The transformation going from $\mathbf{X}$ to $\mathbf{Y}$ follows\\
 \[
 Z_i = \frac{X_i}{1 - \sum_{j = 1}^{i - 1}X_j}
 \]
@@ -795,7 +795,7 @@ and
 \[
 Y_i = logit(Z_i) - log\left(\frac{1}{n -i}\right)
 \]
-The inverse transformation going from $\boldmath{Y}$ to $\boldmath{X}$ follows
+The inverse transformation going from $\mathbf{Y}$ to $\mathbf{X}$ follows
 \[
 Z_i = logit^{-1}\left(Y_i +  log\left(\frac{1}{n -i}\right)\right)
 \]
@@ -804,7 +804,7 @@ and
 	X_i &= \left( \sum_{j = 1}^{i - 1}X_j\right)Z_i & \text{ for } i < n\\
 	X_n &= 1 - \sum_{i = 1}^{n - 1} X_i & \text{ for } i = n
 \end{align*}
-The jacobian for the density is evaluated as follows,
+The Jacobian for the density is evaluated as follows,
 \begin{align*}
 |det \ J| = \prod_{i = 1}^{n - 1} Z_i \left(1 - Z_i\right) \left(1 - \sum_{j = 1}^{i - 1}X_j\right)
 \end{align*}
@@ -860,23 +860,25 @@ If users want to force other parameters in the system to be the same as an estim
 		
 		@parameter_transformation avg_diff_spawn
 		type average_difference
-		parameters process[InstantMortality].m{male.spawn} process[InstantMortality].m{female.spawn}
+		parameters process[InstantMortality].m{male.spawn} 
+		           process[InstantMortality].m{female.spawn}
 		
 		@parameter_transformation avg_diff_non_spawn
 		type average_difference
-		parameters process[InstantMortality].m{male.nonspawn} process[InstantMortality].m{female.nonspawn}
+		parameters process[InstantMortality].m{male.nonspawn} 
+		           process[InstantMortality].m{female.nonspawn}
 		
 		@estimate avg_m
 		type uniform
 		parameter parameter_transformation[avg_diff_spawn].average_parameter
-		same  parameter_transformation[avg_diff_non_spawn].average_parameter
+		same parameter_transformation[avg_diff_non_spawn].average_parameter
 		lower_bound 0.01
 		upper_bound 1
 		
 		@estimate diff_m
 		type uniform
 		parameter parameter_transformation[avg_diff_spawn].difference_parameter
-		same  parameter_transformation[avg_diff_non_spawn].average_parameter
+		same parameter_transformation[avg_diff_non_spawn].average_parameter
 		lower_bound -0.5
 		upper_bound 0.5		
 \end{verbatim}}}

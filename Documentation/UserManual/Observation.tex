@@ -385,17 +385,24 @@ However if you wanted to apply a \subcommand{random\_at\_sex\_and\_size} observa
 
 See Section~\ref{syntax:Observation-AgeLength} for more details on commands and syntax.
 
+\fi
+
 \paragraph*{\I{Proportions-by-category observations}}\label{sec:Observation-ProportionsByCategory}
 
 \TODO{'between categories' or 'within categories'}
 
-Proportions-by-category observations are observations of either the relative number of individuals between categories within age classes, or relative biomass between categories within age classes.
+Proportions-by-category observations are observations of either the relative number of individuals between categories within \ifAgeBased age \else length \fi classes, or relative biomass between categories within \ifAgeBased age \else length \fi classes.
 
-The observation is supplied for a given year and time-step, for selected age classes of the population (i.e., for a range of ages multiplied by a selectivity).
+The observation is supplied for a given year and time-step, for selected \ifAgeBased age \else length \fi classes of the population (i.e., for a range of \ifAgeBased ages \else lengths \fi multiplied by a selectivity).
 
-The age range must be ages defined in the partition (i.e., between \commandsub{model}{min\_age} and \commandsub{model}{max\_age} inclusive); the upper end of the age range can optionally be a plus group, which may or may not be the same as the plus group defined for the partition.
+\ifAgeBased 
+The age range must be ages defined in the partition (i.e., between \commandsub{model}{min\_age} and \commandsub{model}{max\_age} inclusive); 
+\else 
+The length range must be length bins defined in the partition;
+\fi
+the upper end of the range can optionally be a plus group, which may or may not be the same as the plus group defined for the partition.
 
-Proportions-by-category observations can be supplied for any set of categories as a proportion of themselves and any set of additional categories. For example, for a model with the two categories \emph{male} and \emph{female}, observations of the proportions of males in the population at each age class might be provided. The subcommand \subcommand{categories} defines the categories for the numerator in the calculation of the proportion, and the subcommand \subcommand{categories2} supplies the additional categories to be used in the denominator of the calculation. In addition, each category must have an associated selectivity, defined by \subcommand{selectivities} for the numerator categories and \subcommand{selectivities2} for the additional categories used in the denominator.
+Proportions-by-category observations can be supplied for any set of categories as a proportion of themselves and any set of additional categories. For example, for a model with the two categories \emph{male} and \emph{female}, observations of the proportions of males in the population at each \ifAgeBased age \else length \fi class might be provided. The subcommand \subcommand{categories} defines the categories for the numerator in the calculation of the proportion, and the subcommand \subcommand{categories2} supplies the additional categories to be used in the denominator of the calculation. In addition, each category must have an associated selectivity, defined by \subcommand{selectivities} for the numerator categories and \subcommand{selectivities2} for the additional categories used in the denominator.
 
 For example,
 
@@ -406,12 +413,12 @@ For example,
 		selectivities2 female-selectivity
 		\end{verbatim}}}
 
-defines the proportion of males in each age class as a proportion of males $+$ females. \CNAME\ then requires that there will be a vector of proportions supplied, with one proportion for each age class within the defined age range, i.e., if the age range was 3 to 10, then 8 proportions should be supplied (one proportion for each of the the ages 3, 4, 5, 6, 7, 8, 9, and 10). The expected values will be the expected ratios of male to male $+$ female within each of these age classes, after applying the selectivities at the year and time-step specified.
+defines the proportion of males in each \ifAgeBased age \else length \fi class as a proportion of males $+$ females. \CNAME\ then requires that there will be a vector of proportions supplied, with one proportion for each \ifAgeBased age \else length \fi class within the defined range, i.e., if the age range was 3 to 10, then 8 proportions should be supplied (one proportion for each of the classes 3, 4, 5, 6, 7, 8, 9, and 10). The expected values will be the expected ratios of male to male $+$ female within each of these age classes, after applying the selectivities at the year and time-step specified.
 
-\CNAME\ calculates the expected values by summing over the ages (via the age range and selectivity)
+\CNAME\ calculates the expected values by summing over the \ifAgeBased ages \else lengths \fi (via the range and selectivity)
 
 For example,
-
+\ifAgeBased
 {\small{\begin{verbatim}
 		@observation MyProportions
 		type proportions_by_category
@@ -427,7 +434,24 @@ For example,
 		end_table
 		...
 		\end{verbatim}}}
+\else
+{\small{\begin{verbatim}
+			@observation MyProportions
+			type proportions_by_category
+			years 1990 1991
+			...
+			categories male
+			categories2 female
+			length_bins 1 2 3 4 5
+			table obs
+			1990 0.01 0.05 0.10 0.20 0.20
+			1991 0.02 0.06 0.10 0.21 0.18
+			end_table
+			...
+\end{verbatim}}}
+\fi 
 
+\ifAgeBased
 
 \paragraph*{\I{Tag recaptures by age or length}\label{sec:Observation-TagRecaptures}\label{sec:Observation-TagRecaptureByAge}\label{sec:Observation-TagRecaptureByLength}}
 
@@ -521,7 +545,6 @@ where $j = \{1,2,3,...,J\}$  are all the tagged categories, the same method is a
 The tag-recapture likelihood (binomial) is specified below. It is a modified version of the more general binomial. Note that this likelihood does not have any user-set precision parameters such as $N$ or $c.v.$, although there are user-specified robustification and dispersion parameters available. The factorials are calculated using the log-gamma function, to allow for non-integer arguments where necessary (and to avoid overflow errors).
 
 \else
-% Two column version
 
 \paragraph*{\I{Proportions-at-Length}}\label{sec:Observation-ProportionsAtLength}
 
@@ -674,6 +697,96 @@ For example,
 		...
 		\end{verbatim}}}
 
+\paragraph*{\I{Tag recaptures by length}\label{sec:Observation-TagRecaptures}\label{sec:Observation-TagRecaptureByLength}}
+
+Tag data is primarily used to estimate the population abundance of fish. In some models, this estimation can only be made outside the model and the result is used as an estimate of abundance in the model. But in \CNAME\ the tagging data can, alternatively, be fitted within the model.
+
+Before adding a tag-recapture time series, a tag-release process (Section~\ref{sec:Process-TagByLength}) needs to be defined. Tagging events list the labels of the tags which are modelled, and define the events where fish are tagged (i.e., \CNAME\ moves fish into the section of the partition corresponding to a specific tag).
+
+The observations are divided into two parts: (i) the number of fish that were scanned, and (ii) the number of tags that were recaptured. Each number can be specified by categories, or for combinations of categories. The precise content of the scanned and recaptured observations depends on the sampling method.
+
+The options for tag-recaptures are available:
+
+\begin{itemize}
+	\item size: both the scanned and recaptured are vectors containing numbers-at-length. 
+\end{itemize}
+
+When defining the tag-recapture time series, the following are also required:
+
+\begin{itemize}
+	\item the time step,
+	\item the years (unlike a tag-release process, the tag-recapture observations can occur over several years),
+	\item the probability that each scanned tagged fish is detected as tagged (may be less than 1 if the observers are not infallible). The expected number of tags detected is calculated by multiplying the expected number of tagged fish in the observation by the detection probability,
+	\item the tagged category or categories (Make up the recaptures),
+	\item the categories scanned (All the fish sampled for tags),
+	\item the length bins if the observations are length-based in an age-based model,
+	\item The selectivities for the categories. 
+\end{itemize}
+
+An example of a tag recapture observation:
+
+{\small{\begin{verbatim}
+			# For the following partition
+			@categories
+			format sex.area.tag
+			names  		male.Area1.2011,notag female.Area1.2011,notag
+			
+			# individuals tagged in 2011 and recaptured in 2012 in Area1
+			@observation Tag_2011_Area1_recap_2012
+			type tag_recapture_by_length
+			# scanned categories in Area1
+			categories format=*.Area1.*+
+			# male and femaled tagged categories
+			tagged_categories *.Area1.2011+
+			detection 0.85 ## detection probability
+			likelihood binomial
+			selectivities One
+			tagged_selectivities One
+			# years to apply observation
+			years 2012
+			time_step step2
+			# proportion of mortality applied before observation is calculated
+			time_step_proportion 0.5
+			
+			table scanned
+			2012 281271 41360 30239 12234
+			end_table
+			
+			table recaptured
+			2012 15 20 12 2
+			end_table
+			
+			# robustification value to prevent divide by zero errors
+			delta 1e-11
+			# Likelihood dispersion
+			dispersion 6.3
+\end{verbatim}}}
+
+The observed ($O_{y,l}$) and expected ($E_{y,l}$) values in year $y$ and length $l$ of this observation are:
+
+\begin{equation}
+	O_{y,l} = \frac{R_{y,l}}{S_{y,l}}
+\end{equation}
+
+where $R_{y,l}$ is the number of recaptures in year $y$ at length $l$ and $S_{y,l}$ are the scanned values.
+
+\begin{equation}
+	E_{y,l} = d \frac{\tilde{N}_{y,l,t} +  (\tilde{N}_{y,l,t + 1} - \tilde{N}_{y,l,t}) \times p}
+	{N_{y,l,t} + (N_{y,l,t+1} - N_{y,l,t}) \times p}
+\end{equation}
+
+where $\tilde{N}_{y,l,t}$ is an element in the tagged categories at the beginning of time step $t$ and $\tilde{N}_{y,l,t + 1}$ is an element in the tagged categories at the end of time step $t$, $N_{y,l,t}$ is the sum of the categories that were vulnerable to sampling when the observation occurred, $p$ is the proportion of the time step that the observation was taken, and $d$ is the detection probability.
+
+For observations with multiple tagged categories and multiple categories that were vulnerable to sampling:
+
+\begin{equation}
+	\tilde{N}_{y,l,t} = \sum_{j = 1}^{J} N_{y,l,t,j}
+\end{equation}
+
+where $j = \{1,2,3,...,J\}$  are all the tagged categories, the same method is applied to the vulnerable categories to calculate $N_{y,l,t}$. The tagged categories should be defined in the vulnerable categories. In an extreme case where every individual in the population is tagged, this result would be divided by zero. So, to constrain the expectation to be between 0 and 1, the numerator must be in the denominator.
+
+The tag-recapture likelihood (binomial) is specified below. It is a modified version of the more general binomial. Note that this likelihood does not have any user-set precision parameters such as $N$ or $c.v.$, although there are user-specified robustification and dispersion parameters available. The factorials are calculated using the log-gamma function, to allow for non-integer arguments where necessary (and to avoid overflow errors).
+
 \paragraph*{\I{Tag Recapture by length for growth}\label{sec:Observation-TagRecaptureByLengthForGrowth}}
 Designed for situations where you intend to estimate growth using the size frequency of recaptured fish, without using any information on scanned fish. This replicates CASALs tag recapture observation \texttt{type=growth}. 
  
@@ -825,7 +938,8 @@ A list of \texttt{types} that are associated with this set of observations are:
 			max_age 15
 			plus_group True
 			table obs
-			2005 1.65e-10 7.56e-07 1.77e-03 1.96e-01 3.19e-01 2.43e-01 1.60e-01 8.04e-02 0 0 0 0 0
+			2005 1.65e-10 7.56e-07 1.77e-03 1.96e-01 3.19e-01 2.43e-01 
+			     1.60e-01 8.04e-02 0 0 0 0 0
 			end_table
 			table error_values
 			2005 651
@@ -893,10 +1007,12 @@ A list of \texttt{types} that are associated with this set of observations are:
 			years 2005
 			time_step 1
 			categories male
-			length_bins 30 31 32 33 34 35 36 37 38 39 40 41 42 43 44 45 46 # for LF in catch
+			# for LF in catch
+			length_bins 30 31 32 33 34 35 36 37 38 39 40 41 42 43 44 45 46 
 			length_plus False
 			table obs
-			2005 0.05 0.06 0.07 0.08 0.08 0.08 0.08 0.08 0.07 0.06 0.06 0.05 0.04 0.030 0.02 0.02
+			2005 0.05 0.06 0.07 0.08 0.08 0.08 0.08 0.08 0.07 0.06 0.06 0.05 
+			     0.04 0.030 0.02 0.02
 			end_table
 			table error_values
 			2005 651
@@ -915,10 +1031,12 @@ A list of \texttt{types} that are associated with this set of observations are:
 			years 2005
 			time_step 1
 			categories male
-			length_bins 30 31 32 33 34 35 36 37 38 39 40 41 42 43 44 45 46 # for LF in catch
+			# for LF in catch
+			length_bins 30 31 32 33 34 35 36 37 38 39 40 41 42 43 44 45 46 
 			length_plus False
 			table obs
-			2005 0.02 0.03 0.04 0.06 0.07 0.08 0.08 0.09 0.08 0.08 0.07 0.06 0.05 0.04 0.03 0.02
+			2005 0.02 0.03 0.04 0.06 0.07 0.08 0.08 0.09 0.08 0.08 0.07 0.06 
+			     0.05 0.04 0.03 0.02
 			end_table
 			table error_values
 			2005 651
