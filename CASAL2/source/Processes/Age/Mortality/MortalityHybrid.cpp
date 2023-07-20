@@ -65,7 +65,7 @@ MortalityHybrid::MortalityHybrid(shared_ptr<Model> model) : Mortality(model), pa
   parameters_.Bind<bool>(PARAM_BIOMASS, &is_catch_biomass_, "Indicator to denote if the catches are as biomass (true) or abundance (false)", "", true);
   parameters_.Bind<string>(PARAM_RELATIVE_M_BY_AGE, &selectivity_labels_, "The M-by-age ogives to apply to each category for natural mortality", "");
   parameters_.Bind<Double>(PARAM_MAX_F, &max_F_, "The maximum F applied in a time-step", "", 4.0)->set_lower_bound(0.0);
-  parameters_.Bind<unsigned>(PARAM_F_ITERATIONS, &F_iterations_, "The number of iterations to tune the F coeffecients", "", 4)->set_lower_bound(0);
+  parameters_.Bind<unsigned>(PARAM_F_ITERATIONS, &F_iterations_, "The number of iterations to tune the F coefficients", "", 4)->set_lower_bound(0);
 
   RegisterAsAddressable(PARAM_M, &m_);
 }
@@ -593,7 +593,7 @@ void MortalityHybrid::DoExecute() {
    */
   if (model_->state() != State::kInitialise) {
     // Not in initialisation phase
-    LOG_FINE() << "Should we calcualte F based on years on and time-step";
+    LOG_FINE() << "Should we calculate F based on years on and time-step";
     if (((find(process_years_.begin(), process_years_.end(), year) != process_years_.end()) || (year > model_->final_year()))) {
       // There is F in this year are we in the right time-step
       LOG_FINE() << "check time-step";
