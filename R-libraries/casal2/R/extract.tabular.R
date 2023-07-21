@@ -25,8 +25,7 @@
 # {s} -> {string}
 # {c} and {C} not used
 
-"extract.tabular" <-
-  function(file, path = "", fileEncoding = "", quiet = FALSE) {
+"extract.tabular" <- function(file, path = "", fileEncoding = "", quiet = FALSE) {
     set.class <- function(object, new.class) {
       # use in the form
       #  object <- set.class(object,"new class")
