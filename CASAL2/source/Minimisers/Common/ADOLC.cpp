@@ -75,6 +75,13 @@ void ADOLC::Execute() {
   int           status = 0;
   adolc::Engine adolc;
   adolc.optimise(call_back, start_values, lower_bounds, upper_bounds, status, max_iterations_, max_evaluations_, gradient_tolerance_, hessian_, 1, step_size_, use_tan_transform);
+  
+  LOG_MEDIUM() << "start values now ";
+  for (unsigned j = 0; j < start_values.size(); ++j) {
+    LOG_MEDIUM() << " start value " << start_values[j];
+    estimated_values_.push_back(AS_DOUBLE(start_values[j]));
+  }
+  
   // Note C.M
   // The convergence check is done at ADOLC/Engine line 2013
   // But the convergence_ gets + 2 at line 297.

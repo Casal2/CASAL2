@@ -39,6 +39,12 @@ void EstimationResult::DoExecute(shared_ptr<Model> model) {
 
 
   cache_ << ReportHeader(type_, label_, format_);
+  cache_ << "minimiser_values: ";
+  auto est_vals = minimiser->get_estimated_values();
+  for(auto val : est_vals)
+    cache_ << val << " ";
+  cache_ << REPORT_EOL;
+
   cache_ << PARAM_MINIMIZER << ": " << minimiser->label() << REPORT_EOL;
   cache_ << PARAM_TYPE << ": " << minimiser->type() << REPORT_EOL;
   cache_ << "Result " << REPORT_R_STRING_VECTOR << REPORT_EOL;

@@ -81,7 +81,11 @@ void DESolver::Execute() {
   // Setup Engine
   desolver::CallBack solver = desolver::CallBack(model_, start_values.size(), population_size_, tolerance_);
   solver.Setup(start_values, lower_bounds, upper_bounds, kBest1Exp, difference_scale_, crossover_probability_);
-
+  LOG_MEDIUM() << "start values now ";
+  for (unsigned j = 0; j < start_values.size(); ++j) {
+    LOG_MEDIUM() << " start value " << start_values[j];
+    estimated_values_.push_back(start_values[j]);
+  }
   // Solver
   if (solver.Solve(max_generations_)) {
     result_ = MinimiserResult::kSuccess;

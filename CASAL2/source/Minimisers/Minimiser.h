@@ -74,6 +74,7 @@ public:
   unsigned               hessian_size() const { return hessian_size_; }
   MinimiserResult::Type  result() const { return result_; }
   virtual bool           will_provide_covariance_matrix() const { return build_covariance_; }
+  vector<double>&        get_estimated_values() { return estimated_values_; }
 
 protected:
   // Members
@@ -86,6 +87,7 @@ protected:
   ublas::matrix<double> correlation_matrix_;
   MinimiserResult::Type result_ = MinimiserResult::kInvalid;
   vector<Double>        gradient_;
+  vector<double>        estimated_values_;
 };
 } /* namespace niwa */
 #endif /* MINIMISER_H_ */
