@@ -37,6 +37,7 @@ public:
   void Verify(shared_ptr<Model> model);
   void Reset();
   void Update(unsigned current_year);
+  void RestoreOriginalValue();
 
   // accessors
   vector<unsigned>&      get_years() { return years_; }
@@ -45,7 +46,6 @@ public:
 
 protected:
   // methods
-  void RestoreOriginalValue();
 
   // settors
   void set_single_value(Double value);

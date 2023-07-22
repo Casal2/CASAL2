@@ -545,6 +545,7 @@ void Model::RunBasic() {
     }
     current_year_ = final_year_;
 
+    time_varying_manager.RestoreOriginalValue();
     managers_->observation()->CalculateScores();
 
     for (auto executor : executors_[State::kExecute]) executor->Execute();
@@ -898,7 +899,7 @@ void Model::Iterate() {
     time_step_manager.Execute(current_year_);
   }
   current_year_ = final_year_;
-
+  time_varying_manager.RestoreOriginalValue();
   managers_->observation()->CalculateScores();
 
   for (auto executor : executors_[State::kExecute]) executor->Execute();

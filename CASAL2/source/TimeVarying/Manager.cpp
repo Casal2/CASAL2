@@ -5,7 +5,7 @@
  * @date 27/01/2015
  * @section LICENSE
  *
- * Copyright NIWA Science ©2014 - www.niwa.co.nz
+ * Copyright NIWA Science ï¿½2014 - www.niwa.co.nz
  *
  */
 
@@ -100,6 +100,17 @@ unsigned Manager::GetTimeVaryingCount() {
 
   return count;
 }
-
+/**
+ * Iterate over all time-varying objects restore to the original values
+ * this is to help with reporting and -i -o functionality
+ * This should be called before objective functions have been called and 
+ * before reporting occurs, but the former will sort that out
+ * 
+ */
+void Manager::RestoreOriginalValue() {
+  for (auto time_varying : objects_) {
+    time_varying->RestoreOriginalValue();
+  }
+}
 }  // namespace timevarying
 } /* namespace niwa */
