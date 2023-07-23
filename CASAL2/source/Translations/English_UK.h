@@ -358,6 +358,7 @@
 #define PARAM_INDIVIDUAL_CATEGORIES               "individual_categories"
 #define PARAM_IMPORTANT                           "important"
 #define PARAM_INCREASING                          "increasing"
+#define PARAM_INCLUDE_IN_MORTALITY_BLOCK          "include_in_mortality_block"
 #define PARAM_INCREMENTAL_SUFFIX                  "incremental_suffix"
 #define PARAM_INDEPENDENCE_METROPOLIS             "independence_metropolis"
 #define PARAM_INDEX                               "index"

@@ -551,7 +551,7 @@ void Model::RunBasic() {
     for (auto executor : executors_[State::kExecute]) executor->Execute();
 
     // Model has finished so we can run finalise.
-
+    time_varying_manager.RestoreOriginalValue();
     LOG_FINE() << "Model: State change to Iteration Complete";
     objective_function_->CalculateScore();
     managers_->report()->Execute(pointer(), State::kIterationComplete);
