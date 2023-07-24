@@ -19,18 +19,18 @@ There are different levels of logging in \CNAME\ listed below.
 	\item LOG\_MEDIUM()  usually reserved for iterative functionality (e.g. estimates during estimation phase)
 	\item LOG\_FINE() the level of reporting between an actual report and a fine scale detail that end users are not interested in (Developers)
 	\item LOG\_FINEST() Minor details
-	\item LOG\_TRACE() put at the beginning of every function
+	\item LOG\_TRACE() put at the beginning of functions to see if it is being entered by the program
 \end{itemize}
 
 To run \CNAME\ in log mode piping out any LOG\_FINEST and coarser logs (LOG\_MEDIUM and LOG\_FINE) you can use the following command,
 
-\texttt{casal2 -r --loglevel finest > MyReports.csl2 2> log.out}
+\texttt{casal2 -r --loglevel finest > run.log 2> error.log}
 
-This will output all the logged information to \texttt{log.out}.
+This will output all the logged information to \texttt{error.log}.
 
 \subsection{Unit tests}
 
-One of the key focusses in the \CNAME\ development is an emphasis on software integrity --- this is to help ensure that the results from implemented models are consistent and error free. As part of this, we use unit tests to check the individual components of the code base, as well as tests that run entire models in order to validate that the outputs are what we expect them to be.
+One of the key focuses in the \CNAME\ development is an emphasis on software integrity --- this is to help ensure that the results from implemented models are consistent and error free. As part of this, we use unit tests to check the individual components of the code base, as well as tests that run entire models in order to validate multiple interacting components.
 
 \CNAME\ uses:
 \begin{itemize}
@@ -38,7 +38,7 @@ One of the key focusses in the \CNAME\ development is an emphasis on software in
 	\item Google mocking framework
 \end{itemize}
 
-When adding unit tests, they need to be developed and tested outside of \CNAME\  first, for example in \R\ or another program like \CNAME\ e.g. CASAL or Stock Synthesis. This gives confidence that the test does not contain a calculation or other errors. There are three different testing concepts in \CNAME\ that I will quickly explain and point to examples in the code base. The three concepts are Mocking specific classes, implementing internal models (these two concepts are implemented in source files with extension \texttt{.Test.cpp}) that have variable test cases for a specific class and overall models found in the TestModel folder.
+When adding unit tests, they need to be developed and tested outside of \CNAME\  first, for example in \R\ or another program like \CNAME\ e.g. CASAL. This gives confidence that the test does not contain a calculation or other errors. There are three different testing concepts in \CNAME\ that I will quickly explain and point to examples in the code base. The three concepts are Mocking specific classes, implementing internal models (these two concepts are implemented in source files with extension \texttt{.Test.cpp}) that have variable test cases for a specific class and overall models found in the TestModel folder.
 
 Mocking specific classes is used to validate specific functionality and is encouraged because it is the easiest to isolate errors introduced with new code changes. Good example in the code base that utilise this are in \texttt{AgeLengths} for the \texttt{VonBertalanffy.Test.cpp} file. You can see in this file we mock the class and test the mean length calculations. Another good example of this is in the \texttt{Partition} class file \texttt{Partition.Test.cpp} which shows how \CNAME\ validate user inputs and model expectations.
 

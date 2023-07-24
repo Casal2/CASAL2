@@ -12,7 +12,7 @@ To add a new process you start by going into the \path{CASAL2\CASAL2\source\proc
 	\end{figure}
 
 
-This folder shown in Figure~\ref{fig:process} contains a general layout of all main classes in \CNAME. It contains a folder named \texttt{Children}, C++ source code \texttt{Factory.cpp}, \texttt{Factory.h}, \texttt{Manager.cpp}, \texttt{Manager.h}, \texttt{Process.cpp}, \texttt{Process.h}. The folder \texttt{Children} contains all the current processes implemented in \CNAME. The \texttt{Factory} source code creates all the processes during runtime. The \texttt{Manager} source code manages the class; it can build pointers to specific processes to share information across classes. The \texttt{Process} source code contains base functionality that is inherited by all child classes (inheritance is a major concept in C++ and it is  advised have some knowledge of the concept). Before creating a new child look at the parent (in this example \texttt{Process.cpp}, \texttt{Process.h}), to see the functionality you don't have to add in your child because it is already done at the parent level. The following figure shows the constructor in \texttt{Process.cpp}.
+This folder shown in Figure~\ref{fig:process} contains a general layout of all main classes in \CNAME. It contains a folder named \texttt{Age}, \texttt{Length}, \texttt{Common}, \texttt{Verification}, \texttt{Factory.cpp}, \texttt{Factory.h}, \texttt{Manager.cpp}, \texttt{Manager.h}, \texttt{Process.cpp}, \texttt{Process.h}. The folder \texttt{Age} contains all the current age-based processes implemented, \texttt{Length} contains all the current length-based processes and \texttt{Common} contains all processes that can be used in both age or length models. The \texttt{Factory} source code creates all the processes during runtime. The \texttt{Manager} source code manages the class; it can build pointers to specific processes to share information across classes. The \texttt{Process} source code contains base functionality that is inherited by all child classes (inheritance is a major concept in C++ and it is advised have some knowledge of the concept). Before creating a new child look at the parent (in this example \texttt{Process.cpp}, \texttt{Process.h}), to see the functionality you don't have to add in your child because it is already done at the parent level. The following figure shows the constructor in \texttt{Process.cpp}.
 \clearpage
 \begin{figure}[!ht]
 	\centering
@@ -66,9 +66,8 @@ The build phase is where the system will build relationships between objects tha
 This phase generally assigns values to pointers for objects so they don't need to do lookups of objects during execution phases.
 
 \paragraph*{Verify}
-At this point pre-defined configurations are checked against the model's current configuration to verify if the model makes sense logically. These are business rules being applied to the model to help ensure the output is not garbage.
-\\\\
-Note: This has not been implemented.
+At this point pre-defined configurations are checked against the model's current configuration to verify if the model makes sense logically. These are business rules being applied to the model to help ensure the model is \enquote{sensible} e.g. you have an ageing and a mortality process in your annual cycle.
+
 \paragraph*{PreExecute}
 Pre-Execution happens at the beginning of a time step. This allows objects to calculate values based on the partition state before any of the other processes in the time step are executed.
 \paragraph*{Execute}
@@ -151,5 +150,5 @@ You will notice another set of logging, which is also encouraged to add all thro
 
 \paragraph*{Adding a unit test}
 
-Still left to do - Samik and Marco to fill in after completing some unit tests.
+
 

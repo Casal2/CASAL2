@@ -1,10 +1,10 @@
 \section{Setting up \CNAME\ BuildSystem\label{sec:build_environment}}
 
-This section describes how to set up the environment on your local machine that will allow you to build and compile \CNAME. The build environment can be on either Microsoft Windows or Linux systems. At present the \CNAME\ build system supports Microsoft Windows 7+ and Linux (with GCC/G++ 4.9.0+). Apple OSX or other platforms are not currently supported.
+This section describes how to set up the environment on your local machine that will allow you to build and compile \CNAME. The build environment can be on either Microsoft Windows or Linux systems. At present the \CNAME\ build system supports Microsoft Windows 7+ and Linux (with GCC/G++ 4.9.0+). Apple OSX or other platforms are not currently supported. Appendix A of the user manual also contains information on how to build \CNAME\, which worth also having a look at to get further information on the build process.
 
 \subsection{Overview}
 
-The build system is made up of a collection of python scripts that do various tasks. These are located in \path{CASAL2/BuildSystem/buildtools/classes/}. Each python script has it's own set of functionality and undertakes one set of actions.
+The build system is made up of a collection of python scripts that do various tasks. These are located in \path{CASAL2/BuildSystem/buildtools/classes/} directory. Each python script has it's own set of functionality and undertakes a set of actions.
 
 The top level of the build system can be found at \path{CASAL2/BuildSystem/}. In this directory you can run \texttt{doBuild.bat help} from a command terminal in Microsoft Windows systems or \texttt{./doBuild.sh help} from a terminal in Linux systems.
 The script will take one or two parameters depending on what style of build you'd like to achieve. These commands allow the building of various stand-alone binaries, shared libraries, and the documentation. Note that you will need additional software installed on your system in order to build \CNAME . These requirements are described later.
@@ -43,7 +43,7 @@ Valid Build parameters: (debug/release only) e.g. \texttt{doBuild.bat release be
   \item \texttt{adolc}: Use ADOLC auto-differentiation in compiled executable
 \end{itemize}
 
-Valid Build parameters: (library only)
+Valid Build parameters: (library only e.g. \texttt{doBuild.bat library betadiff})
 \begin{itemize}
   \item \texttt{adolc}: Build ADOLC auto-differentiation library
   \item \texttt{betadiff}: Build BetaDiff auto-differentiation library (from CASAL)
@@ -56,11 +56,11 @@ The outputs from the build system commands will be placed in sub-folders of \pat
 
 For example:
 
-\path{CASAL2/BuildSystem/windows/debug}
+\path{CASAL2/BuildSystem/windows_gcc/debug}
 
-\path{CASAL2/BuildSystem/windows/library_release}
+\path{CASAL2/BuildSystem/windows_gcc/library_release}
 
-\path{CASAL2/BuildSystem/windows/thirdparty/}
+\path{CASAL2/BuildSystem/windows_gcc/thirdparty/}
 
 \path{CASAL2/BuildSystem/linux/library_release}
 
@@ -74,7 +74,7 @@ The building of \CNAME\ requires additional build tools and software, including 
 
 Source: tdm-gcc (MingW64) from \url{http://www.tdm-gcc.tdragon.net/}.
 
-\CNAME\ is designed to compile under GCC on Microsoft Windows and Linux  platforms. While it may be possible to build the package using different compilers, the \CNAME\ Development Team does provide any assistance or recommendations. We recommend using 64-bit TDM-GCC version 5.1.0. Ensure you have the "fortran" and "openmp" options installed as a part of the "gcc" dropdown tickboxes otherwise \CNAME\ will not compile.. \textbf{Note}: A common error that can be made is having a different GCC compiler in your path when attempting to compile. For example, rtools includes a version of the GCC compiler. We recommend removing these from your path prior to compiling.
+\CNAME\ is designed to compile under GCC on Microsoft Windows and Linux  platforms. While it may be possible to build the package using different compilers, the \CNAME\ Development Team does provide any assistance or recommendations. We recommend using 64-bit TDM-GCC version 5.1.0. Ensure you have the \enquote{fortran} and \enquote{openmp} options installed as a part of the \enquote{gcc} dropdown tickboxes otherwise \CNAME\ will not compile.. \textbf{Note}: A common error that can be made is having a different GCC compiler in your path when attempting to compile. For example, rtools includes a version of the GCC compiler. We recommend removing these from your path prior to compiling \CNAME.
 
 
 \textbf{GIT Version Control}
@@ -183,11 +183,11 @@ The build process is relatively straightforward. You can run \texttt{./doBuild.s
 	\item Navigate to the BuildSystem folder in \path{CASAL2/BuildSystem}
 	\item You need to build the third party libraries with:
 	\begin{itemize}
-	    \item \texttt{./doBuild.sh thirdparty}
+	    \item \texttt{./doBuild.sh thirdparty} for Linux or \texttt{doBuild.bat thirdparty} for windows
 	\end{itemize}
-	\item You need to build the binary you want to use:
+	\item Build all libraries:
 	\begin{itemize}
-		\item \texttt{./doBuild.sh release}
+		\item \texttt{./doBuild.sh archive} for Linux or \texttt{doBuild.bat archive} for windows
 	\end{itemize}
 	\item You can build the documentation if you want:
 	\begin{itemize}
