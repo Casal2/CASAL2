@@ -215,8 +215,8 @@ void RecruitmentBevertonHolt::DoVerify(shared_ptr<Model> model) {
     // Check if PARAM_RECRUITMENT_MULTIPLIERS has a transformation if it does don't let users
     // standardise.
     if (parameters_.Get(PARAM_STANDARDISE_YEARS)->has_been_defined())
-      LOG_VERIFY() << "There is an @parameter_transformation  for the parameter " << PARAM_RECRUITMENT_MULTIPLIERS
-                   << ", if this is type simplex, you should not specify the subcommand " << PARAM_STANDARDISE_YEARS;
+      LOG_VERIFY() << "There is an @parameter_transformation for the parameter " << PARAM_RECRUITMENT_MULTIPLIERS
+                   << ". If this is type=simplex, you should not specify the subcommand " << PARAM_STANDARDISE_YEARS;
   }
 }
 /**

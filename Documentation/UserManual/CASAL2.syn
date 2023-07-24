@@ -314,6 +314,7 @@ g_beta
 gradient_step_size
 growth_increment
 h
+include_in_mortality_block
 initial_length_cv
 initial_mean_length
 initial_mortality

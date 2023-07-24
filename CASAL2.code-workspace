@@ -56,6 +56,10 @@
       "system_error": "cpp",
       "thread": "cpp",
       "memory_resource": "cpp"
-    }
+    },
+    "[python]": {
+      "editor.defaultFormatter": "ms-python.black-formatter"
+    },
+    "python.formatting.provider": "yapf"
   }
 }

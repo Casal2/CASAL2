@@ -1216,6 +1216,8 @@ Parameters that have time components associated with them can be sampled uniform
 		multiplier 1
 		\end{verbatim}}}
 
+Note that when projecting recruitment\_multipliers, the \emph{unstandardised} values are used. This may cause projections to be other than what was intended unless these average one (or some other chosen value). If not using a transformation (e.g., the simplex transformation for recruitments), a vector average penalty should be applied (and the resulting recruitment multipliers checked) to ensure the average recruitment multiplier is equal to one over some pre-defined range. 
+
 \paragraph[Lognormal]{Sampling from a Lognormal distribution, type  \argument{lognormal}}\index{Projections!Lognormal}\label{sec:Project-LogNormal} \STATUS{Untested}
 
 The parameters are drawn from a Gaussian (Normal) distribution in log space and exponentiated  to result in the Lognormal distribution

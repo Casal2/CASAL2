@@ -342,6 +342,8 @@ If you want to estimate the proportion parameter, the parameter is addressed usi
 		...
 		\end{verbatim}}}
 
+The transition by category process can be (optionally) included within a mortality block, but note that this may result in negative or nonsensical derived quantities or observations in either the "from" or the "to" categories. If used within the mortality block, care should be taken to ensure that any derived quantities or observations are correctly specified.
+
 \subsubsection{\I{Tagging}}\label{sec:Process-Tagging}\label{sec:Process-TagByLength}
 
 Tag release events (also known as mark-recapture events or tag-release events) allow \CNAME\ to incorporate tagging data into the model.

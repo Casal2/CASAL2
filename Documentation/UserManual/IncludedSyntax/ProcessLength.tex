@@ -315,8 +315,8 @@ The null\_process  type has no additional subcommands. Note that this process do
 \defDefault{No default}
 \defValue{Valid selectivity labels}
 
-\defSub{include\_in\_mortality\_block}{Is this process included in the mortality block. This will effect derived quantities and observations that interpolate over the mortality block.}
+\defSub{include\_in\_mortality\_block}{Include this process within the mortality block}
 \defType{Boolean}
 \defDefault{false}
-\defValue{}
-
+\defValue{Either true or false}
+\defNote{Warning, if true, this may adversely effect derived quantities and observations that interpolate over the mortality block - see \defRef{sec:Process-TransitionCategory}}

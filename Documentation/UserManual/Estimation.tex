@@ -464,13 +464,20 @@ Additional priors can be thought of as the inverse of penalties \TODO{please rep
 The types of additional priors available in \CNAME\ are \texttt{vector\_smoothing}, \texttt{vector\_averaging}, \texttt{uniform\_log}, \texttt{lognormal}, \texttt{element\_difference}, and \texttt{Beta}:
 
 \begin{itemize}
-	\item \texttt{vector\_average}\label{sec:AdditionalPrior-VectorAverage}
+	\item \texttt{vector\_smoothing}\label{sec:AdditionalPrior-VectorSmoothing}
 
 	This prior can be applied to a vector parameter. Sum of squares of $r^{th}$ differences, optionally on a log scale. This encourages the vector to be like a polynomial of degree $(r-1)$. A range of the vector to be "smoothed" can be specified (and if not, the smoother is applied to the entire vector). However, this restriction must be specified by an index of the vector and must be between 1 and the length of the vector, inclusive.
 
-	\item \texttt{vector\_smoothing}\label{sec:AdditionalPrior-VectorSmoothing}
+	\item \texttt{vector\_average}\label{sec:AdditionalPrior-VectorAverage}
 
-	This prior can be applied to a vector parameter. Square of (mean(vector)-k), or of (mean(log(vector))-l), or of (log(mean(vector)/m)). Restricts the vector to average arithmetically to k or m, or geometrically to exp(l). Typically used for YCS with k=1 or m=1 or l=0, to restrict the YCS to centre on 1. Optionally, indices can be chosen or excluded outside a given set of bounds.
+	This prior can be applied to a vector parameter, $v$, with the value of the prior $P$ being one of three options: 
+	\begin{enumerate} 
+		\item $P=(\text{mean}(v)-k)^2$, e.g., using \commandlabsubarg{vector\_average}{method}{k}, or
+		\item $P=\text{mean}(log(v))-k$, e.g., using \commandlabsubarg{vector\_average}{method}{l}, or
+		\item $P=log(\text{mean}(v)/k)$, e.g., using \commandlabsubarg{vector\_average}{method}{m}. 
+	\end{enumerate}
+
+	The vector\_average additional prior restricts the vector to average arithmetically with \subcommand{method=k} or \subcommand{method=m}, or geometrically to $exp(k)$ when \subcommand{method=m}. Typically used with $k=1$ with \subcommand{method=k} or \subcommand{method=l}, or $k=0$ with \subcommand{method=m}, to restrict the recruitment\_multipliers to centre on $1$. Optionally, indices can be chosen or excluded outside a given set of bounds.
 
 	\item\texttt{lognormal} with mean $\mu$ and c.v. $c$\label{sec:AdditionalPrior-LogNormal}
 

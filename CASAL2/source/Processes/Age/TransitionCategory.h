@@ -55,8 +55,8 @@ private:
   accessor::Categories       to_partition_;
   vector<Selectivity*>       selectivities_;
   vector<vector<Double>>     abundance_to_move_categories_;
-
-  unsigned                   min_age_ = model_->min_age();
+  unsigned                   min_age_                       = model_->min_age();
+  bool                       process_is_in_mortality_block_ = false;
 };
 
 } /* namespace age */

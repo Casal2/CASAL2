@@ -490,7 +490,7 @@ The Nop type has no additional subcommands.
 \defDefault{No default}
 
 \defSub{proportions}{The proportions to transition for each category}
-\defType{Addressable}
+\defType{Vector of real numbers (estimable)}
 \defDefault{No default}
 \defLowerBound{0.0 (inclusive)}
 \defUpperBound{1.0 (inclusive)}
@@ -499,9 +499,9 @@ The Nop type has no additional subcommands.
 \defType{Vector of strings}
 \defDefault{No default}
 
-\defSub{proportions}{}
-\defType{Addressable}
-\defDefault{No default}
+\defSub{include\_in\_mortality\_block}{Is the process is in the mortality block}
+\defType{Boolean}
+\defDefault{false}
 
 \subsubsection{Process of type Transition\_Category\_By\_Age}
 \commandlabsubarg{Process}{type}{Transition\_Category\_By\_Age}.

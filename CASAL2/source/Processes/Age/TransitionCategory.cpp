@@ -31,9 +31,12 @@ TransitionCategory::TransitionCategory(shared_ptr<Model> model) : Process(model)
   parameters_.Bind<string>(PARAM_TO, &to_category_names_, "The categories to transition to", "");
   parameters_.Bind<Double>(PARAM_PROPORTIONS, &proportions_, "The proportions to transition for each category", "")->set_range(0.0, 1.0);
   parameters_.Bind<string>(PARAM_SELECTIVITIES, &selectivity_names_, "The selectivities to apply to each proportion", "");
+  parameters_.Bind<bool>(PARAM_INCLUDE_IN_MORTALITY_BLOCK, &process_is_in_mortality_block_, "Is the process is in the mortality block", "", false);
 
-  RegisterAsAddressable(PARAM_PROPORTIONS, &proportions_by_category_);  // reference is to-category label
+  // reference is to-category label
+  RegisterAsAddressable(PARAM_PROPORTIONS, &proportions_by_category_);
 
+  // this is changed in validate if process_is_in_mortality_block_ = true
   process_type_        = ProcessType::kTransition;
   partition_structure_ = PartitionType::kAge;
 }
@@ -52,6 +55,11 @@ TransitionCategory::TransitionCategory(shared_ptr<Model> model) : Process(model)
  */
 void TransitionCategory::DoValidate() {
   LOG_TRACE();
+
+  if (process_is_in_mortality_block_) {
+    LOG_MEDIUM() << "this process will be set to be inside the mortality process";
+    process_type_ = ProcessType::kMortality;
+  }
 
   if (selectivity_names_.size() == 1) {
     auto val_s = selectivity_names_[0];

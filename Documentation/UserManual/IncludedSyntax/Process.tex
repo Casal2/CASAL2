@@ -1027,7 +1027,7 @@ end_table
 \defType{Non-negative integer}
 \defDefault{No default}
 \defLowerBound{0 (inclusive)}
-\defNote{years at liberty must be a valid value between 0 and the maximum number of years in the model. The tag\_loss\_rate is not applied for years at liberty that are not specified}
+\defNote{Years at liberty must be a valid value between 0 and the maximum number of years in the model. The tag\_loss\_rate is not applied for years at liberty that are not specified}
 
 \subsubsection{Process of type Transition Category}
 \commandlabsubarg{process}{type}{Transition\_Category}.
@@ -1054,6 +1054,12 @@ end_table
 \defType{Vector of strings}
 \defDefault{No default}
 \defValue{Valid selectivity labels}
+
+\defSub{include\_in\_mortality\_block}{Include this process within the mortality block}
+\defType{Boolean}
+\defDefault{false}
+\defValue{Either true or false}
+\defNote{Warning, if true, this may adversely effect derived quantities and observations that interpolate over the mortality block - see \defRef{sec:Process-TransitionCategory}}
 
 \subsubsection{Process of type Transition Category By Age}
 \commandlabsubarg{process}{type}{Transition\_Category\_By\_Age}.
