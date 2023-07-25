@@ -47,9 +47,7 @@ Implementing internal models is the most common test resource in the code, and m
 
 Modelunner tests are run using the \texttt{DoBuild} script in the BuildSystem folder. Models are located in the \texttt{TestModel} folder. These models are used to test autodiff library model runs, and other functionality such \texttt{-i} and are more holistic tests. If these fail it can be difficult to isolate the error that is why we encourage you implement the other two unit tests as much as possible. The setup for the modelrunner are defined in the python script found at \texttt{BuildSystem/BuildTools/classes/ModelRunner.py} if you wanted to add simulation TestModels and projections.
 
-
 An example of how to add a unit test for a process is shown in Section~\ref{sec:example}
-
 
 Tips on building unit tests. For a good example of mocking classes for unit test class specific functionality. See the AgeLength test classes and Partition.Test.cpp Key points when building mock classes, make sure when the mock model is passed to the mock class that it has all the methods loaded in the model pointer, that the mock class needs. i.e many classes will call 
 \texttt{model\_->age\_spread()}
@@ -65,7 +63,7 @@ Running a specific unit test instead of the whole suite use the following comman
 \subsection{Verification}
 After \CNAME\ executes Validate and Build it runs sanity checks in the verify state. These are business rules that can be checked across the entire system. This can be useful to suggest dependencies or configurations. For an example see the directory \subcommand{Processes\textbackslash Verification\textbackslash} in the source code. 
 
-\subsection{Reporting (Optional)}
+\subsection{Reporting (optional)}
 
 Currently \CNAME\ has reports that are \R\ compatible, i.e., all output reports produced by \CNAME\ can be read into \R\ using the standard  \textbf{CASAL2} \R\ package. If you create a new report or modify an old one, you most follow the standard so that the report is \R\ compatible.
 

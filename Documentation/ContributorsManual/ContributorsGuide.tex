@@ -20,7 +20,7 @@
 %% EXAMPLE: \href{http://www.niwa.co.nz}{NIWA}
 \usepackage[bookmarks=true,bookmarksopen=false,bookmarksnumbered=true,
             pdfpagelayout=TwoPageRight,
-            pdftitle={CASAL2 Contributors Manual}, 
+            pdftitle={Casal2 Contributors Manual}, 
             pdfauthor={C. Marsh} %authors
             pdfsubject={Casal2, Contributors manual},
             pdftex]{hyperref}
@@ -33,9 +33,6 @@
   urlcolor=darkgray     % colour of external links
 }
 \pdfadjustspacing=1
-
-
-
 
 \definecolor{codegreen}{rgb}{0,0.6,0}
 \definecolor{codegray}{rgb}{0.5,0.5,0.5}
@@ -210,12 +207,12 @@ escapeinside={\%*}{*)}          % if you want to add a comment within your code
 
 %New commands to automate document dates, manual titles, document reference, etc.
 %\newcommand{\VER}{v\SourceControlDateDoc} % CASAL2 program version
-\newcommand{\CNAME}{\textsc{Casal2}} 
+\newcommand{\CNAME}{Casal2}
 \newcommand{\cname}{\texttt{casal2}} % casal2 binary name
 \newcommand{\authors}{C. Marsh and S. Rasmussen}
 \newcommand{\email}{casal2@niwa.co.nz}
 \newcommand{\github}{\url{https://github.com/NIWAFisheriesModelling/CASAL2}}
-\newcommand{\authorlink}{\href{mailto:"CASAL2 Development Team"<casal2@niwa.co.nz>?subject=CASAL2:}{authors}} 
+\newcommand{\authorlink}{\href{mailto:"CASAL2 Development Team"<casal2@niwa.co.nz>?subject=Casal2:}{authors}} 
 %hyper ref for email
 \newcommand{\Organisation}{National Institute of Water \& Atmospheric Research Ltd.}
 %\newcommand{\ManualRef}{\authors\ (\DocYear). \CNAME\ User Manual, \VER. \Organisation\ \emph{NIWA Technical Report 139}. \ref{TotPages} p.} % full document reference
@@ -243,25 +240,25 @@ escapeinside={\%*}{*)}          % if you want to add a comment within your code
 \sloppy % use sloppy paras
 
 % Title page
-\pdfbookmark[1]{CASAL2 Contributors Manual}{title}
+\pdfbookmark[1]{Casal2 Contributors Manual}{title}
 \pagenumbering{alph} % alpha not used, but used to remove warnings when page 1 is re-defined below
 
 \begin{titlepage}
   \thispagestyle{empty} % no header/footer/page number on this page
 	\begin{center}
 
-		\vspace{1cm}
-		\begin{figure}[htp]
-			%\begin{left}
-			 \includegraphics[height=2.5cm]{Figures/CASAL2.png}
-			%\end{left}
-		\end{figure}
-
 		\vspace*{2.5cm}
 		\Huge \CNAME\ Contributors Manual \\
 
 		\vspace{2.0cm}
 		\huge \authors \\ %Document authors
+
+		\vspace{2cm}
+		\begin{figure}[htp]
+			\begin{center}
+			\includegraphics[height=7cm]{Figures/CASAL2.png}
+			\end{center}
+		\end{figure}
 
 		%~\vfill
 %		\Large NIWA Technical Report 139 \\%Document Date
@@ -276,17 +273,19 @@ escapeinside={\%*}{*)}          % if you want to add a comment within your code
 
 
 % Citation page
-\fancyfoot[C]{\thepage}
-\pagenumbering{roman}
+% Citation page
+%\cleardoublepage{}
+%\fancyfoot[C]{\thepage}
+%\pagenumbering{roman}
 
-%~\vfill
+~\vfill
 
 %\begin{center}
 %Citation: \ManualRef    
 %\end{center}
 
 % Table of contents
-%\clearemptydoublepage{}
+\clearemptydoublepage{}
 \pdfbookmark[1]{Contents}{contents}
 
 \begin{spacing}{0.8} % Reduce space between lines in contents list
