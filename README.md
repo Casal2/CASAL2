@@ -19,6 +19,4 @@ An R package that will help post processing Casal2 models can be found here [r4C
 
 More information about Casal2, including release notes and project status, is available at https://casal2.github.io.
 
-The Casal2 user and developer forums are available on the [Casal2 Discourse site](https://casal2.discourse.group/).
-
 For more information about Casal2 contact the Casal2 Development Team at email:casal2@niwa.co.nz
