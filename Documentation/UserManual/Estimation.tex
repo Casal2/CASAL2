@@ -457,7 +457,7 @@ Penalty = (log(X_1) - log(X_2))^2
 
 where, for example, $X_1$ is observed catch biomass and $X_2$ is the estimated catch biomass. Penalties are usually applied in situations when numbers or weight are known. Another example is for tagging, where the number of individuals that were tagged in a given year is known, so a penalty can be used to restrict the model to estimate reasonable values for the numbers of tagged individuals in that year.
 
-\subsection{Additional Priors\label{sec:AdditionalPriors}}
+\subsection{Additional priors\label{sec:AdditionalPriors}}
 
 Additional priors can be thought of as the inverse of penalties \TODO{please rephrase}. For CASAL models, most of the legacy \command{penalty} blocks have now been implemented as \command{additional\_prior} blocks. They restrict parameters in user-defined spaces \TODO{please rephrase}.
 
@@ -540,7 +540,7 @@ There are a range of parameters and derived values that additional priors can be
 
 This list may be useful for users who are trying to apply the equivalent CASAL penalties in a \CNAME\ model.
 
-\subsection{\I{Parameter Transformations}\label{sec:Transformation}}
+\subsection{\I{Parameter transformations}\label{sec:Transformation}}
 \CNAME\ has multiple methods to transform a parameter into a different \enquote{space}. Transformations are implemented to try and achieve \enquote{better} model optimisation. Complex population models can have highly correlated parameters so transforming them is a method of addressing confounded parameters, and \enquote{help} the minimisers find a \enquote{global} solution faster. To read more about transformations and get a better understanding of why they are used, see \cite{gilks1995markov}, specifically chapter 6.
 
 

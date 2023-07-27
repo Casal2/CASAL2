@@ -1,10 +1,10 @@
 Casal2 (https://github.com/alistairdunn1/CASAL2)
 Call: C:\Projects\Software\CASAL2\BuildSystem/Casal2/casal2.exe -e -g 20 -c config_betadiff.csl2 
-Date: Fri Dec 09 15:36:29 2022
+Date: Thu Jul 27 11:39:36 2023
 Seed: 20
-Version: v22.12 (2022-12-08)
-Copyright (c) 2017-2022, NIWA (www.niwa.co.nz)
-Environment: User=alist Machine=QUIET-5950X OS=Windows_NT PID=21532
+Version: v23.07 (2023-07-24)
+Copyright (c) 2017-2023, NIWA (www.niwa.co.nz)
+Environment: User=alist Machine=QUIET-5950X OS=Windows_NT PID=10292
 
 
 *initialisation_partition[Equilibrium_state]
@@ -1142,6 +1142,7 @@ discards_dead[Recreation]: 0 3.46532 3.55998 3.64239 3.74321 3.83203 3.92386 4.0
 a50: 3.03845 
 alpha: 1 
 ato95: 0.191918 
+beta: 0 
 intervals: 5 
 label: potSurveySel_male 
 length_based: 0 
@@ -1171,6 +1172,7 @@ Values {vector}
 a50: 3.30808 
 alpha: 1 
 ato95: 1.03043 
+beta: 0 
 intervals: 5 
 label: potSurveySel_female 
 length_based: 0 
@@ -1822,6 +1824,7 @@ discards_dead[Recreation]: 0 3.46532 3.55998 3.64239 3.74321 3.83203 3.92386 4.0
 a50: 4.1 
 alpha: 1 
 ato95: 2.47 
+beta: 0 
 intervals: 5 
 label: MaturationSel_male 
 length_based: 0 
@@ -1851,6 +1854,7 @@ Values {vector}
 a50: 4.1 
 alpha: 1 
 ato95: 2.47 
+beta: 0 
 intervals: 5 
 label: MaturationSel_female 
 length_based: 0 
@@ -1877,6 +1881,7 @@ Values {vector}
 *end
 
 *selectivity[potFdis]
+beta: 0 
 c: 1 
 intervals: 5 
 label: potFdis 
@@ -1904,6 +1909,7 @@ Values {vector}
 *end
 
 *selectivity[recFdis]
+beta: 0 
 c: 1 
 intervals: 5 
 label: recFdis 
@@ -1934,6 +1940,7 @@ Values {vector}
 a50: 3.30808 
 alpha: 1 
 ato95: 1.03043 
+beta: 0 
 intervals: 5 
 label: potSurveySel_female 
 length_based: 0 
@@ -1963,6 +1970,7 @@ Values {vector}
 a50: 3.03845 
 alpha: 1 
 ato95: 0.191918 
+beta: 0 
 intervals: 5 
 label: potSurveySel_male 
 length_based: 0 
@@ -1989,6 +1997,7 @@ Values {vector}
 *end
 
 *selectivity[One]
+beta: 0 
 c: 1 
 intervals: 5 
 label: One 

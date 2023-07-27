@@ -1,10 +1,11 @@
 \section{\CNAME\ build guidelines and validation\label{sec:buildrules}}
 
-\subsection{\CNAME\ coding practice and style}\label{subsec:codepractive}
+\subsection{\CNAME\ coding practice and style}\label{subsec:codepractice}
 
 \CNAME\ is written in C++ and uses the Google C++ style guide (see \url{https://google.github.io/styleguide/cppguide.html}). 
 
 In general when editing or writing code for \CNAME\:
+
 \begin{enumerate}
   \item Using consistent indentations inside functions and loops, and descriptive and human readable variable or function names.
   \item Use of the characters `\_' on the end of class variables defined in the .h files. 
@@ -15,6 +16,7 @@ In general when editing or writing code for \CNAME\:
 \end{enumerate}
 
 \CNAME\ allows printing of logging messages art runtime using the --loglevel command line argument. The levels of logging in \CNAME\ are:
+
 \begin{itemize}
 	\item LOG\_MEDIUM()  usually reserved for iterative functionality (e.g. estimates during estimation phase)
 	\item LOG\_FINE() the level of reporting between an actual report and a fine scale detail that end users are not interested in (Developers)
@@ -24,15 +26,16 @@ In general when editing or writing code for \CNAME\:
 
 e.g., to run \CNAME\ with logging, use 
 
-\texttt{casal2 -r --loglevel finest > MyReports.csl2 2> log.out}
+\texttt{casal2 -r --loglevel finest > my\_run.log 2> my\_run.err}
 
-This will output all the logged information to \texttt{log.out}.
+This will output all the logged information to \texttt{my\_run.err}.
 
 \subsection{Units tests and model validation}
 
 The \CNAME\ development places an emphasis on maintaining software integrity and reproducibility between revisions. \CNAME\ uses model validations and built in unit tests to validate and verify the code each time \CNAME\ is compiled and built. 
 
-There are three different validation approaches in \CNAME. These are 
+There are three different validation approaches in \CNAME. These are:
+
 \begin{enumerate}
 	\item Mocking specific classes.
 	\item Implementing internal models (implemented in C++ source code with extension \texttt{.Test.cpp}) that have variable test cases for specific classes. 
@@ -68,4 +71,72 @@ External tests are run following compilation using the Python modelrunner.py scr
 The test model input configuration files are located in the \texttt{TestModel} folder and the command calls to run these are in the modelrunner.py script.  
 
 Contributors are encouraged to add additional models to the list of test models as these be used to validate the combined functionality of a range of interrelated commands and subcommands in \CNAME. 
+
+\subsection{Verification}
+After \CNAME\ executes Validate and Build it runs sanity checks in the verify state. These are business rules that can be checked across the entire system. This can be useful to suggest dependencies or configurations. For an example see the directory \subcommand{Processes\textbackslash Verification\textbackslash} in the source code. 
+
+\subsection{Reporting (optional)}
+
+Currently \CNAME\ has reports that are \R\ compatible, i.e., all output reports produced by \CNAME\ can be read into \R\ using the standard  \textbf{CASAL2} \R\ package. If you create a new report or modify an old one, you most follow the standard so that the report is \R\ compatible.
+
+All reports must start with,
+\texttt{*label (type)}
+and end with,
+\texttt{*end}
+
+Depending on what type of information you wish to report, will depend on the syntax you need to use. For example
+
+\paragraph*{$\{$d$\}$ (Dataframe)}
+Report a dataframe
+{\small{\begin{verbatim}
+			*estimates (estimate_value)
+			values {d}
+			process[Recruitment_BOP].r0 process[Recruitment_ENLD].r0 
+			2e+006 8e+006
+			*end
+\end{verbatim}}}
+
+\paragraph*{$\{$m$\}$ (Matrix)}
+Report a matrix
+{\small{\begin{verbatim}
+			*covar (covariance_matrix)
+			Covariance_Matrix {m}
+			2.29729e+010 -742.276 -70160.5
+			-110126 -424507 -81300 
+			-36283.4 955920 -52736.2 
+			*end
+\end{verbatim}}}
+
+\paragraph*{$\{$L$\}$ (List)}
+Report a List
+{\small{\begin{verbatim}
+			*weight_one (partition_mean_weight)
+			year: 1900
+			ENLD.EN.notag {L}
+			mean_weights {L}
+			0.0476604 0.111575 0.199705
+			end {L}
+			age_lengths {L}
+			12.0314 16.2808 20.0135
+			end {L}
+			end {L}
+			*end
+\end{verbatim}}}
+
+\subsection{Update manual}
+
+Contributors will need to add or modify sections of the user manual to document their changes. This includes the section that describes the methods and the section where the specific syntax is defined. 
+
+\subsection{Builds to pass before merging changes}
+
+Once you have made changes, you must run the following before your changes can be included in the master code. 
+
+\begin{itemize}
+	\item Build the unittest version. See Section~\ref{sec:build_environment} for how to build unittest depending on your system.
+	\item Run the standard and new unit tests to check that they all pass. To do this first compile the test executable using the script \texttt{DoBuild test}. Then move to the directory with the location of the executable (\texttt{BuildSystem/bin/OS/test}) and run it (open a command terminal and run \texttt{casal2}) to check all the unit-tests pass.
+	\item Test that the debug and release of \CNAME\ compiles and runs with \texttt{DoBuild debug}
+	\item Run the second phase of unit tests (requires that the debug version is built). This runs the tests that comprise of complete model runs using \texttt{DoBuild modelrunner}
+	\item Build the archive using \texttt{DoBuild archive} which builds all required libraries. There are small nuances between Double classes, especially when reporting the class that mean seemingly simple changes can sometimes cause a break in the full build.
+\end{itemize}
+
 

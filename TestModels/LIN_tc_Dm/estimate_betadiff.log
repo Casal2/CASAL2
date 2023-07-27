@@ -1,10 +1,10 @@
 Casal2 (https://github.com/alistairdunn1/CASAL2)
 Call: C:\Projects\Software\CASAL2\BuildSystem/Casal2/casal2.exe -e -g 20 -c config_betadiff.csl2 
-Date: Fri Dec 09 15:39:12 2022
+Date: Thu Jul 27 11:44:01 2023
 Seed: 20
-Version: v22.12 (2022-12-08)
-Copyright (c) 2017-2022, NIWA (www.niwa.co.nz)
-Environment: User=alist Machine=QUIET-5950X OS=Windows_NT PID=23480
+Version: v23.07 (2023-07-24)
+Copyright (c) 2017-2023, NIWA (www.niwa.co.nz)
+Environment: User=alist Machine=QUIET-5950X OS=Windows_NT PID=4260
 
 
 *initialisation_partition[Equilibrium_phase]
@@ -1950,6 +1950,7 @@ actual_catch[FishingTrwl]: 0 500 1120 900 3402 3100 1945 3707 5200 4427 2402 277
 
 *selectivity[M_all]
 alpha: 1 
+beta: 0 
 intervals: 5 
 label: M_all 
 length_based: 0 
@@ -2058,6 +2059,7 @@ Values {vector}
 a50: 13.3919 
 alpha: 0.98926 
 ato95: 9.60575 
+beta: 0 
 intervals: 5 
 label: summerTANSel_m 
 length_based: 0 
@@ -2092,6 +2094,7 @@ Values {vector}
 a50: 13.3308 
 alpha: 1 
 ato95: 9.45078 
+beta: 0 
 intervals: 5 
 label: summerTANSel_f 
 length_based: 0 
@@ -2126,6 +2129,7 @@ Values {vector}
 a50: 12.4743 
 alpha: 1.09906 
 ato95: 9.19445 
+beta: 0 
 intervals: 5 
 label: autumnTANSel_m 
 length_based: 0 
@@ -2160,6 +2164,7 @@ Values {vector}
 a50: 11.8477 
 alpha: 1 
 ato95: 8.71899 
+beta: 0 
 intervals: 5 
 label: autumnTANSel_f 
 length_based: 0 
@@ -2192,6 +2197,7 @@ Values {vector}
 
 *selectivity[trwlFSel_m]
 alpha: 0.987371 
+beta: 0 
 intervals: 5 
 label: trwlFSel_m 
 length_based: 0 
@@ -2227,6 +2233,7 @@ Values {vector}
 
 *selectivity[trwlFSel_f]
 alpha: 1 
+beta: 0 
 intervals: 5 
 label: trwlFSel_f 
 length_based: 0 
@@ -2264,6 +2271,7 @@ Values {vector}
 a50: 13.5197 
 alpha: 0.831003 
 ato95: 9.86076 
+beta: 0 
 intervals: 5 
 label: lineHomeFSel_m 
 length_based: 0 
@@ -2298,6 +2306,7 @@ Values {vector}
 a50: 14.1855 
 alpha: 1 
 ato95: 10.0633 
+beta: 0 
 intervals: 5 
 label: lineHomeFSel_f 
 length_based: 0 
@@ -2332,6 +2341,7 @@ Values {vector}
 a50: 16.2748 
 alpha: 1.0419 
 ato95: 11.4116 
+beta: 0 
 intervals: 5 
 label: lineSpawnFSel_m 
 length_based: 0 
@@ -2366,6 +2376,7 @@ Values {vector}
 a50: 15.6625 
 alpha: 1 
 ato95: 10.7113 
+beta: 0 
 intervals: 5 
 label: lineSpawnFSel_f 
 length_based: 0 
@@ -5045,6 +5056,7 @@ Values {vector}
 a50: 13.3919 
 alpha: 0.98926 
 ato95: 9.60575 
+beta: 0 
 intervals: 5 
 label: summerTANSel_m 
 length_based: 0 
@@ -5079,6 +5091,7 @@ Values {vector}
 a50: 13.3308 
 alpha: 1 
 ato95: 9.45078 
+beta: 0 
 intervals: 5 
 label: summerTANSel_f 
 length_based: 0 
@@ -5113,6 +5126,7 @@ Values {vector}
 a50: 12.4743 
 alpha: 1.09906 
 ato95: 9.19445 
+beta: 0 
 intervals: 5 
 label: autumnTANSel_m 
 length_based: 0 
@@ -5147,6 +5161,7 @@ Values {vector}
 a50: 11.8477 
 alpha: 1 
 ato95: 8.71899 
+beta: 0 
 intervals: 5 
 label: autumnTANSel_f 
 length_based: 0 
@@ -5179,6 +5194,7 @@ Values {vector}
 
 *selectivity[trwlFSel_m]
 alpha: 0.987371 
+beta: 0 
 intervals: 5 
 label: trwlFSel_m 
 length_based: 0 
@@ -5214,6 +5230,7 @@ Values {vector}
 
 *selectivity[trwlFSel_f]
 alpha: 1 
+beta: 0 
 intervals: 5 
 label: trwlFSel_f 
 length_based: 0 
@@ -5251,6 +5268,7 @@ Values {vector}
 a50: 13.5197 
 alpha: 0.831003 
 ato95: 9.86076 
+beta: 0 
 intervals: 5 
 label: lineHomeFSel_m 
 length_based: 0 
@@ -5285,6 +5303,7 @@ Values {vector}
 a50: 14.1855 
 alpha: 1 
 ato95: 10.0633 
+beta: 0 
 intervals: 5 
 label: lineHomeFSel_f 
 length_based: 0 
@@ -5319,6 +5338,7 @@ Values {vector}
 a50: 16.2748 
 alpha: 1.0419 
 ato95: 11.4116 
+beta: 0 
 intervals: 5 
 label: lineSpawnFSel_m 
 length_based: 0 
@@ -5353,6 +5373,7 @@ Values {vector}
 a50: 15.6625 
 alpha: 1 
 ato95: 10.7113 
+beta: 0 
 intervals: 5 
 label: lineSpawnFSel_f 
 length_based: 0 
@@ -5385,6 +5406,7 @@ Values {vector}
 
 *selectivity[M_all]
 alpha: 1 
+beta: 0 
 intervals: 5 
 label: M_all 
 length_based: 0 

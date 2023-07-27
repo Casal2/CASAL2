@@ -1,10 +1,10 @@
 Casal2 (https://github.com/alistairdunn1/CASAL2)
 Call: C:\Projects\Software\CASAL2\BuildSystem/Casal2/casal2.exe -e -g 20 -c config_betadiff.csl2 
-Date: Fri Dec 09 15:38:33 2022
+Date: Thu Jul 27 11:44:09 2023
 Seed: 20
-Version: v22.12 (2022-12-08)
-Copyright (c) 2017-2022, NIWA (www.niwa.co.nz)
-Environment: User=alist Machine=QUIET-5950X OS=Windows_NT PID=11464
+Version: v23.07 (2023-07-24)
+Copyright (c) 2017-2023, NIWA (www.niwa.co.nz)
+Environment: User=alist Machine=QUIET-5950X OS=Windows_NT PID=6692
 
 
 *initialisation_partition[Equilibrium_phase]
@@ -1486,6 +1486,7 @@ Values {vector}
 a50: 6.99702 
 alpha: 1 
 ato95: 2.70985 
+beta: 0 
 intervals: 5 
 label: subaFsel 
 length_based: 0 
@@ -1527,6 +1528,7 @@ Values {vector}
 a50: 3.03406 
 alpha: 1 
 ato95: 0.101095 
+beta: 0 
 intervals: 5 
 label: subaTANselA 
 length_based: 0 
@@ -3522,6 +3524,7 @@ Values {vector}
 a50: 6.99702 
 alpha: 1 
 ato95: 2.70985 
+beta: 0 
 intervals: 5 
 label: subaFsel 
 length_based: 0 
@@ -3563,6 +3566,7 @@ Values {vector}
 a50: 3.03406 
 alpha: 1 
 ato95: 0.101095 
+beta: 0 
 intervals: 5 
 label: subaTANselA 
 length_based: 0 
@@ -3601,6 +3605,7 @@ Values {vector}
 *end
 
 *selectivity[One]
+beta: 0 
 c: 1 
 intervals: 5 
 label: One 

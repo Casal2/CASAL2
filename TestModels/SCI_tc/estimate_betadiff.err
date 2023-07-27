@@ -58,6 +58,9 @@ resizing from 103747 to 114121
 [INFO] Creating default report for selectivity tag_1996_3_female.one
 [INFO] Creating default report for selectivity tag_1997_1_male.one
 [INFO] Creating default report for selectivity tag_1997_1_female.one
+[WARNING] The @catchability block CPUE-Commercialq_1 is not assigned to an @observation.
+[WARNING] The @catchability block TrawlSurveyq_1 is not assigned to an @observation.
+[WARNING] The @catchability block TrawlSurveyq_2 is not assigned to an @observation.
 [INFO] Initiating point estimate run mode
 resizing from 114121 to 125533
 resizing from 125533 to 138086
@@ -1569,4 +1572,4 @@ finished main minimiser loop
 Successful convergence in optimise
 [INFO] Assert Passed: The Assert with label 'ObjectiveFunction' for the Objective Function had value 6898.74 and 6898.74 was expected.
 [INFO] Completed
-[INFO] Total elapsed time: 1.45 minutes
+[INFO] Total elapsed time: 1.467 minutes

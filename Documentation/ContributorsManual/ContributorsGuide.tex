@@ -1,7 +1,7 @@
 \documentclass[a4paper,11pt,twoside,pdftex]{article}
 
 % Caption package for formating figure and label captions
-\usepackage[font=bf,format=hang,labelsep=colon,justification=centering,singlelinecheck=false,compatibility=false]{caption}
+\usepackage[font=bf,format=hang,labelsep=colon,justification=justified,singlelinecheck=false,compatibility=false]{caption}
 
 
 % Misc packages
@@ -22,7 +22,7 @@
             pdfpagelayout=TwoPageRight,
             pdftitle={Casal2 Contributors Manual}, 
             pdfauthor={C. Marsh} %authors
-            pdfsubject={Casal2, Contributors manual},
+            pdfsubject={Casal2 Contributors Guide},
             pdftex]{hyperref}
 \hypersetup{
   breaklinks=true,      % allow line breaks in URLs
@@ -199,14 +199,14 @@ escapeinside={\%*}{*)}          % if you want to add a comment within your code
 \newcommand{\defAllowedValues}[1]{\defText{Allowed Values:}{#1}}
 
 % Input CASAL2 version definitions
-%\input{Version.tex}
-%\newcommand{\DocYear}{\SourceControlYearDoc}
-%\newcommand{\DocMonth}{\SourceControlMonthDoc}
-%\newcommand{\DocDate}{\SourceControlMonthDoc\ \SourceControlYearDoc}
-%\newcommand{\DocVer}{\SourceControlDateDoc}
+\input{../UserManual/Version.tex}
+\newcommand{\DocYear}{\SourceControlYearDoc}
+\newcommand{\DocMonth}{\SourceControlMonthDoc}
+\newcommand{\DocDate}{\SourceControlMonthDoc\ \SourceControlYearDoc}
+\newcommand{\DocVer}{\SourceControlDateDoc}
 
 %New commands to automate document dates, manual titles, document reference, etc.
-%\newcommand{\VER}{v\SourceControlDateDoc} % CASAL2 program version
+\newcommand{\VER}{v\SourceControlDateDoc} % CASAL2 program version
 \newcommand{\CNAME}{Casal2}
 \newcommand{\cname}{\texttt{casal2}} % casal2 binary name
 \newcommand{\authors}{C. Marsh and S. Rasmussen}
@@ -215,7 +215,7 @@ escapeinside={\%*}{*)}          % if you want to add a comment within your code
 \newcommand{\authorlink}{\href{mailto:"CASAL2 Development Team"<casal2@niwa.co.nz>?subject=Casal2:}{authors}} 
 %hyper ref for email
 \newcommand{\Organisation}{National Institute of Water \& Atmospheric Research Ltd.}
-%\newcommand{\ManualRef}{\authors\ (\DocYear). \CNAME\ User Manual, \VER. \Organisation\ \emph{NIWA Technical Report 139}. \ref{TotPages} p.} % full document reference
+\newcommand{\ManualRef}{\authors\ (\DocYear). \CNAME\ Contributors Guide, \VER. \ref{TotPages} p. (Using source code from \SourceRepos)} % full document reference
 
 % Define \clearemptydoublepage so-as to have truly blank pages between sections
 \let\origdoublepage\cleardoublepage
@@ -240,7 +240,7 @@ escapeinside={\%*}{*)}          % if you want to add a comment within your code
 \sloppy % use sloppy paras
 
 % Title page
-\pdfbookmark[1]{Casal2 Contributors Manual}{title}
+\pdfbookmark[1]{Casal2 Contributors Guide}{title}
 \pagenumbering{alph} % alpha not used, but used to remove warnings when page 1 is re-defined below
 
 \begin{titlepage}
@@ -248,7 +248,7 @@ escapeinside={\%*}{*)}          % if you want to add a comment within your code
 	\begin{center}
 
 		\vspace*{2.5cm}
-		\Huge \CNAME\ Contributors Manual \\
+		\Huge \CNAME\ Contributors Guide \\
 
 		\vspace{2.0cm}
 		\huge \authors \\ %Document authors
@@ -260,13 +260,14 @@ escapeinside={\%*}{*)}          % if you want to add a comment within your code
 			\end{center}
 		\end{figure}
 
-		%~\vfill
+		~\vfill
 %		\Large NIWA Technical Report 139 \\%Document Date
 %		\Large ISSN 1174-2631 \\%Document Date
 %		\Large \DocYear \\%Document Date
 
-%		\vspace{1.0cm}
-%		\CNAME\ User Manual (modified \DocVer) for use with \cname\texttt{\_\VER}
+		\Large
+		\vspace{1.0cm}
+		\CNAME\ Contributors Guide for use with \CNAME~(\VER) \\ \SourceRepos
 	
 	\end{center}
 \end{titlepage}
@@ -280,9 +281,9 @@ escapeinside={\%*}{*)}          % if you want to add a comment within your code
 
 ~\vfill
 
-%\begin{center}
-%Citation: \ManualRef    
-%\end{center}
+\begin{center}
+Citation: \ManualRef    
+\end{center}
 
 % Table of contents
 \clearemptydoublepage{}
@@ -323,17 +324,30 @@ escapeinside={\%*}{*)}          % if you want to add a comment within your code
 
 \include{MaintainRepo}
 
-\include{BuildEnvironment}
+%\include{BuildEnvironment}
+\input{../UserManual/Appendix1_BuildEnvironment}
+\clearpage{}
 
-\include{BuildRules}
+\input{../UserManual/Appendix2_BuildRules}
 
 \include{Example}
+
+\include{AddingReports}
 
 \include{PullRequest}
 
 \include{ModeratingPullRequest}
 
-\include{AddingReports}
+\input{../UserManual/Acknowledgments}
+
+\clearpage{}
+% Referencing
+\bibliographystyle{plainnat}
+\renewcommand{\bibsection}{%
+	\section{References}}
+\setcitestyle{round,aysep={},yysep={;}%
+}
+\bibliography{../UserManual/CASAL2}
 
 \end{document}
 %End
