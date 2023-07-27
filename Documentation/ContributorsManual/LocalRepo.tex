@@ -8,39 +8,39 @@ This section will cover the following points
 	\item Fork the master repository
 \end{enumerate}
 
-\subsection{Git Username and Profile}
+\subsection{Git username and profile}
 
 The first step is to create a username and profile on GitHub (if you do not already have one). Creating a username and profile on GitHub is free and easy to do. 
 
-Go to \url{https://www.github.com} to register a username and set up a profile if you do not already have one. See the help at GitHub for more information. Once you have set up a GitHub account, you need to download the git software that you will use to ``communicate" with repositories (places where the software source code is stored) on GitHub.
+Go to \url{https://www.github.com} to register a username and set up a profile if you do not already have one. See the help at GitHub for more information. Once you have set up a GitHub account, you need to download the git software (see next section) so you can push and pull changes between your local repository and the main online repository.
 
-\subsection{Git Software}
+\subsection{Git software}
 
-You will need to acquire a git client in order to clone a copy of the source code and link this to the repository.
+You will need to acquire a git client in order to clone the repository to your local machine.
 
 \CNAME\ also requires a command line version of git in order to compile. The \CNAME\ build environment requires git in order to evaluate the version of the code used at compile time to include into the executable and manual when being built. 
 
-One package that allows this on a Microsoft Windows platform is tortoisegit (see \url{https://tortoisegit.org/download}) to pull, push and commit changes to git repositories. However there are many other clients that could be used to achieve the same functionality.
+You will need to download the git client from \href{https://git-scm.com/downloads}{git software} and you will need to make sure that it has been included into your system path. This can be checked by opening a terminal (powershell or command prompt and typing in \texttt{git -v}. Git is a command line program, you can also download a GUI interface which helps using git a lot more user-friendly. My personal preference is the \href{https://desktop.github.com/}{github desktop application}. 
 
 \subsection{Cloning a repository}
 
-The publicly available \CNAME\ code is in the master repository. Only the \CNAME\ Development Team have permission to add, delete, or change code in the master repository. Other contributors can either add, delete, or change code either by forking the master repository' or by maintaining a local version of the repository. Forking a copy on GitHub can be done at \url{https://github.com/NIWAFisheriesModelling/CASAL2} by selecting the fork button in the top right of the page circled in Figure~\ref{fig:fork}
+The publicly available \CNAME\ code is in the master repository. Only the \CNAME\ Development Team have permission to add, delete, or change code directly to the master repository. The method that we will be exploring will have other contributors clone the master repository, and then create a branch which can be merged with the master using a pull request.
+
+To clone the master repository, navigate to \url{https://github.com/NIWAFisheriesModelling/CASAL2} and use the green code button, which is shown below to clone. There are multiple protocols (https, ssh etc.) for cloning highlighted in the red box. I recommend using the GitHub desktop method which is circled in Figure~\ref{fig:clone}.
 
 \begin{figure}[!ht]
 	\centering
-	\includegraphics[scale=0.6]{Figures/Fork_button.png}
-	\caption{Creating a forked repository}\label{fig:fork}
+	\includegraphics[scale=0.6]{Figures/clone_repo.png}
+	\caption{}\label{fig:clone}
 \end{figure}
-\pagebreak
 
-This will create a copy of the \CNAME\ repository under your profile at the point of the fork. To check that you have successfully forked the repository, go to your git profile and you should see a \CNAME\ repository under your repositories, shown in Figure~\ref{fig:fork_success},
+
+\subsection{Adding an SSH authentication key to your account on GitHub.com}
+
+One of the reasons contributors may have difficulty pushing and pulling changes to \CNAME\ is because they don't have a SSH authentication key linked to their GitHub account. The error message may look like that shown in Figure~\ref{fig:permissiondenied}. Please see the information from \href{https://docs.github.com/en/authentication/connecting-to-github-with-ssh/adding-a-new-ssh-key-to-your-github-account}{this link} for detailed instructions on how to create a public SSH key on your computer and then link it to your GitHub account.
 
 \begin{figure}[!ht]
 	\centering
-	\includegraphics[scale=0.6]{Figures/fork_success.png}
-	\caption{Fork success}\label{fig:fork_success}
+	\includegraphics[scale=0.6]{Figures/permissiondenied.png}
+	\caption{}\label{fig:permissiondenied}
 \end{figure}
-
-An important point is that the forked repository will not automatically keep up to date with the master repository. So if the master changes, you will want to keep your forked repository up to date. This can easily be done and is explained in the next section.
-
-
