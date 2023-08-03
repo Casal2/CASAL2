@@ -1,16 +1,9 @@
-@assert obj
-type objective_function
-value 1482.970819
-
-
 @report obj
 type objective_function
 
-/*
 @report 2001Tags_north
 type process 
 process 2001Tags_north
-
 
 @report SSB
 type derived_quantity
@@ -26,7 +19,6 @@ observation CAA-slopecatch
 @report CAA-northcatch
 type simulated_observation
 observation CAA-northcatch
-
 
 @report Tag2001
 type simulated_observation
@@ -75,4 +67,6 @@ observation Tag2011
 @report partition
 type partition
 time_step  Summer
-*/
+
+@report estimates
+type estimate_value

@@ -5,4 +5,5 @@
 
 @assert obj
 type objective_function
-value 1482.970819
+value 1467.46
+tolerance 0.01

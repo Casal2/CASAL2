@@ -81,12 +81,17 @@ void TagByLength::DoValidate() {
   if (model_->length_bins().size() == 0)
     LOG_FATAL_P(PARAM_TYPE) << ": No length bins have been specified in @model. This process requires those to be defined, as the table dimensions depend on them.";
 
+  // validate tables
+  if (numbers_table_->row_count() != 0 && proportions_table_->row_count() != 0)
+    LOG_ERROR() << location() << " cannot have both a " << PARAM_NUMBERS << " and " << PARAM_PROPORTIONS << " table defined. Please use one only.";
   if (numbers_table_->row_count() == 0) {
     if (proportions_table_->row_count() == 0) {
-      LOG_FATAL_P(PARAM_TABLE) << "Either a table of proportions or a table of numbers must be provided";
+      LOG_ERROR() << location() << " must have either a " << PARAM_NUMBERS << " or " << PARAM_PROPORTIONS << " table defined with appropriate data";
     } else {
+      if (!parameters_.Get(PARAM_N)->has_been_defined())
+        LOG_ERROR() << location() << " cannot have a " << PARAM_PROPORTIONS << " table without defining " << PARAM_N;
       if (n_.size() != years_.size())
-        LOG_FATAL_P(PARAM_N) << "The values provided (" << n_.size() << ") does not match the number of years (" << years_.size() << ")";
+        LOG_FATAL_P(PARAM_N) << "The number of values provided (" << n_.size() << ") does not match the number of years (" << years_.size() << ")";
     }
   } else {
     if (parameters_.Get(PARAM_N)->has_been_defined())
@@ -150,14 +155,6 @@ void TagByLength::DoValidate() {
   // Get our first year
   first_year_ = years_[0];
   std::for_each(years_.begin(), years_.end(), [this](unsigned year) { first_year_ = year < first_year_ ? year : first_year_; });
-
-  // Build our tables
-  if (numbers_table_->row_count() == 0 && proportions_table_->row_count() == 0)
-    LOG_ERROR() << location() << " must have either a " << PARAM_NUMBERS << " or " << PARAM_PROPORTIONS << " table defined with appropriate data";
-  if (numbers_table_->row_count() != 0 && proportions_table_->row_count() != 0)
-    LOG_ERROR() << location() << " cannot have both a " << PARAM_NUMBERS << " and " << PARAM_PROPORTIONS << " table defined. Please use one only.";
-  if (proportions_table_->row_count() != 0 && !parameters_.Get(PARAM_N)->has_been_defined())
-    LOG_ERROR() << location() << " cannot have a " << PARAM_PROPORTIONS << " table without defining " << PARAM_N;
 
   // Load our N data in to the map
   if (numbers_table_->row_count() != 0) {
