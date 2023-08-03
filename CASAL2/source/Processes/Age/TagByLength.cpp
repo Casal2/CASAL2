@@ -81,8 +81,17 @@ void TagByLength::DoValidate() {
   if (model_->length_bins().size() == 0)
     LOG_FATAL_P(PARAM_TYPE) << ": No length bins have been specified in @model. This process requires those to be defined, as the table dimensions depend on them.";
 
-  if (n_.size() != years_.size())
-    LOG_FATAL_P(PARAM_N) << "The values provided (" << n_.size() << ") does not match the number of years (" << years_.size() << ")";
+  if (numbers_table_->row_count() == 0) {
+    if (proportions_table_->row_count() == 0) {
+      LOG_FATAL_P(PARAM_TABLE) << "Either a table of proportions or a table of numbers must be provided";
+    } else {
+      if (n_.size() != years_.size())
+        LOG_FATAL_P(PARAM_N) << "The values provided (" << n_.size() << ") does not match the number of years (" << years_.size() << ")";
+    }
+  } else {
+    if (parameters_.Get(PARAM_N)->has_been_defined())
+      LOG_FATAL_P(PARAM_N) << "If a table of numbers (using subcommand table numbers) is provided, then the subcommand N should be omitted";
+  }
 
   // Check if the user has specified combined categories, if so check the same number of categories are
   for (auto& category : to_category_labels_) {

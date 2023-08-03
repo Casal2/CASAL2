@@ -1,0 +1,339 @@
+
+@minimiser gammadiff
+type betadiff
+tolerance 0.0002
+iterations 1000
+#step_size 1e-7
+covariance f
+active f
+
+@mcmc mcmc
+type random_walk
+start 0
+length 4000000
+keep 2500
+step_size 0.02
+adapt_stepsize_at 10000 50000 150000 250000 450000 750000 1400000
+proposal_distribution t
+adapt_stepsize_method double_half
+
+@penalty event_mortality_penalty
+type process
+log_scale True
+multiplier 10
+
+@penalty tagging_penalty
+type process
+log_scale F
+multiplier 10
+
+/*
+@estimate B0
+parameter process[Recruitment].b0
+lower_bound 1e3
+upper_bound 1e8
+type uniform_log
+*/
+#@estimate SurveyBiomassq # now in population directly
+#parameter process[SuveryBiomassq].q
+#lower_bound 1e-6
+#upper_bound 10
+#type uniform_log
+
+
+# AGEING ERROR not sure if that will work
+#@ageing_error
+#label Normal_ageing
+#type normal
+#cv 0.1
+
+
+# TODO check with Craig
+# RELATIVITY CONSTANTS # from casal
+#@q_method nuisance 
+
+
+#@estimate
+#parameter abundance[surveyBiomass].cv_process_error
+#type uniform
+#lower_bound 0
+#upper_bound 10
+#MCMC_fixed True
+
+/*
+@estimate SurveyselMale
+parameter selectivity[SurveyselMale].mu
+lower_bound 1
+upper_bound 50
+type uniform
+
+@estimate SurveyselMale
+parameter selectivity[SurveyselMale].sigma_l
+lower_bound 1
+upper_bound 50
+type uniform
+
+@estimate SurveyselMale
+parameter selectivity[SurveyselMale].sigma_r
+lower_bound 1
+upper_bound 500
+type uniform
+
+@estimate SurveyselMale
+parameter selectivity[SurveyselMale].alpha
+lower_bound 1
+upper_bound 1
+type uniform
+
+@estimate SurveyselFemale
+parameter selectivity[SurveyselFemale].mu
+lower_bound 1
+upper_bound 50
+type uniform
+
+@estimate SurveyselFemale
+parameter selectivity[SurveyselFemale].sigma_l
+lower_bound 1
+upper_bound 50
+type uniform
+
+@estimate SurveyselFemale
+parameter selectivity[SurveyselFemale].sigma_r
+lower_bound 1
+upper_bound 500
+type uniform
+
+@estimate SurveyselFemale
+parameter selectivity[SurveyselFemale].alpha
+lower_bound 0.01
+upper_bound   10
+type uniform
+
+
+@estimate
+parameter selectivity[ShelfselMale].mu
+lower_bound 1
+upper_bound 50
+type uniform
+
+@estimate
+parameter selectivity[ShelfselMale].sigma_l
+lower_bound 1
+upper_bound 50
+type uniform
+
+@estimate
+parameter selectivity[ShelfselMale].sigma_r
+lower_bound 1
+upper_bound 500
+type uniform
+
+@estimate
+parameter selectivity[ShelfselMale].alpha
+lower_bound 1
+upper_bound 1
+type uniform
+
+@estimate
+parameter selectivity[ShelfselFemale].mu
+lower_bound 1
+upper_bound 50
+type uniform
+
+@estimate
+parameter selectivity[ShelfselFemale].sigma_l
+lower_bound 1
+upper_bound 50
+type uniform
+
+@estimate
+parameter selectivity[ShelfselFemale].sigma_r
+lower_bound 1
+upper_bound 500
+type uniform
+
+@estimate
+parameter selectivity[ShelfselFemale].alpha
+lower_bound 0.01
+upper_bound   10
+type uniform
+
+@estimate
+parameter selectivity[SlopeselMale].mu
+lower_bound 1
+upper_bound 50
+type uniform
+
+@estimate
+parameter selectivity[SlopeselMale].sigma_l
+lower_bound 1
+upper_bound 50
+type uniform
+
+@estimate
+parameter selectivity[SlopeselMale].sigma_r
+lower_bound 1
+upper_bound 500
+type uniform
+
+@estimate
+parameter selectivity[SlopeselMale].alpha
+lower_bound 1
+upper_bound 1
+type uniform
+
+@estimate
+parameter selectivity[SlopeselFemale].mu
+lower_bound 1
+upper_bound 50
+type uniform
+
+@estimate
+parameter selectivity[SlopeselFemale].sigma_l
+lower_bound 1
+upper_bound 50
+type uniform
+
+@estimate
+parameter selectivity[SlopeselFemale].sigma_r
+lower_bound 1
+upper_bound 500
+type uniform
+
+@estimate
+parameter selectivity[SlopeselFemale].alpha
+lower_bound 0.01
+upper_bound   10
+type uniform
+
+@estimate
+parameter selectivity[NorthselMale].mu
+lower_bound 1
+upper_bound 50
+type uniform
+
+@estimate
+parameter selectivity[NorthselMale].sigma_l
+lower_bound 1
+upper_bound 50
+type uniform
+
+@estimate
+parameter selectivity[NorthselMale].sigma_r
+lower_bound 1
+upper_bound 500
+type uniform
+
+@estimate
+parameter selectivity[NorthselMale].alpha
+lower_bound 1
+upper_bound 1
+type uniform
+
+@estimate
+parameter selectivity[NorthselFemale].mu
+lower_bound 1
+upper_bound 50
+type uniform
+
+@estimate
+parameter selectivity[NorthselFemale].sigma_l
+lower_bound 1
+upper_bound 50
+type uniform
+
+@estimate
+parameter selectivity[NorthselFemale].sigma_r
+lower_bound 1
+upper_bound 500
+type uniform
+
+@estimate
+parameter selectivity[NorthselFemale].alpha
+lower_bound 0.01
+upper_bound   10
+type uniform
+*/
+
+@estimate
+parameter selectivity[Shelfsel].mu
+lower_bound 1
+upper_bound 50
+type uniform
+
+@estimate
+parameter selectivity[Shelfsel].sigma_l
+lower_bound 1
+upper_bound 50
+type uniform
+
+@estimate
+parameter selectivity[Shelfsel].sigma_r
+lower_bound 1
+upper_bound 500
+type uniform
+
+@estimate
+parameter selectivity[Shelfsel].alpha
+lower_bound 1
+upper_bound 1
+type uniform
+
+@estimate
+parameter selectivity[Slopesel].mu
+lower_bound 1
+upper_bound 50
+type uniform
+
+@estimate
+parameter selectivity[Slopesel].sigma_l
+lower_bound 1
+upper_bound 50
+type uniform
+
+@estimate
+parameter selectivity[Slopesel].sigma_r
+lower_bound 1
+upper_bound 500
+type uniform
+
+@estimate
+parameter selectivity[Slopesel].alpha
+lower_bound 1
+upper_bound 1
+type uniform
+
+@estimate
+parameter selectivity[Northsel].mu
+lower_bound 1
+upper_bound 50
+type uniform
+
+@estimate
+parameter selectivity[Northsel].sigma_l
+lower_bound 1
+upper_bound 50
+type uniform
+
+@estimate
+parameter selectivity[Northsel].sigma_r
+lower_bound 1
+upper_bound 500
+type uniform
+
+@estimate
+parameter selectivity[Northsel].alpha
+lower_bound 1
+upper_bound 1
+type uniform
+
+
+@estimate
+parameter process[Recruitment].recruitment_multipliers{1995:2015}
+#YCS_years   1994  1995  1996  1997  1998  1999  2000  2001  2002  2003  2004  2005  2006  2007  2008  2009  2010  2011  2012  2013  2014 
+lower_bound      1     1     1     1     1     1     1     1    1 0.001 0.001 0.001 0.001 0.001 0.001 0.001     1     1     1     1     1
+upper_bound      1     1     1     1     1     1     1     1    1 100.0 100.0 100.0 100.0 100.0 100.0 100.0     1     1     1	  1	1
+mu               1     1     1     1     1     1     1     1    1     1    1     1     1     1     1     1     1     1     1     1     1
+cv             1.1   1.1   1.1   1.1   1.1   1.1   1.1   1.1   1.1   1.1  1.1   1.1   1.1   1.1   1.1   1.1   1.1   1.1   1.1   1.1   1.1
+type lognormal
+

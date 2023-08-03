@@ -1,0 +1,78 @@
+@assert obj
+type objective_function
+value 1482.970819
+
+
+@report obj
+type objective_function
+
+/*
+@report 2001Tags_north
+type process 
+process 2001Tags_north
+
+
+@report SSB
+type derived_quantity
+
+@report CAA-shelfcatch
+type simulated_observation
+observation CAA-shelfcatch
+
+@report CAA-slopecatch
+type simulated_observation
+observation CAA-slopecatch
+
+@report CAA-northcatch
+type simulated_observation
+observation CAA-northcatch
+
+
+@report Tag2001
+type simulated_observation
+observation Tag2001
+
+@report Tag2002
+type simulated_observation
+observation Tag2002
+
+@report Tag2003
+type simulated_observation
+observation Tag2003
+
+@report Tag2004
+type simulated_observation
+observation Tag2004
+
+@report Tag2005
+type simulated_observation
+observation Tag2005
+
+@report Tag2006
+type simulated_observation
+observation Tag2006
+
+@report Tag20017
+type simulated_observation
+observation Tag2007
+
+@report Tag2008
+type simulated_observation
+observation Tag2008
+
+@report Tag2009
+type simulated_observation
+observation Tag2009
+
+@report Tag2010
+type simulated_observation
+observation Tag2010
+
+@report Tag2011
+type simulated_observation
+observation Tag2011
+
+@report partition
+type partition
+time_step  Summer
+*/
