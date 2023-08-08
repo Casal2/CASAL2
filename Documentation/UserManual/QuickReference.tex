@@ -1037,11 +1037,14 @@
 \defSub{penalty}{The penalty label}
 \defSub{u\_max}{The maximum exploitation rate ($U\_{max}$)}
 \defSub{years}{The years to execute the tagging in}
-\defSub{initial\_mortality}{The initial mortality value}
+\defSub{initial\_mortality}{The initial mortality value (as a instantaneous proportion)}
 \defSub{initial\_mortality\_selectivity}{The initial mortality selectivity label}
 \defSub{selectivities}{The selectivity labels}
-\defSub{n}{N}
-\defSub{table}{The table of data specifying the n to tag from and to  each category, years, and the $U_max$}
+\defSub{n}{the total number of tagged fish}
+\defSub{table}{The table of data specifying the either the numbers or proportions to tag from and to each category and year}
+\defSub{table numbers}{The table of releases as numbers for the process}
+\defSub{table proportions}{The table of releases as numbers for the process}
+\defSub{tolerance}{Tolerance for checking the specified proportions sum to one}
 
 \commandlabsubarg{process}{type}{Tag\_By\_Length}
 
@@ -1049,15 +1052,16 @@
 \defSub{to}{The categories that have tags (i.e., transition to)}
 \defSub{penalty}{The penalty label}
 \defSub{u\_max}{The maximum exploitation rate ($U\_{max}$)}
-\defSub{compatibility\_option}{Backwards compatibility option: either casal2 (the default) or casal effects penalty and age-length calculation}
+\defSub{compatibility\_option}{Backwards compatibility option: either casal2 (the default) or casal. This affects the penalty and age-length calculations}
 \defSub{years}{The years to execute the tagging events in}
-\defSub{initial\_mortality}{The initial mortality to apply to tags as a proportion}
-\defSub{initial\_mortality\_selectivity}{}
-\defSub{selectivities}{}
-\defSub{n}{The total number of tags to apply}
-\defSub{tolerance}{Tolerance for checking the specified proportions sum to one}
+\defSub{initial\_mortality}{The initial mortality value (as a instantaneous proportion)}
+\defSub{initial\_mortality\_selectivity}{The initial mortality selectivity label}
+\defSub{selectivities}{The selectivity labels}
+\defSub{n}{the total number of tagged fish}
+\defSub{table}{The table of data specifying the either the numbers or proportions to tag from and to each category and year}
 \defSub{table numbers}{The table of releases as numbers for the process}
 \defSub{table proportions}{The table of releases as numbers for the process}
+\defSub{tolerance}{Tolerance for checking the specified proportions sum to one}
 
 \commandlabsubarg{process}{type}{Tag\_Loss}
 
@@ -1164,14 +1168,16 @@
 \defSub{to}{The categories that have tags (i.e., transition to)}
 \defSub{penalty}{The penalty label}
 \defSub{u\_max}{The maximum exploitation rate ($U\_{max}$)}
-\defSub{compatibility\_option}{Backwards compatibility option: either casal2 (the default) or casal effects penalty and age-length calculation}
+\defSub{compatibility\_option}{Backwards compatibility option: either casal2 (the default) or casal. This affects the penalty and age-length calculations}
 \defSub{years}{The years to execute the tagging events in}
 \defSub{initial\_mortality}{The initial mortality to apply to tags as a proportion}
-\defSub{initial\_mortality\_selectivity}{}
-\defSub{selectivities}{}
+\defSub{initial\_mortality\_selectivity}{The initial mortality selectivity label}
+\defSub{selectivities}{The selectivity labels}
 \defSub{n}{The total number of tags to apply}
+\defSub{table}{The table of data specifying the either the numbers or proportions to tag from and to each category and year}
+\defSub{table numbers}{The table of releases as numbers for the process}
+\defSub{table proportions}{The table of releases as numbers for the process}
 \defSub{tolerance}{Tolerance for checking the specified proportions sum to one}
-\defSub{table}{The table of data specifying the n to tag from and to  each category, years, and the $U_max$}
 
 \commandlabsubarg{process}{type}{Transition\_Category}
 

@@ -318,21 +318,17 @@ The Nop type has no additional subcommands.
 \defRef{sec:Process-TagByAge}
 \label{syntax:Process-TagByAge}
 
-\defSub{from}{The categories to transition from}
-\defType{Vector of strings}
-\defDefault{No default}
-
-\defSub{to}{The categories to transition to}
+\defSub{to}{The categories that are being tagged (i.e., transition to)}
 \defType{Vector of strings}
 \defDefault{No default}
 
 \defSub{min\_age}{The minimum age to transition}
 \defType{Non-negative integer}
-\defDefault{No default}
+\defDefault{model}
 
 \defSub{max\_age}{The maximum age to transition}
 \defType{Non-negative integer}
-\defDefault{No default}
+\defDefault{model}
 
 \defSub{penalty}{The penalty label}
 \defType{String}
@@ -344,11 +340,11 @@ The Nop type has no additional subcommands.
 \defLowerBound{0.0 (inclusive)}
 \defUpperBound{1.0 (exclusive)}
 
-\defSub{years}{The years to execute the transition in}
+\defSub{years}{The years to execute the tagging events in}
 \defType{Vector of non-negative integers}
 \defDefault{No default}
 
-\defSub{initial\_mortality}{The initial mortality proportion}
+\defSub{initial\_mortality}{The initial mortality to apply to tags as a proportion}
 \defType{Real number (estimable)}
 \defDefault{0.0}
 \defLowerBound{0.0 (inclusive)}
@@ -358,20 +354,26 @@ The Nop type has no additional subcommands.
 \defType{String}
 \defDefault{No default}
 
-\defSub{selectivities}{The selectivity labels}
+\defSub{selectivities}{Selectivity of the tagging process}
 \defType{Vector of strings}
 \defDefault{No default}
 
-\defSub{n}{N}
+\defSub{n}{The number of individuals tagged}
 \defType{Vector of real numbers (estimable)}
 \defDefault{true}
+
+\defSub{tolerance}{Tolerance for checking the specificed proportions sum to one}
+\defType{Real number}
+\defDefault{1e-5}
+\defLowerBound{0 (inclusive)}
+\defUpperBound{1.0 (inclusive)}
 
 \subsubsection{Process of type Tag\_By\_Length}
 \commandlabsubarg{Process}{type}{Tag\_By\_Length}.
 \defRef{sec:Process-TagByLength}
 \label{syntax:Process-TagByLength}
 
-\defSub{to}{The categories that have tags (i.e., transition to)}
+\defSub{to}{The categories that are being tagged (i.e., transition to)}
 \defType{Vector of strings}
 \defDefault{No default}
 
