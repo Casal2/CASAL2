@@ -24,7 +24,9 @@
       "future": "cpp",
       "system_error": "cpp",
       "thread": "cpp",
-      "memory_resource": "cpp"
+      "memory_resource": "cpp",
+      "memory": "cpp",
+      "vector": "cpp"
     }
   }
 }

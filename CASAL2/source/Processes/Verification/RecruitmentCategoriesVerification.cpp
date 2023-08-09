@@ -23,7 +23,8 @@
 
 // namespaces
 namespace niwa::processes::verification {
-
+// TODO: if recruitment multipliers @project and project type empirical_sampling or empirical_lognormal parameter must be standardised_recruitment_multipliers
+// other wise use parameter recruitment_multipliers
 /**
  * @brief Ensure we're not recruiting into duplicate categories and make sure all categories that need to be scaled due to B0 are scaled
  *

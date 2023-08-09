@@ -90,6 +90,10 @@ private:
   vector<unsigned>           ycs_years_;
   vector<unsigned>           standardise_ycs_years_;
   vector<Double>             ycs_values_;
+  Double                     mean_ycs_ = 1.0;
+  bool                       project_standardised_ycs_ = true;
+
+
 };
 
 } /* namespace length */
