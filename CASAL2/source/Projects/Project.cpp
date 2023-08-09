@@ -109,11 +109,8 @@ void Project::Update(unsigned current_year) {
  * @param year The year
  */
 void Project::RestoreOriginalValue(unsigned year) {
-  LOG_TRACE();
-  if (addressable_ != nullptr) {
-    LOG_FINE() << "Setting original value to: " << original_value_;
-    (this->*DoUpdateFunc_)(original_value_);
-  }
+  LOG_FINE() << "Setting value to: " << stored_values_[model_->current_year()];
+  (this->*DoUpdateFunc_)(stored_values_[model_->current_year()]);
 }
 
 /**
@@ -170,5 +167,21 @@ void Project::StoreValue(unsigned current_year) {
   }
   LOG_FINEST() << "Storing value = " << stored_values_[current_year];
 }
+
+/*
+* Verify that there is not @time_varying block as well on this parameter
+*/
+void Project::Verify(shared_ptr<Model> model) {
+  // you cant project a time-varying parameter at the moment.
+}
+/*
+* Verify that there is not @time_varying block as well on this parameter
+*/
+void Project::SetObjectForNextIteration() {
+  LOG_FINE() << "Setting value to: " << stored_values_[model_->start_year()];
+  (this->*DoUpdateFunc_)(stored_values_[model_->start_year()]);
+}
+
+
 
 } /* namespace niwa */

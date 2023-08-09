@@ -100,5 +100,15 @@ Project* Manager::GetProject(const string& label) {
   return nullptr;
 }
 
+
+/*
+*
+*/
+void Manager::SetObjectsForNextIteration() {
+  // iterate over all @project blocks
+  for (auto project : objects_) {
+    project->SetObjectForNextIteration();
+  }
+}
 } /* namespace projects */
 } /* namespace niwa */

@@ -57,7 +57,6 @@ void TransitionCategory::DoValidate() {
     auto val_s = selectivity_names_[0];
     selectivity_names_.assign(from_category_names_.size(), val_s);
   }
-
   //  // Validate Categories
   //  auto categories = model_->categories();
 
@@ -154,12 +153,35 @@ void TransitionCategory::DoExecute() {
         LOG_FATAL() << "TransitionCategory rate caused a negative partition if ((*from_iter)->data_[offset] < 0.0) ";
     }
   }
+  proportions_by_year_[model_->current_year()] = proportions_by_category_;
 }
 
 /**
  * Reset the maturation rates
  */
-void TransitionCategory::DoReset() {}
+void TransitionCategory::DoReset() {
+  
+}
+
+
+/**
+ * Fill the report cache
+ */
+void TransitionCategory::FillReportCache(ostringstream& cache) {
+  // print proportions by year and category
+  cache << "values_by_year" << REPORT_R_DATAFRAME << REPORT_EOL;
+  cache << "year ";
+  for(auto category_iter : proportions_by_category_)
+    cache << category_iter.first << " ";    
+  cache << REPORT_EOL;
+  for(auto year_iter : proportions_by_year_) {
+    cache << year_iter.first << " ";
+    for(auto category_iter : year_iter.second) {
+      cache << category_iter.second << " ";
+    }
+    cache << REPORT_EOL;
+  }
+}
 
 }  // namespace length
 } /* namespace processes */

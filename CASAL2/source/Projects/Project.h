@@ -39,11 +39,11 @@ public:
   virtual ~Project() = default;
   void Validate();
   void Build();
-  void Verify(shared_ptr<Model> model){};
+  void Verify(shared_ptr<Model> model);
   void Reset();
   void Update(unsigned current_year);
   void StoreValue(unsigned current_year);
-
+  void SetObjectForNextIteration();
   // accessors
   string                 parameter() { return parameter_; };
   map<unsigned, Double>& projected_parameters() { return projected_values_; };

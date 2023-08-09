@@ -99,7 +99,7 @@ void Data::DoBuild() {
   // basic validation
   const vector<string>& columns = data_table_->columns();
   if (columns.size() != model_->age_spread() + 1)
-    LOG_ERROR_P(PARAM_DATA) << "The column count (" << columns.size() << ") must be <year> <ages> for a total of " << model_->age_spread() + 1 << " columns";
+    LOG_ERROR_P(PARAM_DATA) << "The column count (" << columns.size() << ") must be age-spread, which equals " << model_->age_spread() + 1 << " columns";
   if (columns[0] != PARAM_YEAR)
     LOG_ERROR_P(PARAM_DATA) << "The first column label must be 'year'. First column label was '" << columns[0] << "'";
 

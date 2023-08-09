@@ -43,6 +43,7 @@ public:
   void DoBuild() override final;
   void DoReset() override final;
   void DoExecute() override final;
+  void FillReportCache(ostringstream& cache) override final;
 
 private:
   // Members
@@ -54,6 +55,7 @@ private:
   accessor::Categories       from_partition_;
   accessor::Categories       to_partition_;
   vector<Selectivity*>       selectivities_;
+  map<unsigned, OrderedMap<string, Double>> proportions_by_year_; // n_years x n_categories
   // unsigned                   min_age_ = model_->min_age();
   vector<vector<Double>> abundance_to_move_categories_;
 };

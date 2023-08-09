@@ -1087,6 +1087,23 @@ A parameter can either be fixed during all projection years or specified individ
 		multiplier 1
 		\end{verbatim}}}
 
+
+\paragraph[Multiple Values]{The multiple values projection type, \argument{multiple\_values}}\index{Project-MultipleValues}\label{sec:Project-MultipleValues}
+
+Users can specify a set of values for each projection year for each row in the \texttt{-i} or \texttt{-I} file using the \subcommand{multiple\_values} projection class. This gives users flexibility in specifying a range of bespoke values during projections and including uncertainty in the projected values. See below for an example on how to configure this class.
+
+{\small{\begin{verbatim}
+@project future_disease_rates
+type multiple_values
+parameter process[dtransition].proportions{disease}  
+years 2024:2026
+table values
+2024 2025 2026
+0.1 0.2 0.3
+0.3 0.4 0.5
+end_table
+\end{verbatim}}}
+
 \paragraph[Empirical sampling]{Sampling from a range of years, type  \argument{empirical\_sampling}}\index{Projections!Empirical sampling}\label{sec:Project-EmpiricalSampling}
 
 Parameters that have time components associated with them can be sampled uniformly with replacement over a range of years and used as values for the projected years. The year range to sample from is between \argument{start\_year} and \argument{final\_year}:
@@ -1094,7 +1111,7 @@ Parameters that have time components associated with them can be sampled uniform
 {\small{\begin{verbatim}
 		@project   Future_ycs
 		type       empirical_sampling
-		parameter  process[Recruitment].ycs_values
+		parameter  process[Recruitment].standardised_recruitment_multipliers
 		years     2012:2016
 		start_year 1988     # re-sample from estimated values
 		final_year 2008     # from 1988 to 2008 inclusive
