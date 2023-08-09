@@ -145,4 +145,15 @@ Moving on to the \texttt{DoExecute()} function. This is where the action happens
 
 You will notice another set of logging, which is also encouraged to add all throughout the execution process. The levels of logging are described in Section~\ref{subsec:codepractice}
 
-% \paragraph*{Adding a unit test}
+
+\paragraph*{Adding a unit test}
+
+It is recommended to validate any new functionality using an independent method such as \R\ or another stock assessment platform such as Stock Synthesis. For an example using \R\ see the file \path{source\GrowthIncrements\Length\Basix.Test.cpp}. Figure~\ref{fig:unittest1} has an excerpt which shows the \R\ code embedded as a comment within the unit-test. This \R\ code will generate expected results that are used by the unit-test in \CNAME\ to validate functionality. This makes the unit-tests reproducible.
+
+\begin{figure}[!ht]
+	\centering
+	\includegraphics[scale=0.55]{Figures/unittestWithR.png}
+	\caption{}\label{fig:unittest1}
+\end{figure}
+
+

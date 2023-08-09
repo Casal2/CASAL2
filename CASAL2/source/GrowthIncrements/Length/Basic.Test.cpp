@@ -36,7 +36,7 @@ public:
 };
 
 /**
- * Test the results of our Schnute are correct
+ * Test the results of our basic growth increment model
 #' basic_growth
 #' @param length
 #' @param ga
