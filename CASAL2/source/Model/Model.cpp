@@ -866,7 +866,7 @@ void Model::RunProjection() {
       // managers_->observation()->CalculateScores();
       // managers_->report()->WaitForReportsToFinish();
       // Reset();
-      project_manager.SetObjectsForNextIteration();
+      //project_manager.SetObjectsForNextIteration();
     }
   }
   // Print the report to disk if tabular

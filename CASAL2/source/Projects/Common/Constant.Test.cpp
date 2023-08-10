@@ -59,10 +59,9 @@ TEST_F(InternalEmptyModel, Projects_Constant_YCS) {
   // test the values have changed
   map<unsigned, Double>& values   = project->projected_parameters();
   vector<double>         expected = {0.478482, 0.640663, 0.640091, 0.762361, 0.560125, 0.651637, 0.764833, 0.645498, 0.678341, 1.234, 1.0423, 1.4352};
-  unsigned               iter     = 0;
-  for (auto value : values) {
-    EXPECT_DOUBLE_EQ(expected[iter], value.second);
-    ++iter;
+  vector<unsigned> proj_years = {2001, 2002, 2003, 2004, 2005, 2006, 2007, 2008, 2009, 2010, 2011, 2012};
+  for (unsigned yr_ndx = 0; yr_ndx < proj_years.size(); ++yr_ndx) {
+    EXPECT_DOUBLE_EQ(expected[yr_ndx], values[proj_years[yr_ndx]]);
   }
   // test the final SSB's haven't changed, this will ensure as well as saving the parameters the parameters in the underlying system have changed as well
   vector<double> Expect = {14270661.55, 14557416, 14192873.25, 13415898.85, 12671105.73, 12078964.29, 11569986.83, 11146711.2, 10868327.73, 10755924.97};
@@ -111,10 +110,9 @@ TEST_F(InternalEmptyModel, Projects_Constant_Catches) {
 
   // test the values have changed
   map<unsigned, Double>& values = project->projected_parameters();
-  unsigned               iter   = 0;
-  for (auto value : values) {
-    EXPECT_DOUBLE_EQ(4000, value.second);
-    ++iter;
+  vector<unsigned> proj_years = {2003, 2004, 2005, 2006, 2007, 2008, 2009, 2010, 2011, 2012};
+  for (unsigned yr_ndx = 0; yr_ndx < proj_years.size(); ++yr_ndx) {
+    EXPECT_DOUBLE_EQ(4000, values[proj_years[yr_ndx]]);
   }
   // test the final SSB's haven't changed, this will ensure as well as saving the parameters the parameters in the underlying system have changed as well
   vector<double> Expect = {14270661.55, 14553924.97, 14186439.76, 13407035.26, 12660251.63, 12066479.12, 11556163.21, 11131787.38, 10852493.85, 10739344.23};

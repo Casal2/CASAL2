@@ -30,7 +30,7 @@ namespace niwa {
  * Class definition
  */
 class Project : public niwa::base::Object {
-  typedef void (Project::*UpdateFunction)(Double);
+  typedef void (Project::*UpdateFunction)(Double, bool, unsigned);
 
 public:
   // methods
@@ -52,9 +52,9 @@ public:
 protected:
   // methods
   void RestoreOriginalValue(unsigned year);
-  void SetSingleValue(Double value);
-  void SetVectorValue(Double value);
-  void SetMapValue(Double value);
+  void SetSingleValue(Double value, bool save_value, unsigned year);
+  void SetVectorValue(Double value, bool save_value, unsigned year);
+  void SetMapValue(Double value, bool save_value, unsigned year);
 
   // pure virtual methods
   virtual void DoValidate() = 0;

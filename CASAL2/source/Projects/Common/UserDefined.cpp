@@ -34,6 +34,7 @@ UserDefined::UserDefined(shared_ptr<Model> model) : Project(model) {
  */
 void UserDefined::DoBuild() {
   LOG_TRACE();
+  LOG_WARNING() << "Using @project type UserDefined. This is untested functionality.";
   equation_ = boost::algorithm::join(equation_input_, " ");
 }
 
@@ -51,7 +52,7 @@ void UserDefined::DoUpdate() {
   }
 
   LOG_FINE() << "Setting Value to: " << value_ << ", in year = " << model_->current_year();
-  (this->*DoUpdateFunc_)(value_);
+  (this->*DoUpdateFunc_)(value_, true, model_->current_year());
 }
 
 } /* namespace projects */

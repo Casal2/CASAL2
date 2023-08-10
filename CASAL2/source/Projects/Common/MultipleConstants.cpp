@@ -81,7 +81,7 @@ void MultipleConstants::DoReset() {}
 void MultipleConstants::DoUpdate() {
   value_ = projection_values_[model_->get_current_addressable_value()][model_->current_year()] * multiplier_;
   LOG_FINE() << "Setting Value to: " << value_ << " dash -i index " << model_->get_current_addressable_value() << " year = " << model_->current_year();
-  (this->*DoUpdateFunc_)(value_);
+  (this->*DoUpdateFunc_)(value_, true, model_->current_year());
 }
 
 } /* namespace projects */

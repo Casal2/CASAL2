@@ -102,7 +102,8 @@ Project* Manager::GetProject(const string& label) {
 
 
 /*
-*
+* This function is called by model::RunProjections at the end of each run
+* Sometimes values are not set at the end of each 
 */
 void Manager::SetObjectsForNextIteration() {
   // iterate over all @project blocks

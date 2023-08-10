@@ -1155,33 +1155,33 @@ This method applies a lognormal draw as in the \argument{LogNormal} method above
 		multiplier 1
 		\end{verbatim}}}
 
-\paragraph[User Defined]{Sample from a user-defined function, \argument{user\_defined}}\index{Projections!User Defined}\label{sec:Project-UserDefined} \STATUS{Untested}
+%\paragraph[User Defined]{Sample from a user-defined function, \argument{user\_defined}}\index{Projections!User Defined}\label{sec:Project-UserDefined} \STATUS{Untested}
 
-This method uses the equation parser to calculate the values to use in the projection. This was set up to define and apply harvest control rules (e.g., apply a management action such as changing catch limits based on the current or previous state).
+%This method uses the equation parser to calculate the values to use in the projection. This was set up to define and apply harvest control rules (e.g., apply a management action such as changing catch limits based on the current or previous state).
 
-In fisheries models, this option can be used to calculate the projected catch based on an exploitation rate multiplied by the vulnerable biomass, where the exploitation rate is based on a rule (Figure~\ref{fig:HCR}).
+%In fisheries models, this option can be used to calculate the projected catch based on an exploitation rate multiplied by the vulnerable biomass, where the exploitation rate is based on a rule (Figure~\ref{fig:HCR}).
 
-\begin{figure}[!h]
-	\includegraphics[scale=0.9]{Figures/HarvestControlRules.png}
-	\caption{\textbf{Examples of control rules based on current stock status.}}
-	\label{fig:HCR}
-\end{figure}
+%\begin{figure}[!h]
+%	\includegraphics[scale=0.9]{Figures/HarvestControlRules.png}
+%	\caption{\textbf{Examples of control rules based on current stock status.}}
+%	\label{fig:HCR}
+%\end{figure}
 
-\pagebreak
-{\small{\begin{verbatim}
-		@project HCR_2015
-		type       user_defined
-		parameter process[Instantaneous_Mortality].method_Sub_Ant_F
-		years 2015
-		equation if(derived_quantity[SSB].values{2014} / process[Recruitment].b0 <= 0.1, 0.0,
-		if(derived_quantity[SSB].values{2014} / process[Recruitment].b0 > 0.1 &&
-		derived_quantity[SSB].values{2014} / process[Recruitment].b0 < 0.2,
-		derived_quantity[SSB].values{2014} * derived_quantity[SSB].values{2014}
-		/ process[Recruitment].b0,
-		derived_quantity[SSB].values{2014} * 0.2))
-		\end{verbatim}}}
+%\pagebreak
+%{\small{\begin{verbatim}
+%		@project HCR_2015
+%		type       user_defined
+%		parameter process[Instantaneous_Mortality].method_Sub_Ant_F
+%		years 2015
+%		equation if(derived_quantity[SSB].values{2014} / process[Recruitment].b0 <= 0.1, 0.0,
+%		if(derived_quantity[SSB].values{2014} / process[Recruitment].b0 > 0.1 &&
+%		derived_quantity[SSB].values{2014} / process[Recruitment].b0 < 0.2,
+%		derived_quantity[SSB].values{2014} * derived_quantity[SSB].values{2014}
+%		/ process[Recruitment].b0,
+%		derived_quantity[SSB].values{2014} * 0.2))
+%		\end{verbatim}}}
 
-Care should be taken when writing user-defined equations. The above equation is: if $\%B_{2014} \leq 0.1$ then set next year's catch to 0.0, else if $\%B_{2014} > 0.1 \text{ } \& \text{ } \%B_{2014} \leq 0.2$ then set next year's catch equal to $\%B_{2014} \times SSB_{2014}$, else set next year's catch to $0.2 SSB_{2014}$.
+%Care should be taken when writing user-defined equations. The above equation is: if $\%B_{2014} \leq 0.1$ then set next year's catch to 0.0, else if $\%B_{2014} > 0.1 \text{ } \& \text{ } \%B_{2014} \leq 0.2$ then set next year's catch equal to $\%B_{2014} \times SSB_{2014}$, else set next year's catch to $0.2 SSB_{2014}$.
 
 \paragraph[Catches]{Specifying catch for projections }\index{Projections!Catches}\label{sec:Project-Catch}
 
