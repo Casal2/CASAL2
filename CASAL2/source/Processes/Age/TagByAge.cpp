@@ -121,14 +121,16 @@ void TagByAge::DoValidate() {
     if (model_->categories()->IsCombinedLabels(category)) {
       // TODO: Combined categories are mostly coded below, but theres an error that will need to be resolved when time permits.
       // TODO: Once fixed, then the following LOG_FATAL_P() can be removed
-      LOG_FATAL_P(PARAM_FROM) << "combined categories are not yet implemented";
+      // LOG_FATAL_P(PARAM_FROM) << "combined categories are not yet implemented";
       no_combined = model_->categories()->GetNumberOfCategoriesDefined(category);
       if (no_combined != to_category_labels_.size()) {
         LOG_ERROR_P(PARAM_TO) << "'" << no_combined << "' combined 'From' categories was specified, but '" << to_category_labels_.size()
                               << "' 'To' categories were supplied. The number of 'From' and 'To' categories must be the same.";
       }
       boost::split(split_category_labels, category, boost::is_any_of("+"));
+
       for (const string& split_category_label : split_category_labels) {
+        LOG_FINE() << "split category " << split_category_label;
         if (!model_->categories()->IsValid(split_category_label)) {
           if (split_category_label == category) {
             LOG_ERROR_P(PARAM_FROM) << ": The category " << split_category_label << " is not a valid category.";
@@ -292,10 +294,10 @@ void TagByAge::DoBuild() {
 
   for (unsigned i = 0; i < selectivity_labels_.size(); ++i) {
     Selectivity* selectivity = selectivity_manager.GetSelectivity(selectivity_labels_[i]);
-    LOG_FINEST() << "selectivity : " << selectivity;
+    LOG_FINEST() << "selectivity : " << selectivity_labels_[i];
     if (!selectivity)
       LOG_ERROR_P(PARAM_SELECTIVITIES) << "- the selectivity with label '" << selectivity_labels_[i] << "' was not found";
-    selectivities_[from_category_labels_[i]] = selectivity;
+    selectivities_[split_from_category_labels_[i]] = selectivity;
   }
 
   if (initial_mortality_selectivity_label_ != "") {
@@ -307,7 +309,8 @@ void TagByAge::DoBuild() {
 
   tagged_fish_by_year_.resize(years_.size(), 0.0);
   for (unsigned year_ndx = 0; year_ndx < years_.size(); ++year_ndx) {
-    for (unsigned age_ndx = 0; age_ndx < age_spread_; ++age_ndx) tagged_fish_by_year_[year_ndx] += numbers_[years_[year_ndx]][age_ndx];
+    for (unsigned age_ndx = 0; age_ndx < age_spread_; ++age_ndx) 
+      tagged_fish_by_year_[year_ndx] += numbers_[years_[year_ndx]][age_ndx];
   }
 
   tag_to_fish_by_age_.resize(model_->age_spread(), 0.0);
