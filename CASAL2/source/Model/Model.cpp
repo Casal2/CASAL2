@@ -415,17 +415,15 @@ void Model::Validate() {
 void Model::Build() {
   LOG_FINE() << "Model:Build()";
   // Set current year
-  current_year_ = start_year_;
-
-  categories()->Build();
-  partition().Build();
-  managers()->Build();
-
+  current_year_ = start_year_; 
   AddressableInputLoader& addressable_inputs = *managers_->addressable_input_loader();
   if (addressable_inputs.GetValueCount() > 0) {
     addressable_values_file_  = true;
     addressable_values_count_ = addressable_inputs.GetValueCount();
   }
+  categories()->Build();
+  partition().Build();
+  managers()->Build();
 
   managers_->Reset();
   LOG_FINE() << "Exit: Model:Build()";
@@ -468,7 +466,8 @@ void Model::RunBasic() {
   niwa::partition::accessors::All all_view(pointer());
 
   // Model is about to run
-  for (unsigned i = 0; i < addressable_values_count_; ++i) {
+  addressable_value_iterator_ = 0; // this will increment each -i value
+  for (unsigned i = 0; i < addressable_values_count_; ++i, ++addressable_value_iterator_) {
     LOG_MEDIUM() << "-i file = " << i + 1;
     LOG_FINE() << "Model: State change to Initialise";
     state_        = State::kInitialise;
@@ -576,7 +575,8 @@ void Model::RunEstimation() {
   AddressableInputLoader* addressable_inputs = managers_->addressable_input_loader();
   map<string, Double>     estimable_values;
   LOG_FINE() << "estimable values count: " << addressable_values_count_;
-  for (unsigned i = 0; i < addressable_values_count_; ++i) {
+  addressable_value_iterator_ = 0; // this will increment each -i value
+  for (unsigned i = 0; i < addressable_values_count_; ++i, ++addressable_value_iterator_) {
     if (addressable_values_file_) {
       addressable_inputs->LoadValues(i);
       Reset();
@@ -663,7 +663,8 @@ void Model::RunProfiling() {
   AddressableInputLoader& addressable_inputs = *managers_->addressable_input_loader();
 
   map<string, Double> estimable_values;
-  for (unsigned i = 0; i < addressable_values_count_; ++i) {
+  addressable_value_iterator_ = 0;
+  for (unsigned i = 0; i < addressable_values_count_; ++i, ++addressable_value_iterator_) {
     if (addressable_values_file_) {
       addressable_inputs.LoadValues(i);
       Reset();
@@ -730,7 +731,8 @@ void Model::RunSimulation() {
   unsigned i_width;
   unsigned init_diff;
   unsigned second_diff;
-  for (unsigned i = 0; i < addressable_values_count_; ++i) {
+  addressable_value_iterator_ = 0;
+  for (unsigned i = 0; i < addressable_values_count_; ++i, ++addressable_value_iterator_) {
     LOG_MEDIUM() << "addressable i = " << i + 1;
     LOG_FINE() << "Model: State change to Initialise";
     state_        = State::kInitialise;
@@ -796,7 +798,8 @@ void Model::RunProjection() {
   niwa::partition::accessors::All all_view(pointer());
   agelengths::Manager&            age_length_manager = *managers_->age_length();
   // Model is about to run
-  for (unsigned i = 0; i < addressable_values_count_; ++i) {
+  addressable_value_iterator_ = 0;
+  for (unsigned i = 0; i < addressable_values_count_; ++i, ++addressable_value_iterator_) {
     for (int j = 0; j < projection_candidates; ++j) {
       LOG_FINE() << "Beginning initial model run for projections";
       projection_final_phase_ = false;
@@ -864,6 +867,7 @@ void Model::RunProjection() {
       // managers_->observation()->CalculateScores();
       // managers_->report()->WaitForReportsToFinish();
       // Reset();
+      //project_manager.SetObjectsForNextIteration();
     }
   }
   // Print the report to disk if tabular

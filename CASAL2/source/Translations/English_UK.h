@@ -501,6 +501,7 @@
 #define PARAM_MULTINOMIAL                         "multinomial"
 #define PARAM_MULTIPLICATIVE                      "multiplicative"
 #define PARAM_MULTIPLIER                          "multiplier"
+#define PARAM_MULTIPLE_VALUES                     "multiple_values"
 #define PARAM_MULTIVARIATE                        "multivariate"
 #define PARAM_MULTIVARIATE_NORMAL                 "multivariate_normal"
 #define PARAM_N                                   "n"

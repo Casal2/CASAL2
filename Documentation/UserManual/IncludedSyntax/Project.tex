@@ -32,6 +32,30 @@
 \defType{Vector of real numbers (estimable)}
 \defDefault{No default}
 
+\subsubsection{Project of type multiple values}
+\commandlabsubarg{project}{type}{multiple\_values}.
+\defRef{sec:Project-MultipleValues}
+\label{syntax:Multiple-Values}
+
+
+\defSub{table values}{The table of data specifying the projected values to use for each row of the \texttt{-i} or \texttt{-I} file}
+\defType{table with label = values}
+\defDefault{No default}
+\defValue{A $n_i \times n_y$ matrix. Where \(n_i\) is the number of rows (parameter sets) in the \texttt{-i} or \texttt{-I} file. And \(n_y\) is the number of projection years defined by the input \texttt{years}}
+\defNote{example below}
+\begin{verbatim}
+@project future_disease_rates
+type multiple_values
+parameter process[dtransition].proportions{disease}  	
+years 2024:2026
+
+table values
+2024 2025 2026
+0.1 0.2 0.3
+0.3 0.4 0.5
+end_table
+\end{verbatim}
+
 \subsubsection{Project of type Empirical Sampling}
 \commandlabsubarg{project}{type}{Empirical\_Sampling}.
 \defRef{sec:Project-EmpiricalSampling}
@@ -76,12 +100,12 @@
 \defType{Non-negative integer}
 \defDefault{No default}
 
-\subsubsection{Project of type User Defined}
-\commandlabsubarg{project}{type}{User\_Defined}.
-\defRef{sec:Project-UserDefined}
-\label{syntax:Project-UserDefined}
-
-\defSub{equation}{The equation to do a test run of}
-\defType{Vector of strings}
-\defDefault{No default}
-
+%\subsubsection{Project of type User Defined}
+%\commandlabsubarg{project}{type}{User\_Defined}.
+%\defRef{sec:Project-UserDefined}
+%\label{syntax:Project-UserDefined}
+%
+%\defSub{equation}{The equation to do a test run of}
+%\defType{Vector of strings}
+%\defDefault{No default}
+%

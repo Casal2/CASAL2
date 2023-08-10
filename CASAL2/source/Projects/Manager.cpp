@@ -100,5 +100,16 @@ Project* Manager::GetProject(const string& label) {
   return nullptr;
 }
 
+
+/*
+* This function is called by model::RunProjections at the end of each run
+* Sometimes values are not set at the end of each 
+*/
+void Manager::SetObjectsForNextIteration() {
+  // iterate over all @project blocks
+  for (auto project : objects_) {
+    project->SetObjectForNextIteration();
+  }
+}
 } /* namespace projects */
 } /* namespace niwa */

@@ -62,7 +62,7 @@ RecruitmentBevertonHolt::RecruitmentBevertonHolt(shared_ptr<Model> model) : Proc
   RegisterAsAddressable(PARAM_RECRUITMENT_MULTIPLIERS, &recruitment_multipliers_by_year_);
 
   // Allow these to be used in additional priors.
-  RegisterAsAddressable(PARAM_STANDARDISED_RECRUITMENT_MULTIPLIERS, &standardised_recruitment_multipliers_by_year_, addressable::kLookup);
+  RegisterAsAddressable(PARAM_STANDARDISED_RECRUITMENT_MULTIPLIERS, &standardised_recruitment_multipliers_by_year_, addressable::kAll);
 
   phase_b0_            = 0;
   process_type_        = ProcessType::kRecruitment;
@@ -287,6 +287,21 @@ void RecruitmentBevertonHolt::DoVerify(shared_ptr<Model> model) {
       LOG_VERIFY() << "There is an @parameter_transformation for the parameter " << PARAM_RECRUITMENT_MULTIPLIERS
                    << ". If this is type=simplex, you should not specify the subcommand " << PARAM_STANDARDISE_YEARS;
   }
+
+  if (model_->run_mode() == RunMode::kProjection) {
+    if (IsAddressableUsedFor(PARAM_STANDARDISED_RECRUITMENT_MULTIPLIERS, addressable::kProject) & IsAddressableUsedFor(PARAM_RECRUITMENT_MULTIPLIERS, addressable::kProject))
+      LOG_ERROR_P(PARAM_LABEL) << "- found an @project for both " << PARAM_STANDARDISED_RECRUITMENT_MULTIPLIERS << " and " << PARAM_RECRUITMENT_MULTIPLIERS
+                               << ". This is not allowed, you must choose one or the other, but not both.";
+    if (IsAddressableUsedFor(PARAM_STANDARDISED_RECRUITMENT_MULTIPLIERS, addressable::kProject)) {
+      LOG_FINE() << "Projecting standardised multipliers";
+      project_standardised_ycs_ = true;
+    } else if (IsAddressableUsedFor(PARAM_RECRUITMENT_MULTIPLIERS, addressable::kProject)) {
+      LOG_FINE() << "Projecting unstandardised multipliers";
+      project_standardised_ycs_ = false;
+    } else {
+      LOG_ERROR_P(PARAM_LABEL) << "- could not find an @project block for " << PARAM_RECRUITMENT_MULTIPLIERS << " or " << PARAM_STANDARDISED_RECRUITMENT_MULTIPLIERS;
+    }
+  }
 }
 /**
  * Reset all of the values so they are ready for an execution run
@@ -316,21 +331,21 @@ void RecruitmentBevertonHolt::DoReset() {
 
   // Do Haist ycs Parametrisation
   if (standardise_recruitment_multipliers_) {
-    Double mean_ycs = 0;
+    mean_ycs_ = 0;
     for (unsigned i = 0; i < years_.size(); ++i) {
       for (unsigned j = 0; j < standardise_years_.size(); ++j) {
         if (years_[i] == standardise_years_[j]) {
-          mean_ycs += recruitment_multipliers_by_year_[years_[i]];
+          mean_ycs_ += recruitment_multipliers_by_year_[years_[i]];
           break;
         }
       }
     }
 
-    mean_ycs /= standardise_years_.size();
+    mean_ycs_ /= standardise_years_.size();
     for (unsigned ycs_year : years_) {
       for (unsigned j = 0; j < standardise_years_.size(); ++j) {
         if (ycs_year == standardise_years_[j])
-          standardised_recruitment_multipliers_by_year_[ycs_year] = recruitment_multipliers_by_year_[ycs_year] / mean_ycs;
+          standardised_recruitment_multipliers_by_year_[ycs_year] = recruitment_multipliers_by_year_[ycs_year] / mean_ycs_;
       }
     }
   } else {
@@ -391,11 +406,16 @@ void RecruitmentBevertonHolt::DoExecute() {
       ycs = recruitment_multipliers_by_year_[current_year];
       // We need to see if this value has changed from the initial input, if it has we are going to assume that this is because the projection class has changed it.
       // set standardised ycs = ycs for reporting
-      LOG_FINE() << "ssb year = " << ssb_year << " value = " << ycs << " last val = " << model_->final_year() << " counter = " << year_counter_ << " size of vector "
-                 << recruitment_multipliers_.size();
       if (current_year > model_->final_year()) {
         // we are in projection years so force standardised ycs to be the same as recruitment_multipliers_by_year_[ssb_year];
-        standardised_recruitment_multipliers_by_year_[current_year] = ycs;
+        if (project_standardised_ycs_) {
+          // reporting purpose
+          recruitment_multipliers_by_year_[current_year] = standardised_recruitment_multipliers_by_year_[current_year];
+          // Change ycs
+          ycs = standardised_recruitment_multipliers_by_year_[current_year];
+        } else {
+          standardised_recruitment_multipliers_by_year_[current_year] = recruitment_multipliers_by_year_[current_year];
+        }
       } else {
         // we are still within start-final_year need to check if we have overwritten any values.
         if (ycs != recruitment_multipliers_[year_counter_])
@@ -403,6 +423,8 @@ void RecruitmentBevertonHolt::DoExecute() {
         else
           ycs = standardised_recruitment_multipliers_by_year_[current_year];
       }
+      LOG_FINE() << "ssb year = " << ssb_year << " value = " << ycs << " last val = " << model_->final_year() << " counter = " << year_counter_ << " size of vector "
+                 << recruitment_multipliers_.size();
       LOG_FINE() << "Projected ycs = " << ycs << " what is in the original " << recruitment_multipliers_[year_counter_];
       // else business as usual
     } else {

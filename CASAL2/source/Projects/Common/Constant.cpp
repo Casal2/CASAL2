@@ -58,7 +58,7 @@ void Constant::DoReset() {}
 void Constant::DoUpdate() {
   value_ = year_values_[model_->current_year()] * multiplier_;
   LOG_FINE() << "Setting Value to: " << value_;
-  (this->*DoUpdateFunc_)(value_);
+  (this->*DoUpdateFunc_)(value_, true, model_->current_year());
 }
 
 } /* namespace projects */

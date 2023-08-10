@@ -4,7 +4,7 @@
  * @date 28/05/2014
  * @section LICENSE
  *
- * Copyright NIWA Science ©2014 - www.niwa.co.nz
+ * Copyright NIWA Science ï¿½2014 - www.niwa.co.nz
  *
  * @section DESCRIPTION
  *
@@ -37,7 +37,7 @@ public:
   void     Update(unsigned current_year);
   void     StoreValues(unsigned current_year);
   Project* GetProject(const string& label);
-
+  void     SetObjectsForNextIteration();
 protected:
   // methods
   Manager();

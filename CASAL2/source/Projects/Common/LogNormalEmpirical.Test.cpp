@@ -58,10 +58,9 @@ TEST_F(InternalEmptyModel, Projects_LogNormal_Empirical_YCS) {
   map<unsigned, Double>& values   = project->projected_parameters();
   vector<double>         expected = {1.193159531211873,   0.76433685650904026, 0.59278375352171586, 0.66209045366492325, 1.1015707349908905,  0.72286526934850714,
                              0.98615503786499570, 0.58579237843666654, 0.80899806415388953, 0.83630043479857519, 0.76944498598285171, 0.72614647686888445};
-  unsigned               iter     = 0;
-  for (auto value : values) {
-    EXPECT_DOUBLE_EQ(expected[iter], value.second);
-    ++iter;
+  vector<unsigned> proj_years = {2001, 2002, 2003, 2004, 2005, 2006, 2007, 2008, 2009, 2010, 2011, 2012};
+  for (unsigned yr_ndx = 0; yr_ndx < proj_years.size(); ++yr_ndx) {
+    EXPECT_DOUBLE_EQ(expected[yr_ndx], values[proj_years[yr_ndx]]);
   }
   // test the final SSB's haven't changed, this will ensure as well as saving the parameters the parameters in the underlying system have changed as well
   vector<double> Expect = {14416960.80, 15029708.91, 15241070.46, 14841433.57, 14129449.26, 13489008.60, 13203140.65, 12994232.07, 12755996.14, 12438217.98};

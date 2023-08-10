@@ -1202,6 +1202,23 @@ A parameter can either be fixed during all projection years or specified individ
 		multiplier 1
 		\end{verbatim}}}
 
+
+\paragraph[Multiple Values]{The multiple values projection type, \argument{multiple\_values}}\index{Project-MultipleValues}\label{sec:Project-MultipleValues}
+
+Users can specify a set of values for each projection year for each row in the \texttt{-i} or \texttt{-I} file using the \subcommand{multiple\_values} projection class. This gives users flexibility in specifying a range of bespoke values during projections and including uncertainty in the projected values. See below for an example on how to configure this class.
+
+{\small{\begin{verbatim}
+@project future_disease_rates
+type multiple_values
+parameter process[dtransition].proportions{disease}  
+years 2024:2026
+table values
+2024 2025 2026
+0.1 0.2 0.3
+0.3 0.4 0.5
+end_table
+\end{verbatim}}}
+
 \paragraph[Empirical sampling]{Sampling from a range of years, type  \argument{empirical\_sampling}}\index{Projections!Empirical sampling}\label{sec:Project-EmpiricalSampling}
 
 Parameters that have time components associated with them can be sampled uniformly with replacement over a range of years and used as values for the projected years. The year range to sample from is between \argument{start\_year} and \argument{final\_year}:
@@ -1209,7 +1226,7 @@ Parameters that have time components associated with them can be sampled uniform
 {\small{\begin{verbatim}
 		@project   Future_ycs
 		type       empirical_sampling
-		parameter  process[Recruitment].recruitment_multipliers
+		parameter  process[Recruitment].standardised_recruitment_multipliers
 		years     2012:2016
 		start_year 1988     # re-sample from estimated values
 		final_year 2008     # from 1988 to 2008 inclusive
@@ -1255,32 +1272,33 @@ This method applies a Lognormal draw as in the \argument{Lognormal} method above
 		multiplier 1
 		\end{verbatim}}}
 
-\paragraph[User Defined]{Sample from a user-defined function, \argument{user\_defined}}\index{Projections!User Defined}\label{sec:Project-UserDefined} \STATUS{Untested}
+%\paragraph[User Defined]{Sample from a user-defined function, \argument{user\_defined}}\index{Projections!User Defined}\label{sec:Project-UserDefined} \STATUS{Untested}
 
-This method uses the equation parser to calculate the values to use in the projection. This was set up to define and apply harvest control rules (e.g., apply a management action such as changing catch limits based on the current or previous state).
+%This method uses the equation parser to calculate the values to use in the projection. This was set up to define and apply harvest control rules (e.g., apply a management action such as changing catch limits based on the current or previous state).
 
-In fisheries models, this option can be used to calculate the projected catch based on an exploitation rate multiplied by the vulnerable biomass, where the exploitation rate is based on a rule (Figure~\ref{fig:HCR}).
+%In fisheries models, this option can be used to calculate the projected catch based on an exploitation rate multiplied by the vulnerable biomass, where the exploitation rate is based on a rule (Figure~\ref{fig:HCR}).
 
-\begin{figure}[!h]
-	\includegraphics[scale=0.9]{Figures/HarvestControlRules.png}
-	\caption{\textbf{Examples of control rules based on current stock status.}}
-	\label{fig:HCR}
-\end{figure}
+%\begin{figure}[!h]
+%	\includegraphics[scale=0.9]{Figures/HarvestControlRules.png}
+%	\caption{\textbf{Examples of control rules based on current stock status.}}
+%	\label{fig:HCR}
+%\end{figure}
 
-{\small{\begin{verbatim}
-		@project HCR_2015
-		type       user_defined
-		parameter process[Instantaneous_Mortality].method_Sub_Ant_F
-		years 2015
-		equation if(derived_quantity[SSB].values{2014} / process[Recruitment].b0 <= 0.1, 0.0,
-		if(derived_quantity[SSB].values{2014} / process[Recruitment].b0 > 0.1 &&
-		derived_quantity[SSB].values{2014} / process[Recruitment].b0 < 0.2,
-		derived_quantity[SSB].values{2014} * derived_quantity[SSB].values{2014}
-		/ process[Recruitment].b0,
-		derived_quantity[SSB].values{2014} * 0.2))
-\end{verbatim}}}
+%\pagebreak
+%{\small{\begin{verbatim}
+%		@project HCR_2015
+%		type       user_defined
+%		parameter process[Instantaneous_Mortality].method_Sub_Ant_F
+%		years 2015
+%		equation if(derived_quantity[SSB].values{2014} / process[Recruitment].b0 <= 0.1, 0.0,
+%		if(derived_quantity[SSB].values{2014} / process[Recruitment].b0 > 0.1 &&
+%		derived_quantity[SSB].values{2014} / process[Recruitment].b0 < 0.2,
+%		derived_quantity[SSB].values{2014} * derived_quantity[SSB].values{2014}
+%		/ process[Recruitment].b0,
+%		derived_quantity[SSB].values{2014} * 0.2))
+%		\end{verbatim}}}
 
-Care should be taken when writing user-defined equations. The above equation is: if $\%B_{2014} \leq 0.1$ then set next year's catch to 0.0, else if $\%B_{2014} > 0.1 \text{ } \& \text{ } \%B_{2014} \leq 0.2$ then set next year's catch equal to $\%B_{2014} \times SSB_{2014}$, else set next year's catch to $0.2 SSB_{2014}$.
+%Care should be taken when writing user-defined equations. The above equation is: if $\%B_{2014} \leq 0.1$ then set next year's catch to 0.0, else if $\%B_{2014} > 0.1 \text{ } \& \text{ } \%B_{2014} \leq 0.2$ then set next year's catch equal to $\%B_{2014} \times SSB_{2014}$, else set next year's catch to $0.2 SSB_{2014}$.
 
 \paragraph[Catches]{Specifying catch for projections }\index{Projections!Catches}\label{sec:Project-Catch}
 

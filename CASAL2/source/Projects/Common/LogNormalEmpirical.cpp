@@ -113,7 +113,7 @@ void LogNormalEmpirical::DoUpdate() {
   value_ = value_ * multiplier_;
 
   LOG_FINE() << "Setting value to: " << value_;
-  (this->*DoUpdateFunc_)(value_);
+  (this->*DoUpdateFunc_)(value_, true, model_->current_year());
 }
 
 } /* namespace projects */

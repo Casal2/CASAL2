@@ -4,7 +4,7 @@
  * @date 28/05/2014
  * @section LICENSE
  *
- * Copyright NIWA Science ©2014 - www.niwa.co.nz
+ * Copyright NIWA Science ï¿½2014 - www.niwa.co.nz
  *
  */
 
@@ -17,6 +17,7 @@
 #include "../Projects/Common/EmpiricalSampling.h"
 #include "../Projects/Common/LogNormal.h"
 #include "../Projects/Common/LogNormalEmpirical.h"
+#include "../Projects/Common/MultipleConstants.h"
 #include "../Projects/Common/UserDefined.h"
 #include "../Projects/Manager.h"
 
@@ -44,9 +45,10 @@ Project* Factory::Create(shared_ptr<Model> model, const string& object_type, con
       result = new LogNormalEmpirical(model);
     else if (sub_type == PARAM_EMPIRICAL_SAMPLING)
       result = new EmpiricalSampling(model);
-    else if (sub_type == PARAM_USER_DEFINED)
-      result = new UserDefined(model);
-
+    else if (sub_type == PARAM_MULTIPLE_VALUES)
+      result = new MultipleConstants(model);
+    //else if (sub_type == PARAM_USER_DEFINED)
+    //  result = new UserDefined(model);
     if (result)
       model->managers()->project()->AddObject(result);
   }

@@ -77,12 +77,13 @@ private:
   unsigned                   year_counter_         = 0;
   OrderedMap<string, Double> proportions_by_category_;
   bool                       standardise_recruitment_multipliers_ = true;
-
-  vector<unsigned> years_;
+  Double                     mean_ycs_                            = 1.0;
+  vector<unsigned>           years_;
   // deprecated
   vector<unsigned> ycs_years_;
   vector<unsigned> standardise_ycs_years_;
   vector<Double>   ycs_values_;
+  bool             project_standardised_ycs_ = true;
 };
 
 } /* namespace age */

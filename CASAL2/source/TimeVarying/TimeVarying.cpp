@@ -138,6 +138,7 @@ void TimeVarying::Update(unsigned model_year) {
 
   if (years_.size() > 0 && std::find(years_.begin(), years_.end(), model_year) == years_.end()) {
     RestoreOriginalValue();
+    LOG_FINEST() << "setting value to " << original_value_;
     parameter_by_year_[model_year] = original_value_;
   } else
     DoUpdate();

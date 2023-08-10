@@ -75,7 +75,7 @@ void EmpiricalSampling::DoReset() {
 void EmpiricalSampling::DoUpdate() {
   value_ = stored_values_[resampled_years_[model_->current_year()]] * multiplier_;
   LOG_FINE() << "In year: " << model_->current_year() << " setting value to: " << value_ << " drawn from year: " << resampled_years_[model_->current_year()];
-  (this->*DoUpdateFunc_)(value_);
+  (this->*DoUpdateFunc_)(value_, true, model_->current_year());
 }
 
 } /* namespace projects */

@@ -57,10 +57,9 @@ TEST_F(InternalEmptyModel, Projects_Empirical_Sampling_YCS) {
   // test the values have changed
   map<unsigned, Double>& values   = project->projected_parameters();
   vector<double>         expected = {1.014, 0.9450, 0.9340, 0.9450, 0.9340, 1.325, 1.0487, 0.3520, 1.345, 1.5434, 0.946, 1.0487};
-  unsigned               iter     = 0;
-  for (auto value : values) {
-    EXPECT_DOUBLE_EQ(expected[iter], value.second);
-    ++iter;
+  vector<unsigned> proj_years = {2001, 2002, 2003, 2004, 2005, 2006, 2007, 2008, 2009, 2010, 2011, 2012};
+  for (unsigned yr_ndx = 0; yr_ndx < proj_years.size(); ++yr_ndx) {
+    EXPECT_DOUBLE_EQ(expected[yr_ndx], values[proj_years[yr_ndx]]);
   }
   // test the final SSB's haven't changed, this will ensure as well as saving the parameters the parameters in the underlying system have changed as well
   vector<double> Expect = {14380285.66, 14954609.60, 15177987.29, 15033001.02, 14756909.92, 14567939.81, 14524441.87, 14549946.66, 14490135.35, 14239342.24};

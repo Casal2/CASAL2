@@ -149,7 +149,7 @@ void Nuisance::CalculateQ(map<unsigned, vector<observations::Comparison> >& comp
       // Iterate over each category
       for (observations::Comparison& comparison : year_iterator->second) {
         if (comparison.expected_ <= math::ZERO)
-          LOG_WARNING() << "The comparison expected less than " << math::ZERO;
+          LOG_WARNING() << "For catchability " << label_ << ", the comparison expected less than " << math::ZERO;
         comparison.expected_ = math::ZeroFun(comparison.expected_, math::ZERO);
         n++;
         Double cv = comparison.error_value_;

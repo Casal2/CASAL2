@@ -109,11 +109,8 @@ void Project::Update(unsigned current_year) {
  * @param year The year
  */
 void Project::RestoreOriginalValue(unsigned year) {
-  LOG_TRACE();
-  if (addressable_ != nullptr) {
-    LOG_FINE() << "Setting original value to: " << original_value_;
-    (this->*DoUpdateFunc_)(original_value_);
-  }
+  LOG_FINE() << "Setting value to: " << stored_values_[year];
+  (this->*DoUpdateFunc_)(stored_values_[year], true, year);
 }
 
 /**
@@ -121,10 +118,11 @@ void Project::RestoreOriginalValue(unsigned year) {
  *
  * @param value The value
  */
-void Project::SetSingleValue(Double value) {
+void Project::SetSingleValue(Double value, bool save_value, unsigned year) {
   LOG_TRACE();
   *addressable_                             = value;
-  projected_values_[model_->current_year()] = value;
+  if(save_value)
+    projected_values_[year] = value;
 }
 
 /**
@@ -132,10 +130,11 @@ void Project::SetSingleValue(Double value) {
  *
  * @param value The value
  */
-void Project::SetVectorValue(Double value) {
+void Project::SetVectorValue(Double value, bool save_value, unsigned year) {
   LOG_FINEST() << "size before adding another value = " << addressable_vector_->size();
   addressable_vector_->push_back(value);
-  projected_values_[model_->current_year()] = value;
+  if(save_value)
+    projected_values_[year] = value;
   LOG_FINEST() << "size before adding a value of " << value << " = " << addressable_vector_->size();
 }
 
@@ -144,10 +143,11 @@ void Project::SetVectorValue(Double value) {
  *
  * @param value The value
  */
-void Project::SetMapValue(Double value) {
+void Project::SetMapValue(Double value, bool save_value, unsigned year) {
   LOG_TRACE();
-  (*addressable_map_)[model_->current_year()] = value;
-  projected_values_[model_->current_year()]   = value;
+  (*addressable_map_)[year] = value;
+  if(save_value)
+    projected_values_[year]   = value;
 }
 
 /**
@@ -170,5 +170,21 @@ void Project::StoreValue(unsigned current_year) {
   }
   LOG_FINEST() << "Storing value = " << stored_values_[current_year];
 }
+
+/*
+* Verify that there is not @time_varying block as well on this parameter
+*/
+void Project::Verify(shared_ptr<Model> model) {
+  // you cant project a time-varying parameter at the moment.
+}
+/*
+* Verify that there is not @time_varying block as well on this parameter
+*/
+void Project::SetObjectForNextIteration() {
+  LOG_FINE() << "Setting value to: " << stored_values_[model_->start_year()];
+  (this->*DoUpdateFunc_)(stored_values_[model_->start_year()], false, model_->start_year());
+}
+
+
 
 } /* namespace niwa */
