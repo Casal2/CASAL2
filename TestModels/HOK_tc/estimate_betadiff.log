@@ -1,10 +1,10 @@
 Casal2 (https://github.com/alistairdunn1/CASAL2)
 Call: C:\Projects\Software\CASAL2\BuildSystem/Casal2/casal2.exe -e -g 20 -c config_betadiff.csl2 
-Date: Fri Jul 28 10:02:50 2023
+Date: Fri Aug 11 09:33:40 2023
 Seed: 20
-Version: v23.07 (2023-07-27)
+Version: v23.08 (2023-08-10)
 Copyright (c) 2017-2023, NIWA (www.niwa.co.nz)
-Environment: User=alist Machine=QUIET-5950X OS=Windows_NT PID=16852
+Environment: User=alist Machine=QUIET-5950X OS=Windows_NT PID=4656
 
 
 *initialisation_partition[Equilibrium_State]
@@ -8079,6 +8079,55 @@ proportions: 1
 selectivities: One
 to: east.cr
 type: transition_category
+values_by_year{dataframe}
+year east.cr 
+1972 1 
+1973 1 
+1974 1 
+1975 1 
+1976 1 
+1977 1 
+1978 1 
+1979 1 
+1980 1 
+1981 1 
+1982 1 
+1983 1 
+1984 1 
+1985 1 
+1986 1 
+1987 1 
+1988 1 
+1989 1 
+1990 1 
+1991 1 
+1992 1 
+1993 1 
+1994 1 
+1995 1 
+1996 1 
+1997 1 
+1998 1 
+1999 1 
+2000 1 
+2001 1 
+2002 1 
+2003 1 
+2004 1 
+2005 1 
+2006 1 
+2007 1 
+2008 1 
+2009 1 
+2010 1 
+2011 1 
+2012 1 
+2013 1 
+2014 1 
+2015 1 
+2016 1 
+2017 1 
+2018 1 
 *end
 
 *process[Wrtn]
@@ -8089,6 +8138,55 @@ proportions: 1
 selectivities: One
 to: west.sa
 type: transition_category
+values_by_year{dataframe}
+year west.sa 
+1972 1 
+1973 1 
+1974 1 
+1975 1 
+1976 1 
+1977 1 
+1978 1 
+1979 1 
+1980 1 
+1981 1 
+1982 1 
+1983 1 
+1984 1 
+1985 1 
+1986 1 
+1987 1 
+1988 1 
+1989 1 
+1990 1 
+1991 1 
+1992 1 
+1993 1 
+1994 1 
+1995 1 
+1996 1 
+1997 1 
+1998 1 
+1999 1 
+2000 1 
+2001 1 
+2002 1 
+2003 1 
+2004 1 
+2005 1 
+2006 1 
+2007 1 
+2008 1 
+2009 1 
+2010 1 
+2011 1 
+2012 1 
+2013 1 
+2014 1 
+2015 1 
+2016 1 
+2017 1 
+2018 1 
 *end
 
 *process[Whome]
@@ -8099,6 +8197,55 @@ proportions: 1
 selectivities: sel_Whome
 to: west.sa
 type: transition_category
+values_by_year{dataframe}
+year west.sa 
+1972 1 
+1973 1 
+1974 1 
+1975 1 
+1976 1 
+1977 1 
+1978 1 
+1979 1 
+1980 1 
+1981 1 
+1982 1 
+1983 1 
+1984 1 
+1985 1 
+1986 1 
+1987 1 
+1988 1 
+1989 1 
+1990 1 
+1991 1 
+1992 1 
+1993 1 
+1994 1 
+1995 1 
+1996 1 
+1997 1 
+1998 1 
+1999 1 
+2000 1 
+2001 1 
+2002 1 
+2003 1 
+2004 1 
+2005 1 
+2006 1 
+2007 1 
+2008 1 
+2009 1 
+2010 1 
+2011 1 
+2012 1 
+2013 1 
+2014 1 
+2015 1 
+2016 1 
+2017 1 
+2018 1 
 *end
 
 *process[Espmg]
@@ -8109,6 +8256,55 @@ proportions: 1
 selectivities: sel_Espmg
 to: east.cs
 type: transition_category
+values_by_year{dataframe}
+year east.cs 
+1972 1 
+1973 1 
+1974 1 
+1975 1 
+1976 1 
+1977 1 
+1978 1 
+1979 1 
+1980 1 
+1981 1 
+1982 1 
+1983 1 
+1984 1 
+1985 1 
+1986 1 
+1987 1 
+1988 1 
+1989 1 
+1990 1 
+1991 1 
+1992 1 
+1993 1 
+1994 1 
+1995 1 
+1996 1 
+1997 1 
+1998 1 
+1999 1 
+2000 1 
+2001 1 
+2002 1 
+2003 1 
+2004 1 
+2005 1 
+2006 1 
+2007 1 
+2008 1 
+2009 1 
+2010 1 
+2011 1 
+2012 1 
+2013 1 
+2014 1 
+2015 1 
+2016 1 
+2017 1 
+2018 1 
 *end
 
 *process[Wspmg]
@@ -8119,6 +8315,55 @@ proportions: 1
 selectivities: sel_Wspmg
 to: west.wc
 type: transition_category
+values_by_year{dataframe}
+year west.wc 
+1972 1 
+1973 1 
+1974 1 
+1975 1 
+1976 1 
+1977 1 
+1978 1 
+1979 1 
+1980 1 
+1981 1 
+1982 1 
+1983 1 
+1984 1 
+1985 1 
+1986 1 
+1987 1 
+1988 1 
+1989 1 
+1990 1 
+1991 1 
+1992 1 
+1993 1 
+1994 1 
+1995 1 
+1996 1 
+1997 1 
+1998 1 
+1999 1 
+2000 1 
+2001 1 
+2002 1 
+2003 1 
+2004 1 
+2005 1 
+2006 1 
+2007 1 
+2008 1 
+2009 1 
+2010 1 
+2011 1 
+2012 1 
+2013 1 
+2014 1 
+2015 1 
+2016 1 
+2017 1 
+2018 1 
 *end
 
 *process[recruit_W]
