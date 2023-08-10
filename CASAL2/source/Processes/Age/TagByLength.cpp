@@ -173,7 +173,7 @@ void TagByLength::DoValidate() {
       if ((iter.size() - 1) != n_length_bins_) {
         LOG_FATAL_P(PARAM_NUMBERS) << "For row in year = " << year
                                    << ". The length bins for this process are defined in the @model block. A column is required for each length bin which is '" << n_length_bins_
-                                   << "'. This table supplied '" << iter.size() - 1 << "'.";
+                                   << "'. This table supplied " << iter.size() - 1 << " values.";
       }
 
       for (unsigned i = 1; i < iter.size(); ++i) {
@@ -274,7 +274,7 @@ void TagByLength::DoBuild() {
     (*from_iter)->age_length_->BuildAgeLengthMatrixForTheseYears(years_);
   }
 
-  LOG_FINE() << "number of from categories = " << from_partition_.size();
+  LOG_FINE() << "number of 'From' categories = " << from_partition_.size();
   numbers_at_length_by_category_.resize(from_partition_.size());
   numbers_at_age_by_category_.resize(from_partition_.size());
   numbers_at_age_and_length_.resize(model_->age_spread());

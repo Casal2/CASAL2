@@ -81,7 +81,6 @@ min_age 3
 max_age 6
 penalty [type=process]
 table numbers
-year 3 4 5 6
 2008 1000 2000 3000 4000
 end_table
 
@@ -183,7 +182,6 @@ min_age 3
 max_age 6
 penalty [type=process]
 table numbers
-year 3 4 5 6
 2008 500 750 1000 2000
 end_table
 
@@ -285,7 +283,6 @@ min_age 3
 max_age 6
 penalty [type=process]
 table numbers
-year 3 4 5 6
 2008 500 750 1000 2000
 end_table
 
@@ -397,7 +394,6 @@ min_age 3
 max_age 6
 penalty [type=process]
 table numbers
-year 3 4 5 6
 2008 500 750 1000 2000
 end_table
 
@@ -505,7 +501,6 @@ max_age 6
 penalty [type=process]
 n 10000
 table proportions
-year 3 4 5 6
 2008 0.1 0.2 0.3 0.4
 end_table
 

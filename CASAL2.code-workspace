@@ -55,7 +55,9 @@
       "future": "cpp",
       "system_error": "cpp",
       "thread": "cpp",
-      "memory_resource": "cpp"
+      "memory_resource": "cpp",
+      "*.r": "r",
+      "ostream": "cpp"
     },
     "[python]": {
       "editor.defaultFormatter": "ms-python.black-formatter"
