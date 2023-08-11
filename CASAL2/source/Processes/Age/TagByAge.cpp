@@ -81,6 +81,7 @@ void TagByAge::DoValidate() {
 
   age_spread_        = (max_age_ - min_age_) + 1;
   number_categories_ = from_category_labels_.size();
+  min_age_offset_ = min_age_ - model_->min_age();
 
   if (tolerance_ > 0.01) {
     LOG_WARNING_P(PARAM_TOLERANCE) << "Your tolerance is larger than " << 0.01
@@ -259,9 +260,9 @@ void TagByAge::DoValidate() {
     tagged_fish_after_init_mort_[year_ndx].resize(split_from_category_labels_.size());
     actual_tagged_fish_to_[year_ndx].resize(to_category_labels_.size());
     for (unsigned from_category_ndx = 0; from_category_ndx < split_from_category_labels_.size(); ++from_category_ndx)
-      tagged_fish_after_init_mort_[year_ndx][from_category_ndx].resize(model_->age_spread(), 0.0);
+      tagged_fish_after_init_mort_[year_ndx][from_category_ndx].resize(age_spread_, 0.0);
     for (unsigned to_category_ndx = 0; to_category_ndx < to_category_labels_.size(); ++to_category_ndx)
-      actual_tagged_fish_to_[year_ndx][to_category_ndx].resize(model_->age_spread(), 0.0);
+      actual_tagged_fish_to_[year_ndx][to_category_ndx].resize(age_spread_, 0.0);
   }
 }
 
@@ -279,10 +280,10 @@ void TagByAge::DoBuild() {
   exploitation_by_age_category_.resize(from_partition_.size());
   tag_to_fish_by_category_age_.resize(from_partition_.size());
   for (unsigned i = 0; i < numbers_at_age_by_category_.size(); ++i) {
-    numbers_at_age_by_category_[i].resize(model_->age_spread(), 0.0);
-    exploitation_by_age_category_[i].resize(model_->age_spread(), 0.0);
-    selected_numbers_at_age_by_category_[i].resize(model_->age_spread(), 0.0);
-    tag_to_fish_by_category_age_[i].resize(model_->age_spread(), 0.0);
+    numbers_at_age_by_category_[i].resize(age_spread_, 0.0);
+    exploitation_by_age_category_[i].resize(age_spread_, 0.0);
+    selected_numbers_at_age_by_category_[i].resize(age_spread_, 0.0);
+    tag_to_fish_by_category_age_[i].resize(age_spread_, 0.0);
   }
 
   if (penalty_label_ != "")
@@ -313,9 +314,9 @@ void TagByAge::DoBuild() {
       tagged_fish_by_year_[year_ndx] += numbers_[years_[year_ndx]][age_ndx];
   }
 
-  tag_to_fish_by_age_.resize(model_->age_spread(), 0.0);
-  vulnerable_fish_by_age_.resize(model_->age_spread(), 0.0);
-  final_exploitation_by_age_.resize(model_->age_spread(), 0.0);
+  tag_to_fish_by_age_.resize(age_spread_, 0.0);
+  vulnerable_fish_by_age_.resize(age_spread_, 0.0);
+  final_exploitation_by_age_.resize(age_spread_, 0.0);
 }
 
 /**
@@ -354,7 +355,7 @@ void TagByAge::DoExecute() {
 
   for (; from_iter != from_partition_.end(); from_iter++, from_category_iter++) {
     LOG_FINE() << "category counter = " << from_category_iter;
-    for (unsigned age_ndx = 0; age_ndx < model_->age_spread(); ++age_ndx) {
+    for (unsigned age_ndx = 0; age_ndx < age_spread_; ++age_ndx) {
       tag_to_fish_by_category_age_[from_category_iter][age_ndx]
           = numbers_[years_[year_ndx]][age_ndx] * selectivities_[(*from_iter)->name_]->GetAgeResult(min_age_ + age_ndx, (*from_iter)->age_length_);
     }
@@ -362,23 +363,23 @@ void TagByAge::DoExecute() {
 
   from_iter          = from_partition_.begin();
   from_category_iter = 0;
-
+  
   for (; from_iter != from_partition_.end(); from_iter++, from_category_iter++, to_iter++) {
     Double amount = 0.0;
     LOG_FINE() << "category = " << (*from_iter)->name_;
-    for (unsigned age_ndx = 0; age_ndx < model_->age_spread(); ++age_ndx) {
+    for (unsigned age_ndx = 0; age_ndx < age_spread_; ++age_ndx) {
       LOG_FINE() << "age = " << age_ndx;
-      exploitation_by_age_category_[from_category_iter][age_ndx] = tag_to_fish_by_category_age_[from_category_iter][age_ndx] / (*from_iter)->data_[age_ndx];
+      exploitation_by_age_category_[from_category_iter][age_ndx] = tag_to_fish_by_category_age_[from_category_iter][age_ndx] / (*from_iter)->data_[min_age_offset_ + age_ndx];
       if (exploitation_by_age_category_[from_category_iter][age_ndx] > u_max_) {
         exploitation_by_age_category_[from_category_iter][age_ndx] = u_max_;
         // flag penalty
         if (penalty_) {
-          LOG_FINEST() << " exploitation expected = " << exploitation_by_age_category_[from_category_iter][age_ndx] << " available = " << (*from_iter)->data_[age_ndx];
-          penalty_->Trigger((*from_iter)->data_[age_ndx], (*from_iter)->data_[age_ndx] * exploitation_by_age_category_[from_category_iter][age_ndx]);
+          LOG_FINEST() << " exploitation expected = " << exploitation_by_age_category_[from_category_iter][age_ndx] << " available = " << (*from_iter)->data_[min_age_offset_ + age_ndx];
+          penalty_->Trigger((*from_iter)->data_[min_age_offset_ + age_ndx], (*from_iter)->data_[min_age_offset_ + age_ndx] * exploitation_by_age_category_[from_category_iter][age_ndx]);
         }
       }
       // fish to move
-      amount = (*from_iter)->data_[age_ndx] * exploitation_by_age_category_[from_category_iter][age_ndx];
+      amount = (*from_iter)->data_[min_age_offset_ + age_ndx] * exploitation_by_age_category_[from_category_iter][age_ndx];
       LOG_FINEST() << " exploitation = " << exploitation_by_age_category_[from_category_iter][age_ndx] << " amount - " << amount;
       actual_tagged_fish_to_[year_ndx][from_category_iter][age_ndx] += amount;
       // account for mortality
@@ -389,12 +390,12 @@ void TagByAge::DoExecute() {
 
       tagged_fish_after_init_mort_[year_ndx][from_category_iter][age_ndx] += amount;
       // Just do it!
-      (*from_iter)->data_[age_ndx] -= amount;
-      (*to_iter)->data_[age_ndx] += amount;
+      (*from_iter)->data_[min_age_offset_ + age_ndx] -= amount;
+      (*to_iter)->data_[min_age_offset_ + age_ndx] += amount;
 
-      if ((*from_iter)->data_[age_ndx] < 0.0)
+      if ((*from_iter)->data_[min_age_offset_ + age_ndx] < 0.0)
         LOG_CODE_ERROR() << "The process tag_by_age (with label " << label_ << ") caused a negative partition " << (*from_iter)->name_ << " "
-                         << " age = " << age_ndx + (*from_iter)->min_age_ << " numbers at age = " << (*from_iter)->data_[age_ndx] << " tagged fish = " << amount;
+                         << " age = " << age_ndx + (*from_iter)->min_age_ << " numbers at age = " << (*from_iter)->data_[min_age_offset_ + age_ndx] << " tagged fish = " << amount;
     }
   }
 }

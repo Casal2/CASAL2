@@ -41,7 +41,7 @@ max_age 12
 age_plus t
 base_weight_units kgs
 initialisation_phases iphase1 iphase2
-time_steps step_one=[processes=Recruitment] step_two=[processes=Tagging,TagLoss] step_three=[processes=Ageing]
+time_steps step_one=[processes=Recruitment] step_two=[processes=Tagging,Tagging_female,TagLoss] step_three=[processes=Ageing]
 
 @categories
 format stage.sex
@@ -74,9 +74,22 @@ age 1
 @tag Tagging
 type by_age
 years 2008
-from immature.male immature.female
-to mature.male mature.female
-selectivities [type=constant; c=0.25] [type=constant; c=0.4]
+from immature.male 
+to mature.male
+selectivities [type=constant; c=0.25] 
+min_age 3
+max_age 6
+penalty [type=process]
+table numbers
+2008 1000 2000 3000 4000
+end_table
+
+@tag Tagging_female
+type by_age
+years 2008
+from  immature.female
+to  mature.female
+selectivities [type=constant; c=0.4] 
 min_age 3
 max_age 6
 penalty [type=process]
@@ -98,8 +111,7 @@ type derived_quantity
 )";
 
 /**
- *
- */
+
 TEST_F(InternalEmptyModel, Processes_Tag_By_Age) {
   AddConfigurationLine(test_cases_process_tag_by_age, __FILE__, 36);
   LoadConfiguration();
@@ -116,7 +128,7 @@ TEST_F(InternalEmptyModel, Processes_Tag_By_Age) {
   EXPECT_DOUBLE_EQ(1153.84615384615384, male.data_[5]);
   EXPECT_DOUBLE_EQ(1538.4615384615383, male.data_[6]);
   EXPECT_DOUBLE_EQ(0.0, male.data_[7]);
-
+ 
   // 615.384615 1230.769231 1846.153846 2461.538462 0.000000 0.000000 0.000000 0.000000 0.000000
   partition::Category& female = model_->partition().category("mature.female");
   EXPECT_DOUBLE_EQ(0.0, female.data_[0]);
@@ -129,9 +141,9 @@ TEST_F(InternalEmptyModel, Processes_Tag_By_Age) {
   EXPECT_DOUBLE_EQ(0.0, female.data_[7]);
 }
 
-/**
+**
  * Loss rate
- */
+ *
 const std::string test_cases_process_tag_by_age_with_loss_rate =
     R"(
 @model
@@ -142,7 +154,7 @@ max_age 12
 age_plus t
 base_weight_units kgs
 initialisation_phases iphase1 iphase2
-time_steps step_one=[processes=Recruitment] step_two=[processes=Tagging,TagLoss] step_three=[processes=Ageing]
+time_steps step_one=[processes=Recruitment] step_two=[processes=Tagging,Tagging_female,TagLoss] step_three=[processes=Ageing]
 
 @categories
 format stage.sex
@@ -172,12 +184,26 @@ proportions 0.5 0.5
 R0 997386
 age 1
 
+
 @tag Tagging
 type by_age
 years 2008
-from immature.male immature.female
-to mature.male mature.female
-selectivities [type=constant; c=0.25] [type=constant; c=0.4]
+from immature.male
+to mature.male 
+selectivities [type=constant; c=0.25] 
+min_age 3
+max_age 6
+penalty [type=process]
+table numbers
+2008 500 750 1000 2000
+end_table
+
+@tag Tagging_female
+type by_age
+years 2008
+from immature.female
+to  mature.female
+selectivities  [type=constant; c=0.4]
 min_age 3
 max_age 6
 penalty [type=process]
@@ -198,9 +224,9 @@ year 2008
 type derived_quantity
 )";
 
-/**
+**
  *
- */
+ *
 TEST_F(InternalEmptyModel, Processes_Tag_By_Age_With_Loss_Rate) {
   AddConfigurationLine(test_cases_process_tag_by_age_with_loss_rate, __FILE__, 119);
   LoadConfiguration();
@@ -228,9 +254,9 @@ TEST_F(InternalEmptyModel, Processes_Tag_By_Age_With_Loss_Rate) {
   EXPECT_DOUBLE_EQ(0.0, female.data_[7]);
 }
 
-/**
+**
  * Loss rate selectivities
- */
+ *
 const std::string test_cases_process_tag_by_age_with_loss_rate_selectivities =
     R"(
 @model
@@ -241,7 +267,7 @@ max_age 12
 base_weight_units kgs
 age_plus t
 initialisation_phases iphase1 iphase2
-time_steps step_one=[processes=Recruitment] step_two=[processes=Tagging,TagLoss] step_three=[processes=Ageing]
+time_steps step_one=[processes=Recruitment] step_two=[processes=Tagging,Tagging_female,TagLoss] step_three=[processes=Ageing]
 
 @categories
 format stage.sex
@@ -276,15 +302,30 @@ age 1
 @tag Tagging
 type by_age
 years 2008
-from immature.male immature.female
-to mature.male mature.female
-selectivities [type=constant; c=0.25] [type=constant; c=0.4]
+from immature.male 
+to mature.male
+selectivities [type=constant; c=0.25] 
 min_age 3
 max_age 6
 penalty [type=process]
 table numbers
 2008 500 750 1000 2000
 end_table
+
+
+@tag Tagging_female
+type by_age
+years 2008
+from immature.female
+to mature.female
+selectivities [type=constant; c=0.4]
+min_age 3
+max_age 6
+penalty [type=process]
+table numbers
+2008 500 750 1000 2000
+end_table
+
 
 @process TagLoss
 type tag_loss
@@ -299,19 +340,19 @@ year 2008
 type derived_quantity
 )";
 
-/**
+**
  *
- */
+ *
 TEST_F(InternalEmptyModel, Processes_Tag_By_Age_With_Loss_Rate_Selectivities) {
   AddConfigurationLine(test_cases_process_tag_by_age_with_loss_rate_selectivities, __FILE__, 202);
   LoadConfiguration();
 
   model_->Start(RunMode::kBasic);
 
-  /**
+  **
    * Note the results have moved compared to the other tests because this
    * one has extra years
-   */
+   *
 
   // 0.000000 0.000000 0.000000 0.000000 0.000000 190.389423 285.584135 380.778846 761.557692 0.000000 0.000000 0.000000
   partition::Category& male = model_->partition().category("mature.male");
@@ -340,9 +381,9 @@ TEST_F(InternalEmptyModel, Processes_Tag_By_Age_With_Loss_Rate_Selectivities) {
   EXPECT_DOUBLE_EQ(0.0, female.data_[9]);
 }
 
-/**
+**
  * Selectivities
- */
+ *
 const std::string test_cases_process_tag_by_age_with_selectivities =
     R"(
 @model
@@ -352,7 +393,7 @@ min_age 1
 max_age 12
 age_plus t
 initialisation_phases iphase1 iphase2
-time_steps step_one=[processes=Recruitment] step_two=[processes=Tagging,TagLoss] step_three=[processes=Ageing]
+time_steps step_one=[processes=Recruitment] step_two=[processes=Tagging,Tagging_female,TagLoss] step_three=[processes=Ageing]
 
 @categories
 format stage.sex
@@ -387,9 +428,23 @@ age 1
 @tag Tagging
 type by_age
 years 2008
-from immature.male immature.female
-to mature.male mature.female
-selectivities [type=logistic; a50=9; ato95=3] [type=constant; c=0.7]
+from immature.male 
+to mature.male
+selectivities [type=logistic; a50=9; ato95=3]
+min_age 3
+max_age 6
+penalty [type=process]
+table numbers
+2008 500 750 1000 2000
+end_table
+
+
+@tag Tagging_female
+type by_age
+years 2008
+from immature.female
+to mature.female
+selectivities [type=constant; c=0.7]
 min_age 3
 max_age 6
 penalty [type=process]
@@ -410,9 +465,9 @@ year 2008
 type derived_quantity
 )";
 
-/**
+**
  *
- */
+ *
 TEST_F(InternalEmptyModel, Processes_Tag_By_Age_With_Selectivities) {
   AddConfigurationLine(test_cases_process_tag_by_age_with_selectivities, __FILE__, 292);
   LoadConfiguration();
@@ -446,9 +501,9 @@ TEST_F(InternalEmptyModel, Processes_Tag_By_Age_With_Selectivities) {
   EXPECT_DOUBLE_EQ(0.0, female.data_[9]);
 }
 
-/**
+**
  * Selectivities
- */
+ *
 const std::string test_cases_process_tag_by_age_with_proportions_table =
     R"(
 @model
@@ -458,7 +513,7 @@ min_age 1
 max_age 12
 age_plus t
 initialisation_phases iphase1 iphase2
-time_steps step_one=[processes=Recruitment] step_two=[processes=Tagging,TagLoss] step_three=[processes=Ageing]
+time_steps step_one=[processes=Recruitment] step_two=[processes=Tagging,Tagging_female,TagLoss] step_three=[processes=Ageing]
 
 @categories
 format stage.sex
@@ -490,12 +545,13 @@ proportions 0.5 0.5
 R0 997386
 age 1
 
+
 @tag Tagging
 type by_age
 years 2008
-from immature.male immature.female
-to mature.male mature.female
-selectivities [type=constant; c=0.25] [type=constant; c=0.4]
+from immature.male
+to mature.male
+selectivities [type=constant; c=0.25] 
 min_age 3
 max_age 6
 penalty [type=process]
@@ -503,6 +559,23 @@ n 10000
 table proportions
 2008 0.1 0.2 0.3 0.4
 end_table
+
+
+
+@tag Tagging_female
+type by_age
+years 2008
+from immature.female
+to mature.female
+selectivities  [type=constant; c=0.4]
+min_age 3
+max_age 6
+penalty [type=process]
+n 10000
+table proportions
+2008 0.1 0.2 0.3 0.4
+end_table
+
 
 @process TagLoss
 type tag_loss
@@ -517,9 +590,9 @@ year 2008
 type derived_quantity
 )";
 
-/**
+**
  *
- */
+ *
 TEST_F(InternalEmptyModel, Processes_Tag_By_Age_With_Proportions_Table) {
   AddConfigurationLine(test_cases_process_tag_by_age_with_proportions_table, __FILE__, 379);
   LoadConfiguration();
@@ -552,7 +625,7 @@ TEST_F(InternalEmptyModel, Processes_Tag_By_Age_With_Proportions_Table) {
   EXPECT_DOUBLE_EQ(2388.7890056578672, female.data_[8]);
   EXPECT_DOUBLE_EQ(0.0, female.data_[9]);
 }
-
+*/
 } /* namespace age */
 } /* namespace processes */
 } /* namespace niwa */

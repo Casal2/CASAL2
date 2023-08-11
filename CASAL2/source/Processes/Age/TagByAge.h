@@ -78,8 +78,8 @@ private:
   vector<Double>                tag_to_fish_by_age_;           // age bins
   vector<vector<Double>>        tag_to_fish_by_category_age_;  // category x age bins
 
-  vector<Double> vulnerable_fish_by_age_;                      // age bins
-
+  vector<Double>                vulnerable_fish_by_age_;                      // age bins
+  unsigned                      min_age_offset_ = 0;
   // Containers for reporting
   vector<vector<vector<Double>>> tagged_fish_after_init_mort_;  // n_years x n_from_categories x n_ages
   vector<vector<vector<Double>>> actual_tagged_fish_to_;        // n_years x n_to_categories x n_ages
