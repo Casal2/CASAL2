@@ -199,7 +199,7 @@ void TransitionCategory::DoReset() {
 
 void TransitionCategory::FillReportCache(ostringstream& cache) {
   // print proportions by year and category
-  cache << "values_by_year" << REPORT_R_DATAFRAME << REPORT_EOL;
+  cache << "values_by_year " << REPORT_R_DATAFRAME << REPORT_EOL;
   cache << "year ";
   for (auto category_iter : proportions_by_category_) cache << category_iter.first << " ";
   cache << REPORT_EOL;

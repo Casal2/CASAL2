@@ -406,6 +406,8 @@ void ProportionsAtLength::Execute() {
         }
       }
     }
+    LOG_FINE() << "year " << year_ndx << " denominator = " << denominator_[year_ndx];
+    
     for (unsigned length_offset = 0; length_offset < number_bins_; ++length_offset) {
       start_value = cached_numbers_at_length_[length_offset];
       end_value   = numbers_at_length_[length_offset];
@@ -451,10 +453,12 @@ void ProportionsAtLength::CalculateScore() {
   LOG_FINEST() << "Calculating neglogLikelihood for observation = " << label_;
 
   if (model_->run_mode() == RunMode::kSimulation) {
-    for (auto& iter : comparisons_) {
-      auto     it       = std::find(years_.begin(), years_.end(), iter.first);
-      unsigned year_ndx = distance(years_.begin(), it);
-      for (auto& comparison : iter.second) comparison.expected_ /= final_denominator_[year_ndx];
+    if(model_->get_simulation_iterator() == 0) {
+      for (auto& iter : comparisons_) {
+        auto     it       = std::find(years_.begin(), years_.end(), iter.first);
+        unsigned year_ndx = distance(years_.begin(), it);
+        for (auto& comparison : iter.second) comparison.expected_ /= final_denominator_[year_ndx];
+      }
     }
     likelihood_->SimulateObserved(comparisons_);
     // simulated values based on error_value so hard to deal with sum_to_one = F

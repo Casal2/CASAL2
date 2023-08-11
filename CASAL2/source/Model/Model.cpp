@@ -760,7 +760,8 @@ void Model::RunSimulation() {
       time_step_manager.Execute(current_year_);
     }
     // model finish running given this set of -i
-    for (int s = 0; s < simulation_candidates; ++s) {
+    simulation_iterator_ = 0;
+    for (int s = 0; s < simulation_candidates; ++s, ++simulation_iterator_) {
       LOG_MEDIUM() << "simulation s = " << s;
       string report_suffix = ".";
       s_width              = (unsigned)(floor(log10((s + 1))) + 1);
