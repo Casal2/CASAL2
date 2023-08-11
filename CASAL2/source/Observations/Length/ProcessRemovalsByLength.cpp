@@ -447,10 +447,12 @@ void ProcessRemovalsByLength::CalculateScore() {
   LOG_FINEST() << "Calculating neglogLikelihood for observation = " << label_;
 
   if (model_->run_mode() == RunMode::kSimulation) {
-    for (auto& iter : comparisons_) {
-      auto     it       = std::find(years_.begin(), years_.end(), iter.first);
-      unsigned year_ndx = distance(years_.begin(), it);
-      for (auto& comparison : iter.second) comparison.expected_ /= final_denominator_[year_ndx];
+    if(model_->get_simulation_iterator() == 0) {
+      for (auto& iter : comparisons_) {
+        auto     it       = std::find(years_.begin(), years_.end(), iter.first);
+        unsigned year_ndx = distance(years_.begin(), it);
+        for (auto& comparison : iter.second) comparison.expected_ /= final_denominator_[year_ndx];
+      }
     }
     likelihood_->SimulateObserved(comparisons_);
     if (simulated_data_sum_to_one_) {
