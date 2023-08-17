@@ -32,6 +32,7 @@
 #include "../Selectivities/Common/DoubleNormalSS3.h"
 #include "../Selectivities/Common/Increasing.h"
 #include "../Selectivities/Common/InverseLogistic.h"
+#include "../Selectivities/Common/MultiSelectivity.h"
 #include "../Selectivities/Common/KnifeEdge.h"
 #include "../Selectivities/Common/Logistic.h"
 #include "../Selectivities/Common/LogisticProducing.h"
@@ -85,7 +86,8 @@ Selectivity* Factory::Create(shared_ptr<Model> model, const string& object_type,
       result = new Logistic(model);
     else if (sub_type == PARAM_LOGISTIC_PRODUCING)
       result = new LogisticProducing(model);
-
+    else if (sub_type == PARAM_MULTI_SELECTIVITY)
+      result = new MultiSelectivity(model);
     if (result)
       model->managers()->selectivity()->AddObject(result);
   }

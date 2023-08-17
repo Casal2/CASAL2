@@ -35,7 +35,7 @@ public:
   explicit Selectivity(shared_ptr<Model> model);
   virtual ~Selectivity() = default;
   void           Validate();
-  virtual void   Build() {Reset(); RebuildCache();};
+  virtual void   Build() {DoBuild(); Reset(); RebuildCache();};
   void           Verify(shared_ptr<Model> model){};
   void           Reset();
   virtual Double GetAgeResult(unsigned age, AgeLength* age_length);
@@ -55,7 +55,8 @@ public:
 protected:
   // pure methods
   virtual Double GetLengthBasedResult(unsigned age, AgeLength* age_length);
-  virtual void   DoValidate()                                                                                           = 0;
+  virtual void   DoValidate()                                                                                           = 0;    
+  virtual void   DoBuild() {};
   virtual void   DoReset();
 
 

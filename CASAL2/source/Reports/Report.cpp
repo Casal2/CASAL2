@@ -83,13 +83,15 @@ void Report::Validate(shared_ptr<Model> model) {
  *
  */
 void Report::Build(shared_ptr<Model> model) {
+  LOG_FINE() << "About to run Build for " << label_;
+
   if (!is_valid())
     return;
 
   Report::lock_.lock();
   if (time_step_ != "" && !model->managers()->time_step()->GetTimeStep(time_step_))
     LOG_ERROR_P(PARAM_TIME_STEP) << " labelled '" << time_step_ << "' could not be found. Please check it has been defined correctly";
-
+  LOG_FINE() << "About to run DoBuild for " << label_;
   DoBuild(model);
   Report::lock_.unlock();
 }
@@ -144,6 +146,8 @@ void Report::Verify(shared_ptr<Model> model) {
  * Execute the report
  */
 void Report::Execute(shared_ptr<Model> model) {
+  LOG_FINE() << "About to run Execute for " << label_;
+
   if (!is_valid())
     return;
 

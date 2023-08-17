@@ -614,6 +614,31 @@ Selectivities \subcommand{all\_values} and \subcommand{all\_values\_bounded} can
 
 		\end{verbatim}}}
 
+\subsubsection[Multi Selectivity ]{\argument{multi\_selectivity}}\index{Selectivities!MultiSelectivity} \label{sec:Selectivity-MultiSelectivities}
+
+This selectivity class allows users to configure models that have different selectivity blocks applied in different years, for example with a fishery selectivity.
+
+{\small{\begin{verbatim}
+@selectivity fishery_selectivity
+type multi_selectivity
+years 1990:2000 2001:2010
+selectivity_labels early_2000s_sel * 10 post_2000_sel * 9
+default_selectivity post_2000_sel
+
+@selectivity early_2000s_sel
+type logistic
+a50 4
+ato95 2.3
+
+
+@selectivity post_2000_sel
+type double_normal
+mu 6
+sigma_l 2
+sigma_r 23
+\end{verbatim}}}
+
+
 \subsubsection[Increasing ]{\argument{increasing}}\index{Selectivities!Increasing} \STATUS{Untested?}\label{sec:Selectivity-Increasing}
 
 \begin{equation}

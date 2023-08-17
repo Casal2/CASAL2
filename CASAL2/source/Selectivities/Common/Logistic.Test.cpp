@@ -49,6 +49,14 @@ public:
 
 /**
  * Test the results of our selectivity are correct
+ * 
+ * @param bins 
+ * @param a50 
+ * @param ato95
+ * logis <- function (bins, a50, ato95)  {
+ *   1/(1 + 19^((a50 - bins)/ato95))
+ * }
+ * logis_sel(10:20, 2, 7)
  */
 TEST(Selectivities, Logistic_Age) {
   shared_ptr<MockModel> model = shared_ptr<MockModel>(new MockModel());
@@ -80,6 +88,7 @@ TEST(Selectivities, Logistic_Age) {
   EXPECT_DOUBLE_EQ(0.99948530154281656, logistic.GetAgeResult(20, nullptr));  // At model->max_age()
   ASSERT_THROW(logistic.GetAgeResult(21, nullptr), std::string);              // This is above model->max_age()
 }
+
 
 TEST(Selectivities, Logistic_Length) {
   shared_ptr<MockModelLength> model = shared_ptr<MockModelLength>(new MockModelLength());

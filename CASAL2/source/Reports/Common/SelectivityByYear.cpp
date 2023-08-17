@@ -20,7 +20,7 @@ namespace reports {
  *
  */
 SelectivityByYear::SelectivityByYear() {
-  run_mode_    = (RunMode::Type)(RunMode::kBasic | RunMode::kProjection | RunMode::kSimulation | RunMode::kEstimation | RunMode::kProfiling);
+  run_mode_    = (RunMode::Type)(RunMode::kBasic | RunMode::kProjection);
   model_state_ = State::kExecute;
   skip_tags_   = true;
   parameters_.Bind<string>(PARAM_SELECTIVITY, &selectivity_label_, "Selectivity label", "", "");
@@ -34,7 +34,7 @@ SelectivityByYear::SelectivityByYear() {
  * Validate object
  */
 void SelectivityByYear::DoValidate(shared_ptr<Model> model) {
-  LOG_FINE() << " prepping report for " << label_;
+  LOG_FINE() << " prepping report for " << label_ << " selectivity " << selectivity_label_;
   if (!parameters_.Get(PARAM_YEARS)->has_been_defined()) {
     years_ = model->years();
   }
@@ -46,28 +46,29 @@ void SelectivityByYear::DoValidate(shared_ptr<Model> model) {
  * Build object
  */
 void SelectivityByYear::DoBuild(shared_ptr<Model> model) {
+  LOG_FINE() << "DoBuild";
   selectivity_ = model->managers()->selectivity()->GetSelectivity(selectivity_label_);
   if (!selectivity_) {
+    LOG_FINE() << "couldn't create pointer to selectivity";
 #ifndef TESTMODE
     LOG_WARNING() << "The report for " << PARAM_SELECTIVITY << " with label '" << selectivity_label_ << "' was requested. This " << PARAM_SELECTIVITY
                   << " was not found in the input configuration file and the report will not be generated";
 #endif
     is_valid_ = false;
+  } else {
+    LOG_FINE() << "created selectivity pointer";
   }
 }
 
 void SelectivityByYear::DoExecute(shared_ptr<Model> model) {
-  LOG_TRACE();
   if(model->partition_type() == PartitionType::kAge) {
     if (!selectivity_->IsSelectivityLengthBased()) {
-      LOG_FINEST() << "Printing age-based selectivity by year";
-      selectivity_ = model->managers()->selectivity()->GetSelectivity(selectivity_label_);
-
+      LOG_FINE() << "Printing age-based selectivity by year";
       cache_ << ReportHeader(type_, label_, format_);
       cache_ << "selectivity: " << selectivity_label_ << REPORT_EOL;
       cache_ << "year: " << model->current_year() << REPORT_EOL;
       const map<string, Parameter*> parameters = selectivity_->parameters().parameters();
-
+      
       for (auto iter : parameters) {
         Parameter* x = iter.second;
         cache_ << iter.first << ": ";
@@ -76,15 +77,15 @@ void SelectivityByYear::DoExecute(shared_ptr<Model> model) {
         for (string value : values) cache_ << value << " ";
         cache_ << REPORT_EOL;
       }
-
+    
       cache_ << "Values " << REPORT_R_VECTOR << REPORT_EOL;
       for (unsigned i = model->min_age(); i <= model->max_age(); ++i) cache_ << i << " " << AS_DOUBLE(selectivity_->GetAgeResult(i, nullptr)) << "\n";
       cache_ << REPORT_END << REPORT_EOL;
+      
       ready_for_writing_ = true;
     }
   } else if(model->partition_type() == PartitionType::kLength) {
     LOG_FINEST() << "Printing length -based selectivity by year";
-    selectivity_ = model->managers()->selectivity()->GetSelectivity(selectivity_label_);
 
     cache_ << ReportHeader(type_, label_, format_);
     cache_ << "year: " << model->current_year() << REPORT_EOL;

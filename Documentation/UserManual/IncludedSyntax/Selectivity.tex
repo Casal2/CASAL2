@@ -35,6 +35,25 @@
 \defType{Vector of real numbers (estimable)}
 \defDefault{No default}
 
+
+\subsubsection{Selectivity of type multi\_selectivity}
+\commandlabsubarg{Selectivity}{type}{multi\_selectivity}.
+\defRef{sec:Selectivity-MultiSelectivities}
+\label{syntax:Selectivity-MultiSelectivities}
+
+\defSub{years}{The years for which we want to apply the corresponding selectivity in}
+\defType{Vector of integer for all model years to apply corresponding selectivity.}
+\defDefault{No default}
+
+\defSub{selectivity\_labels}{The labels of the selectivities, one for each year}
+\defType{Vector of strings for yeach year}
+\defDefault{No default}
+
+\defSub{default\_selectivity}{The selectivity used in missing years}
+\defType{string}
+\defDefault{No default}
+
+
 \subsubsection{Selectivity of type All Values Bounded}
 \commandlabsubarg{selectivity}{type}{All\_Values\_Bounded}.
 \defRef{sec:Selectivity-AllValuesBounded}
