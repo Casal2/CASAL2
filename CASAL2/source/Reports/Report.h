@@ -76,6 +76,7 @@ public:
   void           set_write_mode(string_view write_mode) { write_mode_ = write_mode; }
   constexpr bool is_valid() const { return is_valid_; }
   void           set_is_default(bool value) { default_report_ = value; }
+  void           set_is_valid(bool value) { is_valid_ = value; }
 
 protected:
   // methods
