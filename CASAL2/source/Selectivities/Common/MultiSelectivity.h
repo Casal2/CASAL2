@@ -9,7 +9,7 @@
  *
  * @section DESCRIPTION
  *
- * 
+ *
  */
 #ifndef MULTISELECTIVITY_H_
 #define MULTISELECTIVITY_H_
@@ -35,7 +35,7 @@ public:
   Double GetLengthResult(unsigned length_bin) override final;
 
   Double get_value(Double value) override final;
-  Double get_value(unsigned value)  override final; 
+  Double get_value(unsigned value) override final;
 
 private:
   // Members
@@ -43,8 +43,9 @@ private:
   vector<string>              selectivity_labels_;
   map<unsigned, Selectivity*> selectivities_;
   string                      default_selectivity_label_;
+  string                      projection_selectivity_label_;
   Selectivity*                default_selectivity_;
-
+  Selectivity*                projection_selectivity_;
 };
 
 } /* namespace selectivities */

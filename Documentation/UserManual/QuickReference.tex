@@ -1208,6 +1208,10 @@
 
 \defSub{values}{The values to assign to the addressable}
 
+\commandlabsubarg{project}{type}{multiple\_values}
+
+\defSub{table values}{The table of data specifying the projected values to use for each row of the \texttt{-i} or \texttt{-I} file}
+
 \commandlabsubarg{project}{type}{Empirical\_Sampling}
 
 \defSub{start\_year}{The start year of sampling}
@@ -1223,10 +1227,6 @@
 \defSub{mean}{The mean of the Gaussian process}
 \defSub{start\_year}{The start year of sampling}
 \defSub{final\_year}{The final year of sampling}
-
-\commandlabsubarg{project}{type}{User\_Defined}
-
-\defSub{equation}{The equation to do a test run of}
 
 \defComLab{report}{Define an object of type \emph{Report}}
 
@@ -1474,6 +1474,14 @@
 \defSub{ato95}{the ato95 parameter}
 \defSub{alpha}{The maximum value of the selectivity}
 
+\commandlabsubarg{selectivity}{type}{compound\_left}
+
+\defSub{a50}{The a50 ($a50$}
+\defSub{ato95}{The age or length between \(50\%\) and \(95\%\) selective}
+\defSub{a\_min}{The (a\_min) parameter}
+\defSub{left\_mean}{The left\_mean parameter}
+\defSub{sigma}{The sigma parameter}
+
 \commandlabsubarg{selectivity}{type}{compound\_right}
 
 \defSub{a50}{The a50 ($a50$}
@@ -1481,14 +1489,6 @@
 \defSub{a\_min}{The (a\_min) parameter}
 \defSub{left\_mean}{The left\_mean parameter}
 \defSub{to\_right\_mean}{The to\_right\_mean parameter}
-\defSub{sigma}{The sigma parameter}
-
-\commandlabsubarg{selectivity}{type}{compound\_left}
-
-\defSub{a50}{The a50 ($a50$}
-\defSub{ato95}{The age or length between \(50\%\) and \(95\%\) selective}
-\defSub{a\_min}{The (a\_min) parameter}
-\defSub{left\_mean}{The left\_mean parameter}
 \defSub{sigma}{The sigma parameter}
 
 \commandlabsubarg{selectivity}{type}{compound\_middle}
@@ -1506,6 +1506,13 @@
 \defSub{ato95}{The age or length between \(50\%\) and \(95\%\) selective}
 \defSub{a\_min}{The (a\_min) parameter}
 \defSub{sigma}{The sigma parameter}
+
+\commandlabsubarg{Selectivity}{type}{multi\_selectivity}
+
+\defSub{years}{The years for which we want to apply the corresponding selectivity in}
+\defSub{selectivity\_labels}{The labels of the selectivities, one for each year}
+\defSub{default\_selectivity}{The selectivity used in missing years}
+\defSub{projection\_selectivity}{The selectivity used in missing years in projections}
 
 \defComLab{simulate}{Define an object of type \emph{Simulate}}
 

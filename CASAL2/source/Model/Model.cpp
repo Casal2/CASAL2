@@ -130,6 +130,17 @@ vector<unsigned> Model::years_all() const {
 }
 
 /**
+ * Return the years this model is going to run as projection years in a vector.
+ */
+vector<unsigned> Model::years_projection() const {
+  vector<unsigned> years;
+  unsigned         year;
+  for (year = final_year_ + 1; year <= projection_final_year_; ++year) years.push_back(year);
+
+  return years;
+}
+
+/**
  * Return the spread of years, including projection years
  * if the run mode is a projection run mode.
  */
@@ -415,7 +426,7 @@ void Model::Validate() {
 void Model::Build() {
   LOG_FINE() << "Model:Build()";
   // Set current year
-  current_year_ = start_year_; 
+  current_year_                              = start_year_;
   AddressableInputLoader& addressable_inputs = *managers_->addressable_input_loader();
   if (addressable_inputs.GetValueCount() > 0) {
     addressable_values_file_  = true;
@@ -466,7 +477,7 @@ void Model::RunBasic() {
   niwa::partition::accessors::All all_view(pointer());
 
   // Model is about to run
-  addressable_value_iterator_ = 0; // this will increment each -i value
+  addressable_value_iterator_ = 0;  // this will increment each -i value
   for (unsigned i = 0; i < addressable_values_count_; ++i, ++addressable_value_iterator_) {
     LOG_MEDIUM() << "-i file = " << i + 1;
     LOG_FINE() << "Model: State change to Initialise";
@@ -575,7 +586,7 @@ void Model::RunEstimation() {
   AddressableInputLoader* addressable_inputs = managers_->addressable_input_loader();
   map<string, Double>     estimable_values;
   LOG_FINE() << "estimable values count: " << addressable_values_count_;
-  addressable_value_iterator_ = 0; // this will increment each -i value
+  addressable_value_iterator_ = 0;  // this will increment each -i value
   for (unsigned i = 0; i < addressable_values_count_; ++i, ++addressable_value_iterator_) {
     if (addressable_values_file_) {
       addressable_inputs->LoadValues(i);
@@ -844,7 +855,7 @@ void Model::RunProjection() {
       // Run the intialisation phase
       init_phase_manager.Execute(pointer());
       // Reset all parameter and re run the model
-      //managers_->report()->Execute(pointer(), State::kInitialise);
+      // managers_->report()->Execute(pointer(), State::kInitialise);
 
       state_ = State::kExecute;
       LOG_FINE() << "Starting projection years";
@@ -868,7 +879,7 @@ void Model::RunProjection() {
       // managers_->observation()->CalculateScores();
       // managers_->report()->WaitForReportsToFinish();
       // Reset();
-      //project_manager.SetObjectsForNextIteration();
+      // project_manager.SetObjectsForNextIteration();
     }
   }
   // Print the report to disk if tabular

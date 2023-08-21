@@ -582,6 +582,7 @@
 #define PARAM_PROFILES                            "profiles"
 #define PARAM_PROJECT                             "project"
 #define PARAM_PROJECTS                            "projects"
+#define PARAM_PROJECTION_SELECTIVITY              "projection_selectivity"
 #define PARAM_PROCESS_ABUNDANCE                   "process_abundance"
 #define PARAM_PROCESS_BIOMASS                     "process_biomass"
 #define PARAM_PROCESS_PROPORTIONS_AT_AGE          "process_proportions_at_age"

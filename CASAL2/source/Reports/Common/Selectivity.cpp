@@ -30,19 +30,20 @@ Selectivity::Selectivity() {
  * Validate object
  */
 void Selectivity::DoValidate(shared_ptr<Model> model) {
-  if (!model->global_configuration().print_tabular()) {
-    if (selectivity_label_ == "")
-      selectivity_label_ = label_;
-  }
+  //  if (!model->global_configuration().print_tabular()) {
+  if (selectivity_label_ == "")
+    selectivity_label_ = label_;
+  //  }
 }
 /**
  * Build object
  */
 void Selectivity::DoBuild(shared_ptr<Model> model) {
-  LOG_FINE() << "getting selectivity = " << label_;
+  LOG_FINE() << "DoBuild: getting selectivity = " << label_;
   if (selectivity_label_ != "") {
     selectivity_ = model->managers()->selectivity()->GetSelectivity(selectivity_label_);
     if (!selectivity_) {
+      LOG_FINE() << "couldn't create pointer to selectivity";
 #ifndef TESTMODE
       LOG_WARNING() << "The " << PARAM_SELECTIVITY << " report with label '" << selectivity_label_ << "' was requested. This " << PARAM_SELECTIVITY
                     << " was not found in the input configuration file and the report will not be generated";
@@ -54,6 +55,7 @@ void Selectivity::DoBuild(shared_ptr<Model> model) {
         if (!parameters_.Get(PARAM_LENGTH_VALUES)->has_been_defined()) {
           LOG_ERROR_P(PARAM_SELECTIVITY) << " this is a length-based selectivity in an age based model. If you want to report this you need to supply the subcommand "
                                          << PARAM_LENGTH_VALUES;
+          LOG_FINE() << "created selectivity pointer";
         }
       }
     }
@@ -66,7 +68,7 @@ void Selectivity::DoExecute(shared_ptr<Model> model) {
 
   LOG_TRACE();
   if (model->partition_type() == PartitionType::kAge) {
-    LOG_FINEST() << "Printing age-based selectivity";
+    LOG_FINEST() << "Printing report for the age-based selectivity with label '" << selectivity_->GetLabel() << "'";
     cache_ << ReportHeader(type_, selectivity_label_, format_);
     const map<string, Parameter*> parameters = selectivity_->parameters().parameters();
 
@@ -81,15 +83,21 @@ void Selectivity::DoExecute(shared_ptr<Model> model) {
     cache_ << "Values " << REPORT_R_VECTOR << REPORT_EOL;
 
     if (!selectivity_->IsSelectivityLengthBased()) {
-      for (unsigned i = model->min_age(); i <= model->max_age(); ++i) cache_ << i << " " << AS_DOUBLE(selectivity_->GetAgeResult(i, nullptr)) << "\n";
+      for (unsigned i = model->min_age(); i <= model->max_age(); ++i) {
+        cache_ << i << " " << AS_DOUBLE(selectivity_->GetAgeResult(i, nullptr)) << "\n";
+      }
+      cache_ << REPORT_END << REPORT_EOL;
       ready_for_writing_ = true;
     } else {
       LOG_FINE() << "calculate length based";
-      for (unsigned i = 0; i < length_values_.size(); i++) cache_ << length_values_[i] << " " << AS_DOUBLE(selectivity_->get_value(length_values_[i])) << "\n";
+      for (unsigned i = 0; i < length_values_.size(); i++) {
+        cache_ << length_values_[i] << " " << AS_DOUBLE(selectivity_->get_value(length_values_[i])) << "\n";
+      }
+      cache_ << REPORT_END << REPORT_EOL;
       ready_for_writing_ = true;
     }
   } else if (model->partition_type() == PartitionType::kLength) {
-    LOG_FINEST() << "Printing age-based selectivity";
+    LOG_FINEST() << "Printing report for the length-based selectivity with label '" << selectivity_->GetLabel() << "'";
     cache_ << ReportHeader(type_, selectivity_label_, format_);
     const map<string, Parameter*> parameters = selectivity_->parameters().parameters();
 
@@ -98,12 +106,17 @@ void Selectivity::DoExecute(shared_ptr<Model> model) {
       cache_ << iter.first << ": ";
 
       vector<string> values = x->current_values();
-      for (string value : values) cache_ << value << " ";
+      for (string value : values) {
+        cache_ << value << " ";
+      }
       cache_ << REPORT_EOL;
     }
 
     cache_ << "Values " << REPORT_R_VECTOR << REPORT_EOL;
-    for (unsigned i = 0; i < model->get_number_of_length_bins(); ++i) cache_ << model->length_bin_mid_points()[i] << " " << AS_DOUBLE(selectivity_->GetLengthResult(i)) << "\n";
+    for (unsigned i = 0; i < model->get_number_of_length_bins(); ++i) {
+      cache_ << model->length_bin_mid_points()[i] << " " << AS_DOUBLE(selectivity_->GetLengthResult(i)) << "\n";
+    }
+    cache_ << REPORT_END << REPORT_EOL;
     ready_for_writing_ = true;
   }
 }

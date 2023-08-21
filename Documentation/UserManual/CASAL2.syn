@@ -181,7 +181,6 @@ Transition_Category
 Transition_Category_By_Age
 Uniform
 Uniform_Log
-User_Defined
 Vector_Average
 Vector_Smoothing
 Von_Bertalanffy
@@ -205,6 +204,8 @@ markovian_movement
 mortality_hybrid
 mortality_initialisation_baranov
 mortality_initialisation_event
+multi_selectivity
+multiple_values
 none
 null_process
 orthogonal
@@ -277,6 +278,7 @@ cv
 cv_first
 cv_last
 data
+default_selectivity
 delta
 derived_quantities
 derived_quantity
@@ -398,6 +400,7 @@ process_errors
 processes
 project
 projection_final_year
+projection_selectivity
 projects
 proportions
 proposal_distribution
@@ -420,6 +423,7 @@ second_parameter
 selectivities
 selectivities2
 selectivity
+selectivity_labels
 sigma
 sigma_l
 sigma_r
@@ -495,5 +499,6 @@ table obs
 table proportions
 table recaptured
 table scanned
+table values
 
 [Preprocessor keywords]

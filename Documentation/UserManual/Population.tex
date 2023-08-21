@@ -600,10 +600,15 @@ The selectivity options are:
   \item Double normal plateau (Section~\ref{sec:Selectivity-DoubleNormalPlateau})
   \item Double normal stock synthesis (Section~\ref{sec:Selectivity-DoubleNormalStockSynthesis})
   \item Double exponential (Section~\ref{sec:Selectivity-DoubleExponential})
+  \item Compound-left (Section~\ref{sec:Selectivity-CompoundLeft})
+  \item Compound-right (Section~\ref{sec:Selectivity-CompoundRight})
+  \item Compound-middle (Section~\ref{sec:Selectivity-CompoundMidde})
+  \item Compound-all (Section~\ref{sec:Selectivity-CompoundAll})
+  \item Multi-selectivity  (Section~\ref{sec:Selectivity-MultiSelectivities})
 % \item Cubic spline (Not yet implemented)
 \end{itemize}
 
-See Figure \ref{fig:select examples} for plots of example selectivities (p. \pageref{fig:select examples}).
+See Figure \ref{fig:select examples} for example plots of the selectivities (p. \pageref{fig:select examples}).
 
 \subsubsection[Constant]{{constant}}\label{sec:Selectivity-Constant}
 
@@ -673,31 +678,6 @@ Selectivities \subcommand{all\_values} and \subcommand{all\_values\_bounded} can
 		type vector_smooth
 		parameter selectivity[maturity].values{3:8}
 		\end{verbatim}}}
-
-\subsubsection[Multi Selectivity ]{\argument{multi\_selectivity}}\index{Selectivities!MultiSelectivity} \label{sec:Selectivity-MultiSelectivities}
-
-This selectivity class allows users to configure models that have different selectivity blocks applied in different years, for example with a fishery selectivity.
-
-{\small{\begin{verbatim}
-@selectivity fishery_selectivity
-type multi_selectivity
-years 1990:2000 2001:2010
-selectivity_labels early_2000s_sel * 10 post_2000_sel * 9
-default_selectivity post_2000_sel
-
-@selectivity early_2000s_sel
-type logistic
-a50 4
-ato95 2.3
-
-
-@selectivity post_2000_sel
-type double_normal
-mu 6
-sigma_l 2
-sigma_r 23
-\end{verbatim}}}
-
 
 \subsubsection[Increasing ]{\argument{increasing}}\index{Selectivities!Increasing} \STATUS{Untested?}\label{sec:Selectivity-Increasing}
 
@@ -917,15 +897,6 @@ y_2 & = \frac{1}{\left(1 + 19^{(left_{mu} + to\_right_{mu} - x)/\sigma}\right)}\
 f(x)  &= 	y_1 y_2
 \end{align*}
 
-\subsubsection[Compound-All]{\argument{compound\_all}}\index{Selectivities!Compound-All}\label{sec:Selectivity-CompoundAll}
-
-The compound all selectivity was used in some oyster stock assessments but was not documented in CASAL user manual.
-
-\begin{align*}
-f(x)  & = \frac{\left(1 - a_{min}\right)}{\left(1 + 19^{(a_{50} - x)/a_{to95}}\right)}  + a_{min}
-\end{align*}
-
-
 \subsubsection[Compound-Middle]{\argument{compound\_middle}}\index{Selectivities!Compound-Middle}\label{sec:Selectivity-CompoundMidde}
 
 The compound middle selectivity was used in some oyster stock assessments but was not documented in CASAL user manual.
@@ -936,6 +907,39 @@ y_2 & = \frac{1}{\left(1 + 19^{(left_{mu} + to\_right_{mu} - x)/\sigma}\right)}\
 y_3 & = 1.0 -  \frac{1}{\left(1 + 19^{(left_{mu} + to\_right_{mu} - x)/\sigma}\right)}\\
 f(x)  &= 	y_1 y_2 y_3
 \end{align*}
+
+\subsubsection[Compound-All]{\argument{compound\_all}}\index{Selectivities!Compound-All}\label{sec:Selectivity-CompoundAll}
+
+The compound all selectivity was used in some oyster stock assessments but was not documented in CASAL user manual.
+
+\begin{align*}
+	f(x)  & = \frac{\left(1 - a_{min}\right)}{\left(1 + 19^{(a_{50} - x)/a_{to95}}\right)}  + a_{min}
+\end{align*}
+
+\subsubsection[Multi Selectivity ]{\argument{multi\_selectivity}}\index{Selectivities!MultiSelectivity} \label{sec:Selectivity-MultiSelectivities}
+
+This selectivity allows users to configure models that have different selectivity functions applied in different years. For each year of the model, a selectivity is defined using a label of a selectivity defined elsewhere in the input configuration files. Each year can be either unique or else blocks of years can define a different selectivity. For example,
+
+{\small{\begin{verbatim}
+			@selectivity fishery_selectivity
+			type multi_selectivity
+			years 1990:2000 2001:2010
+			selectivity_labels early_2000s_sel * 10 post_2000_sel * 9
+			default_selectivity post_2000_sel
+			
+			@selectivity early_2000s_sel
+			type logistic
+			a50 4
+			ato95 2.3
+			
+			@selectivity post_2000_sel
+			type double_normal
+			mu 6
+			sigma_l 2
+			sigma_r 23
+\end{verbatim}}}
+
+For missing years, the \argument{default\_selectivity} is applied. Missing years in projections use the \argument{projection\_selectivity} if the subcommand has been supplied, otherwise the \argument{default\_selectivity} will be used for those missing years.
 
 \begin{figure}[H]
 	\centering

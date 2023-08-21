@@ -41,6 +41,7 @@ class ModelRunner:
             "TwoSexHybridMortality",
             "SBW",
             "Simple",
+            "SimpleWithMultiSelectivity",
             "ComplexTag",
             "SexedLengthBased",
             "BCO_tc",
@@ -53,7 +54,7 @@ class ModelRunner:
             "LIN_tc_Dm",
             "SingleSexTagByLength_input",
             "SingleSexTagByLength_n",
-            }  # requires a config-betadiff.csl2 file
+        }  # requires a config-betadiff.csl2 file
         estimation_gammadiff_dir_list = {
             "TwoSex",
             "TwoSexHybridMortality",

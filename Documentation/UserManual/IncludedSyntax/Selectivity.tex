@@ -35,25 +35,6 @@
 \defType{Vector of real numbers (estimable)}
 \defDefault{No default}
 
-
-\subsubsection{Selectivity of type multi\_selectivity}
-\commandlabsubarg{Selectivity}{type}{multi\_selectivity}.
-\defRef{sec:Selectivity-MultiSelectivities}
-\label{syntax:Selectivity-MultiSelectivities}
-
-\defSub{years}{The years for which we want to apply the corresponding selectivity in}
-\defType{Vector of integer for all model years to apply corresponding selectivity.}
-\defDefault{No default}
-
-\defSub{selectivity\_labels}{The labels of the selectivities, one for each year}
-\defType{Vector of strings for yeach year}
-\defDefault{No default}
-
-\defSub{default\_selectivity}{The selectivity used in missing years}
-\defType{string}
-\defDefault{No default}
-
-
 \subsubsection{Selectivity of type All Values Bounded}
 \commandlabsubarg{selectivity}{type}{All\_Values\_Bounded}.
 \defRef{sec:Selectivity-AllValuesBounded}
@@ -346,6 +327,36 @@
 \defDefault{1.0}
 \defLowerBound{0.0 (exclusive)}
 
+\subsubsection{Selectivity of type Compound Left }
+\commandlabsubarg{selectivity}{type}{compound\_left}.
+\defRef{sec:Selectivity-CompoundLeft}
+\label{syntax:Selectivity-CompoundLeft}
+
+\defSub{a50}{The a50 ($a50$}
+\defType{Real number (estimable)}
+\defDefault{No default}
+
+\defSub{ato95}{The age or length between \(50\%\) and \(95\%\) selective}
+\defType{Real number (estimable)}
+\defDefault{No default}
+\defLowerBound{0.0 (exclusive)}
+
+\defSub{a\_min}{The (a\_min) parameter}
+\defType{Real number (estimable)}
+\defDefault{No default}
+\defLowerBound{0.0 (exclusive)}
+
+\defSub{left\_mean}{The left\_mean parameter}
+\defType{Real number (estimable)}
+\defDefault{1.0}
+\defLowerBound{0.0 (exclusive)}
+
+\defSub{sigma}{The sigma parameter}
+\defType{Real number (estimable)}
+\defDefault{1.0}
+\defLowerBound{0.0 (exclusive)}
+
+
 \subsubsection{Selectivity of type Compound Right }
 \commandlabsubarg{selectivity}{type}{compound\_right}.
 \defRef{sec:Selectivity-CompoundRight}
@@ -371,35 +382,6 @@
 \defLowerBound{0.0 (exclusive)}
 
 \defSub{to\_right\_mean}{The to\_right\_mean parameter}
-\defType{Real number (estimable)}
-\defDefault{1.0}
-\defLowerBound{0.0 (exclusive)}
-
-\defSub{sigma}{The sigma parameter}
-\defType{Real number (estimable)}
-\defDefault{1.0}
-\defLowerBound{0.0 (exclusive)}
-
-\subsubsection{Selectivity of type Compound Left }
-\commandlabsubarg{selectivity}{type}{compound\_left}.
-\defRef{sec:Selectivity-CompoundLeft}
-\label{syntax:Selectivity-CompoundLeft}
-
-\defSub{a50}{The a50 ($a50$}
-\defType{Real number (estimable)}
-\defDefault{No default}
-
-\defSub{ato95}{The age or length between \(50\%\) and \(95\%\) selective}
-\defType{Real number (estimable)}
-\defDefault{No default}
-\defLowerBound{0.0 (exclusive)}
-
-\defSub{a\_min}{The (a\_min) parameter}
-\defType{Real number (estimable)}
-\defDefault{No default}
-\defLowerBound{0.0 (exclusive)}
-
-\defSub{left\_mean}{The left\_mean parameter}
 \defType{Real number (estimable)}
 \defDefault{1.0}
 \defLowerBound{0.0 (exclusive)}
@@ -466,3 +448,24 @@
 \defType{Real number (estimable)}
 \defDefault{1.0}
 \defLowerBound{0.0 (exclusive)}
+
+\subsubsection{Selectivity of type Multi-Selectivity}
+\commandlabsubarg{Selectivity}{type}{multi\_selectivity}.
+\defRef{sec:Selectivity-MultiSelectivities}
+\label{syntax:Selectivity-MultiSelectivities}
+
+\defSub{years}{The years for which we want to apply the corresponding selectivity in}
+\defType{Vector of integer for all model years to apply corresponding selectivity.}
+\defDefault{No default}
+
+\defSub{selectivity\_labels}{The labels of the selectivities, one for each year}
+\defType{Vector of strings defining the labels of the selectivities to be used for each year}
+\defDefault{No default}
+
+\defSub{default\_selectivity}{The selectivity used in missing years}
+\defType{string}
+\defDefault{No default}
+
+\defSub{projection\_selectivity}{The selectivity used in missing years in projections}
+\defType{string}
+\defDefault{Defaults to \argument{default\_selectivity} if not supplied}
