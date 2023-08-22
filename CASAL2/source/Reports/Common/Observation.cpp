@@ -203,6 +203,12 @@ void Observation::DoExecuteTabular(shared_ptr<Model> model) {
     cache_ << ReportHeader(type_, label_, format_);
     cache_ << "observation_type: " << utilities::ToLowercase(observation_->type()) << REPORT_EOL;
     cache_ << "likelihood: " << utilities::ToLowercase(observation_->likelihood()) << REPORT_EOL;
+    cache_ << "categories:";
+    for (auto category : observation_->categories()) {
+      cache_ << " " << category;
+    }
+    cache_ << REPORT_EOL;
+
     cache_ << "values " << REPORT_R_DATAFRAME << REPORT_EOL;
     string bin, year, label;
     /**

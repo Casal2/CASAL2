@@ -472,10 +472,6 @@ The Constant.Mock type has no additional subcommands.
 \defRef{sec:Selectivity-MultiSelectivity}
 \label{syntax:Selectivity-MultiSelectivity}
 
-\defSub{selectivity\_labels}{The labels of the selectivities, one for each year}
-\defType{Vector of strings}
-\defDefault{true}
-
 \defSub{years}{The years for which we want to apply the corresponding selectivity in}
 \defType{Vector of non-negative integers}
 \defDefault{No default}
@@ -484,7 +480,7 @@ The Constant.Mock type has no additional subcommands.
 \defType{String}
 \defDefault{No default}
 
-\defSub{projection\_selectivity}{The selectivity used in missing projection years}
+\defSub{projection\_selectivity}{The selectivity used in missing projection years (defaults to the same selectivity label as 'default\_selectivity')}
 \defType{String}
 \defDefault{No default}
 
