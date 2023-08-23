@@ -242,6 +242,7 @@ void MCMC::GenerateRandomStart() {
   LOG_INFO() << "Generating random start values for MCMC";
   vector<double>    original_candidates = candidates_;
   vector<Estimate*> estimates           = model_->managers()->estimate()->GetIsEstimated();
+  vector<string>    failed_parameter_list;
 
   LOG_MEDIUM() << "candidates: ";
   for (auto v : candidates_) LOG_MEDIUM() << v;
@@ -255,19 +256,29 @@ void MCMC::GenerateRandomStart() {
   do {
     candidates_pass = true;
     attempts++;
-    if (attempts > 1000)
-      LOG_FATAL() << "Failed to generate random start values after 1000 attempts";
+
+    if (attempts > 10000) {
+      string parameter_list;
+      for (unsigned i = 0; i < failed_parameter_list.size(); ++i) {
+        parameter_list += failed_parameter_list[i] + " ";
+      }
+      LOG_FATAL() << "Failed to generate random start values after 10000 attempts. "
+                  << "Note that this can sometimes be caused by estimated parameters that are at a bound when starting the MCMC. "
+                  << "The list of parameters that failed is: " << parameter_list;
+    }
 
     candidates_ = original_candidates;
     FillMultivariateNormal(start_);
     for (unsigned i = 0; i < estimates.size(); ++i) {
       if (estimates[i]->lower_bound() > candidates_[i] || estimates[i]->upper_bound() < candidates_[i] || std::isnan(candidates_[i])) {
+        if (find(failed_parameter_list.begin(), failed_parameter_list.end(), estimates[i]->parameter()) == failed_parameter_list.end())
+          failed_parameter_list.push_back(estimates[i]->parameter());
         candidates_pass = false;
         break;
       }
     }
-
   } while (!candidates_pass);
+
   LOG_MEDIUM() << "chosen candidates: ";
   for (auto v : candidates_) LOG_MEDIUM() << v;
 }

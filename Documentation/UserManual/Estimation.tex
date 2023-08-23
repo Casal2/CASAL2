@@ -212,7 +212,7 @@ To run a \CNAME\ you will need to supply the following reports
 
 \subsection{\I{Bayesian estimation}}\label{sec:MCMC}\label{sec:MCMC-RandomWalkMetropolisHastings}
 
-\CNAME\ can use \I{Markov chain Monte Carlo (MCMC)}\index{MCMC} functionality to generate a sample from the posterior distribution of the estimated parameters with command \texttt{\cname\ -m} and output the sampled values to a file, optionally keeping only every $n$th set of values.
+\CNAME\ can use \I{Markov chain Monte Carlo (MCMC)}\index{MCMC} functionality to generate a sample from the posterior distribution of the estimated parameters with command \texttt{\cname\ -m} or \texttt{\cname\ -M MPD\_file} and output the sampled values, optionally keeping only every $n$th set of values.
 
 As \CNAME\ has no post-processing capabilities. \CNAME\ cannot produce MCMC convergence diagnostics. To calculate these diagnostics, use a package such as \href{http://www.public-health.uiowa.edu/boa}{BOA}, plot/summarize the posterior distributions of the output quantities, and/or use a general-purpose statistical package such as \href{http://www.r-project.org}{\R}.
 
