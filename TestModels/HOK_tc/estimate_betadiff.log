@@ -1,10 +1,10 @@
 Casal2 (https://github.com/alistairdunn1/CASAL2)
 Call: C:\Projects\Software\CASAL2\BuildSystem/Casal2/casal2.exe -e -g 20 -c config_betadiff.csl2 
-Date: Thu Aug 24 17:36:10 2023
+Date: Thu Aug 24 22:29:59 2023
 Seed: 20
-Version: v23.08 (2023-08-23)
+Version: v23.08 (2023-08-24)
 Copyright (c) 2017-2023, NIWA (www.niwa.co.nz)
-Environment: User=alist Machine=QUIET-5950X OS=Windows_NT PID=22280
+Environment: User=alist Machine=QUIET-5950X OS=Windows_NT PID=19072
 
 
 *partition[state1]
@@ -3409,7 +3409,6 @@ Values {vector}
 16 1.2652
 17 1.57169
 *end
-*end
 
 *selectivity[M_female]
 alpha: 1 
@@ -3442,7 +3441,6 @@ Values {vector}
 15 0.532113
 16 0.657117
 17 0.811488
-*end
 *end
 
 *observation[CSacousbio]
@@ -5588,7 +5586,6 @@ Values {vector}
 16 0.958088
 17 0.951244
 *end
-*end
 
 *selectivity[Wnspsl]
 alpha: 1 
@@ -5618,7 +5615,6 @@ Values {vector}
 15 0.974398
 16 0.968918
 17 0.962934
-*end
 *end
 
 *selectivity[Espsl]
@@ -5650,7 +5646,6 @@ Values {vector}
 16 0.382123
 17 0.244045
 *end
-*end
 
 *selectivity[Wspsl]
 alpha: 1 
@@ -5680,7 +5675,6 @@ Values {vector}
 15 0.569059
 16 0.399696
 17 0.257728
-*end
 *end
 
 *selectivity[CRsl]
@@ -5712,7 +5706,6 @@ Values {vector}
 16 0.216314
 17 0.175176
 *end
-*end
 
 *selectivity[SAsl]
 alpha: 1 
@@ -5742,7 +5735,6 @@ Values {vector}
 15 0.988078
 16 0.411686
 17 0.0428826
-*end
 *end
 
 *time_varying[shifted_mu]
@@ -8485,7 +8477,6 @@ Values {vector}
 16 1.2652
 17 1.57169
 *end
-*end
 
 *selectivity[M_female]
 alpha: 1 
@@ -8519,7 +8510,6 @@ Values {vector}
 16 0.657117
 17 0.811488
 *end
-*end
 
 *selectivity[Enspsl]
 alpha: 1 
@@ -8549,7 +8539,6 @@ Values {vector}
 15 0.964445
 16 0.958088
 17 0.951244
-*end
 *end
 
 *selectivity[Wnspsl]
@@ -8581,7 +8570,6 @@ Values {vector}
 16 0.968918
 17 0.962934
 *end
-*end
 
 *selectivity[Espsl]
 alpha: 1 
@@ -8611,7 +8599,6 @@ Values {vector}
 15 0.549284
 16 0.382123
 17 0.244045
-*end
 *end
 
 *selectivity[Wspsl]
@@ -8643,7 +8630,6 @@ Values {vector}
 16 0.399696
 17 0.257728
 *end
-*end
 
 *selectivity[CRsl]
 alpha: 1 
@@ -8673,7 +8659,6 @@ Values {vector}
 15 0.263503
 16 0.216314
 17 0.175176
-*end
 *end
 
 *selectivity[SAsl]
@@ -8705,7 +8690,6 @@ Values {vector}
 16 0.411686
 17 0.0428826
 *end
-*end
 
 *selectivity[sel_Whome]
 h: 8 
@@ -8733,7 +8717,6 @@ Values {vector}
 15 1
 16 1
 17 1
-*end
 *end
 
 *selectivity[sel_Espmg]
@@ -8763,7 +8746,6 @@ Values {vector}
 16 0.611004
 17 0.611004
 *end
-*end
 
 *selectivity[sel_Wspmg]
 h: 8 
@@ -8792,7 +8774,6 @@ Values {vector}
 16 0.601533
 17 0.601533
 *end
-*end
 
 *selectivity[One]
 beta: 0 
@@ -8820,7 +8801,6 @@ Values {vector}
 16 1
 17 1
 *end
-*end
 
 *selectivity[Point5]
 beta: 0 
@@ -8847,7 +8827,6 @@ Values {vector}
 15 0.5
 16 0.5
 17 0.5
-*end
 *end
 
 *info[messages_encountered]

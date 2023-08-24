@@ -1,10 +1,10 @@
 Casal2 (https://github.com/alistairdunn1/CASAL2)
 Call: C:\Projects\Software\CASAL2\BuildSystem/Casal2/casal2.exe -e -g 20 -c config_betadiff.csl2 
-Date: Thu Aug 24 17:43:08 2023
+Date: Thu Aug 24 22:29:33 2023
 Seed: 20
-Version: v23.08 (2023-08-23)
+Version: v23.08 (2023-08-24)
 Copyright (c) 2017-2023, NIWA (www.niwa.co.nz)
-Environment: User=alist Machine=QUIET-5950X OS=Windows_NT PID=20996
+Environment: User=alist Machine=QUIET-5950X OS=Windows_NT PID=19128
 
 
 *partition[state1]
@@ -1953,7 +1953,6 @@ Values {vector}
 24 0.324828
 25 0.351133
 *end
-*end
 
 *selectivity[MaturationSel_male]
 h: 10 
@@ -1988,7 +1987,6 @@ Values {vector}
 24 1
 25 1
 *end
-*end
 
 *selectivity[MaturationSel_female]
 h: 10 
@@ -2022,7 +2020,6 @@ Values {vector}
 23 1
 24 1
 25 1
-*end
 *end
 
 *selectivity[summerTANSel_m]
@@ -2059,7 +2056,6 @@ Values {vector}
 24 0.609946
 25 0.609946
 *end
-*end
 
 *selectivity[summerTANSel_f]
 a50: 5.46111 
@@ -2094,7 +2090,6 @@ Values {vector}
 23 1
 24 1
 25 1
-*end
 *end
 
 *selectivity[autumnTANSel_m]
@@ -2131,7 +2126,6 @@ Values {vector}
 24 0.941731
 25 0.941731
 *end
-*end
 
 *selectivity[autumnTANSel_f]
 a50: 5.91574 
@@ -2166,7 +2160,6 @@ Values {vector}
 23 1
 24 1
 25 1
-*end
 *end
 
 *selectivity[trwlFSel_m]
@@ -2204,7 +2197,6 @@ Values {vector}
 24 0.997131
 25 0.991257
 *end
-*end
 
 *selectivity[trwlFSel_f]
 alpha: 1 
@@ -2241,7 +2233,6 @@ Values {vector}
 24 0.916162
 25 0.905426
 *end
-*end
 
 *selectivity[lineHomeFSel_m]
 a50: 11.456 
@@ -2276,7 +2267,6 @@ Values {vector}
 23 0.373057
 24 0.375107
 25 0.376576
-*end
 *end
 
 *selectivity[lineHomeFSel_f]
@@ -2313,7 +2303,6 @@ Values {vector}
 24 0.999982
 25 0.999992
 *end
-*end
 
 *selectivity[lineSpawnFSel_m]
 a50: 18.2151 
@@ -2349,7 +2338,6 @@ Values {vector}
 24 1.44373
 25 1.50903
 *end
-*end
 
 *selectivity[lineSpawnFSel_f]
 a50: 9.73862 
@@ -2384,7 +2372,6 @@ Values {vector}
 23 0.999998
 24 0.999999
 25 1
-*end
 *end
 
 *observation[summerTANbiomass]
@@ -4957,7 +4944,6 @@ Values {vector}
 24 1
 25 1
 *end
-*end
 
 *selectivity[MaturationSel_female]
 h: 10 
@@ -4991,7 +4977,6 @@ Values {vector}
 23 1
 24 1
 25 1
-*end
 *end
 
 *selectivity[summerTANSel_m]
@@ -5028,7 +5013,6 @@ Values {vector}
 24 0.609946
 25 0.609946
 *end
-*end
 
 *selectivity[summerTANSel_f]
 a50: 5.46111 
@@ -5063,7 +5047,6 @@ Values {vector}
 23 1
 24 1
 25 1
-*end
 *end
 
 *selectivity[autumnTANSel_m]
@@ -5100,7 +5083,6 @@ Values {vector}
 24 0.941731
 25 0.941731
 *end
-*end
 
 *selectivity[autumnTANSel_f]
 a50: 5.91574 
@@ -5135,7 +5117,6 @@ Values {vector}
 23 1
 24 1
 25 1
-*end
 *end
 
 *selectivity[trwlFSel_m]
@@ -5173,7 +5154,6 @@ Values {vector}
 24 0.997131
 25 0.991257
 *end
-*end
 
 *selectivity[trwlFSel_f]
 alpha: 1 
@@ -5210,7 +5190,6 @@ Values {vector}
 24 0.916162
 25 0.905426
 *end
-*end
 
 *selectivity[lineHomeFSel_m]
 a50: 11.456 
@@ -5245,7 +5224,6 @@ Values {vector}
 23 0.373057
 24 0.375107
 25 0.376576
-*end
 *end
 
 *selectivity[lineHomeFSel_f]
@@ -5282,7 +5260,6 @@ Values {vector}
 24 0.999982
 25 0.999992
 *end
-*end
 
 *selectivity[lineSpawnFSel_m]
 a50: 18.2151 
@@ -5318,7 +5295,6 @@ Values {vector}
 24 1.44373
 25 1.50903
 *end
-*end
 
 *selectivity[lineSpawnFSel_f]
 a50: 9.73862 
@@ -5353,7 +5329,6 @@ Values {vector}
 23 0.999998
 24 0.999999
 25 1
-*end
 *end
 
 *selectivity[M_all]
@@ -5393,7 +5368,6 @@ Values {vector}
 23 0.300494
 24 0.324828
 25 0.351133
-*end
 *end
 
 *info[messages_encountered]

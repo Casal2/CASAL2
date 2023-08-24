@@ -86,14 +86,12 @@ void Selectivity::DoExecute(shared_ptr<Model> model) {
       for (unsigned i = model->min_age(); i <= model->max_age(); ++i) {
         cache_ << i << " " << AS_DOUBLE(selectivity_->GetAgeResult(i, nullptr)) << "\n";
       }
-      cache_ << REPORT_END << REPORT_EOL;
       ready_for_writing_ = true;
     } else {
       LOG_FINE() << "calculate length based";
       for (unsigned i = 0; i < length_values_.size(); i++) {
         cache_ << length_values_[i] << " " << AS_DOUBLE(selectivity_->get_value(length_values_[i])) << "\n";
       }
-      cache_ << REPORT_END << REPORT_EOL;
       ready_for_writing_ = true;
     }
   } else if (model->partition_type() == PartitionType::kLength) {

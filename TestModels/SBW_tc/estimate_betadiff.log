@@ -1,10 +1,10 @@
 Casal2 (https://github.com/alistairdunn1/CASAL2)
 Call: C:\Projects\Software\CASAL2\BuildSystem/Casal2/casal2.exe -e -g 20 -c config_betadiff.csl2 
-Date: Thu Aug 24 17:36:44 2023
+Date: Thu Aug 24 22:31:13 2023
 Seed: 20
-Version: v23.08 (2023-08-23)
+Version: v23.08 (2023-08-24)
 Copyright (c) 2017-2023, NIWA (www.niwa.co.nz)
-Environment: User=alist Machine=QUIET-5950X OS=Windows_NT PID=11980
+Environment: User=alist Machine=QUIET-5950X OS=Windows_NT PID=26468
 
 
 *partition[state1]
@@ -1729,7 +1729,6 @@ Values {vector}
 14 0.99
 15 0.99
 *end
-*end
 
 *selectivity[MaturationSel_female]
 h: 6 
@@ -1754,7 +1753,6 @@ Values {vector}
 13 0.99
 14 0.99
 15 0.99
-*end
 *end
 
 *observation[TangaroaAcousticMature]
@@ -3117,7 +3115,6 @@ Values {vector}
 14 0.99
 15 0.99
 *end
-*end
 
 *selectivity[MaturationSel_female]
 h: 6 
@@ -3142,7 +3139,6 @@ Values {vector}
 13 0.99
 14 0.99
 15 0.99
-*end
 *end
 
 *selectivity[TangaroaImmatureSel]
@@ -3170,7 +3166,6 @@ Values {vector}
 14 0.999992
 15 0.999997
 *end
-*end
 
 *selectivity[One]
 beta: 0 
@@ -3194,7 +3189,6 @@ Values {vector}
 13 1
 14 1
 15 1
-*end
 *end
 
 *info[messages_encountered]

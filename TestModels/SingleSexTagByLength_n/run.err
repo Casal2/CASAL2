@@ -1,5 +1,5 @@
 
-[INFO] Setting the random number seed to 55326
+[INFO] Setting the random number seed to 72969
 [WARNING] in @process 2001Tags_shelf you have specified compatibility_option = casal this is not recommended unless you validating for backwards compatibility reasons
 [INFO] Estimable parameters were set from the free parameter file: pars.out
 [WARNING] At line 12 in observations.csl2 the table obs : The sum of the values for year 1999 was 1 and do not sum to 1.0

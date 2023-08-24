@@ -1,10 +1,10 @@
 Casal2 (https://github.com/alistairdunn1/CASAL2)
 Call: C:\Projects\Software\CASAL2\BuildSystem/Casal2/casal2.exe -e -g 20 -c config_betadiff.csl2 
-Date: Thu Aug 24 17:40:46 2023
+Date: Thu Aug 24 22:30:54 2023
 Seed: 20
-Version: v23.08 (2023-08-23)
+Version: v23.08 (2023-08-24)
 Copyright (c) 2017-2023, NIWA (www.niwa.co.nz)
-Environment: User=alist Machine=QUIET-5950X OS=Windows_NT PID=12228
+Environment: User=alist Machine=QUIET-5950X OS=Windows_NT PID=11400
 
 
 *partition[state1]
@@ -320,7 +320,6 @@ Values {vector}
 79 1
 80 1
 *end
-*end
 
 *selectivity[SELandes]
 a50: 33.6382 
@@ -412,7 +411,6 @@ Values {vector}
 78 1
 79 1
 80 1
-*end
 *end
 
 *observation[CPUEandes]
@@ -942,7 +940,6 @@ Values {vector}
 79 1
 80 1
 *end
-*end
 
 *selectivity[SELandes]
 a50: 33.6382 
@@ -1035,7 +1032,6 @@ Values {vector}
 79 1
 80 1
 *end
-*end
 
 *selectivity[One]
 beta: 0 
@@ -1125,7 +1121,6 @@ Values {vector}
 78 1
 79 1
 80 1
-*end
 *end
 
 *info[messages_encountered]

@@ -1,10 +1,10 @@
 Casal2 (https://github.com/alistairdunn1/CASAL2)
 Call: C:\Projects\Software\CASAL2\BuildSystem/Casal2/casal2.exe -e -g 20 -c config_betadiff.csl2 
-Date: Thu Aug 24 17:38:28 2023
+Date: Thu Aug 24 22:31:25 2023
 Seed: 20
-Version: v23.08 (2023-08-23)
+Version: v23.08 (2023-08-24)
 Copyright (c) 2017-2023, NIWA (www.niwa.co.nz)
-Environment: User=alist Machine=QUIET-5950X OS=Windows_NT PID=26372
+Environment: User=alist Machine=QUIET-5950X OS=Windows_NT PID=18900
 
 
 *partition[state1]
@@ -1142,7 +1142,6 @@ Values {vector}
 19 1
 20 1
 *end
-*end
 
 *selectivity[potSurveySel_female]
 a50: 3.30808 
@@ -1172,7 +1171,6 @@ Values {vector}
 18 1
 19 1
 20 1
-*end
 *end
 
 *observation[potSurvey]
@@ -1826,7 +1824,6 @@ Values {vector}
 19 1
 20 1
 *end
-*end
 
 *selectivity[MaturationSel_female]
 a50: 4.1 
@@ -1857,7 +1854,6 @@ Values {vector}
 19 1
 20 1
 *end
-*end
 
 *selectivity[potFdis]
 beta: 0 
@@ -1886,7 +1882,6 @@ Values {vector}
 19 1
 20 1
 *end
-*end
 
 *selectivity[recFdis]
 beta: 0 
@@ -1914,7 +1909,6 @@ Values {vector}
 18 1
 19 1
 20 1
-*end
 *end
 
 *selectivity[potSurveySel_female]
@@ -1946,7 +1940,6 @@ Values {vector}
 19 1
 20 1
 *end
-*end
 
 *selectivity[potSurveySel_male]
 a50: 3.03845 
@@ -1977,7 +1970,6 @@ Values {vector}
 19 1
 20 1
 *end
-*end
 
 *selectivity[One]
 beta: 0 
@@ -2005,7 +1997,6 @@ Values {vector}
 18 1
 19 1
 20 1
-*end
 *end
 
 *info[messages_encountered]
