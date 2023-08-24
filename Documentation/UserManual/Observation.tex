@@ -1410,11 +1410,17 @@ For observed value $O_i$ and expected value $E_i$ the negative log-likelihood is
 
 where $Z \left(\theta,\delta \right)$ is a robustifying function to prevent log of zero errors, with parameter $\delta>0$.
 
-\subsection{\I{Process error}}
+\subsection{\I{Data weighting}}
 
-Additional 'process error' can be defined for any set of observations. Additional process error has the effect of increasing the observation error in the data, and hence of decreasing the relative weight given to the data in the fitting process.
+Data weighting can be modified by the use of subcommands for each observation. This can be defined for observations using either \I{process error}, an \I{error value multiplier}, a \I{likelihood multiplier}, or (in the case of tag recaptures) an \I{overdispersion} parameter.  The different methods have the effect of up-weighting or down-weighting the likelihood contribution for a specific observation. 
 
-For observations where the likelihood is parameterised by the c.v., the process error can be specified for a given set of observations as a c.v., in which case all the c.v.s $c_i$ are changed to
+ Process errors (\subcommand{process\_errors}) increase the observation error in the data, and hence of decreasing the relative weight given to the data. The method by which process errors modify the error values depends on the likelihood type (see below).
+ 
+ The error value multiplier modifies the error value (e.g., the N or CV depending on the likelihood) simply by multiplying it by a constant. Similarly, the likelihood multiplier modifies the observation likelihood by multiplying it by a constant.
+ 
+ In the case of tag recaptures, an overdispersion parameter can be applied to modify the error values. This is mathematically equivalent to multiplying the likelihood value by the inverse of the dispersion value.
+
+For observations where the likelihood is parameterised by the CV, the process error can be specified for a given set of observations as a CV, in which case all the CVs $c_i$ are changed to
 
 \begin{equation}
   c'_i  = \sqrt {c_i^2  + c_{process\_error}^2 }
@@ -1430,7 +1436,10 @@ Similarly, if the likelihood is parameterised by the effective sample size $N$,
 
 Note that this requires that $N_{process\_ error} > 0$, but the special case of $N_{process\_ error}=0$ is valid, and $N_{process\_ error}=0$ represents no process error (i.e., defined to be equivalent to $N_{process\_ error}=\infty$).
 
-For both the c.v. and $N$ process errors, the process error has more effect on small errors than on large ones. Note that a large value for the $N$ process error means a small process error.
+For both the CV and $N$ process errors, the process error has more effect on small errors than on large ones. Note that a large value for the $N$ process error means a small process error. 
+
+Note that \subcommand{process\_errors} is not allowed for tag recapture observations --- use the dispersion subcommand instead.
+
 \subsection{\I{Catchability \emph{q} parameters}}\label{subsec:catchabilities}
 
 Catchability parameters often denoted by \(q\) are used in abundance or biomass observations to scale the model expected value to the observed value (see Section~\ref{sec:Observation-Abundance}). \CNAME\ has two methods for implementing catchability parameters, \subcommand{free} and \subcommand{nuisance}. 

@@ -1,18 +1,11 @@
 Casal2 (https://github.com/alistairdunn1/CASAL2)
 Call: C:\Projects\Software\CASAL2\BuildSystem/Casal2/casal2.exe -e -g 20 -c config_betadiff.csl2 
-Date: Fri Jul 28 09:57:01 2023
+Date: Thu Aug 24 17:38:28 2023
 Seed: 20
-Version: v23.07 (2023-07-27)
+Version: v23.08 (2023-08-23)
 Copyright (c) 2017-2023, NIWA (www.niwa.co.nz)
-Environment: User=alist Machine=QUIET-5950X OS=Windows_NT PID=16852
+Environment: User=alist Machine=QUIET-5950X OS=Windows_NT PID=26372
 
-
-*initialisation_partition[Equilibrium_state]
-values {dataframe_with_row_labels}
-category 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 20
-male 174490.040737 151694.353910 131876.735835 114648.126356 99670.292821 86649.189888 75329.186820 65488.048928 56932.574656 49494.802639 43028.714284 37407.367121 32520.402672 28271.879881 24578.391605 21367.427154 18575.948766 123614.022586
-female 164328.531830 134540.822617 110152.709021 90185.410411 73837.568982 60453.088458 49494.802639 40522.917038 33177.358384 27163.323615 22239.448399 18208.120336 14907.548075 12205.268062 9992.828312 8181.435849 6698.393134 30254.334632
-*end
 
 *partition[state1]
 year: 2001
@@ -39,24 +32,6 @@ values {dataframe_with_row_labels}
 category 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 20
 male 151075.672704 127668.050917 61624.507074 60291.290845 57864.513664 38824.523531 52185.314473 12363.719680 17233.981730 10588.078640 9661.308770 2867.337403 4723.578268 3944.692549 1244.939562 1460.324357 1147.980293 3300.193981
 female 142361.729937 116161.562807 56860.042258 57042.088199 55612.501119 37238.071394 49069.224509 11328.787271 15269.397660 8985.328857 7824.116067 2212.118074 3464.247654 2735.892913 811.296850 891.078907 649.105126 1436.816213
-*end
-
-*age_length[age_length_weight_male]
-year: 2019
-time_step: 1
-age: 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 20
-cvs_by_age: 0.1 0.1 0.1 0.1 0.1 0.1 0.1 0.1 0.1 0.1 0.1 0.1 0.1 0.1 0.1 0.1 0.1 0.1 
-mean_length_at_age: 23.5875 27.7884 31.2279 34.0439 36.3494 38.237 39.7825 41.0478 42.0837 42.9319 43.6263 44.1949 44.6603 45.0414 45.3535 45.6089 45.8181 45.9893 
-mean_weight_at_age: 0.00189702 0.00320811 0.00466337 0.00615027 0.00758784 0.00892476 0.0101334 0.0112032 0.0121351 0.0129366 0.0136194 0.0141965 0.0146814 0.0150868 0.0154244 0.0157046 0.0159366 0.0161284 
-*end
-
-*age_length[age_length_weight_female]
-year: 2019
-time_step: 1
-age: 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 20
-cvs_by_age: 0.1 0.1 0.1 0.1 0.1 0.1 0.1 0.1 0.1 0.1 0.1 0.1 0.1 0.1 0.1 0.1 0.1 0.1 
-mean_length_at_age: 20.3404 23.898 26.8401 29.273 31.2849 32.9487 34.3246 35.4624 36.4034 37.1815 37.8249 38.357 38.7971 39.161 39.4619 39.7107 39.9165 40.0867 
-mean_weight_at_age: 0.00118001 0.00197826 0.00287018 0.00379057 0.00469074 0.00553829 0.00631434 0.00701014 0.00762399 0.00815878 0.00862007 0.00901485 0.00935058 0.00963463 0.00987397 0.010075 0.0102433 0.0103839 
 *end
 
 *estimate_value[estimated_values]
@@ -1167,6 +1142,7 @@ Values {vector}
 19 1
 20 1
 *end
+*end
 
 *selectivity[potSurveySel_female]
 a50: 3.30808 
@@ -1196,6 +1172,7 @@ Values {vector}
 18 1
 19 1
 20 1
+*end
 *end
 
 *observation[potSurvey]
@@ -1849,6 +1826,7 @@ Values {vector}
 19 1
 20 1
 *end
+*end
 
 *selectivity[MaturationSel_female]
 a50: 4.1 
@@ -1879,6 +1857,7 @@ Values {vector}
 19 1
 20 1
 *end
+*end
 
 *selectivity[potFdis]
 beta: 0 
@@ -1907,6 +1886,7 @@ Values {vector}
 19 1
 20 1
 *end
+*end
 
 *selectivity[recFdis]
 beta: 0 
@@ -1934,6 +1914,7 @@ Values {vector}
 18 1
 19 1
 20 1
+*end
 *end
 
 *selectivity[potSurveySel_female]
@@ -1965,6 +1946,7 @@ Values {vector}
 19 1
 20 1
 *end
+*end
 
 *selectivity[potSurveySel_male]
 a50: 3.03845 
@@ -1995,6 +1977,7 @@ Values {vector}
 19 1
 20 1
 *end
+*end
 
 *selectivity[One]
 beta: 0 
@@ -2023,6 +2006,7 @@ Values {vector}
 19 1
 20 1
 *end
+*end
 
 *info[messages_encountered]
 Values {string}
@@ -2042,12 +2026,12 @@ Creating default report for process Ageing
 Creating default report for process Fishing
 Creating default report for selectivity MaturationSel_male
 Creating default report for selectivity MaturationSel_female
-skipping the default report for lineFSel this is a length based selectivity. Create a seperate report for this
-skipping the default report for lineFretained this is a length based selectivity. Create a seperate report for this
-skipping the default report for potFSel this is a length based selectivity. Create a seperate report for this
-skipping the default report for potFretained this is a length based selectivity. Create a seperate report for this
-skipping the default report for recFretained this is a length based selectivity. Create a seperate report for this
-skipping the default report for recFSel this is a length based selectivity. Create a seperate report for this
+skipping the default report for lineFSel this is a length based selectivity. Please create a specific report for this
+skipping the default report for lineFretained this is a length based selectivity. Please create a specific report for this
+skipping the default report for potFSel this is a length based selectivity. Please create a specific report for this
+skipping the default report for potFretained this is a length based selectivity. Please create a specific report for this
+skipping the default report for recFretained this is a length based selectivity. Please create a specific report for this
+skipping the default report for recFSel this is a length based selectivity. Please create a specific report for this
 Creating default report for selectivity potFdis
 Creating default report for selectivity recFdis
 Creating default report for selectivity potSurveySel_female

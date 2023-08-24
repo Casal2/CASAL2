@@ -94,6 +94,14 @@ void Observation::DoExecute(shared_ptr<Model> model) {
   cache_ << "likelihood: " << utilities::ToLowercase(observation_->likelihood()) << REPORT_EOL;
   cache_ << "error_value_multiplier: " << observation_->error_value_multiplier() << REPORT_EOL;
   cache_ << "likelihood_multiplier: " << observation_->likelihood_multiplier() << REPORT_EOL;
+  if (observation_->type() == PARAM_TAG_RECAPTURE_BY_AGE || observation_->type() == PARAM_TAG_RECAPTURE_BY_LENGTH) {
+    map<unsigned, Double> dispersion = observation_->dispersion();
+    cache_ << "dispersion:";
+    for (auto iter = dispersion.begin(); iter != dispersion.end(); ++iter) {
+      cache_ << " " << iter->second;
+    }
+    cache_ << REPORT_EOL;
+  }
   cache_ << "categories:";
   for (auto category : observation_->categories()) cache_ << " " << category;
   cache_ << REPORT_EOL;

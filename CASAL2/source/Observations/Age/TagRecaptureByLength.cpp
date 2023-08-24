@@ -47,10 +47,8 @@ TagRecaptureByLength::TagRecaptureByLength(shared_ptr<Model> model) : Observatio
   parameters_.Bind<string>(PARAM_TAGGED_CATEGORIES, &tagged_category_labels_, "The categories of tagged individuals for the observation", "");
   parameters_.Bind<string>(PARAM_SELECTIVITIES, &selectivity_labels_, "The labels of the selectivities used for untagged categories", "", true);
   parameters_.Bind<string>(PARAM_TAGGED_SELECTIVITIES, &tagged_selectivity_labels_, "The labels of the tag category selectivities", "");
-  // TODO:  is tolerance missing?
-  parameters_.Bind<Double>(PARAM_PROCESS_ERRORS, &process_error_values_, "The process error", "", true);
   parameters_.Bind<Double>(PARAM_DETECTION_PARAMETER, &detection_, "The probability of detecting a recaptured individual", "")->set_range(0.0, 1.0);
-  parameters_.Bind<Double>(PARAM_DISPERSION, &dispersion_, "The overdispersion parameter (phi)  ", "", Double(1.0))->set_lower_bound(0.0);
+  parameters_.Bind<Double>(PARAM_DISPERSION, &dispersion_, "The overdispersion parameter (phi)  ", "", true)->set_lower_bound(0.0);
   parameters_.BindTable(PARAM_RECAPTURED, recaptures_table_, "The table of observed recaptured individuals in each length bin", "", false);
   parameters_.BindTable(PARAM_SCANNED, scanned_table_, "The table of observed scanned individuals in each length bin", "", false);
   parameters_.Bind<Double>(PARAM_TIME_STEP_PROPORTION, &time_step_proportion_, "The proportion through the mortality block of the time step when the observation is evaluated", "", Double(0.5))->set_range(0.0, 1.0);
@@ -78,7 +76,6 @@ void TagRecaptureByLength::DoValidate() {
   if (length_plus_ & !model_->length_plus())
     LOG_ERROR_P(PARAM_LENGTH_PLUS)
         << "you have specified a plus group on this observation, but the global length bins don't have a plus group. This is an inconsistency that must be fixed. Try changing the model plus group to false or this plus group to true";
-
   /**
    * Do some simple checks
    * e.g Validate that the length_bins are strictly increasing
@@ -149,8 +146,8 @@ void TagRecaptureByLength::DoValidate() {
   }
 
   if (tagged_category_labels_.size() != category_labels_.size())
-    LOG_ERROR_P(PARAM_TAGGED_CATEGORIES)
-        << "the number of tagged categories 'tagged_categories' should match the number of categories. Try using the '+' syntax for the category_label subcommand.";
+    LOG_ERROR_P(PARAM_CATEGORIES) << ": Number of categories(" << category_labels_.size() << ") does not match the number of " PARAM_SELECTIVITIES << "("
+                                  << selectivity_labels_.size() << ")";
 
   /**
    * Now go through each tagged category and split it if required, then check each piece to ensure
@@ -350,6 +347,27 @@ void TagRecaptureByLength::DoValidate() {
                                              << ". All tagged individuals should be in the categories";
       }
     }
+  }
+
+  // validate and build dispersion (e.g. process_error)
+  for (Double dispersion : dispersion_) {
+    if (dispersion < 0.0)
+      LOG_ERROR_P(PARAM_DISPERSION) << ": dispersion (" << AS_DOUBLE(dispersion) << ") cannot be less than 0.0";
+  }
+  // if only one value supplied then assume its the same for all years
+  if (dispersion_.size() == 1) {
+    dispersion_.resize(years_.size(), dispersion_[0]);
+  }
+
+  if (dispersion_.size() != 0) {
+    if (dispersion_.size() != years_.size()) {
+      LOG_FATAL_P(PARAM_DISPERSION) << "Supply one value of dispersion that is used for every year, or a value of dispersion for each year. Values for " << dispersion_.size()
+                                    << " years were supplied, but " << years_.size() << " years are required";
+    }
+    dispersion_by_year_ = utilities::Map::create(years_, dispersion_);
+  } else {
+    Double dispersion_val = 1.0;
+    dispersion_by_year_   = utilities::Map::create(years_, dispersion_val);
   }
 }
 
@@ -564,8 +582,9 @@ void TagRecaptureByLength::Execute() {
       else
         observed = (recaptures_[model_->current_year()][category_labels_[category_offset]][i]) / scanned_[model_->current_year()][category_labels_[category_offset]][i];
 
-      SaveComparison(tagged_category_labels_[category_offset], 0, length_bins_[i], expected, observed, process_errors_by_year_[model_->current_year()],
-                     scanned_[model_->current_year()][category_labels_[category_offset]][i], 0.0, delta_, 0.0);
+      // process_error is not used here, and the dispersion is applied to the final likelihood value below
+      SaveComparison(tagged_category_labels_[category_offset], 0, length_bins_[i], expected, observed, 0.0, scanned_[model_->current_year()][category_labels_[category_offset]][i],
+                     0.0, delta_, 0.0);
     }
   }
 }
@@ -593,9 +612,8 @@ void TagRecaptureByLength::CalculateScore() {
         LOG_FINEST() << "[" << year << "] + neglogLikelihood: " << comparison.score_;
         scores_[year] += comparison.score_;
       }
-
       // Add the dispersion factor to the likelihood score
-      scores_[year] /= dispersion_;
+      scores_[year] /= dispersion_by_year_[year];
     }
 
     LOG_FINEST() << "Finished calculating neglogLikelihood for = " << label_;

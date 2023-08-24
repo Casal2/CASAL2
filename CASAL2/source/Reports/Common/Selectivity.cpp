@@ -116,7 +116,6 @@ void Selectivity::DoExecute(shared_ptr<Model> model) {
     for (unsigned i = 0; i < model->get_number_of_length_bins(); ++i) {
       cache_ << model->length_bin_mid_points()[i] << " " << AS_DOUBLE(selectivity_->GetLengthResult(i)) << "\n";
     }
-    cache_ << REPORT_END << REPORT_EOL;
     ready_for_writing_ = true;
   }
 }

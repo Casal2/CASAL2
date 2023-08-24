@@ -1,21 +1,11 @@
 Casal2 (https://github.com/alistairdunn1/CASAL2)
 Call: C:\Projects\Software\CASAL2\BuildSystem/Casal2/casal2.exe -e -g 20 -c config_betadiff.csl2 
-Date: Fri Aug 11 09:33:40 2023
+Date: Thu Aug 24 17:36:10 2023
 Seed: 20
-Version: v23.08 (2023-08-10)
+Version: v23.08 (2023-08-23)
 Copyright (c) 2017-2023, NIWA (www.niwa.co.nz)
-Environment: User=alist Machine=QUIET-5950X OS=Windows_NT PID=4656
+Environment: User=alist Machine=QUIET-5950X OS=Windows_NT PID=22280
 
-
-*initialisation_partition[Equilibrium_State]
-values {dataframe_with_row_labels}
-category 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17
-west.sa 0.000000 207575965.707861 192482038.647243 207605746.151576 118875441.462379 92887521.761278 69041758.021590 38314769.880005 32180687.517449 23538927.888797 17217815.059220 12594165.580268 9212144.869582 6738327.565832 4928825.917010 3605245.468234 9820177.457470
-east.cr 0.000000 395551154.685740 244671467.198127 144553855.156694 89443271.294825 70655563.596834 45082030.951483 24930541.137656 17335797.223459 12680464.968828 9275269.533499 6784500.815273 4962599.862592 3629949.802755 2655167.842535 1942152.551719 5290148.167555
-west.cr 0.000000 488807070.213641 255674034.554834 101039945.347227 63893218.486228 26273550.348767 5607606.654658 451.385433 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000
-west.wc 0.000000 24497846.683131 79140402.450961 77051280.005720 99353752.577524 87200557.692461 76296183.653068 72095607.444549 48580562.028181 35534801.602934 25992332.575885 19012385.668691 13906824.551422 10172304.121861 7440646.911523 5442545.346534 14824721.809989
-east.cs 0.000000 2243484.923354 46299921.502974 68280458.362075 66236794.752967 43218381.651698 38212354.358482 35996079.161858 27229668.351530 19917448.917615 14568843.302254 10656545.225424 7794850.544102 5701631.600073 4170522.926517 3050576.168475 8309336.933062
-*end
 
 *partition[state1]
 year: 1972
@@ -3419,6 +3409,7 @@ Values {vector}
 16 1.2652
 17 1.57169
 *end
+*end
 
 *selectivity[M_female]
 alpha: 1 
@@ -3451,6 +3442,7 @@ Values {vector}
 15 0.532113
 16 0.657117
 17 0.811488
+*end
 *end
 
 *observation[CSacousbio]
@@ -5596,6 +5588,7 @@ Values {vector}
 16 0.958088
 17 0.951244
 *end
+*end
 
 *selectivity[Wnspsl]
 alpha: 1 
@@ -5625,6 +5618,7 @@ Values {vector}
 15 0.974398
 16 0.968918
 17 0.962934
+*end
 *end
 
 *selectivity[Espsl]
@@ -5656,6 +5650,7 @@ Values {vector}
 16 0.382123
 17 0.244045
 *end
+*end
 
 *selectivity[Wspsl]
 alpha: 1 
@@ -5685,6 +5680,7 @@ Values {vector}
 15 0.569059
 16 0.399696
 17 0.257728
+*end
 *end
 
 *selectivity[CRsl]
@@ -5716,6 +5712,7 @@ Values {vector}
 16 0.216314
 17 0.175176
 *end
+*end
 
 *selectivity[SAsl]
 alpha: 1 
@@ -5745,6 +5742,7 @@ Values {vector}
 15 0.988078
 16 0.411686
 17 0.0428826
+*end
 *end
 
 *time_varying[shifted_mu]
@@ -8079,7 +8077,7 @@ proportions: 1
 selectivities: One
 to: east.cr
 type: transition_category
-values_by_year{dataframe}
+values_by_year {dataframe}
 year east.cr 
 1972 1 
 1973 1 
@@ -8138,7 +8136,7 @@ proportions: 1
 selectivities: One
 to: west.sa
 type: transition_category
-values_by_year{dataframe}
+values_by_year {dataframe}
 year west.sa 
 1972 1 
 1973 1 
@@ -8197,7 +8195,7 @@ proportions: 1
 selectivities: sel_Whome
 to: west.sa
 type: transition_category
-values_by_year{dataframe}
+values_by_year {dataframe}
 year west.sa 
 1972 1 
 1973 1 
@@ -8256,7 +8254,7 @@ proportions: 1
 selectivities: sel_Espmg
 to: east.cs
 type: transition_category
-values_by_year{dataframe}
+values_by_year {dataframe}
 year east.cs 
 1972 1 
 1973 1 
@@ -8315,7 +8313,7 @@ proportions: 1
 selectivities: sel_Wspmg
 to: west.wc
 type: transition_category
-values_by_year{dataframe}
+values_by_year {dataframe}
 year west.wc 
 1972 1 
 1973 1 
@@ -8487,6 +8485,7 @@ Values {vector}
 16 1.2652
 17 1.57169
 *end
+*end
 
 *selectivity[M_female]
 alpha: 1 
@@ -8520,6 +8519,7 @@ Values {vector}
 16 0.657117
 17 0.811488
 *end
+*end
 
 *selectivity[Enspsl]
 alpha: 1 
@@ -8549,6 +8549,7 @@ Values {vector}
 15 0.964445
 16 0.958088
 17 0.951244
+*end
 *end
 
 *selectivity[Wnspsl]
@@ -8580,6 +8581,7 @@ Values {vector}
 16 0.968918
 17 0.962934
 *end
+*end
 
 *selectivity[Espsl]
 alpha: 1 
@@ -8609,6 +8611,7 @@ Values {vector}
 15 0.549284
 16 0.382123
 17 0.244045
+*end
 *end
 
 *selectivity[Wspsl]
@@ -8640,6 +8643,7 @@ Values {vector}
 16 0.399696
 17 0.257728
 *end
+*end
 
 *selectivity[CRsl]
 alpha: 1 
@@ -8669,6 +8673,7 @@ Values {vector}
 15 0.263503
 16 0.216314
 17 0.175176
+*end
 *end
 
 *selectivity[SAsl]
@@ -8700,6 +8705,7 @@ Values {vector}
 16 0.411686
 17 0.0428826
 *end
+*end
 
 *selectivity[sel_Whome]
 h: 8 
@@ -8727,6 +8733,7 @@ Values {vector}
 15 1
 16 1
 17 1
+*end
 *end
 
 *selectivity[sel_Espmg]
@@ -8756,6 +8763,7 @@ Values {vector}
 16 0.611004
 17 0.611004
 *end
+*end
 
 *selectivity[sel_Wspmg]
 h: 8 
@@ -8784,6 +8792,7 @@ Values {vector}
 16 0.601533
 17 0.601533
 *end
+*end
 
 *selectivity[One]
 beta: 0 
@@ -8811,6 +8820,7 @@ Values {vector}
 16 1
 17 1
 *end
+*end
 
 *selectivity[Point5]
 beta: 0 
@@ -8837,6 +8847,7 @@ Values {vector}
 15 0.5
 16 0.5
 17 0.5
+*end
 *end
 
 *info[messages_encountered]

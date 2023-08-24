@@ -923,19 +923,19 @@ end_table
 \defType{Vector of non-negative integers}
 \defDefault{No default}
 
-\defSub{categories2}{The available categories in the partition}
-\defType{Vector of strings}
-\defDefault{No default}
-
-\defSub{selectivities}{The labels of the selectivities}
-\defType{Vector of strings}
-\defDefault{true}
-
 \defSub{time\_step}{The label of the time step that the observation occurs in}
 \defType{String}
 \defDefault{No default}
 
-\defSub{selectivities2}{The categories of tagged individuals for the observation}
+\defSub{selectivities}{The labels of the selectivities used for untagged categories}
+\defType{Vector of strings}
+\defDefault{true}
+
+\defSub{tagged\_selectivities}{The labels of the tag category selectivities}
+\defType{Vector of strings}
+\defDefault{true}
+
+\defSub{tagged\_categories}{The  categories of tagged individuals}
 \defType{Vector of strings}
 \defDefault{No default}
 
@@ -944,6 +944,11 @@ end_table
 \defDefault{No default}
 \defLowerBound{0.0 (inclusive)}
 \defUpperBound{1.0 (inclusive)}
+
+\defSub{dispersion}{The over-dispersion parameter, $\phi$}
+\defType{Vector of real numbers, one for each year of recaptures}
+\defDefault{No default}
+\defLowerBound{0.0}
 
 \defSub{time\_step\_proportion}{The proportion through the mortality block of the time step when the observation is evaluated}
 \defType{Real number (estimable)}
@@ -1000,16 +1005,20 @@ end_table
 \defType{Vector of strings}
 \defDefault{No default}
 
+\defSub{tagged\_categories}{The  categories of tagged individuals}
+\defType{Vector of strings}
+\defDefault{No default}
+
 \defSub{detection}{The probability of detecting a recaptured individual}
 \defType{Real number (estimable)}
 \defDefault{No default}
 \defLowerBound{0.0 (inclusive)}
 \defUpperBound{1.0 (inclusive)}
 
-\defSub{dispersion}{The overdispersion parameter (phi)}
-\defType{Real number (estimable)}
-\defDefault{1.0}
-\defLowerBound{0.0 (inclusive)}
+\defSub{dispersion}{The over-dispersion parameter, $\phi$}
+\defType{Vector of real numbers, one for each year of recaptures}
+\defDefault{No default}
+\defLowerBound{0.0}
 
 \defSub{time\_step\_proportion}{The proportion through the mortality block of the time step when the observation is evaluated}
 \defType{Real number (estimable)}

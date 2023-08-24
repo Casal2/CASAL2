@@ -30,12 +30,12 @@ resizing from 85742 to 94316
 [INFO] Creating default report for process Fishing
 [INFO] Creating default report for selectivity MaturationSel_male
 [INFO] Creating default report for selectivity MaturationSel_female
-[INFO] skipping the default report for lineFSel this is a length based selectivity. Create a seperate report for this
-[INFO] skipping the default report for lineFretained this is a length based selectivity. Create a seperate report for this
-[INFO] skipping the default report for potFSel this is a length based selectivity. Create a seperate report for this
-[INFO] skipping the default report for potFretained this is a length based selectivity. Create a seperate report for this
-[INFO] skipping the default report for recFretained this is a length based selectivity. Create a seperate report for this
-[INFO] skipping the default report for recFSel this is a length based selectivity. Create a seperate report for this
+[INFO] skipping the default report for lineFSel this is a length based selectivity. Please create a specific report for this
+[INFO] skipping the default report for lineFretained this is a length based selectivity. Please create a specific report for this
+[INFO] skipping the default report for potFSel this is a length based selectivity. Please create a specific report for this
+[INFO] skipping the default report for potFretained this is a length based selectivity. Please create a specific report for this
+[INFO] skipping the default report for recFretained this is a length based selectivity. Please create a specific report for this
+[INFO] skipping the default report for recFSel this is a length based selectivity. Please create a specific report for this
 [INFO] Creating default report for selectivity potFdis
 [INFO] Creating default report for selectivity recFdis
 [INFO] Creating default report for selectivity potSurveySel_female
@@ -1160,4 +1160,4 @@ finished main minimiser loop
 Successful convergence in optimise
 [INFO] Assert Passed: The Assert with label 'ObjectiveFunction' for the Objective Function had value 241.012 and 241.012 was expected.
 [INFO] Completed
-[INFO] Total elapsed time: 2.117 minutes
+[INFO] Total elapsed time: 2.3 minutes
