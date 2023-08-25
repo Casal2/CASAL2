@@ -42,16 +42,16 @@ void Bernoulli::GetScores(map<unsigned, vector<observations::Comparison> >& comp
   for (auto year_iterator = comparisons.begin(); year_iterator != comparisons.end(); ++year_iterator) {
     for (observations::Comparison& comparison : year_iterator->second) {
       Double error_value = AdjustErrorValue(comparison.process_error_, comparison.error_value_);
-      if(comparison.observed_ == 1.0) {
-        Double score = log(math::ZeroFun(comparison.expected_, comparison.delta_));
+      if (comparison.observed_ == 1.0) {
+        Double score               = log(math::ZeroFun(comparison.expected_, comparison.delta_));
         comparison.adjusted_error_ = error_value;
-        comparison.score_          = -score;
+        comparison.score_          = -score * multiplier_;
       } else if (comparison.observed_ == 0.0) {
-        Double score = log(math::ZeroFun(1.0 - comparison.expected_, comparison.delta_));
+        Double score               = log(math::ZeroFun(1.0 - comparison.expected_, comparison.delta_));
         comparison.adjusted_error_ = error_value;
-        comparison.score_          = -score;
+        comparison.score_          = -score * multiplier_;
       } else {
-        LOG_FATAL() << "found an observed value = " << comparison.observed_  << " that wasn't '1' or '0' which is expected for the Bernoulli likelihood. This is not allowed";
+        LOG_FATAL() << "found an observed value = " << comparison.observed_ << " that wasn't '1' or '0' which is expected for the Bernoulli likelihood. This is not allowed";
       }
     }
   }
@@ -63,12 +63,12 @@ void Bernoulli::GetScores(map<unsigned, vector<observations::Comparison> >& comp
  * @param comparisons A collection of comparisons passed by the observation
  */
 void Bernoulli::SimulateObserved(map<unsigned, vector<observations::Comparison> >& comparisons) {
-  utilities::RandomNumberGenerator& rng = utilities::RandomNumberGenerator::Instance();
-  auto   iterator    = comparisons.begin();
+  utilities::RandomNumberGenerator& rng      = utilities::RandomNumberGenerator::Instance();
+  auto                              iterator = comparisons.begin();
   for (; iterator != comparisons.end(); ++iterator) {
     LOG_FINE() << "Simulating values for year: " << iterator->first;
     for (observations::Comparison& comparison : iterator->second) {
-      if(rng.uniform() <= comparison.expected_) {
+      if (rng.uniform() <= comparison.expected_) {
         comparison.observed_ = 1.0;
       } else {
         comparison.observed_ = 0.0;

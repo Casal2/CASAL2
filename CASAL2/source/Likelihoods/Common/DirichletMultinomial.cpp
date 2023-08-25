@@ -79,14 +79,15 @@ void DirichletMultinomial::GetScores(map<unsigned, vector<observations::Comparis
   Double observed_number;
   Double expected_number;
   for (auto year_iterator = comparisons.begin(); year_iterator != comparisons.end(); ++year_iterator) {
-    // score += math::LnGamma(N + 1.0) + math::LnGamma(phi) - math::LnGamma(N + phi); // moved to initialscore() calcualtion below;
+    // score += math::LnGamma(N + 1.0) + math::LnGamma(phi) - math::LnGamma(N + phi); // moved to initialscore() calculation below;
     for (observations::Comparison& comparison : year_iterator->second) {
       observed_number = comparison.observed_ * comparison.error_value_;
       expected_number = comparison.expected_ * theta_ * comparison.error_value_;
-      // calcualte the 'effective' N as adjusted_error_
+      // calculate the 'effective' N as adjusted_error_
       comparison.adjusted_error_ = (1.0 + theta_ * comparison.error_value_) / (1.0 + theta_);
       // calculate negative loglikelihood
       comparison.score_ = math::LnGamma(observed_number + 1.0) + math::LnGamma(expected_number) - math::LnGamma(observed_number + expected_number);
+      comparison.score_ *= multiplier_;
     }
   }
 }

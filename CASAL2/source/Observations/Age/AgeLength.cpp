@@ -40,24 +40,18 @@ namespace age {
  * Default constructor
  */
 AgeLength::AgeLength(shared_ptr<Model> model) : Observation(model) {
+  // clang-format off
   parameters_.Bind<unsigned>(PARAM_YEAR, &year_, "The year this observation occurs in.", "");
-
   parameters_.Bind<string>(PARAM_TIME_STEP, &time_step_label_, "The label of the time step that the observation occurs in", "");
   parameters_.Bind<string>(PARAM_SELECTIVITIES, &selectivity_labels_, "The labels of the selectivities", "", true);
   parameters_.Bind<Double>(PARAM_PROCESS_ERRORS, &process_error_values_, "The process error", "", true);
   parameters_.Bind<string>(PARAM_AGEING_ERROR, &ageing_error_label_, "The label of ageing error to use", "", "");
-
   parameters_.Bind<string>(PARAM_NUMERATOR_CATEGORIES, &numerator_categories_, "The categories sampled (used in the numerator for the observation)", "", true);
-
-  parameters_.Bind<string>(PARAM_SAMPLING_TYPE, &sample_type_, "The sampling type used to collect this data", "", PARAM_LENGTH)
-      ->set_allowed_values({PARAM_AGE, PARAM_LENGTH, PARAM_RANDOM});
-  parameters_
-      .Bind<Double>(PARAM_TIME_STEP_PROPORTION, &time_step_proportion_, "The proportion through the mortality block of the time step when the observation is evaluated", "",
-                    Double(0.5))
-      ->set_range(0.0, 1.0);
-
+  parameters_.Bind<string>(PARAM_SAMPLING_TYPE, &sample_type_, "The sampling type used to collect this data", "", PARAM_LENGTH)->set_allowed_values({PARAM_AGE, PARAM_LENGTH, PARAM_RANDOM});
+  parameters_.Bind<Double>(PARAM_TIME_STEP_PROPORTION, &time_step_proportion_, "The proportion through the mortality block of the time step when the observation is evaluated", "",Double(0.5))->set_range(0.0, 1.0);
   parameters_.Bind<unsigned>(PARAM_AGES, &individual_ages_, "Vector of individual ages", "", false);
   parameters_.Bind<double>(PARAM_LENGTHS, &individual_lengths_, "Vector of individual lengths. Has a one to one relationship with ages", "", false);
+  // clang-format on
 
   allowed_likelihood_types_.push_back(PARAM_PSEUDO);
   allowed_likelihood_types_.push_back(PARAM_BERNOULLI);
