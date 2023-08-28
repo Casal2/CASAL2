@@ -20,6 +20,7 @@
 #include "../../Partition/Accessors/Categories.h"
 #include "../../Processes/Age/RecruitmentBevertonHolt.h"
 #include "../../Processes/Age/RecruitmentBevertonHoltWithDeviations.h"
+#include "../../Processes/Age/RecruitmentRicker.h"
 #include "../../Processes/Manager.h"
 #include "../../TimeSteps/Factory.h"
 #include "../../TimeSteps/Manager.h"
@@ -36,15 +37,14 @@ namespace accessor = partition::accessors;
  * Default constructor
  */
 Iterative::Iterative(shared_ptr<Model> model) : InitialisationPhase(model), cached_partition_(model), partition_(model) {
+  // clang-format off
   parameters_.Bind<unsigned>(PARAM_YEARS, &years_, "The number of iterations (years) over which to execute this initialisation phase", "");
   parameters_.Bind<string>(PARAM_INSERT_PROCESSES, &insert_processes_, "The processes in the annual cycle to be include in this initialisation phase", "", true);
   parameters_.Bind<string>(PARAM_EXCLUDE_PROCESSES, &exclude_processes_, "The processes in the annual cycle to be excluded from this initialisation phase", "", true);
-  parameters_.Bind<unsigned>(PARAM_CONVERGENCE_YEARS, &convergence_years_, "The iteration (year) when the test for convergence (lambda) is evaluated", "", true)
-      ->set_lower_bound(2, true);
-  parameters_.Bind<Double>(PARAM_LAMBDA, &lambda_,
-                           "The maximum value of the absolute sum of differences (lambda) between the partition at year-1 and year that indicates successful convergence", "",
-                           Double(1e-10));
+  parameters_.Bind<unsigned>(PARAM_CONVERGENCE_YEARS, &convergence_years_, "The iteration (year) when the test for convergence (lambda) is evaluated", "", true)->set_lower_bound(2, true);
+  parameters_.Bind<Double>(PARAM_LAMBDA, &lambda_, "The maximum value of the absolute sum of differences (lambda) between the partition at year-1 and year that indicates successful convergence", "", Double(1e-10));
   parameters_.Bind<bool>(PARAM_PLUS_GROUP, &plus_group_, "Indicates if the convergence check applies only to the plus_group", "", false);
+  // clang-format on
 }
 
 /**
@@ -148,6 +148,12 @@ void Iterative::DoBuild() {
         if (!recruitment_process_with_devs_[i])
           LOG_CODE_ERROR() << "BevertonHolt Recruitment with deviations exists but dynamic cast pointer cannot be made, if (!recruitment) ";
         i++;
+      } else if (process->process_type() == ProcessType::kRecruitment && process->type() == PARAM_RECRUITMENT_RICKER) {
+        LOG_FINEST() << "Found a Ricker process";
+        recruitment_ricker_process_.push_back(dynamic_cast<RecruitmentRicker*>(process));
+        if (!recruitment_ricker_process_[i])
+          LOG_CODE_ERROR() << "Ricker Recruitment exists but dynamic cast pointer cannot be made, if (!recruitment) ";
+        i++;
       }
     }
   }
@@ -206,6 +212,13 @@ void Iterative::DoExecute() {
     if (recruitment_process_with_devs->b0_initialised() & !recruitment_process_with_devs->has_partition_been_scaled()) {
       LOG_FINE() << PARAM_B0 << " has been defined for process labelled " << recruitment_process_with_devs->label() << " and partition has not been scaled";
       recruitment_process_with_devs->ScalePartition();
+      B0_initial_recruitment = true;
+    }
+  }
+  for (auto recruitment_ricker_process : recruitment_ricker_process_) {
+    if (recruitment_ricker_process->b0_initialised() & !recruitment_ricker_process->has_partition_been_scaled()) {
+      LOG_FINE() << PARAM_B0 << " has been defined for process labelled " << recruitment_ricker_process->label();
+      recruitment_ricker_process->ScalePartition();
       B0_initial_recruitment = true;
     }
   }

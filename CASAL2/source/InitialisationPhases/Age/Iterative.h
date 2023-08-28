@@ -20,6 +20,7 @@
 #include "../../Partition/Accessors/Categories.h"
 #include "../../Processes/Age/RecruitmentBevertonHolt.h"
 #include "../../Processes/Age/RecruitmentBevertonHoltWithDeviations.h"
+#include "../../Processes/Age/RecruitmentRicker.h"
 
 // namespaces
 namespace niwa {
@@ -30,6 +31,7 @@ namespace cached   = partition::accessors::cached;
 namespace accessor = partition::accessors;
 using processes::age::RecruitmentBevertonHolt;
 using processes::age::RecruitmentBevertonHoltWithDeviations;
+using processes::age::RecruitmentRicker;
 /**
  *
  */
@@ -56,6 +58,7 @@ protected:
   accessor::Categories partition_;
 
   vector<RecruitmentBevertonHolt*>               recruitment_process_;
+  vector<RecruitmentRicker*>                     recruitment_ricker_process_;
   vector<RecruitmentBevertonHoltWithDeviations*> recruitment_process_with_devs_;
 };
 

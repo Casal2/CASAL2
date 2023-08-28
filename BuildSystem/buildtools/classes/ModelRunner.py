@@ -41,6 +41,7 @@ class ModelRunner:
             "TwoSexHybridMortality",
             "SBW",
             "Simple",
+            "SimpleRicker",
             "SimpleWithMultiSelectivity",
             "ComplexTag",
             "SexedLengthBased",
@@ -60,6 +61,7 @@ class ModelRunner:
             "TwoSexHybridMortality",
             "SBW",
             "Simple",
+            "SimpleRicker",
             "SexedLengthBased",
         }  # requires a config-gammadiff.csl2 file
         estimation_adolc_dir_list = {
@@ -67,6 +69,7 @@ class ModelRunner:
             "TwoSexHybridMortality",
             "SBW",
             "Simple",
+            "SimpleRicker",
             "SexedLengthBased",
         }  # requires a config-adolc.csl2 file
         simulate_dash_i_dir_list = {

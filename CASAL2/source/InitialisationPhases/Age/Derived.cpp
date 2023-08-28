@@ -23,6 +23,7 @@
 #include "../../Partition/Accessors/Categories.h"
 #include "../../Processes/Age/RecruitmentBevertonHolt.h"
 #include "../../Processes/Age/RecruitmentBevertonHoltWithDeviations.h"
+#include "../../Processes/Age/RecruitmentRicker.h"
 #include "../../TimeSteps/Manager.h"
 
 // namespaces
@@ -108,6 +109,7 @@ void Derived::DoBuild() {
   vector<ProcessType> process_types     = model_->managers()->time_step()->GetOrderedProcessTypes();
   unsigned            ageing_index      = std::numeric_limits<unsigned>::max();
   unsigned            recruitment_index = std::numeric_limits<unsigned>::max();
+
   for (unsigned i = 0; i < process_types.size(); ++i) {
     if (process_types[i] == ProcessType::kAgeing) {
       ageing_index = i;
@@ -136,6 +138,12 @@ void Derived::DoBuild() {
         if (!recruitment_process_with_devs_[i])
           LOG_CODE_ERROR() << "BevertonHolt Recruitment with deviations exists but dynamic cast pointer cannot be made, if (!recruitment) ";
         i++;
+      } else if (process->process_type() == ProcessType::kRecruitment && process->type() == PARAM_RECRUITMENT_RICKER) {
+        LOG_FINEST() << "Found a Ricker process";
+        recruitment_ricker_process_.push_back(dynamic_cast<RecruitmentRicker*>(process));
+        if (!recruitment_ricker_process_[i])
+          LOG_CODE_ERROR() << "Ricker recruitment exists but dynamic cast pointer cannot be made, if (!recruitment) ";
+        i++;
       }
     }
   }
@@ -152,7 +160,7 @@ void Derived::DoExecute() {
 
   vector<string> categories = model_->categories()->category_names();
 
-  LOG_FINEST() << "running intialisation for " << year_range << " years";
+  LOG_FINEST() << "running initialisation for " << year_range << " years";
   timesteps::Manager* time_step_manager = model_->managers()->time_step();
   time_step_manager->ExecuteInitialisation(label_, year_range);
 
@@ -226,7 +234,6 @@ void Derived::DoExecute() {
   }
 
   LOG_FINE() << "Number of Beverton-Holt recruitment processes in annual cycle = " << recruitment_process_.size();
-
   LOG_FINE() << "Number of Beverton-Holt recruitment processes with deviations in annual cycle = " << recruitment_process_with_devs_.size();
   // We are at Equilibrium state here
   // Check if we have B0 initialised or R0 initialised recruitment
@@ -239,9 +246,16 @@ void Derived::DoExecute() {
     }
   }
   for (auto recruitment_process_with_devs : recruitment_process_with_devs_) {
-    if (recruitment_process_with_devs->b0_initialised()& !recruitment_process_with_devs->has_partition_been_scaled()) {
+    if (recruitment_process_with_devs->b0_initialised() & !recruitment_process_with_devs->has_partition_been_scaled()) {
       LOG_FINE() << PARAM_B0 << " has been defined for process labelled " << recruitment_process_with_devs->label() << " and partition has not been scaled";
       recruitment_process_with_devs->ScalePartition();
+      B0_initial_recruitment = true;
+    }
+  }
+  for (auto recruitment_ricker_process : recruitment_ricker_process_) {
+    if (recruitment_ricker_process->b0_initialised() & !recruitment_ricker_process->has_partition_been_scaled()) {
+      LOG_FINE() << PARAM_B0 << " has been defined for process labelled " << recruitment_ricker_process->label() << " and partition has not been scaled";
+      recruitment_ricker_process->ScalePartition();
       B0_initial_recruitment = true;
     }
   }
