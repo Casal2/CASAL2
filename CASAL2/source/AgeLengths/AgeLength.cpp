@@ -82,6 +82,12 @@ void AgeLength::Validate() {
     compatibility_type_ = CompatibilityType::kCasal2;
   }
 
+  if (cv_first_ == 0.0 && cv_last_ == 0.0) {
+    LOG_WARNING() << "In the age-length relationship '" << label_ << "', the CVs are set to zero. In this relationship, "
+                  << "the calculations of the density of lengths at age may fail. The CVs should be usually be set to values "
+                  << "greater than zero if length data are being used in this model with this age-length relationship.";
+  }
+
   DoValidate();
 }
 
