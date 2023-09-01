@@ -239,6 +239,7 @@ active
 adapt_covariance_matrix_at
 adapt_stepsize_at
 adapt_stepsize_method
+adjust_parameters_at_bounds
 age
 age_length
 age_lengths

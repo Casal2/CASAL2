@@ -1,10 +1,10 @@
 Casal2 (https://github.com/alistairdunn1/CASAL2)
 Call: C:\Projects\Software\CASAL2\BuildSystem/Casal2/casal2.exe -e -g 20 --config config_adolc.csl2 
-Date: Sun Aug 27 22:10:51 2023
+Date: Fri Sep 01 23:51:33 2023
 Seed: 20
-Version: v23.08 (2023-08-28)
+Version: v23.09 (2023-09-01)
 Copyright (c) 2017-2023, NIWA (www.niwa.co.nz)
-Environment: User=alist Machine=HP1040 OS=Windows_NT PID=3196
+Environment: User=alist Machine=QUIET-5950X OS=Windows_NT PID=18448
 
 
 *partition[partition_step1]
