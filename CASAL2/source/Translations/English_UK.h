@@ -541,6 +541,7 @@
 #define PARAM_P2                                  "p2"
 #define PARAM_PARAMETER                           "parameter"
 #define PARAM_PARAMETERS                          "parameters"
+#define PARAM_PARAMETER_AT_BOUND                  "adjust_parameters_at_bounds"
 #define PARAM_PARAMETER_TRANSFORMATION            "parameter_transformation"
 #define PARAM_PARAMETER_TRANSFORMATIONS           "parameter_transformations"   
 #define PARAM_REPORT_PARTITION_YEARAGEMATRIX      "year_age_matrix"

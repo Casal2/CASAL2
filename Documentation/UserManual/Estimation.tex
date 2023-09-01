@@ -220,7 +220,7 @@ Bayesian methodology\index{Bayesian estimation} and MCMC are both large and comp
 
 This section briefly describes the MCMC algorithms used in \CNAME. See Section \ref{syntax:MCMC} for the \CNAME\ commands used in an MCMC Bayesian analysis.
 
-\CNAME\ implements two methods for MCMC. The first is a straightforward implementation of the random walk Metropolis-Hastings algorithm \citep{823,143}. The Metropolis-Hastings algorithm attempts to draw a sample from a Bayesian posterior distribution, and calculates the posterior density $\pi$, scaled by an unknown constant. The algorithm generates a 'chain' or sequence of values. Typically the beginning of the chain is discarded (the burn-in period) and every $N$th element of the remainder is taken as the posterior sample. The second is Hamiltonian Monte Carlo. This uses similar subcommands as the random walk Metropolis-Hastings algorithm. In both cases, the chain is produced by taking an initial point $x_0$ and repeatedly applying the following rule, where $x_i$ is the current point:
+\CNAME\ implements two methods for MCMC. The first is a straightforward implementation of the random walk Metropolis-Hastings algorithm\index{MCMC: Metopolis-Hastings} \citep{823,143}. The Metropolis-Hastings algorithm attempts to draw a sample from a Bayesian posterior distribution, and calculates the posterior density $\pi$, scaled by an unknown constant. The algorithm generates a 'chain' or sequence of values. Typically the beginning of the chain is discarded (the burn-in period) and every $N$th element of the remainder is taken as the posterior sample. The second is Hamiltonian Monte Carlo. This uses similar subcommands as the random walk Metropolis-Hastings algorithm. In both cases, the chain is produced by taking an initial point $x_0$ and repeatedly applying the following rule, where $x_i$ is the current point:
 
 \begin{enumerate}
 \item Draw a candidate step s from a proposal distribution J, which should be symmetric i.e., $J(-s)=J(s)$
@@ -228,19 +228,15 @@ This section briefly describes the MCMC algorithms used in \CNAME. See Section \
 \item Let $x_{i+1}=x_i+s$ with probability $r$, or $x_i$ with probability $1-r$
 \end{enumerate}
 
-An initial point estimate is produced before the chain starts, which is done so as to calculate the approximate covariance matrix of the estimated parameters (as the inverse Hessian), and may also be used as the starting point of the chain.
+An initial point estimate is produced before the chain starts (although can alternatively be supplied from a previous estimation run), which is done so as to calculate the approximate covariance matrix of the estimated parameters (as the inverse Hessian), and may also be used as the starting point of the chain.
 
 The starting point of the point estimate minimiser can be specified using the command \texttt{\cname\ -i}. Don't start it too close to the actual estimate (either by using \texttt{\cname\ -i}, or by changing the initial parameter values in \config) as it takes a few iterations to determine a reasonable approximation to the Hessian.
 
-There are currently two options for the starting point of the MCMC:
+There are currently three options for the starting point of the MCMC. It can be from either the MPD, an estimate supplied in a \texttt{-i} file, or from a random 'jump' from the point estimate. In the later case, it is generated from a multivariate normal distribution, centred on the start point, with covariance equal to the inverse Hessian multiplied by a user-specified constant (using the subcommand \subcommand{start}). This may be useful if the chain gets `stuck' at the point estimate, or if you wish to generate multiple chains from for later MCMC diagnostic tests. 
 
-\begin{itemize}
-\item Start from the point estimate; or
-%\item Start from a random point near the point estimate (the point is generated from a multivariate normal distribution, centred on the point estimate, with covariance equal to the inverse Hessian multiplied by a user-specified constant). This may be useful if the chain gets `stuck' at the point estimate, or if you wish to generate multiple chains from  for later MCMC diagnostic tests.
-\item Restart a chain given a covariance matrix and a previous starting point.
-\end{itemize}
+Note that if a number of parameters are at bounds at the start point, then a random jump from this point may fail to find a suitable candidate that is within bounds. A total of 10~000 attempts are made before the algorithm exits with an error. The subcommand  {\subcommand{adjust\_parameters\_at\_bounds}} can be used to identify these parameters and set their start point at a random uniformly generated point between the lower and upper bounds.
 
-The chain moves in natural space, i.e., no transformations are applied to the estimated parameters. The default proposal distribution is a multivariate Student's $t$ distribution centred on the current point, with covariance matrix equal to a matrix based on the approximate covariance produced by the minimiser, multiplied by a step size factor.
+The chain moves in natural space, i.e., no transformations are applied to the estimated parameters. The default proposal distribution is a either  a multivariate normal or a multivariate Student's $t$ distribution centred on the current point, with covariance matrix equal to a matrix based on the approximate covariance produced by the minimiser, multiplied by a step size factor.
 
 The following steps define how the initial covariance matrix of the proposal distribution is calculated:
 
@@ -304,7 +300,7 @@ where \texttt{Objective\_file\_name} is the file name for the objective function
 
 The posterior sample can be used for (projections (Section \ref{sec:Project})) or simulations (see Section \ref{sec:Simulate}) with the values supplied with the command \texttt{\cname\ -i \emph{file} --t}.
 
-A multivariate Student's $t$ distribution is used as an alternative to the multivariate normal proposal distribution. If you request multivariate Student's $t$ proposals, change the degrees of freedom from the default of 4. As the degrees of freedom decreases, the $t$ distribution becomes more heavy tailed. This may lead to better convergence properties. Note the default is the multivariate Student's $t$.
+A multivariate Student's $t$ distribution can be used as an alternative to the multivariate normal proposal distribution. If you request multivariate Student's $t$ proposals, you can change the degrees of freedom from the default of 4. As the degrees of freedom decreases, the $t$ distribution becomes more heavy tailed. This may lead to better convergence properties. Note the default is the multivariate Student's $t$.
 
 Given a posterior (sub)sample, \CNAME\ can calculate a list of output quantities for each sample point (see Section~\ref{sec:Report} specifically tabular report). These quantities can be output to a file (with the command \texttt{\cname\ -r --tabular}) and read into an external software package where the posterior distributions can be plotted and/or summarised.
 
