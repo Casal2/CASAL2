@@ -56,7 +56,7 @@ generate.starting.pars <- function(path = "", estimation_csl2_file = "Estimation
           left_value <- as.numeric(this_estimate$lower_bound$value[short_hand_lower - 1])
           n_lower_bounds <- as.numeric(this_estimate$lower_bound$value[short_hand_lower + 1])
         }
-        stop(paste0("For the @estimate block ", Label, " you specified the parameter ", this_estimate$parameter$value, " which in this function is intepretted as a single parameter
+        stop(paste0("For the @estimate block ", Label, " you specified the parameter ", this_estimate$parameter$value, " which in this function is interpreted as a single parameter
         however you have specified lower bounds with ", n_lower_bounds, " lower bounds. For this function to work, you must specify the index of this parameter. For example
         this would not work, parameter process[Recruitment].ycs_values, what this function requires of you is to write the year specific values i.e. parameter process[Recruitment].ycs_values{1974:2014}.
         The same goes with vector parameters, you need to specify process[Recruitment].proportions[1:2]"))
