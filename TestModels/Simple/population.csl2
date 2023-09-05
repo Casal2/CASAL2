@@ -1,6 +1,7 @@
 @model
 start_year 1975
 final_year 2012
+projection_final_year 2020
 min_age 1
 max_age 30
 age_plus true

@@ -1,0 +1,31 @@
+# PROJECTIONS: Define YCS random process and future catches
+
+@project Recruitment
+type empirical_sampling
+parameter process[Recruitment].recruitment_multipliers
+start_year 1976
+final_year 2010
+years 2011:2020
+multiplier 1
+
+@project FishingWest 
+type constant
+parameter process[instant_mort].method_FishingWest 
+years 2013:2020
+values 200
+
+@project FishingEest
+type constant
+parameter process[instant_mort].method_FishingEest
+years 2013:2020
+values 1000
+
+@report default
+type default
+processes true
+derived_quantities true
+projects true
+
+@report test_project
+type project
+project Recruitment

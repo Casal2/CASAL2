@@ -120,8 +120,8 @@ void Project::RestoreOriginalValue(unsigned year) {
  */
 void Project::SetSingleValue(Double value, bool save_value, unsigned year) {
   LOG_TRACE();
-  *addressable_                             = value;
-  if(save_value)
+  *addressable_ = value;
+  if (save_value)
     projected_values_[year] = value;
 }
 
@@ -133,7 +133,7 @@ void Project::SetSingleValue(Double value, bool save_value, unsigned year) {
 void Project::SetVectorValue(Double value, bool save_value, unsigned year) {
   LOG_FINEST() << "size before adding another value = " << addressable_vector_->size();
   addressable_vector_->push_back(value);
-  if(save_value)
+  if (save_value)
     projected_values_[year] = value;
   LOG_FINEST() << "size before adding a value of " << value << " = " << addressable_vector_->size();
 }
@@ -146,8 +146,8 @@ void Project::SetVectorValue(Double value, bool save_value, unsigned year) {
 void Project::SetMapValue(Double value, bool save_value, unsigned year) {
   LOG_TRACE();
   (*addressable_map_)[year] = value;
-  if(save_value)
-    projected_values_[year]   = value;
+  if (save_value)
+    projected_values_[year] = value;
 }
 
 /**
@@ -172,19 +172,17 @@ void Project::StoreValue(unsigned current_year) {
 }
 
 /*
-* Verify that there is not @time_varying block as well on this parameter
-*/
+ * Verify that there is not @time_varying block as well on this parameter
+ */
 void Project::Verify(shared_ptr<Model> model) {
   // you cant project a time-varying parameter at the moment.
 }
 /*
-* Verify that there is not @time_varying block as well on this parameter
-*/
+ * Verify that there is not @time_varying block as well on this parameter
+ */
 void Project::SetObjectForNextIteration() {
   LOG_FINE() << "Setting value to: " << stored_values_[model_->start_year()];
   (this->*DoUpdateFunc_)(stored_values_[model_->start_year()], false, model_->start_year());
 }
-
-
 
 } /* namespace niwa */

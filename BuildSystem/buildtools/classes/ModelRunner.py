@@ -75,11 +75,25 @@ class ModelRunner:
         simulate_dash_i_dir_list = {
             "ORH3B",
             "SimAllObs",
-        }  # if you change this you will need to formulate the report or python code below, not very general.
-        run_dash_i_dir_list = {"Complex_input", "TwoSex_input"}
-        resume_mcmc_from_mpd_dir_list = {"mcmc_start_mpd_mcmc_fixed", "mcmc_start_mpd"}
-        resume_mcmc_dir_list = {"mcmc_resume"}
-        run_dash_I_dir_list = {"SingleSexTagByLength_input", "SingleSexTagByLength_n"}
+        }
+        run_dash_i_dir_list = {
+            "Complex_input",
+            "TwoSex_input",
+        }
+        resume_mcmc_from_mpd_dir_list = {
+            "mcmc_start_mpd_mcmc_fixed",
+            "mcmc_start_mpd",
+        }
+        resume_mcmc_dir_list = {
+            "mcmc_resume",
+        }
+        run_dash_I_dir_list = {
+            "SingleSexTagByLength_input",
+            "SingleSexTagByLength_n",
+        }
+        run_projections_list = {
+            "Simple",
+        }
         dir_list = os.listdir("../TestModels/")
         cwd = os.path.normpath(os.getcwd())
 
@@ -103,6 +117,8 @@ class ModelRunner:
             if folder in run_dash_i_dir_list:
                 continue
             if folder in run_dash_I_dir_list:
+                continue
+            if folder in run_projections_list:
                 continue
             if folder.startswith("."):
                 continue
@@ -459,6 +475,38 @@ class ModelRunner:
                     "[OK] - "
                     + folder
                     + " adolc estimation in "
+                    + str(round(elapsed, 2))
+                    + " seconds"
+                )
+                success_count += 1
+            os.chdir(cwd)
+        # test -f functionality
+        for folder in run_projections_list:
+            start = time.time()
+            os.chdir("../TestModels/" + folder)
+            if (
+                os.system(
+                    f"{exe_path} -f 100 -i free.dat -g 20 -c config_projections.csl2 -t > projections.log 2> projections.err"
+                )
+                != EX_OK
+            ):
+                elapsed = time.time() - start
+                print(
+                    "[FAILED] - "
+                    + folder
+                    + " projections in "
+                    + str(round(elapsed, 2))
+                    + " seconds"
+                )
+                # print("--> Printing last 20 lines of projections.log")
+                # os.system("tail -n20 projections.log")
+                fail_count += 1
+            else:
+                elapsed = time.time() - start
+                print(
+                    "[OK] - "
+                    + folder
+                    + " projections in "
                     + str(round(elapsed, 2))
                     + " seconds"
                 )
