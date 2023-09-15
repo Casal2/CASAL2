@@ -67,16 +67,16 @@ void TagRecaptureByAge::DoValidate() {
 
   for (auto year : years_) {
     if ((year < model_->start_year()) || (year > model_->final_year()))
-      LOG_ERROR_P(PARAM_YEARS) << "Years cannot be less than start_year (" << model_->start_year() << "), or greater than final_year (" << model_->final_year() << ").";
+      LOG_ERROR_P(PARAM_YEARS) << "Years cannot be less than start_year (" << model_->start_year() << "), or greater than final_year (" << model_->final_year() << ")";
   }
 
   if (category_labels_.size() != selectivity_labels_.size())
-    LOG_ERROR_P(PARAM_CATEGORIES) << ": Number of categories(" << category_labels_.size() << ") does not match the number of " PARAM_SELECTIVITIES << "("
+    LOG_ERROR_P(PARAM_CATEGORIES) << ": Number of categories (" << category_labels_.size() << ") does not match the number of " PARAM_SELECTIVITIES << " ("
                                   << selectivity_labels_.size() << ")";
 
   if (tagged_category_labels_.size() != tagged_selectivity_labels_.size())
-    LOG_ERROR_P(PARAM_TAGGED_CATEGORIES) << ": Number of tagged categories(" << tagged_category_labels_.size() << ") does not match the number of " PARAM_TAGGED_SELECTIVITIES
-                                         << "(" << tagged_selectivity_labels_.size() << ")";
+    LOG_ERROR_P(PARAM_TAGGED_CATEGORIES) << ": Number of tagged categories (" << tagged_category_labels_.size() << ") does not match the number of " PARAM_TAGGED_SELECTIVITIES
+                                         << " (" << tagged_selectivity_labels_.size() << ")";
 
   age_spread_ = (max_age_ - min_age_) + 1;
   map<unsigned, vector<double>> recaptures_by_year;
@@ -88,7 +88,7 @@ void TagRecaptureByAge::DoValidate() {
   if (max_age_ > model_->max_age())
     LOG_ERROR_P(PARAM_MAX_AGE) << ": max_age (" << max_age_ << ") is greater than the model's max_age (" << model_->max_age() << ")";
   if (detection_ < 0.0 || detection_ > 1.0)
-    LOG_ERROR_P(PARAM_DETECTION_PARAMETER) << ": detection probability must be between 0.0 and 1.0";
+    LOG_ERROR_P(PARAM_DETECTION_PARAMETER) << ": detection probability must be between 0.0 and 1.0 (inclusive)";
   if (delta_ < 0.0)
     LOG_ERROR_P(PARAM_DELTA) << ": delta (" << delta_ << ") cannot be less than 0.0";
 
