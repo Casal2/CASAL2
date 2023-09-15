@@ -17,6 +17,6 @@ The most recent development version of Casal2 is available [here](https://github
 
 An R package that will help post processing Casal2 models can be found here [r4Casal2](https://github.com/NIWAFisheriesModelling/r4Casal2). It has a publicly hosted book [found here](https://niwafisheriesmodelling.github.io/r4Casal2/) which demonstrates functionality of the r4Casal2 R package.
 
-More information about Casal2, including release notes and project status, is available at https://casal2.github.io.
+More information about Casal2, including release notes and project status, is available at: https://casal2.github.io.
 
-For more information about Casal2 contact the Casal2 Development Team at email:casal2@niwa.co.nz
+For more information about Casal2, contact the Casal2 Development Team at: email:casal2@niwa.co.nz
