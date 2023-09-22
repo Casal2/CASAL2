@@ -255,16 +255,33 @@
 \defType{Real number (estimable)}
 \defDefault{1.0}
 
-\subsubsection{Selectivity of type Logistic}
-\commandlabsubarg{selectivity}{type}{Logistic}.
-\defRef{sec:Selectivity-Logistic}
-\label{syntax:Selectivity-Logistic}
+\subsubsection{Selectivity of type Hockey Stick}
+\commandlabsubarg{Selectivity}{type}{Hockeystick}.
+\defRef{sec:Selectivity-HockeyStick}
+\label{syntax:Selectivity-HockeyStick}
 
-\defSub{a50}{The age or length where the selectivity is \(50\%\)}
+\defSub{lowedge}{The low edge value}
 \defType{Real number (estimable)}
 \defDefault{No default}
 
-\defSub{ato95}{The age or length between \(50\%\) and \(95\%\) selective}
+\defSub{highedge}{The high edge value}
+\defType{Real number (estimable)}
+\defDefault{No default}
+
+\defSub{alpha}{The maximum value of the selectivity}
+\defType{Real number (estimable)}
+\defDefault{1.0}
+
+\subsubsection{Selectivity of type Logistic}
+\commandlabsubarg{Selectivity}{type}{Logistic}.
+\defRef{sec:Selectivity-Logistic}
+\label{syntax:Selectivity-Logistic}
+
+\defSub{a50}{The a50 parameter}
+\defType{Real number (estimable)}
+\defDefault{No default}
+
+\defSub{ato95}{The ato95 parameter}
 \defType{Real number (estimable)}
 \defDefault{No default}
 \defLowerBound{0.0 (exclusive)}
@@ -273,6 +290,11 @@
 \defType{Real number (estimable)}
 \defDefault{1.0}
 \defLowerBound{0.0 (exclusive)}
+
+\defSub{beta}{The minimum age for which the selectivity applies}
+\defType{Real number (estimable)}
+\defDefault{0.0}
+\defLowerBound{0.0 (inclusive)}
 
 \subsubsection{Selectivity of type Logistic Producing}
 \commandlabsubarg{selectivity}{type}{Logistic\_Producing}.

@@ -44,6 +44,7 @@ private:
   Double a50_;
   Double ato95_;
   Double alpha_;
+  Double beta_; 
 };
 
 } /* namespace selectivities */

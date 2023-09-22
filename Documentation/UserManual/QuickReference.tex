@@ -379,6 +379,9 @@
 \commandlabsubarg{Likelihood}{type}{Normal}
 
 
+\commandlabsubarg{Likelihood}{type}{Poisson}
+
+
 \commandlabsubarg{Likelihood}{type}{Pseudo}
 
 
@@ -679,6 +682,15 @@
 \defSub{detection}{The probability of detecting a recaptured individual}
 \defSub{time\_step\_proportion}{The proportion through the mortality block of the time step when the observation is evaluated}
 
+\commandlabsubarg{Observation}{type}{Tag\_Recapture\_By\_Fishery}
+
+\defSub{years}{The years for which there are observations}
+\defSub{tagged\_categories}{The categories of tagged individuals for the observation}
+\defSub{time\_step}{The label of the time step that the observation occurs in}
+\defSub{method\_of\_removal}{The label of the observed method of removals}
+\defSub{mortality\_process}{The label of the mortality process for the observation}
+\defSub{reporting\_rate}{The probability of detecting a recaptured individual}
+
 \commandlabsubarg{Observation}{type}{Tag\_Recapture\_By\_Length}
 
 \defSub{years}{The years for which there are observations}
@@ -711,6 +723,14 @@
 
 \commandlabsubarg{Process}{type}{Load\_Partition}
 
+
+\commandlabsubarg{Process}{type}{Markovian\_Movement}
+
+\defSub{from}{The categories to transition from}
+\defSub{to}{The categories to transition to}
+\defSub{proportions}{The proportions to transition for each category}
+\defSub{selectivities}{The selectivities to apply to each proportion}
+\defSub{proportions}{}
 
 \commandlabsubarg{Process}{type}{Maturation}
 
@@ -869,6 +889,9 @@
 \defSub{mean}{The mean of the Gaussian process}
 \defSub{start\_year}{The start year of sampling}
 \defSub{final\_year}{The final year of sampling}
+
+\commandlabsubarg{Project}{type}{Multiple\_Constants}
+
 
 \commandlabsubarg{Project}{type}{User\_Defined}
 
@@ -1118,6 +1141,12 @@
 \defSub{h}{The high value (H)}
 \defSub{alpha}{The maximum value of the selectivity}
 
+\commandlabsubarg{Selectivity}{type}{Hockey\_Stick}
+
+\defSub{lowedge}{The low edge value}
+\defSub{highedge}{The high edge value}
+\defSub{alpha}{The slope of the hockey stick}
+
 \commandlabsubarg{Selectivity}{type}{Increasing}
 
 \defSub{l}{The low value (L)}
@@ -1141,6 +1170,7 @@
 \defSub{a50}{The a50 parameter}
 \defSub{ato95}{The ato95 parameter}
 \defSub{alpha}{The maximum value of the selectivity}
+\defSub{beta}{The minimum age for which the selectivity applies}
 
 \commandlabsubarg{Selectivity}{type}{Logistic\_Producing}
 

@@ -49,6 +49,14 @@ public:
 
 /**
  * Test the results of our selectivity are correct
+ * 
+ * @param bins 
+ * @param a50 
+ * @param ato95
+ * logis <- function (bins, a50, ato95)  {
+ *   1/(1 + 19^((a50 - bins)/ato95))
+ * }
+ * logis_sel(10:20, 2, 7)
  */
 TEST(Selectivities, Logistic_Age) {
   shared_ptr<MockModel> model = shared_ptr<MockModel>(new MockModel());

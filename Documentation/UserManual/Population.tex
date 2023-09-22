@@ -535,6 +535,7 @@ The selectivity options are:
 \begin{itemize}
   \item Constant (Section~\ref{sec:Selectivity-Constant})
   \item Knife-edge (Section~\ref{sec:Selectivity-KnifeEdge})
+  \item Hockey-stick (Section~\ref{sec:Selectivity-HockeyStick})
   \item All values (Section~\ref{sec:Selectivity-AllValues})
   \item All values bounded (Section~\ref{sec:Selectivity-AllValuesBounded})
   \item Increasing (Section~\ref{sec:Selectivity-Increasing})
@@ -578,6 +579,24 @@ Input fragment: {\small{\begin{verbatim}
 type  knife_edge
 e     8
 alpha 0.5
+\end{verbatim}}}
+
+\subsubsection[Hockey-stick]{\argument{hockeystick}}\label{sec:Selectivity-HockeyStick} 
+\begin{equation}
+	f(x)=\begin{cases}
+		0, & \text{if $x \le L$} \\
+		\alpha\left( x-L \right) / \left( H-L \right), & \text{if $L < x < H$} \\
+		1, & \text{if $x \ge H$} \\
+	\end{cases}
+\end{equation}
+
+The hockey-stick ogive has the estimable parameters $L$ and $E$, as well as an estimable scaling parameter $\alpha$. It makes more sense not to estimate the $\alpha$ parameter and leave it to its default value of 1. 
+
+Input fragment: {\small{\begin{verbatim}
+			type  hockeystick
+			higheredge 25.0
+			loweredge 2.0
+			alpha 1.0
 \end{verbatim}}}
 
 \subsubsection[All-values]{\argument{all\_values}}\index{Selectivities!All-values}\label{sec:Selectivity-AllValues}
@@ -636,10 +655,15 @@ v     0.2 0.3 0.4 0.5 0.6
 \subsubsection[Logistic]{\argument{logistic}}\index{Selectivities!Logistic}\label{sec:Selectivity-Logistic}
 
 \begin{equation}
-  f(x) = \alpha / [1+19^{(a_{50}-x)/a_{to95}}]
+	f(x) = \begin{cases}
+		0, & \text{if $x < \beta$} \\
+		\alpha / [1+19^{(a_{50}-x)/a_{to95}}], & \text{otherwise} \\
+	\end{cases}
 \end{equation}
 
-The logistic selectivity has estimable parameters $a_{50}$ and $a_{to95}$. $\alpha$ is a scaling parameter (input files, \textit{alpha}, with default value of $\alpha = 1$). The logistic selectivity takes values $0.5 \alpha$ at $x=a_{50}$ and $0.95 \alpha$ at $x=a_{50}+a_{to95}$.
+The logistic selectivity has estimable parameters $a_{50}$ and $a_{to95}$. $\alpha$ is a scaling parameter, with default value of $\alpha = 1$. $\beta$ is the minimum age/length to which the selectivity applies. 
+
+The logistic selectivity has values $0.5 \alpha$ at $x=a_{50}$ and $0.95 \alpha$ at $x=a_{50}+a_{to95}$. For $x < \beta$, the selectivity is zero.
 
 \subsubsection[Inverse logistic]{\argument{inverse\_logistic}}\index{Selectivities!Inverse-logistic}\label{sec:Selectivity-InverseLogistic} 
 

@@ -701,6 +701,37 @@
 \defLowerBound{0.0 (inclusive)}
 \defUpperBound{1.0 (inclusive)}
 
+\subsubsection{Observation of type Tag\_Recapture\_By\_Fishery}
+\commandlabsubarg{Observation}{type}{Tag\_Recapture\_By\_Fishery}.
+\defRef{sec:Observation-TagRecaptureByFishery}
+\label{syntax:Observation-TagRecaptureByFishery}
+
+\defSub{years}{The years for which there are observations}
+\defType{Vector of non-negative integers}
+\defDefault{No default}
+
+\defSub{tagged\_categories}{The categories of tagged individuals for the observation}
+\defType{Vector of strings}
+\defDefault{No default}
+
+\defSub{time\_step}{The label of the time step that the observation occurs in}
+\defType{Vector of strings}
+\defDefault{No default}
+
+\defSub{method\_of\_removal}{The label of the observed method of removals}
+\defType{Vector of strings}
+\defDefault{No default}
+
+\defSub{mortality\_process}{The label of the mortality process for the observation}
+\defType{String}
+\defDefault{No default}
+
+\defSub{reporting\_rate}{The probability of detecting a recaptured individual}
+\defType{Real number (estimable)}
+\defDefault{No default}
+\defLowerBound{0.0 (inclusive)}
+\defUpperBound{1.0 (inclusive)}
+
 \subsubsection{Observation of type Tag\_Recapture\_By\_Length}
 \commandlabsubarg{Observation}{type}{Tag\_Recapture\_By\_Length}.
 \defRef{sec:Observation-TagRecaptureByLength}
@@ -727,7 +758,7 @@
 \defDefault{No default}
 
 \defSub{detection}{The probability of detecting a recaptured individual}
-\defType{Real number}
+\defType{Real number (estimable)}
 \defDefault{No default}
 \defLowerBound{0.0 (inclusive)}
 \defUpperBound{1.0 (inclusive)}
