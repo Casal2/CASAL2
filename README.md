@@ -10,7 +10,7 @@ This repository contains the required libraries and source code to compile and r
 
 ## Casal2 clone
 
-This repository is a clone of Casal2 of https://github.com/NIWAFisheriesModelling/CASAL2. It is intended to have additional bug fixes and enhancements for potential inclusion into the original NIWA Casal2 codebase. 
+This repository is a clone of Casal2 of https://github.com/NIWAFisheriesModelling/CASAL2. It is intended to have additional bug fixes and enhancements for potential inclusion into the original NIWA Casal2 codebase.
 
 ## Releases
 
@@ -18,18 +18,20 @@ The most recent development version of Casal2 from this repository is available 
 
 ## Auxiliary resources
 
-An R package that will help post processing Casal2 models can be found installed using 
+An R package that will read and write Casal2 model input and output files can be installed using
 
 ```r
-devtools::install_github("https://github.com/alistairdunn1/CASAL2/",subdir="R-libraries/casal2")
+devtools::install_github("https://github.com/alistairdunn1/CASAL2/", subdir = "R-libraries/casal2")
 ```
 
-and an add-on package to for postprocessing Casal2 output can be found here ([r4Casal2](https://github.com/alistairdunn1/r4Casal2)) and installed using 
+The r4Casal2 R package adds helper and access functions for R to assist with postprocessing Casal2 output. It can be found here ([r4Casal2](https://github.com/alistairdunn1/r4Casal2)) and installed using
 
 ```r
-devtools::install_github("https://github.com/alistairdunn1/r4Casal2/",subdir="r4Casal2")
+devtools::install_github("https://github.com/alistairdunn1/r4Casal2/", subdir = "r4Casal2")
 ```
 
-r4Casal2 has a publicly hosted book [found here](https://alistairdunn1.github.io/r4Casal2/) which demonstrates functionality of the r4Casal2 R package. The r4Casal2 package is a clone of r4Casal2 from https://github.com/NIWAFisheriesModelling/r4Casal2. It is intended to have additional bug fixes and enhancements for potential inclusion into the original NIWA r4Casal2 codebase. 
+r4Casal2 has a publicly hosted book [found here](https://alistairdunn1.github.io/r4Casal2/) which demonstrates functionality of the r4Casal2 R package. 
+
+The r4Casal2 package is a clone of r4Casal2 from https://github.com/NIWAFisheriesModelling/r4Casal2. It is intended to have additional bug fixes and enhancements for potential inclusion into the original NIWA r4Casal2 codebase.
 
 More information about Casal2, see https://github.com/alistairdunn1/CASAL2 and https://github.com/NIWAFisheriesModelling/CASAL2
