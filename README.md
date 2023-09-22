@@ -24,7 +24,7 @@ An R package that will help post processing Casal2 models can be found installed
 devtools::install_github("https://github.com/alistairdunn1/CASAL2/",subdir="R-libraries/casal2")
 ```
 
-and an add-on package to for postprocessing Casal2 output can be found here [r4Casal2](https://github.com/alistairdunn1/r4Casal2) and installed using 
+and an add-on package to for postprocessing Casal2 output can be found here ([r4Casal2](https://github.com/alistairdunn1/r4Casal2)) and installed using 
 
 ```r
 devtools::install_github("https://github.com/alistairdunn1/r4Casal2/",subdir="r4Casal2")
