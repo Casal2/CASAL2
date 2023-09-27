@@ -25,6 +25,33 @@
 \label{syntax:Process-LoadPartition}
 
 The Load\_Partition type has no additional subcommands.
+\subsubsection{Process of type Markovian\_Movement}
+\commandlabsubarg{Process}{type}{Markovian\_Movement}.
+\defRef{sec:Process-MarkovianMovement}
+\label{syntax:Process-MarkovianMovement}
+
+\defSub{from}{The categories to transition from}
+\defType{Vector of strings}
+\defDefault{No default}
+
+\defSub{to}{The categories to transition to}
+\defType{Vector of strings}
+\defDefault{No default}
+
+\defSub{proportions}{The proportions to transition for each category}
+\defType{Addressable}
+\defDefault{No default}
+\defLowerBound{0.0 (inclusive)}
+\defUpperBound{1.0 (inclusive)}
+
+\defSub{selectivities}{The selectivities to apply to each proportion}
+\defType{Vector of strings}
+\defDefault{No default}
+
+\defSub{proportions}{}
+\defType{Addressable}
+\defDefault{No default}
+
 \subsubsection{Process of type Maturation}
 \commandlabsubarg{Process}{type}{Maturation}.
 \defRef{sec:Process-Maturation}

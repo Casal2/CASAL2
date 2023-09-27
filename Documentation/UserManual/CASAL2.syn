@@ -115,6 +115,7 @@ Free
 Gamma_Diff
 Hamiltonian_Monte_Carlo
 Hessian_Matrix
+Hockey_Stick
 Increasing
 Independence_Metropolis
 Initialisation_Partition
@@ -136,9 +137,11 @@ MCMCCovariance
 MCMCObjective
 MCMCSample
 MPD
+Markovian_Movement
 Maturation
 Mortality
 Multinomial
+Multiple_Constants
 None
 Nop
 Normal
@@ -152,6 +155,7 @@ Orthogonal
 Output_Parameters
 Partition
 Partition_Biomass
+Poisson
 Process
 Process_Removals_By_Age
 Process_Removals_By_Age_Retained
@@ -189,6 +193,7 @@ Tag_By_Age
 Tag_By_Length
 Tag_Loss
 Tag_Recapture_By_Age
+Tag_Recapture_By_Fishery
 Tag_Recapture_By_Length
 Time_Varying
 Transition_Category
@@ -237,6 +242,7 @@ b0
 b0_initialisation_phase
 b_max
 base_weight_units
+beta
 burn_in
 by_length
 c
@@ -287,6 +293,7 @@ from
 gradient_step_size
 growth_increment
 h
+highedge
 initial_mortality
 initial_mortality_selectivity
 initialisation_phases
@@ -321,6 +328,7 @@ likelihood_multiplier
 linf
 log_scale
 lognormal_transformation
+lowedge
 lower_bound
 max_age
 max_correlation
@@ -365,6 +373,7 @@ r
 r0
 rates
 recruitment_multipliers
+reporting_rate
 rho
 s
 same
