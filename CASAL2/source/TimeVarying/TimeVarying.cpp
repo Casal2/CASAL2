@@ -27,6 +27,13 @@ TimeVarying::TimeVarying(shared_ptr<Model> model) : model_(model) {
       ->set_allowed_values({PARAM_ANNUAL_SHIFT, PARAM_CONSTANT, PARAM_EXOGENOUS, PARAM_LINEAR, PARAM_RANDOMWALK, PARAM_RANDOMDRAW});
   parameters_.Bind<string>(PARAM_PARAMETER, &parameter_, "The name of the parameter to vary in each year", "");
   parameters_.Bind<unsigned>(PARAM_YEARS, &years_, "The years in which to vary the paramter", "");
+
+  // Define if we recommended that this be allowed to be estimable
+  if (type_ == PARAM_RANDOMDRAW || type_ == PARAM_RANDOMWALK) {
+    IsEstimableType_ = false;
+  } else {
+    IsEstimableType_ = true;
+  }
 }
 
 /**
@@ -52,7 +59,7 @@ void TimeVarying::Build() {
   // Verify our addressable is allowed to be used for TimeVarying
   string error = "";
   if (!model_->objects().VerifyAddressableForUse(parameter_, addressable::kTimeVarying, error)) {
-    LOG_FATAL_P(PARAM_PARAMETER) << "could not be verified for use in an @time_varying block. Error: " << error;
+    LOG_FATAL_Q(PARAM_PARAMETER) << "the parameter " << parameter_ << " could not be verified for use in an @time_varying block. Error: " << error;
   }
 
   // Split parameter label up
@@ -64,19 +71,18 @@ void TimeVarying::Build() {
   if (index != "") {
     indexes = utilities::String::explode(index);
     if (index != "" && indexes.size() == 0) {
-      LOG_FATAL_P(PARAM_PARAMETER) << " could not be split up to search for indexes because the format was invalid. "
+      LOG_FATAL_P(PARAM_PARAMETER) << "could not be split up to search for indexes because the format was invalid. "
                                    << "Check the indices. Only the operators ',' and ':' (range) are supported";
     }
   }
   LOG_FINE() << "sizes = " << indexes.size() << " parameter = " << parameter << " index = " << index << " param " << parameter_;
-
 
   // bind our function pointer for the update function, original value and addressible pointer
   addressable::Type addressable_type = model_->objects().GetAddressableType(parameter_);
   LOG_FINE() << "addressable type = " << addressable_type;
   switch (addressable_type) {
     case addressable::kInvalid:
-      LOG_ERROR_P(PARAM_PARAMETER) << error;
+      LOG_ERROR_Q(PARAM_PARAMETER) << error;
       break;
     case addressable::kSingle:
       LOG_FINE() << "get time-vary kSingle";
@@ -97,11 +103,12 @@ void TimeVarying::Build() {
     case addressable::kStringMap:
       LOG_FINE() << "get time-vary kStringMap";
       update_function_ = &TimeVarying::set_string_map_value;
-      if(indexes.size() == 0)
-        LOG_FATAL_P(PARAM_PARAMETER) << "If you supply an addressable that is referenced by a string, you need to supply the index (values within the {}) for the time-vary class to handle it e.g., process[category_transition].proportions{OYS}";
-      if(indexes.size() != 1)
+      if (indexes.size() == 0)
+        LOG_FATAL_P(PARAM_PARAMETER)
+            << "If you supply an addressable that is referenced by a string, you need to supply the index (values within the {}) for the time-vary class to handle it e.g., process[category_transition].proportions{OYS}";
+      if (indexes.size() != 1)
         LOG_FATAL_P(PARAM_PARAMETER) << "Can only time-vary string maps with a single index i.e., one category label. The parameter supplied has " << indexes.size();
-      string_map_key_ = index;
+      string_map_key_        = index;
       addressable_sting_map_ = model_->objects().GetAddressableSMap(parameter_);
       break;
     default:
@@ -203,18 +210,21 @@ void TimeVarying::Reset() {
  * Verify the TimeVarying object
  * This parameter is not in @estimate
  * This parameter is not in @profile during profile run mode
- * This parameter is not in @parameter_tranformation during profile run mode
+ * This parameter is not in @parameter_transformation during profile run mode
  */
 void TimeVarying::Verify(shared_ptr<Model> model) {
   LOG_FINE() << "Verify parameters useage = " << parameter_;
-  if (model->objects().IsParameterUsedFor(parameter_ , addressable::kEstimate)) {
-    LOG_WARNING() << "Found an @estimate block for " << parameter_ << ". There are only a few time-varying types such as exogenous where this is okay. Please check this is a sensible configuration.";
+  if (model->objects().IsParameterUsedFor(parameter_, addressable::kEstimate)) {
+    if (!IsEstimableType_)
+      LOG_WARNING_Q(PARAM_PARAMETER) << "found an @estimate block for " << parameter_ << " which is of type " << type_
+                                     << ". Estimation is not recommended for some time-varying types (e.g., " << PARAM_RANDOMDRAW << "). Please check your configuration file.";
   }
-  if (model->objects().IsParameterUsedFor(parameter_ , addressable::kTransformation)) {
-    LOG_FATAL_P(PARAM_PARAMETER) << "Found an @parameter_transformation block for " << parameter_ << ". You cannot have a time-varying block and a parameter-transformation for the same parameter.";
+  if (model->objects().IsParameterUsedFor(parameter_, addressable::kTransformation)) {
+    LOG_FATAL_Q(PARAM_PARAMETER) << "found an @parameter_transformation block for " << parameter_
+                                 << ". You cannot have a time-varying block and a parameter-transformation for the same parameter.";
   }
-  if (model->objects().IsParameterUsedFor(parameter_ , addressable::kProfile)) {
-    LOG_FATAL_P(PARAM_PARAMETER) << "Found an @profile block for " << parameter_ << ". You cannot have a time-varying block and a @profile for the same parameter.";
+  if (model->objects().IsParameterUsedFor(parameter_, addressable::kProfile)) {
+    LOG_FATAL_Q(PARAM_PARAMETER) << "found an @profile block for " << parameter_ << ". You cannot have a time-varying block and a @profile for the same parameter.";
   }
 }
 } /* namespace niwa */

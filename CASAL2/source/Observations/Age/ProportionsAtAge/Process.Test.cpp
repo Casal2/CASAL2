@@ -37,17 +37,22 @@ final_year 2002
 base_weight_units kgs
 initialisation_phases phase1
 time_steps one two three
+
 @categories
 format sex
 names male female
 age_lengths age_size_male age_size_female
+
 @initialisation_phase phase1
 years 200
 exclude_processes fishing
+
 @time_step one
 processes halfm fishing
+
 @time_step two
 processes halfm
+
 @time_step three
 processes recruitment ageing
 @derived_quantity ssb
@@ -56,6 +61,7 @@ categories male female
 time_step_proportion 1.0
 selectivities male_maturity female_maturity
 time_step one
+
 @ageing ageing
 categories male female
 @recruitment recruitment
@@ -68,11 +74,14 @@ recruitment_multipliers 1.00 1.00 1.00 1.00 1.00 1.00 1.00 1.00 1.00 1.00 1.00 1
 ssb ssb
 standardise_years 1975:2001
 age 2
+
 @mortality halfm
 type constant_rate
 categories male female
 relative_m_by_age [type=constant; c=1] halfm.one
-m 0.10 0.10
+m 0.20 0.20
+time_step_proportions 0.5 0.5
+
 @mortality fishing
 type event_biomass
 categories male female
@@ -81,14 +90,17 @@ catches 1191 1488 1288 2004 609 750 997 596 302 344 544 362 509 574 804 977 991 
 U_max 0.9
 selectivities observation.male observation.female
 penalty event_mortality_penalty
+
 @selectivity male_maturity
 type logistic
 a50 5
 ato95 2
+
 @selectivity female_maturity
 type logistic
 a50 5
 ato95 2
+
 @selectivity one
 type constant
 c 1
@@ -98,16 +110,19 @@ length_weight [type=none]
 k 0.277
 t0 0.11
 linf 90.3
+
 @age_length age_size_female
 type von_bertalanffy
 length_weight [type=none]
 k 0.202
 t0 -0.20
 linf 113.4
+
 @penalty event_mortality_penalty
 type process
 log_scale True
 multiplier 10
+
 @observation observation
 type process_proportions_at_age
 likelihood lognormal
@@ -124,6 +139,7 @@ end_table
 table error_values
 1992 1.399 0.795 0.764 0.663 0.724 0.735 0.709 0.684 0.673 0.59 0.669 0.878 0.53
 end_table
+
 @report DQ
 type derived_quantity
 )";
@@ -194,23 +210,30 @@ time_steps one two three
 format sex
 names male female
 age_lengths age_size_male age_size_female
+
 @initialisation_phase phase1
 years 200
 exclude_processes fishing
+
 @time_step one
 processes halfm fishing
+
 @time_step two
 processes halfm
+
 @time_step three
 processes recruitment ageing
+
 @derived_quantity ssb
 type biomass
 categories male female
 time_step_proportion 1.0
 selectivities male_maturity female_maturity
 time_step one
+
 @ageing ageing
 categories male female
+
 @recruitment recruitment
 type beverton_holt
 categories male female
@@ -221,11 +244,14 @@ steepness 0.9
 recruitment_multipliers 1.00 1.00 1.00 1.00 1.00 1.00 1.00 1.00 1.00 1.00 1.00 1.00 1.00 1.00 1.00 1.00 1.00 1.00 1.00 1.00 1.00 1.00 1.00 1.00 1.00 1.00 1.00 1.00
 ssb ssb
 standardise_years 1975:2001
+
 @mortality halfm
 type constant_rate
 categories male female
 relative_m_by_age [type=constant; c=1] halfm.one
-m 0.10 0.10
+m 0.20 0.20
+time_step_proportions 0.5 0.5
+
 @mortality fishing
 type event_biomass
 categories male female
@@ -234,33 +260,40 @@ catches 1191 1488 1288 2004 609 750 997 596 302 344 544 362 509 574 804 977 991 
 U_max 0.9
 selectivities observation.male observation.female
 penalty event_mortality_penalty
+
 @selectivity male_maturity
 type logistic
 a50 5
 ato95 2
+
 @selectivity female_maturity
 type logistic
 a50 5
 ato95 2
+
 @selectivity one
 type constant
 c 1
+
 @age_length age_size_male
 type von_bertalanffy
 length_weight [type=none]
 k 0.277
 t0 0.11
 linf 90.3
+
 @age_length age_size_female
 type von_bertalanffy
 length_weight [type=none]
 k 0.202
 t0 -0.20
 linf 113.4
+
 @penalty event_mortality_penalty
 type process
 log_scale True
 multiplier 10
+
 @observation observation
 type process_proportions_at_age
 likelihood lognormal
@@ -277,6 +310,7 @@ end_table
 table error_values
 1992 1.091 0.770 0.539 0.421 0.412 0.297 0.367 0.322 0.391 0.510 0.523 0.734 0.481 0.612 0.643 0.756 0.772 0.399 0.369 0.331 0.306 0.304 0.309 0.461 0.752 0.423
 end_table
+
 @report DQ
 type derived_quantity
 )";

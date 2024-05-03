@@ -337,7 +337,7 @@ addressable::Type Object::GetAddressableType(const string& label) const {
  * @param usage The Usage enum for this addressable
  */
 void Object::RegisterAsAddressable(const string& label, Double* variable, addressable::Usage usage) {
-  LOG_FINE() << "Registering adressable " << label << " for useage = " << usage;
+  LOG_FINE() << "Registering addressable " << label << " for useage = " << usage;
   addressables_[label]              = variable;
   addressable_types_[label]         = addressable::kSingle;
   allowed_addressable_usage_[label] = usage;
@@ -353,7 +353,7 @@ void Object::RegisterAsAddressable(const string& label, Double* variable, addres
  * @param usage The Usage enum for this addressable
  */
 void Object::RegisterAsAddressable(const string& label, vector<Double>* variables, addressable::Usage usage) {
-  LOG_FINE() << "Registering adressable " << label << " for useage = " << usage;
+  LOG_FINE() << "Registering addressable " << label << " for useage = " << usage;
   addressable_vectors_[label]       = variables;
   addressable_types_[label]         = addressable::kVector;
   allowed_addressable_usage_[label] = usage;
@@ -370,7 +370,7 @@ void Object::RegisterAsAddressable(const string& label, vector<Double>* variable
  * @param usage The Usage enum for this addressable
  */
 void Object::RegisterAsAddressable(const string& label, OrderedMap<string, Double>* variables, addressable::Usage usage) {
-  LOG_FINE() << "Registering adressable " << label << " for useage = " << usage;
+  LOG_FINE() << "Registering addressable " << label << " for useage = " << usage;
   addressable_s_maps_[label]        = variables;
   addressable_types_[label]         = addressable::kStringMap;
   allowed_addressable_usage_[label] = usage;
@@ -387,7 +387,7 @@ void Object::RegisterAsAddressable(const string& label, OrderedMap<string, Doubl
  * @param usage The Usage enum for this addressable
  */
 void Object::RegisterAsAddressable(const string& label, map<unsigned, Double>* variables, addressable::Usage usage) {
-  LOG_FINE() << "Registering adressable " << label << " for useage = " << usage;
+  LOG_FINE() << "Registering addressable " << label << " for useage = " << usage;
   addressable_u_maps_[label]        = variables;
   addressable_types_[label]         = addressable::kUnsignedMap;
   allowed_addressable_usage_[label] = usage;

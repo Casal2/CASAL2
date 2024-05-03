@@ -2,10 +2,6 @@
 \defRef{sec:MCMC}
 \label{syntax:MCMC}
 
-\defSub{label}{The label of the MCMC}
-\defType{String}
-\defDefault{No default}
-
 \defSub{type}{The MCMC method}
 \defType{String}
 \defDefault{random\_walk}
@@ -33,6 +29,10 @@
 \defType{Real number}
 \defDefault{0.0}
 \defLowerBound{0.0 (inclusive)}
+
+\defSub{adjust\_parameters\_at\_bounds}{Adjust the start for parameters at bounds as a random uniform jump between the bounds}
+\defType{Boolean}
+\defDefault{false}
 
 \defSub{keep}{The spacing between recorded values in the MCMC}
 \defType{Non-negative integer}

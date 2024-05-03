@@ -30,6 +30,7 @@ DoubleExponential::DoubleExponential(shared_ptr<Model> model) : Selectivity(mode
   parameters_.Bind<Double>(PARAM_Y1, &y1_, "The Y1 parameter", "")->set_lower_bound(0.0, false);
   parameters_.Bind<Double>(PARAM_Y2, &y2_, "The Y2 parameter", "")->set_lower_bound(0.0, false);
   parameters_.Bind<Double>(PARAM_ALPHA, &alpha_, "The maximum value of the selectivity", "", 1.0)->set_lower_bound(0.0, false);
+  parameters_.Bind<Double>(PARAM_BETA, &beta_, "The minimum age for which the selectivity applies", "", 0.0)->set_lower_bound(0.0, true);
 
   RegisterAsAddressable(PARAM_X0, &x0_);
   RegisterAsAddressable(PARAM_Y0, &y0_);
@@ -40,7 +41,6 @@ DoubleExponential::DoubleExponential(shared_ptr<Model> model) : Selectivity(mode
   RegisterAsAddressable(PARAM_ALPHA, &alpha_);
 
   allowed_length_based_in_age_based_model_ = true;
-
 }
 
 /**
@@ -68,11 +68,17 @@ void DoubleExponential::DoValidate() {
   // Param: alpha
   if (alpha_ <= 0.0)
     LOG_ERROR_P(PARAM_ALPHA) << ": alpha (" << AS_DOUBLE(alpha_) << ") cannot be less than or equal to 0.0";
+
+  if (beta_ > model_->max_age())
+    LOG_ERROR_P(PARAM_BETA) << ": beta (" << AS_DOUBLE(beta_) << ") cannot be greater than the model maximum age";
 }
 /**
  * The core function
  */
 Double DoubleExponential::get_value(Double value) {
+  if (value < beta_)
+    return (0.0);
+
   if (value <= x0_) {
     return alpha_ * y0_ * pow((y1_ / y0_), (value - x0_) / (x1_ - x0_));
   } else if (value > x0_ && value <= x2_) {
@@ -80,12 +86,15 @@ Double DoubleExponential::get_value(Double value) {
   } else {
     return y2_;
   }
-  return 1.0;
+  return alpha_;
 }
 /**
  * The core function
  */
 Double DoubleExponential::get_value(unsigned value) {
+  if (value < beta_)
+    return (0.0);
+
   if (value <= x0_) {
     return alpha_ * y0_ * pow((y1_ / y0_), (value - x0_) / (x1_ - x0_));
   } else if (value > x0_ && value <= x2_) {
@@ -93,7 +102,7 @@ Double DoubleExponential::get_value(unsigned value) {
   } else {
     return y2_;
   }
-  return 1.0;
+  return alpha_;
 }
 } /* namespace selectivities */
 } /* namespace niwa */

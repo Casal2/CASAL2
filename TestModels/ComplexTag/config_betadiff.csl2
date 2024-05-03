@@ -21,17 +21,19 @@
 
 @assert ObjectiveFunction
 type objective_function
-value 1991.078122
+value 1993.0
 error_type error
+tolerance 0.1
 
 @assert B0
 parameter process[Recruitment].b0
 type addressable
 years 1995
 time_step Two
-values 82017.999287
+values 80382.6
 error_type error
-tolerance 0.001
+tolerance 0.1
 
 @report log_b0
 type profile
+

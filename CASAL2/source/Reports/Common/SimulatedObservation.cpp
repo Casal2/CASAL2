@@ -32,23 +32,20 @@ SimulatedObservation::SimulatedObservation() {
 /**
  * Validate object
  */
-void SimulatedObservation::DoValidate(shared_ptr<Model> model) {
-
-}
+void SimulatedObservation::DoValidate(shared_ptr<Model> model) {}
 
 /**
  * Build method
  */
 void SimulatedObservation::DoBuild(shared_ptr<Model> model) {
-  
   if (observation_label_ == "") {
     // print them all in a single file
     print_all_observations = true;
   } else {
     // if users supplied a label check it exists
     Observation* observation = model->managers()->observation()->GetObservation(observation_label_);
-    if(!observation) {
-      LOG_WARNING() << "The report for " << PARAM_SIMULATED_OBSERVATION << " with label '" << observation_label_ << "' was requested. This " << PARAM_OBSERVATION
+    if (!observation) {
+      LOG_WARNING() << "The " << PARAM_SIMULATED_OBSERVATION << "report with label '" << observation_label_ << "' was requested. This " << PARAM_OBSERVATION
                     << " was not found in the input configuration file and the report will not be generated";
       is_valid_ = false;
     }
@@ -63,22 +60,22 @@ void SimulatedObservation::DoExecute(shared_ptr<Model> model) {
     return;
   observations::Manager& ObservationManager = *model->managers()->observation();
 
-  for(auto observation : ObservationManager.objects()) {
-    // only continue if we have found the observation that 
+  for (auto observation : ObservationManager.objects()) {
+    // only continue if we have found the observation that
     // we are after. Note from CM: I went this route rather than using the manager->getobservation
     // The code is nasty and I didn't want to duplicate it for the single case vs the multiple case
-    if(!print_all_observations) {
-      if(observation->label() != observation_label_)
+    if (!print_all_observations) {
+      if (observation->label() != observation_label_)
         continue;
     }
-    // start printing out 
+    // start printing out
     cache_ << CONFIG_SECTION_SYMBOL << PARAM_OBSERVATION << " " << observation->label() << REPORT_EOL;
-    bool                           biomass_abundance_obs = false;
-    bool                           tag_recapture_obs = false;
-    bool                           tag_recapture_for_growth = false;
+    bool biomass_abundance_obs    = false;
+    bool tag_recapture_obs        = false;
+    bool tag_recapture_for_growth = false;
 
-    ParameterList&                 parameter_list        = observation->parameters();
-    const map<string, Parameter*>& parameters            = parameter_list.parameters();
+    ParameterList&                 parameter_list = observation->parameters();
+    const map<string, Parameter*>& parameters     = parameter_list.parameters();
     for (auto iter = parameters.begin(); iter != parameters.end(); ++iter) {
       if (iter->first == PARAM_LIKELIHOOD) {
         if (iter->second->values()[0] == PARAM_PSEUDO)
@@ -122,13 +119,12 @@ void SimulatedObservation::DoExecute(shared_ptr<Model> model) {
 
       for (auto iter = comparison.begin(); iter != comparison.end(); ++iter) {
         cache_ << iter->first << " ";
-        for (obs::Comparison comparison : iter->second) 
-          cache_ << comparison.observed_ << " " << comparison.error_value_;
+        for (obs::Comparison comparison : iter->second) cache_ << comparison.observed_ << " " << comparison.error_value_;
         cache_ << REPORT_EOL;
       }
       cache_ << PARAM_END_TABLE << REPORT_EOL;
-    } else if(tag_recapture_obs)  {
-      // tag recapture 
+    } else if (tag_recapture_obs) {
+      // tag recapture
       cache_ << PARAM_TABLE << " " << PARAM_RECAPTURED << REPORT_EOL;
       for (auto iter = comparison.begin(); iter != comparison.end(); ++iter) {
         cache_ << iter->first << " ";
@@ -138,7 +134,7 @@ void SimulatedObservation::DoExecute(shared_ptr<Model> model) {
         cache_ << REPORT_EOL;
       }
       cache_ << PARAM_END_TABLE << REPORT_EOL;
-    } else if(tag_recapture_for_growth)  {
+    } else if (tag_recapture_for_growth) {
       // tag recapture for growth
       cache_ << PARAM_TABLE << " " << PARAM_RECAPTURED << REPORT_EOL;
       for (auto iter = comparison.begin(); iter != comparison.end(); ++iter) {
@@ -164,7 +160,7 @@ void SimulatedObservation::DoExecute(shared_ptr<Model> model) {
 
     // if not biomass or tag growth print error values
     if (!biomass_abundance_obs && !tag_recapture_for_growth) {
-      if(tag_recapture_obs) {
+      if (tag_recapture_obs) {
         // tag recpat by length or age
         cache_ << PARAM_TABLE << " " << PARAM_SCANNED << REPORT_EOL;
         for (auto iter = comparison.begin(); iter != comparison.end(); ++iter) {

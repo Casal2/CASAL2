@@ -16,6 +16,7 @@
 #include "../Age/RecruitmentBevertonHolt.h"
 #include "../Age/RecruitmentBevertonHoltWithDeviations.h"
 #include "../Age/RecruitmentConstant.h"
+#include "../Age/RecruitmentRicker.h"
 #include "../Length/RecruitmentBevertonHolt.h"
 #include "../Length/RecruitmentConstant.h"
 #include "../Manager.h"
@@ -36,7 +37,7 @@ void RecruitmentCategoriesVerification(shared_ptr<Model> model) {
   vector<string>        all_categories = model->categories()->category_names();
 
   auto process_list = model->managers()->process()->objects();
-  if(model->partition_type() == PartitionType::kAge) {
+  if (model->partition_type() == PartitionType::kAge) {
     for (auto* process : process_list) {
       if (process->process_type() == ProcessType::kRecruitment) {
         if (process->type() == PARAM_RECRUITMENT_CONSTANT) {
@@ -64,11 +65,20 @@ void RecruitmentCategoriesVerification(shared_ptr<Model> model) {
             category_in_recruitment_that_scale[label]++;
             category_count[label]++;
           }
+        } else if (process->type() == PARAM_RECRUITMENT_RICKER) {
+          age::RecruitmentRicker* recruitment = dynamic_cast<age::RecruitmentRicker*>(process);
+          if (!recruitment)
+            LOG_CODE_ERROR() << "!rec with auto* rec = dynamic_cast<age::RecruitmentRicker*>(process)";
+
+          for (auto label : recruitment->category_labels()) {
+            category_in_recruitment_that_scale[label]++;
+            category_count[label]++;
+          }
         }
       }
     }
-  } else if(model->partition_type() == PartitionType::kLength) {
-        for (auto* process : process_list) {
+  } else if (model->partition_type() == PartitionType::kLength) {
+    for (auto* process : process_list) {
       if (process->process_type() == ProcessType::kRecruitment) {
         if (process->type() == PARAM_RECRUITMENT_CONSTANT) {
           length::RecruitmentConstant* recruitment = dynamic_cast<length::RecruitmentConstant*>(process);
@@ -86,11 +96,10 @@ void RecruitmentCategoriesVerification(shared_ptr<Model> model) {
             category_in_recruitment_that_scale[label]++;
             category_count[label]++;
           }
-        } 
+        }
       }
     }
   }
-
 
   // check to ensure we only have 1 of each category
   for (auto iter : category_count)

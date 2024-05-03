@@ -5,7 +5,7 @@
  * @date 2022
  * @section LICENSE
  *
- * This mortality process is taken from Stock Synthesis see the hybrid approach 
+ * This mortality process is taken from Stock Synthesis see the hybrid approach
  * found at
  * https://github.com/nmfs-stock-synthesis/stock-synthesis/blob/main/SS_popdyn.tpl
  *
@@ -23,13 +23,13 @@
 #include "AgeWeights/Manager.h"
 #include "Categories/Categories.h"
 #include "Model/Managers.h"
+#include "Penalties/Manager.h"
 #include "Selectivities/Manager.h"
 #include "TimeSteps/Manager.h"
 #include "TimeSteps/TimeStep.h"
 #include "Utilities/Math.h"
 #include "Utilities/To.h"
 #include "Utilities/Vector.h"
-#include "Penalties/Manager.h"
 
 // namespaces
 namespace niwa {
@@ -65,9 +65,8 @@ MortalityHybrid::MortalityHybrid(shared_ptr<Model> model) : Mortality(model), pa
   parameters_.Bind<bool>(PARAM_BIOMASS, &is_catch_biomass_, "Indicator to denote if the catches are as biomass (true) or abundance (false)", "", true);
   parameters_.Bind<string>(PARAM_RELATIVE_M_BY_AGE, &selectivity_labels_, "The M-by-age ogives to apply to each category for natural mortality", "");
   parameters_.Bind<Double>(PARAM_MAX_F, &max_F_, "The maximum F applied in a time-step", "", 4.0)->set_lower_bound(0.0);
-  parameters_.Bind<unsigned>(PARAM_F_ITERATIONS, &F_iterations_, "The number of iterations to tune the F coeffecients", "", 4)->set_lower_bound(0);
+  parameters_.Bind<unsigned>(PARAM_F_ITERATIONS, &F_iterations_, "The number of iterations to tune the F coefficients", "", 4)->set_lower_bound(0);
 
-  
   RegisterAsAddressable(PARAM_M, &m_);
 }
 
@@ -90,6 +89,14 @@ void MortalityHybrid::DoValidate() {
   for (auto M_proportion : time_step_ratios_temp_) {
     if (M_proportion < 0.0)
       LOG_ERROR_P(PARAM_TIME_STEP_PROPORTIONS) << "Natural Mortality time step proportions cannot be less than 0.0 for a given time step";
+  }
+
+  Double total = 0.0;
+  for (Double value : time_step_ratios_temp_) {
+    total += value;
+  }
+  if (!utilities::math::IsOne(total)) {
+    LOG_ERROR_P(PARAM_TIME_STEP_PROPORTIONS) << "summed to " << total << ". They must be specified to sum to one.";
   }
 
   /**
@@ -124,8 +131,7 @@ void MortalityHybrid::DoValidate() {
       if (!utilities::To<string, Double>(row[i], value))
         LOG_ERROR_P(PARAM_CATCHES) << "value " << row[i] << " for fishery " << columns[i] << " could not be converted to a Double";
       fishery_year_catch[columns[i]][year] = value;
-      fishery_catch_[columns[i]][year]  = value; // needed for Mortality.h checks
-
+      fishery_catch_[columns[i]][year]     = value;  // needed for Mortality.h checks
     }
   }
 
@@ -203,19 +209,19 @@ void MortalityHybrid::DoValidate() {
     LOG_FATAL_P(PARAM_BIOMASS) << "The parameter " << PARAM_BIOMASS << " must be true if an Age weight relationship is also used";
   }
 
-  unsigned fishery_index     = std::find(columns.begin(), columns.end(), PARAM_METHOD) - columns.begin();
-  unsigned category_index    = std::find(columns.begin(), columns.end(), PARAM_CATEGORY) - columns.begin();
-  unsigned selectivity_index = std::find(columns.begin(), columns.end(), PARAM_SELECTIVITY) - columns.begin();
-  unsigned time_step_index   = std::find(columns.begin(), columns.end(), PARAM_TIME_STEP) - columns.begin();
-  unsigned penalty_index     = std::find(columns.begin(), columns.end(), PARAM_PENALTY) - columns.begin();
+  unsigned fishery_index         = std::find(columns.begin(), columns.end(), PARAM_METHOD) - columns.begin();
+  unsigned category_index        = std::find(columns.begin(), columns.end(), PARAM_CATEGORY) - columns.begin();
+  unsigned selectivity_index     = std::find(columns.begin(), columns.end(), PARAM_SELECTIVITY) - columns.begin();
+  unsigned time_step_index       = std::find(columns.begin(), columns.end(), PARAM_TIME_STEP) - columns.begin();
+  unsigned penalty_index         = std::find(columns.begin(), columns.end(), PARAM_PENALTY) - columns.begin();
   unsigned annual_duration_index = std::find(columns.begin(), columns.end(), PARAM_ANNUAL_DURATION) - columns.begin();
-  unsigned age_weight_index  = 999;
+  unsigned age_weight_index      = 999;
 
   if (use_age_weight_)
     age_weight_index = std::find(columns.begin(), columns.end(), PARAM_AGE_WEIGHT_LABEL) - columns.begin();
 
   LOG_FINEST() << "indexes: fishery=" << fishery_index << "; category=" << category_index << "; selectivity=" << selectivity_index << "; time_step=" << time_step_index
-               <<"; time-step-prop " << annual_duration_index << "; age weight index " << age_weight_index;
+               << "; time-step-prop " << annual_duration_index << "; age weight index " << age_weight_index;
 
   // This is object is going to check the business rule that a fishery can only exist in one time-step in each year
   map<string, vector<string>> fishery_time_step;
@@ -227,19 +233,21 @@ void MortalityHybrid::DoValidate() {
   unsigned row_iter = 1;
   for (auto row : rows) {
     FisheryData new_fishery;
-    new_fishery.label_                     = row[fishery_index];
-    new_fishery.time_step_label_           = row[time_step_index];
-    new_fishery.penalty_label_             = row[penalty_index];
-    new_fishery.years_                     = process_years_;
+    new_fishery.label_           = row[fishery_index];
+    new_fishery.time_step_label_ = row[time_step_index];
+    new_fishery.penalty_label_   = row[penalty_index];
+    new_fishery.years_           = process_years_;
     if (!utilities::To<string, Double>(row[annual_duration_index], new_fishery.annual_duration_))
       LOG_ERROR_P(PARAM_METHOD) << PARAM_ANNUAL_DURATION << " value " << row[annual_duration_index] << " could not be converted to a Double";
-    
+
     if ((new_fishery.annual_duration_ < 0) | (new_fishery.annual_duration_ > 1)) {
-      LOG_ERROR_P(PARAM_METHOD) << "Fishery labelled " << new_fishery.label_ << " had " << PARAM_ANNUAL_DURATION << " = " << new_fishery.annual_duration_  << " at row " << row_iter
+      LOG_ERROR_P(PARAM_METHOD) << "Fishery labelled " << new_fishery.label_ << " had " << PARAM_ANNUAL_DURATION << " = " << new_fishery.annual_duration_ << " at row " << row_iter
                                 << " This must be a value between 0 and 1.";
     }
-    if(new_fishery.annual_duration_ != 1) {
-      LOG_WARNING() << "The " << PARAM_ANNUAL_DURATION << " for fishery " << new_fishery.label_ << " was equal to one. This an uncommon assumption this warning is to check that you understand this assumptions. Disregard this warning if you are comfortable with making this assumption.";
+    if (new_fishery.annual_duration_ != 1) {
+      LOG_WARNING()
+          << "The " << PARAM_ANNUAL_DURATION << " for fishery " << new_fishery.label_
+          << " was equal to one. This an uncommon assumption this warning is to check that you understand this assumptions. Disregard this warning if you are comfortable with making this assumption.";
     }
 
     std::pair<bool, int> this_fishery_iter = findInVector(fishery_labels_, new_fishery.label_);
@@ -251,13 +259,12 @@ void MortalityHybrid::DoValidate() {
         LOG_ERROR_P(PARAM_METHOD) << "Fishery labelled " << new_fishery.label_ << " had timestep label = " << new_fishery.time_step_label_ << " at row " << row_iter
                                   << " but the same fishery had time step label = " << fisheries_[new_fishery.label_].time_step_label_
                                   << " at row = " << this_fishery_iter.second + 1 << " these need to be consistent for a single method";
-      
+
       if (fisheries_[new_fishery.label_].annual_duration_ != new_fishery.annual_duration_)
         LOG_ERROR_P(PARAM_METHOD) << "Fishery labelled " << new_fishery.label_ << " had annual duration = " << new_fishery.annual_duration_ << " at row " << row_iter
                                   << " but the same fishery had  annual duration = " << fisheries_[new_fishery.label_].annual_duration_
                                   << " at row = " << this_fishery_iter.second + 1 << " these need to be consistent for a single fishery";
-      
-                               
+
     } else {
       // haven't seen this method so store it in the fisheries struct
       fishery_labels_.push_back(new_fishery.label_);
@@ -265,7 +272,7 @@ void MortalityHybrid::DoValidate() {
       fishery_time_step[new_fishery.label_].push_back(new_fishery.time_step_label_);
       if (fishery_year_catch.find(new_fishery.label_) == fishery_year_catch.end())
         LOG_ERROR_P(PARAM_METHOD) << "fishery " << new_fishery.label_ << " does not have catch information in the catches table";
-      new_fishery.catches_        = fishery_year_catch[new_fishery.label_];
+      new_fishery.catches_ = fishery_year_catch[new_fishery.label_];
       // store fishery and make it addressable
       fisheries_[new_fishery.label_] = new_fishery;
       RegisterAsAddressable(PARAM_METHOD + string("_") + utilities::ToLowercase(new_fishery.label_), &fisheries_[new_fishery.label_].catches_);
@@ -312,7 +319,6 @@ void MortalityHybrid::DoValidate() {
       }
 
       fishery_categories_.push_back(new_category_data);
-
     }
     ++row_iter;
   }
@@ -323,7 +329,6 @@ void MortalityHybrid::DoValidate() {
       LOG_ERROR_P(PARAM_METHOD) << "The method '" << fishery.first << "' was found in more than one time step."
                                 << " A method can occur once only in each time step. If a fishery occurs in multiple time steps then define each time step as a separate fishery.";
   }
-  
 
   // Check to see if there are any time_steps that we don't have enter the fisheries section. i.e no fishing in certain time-steps
   LOG_FINEST() << "Finishing DoValidate";
@@ -407,7 +412,6 @@ void MortalityHybrid::DoBuild() {
     fishery.time_step_index_ = model_->managers()->time_step()->GetTimeStepIndex(fishery.time_step_label_);
   }
 
-
   /**
    * Check the natural mortality categories are valid
    */
@@ -475,7 +479,6 @@ void MortalityHybrid::DoBuild() {
     }
   }
 
-
   // reserve memory for reporting objects
   LOG_FINE() << "years " << process_years_.size();
   // allocate memory for observation object
@@ -495,10 +498,9 @@ void MortalityHybrid::DoBuild() {
   }
   // populate total_catch_by_year_timestep_
 
-
   unsigned year_iter = 0;
-  for(auto year : process_years_) {
-    for(unsigned time_step_iter = 0; time_step_iter < ordered_time_steps.size(); ++time_step_iter) {
+  for (auto year : process_years_) {
+    for (unsigned time_step_iter = 0; time_step_iter < ordered_time_steps.size(); ++time_step_iter) {
       for (auto& fishery_iter : fisheries_) {
         auto& fishery = fishery_iter.second;
         if (fishery.time_step_index_ != time_step_iter)
@@ -510,28 +512,29 @@ void MortalityHybrid::DoBuild() {
   }
   // check fisheries in the same time-step have the same annual duration
   Double current_annual_value = 0.0;
-  string last_fishery = "";
-  bool first_fishery = true;
+  string last_fishery         = "";
+  bool   first_fishery        = true;
   annual_duration_by_timestep_.resize(ordered_time_steps.size());
-  for(unsigned time_step_iter = 0; time_step_iter < ordered_time_steps.size(); ++time_step_iter) {
+  for (unsigned time_step_iter = 0; time_step_iter < ordered_time_steps.size(); ++time_step_iter) {
     current_annual_value = 0.0;
-    first_fishery = true;
+    first_fishery        = true;
     for (auto& fishery_iter : fisheries_) {
       auto& fishery = fishery_iter.second;
       if (fishery.time_step_index_ != time_step_iter)
         continue;
-      if(first_fishery) {
+      if (first_fishery) {
         current_annual_value = fishery.annual_duration_;
-        last_fishery = fishery.label_;
-        first_fishery = false;
+        last_fishery         = fishery.label_;
+        first_fishery        = false;
       } else {
-        if(current_annual_value != fishery.annual_duration_)
-          LOG_ERROR_P(PARAM_METHOD) << "Fishery " << fishery.label_ << " had an annual duration = " << fishery.annual_duration_ << ". Whereas fishery " << last_fishery << " had an annual duration value = " << current_annual_value << ". Fisheries in the same time-step have to have the same annual duration value.";
+        if (current_annual_value != fishery.annual_duration_)
+          LOG_ERROR_P(PARAM_METHOD) << "Fishery " << fishery.label_ << " had an annual duration = " << fishery.annual_duration_ << ". Whereas fishery " << last_fishery
+                                    << " had an annual duration value = " << current_annual_value
+                                    << ". Fisheries in the same time-step have to have the same annual duration value.";
       }
     }
     annual_duration_by_timestep_[time_step_iter] = current_annual_value;
   }
-
 }
 
 /**
@@ -572,12 +575,12 @@ void MortalityHybrid::DoExecute() {
   // per execute. will be used in initialisation and when Catch is not removed
   for (auto& category : categories_) {
     for (unsigned i = 0; i < category.category_->age_spread(); ++i) {
-      selectivity_value               = category.selectivity_->GetAgeResult(category.category_->min_age_ + i, category.category_->age_length_);
-      category.z_values_by_age_[i]       = annual_duration_by_timestep_[time_step_index] * ratio * (*category.m_) * selectivity_value; // if no F this Z = M
-      category.survivor_with_z_by_age_[i] = 0.0;
-      category.selectivity_values_[i] = selectivity_value;
-      category.exp_values_half_duration_m_[i]  = exp(-0.5 * annual_duration_by_timestep_[time_step_index] * ratio * (*category.m_) * selectivity_value);  // this exp call should ony
-      //LOG_FINEST() << "category " << category.category_label_ << " age index " << i << " selectivity " << selectivity_value;
+      selectivity_value                       = category.selectivity_->GetAgeResult(category.category_->min_age_ + i, category.category_->age_length_);
+      category.z_values_by_age_[i]            = annual_duration_by_timestep_[time_step_index] * ratio * (*category.m_) * selectivity_value;  // if no F this Z = M
+      category.survivor_with_z_by_age_[i]     = 0.0;
+      category.selectivity_values_[i]         = selectivity_value;
+      category.exp_values_half_duration_m_[i] = exp(-0.5 * annual_duration_by_timestep_[time_step_index] * ratio * (*category.m_) * selectivity_value);  // this exp call should ony
+      // LOG_FINEST() << "category " << category.category_label_ << " age index " << i << " selectivity " << selectivity_value;
     }
   }
 
@@ -590,11 +593,12 @@ void MortalityHybrid::DoExecute() {
    */
   if (model_->state() != State::kInitialise) {
     // Not in initialisation phase
-    LOG_FINE() << "Should we calcualte F based on years on and time-step";
-    if(((find(process_years_.begin(), process_years_.end(), year) != process_years_.end()) || (year > model_->final_year()))) {
+    LOG_FINE() << "Should we calculate F based on years on and time-step";
+    if (((find(process_years_.begin(), process_years_.end(), year) != process_years_.end()) || (year > model_->final_year()))) {
       // There is F in this year are we in the right time-step
       LOG_FINE() << "check time-step";
-      if(find(time_steps_to_skip_applying_F_mortality_.begin(), time_steps_to_skip_applying_F_mortality_.end(), time_step_index) == time_steps_to_skip_applying_F_mortality_.end()) {
+      if (find(time_steps_to_skip_applying_F_mortality_.begin(), time_steps_to_skip_applying_F_mortality_.end(), time_step_index)
+          == time_steps_to_skip_applying_F_mortality_.end()) {
         // Good to calculate F
         LOG_FINEST() << "time step = " << time_step_index << " not in initialisation and there is an F method in this timestep. year = " << model_->current_year();
         for (auto& fishery_category : fishery_categories_) {
@@ -610,7 +614,7 @@ void MortalityHybrid::DoExecute() {
         for (auto& fishery : fisheries_) {
           fishery.second.vulnerability_ = 0.0;
         }
-          
+
         Double total_vulnerable = 0.0;
         for (auto& fishery_category : fishery_categories_) {
           LOG_FINEST() << "checking fishery = " << fishery_category.fishery_label_;
@@ -630,8 +634,8 @@ void MortalityHybrid::DoExecute() {
             for (unsigned i = 0; i < category->data_.size(); ++i) {
               vulnerable += category->data_[i] * category->age_length_->mean_weight(time_step_index, category->min_age_ + i) * fishery_category.selectivity_values_[i]
                             * fishery_category.category_.exp_values_half_duration_m_[i];
-                            Double sel_bio = category->age_length_->mean_weight(time_step_index, category->min_age_ + i) * fishery_category.selectivity_values_[i];
-                            Double Nmid = category->data_[i] * fishery_category.category_.exp_values_half_duration_m_[i];
+              Double sel_bio = category->age_length_->mean_weight(time_step_index, category->min_age_ + i) * fishery_category.selectivity_values_[i];
+              Double Nmid    = category->data_[i] * fishery_category.category_.exp_values_half_duration_m_[i];
               LOG_FINEST() << "i = " << i << " Nmid = " << Nmid << " sel bio = " << sel_bio;
             }
           } else {  // as abundance
@@ -647,24 +651,25 @@ void MortalityHybrid::DoExecute() {
         LOG_FINE() << " total vulnerable = " << total_vulnerable;
         // Start by doing a Pope's approximation
         for (auto& fishery_iter : fisheries_) {
-          auto& fishery = fishery_iter.second;
-          fishery.init_popes_rate_ = fishery.catches_[year]  / (fishery.vulnerability_ + 0.1 * fishery.catches_[year]); //  Pope's rate  robust A.1.22 of SS appendix
-          fishery.steep_jointer_ = 1.0 / (1.0 + exp(30.0 * (fishery.init_popes_rate_ - 0.95))); // steep logistic joiner at harvest rate of 0.95 //steep logistic joiner at harvest rate of 0.95
+          auto& fishery            = fishery_iter.second;
+          fishery.init_popes_rate_ = fishery.catches_[year] / (fishery.vulnerability_ + 0.1 * fishery.catches_[year]);  //  Pope's rate  robust A.1.22 of SS appendix
+          fishery.steep_jointer_
+              = 1.0 / (1.0 + exp(30.0 * (fishery.init_popes_rate_ - 0.95)));  // steep logistic joiner at harvest rate of 0.95 //steep logistic joiner at harvest rate of 0.95
           fishery.popes_rate_ = fishery.steep_jointer_ * fishery.init_popes_rate_ + (1.0 - fishery.steep_jointer_) * 0.95;
-          fishery.init_F_ = -log(1.0 - fishery.popes_rate_) / annual_duration_by_timestep_[time_step_index];
-          LOG_FINEST() << "init_popes_rate_ = " << fishery.init_popes_rate_ << " vbio = " << fishery.vulnerability_ << " popes rate " <<  fishery.popes_rate_  << " init F " << fishery.init_F_;
-          // reset vulnerable 
+          fishery.init_F_     = -log(1.0 - fishery.popes_rate_) / annual_duration_by_timestep_[time_step_index];
+          LOG_FINEST() << "init_popes_rate_ = " << fishery.init_popes_rate_ << " vbio = " << fishery.vulnerability_ << " popes rate " << fishery.popes_rate_ << " init F "
+                       << fishery.init_F_;
+          // reset vulnerable
           fishery.vulnerability_ = 0.0;
         }
         //  Do a specified number of loops to tune up these F values to more closely match the observed catch
-        Double interim_tot_catch; // interim catch over all fisheries in this time-step
-        for(unsigned f = 0; f < F_iterations_; ++f) {
+        Double interim_tot_catch;  // interim catch over all fisheries in this time-step
+        for (unsigned f = 0; f < F_iterations_; ++f) {
           LOG_FINE() << "F-iter = " << f + 1;
           interim_tot_catch = 0.0;
           // set start z value to M for each category and iteration
           for (auto& category : categories_) {
-            for (unsigned i = 0; i < category.category_->age_spread(); ++i)
-              category.z_values_by_age_[i] = (*category.m_) * ratio * category.selectivity_values_[i];
+            for (unsigned i = 0; i < category.category_->age_spread(); ++i) category.z_values_by_age_[i] = (*category.m_) * ratio * category.selectivity_values_[i];
           }
           // Use this F to calculate a Z for categories
           for (auto& fishery_category : fishery_categories_) {
@@ -679,9 +684,9 @@ void MortalityHybrid::DoExecute() {
           }
           // The survivorship is calculated as:
           for (auto& category : categories_) {
-            for (unsigned i = 0; i < category.category_->age_spread(); ++i){
-              category.survivor_with_z_by_age_[i] = (1.0 - exp(-annual_duration_by_timestep_[time_step_index]* category.z_values_by_age_[i])) / category.z_values_by_age_[i];
-              //LOG_FINEST() << " age = " << model_->min_age() << " Z " << category.z_values_by_age_[i] << " survivorship = " << category.survivor_with_z_by_age_[i];
+            for (unsigned i = 0; i < category.category_->age_spread(); ++i) {
+              category.survivor_with_z_by_age_[i] = (1.0 - exp(-annual_duration_by_timestep_[time_step_index] * category.z_values_by_age_[i])) / category.z_values_by_age_[i];
+              // LOG_FINEST() << " age = " << model_->min_age() << " Z " << category.z_values_by_age_[i] << " survivorship = " << category.survivor_with_z_by_age_[i];
             }
           }
           // Calculate the expected total catch that would occur with the current Hrates and Z
@@ -693,16 +698,19 @@ void MortalityHybrid::DoExecute() {
             // M + sum(F_f_a * S_f_a)
             if (fishery_category.category_.age_weight_) {
               for (unsigned i = 0; i < category->data_.size(); ++i) {
-                interim_tot_catch += fishery_category.fishery_.init_F_ * category->data_[i] * fishery_category.category_.age_weight_->mean_weight_at_age_by_year(year, i + model_->min_age())
-                              * fishery_category.selectivity_values_[i] * fishery_category.category_.survivor_with_z_by_age_[i];
+                interim_tot_catch += fishery_category.fishery_.init_F_ * category->data_[i]
+                                     * fishery_category.category_.age_weight_->mean_weight_at_age_by_year(year, i + model_->min_age()) * fishery_category.selectivity_values_[i]
+                                     * fishery_category.category_.survivor_with_z_by_age_[i];
               }
             } else if (is_catch_biomass_) {  // as biomass
               for (unsigned i = 0; i < category->data_.size(); ++i) {
-                interim_tot_catch += fishery_category.fishery_.init_F_ * category->data_[i] * category->age_length_->mean_weight(time_step_index, category->min_age_ + i) * fishery_category.selectivity_values_[i] * fishery_category.category_.survivor_with_z_by_age_[i];
+                interim_tot_catch += fishery_category.fishery_.init_F_ * category->data_[i] * category->age_length_->mean_weight(time_step_index, category->min_age_ + i)
+                                     * fishery_category.selectivity_values_[i] * fishery_category.category_.survivor_with_z_by_age_[i];
               }
             } else {  // as abundance
               for (unsigned i = 0; i < category->data_.size(); ++i) {
-                interim_tot_catch += fishery_category.fishery_.init_F_ * category->data_[i] * fishery_category.selectivity_values_[i] * fishery_category.category_.survivor_with_z_by_age_[i];
+                interim_tot_catch
+                    += fishery_category.fishery_.init_F_ * category->data_[i] * fishery_category.selectivity_values_[i] * fishery_category.category_.survivor_with_z_by_age_[i];
               }
             }
           }
@@ -713,12 +721,13 @@ void MortalityHybrid::DoExecute() {
           // Update rates Z's with adjustment
           for (auto& category : categories_) {
             for (unsigned i = 0; i < category.category_->age_spread(); ++i) {
-             // Double old_F = category.z_values_by_age_[i] - ((*category.m_) * ratio * category.selectivity_values_[i]);
-              //Double new_F = z_adjustment * (category.z_values_by_age_[i] - ((*category.m_) * ratio * category.selectivity_values_[i]));
-              //LOG_FINEST() << "age = " << model_->min_age() + i << " old F " << old_F << " new F " << new_F;
-              category.z_values_by_age_[i] = (*category.m_) * ratio * category.selectivity_values_[i] + z_adjustment * (category.z_values_by_age_[i] - ((*category.m_) * ratio * category.selectivity_values_[i]));
+              // Double old_F = category.z_values_by_age_[i] - ((*category.m_) * ratio * category.selectivity_values_[i]);
+              // Double new_F = z_adjustment * (category.z_values_by_age_[i] - ((*category.m_) * ratio * category.selectivity_values_[i]));
+              // LOG_FINEST() << "age = " << model_->min_age() + i << " old F " << old_F << " new F " << new_F;
+              category.z_values_by_age_[i] = (*category.m_) * ratio * category.selectivity_values_[i]
+                                             + z_adjustment * (category.z_values_by_age_[i] - ((*category.m_) * ratio * category.selectivity_values_[i]));
               category.survivor_with_z_by_age_[i] = (1.0 - exp(-annual_duration_by_timestep_[time_step_index] * category.z_values_by_age_[i])) / category.z_values_by_age_[i];
-              //LOG_FINEST() << " age = " << model_->min_age() << " Z " << category.z_values_by_age_[i] << " survivorship " << category.survivor_with_z_by_age_[i];
+              // LOG_FINEST() << " age = " << model_->min_age() << " Z " << category.z_values_by_age_[i] << " survivorship " << category.survivor_with_z_by_age_[i];
             }
           }
           // Now re-calculate a new pope rate using a vulnerable biomass based
@@ -726,8 +735,8 @@ void MortalityHybrid::DoExecute() {
           for (auto& fishery_category : fishery_categories_) {
             if (fishery_category.fishery_.time_step_index_ != time_step_index)
               continue;
-            partition::Category* category = fishery_category.category_.category_;
-            Double vulnerable = 0.0;
+            partition::Category* category   = fishery_category.category_.category_;
+            Double               vulnerable = 0.0;
             if (fishery_category.category_.age_weight_) {
               for (unsigned i = 0; i < category->data_.size(); ++i) {
                 vulnerable += category->data_[i] * fishery_category.category_.age_weight_->mean_weight_at_age_by_year(year, i + model_->min_age())
@@ -744,24 +753,24 @@ void MortalityHybrid::DoExecute() {
               }
             }
             fishery_category.fishery_.vulnerability_ += vulnerable;
-            //LOG_FINEST() << "Vulnerable biomass from category " << category->name_ << " contributing to fishery " << fishery_category.fishery_label_ << " = " << vulnerable;
+            // LOG_FINEST() << "Vulnerable biomass from category " << category->name_ << " contributing to fishery " << fishery_category.fishery_label_ << " = " << vulnerable;
           }
-          //Update Pope's approximation
+          // Update Pope's approximation
           for (auto& fishery_iter : fisheries_) {
-            auto& fishery = fishery_iter.second;
-            fishery.popes_rate_ = fishery.catches_[year]  / (fishery.vulnerability_ + 0.0001); //  Pope's rate  robust A.1.27 of SS appendix
-            fishery.steep_jointer_ = 1.0 / (1.0 + exp(30.0 * (fishery.popes_rate_ - 0.95 * max_F_))); // steep logistic joiner at harvest rate of 0.95 including F max
-            fishery.init_F_ = fishery.steep_jointer_ * fishery.popes_rate_ + (1.0 - fishery.steep_jointer_) * max_F_;
-            fishery.final_F_ = fishery.init_F_;
-            LOG_FINEST() << "fishery = " << fishery.label_ << " observed catch = " << fishery.catches_[year] << " vulnerable " << fishery.vulnerability_ << " popes_rate_ = " << fishery.popes_rate_ << " join = " << fishery.steep_jointer_ << " new F " << fishery.init_F_;
-            // reset vulnerable 
+            auto& fishery          = fishery_iter.second;
+            fishery.popes_rate_    = fishery.catches_[year] / (fishery.vulnerability_ + 0.0001);       //  Pope's rate  robust A.1.27 of SS appendix
+            fishery.steep_jointer_ = 1.0 / (1.0 + exp(30.0 * (fishery.popes_rate_ - 0.95 * max_F_)));  // steep logistic joiner at harvest rate of 0.95 including F max
+            fishery.init_F_        = fishery.steep_jointer_ * fishery.popes_rate_ + (1.0 - fishery.steep_jointer_) * max_F_;
+            fishery.final_F_       = fishery.init_F_;
+            LOG_FINEST() << "fishery = " << fishery.label_ << " observed catch = " << fishery.catches_[year] << " vulnerable " << fishery.vulnerability_
+                         << " popes_rate_ = " << fishery.popes_rate_ << " join = " << fishery.steep_jointer_ << " new F " << fishery.init_F_;
+            // reset vulnerable
             fishery.vulnerability_ = 0.0;
           }
-        } // F-tune
+        }  // F-tune
         // Update last Zrates and calculate catch at age and actual Catch
         for (auto& category : categories_) {
-          for (unsigned i = 0; i < category.category_->age_spread(); ++i)
-            category.z_values_by_age_[i] = (*category.m_) * ratio * category.selectivity_values_[i];
+          for (unsigned i = 0; i < category.category_->age_spread(); ++i) category.z_values_by_age_[i] = (*category.m_) * ratio * category.selectivity_values_[i];
         }
         // Use this F to calculate a Z for categories
         for (auto& fishery_category : fishery_categories_) {
@@ -787,32 +796,39 @@ void MortalityHybrid::DoExecute() {
           // M + sum(F_f_a * S_f_a)
           if (fishery_category.category_.age_weight_) {
             for (unsigned i = 0; i < category->data_.size(); ++i) {
-              fishery_category.fishery_.actual_catches_[year] += fishery_category.fishery_.final_F_ * category->data_[i] * fishery_category.category_.age_weight_->mean_weight_at_age_by_year(year, i + model_->min_age())
-                            * fishery_category.selectivity_values_[i] * fishery_category.category_.survivor_with_z_by_age_[i];
+              fishery_category.fishery_.actual_catches_[year] += fishery_category.fishery_.final_F_ * category->data_[i]
+                                                                 * fishery_category.category_.age_weight_->mean_weight_at_age_by_year(year, i + model_->min_age())
+                                                                 * fishery_category.selectivity_values_[i] * fishery_category.category_.survivor_with_z_by_age_[i];
             }
           } else if (is_catch_biomass_) {  // as biomass
             for (unsigned i = 0; i < category->data_.size(); ++i) {
-              fishery_category.fishery_.actual_catches_[year] += fishery_category.fishery_.final_F_ * category->data_[i] * category->age_length_->mean_weight(time_step_index, category->min_age_ + i) * fishery_category.selectivity_values_[i] * fishery_category.category_.survivor_with_z_by_age_[i];
+              fishery_category.fishery_.actual_catches_[year] += fishery_category.fishery_.final_F_ * category->data_[i]
+                                                                 * category->age_length_->mean_weight(time_step_index, category->min_age_ + i)
+                                                                 * fishery_category.selectivity_values_[i] * fishery_category.category_.survivor_with_z_by_age_[i];
             }
           } else {  // as abundance
             for (unsigned i = 0; i < category->data_.size(); ++i) {
-              fishery_category.fishery_.actual_catches_[year] += fishery_category.fishery_.final_F_ * category->data_[i] * fishery_category.selectivity_values_[i] * fishery_category.category_.survivor_with_z_by_age_[i];
+              fishery_category.fishery_.actual_catches_[year]
+                  += fishery_category.fishery_.final_F_ * category->data_[i] * fishery_category.selectivity_values_[i] * fishery_category.category_.survivor_with_z_by_age_[i];
             }
           }
           // Catch at age
-          LOG_FINEST() << "Catch at age for year ndx = " << this_year_iter.second << " fishery ndx = " << fishery_category.fishery_.fishery_ndx_ <<  " category ndx " << fishery_category.category_.category_ndx_;
+          LOG_FINEST() << "Catch at age for year ndx = " << this_year_iter.second << " fishery ndx = " << fishery_category.fishery_.fishery_ndx_ << " category ndx "
+                       << fishery_category.category_.category_ndx_;
           for (unsigned i = 0; i < model_->age_spread(); ++i) {
             unsigned age_offset = category->min_age_ - model_->min_age();
             if (i < age_offset)
               continue;
             removals_by_year_fishery_category_[this_year_iter.second][fishery_category.fishery_.fishery_ndx_][fishery_category.category_.category_ndx_][i]
-                = fishery_category.fishery_.final_F_ * category->data_[i - age_offset] * fishery_category.selectivity_values_[i] * fishery_category.category_.survivor_with_z_by_age_[i];
+                = fishery_category.fishery_.final_F_ * category->data_[i - age_offset] * fishery_category.selectivity_values_[i]
+                  * fishery_category.category_.survivor_with_z_by_age_[i];
           }
         }
         // Update Final F by year for each fishery for reporting
         for (auto& fishery_iter : fisheries_) {
           fishery_iter.second.F_by_year_[year] = fishery_iter.second.final_F_;
-          LOG_FINE() << "save final F = " << fishery_iter.second.final_F_ << " fishery = " << fishery_iter.second.label_ << " reported value = " <<fishery_iter.second.F_by_year_[year];
+          LOG_FINE() << "save final F = " << fishery_iter.second.final_F_ << " fishery = " << fishery_iter.second.label_
+                     << " reported value = " << fishery_iter.second.F_by_year_[year];
           LOG_FINE() << "actual catches = " << fishery_iter.second.actual_catches_[year];
           // Flag a penalty if it exists
           if (fishery_iter.second.penalty_)
@@ -820,15 +836,16 @@ void MortalityHybrid::DoExecute() {
         }
       }
     }
-  }//!=Kinitialise
+  }  //!=Kinitialise
   // now kill the partition if No F then Z = M else Z = F + M
   for (auto& category : categories_) {
     for (unsigned i = 0; i < category.category_->data_.size(); ++i) {
       category.category_->data_[i] *= exp(-category.z_values_by_age_[i]);
-      LOG_FINEST() << "category " << category.category_label_ << ": updated numbers at age = " << category.category_->data_[i] << " age " << i + model_->min_age() << " Z = " << category.z_values_by_age_[i];
+      LOG_FINEST() << "category " << category.category_label_ << ": updated numbers at age = " << category.category_->data_[i] << " age " << i + model_->min_age()
+                   << " Z = " << category.z_values_by_age_[i];
     }
   }
-} //DoExecute
+}  // DoExecute
 
 /**
  * Fill the report cache
@@ -840,8 +857,7 @@ void MortalityHybrid::FillReportCache(ostringstream& cache) {
   // This one is niggly because we need to iterate over each year and time step to print the right information so we don't
   // these years are for M and F
   cache << "year: ";
-  for (auto year : process_years_) 
-    cache << year << " ";
+  for (auto year : process_years_) cache << year << " ";
   for (auto& fishery_iter : fisheries_) {
     auto& fishery = fishery_iter.second;
     cache << "\ncatch[" << fishery.label_ << "]: ";

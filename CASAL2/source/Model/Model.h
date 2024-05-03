@@ -83,6 +83,7 @@ public:
   void                          set_projection_final_phase(bool phase) { projection_final_phase_ = phase; }
   virtual vector<unsigned>      years() const;
   virtual vector<unsigned>      years_all() const;
+  virtual vector<unsigned>      years_projection() const;
   unsigned                      year_spread() const;
   virtual unsigned              current_year() const { return current_year_; }
   virtual string                base_weight_units() const { return base_weight_units_; }
@@ -109,12 +110,12 @@ public:
   unsigned                      threads() const { return threads_; }
   bool                          addressables_value_file() const { return addressable_values_file_; }
   void                          set_run_mode(RunMode::Type run_mode) { run_mode_ = run_mode; }
-  string                        get_current_initialisation_phase_label() const {return current_init_label_;};
-  void                          set_current_initialisation_phase_label(string init_label)  {current_init_label_ = init_label;};
-  unsigned                      get_addressable_values_count() {return addressable_values_count_;};
-  unsigned                      get_current_addressable_value() {return addressable_value_iterator_;};
-
-  void set_global_configuration(GlobalConfiguration* value) { global_configuration_ = value; }
+  string                        get_current_initialisation_phase_label() const { return current_init_label_; };
+  void                          set_current_initialisation_phase_label(string init_label) { current_init_label_ = init_label; };
+  unsigned                      get_addressable_values_count() { return addressable_values_count_; };
+  unsigned                      get_current_addressable_value() { return addressable_value_iterator_; };
+  unsigned                      get_simulation_iterator() { return simulation_iterator_; };
+  void                          set_global_configuration(GlobalConfiguration* value) { global_configuration_ = value; }
 
   // manager accessors
   virtual shared_ptr<Managers> managers();
@@ -163,13 +164,14 @@ protected:
   vector<string>       time_steps_;
   vector<double>       model_length_bins_;
   vector<double>       model_length_bin_mid_points_;
-  bool                 length_plus_              = true;
-  double               length_plus_group_        = 0;
-  bool                 addressable_values_file_  = false;
-  unsigned             addressable_values_count_ = 1;
+  bool                 length_plus_                = true;
+  double               length_plus_group_          = 0;
+  bool                 addressable_values_file_    = false;
+  unsigned             addressable_values_count_   = 1;
   unsigned             addressable_value_iterator_ = 0;
-  string               current_init_label_       = "";
-  PartitionType        partition_type_           = PartitionType::kInvalid;
+  unsigned             simulation_iterator_        = 0;
+  string               current_init_label_         = "";
+  PartitionType        partition_type_             = PartitionType::kInvalid;
   shared_ptr<Managers> managers_;
   Objects*             objects_                = nullptr;
   GlobalConfiguration* global_configuration_   = nullptr;

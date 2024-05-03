@@ -33,7 +33,6 @@ Logistic::Logistic(shared_ptr<Model> model) : Selectivity(model) {
   RegisterAsAddressable(PARAM_ALPHA, &alpha_);
 
   allowed_length_based_in_age_based_model_ = true;
-
 }
 
 /**

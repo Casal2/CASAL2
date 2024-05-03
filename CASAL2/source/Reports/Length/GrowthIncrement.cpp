@@ -58,9 +58,9 @@ void GrowthIncrement::DoExecute(shared_ptr<Model> model) {
 }
 
 void GrowthIncrement::DoPrepareTabular(shared_ptr<Model> model) {
-  LOG_INFO() << "Tabular mode for reports of type " << PARAM_AGE_LENGTH << " has not been implemented";
+  LOG_INFO() << "Tabular mode for reports of type " << PARAM_GROWTH_INCREMENT << " has not been implemented";
 }
 
-}  // namespace age
+}  // namespace length
 } /* namespace reports */
 } /* namespace niwa */

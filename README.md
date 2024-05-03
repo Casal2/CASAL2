@@ -1,4 +1,5 @@
-![Validation Pass](https://github.com/NIWAFisheriesModelling/CASAL2/actions/workflows/Casal2_testsuite_modelrunner_archive.yml/badge.svg)
+![Code validation Pass](https://github.com/alistairdunn1/CASAL2/actions/workflows/Casal2_testsuite_modelrunner_archive.yml/badge.svg)
+[![Casal2 Windows release build](https://github.com/alistairdunn1/CASAL2/actions/workflows/BuildRelease4Windows.yml/badge.svg)](https://github.com/alistairdunn1/CASAL2/actions/workflows/BuildRelease4Windows.yml)
 
 Casal2
 ======
@@ -7,16 +8,30 @@ Casal2 is an open-source age or length structured population dynamics modelling 
 
 This repository contains the required libraries and source code to compile and run Casal2. This project is covered under the GNU General Public License version 2. This program is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
 
+## Casal2 clone
+
+This repository is a clone of Casal2 of https://github.com/NIWAFisheriesModelling/CASAL2. It is intended to have additional bug fixes and enhancements for potential inclusion into the original NIWA Casal2 codebase.
+
 ## Releases
 
-The most recent production version of Casal2 is available [here](https://github.com/NIWAFisheriesModelling/CASAL2/releases/tag/v22.08). The production version has been checked by comparing the 7 sets of Test Case MPD and MCMC results with CASAL and generating [Test Case reports](https://github.com/NIWAFisheriesModelling/Casal2-supporting-information/tree/main/TestCases/primary). We anticipate production versions being released once or twice a year, with validation of new key functionality and fixes.
-
-The most recent development version of Casal2 is available [here](https://github.com/NIWAFisheriesModelling/CASAL2/releases/tag/dev.2207). The development version may include updates to the Test Cases reports, and may not have undergone the same level of testing as the production versions. The development versions will made available more frequently than the production versions, as fixes and other updates are made between production releases.
+The most recent development version of Casal2 from this repository is available from https://github.com/alistairdunn1/CASAL2.  The most recent NIWA version of Casal2 is available from https://github.com/NIWAFisheriesModelling/CASAL2, but that may not contain all of the bug-fixes and enhancements found in this version.
 
 ## Auxiliary resources
 
-An R package that will help post processing Casal2 models can be found here [r4Casal2](https://github.com/NIWAFisheriesModelling/r4Casal2). It has a publicly hosted book [found here](https://niwafisheriesmodelling.github.io/r4Casal2/) which demonstrates functionality of the r4Casal2 R package.
+An R package that will read and write Casal2 model input and output files can be installed using
 
-More information about Casal2, including release notes and project status, is available at https://casal2.github.io.
+```r
+devtools::install_github("https://github.com/alistairdunn1/CASAL2/", subdir = "R-libraries/casal2")
+```
 
-For more information about Casal2 contact the Casal2 Development Team at email:casal2@niwa.co.nz
+The r4Casal2 R package adds helper and access functions for R to assist with postprocessing Casal2 output. It can be found here ([r4Casal2](https://github.com/alistairdunn1/r4Casal2)) and installed using
+
+```r
+devtools::install_github("https://github.com/alistairdunn1/r4Casal2/", subdir = "r4Casal2")
+```
+
+r4Casal2 has a publicly hosted book [found here](https://alistairdunn1.github.io/r4Casal2/) which demonstrates functionality of the r4Casal2 R package. 
+
+The r4Casal2 package is a clone of r4Casal2 from https://github.com/NIWAFisheriesModelling/r4Casal2. It is intended to have additional bug fixes and enhancements for potential inclusion into the original NIWA r4Casal2 codebase.
+
+More information about Casal2, see https://github.com/alistairdunn1/CASAL2 and https://github.com/NIWAFisheriesModelling/CASAL2

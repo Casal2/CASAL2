@@ -1,0 +1,43 @@
+
+[INFO] Setting the random number seed to 20
+[INFO] Estimable parameters were set from the free parameter file: free.dat
+[WARNING] At line 49 in Observation.csl2 the table obs : The sum of the values for year 1990 was 0.9999 and do not sum to 1.0
+[WARNING] At line 49 in Observation.csl2 the table obs : The sum of the values for year 1993 was 1.0001 and do not sum to 1.0
+[WARNING] At line 49 in Observation.csl2 the table obs : The sum of the values for year 1994 was 1.0002 and do not sum to 1.0
+[WARNING] At line 49 in Observation.csl2 the table obs : The sum of the values for year 1995 was 1.0002 and do not sum to 1.0
+[WARNING] At line 49 in Observation.csl2 the table obs : The sum of the values for year 1997 was 0.9999 and do not sum to 1.0
+[WARNING] At line 49 in Observation.csl2 the table obs : The sum of the values for year 1999 was 1.0002 and do not sum to 1.0
+[WARNING] At line 49 in Observation.csl2 the table obs : The sum of the values for year 2000 was 0.9999 and do not sum to 1.0
+[WARNING] At line 49 in Observation.csl2 the table obs : The sum of the values for year 2001 was 1.0001 and do not sum to 1.0
+[WARNING] At line 49 in Observation.csl2 the table obs : The sum of the values for year 2002 was 0.9998 and do not sum to 1.0
+[WARNING] At line 49 in Observation.csl2 the table obs : The sum of the values for year 2003 was 1.0002 and do not sum to 1.0
+[WARNING] At line 49 in Observation.csl2 the table obs : The sum of the values for year 2005 was 0.9999 and do not sum to 1.0
+[WARNING] At line 49 in Observation.csl2 the table obs : The sum of the values for year 2006 was 1.0001 and do not sum to 1.0
+[WARNING] At line 49 in Observation.csl2 the table obs : The sum of the values for year 2007 was 0.9999 and do not sum to 1.0
+[WARNING] At line 49 in Observation.csl2 the table obs : The sum of the values for year 2008 was 0.9999 and do not sum to 1.0
+[WARNING] At line 49 in Observation.csl2 the table obs : The sum of the values for year 2009 was 0.9999 and do not sum to 1.0
+[WARNING] At line 49 in Observation.csl2 the table obs : The sum of the values for year 2011 was 1.0003 and do not sum to 1.0
+[WARNING] At line 115 in Observation.csl2 the table obs : The sum of the values for year 1992 was 0.9998 and do not sum to 1.0
+[WARNING] At line 115 in Observation.csl2 the table obs : The sum of the values for year 1995 was 0.9999 and do not sum to 1.0
+[WARNING] At line 115 in Observation.csl2 the table obs : The sum of the values for year 1996 was 0.9998 and do not sum to 1.0
+[WARNING] At line 115 in Observation.csl2 the table obs : The sum of the values for year 1997 was 0.9999 and do not sum to 1.0
+[WARNING] At line 115 in Observation.csl2 the table obs : The sum of the values for year 1998 was 0.9999 and do not sum to 1.0
+[WARNING] At line 115 in Observation.csl2 the table obs : The sum of the values for year 1999 was 1.0002 and do not sum to 1.0
+[WARNING] At line 115 in Observation.csl2 the table obs : The sum of the values for year 2000 was 0.9999 and do not sum to 1.0
+[WARNING] At line 115 in Observation.csl2 the table obs : The sum of the values for year 2002 was 1.0001 and do not sum to 1.0
+[WARNING] At line 115 in Observation.csl2 the table obs : The sum of the values for year 2003 was 0.9999 and do not sum to 1.0
+[WARNING] At line 115 in Observation.csl2 the table obs : The sum of the values for year 2004 was 1.0001 and do not sum to 1.0
+[WARNING] At line 115 in Observation.csl2 the table obs : The sum of the values for year 2005 was 0.9999 and do not sum to 1.0
+[WARNING] At line 115 in Observation.csl2 the table obs : The sum of the values for year 2011 was 1.0001 and do not sum to 1.0
+[WARNING] At line 171 in Observation.csl2 the table obs : The sum of the values for year 1992 was 1.0001 and do not sum to 1.0
+[WARNING] At line 171 in Observation.csl2 the table obs : The sum of the values for year 1998 was 1.0002 and do not sum to 1.0
+[WARNING] At line 171 in Observation.csl2 the table obs : The sum of the values for year 2004 was 1.0001 and do not sum to 1.0
+[WARNING] At line 171 in Observation.csl2 the table obs : The sum of the values for year 2007 was 0.9999 and do not sum to 1.0
+[INFO] Creating default report for derived quantity biomass_t1
+[INFO] Creating default report for process Recruitment
+[INFO] Creating default report for process Ageing
+[INFO] Creating default report for process instant_mort
+[INFO] Creating default report for projections __projections__
+[INFO] Initiating projection run mode
+[INFO] Completed
+[INFO] Total elapsed time: 1 seconds

@@ -46,7 +46,8 @@ void StandardHeader::PrintTop(GlobalConfiguration& global_config) {
 #endif
 
   ostringstream header;
-  header << "Casal2" << endl;
+  header << "Casal2"
+         << " (" << SOURCE_REPOS << ")" << endl;
   /**
    * Build the Command line
    */

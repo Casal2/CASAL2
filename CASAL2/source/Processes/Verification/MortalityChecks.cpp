@@ -10,17 +10,19 @@
  */
 
 // headers
-#include "Categories/Categories.h"
-#include "InitialisationPhases/Manager.h"
-#include "Model/Model.h"
+#include "../Age/Mortality/MortalityConstantExploitation.h"
+#include "../Age/Mortality/MortalityConstantRate.h"
 #include "../Age/Mortality/MortalityHybrid.h"
 #include "../Age/Mortality/MortalityInstantaneous.h"
 #include "../Age/Mortality/MortalityInstantaneousRetained.h"
-#include "../Age/Mortality/MortalityConstantRate.h"
-#include "../Length/MortalityInstantaneous.h"
+#include "../Length/MortalityConstantExploitation.h"
 #include "../Length/MortalityConstantRate.h"
+#include "../Length/MortalityInstantaneous.h"
 #include "../Manager.h"
 #include "../Process.h"
+#include "Categories/Categories.h"
+#include "InitialisationPhases/Manager.h"
+#include "Model/Model.h"
 
 // namespaces
 namespace niwa::processes::verification {
@@ -33,8 +35,7 @@ namespace niwa::processes::verification {
 void AllCategoriesHaveAnM(shared_ptr<Model> model) {
   map<string, unsigned> category_count;
   vector<string>        all_categories = model->categories()->category_names();
-  if(model->partition_type() == PartitionType::kAge) {
-      
+  if (model->partition_type() == PartitionType::kAge) {
     auto process_list = model->managers()->process()->objects();
     for (auto* process : process_list) {
       if (process->process_type() == ProcessType::kMortality) {
@@ -43,8 +44,7 @@ void AllCategoriesHaveAnM(shared_ptr<Model> model) {
           if (!mortality)
             LOG_CODE_ERROR() << "!mortality with auto* mortality = dynamic_cast<age::MortalityConstantRate*>(process)";
 
-          for (auto label : mortality->category_labels()) 
-            category_count[label]++;
+          for (auto label : mortality->category_labels()) category_count[label]++;
 
         } else if (process->type() == PARAM_MORTALITY_INSTANTANEOUS) {
           age::MortalityInstantaneous* mortality = dynamic_cast<age::MortalityInstantaneous*>(process);
@@ -70,10 +70,18 @@ void AllCategoriesHaveAnM(shared_ptr<Model> model) {
           for (auto label : mortality->category_labels()) {
             category_count[label]++;
           }
+        } else if (process->type() == PARAM_MORTALITY_CONSTANT_EXPLOITATION) {
+          age::MortalityConstantExploitation* mortality = dynamic_cast<age::MortalityConstantExploitation*>(process);
+          if (!mortality)
+            LOG_CODE_ERROR() << "!mortality with auto* mortality = dynamic_cast<age::MortalityConstantExploitation*>(process)";
+
+          for (auto label : mortality->category_labels()) {
+            category_count[label]++;
+          }
         }
       }
     }
-  } else if(model->partition_type() == PartitionType::kLength) {
+  } else if (model->partition_type() == PartitionType::kLength) {
     auto process_list = model->managers()->process()->objects();
     for (auto* process : process_list) {
       if (process->process_type() == ProcessType::kMortality) {
@@ -82,8 +90,7 @@ void AllCategoriesHaveAnM(shared_ptr<Model> model) {
           if (!mortality)
             LOG_CODE_ERROR() << "!mortality with auto* mortality = dynamic_cast<length::MortalityConstantRate*>(process)";
 
-          for (auto label : mortality->category_labels()) 
-            category_count[label]++;
+          for (auto label : mortality->category_labels()) category_count[label]++;
 
         } else if (process->type() == PARAM_MORTALITY_INSTANTANEOUS) {
           length::MortalityInstantaneous* mortality = dynamic_cast<length::MortalityInstantaneous*>(process);
@@ -93,15 +100,24 @@ void AllCategoriesHaveAnM(shared_ptr<Model> model) {
           for (auto label : mortality->category_labels()) {
             category_count[label]++;
           }
-        } 
+        } else if (process->type() == PARAM_MORTALITY_CONSTANT_EXPLOITATION) {
+          length::MortalityConstantExploitation* mortality = dynamic_cast<length::MortalityConstantExploitation*>(process);
+          if (!mortality)
+            LOG_CODE_ERROR() << "!mortality with auto* mortality = dynamic_cast<length::MortalityConstantExploitation*>(process)";
+
+          for (auto label : mortality->category_labels()) {
+            category_count[label]++;
+          }
+        }
       }
     }
   }
 
   // check to ensure we only have 1 of each category
   for (auto iter : all_categories) {
-    if(category_count[iter] <= 0) {
-      LOG_VERIFY() << "Category " << iter << " not found in mortality processes. Suggests no M for this category.";
+    if (category_count[iter] <= 0) {
+      LOG_VERIFY() << "The category " << iter
+                   << " was not found in any mortality processes. This suggests that there is no mortality processes occuring on this category. This is likely to be an error";
     }
   }
 }

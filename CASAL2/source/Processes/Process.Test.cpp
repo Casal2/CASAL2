@@ -74,6 +74,7 @@ type constant_rate
 categories *
 M 0.065 0.065 0.065 0.065
 relative_m_by_age One One One One
+time_step_proportions 0.5 0.5
 
 @process maturation
 type transition_category

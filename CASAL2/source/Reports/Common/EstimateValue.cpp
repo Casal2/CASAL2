@@ -36,12 +36,21 @@ void EstimateValue::DoExecute(shared_ptr<Model> model) {
   vector<Estimate*> estimates = model->managers()->estimate()->GetIsEstimated();
   vector<Profile*>  profiles  = model->managers()->profile()->objects();
   LOG_TRACE();
-  // Check if estimates are close to bounds. flag a warning.
+  // Check if estimates are outside bounds (error) or close to bounds (warning).
   for (Estimate* estimate : estimates) {
-    if ((estimate->value() - estimate->lower_bound()) < 0.001) {
-      LOG_WARNING() << "estimated parameter '" << estimate->parameter() << "' was within 0.001 of lower bound " << estimate->lower_bound();
-    } else if ((estimate->upper_bound() - estimate->value()) < 0.001) {
-      LOG_WARNING() << "estimated parameter '" << estimate->parameter() << "' was within 0.001 of upper bound " << estimate->upper_bound();
+    if ((estimate->value() - estimate->lower_bound()) < 0.0) {
+      LOG_FATAL() << "estimated parameter '" << estimate->parameter() << "' with value " << estimate->value() << " must be greater than the lower bound of "
+                  << estimate->lower_bound();
+    } else if ((estimate->value() - estimate->upper_bound()) > 0.0) {
+      LOG_FATAL() << "estimated parameter '" << estimate->parameter() << "' with value " << estimate->value() << " must be less than the upper bound of "
+                  << estimate->upper_bound();
+    }
+    if (fabs(estimate->value() - estimate->lower_bound()) < 0.001) {
+      LOG_WARNING() << "estimated parameter '" << estimate->parameter() << "' with value " << estimate->value() << " was within 0.001 of the lower bound of "
+                    << estimate->lower_bound();
+    } else if (fabs(estimate->upper_bound() - estimate->value()) < 0.001) {
+      LOG_WARNING() << "estimated parameter '" << estimate->parameter() << "' with value " << estimate->value() << " was within 0.001 of the upper bound of "
+                    << estimate->upper_bound();
     }
   }
 
@@ -49,20 +58,17 @@ void EstimateValue::DoExecute(shared_ptr<Model> model) {
     if (format_ == PARAM_R) {
       cache_ << ReportHeader(type_, label_, format_);
       cache_ << "values " << REPORT_R_DATAFRAME << REPORT_EOL;
-      for (Estimate* estimate : estimates) 
-        cache_ << estimate->parameter() << " ";
- 
-      if(model->run_mode() == RunMode::kProfiling) {
+      for (Estimate* estimate : estimates) cache_ << estimate->parameter() << " ";
+
+      if (model->run_mode() == RunMode::kProfiling) {
         LOG_FINE() << "profileing";
-        for (Profile* profile : profiles) 
-          cache_ << profile->parameter() << " ";
+        for (Profile* profile : profiles) cache_ << profile->parameter() << " ";
         cache_ << REPORT_EOL;
       } else {
         cache_ << REPORT_EOL;
       }
-      for (Estimate* estimate : estimates) 
-        cache_ << AS_DOUBLE(estimate->value()) << " ";
-      if(model->run_mode() == RunMode::kProfiling) {
+      for (Estimate* estimate : estimates) cache_ << AS_DOUBLE(estimate->value()) << " ";
+      if (model->run_mode() == RunMode::kProfiling) {
         LOG_FINE() << "profileing";
         for (Profile* profile : profiles) {
           cache_ << AS_DOUBLE(profile->value()) << " ";
@@ -75,21 +81,18 @@ void EstimateValue::DoExecute(shared_ptr<Model> model) {
     } else if (format_ == PARAM_NONE) {
       skip_tags_ = true;
       if (first_run_) {
-        for (Estimate* estimate : estimates) 
-          cache_ << estimate->parameter() << " ";
-        if(model->run_mode() == RunMode::kProfiling) {
+        for (Estimate* estimate : estimates) cache_ << estimate->parameter() << " ";
+        if (model->run_mode() == RunMode::kProfiling) {
           LOG_FINE() << "profileing";
-          for (Profile* profile : profiles) 
-            cache_ << profile->parameter() << " ";
+          for (Profile* profile : profiles) cache_ << profile->parameter() << " ";
           cache_ << REPORT_EOL;
         } else {
           cache_ << REPORT_EOL;
         }
         first_run_ = false;
       }
-      for (Estimate* estimate : estimates) 
-        cache_ << AS_DOUBLE(estimate->value()) << " ";
-      if(model->run_mode() == RunMode::kProfiling) {
+      for (Estimate* estimate : estimates) cache_ << AS_DOUBLE(estimate->value()) << " ";
+      if (model->run_mode() == RunMode::kProfiling) {
         LOG_FINE() << "profileing";
         for (Profile* profile : profiles) {
           cache_ << AS_DOUBLE(profile->value()) << " ";

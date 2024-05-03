@@ -89,6 +89,7 @@ TEST(Selectivities, Logistic_Age) {
   ASSERT_THROW(logistic.GetAgeResult(21, nullptr), std::string);              // This is above model->max_age()
 }
 
+
 TEST(Selectivities, Logistic_Length) {
   shared_ptr<MockModelLength> model = shared_ptr<MockModelLength>(new MockModelLength());
   vector<double> lengths = {10, 20, 30, 40, 50, 60, 120};

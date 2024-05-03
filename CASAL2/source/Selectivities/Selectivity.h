@@ -34,8 +34,12 @@ public:
   Selectivity() = delete;
   explicit Selectivity(shared_ptr<Model> model);
   virtual ~Selectivity() = default;
-  void           Validate();
-  virtual void   Build() {Reset(); RebuildCache();};
+  void         Validate();
+  virtual void Build() {
+    DoBuild();
+    Reset();
+    RebuildCache();
+  };
   void           Verify(shared_ptr<Model> model){};
   void           Reset();
   virtual Double GetAgeResult(unsigned age, AgeLength* age_length);
@@ -43,21 +47,22 @@ public:
   virtual Double GetResult(Double x);
   bool           IsSelectivityLengthBased() const { return length_based_; }
   void           RebuildCache();
+  string         GetLabel() const { return label_; }  // added for LOG_ messages and debugging
+  string         GetType() const { return type_; }    // added for determining multi-selectivities
 
-  Vector3*       GetCache(AgeLength* age_length);
-
-
+  Vector3* GetCache(AgeLength* age_length);
 
   bool length_based() const { return length_based_; }
   // now we can print length based selectivities in age-based models
-  virtual Double get_value(Double value)                                                                                = 0;
-  virtual Double get_value(unsigned value)                                                                              = 0;
+  virtual Double get_value(Double value)   = 0;
+  virtual Double get_value(unsigned value) = 0;
+
 protected:
   // pure methods
   virtual Double GetLengthBasedResult(unsigned age, AgeLength* age_length);
-  virtual void   DoValidate()                                                                                           = 0;
+  virtual void   DoValidate() = 0;
+  virtual void   DoBuild(){};
   virtual void   DoReset();
-
 
   // Members
   shared_ptr<Model> model_   = nullptr;

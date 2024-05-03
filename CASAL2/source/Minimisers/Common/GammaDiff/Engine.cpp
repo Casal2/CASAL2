@@ -162,12 +162,14 @@ double Engine::optimise_finite_differences(gammadiff::CallBack& objective, vecto
 
       buildCurrentValues();
       dScore = objective(vCurrentValues);
-      // std::cerr << "Current estimates: ";
-      // for (int i = 0; i < iVectorSize; ++i) {
-      //   std::cerr << vCurrentValues[i] << " ";
-      // }
-      // std::cerr << "\nObjective function value: " << dScore << "\n";
       dScore += dPenalty;  // Bound penalty
+
+      std::string sValues = "";
+      for (int i = 0; i < iVectorSize; ++i) {
+        sValues = sValues + std::to_string(vCurrentValues[i]) + " ";
+      }
+      LOG_INFO() << "Objective function value: " << dScore;
+      LOG_INFO() << "About to evaluate function with x = " << sValues;
     }
 
     // Gradient Required

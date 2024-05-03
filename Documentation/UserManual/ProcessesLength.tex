@@ -4,15 +4,15 @@ Population processes are processes that change the model state. These processes 
 Current population processes available include:
 
 \begin{itemize}
-\item recruitment\index{Recruitment} (Section~\ref{sec:Process-Length-Recruitment}),
-\item growth\index{Growth} (Section~\ref{sec:GrowthIncrement}),
+\item recruitment\index{Recruitment} (Section~\ref{sec:Process-Recruitment}),
+\item growth\index{Growth} (Section~\ref{sec:Growth}),
 \item mortality\index{Mortality} events (e.g., natural and fishing) (Section~\ref{sec:Process-Mortality}), 
-\item category transition processes\index{Category transition}, i.e., processes that move individuals between categories while preserving their overall length structure (Section~\ref{sec:Process-Length-TransitionCategory}), and
+\item category transition processes\index{Category transition}, i.e., processes that move individuals between categories while preserving their overall length structure (Section~\ref{sec:Process-TransitionCategory}), and
 \end{itemize}
 
 There are two types of processes: (1) processes that occur across multiple time steps in the annual cycle, e.g., \subcommand{mortality\_constant\_rate}, \subcommand{mortality\_instantaneous}, \subcommand{growth}; and (2) processes that occur only within the time step in which they are specified.
 
-\subsubsection{\I{Recruitment}}\label{sec:Process-Length-Recruitment}
+\subsubsection{\I{Recruitment}}\label{sec:Process-Recruitment}
 
 The recruitment processes adds new individuals to the partition. Recruitment depends on the \(B_{0}\) and \(R_{0}\) parameters which are interpreted as the average spawning stock biomass and recruitment over the period of data when there is no fishing. The other factors needed are spawning stock biomass ($SSB$; see Section~\ref{sec:DerivedQuantity}), stock-recruitment relationship and the CV for the prior on recruitment multipliers (the mean is mandated to be 1 over some specified year range). Thus, a $SSB$ label may have to be included (pointing to a derived quantity).
 
@@ -29,7 +29,28 @@ N_{y,l,j} \leftarrow N_{y,l,j} + p_j(R_y) * f_j(l,\mu, \sigma)
 where $N_{y,l,j}$ is the numbers in year $y$ and category $j$ at length bin $l$, $p_j$ is the proportion added to category $j$, \(f(l,\mu, \sigma)\) is the density function of recruits among length bins for category \(j\), and $R_y$ is the total number of recruits in year $y$.
 
 
-\paragraph{\I{Beverton-Holt recruitment}}\label{sec:Process-Length-RecruitmentBevertonHolt}
+\paragraph{\I{Constant recruitment}}\label{sec:Process-RecruitmentConstant}
+
+In the constant recruitment process the total number of recruits added in each year $y$ in age $a$ is $R_y$, with $R_y = R_0$ for all years
+
+\begin{equation}
+	R_{y,j} = p_j(R_0)
+\end{equation}
+
+Constant recruitment is equivalent to a Beverton-Holt recruitment process with steepness ($h$) set to 1.
+
+For example, to specify a constant recruitment process where individuals are added to the male and female immature categories at $age=1$ in equal proportion (\texttt{proportions} = 0.5), and the number to add is $R_0=5 \times 10^5$, the syntax is
+
+{\small{\begin{verbatim}
+			@process Recruitment
+			type constant_recruitment
+			categories male.immature female.immature
+			proportions 0.5 0.5
+			r0 500000
+			length_bins 1
+\end{verbatim}}}
+
+\paragraph{\I{Beverton-Holt recruitment}}\label{sec:Process-RecruitmentBevertonHolt}
 
 In the Beverton-Holt recruitment process the total number of recruits added each year is $R_y$. $R_y$ is the product of the average recruitment $R_0$, the annual recruitment multipliers ($YCS$, also called year class strength), and the stock-recruit relationship $SR(SSB_y)$
 
@@ -106,21 +127,21 @@ In the  example given above, $YCS$ are standardised to have mean one in the peri
 		type recruitment_beverton_holt
 		...            #subcommand above
 		standardise_years 1995:2004
-		recruitment_multipliers 0.65 0.87  1.6 1.13 1.02 0.38 2.65 1.35    1    1    1    1    1
+		recruitment_multipliers 0.65 0.87 1.6 1.13 1.02 0.38 2.65 1.35 1 1 1 1 1
 		\end{verbatim}}}
-
 
 \subsubsection{\I{Mortality}\label{sec:Process-Mortality}}
 
-There are 3 types of mortality processes available in \CNAME length based models, and one tag release processes that also causes mortality (See Tagging Section~\ref{sec:Process-Tagging}):
+There are 4 types of mortality processes available in \CNAME length based models, plus the tag release processes that can also cause mortality (See Tagging Section~\ref{sec:Process-Tagging}):
 
 \begin{itemize}
 	\item constant rate,
+	\item constant exploitation,
 	\item instantaneous, and
 	\item disease.
 \end{itemize}
 
-\paragraph{Constant mortality rate}\label{sec:Process-Length-MortalityConstantRate} 
+\paragraph{Constant mortality rate}\label{sec:Process-MortalityConstantRate} 
 
 To specify a constant annual mortality rate \index{Constant mortality}(e.g. $M=0.2$) for categories "male" and "female"
 {\small{\begin{verbatim}
@@ -171,7 +192,37 @@ Length-specific mortality rates can also be applied. For example, the hypothesis
 
 In this definition \subcommand{m} is set to 1.0 and the rate is described through the selectivity. Otherwise, $M_{l} = S_{l} * m$. This concept can be constructed similarly for other mortality methods such as \subcommand{instantaneous\_mortality}.
 
-\paragraph{Instantaneous mortality}\label{sec:Process-Length-MortalityInstantaneous}
+\paragraph{Constant mortality exploitation}\label{sec:Process-MortalityConstantExploitation} 
+
+To specify a constant annual exploitation rate \index{Constant exploitation}(e.g. $U=0.2$) for categories "male" and "female"
+{\small{\begin{verbatim}
+			# A process with label IncidentalMortality
+			@process IncidentalMortality
+			type          mortality_constant_exploitation
+			categories    male female
+			relative_u_by_length One One
+			u             0.2 0.2
+\end{verbatim}}}
+
+The total number of individuals removed from a category
+
+\begin{equation}
+	D_{j,t} = \sum_l N_{l,j,t} S_{l,j} U_{l,j} p_t
+\end{equation}
+
+where $D_{j,t}$ is the total number of removals in category $j$ in time step $t$, $N_{l,j,t}$ is the number of individuals in category $j$ of length bin $l$ in time step $t$, $S_{l,j}$ is the selectivity value for length bin $l$ in category $j$, $U_{l,j}$ is the exploitation rate for category $j$ for length bin $l$, and $p_t$ is the proportion of the exploitation rates to apply in time step $t$.
+
+The exploitation rate process requires the specification of the mortality-by-length curve which is specified using a selectivity. To apply the same mortality rate over all length bins in a category, use a selectivity defined as $S_{l,j}=1.0$ for all lengths $l$ in category $j$
+
+{\small{\begin{verbatim}
+			@selectivity One
+			type constant
+			c 1
+\end{verbatim}}}
+
+Length-specific exploitation rates can also be applied. 
+
+\paragraph{Instantaneous mortality}\label{sec:Process-MortalityInstantaneous}
 
 The instantaneous mortality process\index{Instantaneous mortality} combines both natural mortality and fishing exploitation into a single process. This allows the simultaneous application of both natural mortality and anthropogenic mortality to occur across multiple time steps. This process accounts for half the natural mortality within a time step before calculating vulnerable biomasses for calculating exploitation rates. The remaining half of the natural mortality is taken after exploitation has been accounted for. The input for this process is catches and these can either be specified as biomasses or numbers (abundance). In fisheries models in \CNAME\ this is the most commonly used mortality process.
 
@@ -256,7 +307,7 @@ year_effect 0.05 0.11 0.39 0.38 0.20
 years 2000 2001 2002 2003 2004 2005 
 		\end{verbatim}}}
 
-\subsubsection{\I{Transition By Category}}\label{sec:Process-Length-TransitionCategory}
+\subsubsection{\I{Transition By Category}}\label{sec:Process-TransitionCategory}
 
 The transition by category process moves individuals between categories. This process is used to specify transitions such as maturation (individuals move from an immature to mature state) and migration (individuals move from one area to another).
 
@@ -291,7 +342,9 @@ If you want to estimate the proportion parameter, the parameter is addressed usi
 		...
 		\end{verbatim}}}
 
-\subsubsection{\I{Tagging}}\label{sec:Process-Tagging}
+The transition by category process can be (optionally) included within a mortality block, but note that this may result in negative or nonsensical derived quantities or observations in either the "from" or the "to" categories. If used within the mortality block, care should be taken to ensure that any derived quantities or observations are correctly specified.
+
+\subsubsection{\I{Tagging}}\label{sec:Process-Tagging}\label{sec:Process-TagByLength}
 
 Tag release events (also known as mark-recapture events or tag-release events) allow \CNAME\ to incorporate tagging data into the model.
 

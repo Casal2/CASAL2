@@ -1,0 +1,60 @@
+\defComLab{model}{Define an object of type \emph{Model}}.
+\defRef{sec:Model}
+\label{syntax:Model}
+
+\defSub{type}{Type of model (either type=age or type=length)}
+\defType{String}
+\defDefault{age}
+
+\defSub{base\_weight\_units}{Define the units for the base weight measurement unit (grams, kilograms (kgs), or tonnes). This will be the default unit of any weight input values}
+\defType{String}
+\defDefault{tonnes}
+
+\defSub{threads}{The number of threads to use for this model}
+\defType{Non-negative integer}
+\defDefault{1}
+\defLowerBound{1 (inclusive)}
+
+\subsubsection{Model of type Length}
+\commandlabsubarg{model}{type}{length}.
+\label{syntax:Model-Length}
+
+\defSub{start\_year}{Define the first year of the model, immediately following initialisation}
+\defType{Non-negative integer}
+\defDefault{No default}
+\defValue{Defines the first year of the model, must be $\ge 1000$, e.g. 1990}
+
+\defSub{final\_year}{Define the final year of the model, excluding years in the projection period}
+\defType{Non-negative integer}
+\defDefault{No default}
+\defValue{Defines the last year of the model, i.e., the model is run from start\_year to final\_year}
+
+\defSub{initialisation\_phases}{Define the labels of the phases of the initialisation}
+\defType{Vector of strings}
+\defDefault{true}
+\defValue{A list of valid labels defined by \texttt{@initialisation\_phase}}
+
+\defSub{time\_steps}{Define the labels of the time steps, in the order that they are applied, to form the annual cycle}
+\defType{Vector of strings}
+\defDefault{No default}
+\defValue{A list of valid labels defined by \texttt{@time\_step}}
+
+\defSub{projection\_final\_year}{Define the final year of the model when running projections}
+\defType{Non-negative integer}
+\defDefault{0}
+\defValue{A value greater than final\_year}
+
+\defSub{length\_bins}{The minimum length in each length bin}
+\defType{Vector of real numbers (estimable)}
+\defDefault{true}
+\defValue{$0 \le$ length\textlow{min} $\le$ length\textlow{max}}
+
+\defSub{length\_plus}{Specify whether there is a length plus group or not}
+\defType{Boolean}
+\defDefault{true}
+\defValue{true, false}
+
+\defSub{length\_plus\_group}{Mean length of length plus group}
+\defType{Real number (estimable)}
+\defDefault{0}
+\defValue{length\textlow{max} $<$ length\_plus\_group}

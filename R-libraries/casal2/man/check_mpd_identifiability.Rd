@@ -7,8 +7,9 @@
 check_mpd_identifiability(cas2_mod, delta = .Machine$double.eps)
 }
 \arguments{
-\item{model}{<casal2MPD> object that are generated from the extract.mpd() function. It expects the report of type
-covariance_matrix to be present.}
+\item{cas2_mod}{Model object that are generated from the extract.mpd() function. It expects the report of type covariance_matrix to be present.}
+
+\item{delta}{delta value}
 }
 \value{
 a data frame or message about the model

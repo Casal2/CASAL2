@@ -32,7 +32,7 @@ void DefaultReports::DoBuild(shared_ptr<Model> model) {
 
   if (model->is_primary_thread_model()) {
     if (report_catchabilities_) {
-      if(model->global_configuration().print_tabular()) {
+      if (model->global_configuration().print_tabular()) {
         string report_label = "__catchabilities__";
         LOG_INFO() << "Creating default report for tabular catchability " << report_label;
         reports::Catchability* report = new reports::Catchability();
@@ -45,7 +45,7 @@ void DefaultReports::DoBuild(shared_ptr<Model> model) {
         model->managers()->report()->AddInternalObject(report);
       } else {
         catchabilities::Manager& CatchabilityManager = *model->managers()->catchability();
-        auto catchability = CatchabilityManager.objects();
+        auto                     catchability        = CatchabilityManager.objects();
         for (auto object : catchability) {
           string label        = object->label();
           string report_label = "__" + label + "__";
@@ -64,7 +64,7 @@ void DefaultReports::DoBuild(shared_ptr<Model> model) {
     }
     if (time_varying_) {
       timevarying::Manager& TimeVaryingManager = *model->managers()->time_varying();
-      auto time_vary = TimeVaryingManager.objects();
+      auto                  time_vary          = TimeVaryingManager.objects();
       for (auto object : time_vary) {
         string label        = object->label();
         string report_label = "__" + label + "__";
@@ -82,7 +82,7 @@ void DefaultReports::DoBuild(shared_ptr<Model> model) {
     }
     if (report_derived_quantities_) {
       derivedquantities::Manager& DerivedQuantityManager = *model->managers()->derived_quantity();
-      auto derivedquantity = DerivedQuantityManager.objects();
+      auto                        derivedquantity        = DerivedQuantityManager.objects();
       for (auto object : derivedquantity) {
         string label        = object->label();
         string report_label = "__" + label + "__";
@@ -100,7 +100,7 @@ void DefaultReports::DoBuild(shared_ptr<Model> model) {
     }
     if (addressable_transformations_) {
       addressabletransformations::Manager& TransformationManager = *model->managers()->addressable_transformation();
-      auto transformation = TransformationManager.objects();
+      auto                                 transformation        = TransformationManager.objects();
       for (auto object : transformation) {
         string label        = object->label();
         string report_label = "__" + label + "__";
@@ -154,11 +154,11 @@ void DefaultReports::DoBuild(shared_ptr<Model> model) {
       }
     }
     // only run in projection mode
-    if(model->run_mode() == RunMode::kProjection) {
+    if (model->run_mode() == RunMode::kProjection) {
       if (report_projects_) {
-        if(model->global_configuration().print_tabular()) {
-          reports::Project* report = new reports::Project();
-          string report_label = "__projections__";
+        if (model->global_configuration().print_tabular()) {
+          reports::Project* report       = new reports::Project();
+          string            report_label = "__projections__";
           LOG_INFO() << "Creating default report for projections " << report_label;
           report->set_is_default(true);
           report->set_block_type(PARAM_REPORT);
@@ -189,27 +189,37 @@ void DefaultReports::DoBuild(shared_ptr<Model> model) {
       }
     }
     if (report_selectivities_) {
-      if(model->global_configuration().print_tabular()) {
-        reports::Selectivity* report = new reports::Selectivity();
-        string report_label = "__selectivities__";
-        LOG_INFO() << "Creating default report for selectivity " << report_label;
-
-        report->set_is_default(true);
-        report->set_block_type(PARAM_REPORT);
-        report->set_defined_file_name(__FILE__);
-        report->set_defined_line_number(__LINE__);
-        report->parameters().Add(PARAM_LABEL, report_label, __FILE__, __LINE__);
-        report->parameters().Add(PARAM_TYPE, PARAM_SELECTIVITY, __FILE__, __LINE__);
-        model->managers()->report()->AddInternalObject(report);
-      } else {
+      if (model->global_configuration().print_tabular()) {
         selectivities::Manager& SelectivityManager = *model->managers()->selectivity();
-
-        auto selectivity = SelectivityManager.objects();
+        auto                    selectivity        = SelectivityManager.objects();
         for (auto object : selectivity) {
           string label        = object->label();
           string report_label = "__" + label + "__";
 
-          if(!object->IsSelectivityLengthBased()) {
+          if (!object->IsSelectivityLengthBased()) {
+            LOG_INFO() << "Creating default report for selectivity " << label;
+
+            reports::Selectivity* report = new reports::Selectivity();
+            report->set_is_default(true);
+            report->set_block_type(PARAM_REPORT);
+            report->set_defined_file_name(__FILE__);
+            report->set_defined_line_number(__LINE__);
+            report->parameters().Add(PARAM_LABEL, report_label, __FILE__, __LINE__);
+            report->parameters().Add(PARAM_TYPE, PARAM_SELECTIVITY, __FILE__, __LINE__);
+            report->parameters().Add(PARAM_SELECTIVITY, label, __FILE__, __LINE__);
+            model->managers()->report()->AddInternalObject(report);
+          } else {
+            LOG_INFO() << "skipping the default report for " << label << " this is a length based selectivity. Please create a specific report for this";
+          }
+        }
+      } else {
+        selectivities::Manager& SelectivityManager = *model->managers()->selectivity();
+        auto                    selectivity        = SelectivityManager.objects();
+        for (auto object : selectivity) {
+          string label        = object->label();
+          string report_label = "__" + label + "__";
+
+          if (!object->IsSelectivityLengthBased()) {
             LOG_INFO() << "Creating default report for selectivity " << label;
             reports::Selectivity* report = new reports::Selectivity();
             report->set_is_default(true);
@@ -221,7 +231,7 @@ void DefaultReports::DoBuild(shared_ptr<Model> model) {
             report->parameters().Add(PARAM_SELECTIVITY, label, __FILE__, __LINE__);
             model->managers()->report()->AddInternalObject(report);
           } else {
-            LOG_INFO() << "skipping the default report for " << label << " this is a length based selectivity. Create a seperate report for this";
+            LOG_INFO() << "skipping the default report for " << label << " this is a length based selectivity. Please create a specific report for this";
           }
         }
       }

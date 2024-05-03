@@ -5,19 +5,20 @@
  * @date 5/04/2013
  * @section LICENSE
  *
- * Copyright NIWA Science ©2013 - www.niwa.co.nz
+ * Copyright NIWA Science ï¿½2013 - www.niwa.co.nz
  *
  * $Date: 2008-03-04 16:33:32 +1300 (Tue, 04 Mar 2008) $
  */
 #ifdef TESTMODE
 
 // Headers
+#include "MortalityConstantRate.h"
+
 #include <iostream>
 
 #include "Model/Factory.h"
 #include "Model/Managers.h"
 #include "Model/Model.h"
-#include "MortalityConstantRate.h"
 #include "Partition/Partition.h"
 #include "TestResources/TestFixtures/BasicModel.h"
 #include "TimeSteps/Manager.h"
@@ -56,10 +57,11 @@ TEST_F(BasicModel, Processes_Mortality_Constant_Rate) {
   vector<string> mortality_categories = {"immature.male", "immature.female", "mature.male", "mature.female"};
   process                             = model_->factory().CreateObject(PARAM_MORTALITY, PARAM_CONSTANT_RATE);
   process->parameters().Add(PARAM_LABEL, "mortality", __FILE__, __LINE__);
-  process->parameters().Add(PARAM_TYPE, "constant_rate", __FILE__, __LINE__);
+  process->parameters().Add(PARAM_TYPE, "mortality_constant_rate", __FILE__, __LINE__);
   process->parameters().Add(PARAM_CATEGORIES, mortality_categories, __FILE__, __LINE__);
   process->parameters().Add(PARAM_M, "0.065", __FILE__, __LINE__);
   process->parameters().Add(PARAM_RELATIVE_M_BY_AGE, "constant_one", __FILE__, __LINE__);
+  process->parameters().Add(PARAM_TIME_STEP_PROPORTIONS, "1.0", __FILE__, __LINE__);
 
   // Ageing process
   vector<string> ageing_categories = {"immature.male", "immature.female"};

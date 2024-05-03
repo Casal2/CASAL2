@@ -6,6 +6,9 @@
 \usage{
 check_short_hand(x)
 }
+\arguments{
+\item{x}{variable to check}
+}
 \description{
 Utility extract function
 }

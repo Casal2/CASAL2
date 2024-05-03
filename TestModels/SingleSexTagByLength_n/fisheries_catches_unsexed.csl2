@@ -1,0 +1,28 @@
+table catches
+year FishingShelf FishingSlope FishingNorth
+1998	8.030	28.970		3.970
+1999	14.310	281.500		0.430
+2000	64.370	687.540		0
+2001	112.540	347.070		132.500
+2002	10.100	933.220		411.960
+2003	2.290	608.650		1157.940
+2004	140.560	1667.390	369.770
+2005	397.320	2262.320	550.090
+2006	250.840	2372.830	343.300
+2007	67.530	2438.330	573.010
+2008	60.550	1938.910	250.950
+2009	134.500	1904.160	392.850
+2010	327.910	2170.510	370.000
+2011	483.230	2053.800	310.360
+2012	276.810	2375.220	546.840
+2013	268.450	2506.030	411.340
+2014	265.300	2314.770	340.580
+2015	232.620	2236.180	364.140
+end_table
+
+table method
+method		category	selectivity	u_max	time_step	penalty
+FishingShelf	format=*	Shelfsel	0.99	Summer	event_mortality_penalty
+FishingSlope	format=*	Slopesel	0.99	Summer	event_mortality_penalty
+FishingNorth	format=*	Northsel	0.99	Summer	event_mortality_penalty
+end_table

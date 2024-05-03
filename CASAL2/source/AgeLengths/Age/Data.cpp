@@ -39,7 +39,6 @@ Data::Data(shared_ptr<Model> model) : AgeLength(model) {
   parameters_.Bind<string>(PARAM_INTERNAL_GAPS, &internal_gaps_, "The method to use for internal data gaps", "", PARAM_MEAN)
       ->set_allowed_values({PARAM_MEAN, PARAM_NEAREST_NEIGHBOUR, PARAM_INTERPOLATE});
   parameters_.Bind<string>(PARAM_TIME_STEP_MEASUREMENTS_WERE_MADE, &step_data_supplied_, "The time step label for which size-at-age data are provided", "");
-
 }
 
 /**
@@ -99,7 +98,8 @@ void Data::DoBuild() {
   // basic validation
   const vector<string>& columns = data_table_->columns();
   if (columns.size() != model_->age_spread() + 1)
-    LOG_ERROR_P(PARAM_DATA) << "The column count (" << columns.size() << ") must be age-spread, which equals " << model_->age_spread() + 1 << " columns";
+    LOG_ERROR_P(PARAM_DATA) << "The column count (" << columns.size() << ") must be one column for each of <year> and <model ages> for a total of " << model_->age_spread() + 1
+                            << " columns";
   if (columns[0] != PARAM_YEAR)
     LOG_ERROR_P(PARAM_DATA) << "The first column label must be 'year'. First column label was '" << columns[0] << "'";
 
@@ -121,7 +121,7 @@ void Data::DoBuild() {
     unsigned year = utilities::ToInline<string, unsigned>(row[0]);
     // Check year is valid
     if (find(model_->years().begin(), model_->years().end(), year) == model_->years().end())
-      LOG_WARNING() << "year " << year << " is not in the model run years, so this age length will not be used";
+      LOG_WARNING_P(PARAM_DATA) << "year " << year << " is not in the model run years, so this age length will not be used";
 
     for (unsigned i = 1; i < row.size(); ++i) {
       data_by_year_[year].push_back(utilities::ToInline<string, Double>(row[i]));
@@ -130,7 +130,7 @@ void Data::DoBuild() {
   }
 
   /*
-   * Build our average map for use in initialisation and simulation phases and projections (I am guessing, I havent' tested projections yet)
+   * Build our average map for use in initialisation and simulation phases and projections (I am guessing, I haven't' tested projections yet)
    */
   for (unsigned i = 0; i < model_->age_spread(); ++i) {
     data_by_age_time_step_[step_index_data_supplied_][model_->min_age() + i] = total_length[i] / number_of_years;
@@ -161,7 +161,7 @@ void Data::DoBuild() {
   for (auto year : model_->years()) {
     LOG_FINEST() << "inital population for  = " << year;
     for (unsigned i = 0; i < number_time_steps_; ++i) {
-      LOG_FINEST() <<"step = "<< i;
+      LOG_FINEST() << "step = " << i;
       LOG_FINEST() << "data_by_year_[" << year << "].size() " << data_by_year_[year].size();
       for (unsigned a = 0; a < model_->age_spread(); ++a) {
         age = a + model_->min_age();
@@ -193,8 +193,7 @@ void Data::InterpolateTimeStepsForInitialConditions() {
         age = a + model_->min_age();
 
         if ((step_index_data_supplied_ < i && i < ageing_index_) || (i < ageing_index_ && ageing_index_ < step_index_data_supplied_)
-            || (ageing_index_ < step_index_data_supplied_ && step_index_data_supplied_ < i)
-            || (ageing_index_ == step_index_data_supplied_) || (i == step_index_data_supplied_))
+            || (ageing_index_ < step_index_data_supplied_ && step_index_data_supplied_ < i) || (ageing_index_ == step_index_data_supplied_) || (i == step_index_data_supplied_))
           a1 = a;
         else
           a1 = a - 1;
@@ -249,7 +248,8 @@ void Data::InterpolateTimeStepsForAllYears() {
   LOG_TRACE();
   // Now we need to work with average_mean_sizes, using interpolation
   // We only have to figure sizes for steps j in steps_to_figure:
-  unsigned y1, y2, a1, a2, age;
+  int      a1, a2;
+  unsigned y1, y2, age;
   Double   w1, w2;
   for (auto year : model_->years()) {
     LOG_FINE() << "calculating age-length relationship for " << this->label() << " for year = " << year;
@@ -257,48 +257,39 @@ void Data::InterpolateTimeStepsForAllYears() {
       LOG_FINE() << "time step = " << i;
       if (find(steps_to_figure_.begin(), steps_to_figure_.end(), i) != steps_to_figure_.end()) {
         LOG_FINE() << "adapting time step = " << i;
-        for (unsigned a = 0; a < model_->age_spread(); ++a) {
+        for (int a = 0; a < (int)model_->age_spread(); ++a) {
           age = a + model_->min_age();
 
-          //// Check this code out
           y1 = (i >= step_index_data_supplied_ ? year : year - 1);
           y2 = y1 + 1;
-
-          LOG_FINEST() << "year " << year << " y1 " << y1 << " y2 " << y2;
+          LOG_FINEST() << "year " << year << ": y1 = " << y1 << " y2 = " << y2;
 
           // havenet we already caught at line: 83
           if ((step_index_data_supplied_ < i && i < ageing_index_) || (i < ageing_index_ && ageing_index_ < step_index_data_supplied_)
-              || (ageing_index_ < step_index_data_supplied_ && step_index_data_supplied_ < i)
-              || (ageing_index_ == step_index_data_supplied_) || (i == step_index_data_supplied_))
+              || (ageing_index_ < step_index_data_supplied_ && step_index_data_supplied_ < i) || (ageing_index_ == step_index_data_supplied_) || (i == step_index_data_supplied_))
             a1 = a;
           else
             a1 = a - 1;
-
           a2 = a1 + 1;
-
-          LOG_FINEST() << "a " << a << " a1 " << a1 << " a2 " << a2;
+          LOG_FINEST() << "a " << a << ": a1 = " << a1 << " a2 = " << a2;
 
           if (a1 == a)
             w1 = 1 + time_step_proportions_[step_index_data_supplied_] - time_step_proportions_[i];
           else
             w1 = time_step_proportions_[step_index_data_supplied_] - time_step_proportions_[i];
-
           w2 = 1.0 - w1;
           LOG_FINEST() << "w2 = " << w2;
 
           if ((a2 + model_->min_age()) > model_->max_age() || y2 > final_year_) {
             a1 -= 1;
             a2 -= 1;
-
             if ((y1 - 1) > model_->start_year())
               y1 -= 1;  // Quick fix. Needs checking. Seems to work. Suggest fuller checking on case by case basis
-
             y2 -= 1;
             w1 -= 1;
             w2 += 1;
           }
-
-          LOG_FINEST() << "a1 " << a1 << " a2 " << a2 << " w1 " << w1 << " w2 " << w2 << " y1 " << y1 << " y2 " << y2;
+          LOG_FINEST() << "a1 = " << a1 << ", a2 = " << a2 << ", w1 = " << w1 << ", w2 = " << w2 << ", y1 = " << y1 << ", y2 = " << y2;
 
           if ((a1 + model_->min_age()) < model_->min_age() || y1 < model_->start_year()) {
             LOG_FINEST() << "w2 = " << w2;
@@ -309,23 +300,22 @@ void Data::InterpolateTimeStepsForAllYears() {
             w1 += 1;
             w2 -= 1;
           }
-
-          LOG_FINEST() << "a1 " << a1 << " a2 " << a2 << " w1 " << w1 << " w2 " << w2 << " y1 " << y1 << " y2 " << y2;
+          LOG_FINEST() << "a1 = " << a1 << ", a2 = " << a2 << ", w1 = " << w1 << ", w2 = " << w2 << ", y1 = " << y1 << ", y2 = " << y2;
 
           if ((a2 + model_->min_age()) > model_->max_age() || y2 > final_year_ || (a1 + model_->min_age()) < model_->min_age() || y1 < model_->start_year()) {
             // unusual case - very little info on this cohort - just use averages
-            mean_length_by_year_[year][age][i] = data_by_age_time_step_[i][age];
             LOG_FINEST() << "for age = " << a + model_->min_age();
             LOG_FINEST() << " final result";
             LOG_FINEST() << "mean_length_by_year_[" << year << "][" << age << "][" << i << "] = " << mean_length_by_year_[year][age][i];
+            mean_length_by_year_[year][age][i] = data_by_age_time_step_[i][age];
           } else {
-            mean_length_by_year_[year][age][i] = w1 * data_by_year_[y1][a1] + w2 * data_by_year_[y2][a2];
             LOG_FINEST() << "for age = " << a + model_->min_age() << " a1 = " << a1 + model_->min_age() << " y1 = " << y1 << " y2 = " << y2;
             LOG_FINEST() << data_by_year_[y1][a1];
             LOG_FINEST() << "for a2 = " << a2 + model_->min_age();
             LOG_FINEST() << data_by_year_[y2][a2];
             LOG_FINEST() << "w1 = " << w1 << " w2 = " << w2 << " final result";
             LOG_FINEST() << "mean_length_by_year_[" << year << "][" << age << "][" << i << "] = " << mean_length_by_year_[year][age][i];
+            mean_length_by_year_[year][age][i] = w1 * data_by_year_[y1][a1] + w2 * data_by_year_[y2][a2];
           }
         }
       } else {
@@ -380,8 +370,7 @@ void Data::FillExternalGaps() {
 
     // loop over the ages
     auto iter = data_by_year_.begin();
-    for (unsigned year : missing_years) 
-      data_by_year_[year].assign(iter->second.begin(), iter->second.end());
+    for (unsigned year : missing_years) data_by_year_[year].assign(iter->second.begin(), iter->second.end());
 
     // find the missing years from the end
     missing_years.clear();
@@ -396,8 +385,7 @@ void Data::FillExternalGaps() {
 
     // loop over the ages
     auto riter = (data_by_year_.rbegin())->second;
-    for (unsigned year : missing_years)
-      data_by_year_[year].assign(riter.begin(), riter.end());
+    for (unsigned year : missing_years) data_by_year_[year].assign(riter.begin(), riter.end());
   }
 }
 
@@ -472,7 +460,7 @@ void Data::FillInternalGaps() {
  * for this class
  */
 Double Data::calculate_mean_length(unsigned year, unsigned time_step, unsigned age) {
-  if (model_->state() == State::kInitialise ||  model_->state() == State::kVerify) {
+  if (model_->state() == State::kInitialise || model_->state() == State::kVerify) {
     LOG_FINEST() << "state " << model_->state();
     return data_by_age_time_step_[time_step][age];
   }

@@ -27,12 +27,14 @@ tolerance 0.02
 iterations 1000
 evaluations 2000
 
+# These are unusually short chains provided as an example. In practise,
+# the chain length, burn_in, and keep rate should be much longer
 @mcmc MH
 type random_walk
-burn_in 500000
-adapt_stepsize_at 100000 200000 400000
-length 2000000
-keep 1000
+burn_in 1000
+adapt_stepsize_at 100 200 400
+length 2000
+keep 100
 proposal_distribution t
 df 4
 max_correlation 0.8

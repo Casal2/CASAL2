@@ -87,6 +87,7 @@ protected:
   void GenerateNewCandidates();
   void FillMultivariateNormal(double step_size);
   void FillMultivariateT(double step_size);
+  void StartMultivariateNormal(double step_size);
   void UpdateStepSize();
   void BuildCovarianceMatrix();
   void UpdateCovarianceMatrix();
@@ -95,14 +96,15 @@ protected:
 
   // members
   shared_ptr<Model>       model_;  // first model in thread pool
-  unsigned                length_             = 0;
-  unsigned                starting_iteration_ = 0;
-  unsigned                burn_in_            = 0;
-  string                  mcmc_state_         = "NA";
-  bool                    active_             = true;
-  unsigned                estimate_count_     = 0;
-  unsigned                df_                 = 0;
-  double                  start_              = 0;
+  unsigned                length_                   = 0;
+  unsigned                starting_iteration_       = 0;
+  unsigned                burn_in_                  = 0;
+  string                  mcmc_state_               = "NA";
+  bool                    active_                   = true;
+  unsigned                estimate_count_           = 0;
+  unsigned                df_                       = 0;
+  double                  start_                    = 0;
+  bool                    fix_parameters_at_bounds_ = false;
   ublas::matrix<double>   covariance_matrix_;
   ublas::matrix<double>   covariance_matrix_lt;
   vector<mcmc::ChainLink> chain_;

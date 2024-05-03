@@ -1,6 +1,6 @@
-#' apply.dataweighting.to.csl2 reads in your observation.csl2 file and applys a reweighting factor and saves as a new .csl2 file.
+#' apply.dataweighting.to.csl2 reads in your observation.csl2 file and applies a reweighting factor and saves as a new .csl2 file.
 #'
-#' This function reads in your observation.csl2 file and applys a reweighting factor and saves as a new .csl2 file, pretty much just trying to 
+#' This function reads in your observation.csl2 file and apples a reweighting factor and saves as a new .csl2 file, pretty much just trying to
 #' automate the dataweighting process. The problem with this method, is that it strips out all the comments from the original observation.csl2 file.
 #'
 #' @author Craig Marsh
@@ -14,13 +14,12 @@
 #' @export
 #'
 
-'apply.dataweighting.to.csl2' = function(Path = "", weighting_factor, Observation_csl2_file = "Observations.csl2", Observation_label = "", Observation_out_filename = "Observation.csl2.0", fileEncoding = "") {
-
-  observation_config <- extract.csl2.file(file = Observation_csl2_file, path = Path);
+"apply.dataweighting.to.csl2" <- function(Path = "", weighting_factor, Observation_csl2_file = "Observations.csl2", Observation_label = "", Observation_out_filename = "Observation.csl2.0", fileEncoding = "") {
+  observation_config <- extract.csl2.file(file = Observation_csl2_file, path = Path)
 
   ## pull out the estimates only, they are the only components interested in at the moment
   observation_ndx <- grepl(pattern = "observation\\[", x = names(observation_config))
-  observation_block_labels = names(observation_config)[observation_ndx]
+  observation_block_labels <- names(observation_config)[observation_ndx]
 
   ## Check Observation_label exists
   if (!any(grepl(pattern = Observation_label, x = observation_block_labels))) {

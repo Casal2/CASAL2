@@ -7,20 +7,23 @@
 #' This eigenvalue decomposition has been widely used in the estimation literature
 #'
 #' @author C.Marsh
-#' @param model <casal2MPD> object that are generated from the extract.mpd() function. It expects the report of type
-#' covariance_matrix to be present.
+#' @param cas2_mod Model object that are generated from the extract.mpd() function. It expects the report of type covariance_matrix to be present.
+#' @param delta delta value
 #' @return a data frame or message about the model
 #' @rdname check_mpd_identifiability
 #' @export check_mpd_identifiability
+
 check_mpd_identifiability <- function(cas2_mod, delta = .Machine$double.eps) {
   # check that there is covariance and estimate_value report in this output
   covar_ndx <- 0
   est_ndx <- 0
   for (i in 1:length(cas2_mod)) {
-    if (cas2_mod[[i]]$type == "covariance_matrix")
+    if (cas2_mod[[i]]$type == "covariance_matrix") {
       covar_ndx <- i
-    if (cas2_mod[[i]]$type == "estimate_value")
+    }
+    if (cas2_mod[[i]]$type == "estimate_value") {
       est_ndx <- i
+    }
   }
   if (covar_ndx == 0) {
     stop("A report of type 'covariance_matrix' was not found. Please re-run the estimation with a @report with 'type covariance_matrix'")
@@ -29,17 +32,19 @@ check_mpd_identifiability <- function(cas2_mod, delta = .Machine$double.eps) {
     stop("A report of type 'estimate_value' was not found. Please re-run the estimation with a @report with 'type estimate_value")
   }
   ## check covariance is invertable
-  if (!isSymmetric(cas2_mod[[covar_ndx]]$covariance_matrix))
+  if (!isSymmetric(cas2_mod[[covar_ndx]]$covariance_matrix)) {
     stop("Error: the covariance matrix is not symmetric.")
+  }
   ## check positive semi defintie matrix
-  if (class(try(solve(cas2_mod[[covar_ndx]]$covariance_matrix), silent = T)) != "matrix")
+  if (class(try(solve(cas2_mod[[covar_ndx]]$covariance_matrix), silent = T)) != "matrix") {
     stop("Error: the covariance matrix is not invertible (i.e., not positive definite)")
+  }
   ## calculate hessian
   hess <- solve(cas2_mod[[covar_ndx]]$covariance_matrix)
   ## eigen decomposition
   Eig <- eigen(hess)
   WhichBad <- which(Eig$values < sqrt(delta))
-  df <- NULL;
+  df <- NULL
   if (length(WhichBad) == 0) {
     if (est_ndx != 0) {
       params <- cas2_mod[[est_ndx]]$values
@@ -49,7 +54,9 @@ check_mpd_identifiability <- function(cas2_mod, delta = .Machine$double.eps) {
     }
   } else {
     # for values with zero eigenvalues find the absolute largest eigenvector value
-    RowMax <- apply(Eig$vectors[, WhichBad, drop = FALSE], MARGIN = 1, FUN = function(vec) { max(abs(vec)) })
+    RowMax <- apply(Eig$vectors[, WhichBad, drop = FALSE], MARGIN = 1, FUN = function(vec) {
+      max(abs(vec))
+    })
     if (est_ndx != 0) {
       params <- cas2_mod[[est_ndx]]$`1`$values
       df <- data.frame(Param = names(params), MPD = as.numeric(params), Param_check = ifelse(RowMax > 0.1, "Bad", "OK"))

@@ -21,7 +21,6 @@
 #include "../Reports/Manager.h"
 #include "../Utilities/Math.h"
 #include "../Utilities/RandomNumberGenerator.h"
-
 // namespaces
 namespace niwa {
 
@@ -33,6 +32,7 @@ namespace math = niwa::utilities::math;
  * @param model
  */
 MCMC::MCMC(shared_ptr<Model> model) : model_(model) {
+  // clang-format off
   parameters_.Bind<string>(PARAM_LABEL, &label_, "The label of the MCMC", "");
   parameters_.Bind<string>(PARAM_TYPE, &type_, "The MCMC method", "", PARAM_RANDOMWALK)->set_allowed_values({PARAM_HAMILTONIAN, PARAM_RANDOMWALK});
   parameters_.Bind<unsigned>(PARAM_LENGTH, &length_, "The number of iterations for the MCMC (including the burn in period)", "")->set_lower_bound(1);
@@ -40,23 +40,17 @@ MCMC::MCMC(shared_ptr<Model> model) : model_(model) {
   parameters_.Bind<bool>(PARAM_ACTIVE, &active_, "Indicates if this is the active MCMC algorithm", "", true);
   parameters_.Bind<double>(PARAM_STEP_SIZE, &step_size_, "Initial step-size (as a multiplier of the approximate covariance matrix)", "", 0)->set_lower_bound(0);
   parameters_.Bind<double>(PARAM_START, &start_, "The covariance multiplier for the starting point of the MCMC", "", 0.0)->set_lower_bound(0.0);
+  parameters_.Bind<bool>(PARAM_PARAMETER_AT_BOUND, &fix_parameters_at_bounds_, "Adjust the start for parameters at bounds as a random uniform jump between the bounds", "", false);
   parameters_.Bind<unsigned>(PARAM_KEEP, &keep_, "The spacing between recorded values in the MCMC", "", 1u)->set_lower_bound(1u);
-  parameters_.Bind<double>(PARAM_MAX_CORRELATION, &max_correlation_, "The maximum absolute correlation in the covariance matrix of the proposal distribution", "", 0.8)
-      ->set_range(0.0, 1.0, false, true);
-  parameters_
-      .Bind<string>(PARAM_COVARIANCE_ADJUSTMENT_METHOD, &correlation_method_, "The method for adjusting small variances in the covariance proposal matrix", "", PARAM_CORRELATION)
-      ->set_allowed_values({PARAM_COVARIANCE, PARAM_CORRELATION, PARAM_NONE});
-  parameters_
-      .Bind<double>(PARAM_CORRELATION_ADJUSTMENT_DIFF, &correlation_diff_,
-                    "The minimum non-zero variance times the range of the bounds in the covariance matrix of the proposal distribution", "", 0.0001)
-      ->set_lower_bound(0.0, false);
-  parameters_.Bind<string>(PARAM_PROPOSAL_DISTRIBUTION, &proposal_distribution_, "The shape of the proposal distribution (either the t or the normal distribution)", "", PARAM_T)
-      ->set_allowed_values({PARAM_NORMAL, PARAM_T});
+  parameters_.Bind<double>(PARAM_MAX_CORRELATION, &max_correlation_, "The maximum absolute correlation in the covariance matrix of the proposal distribution", "", 0.8)->set_range(0.0, 1.0, false, true);
+  parameters_.Bind<string>(PARAM_COVARIANCE_ADJUSTMENT_METHOD, &correlation_method_, "The method for adjusting small variances in the covariance proposal matrix", "", PARAM_CORRELATION)->set_allowed_values({PARAM_COVARIANCE, PARAM_CORRELATION, PARAM_NONE});
+  parameters_.Bind<double>(PARAM_CORRELATION_ADJUSTMENT_DIFF, &correlation_diff_, "The minimum non-zero variance times the range of the bounds in the covariance matrix of the proposal distribution", "", 0.0001)->set_lower_bound(0.0, false);
+  parameters_.Bind<string>(PARAM_PROPOSAL_DISTRIBUTION, &proposal_distribution_, "The shape of the proposal distribution (either the t or the normal distribution)", "", PARAM_T)->set_allowed_values({PARAM_NORMAL, PARAM_T});
   parameters_.Bind<unsigned>(PARAM_DF, &df_, "The degrees of freedom of the multivariate t proposal distribution", "", 4)->set_lower_bound(1, false);
   parameters_.Bind<unsigned>(PARAM_ADAPT_STEPSIZE_AT, &adapt_step_size_, "The iteration numbers in which to check and resize the MCMC stepsize", "", true)->set_lower_bound(0);
-  parameters_.Bind<string>(PARAM_ADAPT_STEPSIZE_METHOD, &adapt_stepsize_method_, "The method to use to adapt the step size", "", PARAM_RATIO)
-      ->set_allowed_values({PARAM_RATIO, PARAM_DOUBLE_HALF});
+  parameters_.Bind<string>(PARAM_ADAPT_STEPSIZE_METHOD, &adapt_stepsize_method_, "The method to use to adapt the step size", "", PARAM_RATIO)->set_allowed_values({PARAM_RATIO, PARAM_DOUBLE_HALF});
   parameters_.Bind<unsigned>(PARAM_ADAPT_COVARIANCE_AT, &adapt_covariance_matrix_, "The iteration number in which to adapt the covariance matrix", "", 0u)->set_lower_bound(0);
+  // clang-format on
 }
 #ifdef USE_AUTODIFF
 /**
@@ -161,7 +155,7 @@ void MCMC::Execute(shared_ptr<ThreadPool> thread_pool) {
   LOG_MEDIUM() << "First iteration estimates";
   for (unsigned i = 0; i < estimate_count_; ++i) {
     LOG_MEDIUM() << estimates_[i]->label() << " : " << candidates_[i] << " is fixed " << estimates_[i]->mcmc_fixed();
-    if(!estimates_[i]->mcmc_fixed())
+    if (!estimates_[i]->mcmc_fixed())
       estimates_[i]->set_value(candidates_[i]);
   }
 
@@ -243,6 +237,7 @@ void MCMC::GenerateRandomStart() {
   LOG_INFO() << "Generating random start values for MCMC";
   vector<double>    original_candidates = candidates_;
   vector<Estimate*> estimates           = model_->managers()->estimate()->GetIsEstimated();
+  vector<string>    failed_parameter_list;
 
   LOG_MEDIUM() << "candidates: ";
   for (auto v : candidates_) LOG_MEDIUM() << v;
@@ -256,19 +251,29 @@ void MCMC::GenerateRandomStart() {
   do {
     candidates_pass = true;
     attempts++;
-    if (attempts > 1000)
-      LOG_FATAL() << "Failed to generate random start values after 1000 attempts";
+
+    if (attempts > 10000) {
+      string parameter_list;
+      for (unsigned i = 0; i < failed_parameter_list.size(); ++i) {
+        parameter_list += failed_parameter_list[i] + " ";
+      }
+      LOG_FATAL() << "Failed to generate random start values after 10000 attempts. "
+                  << "Note that this can sometimes be caused by estimated parameters that are at a bound when starting the MCMC. "
+                  << "The list of parameters that failed is: " << parameter_list;
+    }
 
     candidates_ = original_candidates;
-    FillMultivariateNormal(start_);
+    StartMultivariateNormal(start_);
     for (unsigned i = 0; i < estimates.size(); ++i) {
-      if (estimates[i]->lower_bound() > candidates_[i] || estimates[i]->upper_bound() < candidates_[i]) {
+      if (estimates[i]->lower_bound() > candidates_[i] || estimates[i]->upper_bound() < candidates_[i] || std::isnan(candidates_[i])) {
+        if (find(failed_parameter_list.begin(), failed_parameter_list.end(), estimates[i]->parameter()) == failed_parameter_list.end())
+          failed_parameter_list.push_back(estimates[i]->parameter());
         candidates_pass = false;
         break;
       }
     }
-
   } while (!candidates_pass);
+
   LOG_MEDIUM() << "chosen candidates: ";
   for (auto v : candidates_) LOG_MEDIUM() << v;
 }
@@ -306,7 +311,7 @@ void MCMC::FillMultivariateNormal(double step_size) {
     for (unsigned j = 0; j < estimate_count_; ++j) {
       dv[i] += covariance_matrix_lt(i, j) * normals[j];
     }
-    if(!estimates_[i]->mcmc_fixed())
+    if (!estimates_[i]->mcmc_fixed())
       candidates_[i] += dv[i] * step_size;
   }
 }
@@ -332,8 +337,42 @@ void MCMC::FillMultivariateT(double step_size) {
     for (unsigned j = 0; j < estimate_count_; ++j) {
       row_sum += covariance_matrix_lt(i, j) * normals[j] * chisquares[j];
     }
-    if(!estimates_[i]->mcmc_fixed())
+    if (!estimates_[i]->mcmc_fixed())
       candidates_[i] += row_sum * step_size;
+  }
+}
+
+/**
+ * @brief Generate start candidates using multivariate normal distribution and fix parameters at bounds
+ *
+ * @param step_size
+ */
+void MCMC::StartMultivariateNormal(double step_size) {
+  utilities::RandomNumberGenerator& rng = utilities::RandomNumberGenerator::Instance();
+  vector<double>                    dv(estimate_count_, 0.0);
+  vector<double>                    normals(estimate_count_, 0.0);
+
+  for (unsigned i = 0; i < estimate_count_; ++i) normals[i] = rng.normal();
+
+  // Method from CASAL's algorithm. Updated with fix for paramters at bounds
+  for (unsigned i = 0; i < estimate_count_; ++i) {
+    for (unsigned j = 0; j < estimate_count_; ++j) {
+      dv[i] += covariance_matrix_lt(i, j) * normals[j];
+    }
+    if (!estimates_[i]->mcmc_fixed())
+      candidates_[i] += dv[i] * step_size;
+  }
+
+  // set start candidate as a random uniform between the bounds
+  if (fix_parameters_at_bounds_) {
+    vector<double> uniforms(estimate_count_, 0.0);
+    for (unsigned i = 0; i < estimate_count_; ++i) uniforms[i] = rng.uniform();
+
+    for (unsigned i = 0; i < estimate_count_; ++i) {
+      if (estimates_[i]->value() == estimates_[i]->lower_bound() || estimates_[i]->value() == estimates_[i]->upper_bound()) {
+        candidates_[i] = ((estimates_[i]->upper_bound() - estimates_[i]->lower_bound()) * uniforms[i]) + estimates_[i]->lower_bound();
+      }
+    }
   }
 }
 
@@ -480,6 +519,11 @@ bool MCMC::DoCholeskyDecomposition() {
       for (unsigned k = 0; k < i; ++k) sum += covariance_matrix_lt(j, k) * covariance_matrix_lt(i, k);
       covariance_matrix_lt(j, i) = (covariance_matrix_(j, i) - sum) / covariance_matrix_lt(i, i);
     }
+    if (std::isnan(covariance_matrix_(i, i))) {
+      LOG_FATAL() << "Found NaN's in the covariance_matrix, for row and column " << i + 1 << " parameter = " << estimates_[i]->parameter() << " sum = " << sum
+                  << " value = " << covariance_matrix_(i, i);
+      return false;
+    }
   }
 
   sum = 0.0;
@@ -560,7 +604,7 @@ void MCMC::UpdateCovarianceMatrix() {
     vector<double> mean_var(n_params, 1.0);
 
     for (int i = 0; i < n_params; ++i) {
-      if(estimates_[i]->mcmc_fixed()) {
+      if (estimates_[i]->mcmc_fixed()) {
         temp_covariance(i, i) = 1.0;
         continue;
       }

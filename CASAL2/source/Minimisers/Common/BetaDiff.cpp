@@ -67,6 +67,7 @@ void BetaDiff::Execute() {
   LOG_INFO() << "Estimation with the " << PARAM_BETADIFF << " minimiser";
   LOG_MEDIUM() << "estimated parameters";
   int i = 0;
+  // Note betadiff uses dvector class which are indexed starting at 1 not 0 !!!
   for (auto estimate : estimates) {
     LOG_MEDIUM() << estimate->parameter();
     ++i;
@@ -91,13 +92,21 @@ void BetaDiff::Execute() {
   int    convergence = 0;
   double score       = optimise<MyModel, MyObjective>(my_model, my_objective, start_values, lower_bounds, upper_bounds, convergence, 0, max_iterations_, max_evaluations_,
                                                 gradient_tolerance_, 0, &betadiff_hessian, 0, 1);
+
   LOG_FINE() << "complete optimise, get hessian, " << hessian_size_;
   for (int row = 0; row < (int)estimates.size(); ++row) {
     for (int col = 0; col < (int)estimates.size(); ++col) {
       hessian_[row][col] = betadiff_hessian[row + 1][col + 1];
     }
   }
+
+  LOG_MEDIUM() << "start values now. n_pars = " << start_values.size();
+  for (int j = 1; j <= start_values.size(); ++j) {
+    LOG_MEDIUM() << " start value " << start_values[j];
+    estimated_values_.push_back(start_values[j]);
+  }
   LOG_FINE() << "return convergence";
+
   // Note C.M
   // The convergence check is done at include/Betadiff.h line 1094
   // But the convergence gets + 2 at line 1167 and 1367

@@ -24,25 +24,22 @@ Catchability::Catchability() {
 /**
  * Validate object
  */
-void Catchability::DoValidate(shared_ptr<Model> model) {
-
-    
-}
+void Catchability::DoValidate(shared_ptr<Model> model) {}
 /**
  * Build the relationships between this object and other objects
  */
 void Catchability::DoBuild(shared_ptr<Model> model) {
-  if(!model->global_configuration().print_tabular()) {
-    if (catchability_label_ == "") 
+  if (!model->global_configuration().print_tabular()) {
+    if (catchability_label_ == "")
       catchability_label_ = label_;
   }
   if (catchability_label_ != "") {
     catchability_ = model->managers()->catchability()->GetCatchability(catchability_label_);
     if (!catchability_) {
-  #ifndef TESTMODE
-      LOG_WARNING() << "The report for " << PARAM_CATCHABILITY << " with label '" << catchability_label_ << "' was requested. This " << PARAM_CATCHABILITY
+#ifndef TESTMODE
+      LOG_WARNING() << "The " << PARAM_CATCHABILITY << " report with label '" << catchability_label_ << "' was requested. This " << PARAM_CATCHABILITY
                     << " was not found in the input configuration file and the report will not be generated";
-  #endif
+#endif
       is_valid_ = false;
     }
   }
@@ -63,16 +60,16 @@ void Catchability::DoPrepareTabular(shared_ptr<Model> model) {
   LOG_TRACE();
   cache_ << ReportHeader(type_, label_, format_);
   cache_ << "values " << REPORT_R_DATAFRAME << REPORT_EOL;
-  if (catchability_label_ != "") { 
+  if (catchability_label_ != "") {
     // single catchability provided not recommended
     catchability_ = model->managers()->catchability()->GetCatchability(catchability_label_);
-    string label = catchability_->label();
+    string label  = catchability_->label();
     cache_ << "catchability[" << label << "]";
     cache_ << REPORT_EOL;
   } else {
     catchabilities::Manager& CatchabilityManager = *model->managers()->catchability();
     for (auto object : CatchabilityManager.objects()) {
-      string label        = object->label();
+      string label = object->label();
       cache_ << "catchability[" << label << "] ";
     }
     cache_ << REPORT_EOL;
@@ -83,7 +80,7 @@ void Catchability::DoPrepareTabular(shared_ptr<Model> model) {
  */
 
 void Catchability::DoExecuteTabular(shared_ptr<Model> model) {
-  if (catchability_label_ != "") { 
+  if (catchability_label_ != "") {
     cache_ << AS_DOUBLE(catchability_->q()) << " ";
     cache_ << REPORT_EOL;
   } else {

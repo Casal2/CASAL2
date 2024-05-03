@@ -1,0 +1,113 @@
+name: Casal2 build Windows install
+on:
+  push:
+    branches:
+      - master # age_length_redesign_202109
+jobs: 
+ Compile-Casal2-Setup:
+    runs-on: windows-2019
+    timeout-minutes: 180
+    steps:
+      - uses: actions/checkout@v2
+
+      - uses: actions/setup-python@v2.2.2
+        with:
+          python-version: '3.8'
+      - name: Install python dependencies
+        run: python.exe -m pip install pytz python-dateutil --user --upgrade pip
+
+      - name: Install gcc
+        uses: bwoodsend/setup-winlibs-action@v1
+        with:
+          # see https://github.com/marketplace/actions/setup-winlibs
+          # and https://github.com/brechtsanders/winlibs_mingw/tags
+          #tag: '10.3.0-12.0.0-9.0.0-r2'
+          tag: '10.3.1-snapshot20211112-9.0.0-ucrt-r1' # previous tag as of 2022-03-31
+          #tag: '11.1.0-12.0.0-9.0.0-r1' # reference tag in documentation
+          #tag: '11.2.1-snapshot20220219-9.0.0-ucrt-r1' # caused issues with Casal2 unit tests
+          #tag: '12.0.1-snapshot20220123-9.0.0-msvcrt-r1'
+      - name: Build third-party library - adolc
+        run: |
+          cd BuildSystem
+          ./doBuild.bat thirdparty adolc
+      - name: Build third-party library - betadiff
+        run: |
+          cd BuildSystem
+          ./doBuild.bat thirdparty betadiff
+      - name: Build third-party library - boost
+        run: |
+          cd BuildSystem
+          ./doBuild.bat thirdparty boost
+      - name: Build third-party libraries - google test and mock
+        run: |
+          cd BuildSystem
+          ./doBuild.bat thirdparty googletest_googlemock
+      - name: Build third-party libraries - parser
+        run: |
+          cd BuildSystem
+          ./doBuild.bat thirdparty parser
+      - name: Build release library
+        run: |
+          cd BuildSystem
+          ./doBuild.bat library release
+      - name: Build "Betadiff" library
+        run: |
+          cd BuildSystem
+          ./doBuild.bat library betadiff
+      - name: Build "ADOL-C" library
+        run: |
+          cd BuildSystem
+          ./doBuild.bat library adolc
+      - name: Build "Unit Test" library
+        run: |
+          cd BuildSystem
+          ./doBuild.bat library test
+      - name: Build Frontend
+        run: |
+          cd BuildSystem
+          ./doBuild.bat frontend
+        shell: bash
+
+      - name: Build Windows Archive
+        continue-on-error: true
+        run: |
+          cd BuildSystem
+          ./doBuild.bat archive true
+        shell: bash
+
+      - name: Archive Windows build
+        continue-on-error: true
+        uses: actions/upload-artifact@v2.2.4
+        with:
+          name: Casal2-Windows-build
+          path: BuildSystem/Casal2
+
+      - name: Run Windows model runner
+        continue-on-error: false
+
+      - name: Build installer iss file
+        run: |
+          cd BuildSystem
+          ./doBuild.bat installer    
+      - uses: eskatos/gradle-command-action@v1
+        with:
+          arguments: updateSetupFile
+
+      - name: Building the installer
+        run: |
+          cd BuildSystem
+          "%programfiles(x86)%\Inno Setup 6\iscc.exe" "config.iss"
+        shell: cmd  
+      - name: Sign the installer
+        uses: nextgens/authenticode-sign-action@v1.0.1   
+        with:
+          certificate: '${{ secrets.CERTIFICATES }}'
+          credentials: '${{ secrets.GOOGLE_APPLICATION_CREDENTIALS }}'            
+          folder: "Casal2"
+          recursive: true                      
+      - name: Upload the installer as an artifact
+        uses: actions/upload-artifact@v2
+        with:
+          path: "Casal2/Casal2_setup.exe"
+          name: wininstaller-innosetup
+          

@@ -22,7 +22,7 @@ namespace estimates {
  */
 Normal::Normal(shared_ptr<Model> model) : Estimate(model) {
   parameters_.Bind<Double>(PARAM_MU, &mu_, "The normal prior mean (mu) parameter", "");
-  parameters_.Bind<Double>(PARAM_CV, &cv_, "The normal variance (standard devation) parameter", "")->set_lower_bound(0.0, false);
+  parameters_.Bind<Double>(PARAM_CV, &cv_, "The normal variance (standard deviation) parameter", "")->set_lower_bound(0.0, false);
 
   RegisterAsAddressable(PARAM_MU, &mu_);
   RegisterAsAddressable(PARAM_CV, &cv_);
@@ -41,11 +41,11 @@ Double Normal::GetScore() {
  *
  * @return vector of mu and sigma
  */
-vector<Double>   Normal::GetPriorValues() {
+vector<Double> Normal::GetPriorValues() {
   vector<Double> result = {mu_, cv_};
   return result;
 }
-vector<string>   Normal::GetPriorLabels() {
+vector<string> Normal::GetPriorLabels() {
   vector<string> result = {PARAM_MU, PARAM_CV};
   return result;
 }

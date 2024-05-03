@@ -44,6 +44,11 @@ void RandomDraw::DoValidate() {}
  * Build
  */
 void RandomDraw::DoBuild() {
+  if (model_->run_mode() == RunMode::kEstimation) {
+    LOG_WARNING() << "Time varying of type " << type_ << " was found during estimation. Note that this is NOT recommended as it is not a true random effect."
+                  << " The purpose of this is for investigating model behaviour in simulations or projections";
+  }
+
   Estimate* estimate = model_->managers()->estimate()->GetEstimate(parameter_);
   if (estimate) {
     has_at_estimate_ = true;
@@ -51,7 +56,7 @@ void RandomDraw::DoBuild() {
     upper_bound_ = AS_DOUBLE(estimate->upper_bound());
     lower_bound_ = AS_DOUBLE(estimate->lower_bound());
     if (model_->run_mode() == RunMode::kEstimation) {
-      LOG_ERROR_P(PARAM_PARAMETER) << "This @estimate block cannot have a parameter that is time varying of type " << type_
+      LOG_ERROR_Q(PARAM_PARAMETER) << "the @estimate block cannot have a parameter that is time_varying of type " << type_
                                    << ", as Casal2 will overwrite the estimate and a false minimum will be found";
     }
   }

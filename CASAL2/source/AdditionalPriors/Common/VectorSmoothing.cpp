@@ -84,7 +84,7 @@ Double VectorSmoothing::GetScore() {
     LOG_FATAL_P(PARAM_LOWER_BOUND) << "The first element cannot be less than 1";
 
   if (r_ >= (upper_ - lower_))
-    LOG_FATAL_P(PARAM_R) << PARAM_R << " R cannot be greater than or equal to the size of vector - 1";
+    LOG_FATAL_P(PARAM_R) << PARAM_R << "cannot be greater than or equal to the size of vector - 1";
 
   Double score = 0.0;
   if (log_scale_) {

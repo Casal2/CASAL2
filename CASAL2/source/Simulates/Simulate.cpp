@@ -54,7 +54,7 @@ void Simulate::Build() {
   addressable::Type addressable_type = model_->objects().GetAddressableType(parameter_);
   switch (addressable_type) {
     case addressable::kInvalid:
-      LOG_ERROR_P(PARAM_PARAMETER) << error;
+      LOG_ERROR_Q(PARAM_PARAMETER) << error;
       break;
     case addressable::kSingle:
       update_function_ = &Simulate::set_single_value;
@@ -74,7 +74,7 @@ void Simulate::Build() {
       break;
   }
   if (error != "")
-    LOG_ERROR_P(PARAM_PARAMETER) << error;
+    LOG_ERROR_Q(PARAM_PARAMETER) << error;
 
   DoBuild();
 }

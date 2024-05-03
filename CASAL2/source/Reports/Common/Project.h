@@ -33,9 +33,11 @@ public:
   void DoPrepareTabular(shared_ptr<Model> model) override final;
   void DoExecuteTabular(shared_ptr<Model> model) override final;
   void DoFinaliseTabular(shared_ptr<Model> model) override final;
+
 private:
   string         project_label_ = "";
   niwa::Project* project_       = nullptr;
+  bool           first_time_    = true;
 };
 
 } /* namespace reports */

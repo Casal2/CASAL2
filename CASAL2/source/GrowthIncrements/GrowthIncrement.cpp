@@ -35,7 +35,6 @@ GrowthIncrement::GrowthIncrement(shared_ptr<Model> model) : model_(model) {
       .Bind<string>(PARAM_COMPATIBILITY, &compatibility_,
                     "Backwards compatibility option: either casal2 (the default) or casal to use the (less accurate) cumulative normal function from CASAL", "", PARAM_CASAL2)
       ->set_allowed_values({PARAM_CASAL, PARAM_CASAL2});
-  // parameters_.Bind<double>( PARAM_TIME_STEP_PROPORTIONS, &time_step_proportions_,"The proportion of annual increment to apply in each time-step","", false)->set_range(0.0, 1.0);
 
   RegisterAsAddressable(PARAM_CV, &cv_);
   RegisterAsAddressable(PARAM_MIN_SIGMA, &min_sigma_);
@@ -46,7 +45,9 @@ GrowthIncrement::GrowthIncrement(shared_ptr<Model> model) : model_(model) {
  */
 void GrowthIncrement::Validate() {
   LOG_TRACE();
+
   parameters_.Populate(model_);
+  LOG_MEDIUM() << "Validate growth transition matrix";
 
   if (distribution_label_ == PARAM_NORMAL)
     distribution_ = Distribution::kNormal;
@@ -76,20 +77,20 @@ void GrowthIncrement::Validate() {
  */
 void GrowthIncrement::Build() {
   LOG_TRACE();
+  LOG_MEDIUM() << "Build growth transition matrix";
+
   // check if growth type is none
-  if(type_ == PARAM_NONE)
+  if (type_ == PARAM_NONE)
     is_growth_type_none_ = true;
 
   // allocate memory for growth transition matrix
-  unsigned time_step_count = model_->time_steps().size();
-  growth_transition_matrix_.resize(time_step_count);
-  for (unsigned i = 0; i < time_step_count; ++i) {
-    growth_transition_matrix_[i].resize(number_of_model_length_bins_);
-    for (unsigned j = 0; j < number_of_model_length_bins_; ++j) growth_transition_matrix_[i][j].resize(number_of_model_length_bins_, 0.0);
+  growth_transition_matrix_.resize(number_of_model_length_bins_);
+  for (unsigned j = 0; j < number_of_model_length_bins_; ++j) {
+    growth_transition_matrix_[j].resize(number_of_model_length_bins_, 0.0);
   }
-  LOG_FINE() << "ALlocated memory for growth transition matrix";
-
+  LOG_FINE() << "Allocated memory for growth transition matrix";
   LOG_FINE() << "Get Length Weight pointer";
+
   // Get length weight pointer
   length_weight_ = model_->managers()->length_weight()->GetLengthWeight(length_weight_label_);
   if (!length_weight_)
@@ -98,41 +99,37 @@ void GrowthIncrement::Build() {
   // This creates a dependency, for the timevarying functionality. See NotifySubscribers() called in TimeVarying.cpp line 107:108
   length_weight_->SubscribeToRebuildCache(this);
   // if this length weight class time-varies then it will flag this length class to rebuild cache
-  /*
-  // check time-steps are correct
-  Double total_time_step_prop = 0.0;
-  for(auto time_value : time_step_proportions_)
-    total_time_step_prop += time_value;
-  if(!utilities::math::IsOne(total_time_step_prop))
-      LOG_ERROR_P(PARAM_TIME_STEP_PROPORTIONS) << "The sum of these values needs to equal 1.0. The values supplied = " << total_time_step_prop;
-  if (time_step_count != time_step_proportions_.size()) {
-    LOG_ERROR_P(PARAM_TIME_STEP_PROPORTIONS) << "size (" << time_step_proportions_.size() << ") must match the number "
-                                             << "of defined time steps for this Model (" << time_step_count << ")";
-  }
-*/
+
   DoBuild();
   populate_growth_transition_matrix();
-  LOG_FINE() << "calculate mean weight";
+  LOG_MEDIUM() << "Calculate mean weight";
   for (unsigned j = 0; j < number_of_model_length_bins_; ++j) mean_weight_by_length_bin_index_[j] = length_weight_->mean_weight(model_length_midpoints_[j]);
 }
 /**
  * Rebuild cache objects in the GrowthIncrement objects
  */
 void GrowthIncrement::RebuildCache() {
+  LOG_MEDIUM() << "RebuildCache growth transition matrix";
   // if time-vary any of these parameters update parameters
   populate_growth_transition_matrix();
   LOG_FINE() << "Recalculate mean weight";
-  for (unsigned j = 0; j < number_of_model_length_bins_; ++j) mean_weight_by_length_bin_index_[j] = length_weight_->mean_weight(model_length_midpoints_[j]);
+
+  for (unsigned j = 0; j < number_of_model_length_bins_; ++j) {
+    mean_weight_by_length_bin_index_[j] = length_weight_->mean_weight(model_length_midpoints_[j]);
+  }
 }
 
 /**
  * Build the GrowthIncrement objects
  */
 void GrowthIncrement::Reset() {
+  LOG_MEDIUM() << "Reset growth transition matrix";
   DoReset();
   populate_growth_transition_matrix();
   LOG_FINE() << "Recalculate mean weight";
-  for (unsigned j = 0; j < number_of_model_length_bins_; ++j) mean_weight_by_length_bin_index_[j] = length_weight_->mean_weight(model_length_midpoints_[j]);
+  for (unsigned j = 0; j < number_of_model_length_bins_; ++j) {
+    mean_weight_by_length_bin_index_[j] = length_weight_->mean_weight(model_length_midpoints_[j]);
+  }
 }
 
 /**
@@ -141,113 +138,104 @@ void GrowthIncrement::Reset() {
 
 void GrowthIncrement::populate_growth_transition_matrix() {
   LOG_TRACE();
-  unsigned time_step_count = model_->time_steps().size();
-  Double   sum_so_far      = 0.0;
-  Double   mu              = 0.0;
-  Double   sigma           = 0.0;
+  Double sum_so_far = 0.0;
+  Double mu         = 0.0;
+  Double sigma      = 0.0;
 
-
-  if(is_growth_type_none_) {
+  if (is_growth_type_none_) {
     // If growth is none then the growth increment model is the identity matrix for all time-steps. That is
     // population will stay in the length bin they were in before growth
-    for (unsigned step_iter = 0; step_iter < time_step_count; ++step_iter) {
-      for (unsigned i = 0; i < number_of_model_length_bins_; ++i) {
-        growth_transition_matrix_[step_iter][i][i] = 1.0;
-      }
+    for (unsigned i = 0; i < number_of_model_length_bins_; ++i) {
+      growth_transition_matrix_[i][i] = 1.0;
     }
   } else {
     // else do the normal thing where we calculate the mean increment and cv and define the growth increment matrix
     if (compatibility_type_ == CompatibilityType::kCasal) {
-      for (unsigned step_iter = 0; step_iter < time_step_count; ++step_iter) {
-        for (unsigned i = 0; i < number_of_model_length_bins_; ++i) {
-          if ((i == (number_of_model_length_bins_ - 1)) & plus_group_) {
-            LOG_FINE() << "in plus group set = 1.0";
-            growth_transition_matrix_[step_iter][i][i] = 1.0;  // stay in plus group
+      for (unsigned i = 0; i < number_of_model_length_bins_; ++i) {
+        if ((i == (number_of_model_length_bins_ - 1)) & plus_group_) {
+          LOG_FINE() << "in plus group set = 1.0";
+          growth_transition_matrix_[i][i] = 1.0;  // stay in plus group
+        } else {
+          mu                              = get_mean_increment(model_length_midpoints_[i]);
+          sigma                           = fmax(min_sigma_, mu * cv_);
+          growth_transition_matrix_[i][i] = utilities::math::pnorm(model_min_length_bins_[i + 1] - model_length_midpoints_[i], mu, sigma);
+          LOG_FINE() << " i = " << i + 1 << " mu = " << mu << " sigma = " << sigma << " val " << model_min_length_bins_[i + 1] - model_length_midpoints_[i] << " pnorm "
+                     << growth_transition_matrix_[i][i];
+          sum_so_far = growth_transition_matrix_[i][i];
+          for (unsigned j = i + 1; j < (number_of_model_length_bins_ - 1); j++) {
+            growth_transition_matrix_[i][j] = utilities::math::pnorm(model_min_length_bins_[j + 1] - model_length_midpoints_[i], mu, sigma) - sum_so_far;
+            sum_so_far += growth_transition_matrix_[i][j];
+          }
+          LOG_FINE() << "sum so far " << sum_so_far;
+          if (plus_group_) {
+            growth_transition_matrix_[i][number_of_model_length_bins_ - 1] = 1.0 - sum_so_far;
           } else {
-            // mu                                      = get_mean_increment(model_length_midpoints_[i], time_step_proportions_[step_iter]);
-            mu                                         = get_mean_increment(model_length_midpoints_[i], 1.0);
-            sigma                                      = fmax(min_sigma_, mu * cv_);
-            growth_transition_matrix_[step_iter][i][i] = utilities::math::pnorm(model_min_length_bins_[i + 1] - model_length_midpoints_[i], mu, sigma);
-            LOG_FINE() << " i = " << i + 1 << " mu = " << mu << " sigma = " << sigma << " val " << model_min_length_bins_[i + 1] - model_length_midpoints_[i] << " pnorm "
-                       << growth_transition_matrix_[step_iter][i][i];
-            sum_so_far = growth_transition_matrix_[step_iter][i][i];
-            for (unsigned j = i + 1; j < (number_of_model_length_bins_ - 1); j++) {
-              growth_transition_matrix_[step_iter][i][j] = utilities::math::pnorm(model_min_length_bins_[j + 1] - model_length_midpoints_[i], mu, sigma) - sum_so_far;
-              sum_so_far += growth_transition_matrix_[step_iter][i][j];
-            }
-            LOG_FINE() << "sum so far " << sum_so_far;
-            if (plus_group_) {
-              growth_transition_matrix_[step_iter][i][number_of_model_length_bins_ - 1] = 1.0 - sum_so_far;
-            } else {
-              LOG_FINEST() << "pnorm = " << utilities::math::pnorm(model_min_length_bins_[number_of_model_length_bins_] - model_length_midpoints_[i], mu, sigma)
-                           << " value = " << model_min_length_bins_[number_of_model_length_bins_] << " midpoint " << model_length_midpoints_[i];
-              growth_transition_matrix_[step_iter][i][number_of_model_length_bins_ - 1]
-                  = utilities::math::pnorm(model_min_length_bins_[number_of_model_length_bins_] - model_length_midpoints_[i], mu, sigma) - sum_so_far;
-            }
+            LOG_FINEST() << "pnorm = " << utilities::math::pnorm(model_min_length_bins_[number_of_model_length_bins_] - model_length_midpoints_[i], mu, sigma)
+                         << " value = " << model_min_length_bins_[number_of_model_length_bins_] << " midpoint " << model_length_midpoints_[i];
+            growth_transition_matrix_[i][number_of_model_length_bins_ - 1]
+                = utilities::math::pnorm(model_min_length_bins_[number_of_model_length_bins_] - model_length_midpoints_[i], mu, sigma) - sum_so_far;
           }
         }
       }
     } else {
-      for (unsigned step_iter = 0; step_iter < time_step_count; ++step_iter) {
-        for (unsigned i = 0; i < number_of_model_length_bins_; ++i) {
-          if ((i == (number_of_model_length_bins_ - 1)) & plus_group_) {
-            LOG_FINE() << "in plus group set = 1.0";
-            growth_transition_matrix_[step_iter][i][i] = 1.0;  // stay in plus group
+      for (unsigned i = 0; i < number_of_model_length_bins_; ++i) {
+        if ((i == (number_of_model_length_bins_ - 1)) & plus_group_) {
+          LOG_FINE() << "in plus group set = 1.0";
+          growth_transition_matrix_[i][i] = 1.0;  // stay in plus group
+        } else {
+          mu                              = get_mean_increment(model_length_midpoints_[i]);
+          sigma                           = fmax(min_sigma_, mu * cv_);
+          growth_transition_matrix_[i][i] = utilities::math::pnorm2(model_min_length_bins_[i + 1] - model_length_midpoints_[i], mu, sigma);
+          LOG_FINE() << " i = " << i + 1 << " mu = " << mu << " sigma = " << sigma << " val " << model_min_length_bins_[i + 1] - model_length_midpoints_[i] << " pnorm "
+                     << growth_transition_matrix_[i][i];
+          sum_so_far = growth_transition_matrix_[i][i];
+          for (unsigned j = i + 1; j < (number_of_model_length_bins_ - 1); j++) {
+            growth_transition_matrix_[i][j] = utilities::math::pnorm2(model_min_length_bins_[j + 1] - model_length_midpoints_[i], mu, sigma) - sum_so_far;
+            sum_so_far += growth_transition_matrix_[i][j];
+          }
+          LOG_FINE() << "sum so far " << sum_so_far;
+          if (plus_group_) {
+            growth_transition_matrix_[i][number_of_model_length_bins_ - 1] = 1.0 - sum_so_far;
           } else {
-            // mu                                      = get_mean_increment(model_length_midpoints_[i], time_step_proportions_[step_iter]);
-            mu                                         = get_mean_increment(model_length_midpoints_[i], 1.0);
-            sigma                                      = fmax(min_sigma_, mu * cv_);
-            growth_transition_matrix_[step_iter][i][i] = utilities::math::pnorm2(model_min_length_bins_[i + 1] - model_length_midpoints_[i], mu, sigma);
-            LOG_FINE() << " i = " << i + 1 << " mu = " << mu << " sigma = " << sigma << " val " << model_min_length_bins_[i + 1] - model_length_midpoints_[i] << " pnorm "
-                       << growth_transition_matrix_[step_iter][i][i];
-            sum_so_far = growth_transition_matrix_[step_iter][i][i];
-            for (unsigned j = i + 1; j < (number_of_model_length_bins_ - 1); j++) {
-              growth_transition_matrix_[step_iter][i][j] = utilities::math::pnorm2(model_min_length_bins_[j + 1] - model_length_midpoints_[i], mu, sigma) - sum_so_far;
-              sum_so_far += growth_transition_matrix_[step_iter][i][j];
-            }
-            LOG_FINE() << "sum so far " << sum_so_far;
-            if (plus_group_) {
-              growth_transition_matrix_[step_iter][i][number_of_model_length_bins_ - 1] = 1.0 - sum_so_far;
-            } else {
-              LOG_FINEST() << "pnorm = " << utilities::math::pnorm2(model_min_length_bins_[number_of_model_length_bins_] - model_length_midpoints_[i], mu, sigma)
-                           << " value = " << model_min_length_bins_[number_of_model_length_bins_] << " midpoint " << model_length_midpoints_[i];
-              growth_transition_matrix_[step_iter][i][number_of_model_length_bins_ - 1]
-                  = utilities::math::pnorm2(model_min_length_bins_[number_of_model_length_bins_] - model_length_midpoints_[i], mu, sigma) - sum_so_far;
-            }
+            LOG_FINEST() << "pnorm = " << utilities::math::pnorm2(model_min_length_bins_[number_of_model_length_bins_] - model_length_midpoints_[i], mu, sigma)
+                         << " value = " << model_min_length_bins_[number_of_model_length_bins_] << " midpoint " << model_length_midpoints_[i];
+            growth_transition_matrix_[i][number_of_model_length_bins_ - 1]
+                = utilities::math::pnorm2(model_min_length_bins_[number_of_model_length_bins_] - model_length_midpoints_[i], mu, sigma) - sum_so_far;
           }
         }
       }
     }
   }
 }
+
 /**
  * Save info for reporting. Note this is called for every year the user asks
  *
  */
 void GrowthIncrement::FillReportCache(ostringstream& cache) {
   LOG_TRACE();
-  unsigned this_time_step = model_->managers()->time_step()->current_time_step();
+  LOG_MEDIUM() << "FillReportCache growth transition matrix";
+
   cache << "distribution: " << distribution_label_ << REPORT_EOL;
   // cache << "time_step_proportions: ";
   // for (auto time_step_val : time_step_proportions_) cache << time_step_val << " ";
   // cache << REPORT_EOL;
   cache << "min_sigma: " << min_sigma_ << REPORT_EOL;
   cache << "cv: " << cv_ << REPORT_EOL;
-
   cache << "values " << REPORT_R_DATAFRAME << REPORT_EOL;
   cache << "length_bin_index length_midpoint mean sigma mean_weight" << REPORT_EOL;
+
   Double mu    = 0.0;
   Double sigma = 0.0;
   for (unsigned i = 0; i < number_of_model_length_bins_; ++i) {
-    // mu    = get_mean_increment(model_length_midpoints_[i], time_step_proportions_[this_time_step]);
-    mu    = get_mean_increment(model_length_midpoints_[i], 1.0);
+    mu    = get_mean_increment(model_length_midpoints_[i]);
     sigma = fmax(min_sigma_, mu * cv_);
     cache << i + 1 << " " << model_length_midpoints_[i] << " " << AS_DOUBLE(mu) << " " << AS_DOUBLE(sigma) << " " << mean_weight_by_length_bin_index_[i] << REPORT_EOL;
   }
-  cache << "growth_transition_matrix_timestep_" << this_time_step + 1 << " " << REPORT_R_MATRIX << REPORT_EOL;
+  cache << "growth_transition_matrix " << REPORT_R_MATRIX << REPORT_EOL;
   for (unsigned i = 0; i < number_of_model_length_bins_; ++i) {
     for (unsigned j = 0; j < number_of_model_length_bins_; ++j) {
-      cache << growth_transition_matrix_[this_time_step][i][j] << " ";
+      cache << growth_transition_matrix_[i][j] << " ";
     }
     cache << REPORT_EOL;
   }

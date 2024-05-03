@@ -33,11 +33,9 @@ public:
 
   // accessors
 protected:
-  Double get_mean_increment(double length, double time_step_proportion) override final { return 0.0; };
+  Double get_mean_increment(double length) override final { return 0.0; };
 
   // accessors
-
-
 };
 
 } /* namespace growthincrements */

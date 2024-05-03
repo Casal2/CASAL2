@@ -1,0 +1,67 @@
+{
+  "folders": [
+    {
+      "path": "."
+    }
+  ],
+  "settings": {
+    "cSpell.words": [
+      "admb",
+      "adolc",
+      "arma",
+      "bertalanffy",
+      "BEVERTON",
+      "bfgs",
+      "bobyqa",
+      "CASAL",
+      "catchability",
+      "cinitial",
+      "cppad",
+      "CPUE",
+      "Doonan",
+      "electivities",
+      "estimables",
+      "hoki",
+      "Initialisation",
+      "lbfgs",
+      "linf",
+      "MCMC",
+      "mcmcs",
+      "Mersenne",
+      "niwa",
+      "NIWA's",
+      "robustified",
+      "robustify",
+      "schnute",
+      "selectivities",
+      "texttt",
+      "YCS"
+    ],
+    "AREPL.max_string_length": 119,
+    "cSpell.language": "en-GB",
+    "files.associations": {
+      "*.rmd": "markdown",
+      "variant": "cpp",
+      "*.ipp": "cpp",
+      "*.tex": "latex",
+      "any": "cpp",
+      "functional": "cpp",
+      "new": "cpp",
+      "tuple": "cpp",
+      "type_traits": "cpp",
+      "*.tcc": "cpp",
+      "array": "cpp",
+      "fstream": "cpp",
+      "future": "cpp",
+      "system_error": "cpp",
+      "thread": "cpp",
+      "memory_resource": "cpp",
+      "*.r": "r",
+      "ostream": "cpp"
+    },
+    "[python]": {
+      "editor.defaultFormatter": "ms-python.black-formatter"
+    },
+    "python.formatting.provider": "yapf"
+  }
+}

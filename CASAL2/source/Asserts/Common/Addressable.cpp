@@ -73,7 +73,7 @@ void Addressable::DoBuild() {
 
   string error = "";
   if (!model_->objects().VerifyAddressableForUse(parameter_, addressable::kLookup, error)) {
-    LOG_FATAL_P(PARAM_PARAMETER) << " could not be found. Error: " << error;
+    LOG_FATAL_P(PARAM_PARAMETER) << "could not be found. Error: " << error;
   }
 
   addressable_ = model_->objects().GetAddressable(parameter_);

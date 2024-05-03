@@ -19,7 +19,7 @@ namespace reports {
  * Default constructor
  */
 TimeVarying::TimeVarying() {
-  run_mode_    = (RunMode::Type)(RunMode::kBasic | RunMode::kProjection | RunMode::kEstimation | RunMode::kSimulation);
+  run_mode_    = (RunMode::Type)(RunMode::kBasic | RunMode::kProjection | RunMode::kSimulation | RunMode::kEstimation | RunMode::kProfiling);
   model_state_ = (State::Type)(State::kIterationComplete);
 
   parameters_.Bind<string>(PARAM_TIME_VARYING, &time_varying_label_, "The time varying label that is reported", "", "");
@@ -28,9 +28,7 @@ TimeVarying::TimeVarying() {
 /**
  * Validate object
  */
-void TimeVarying::DoValidate(shared_ptr<Model> model) {
-
-}
+void TimeVarying::DoValidate(shared_ptr<Model> model) {}
 
 /**
  *  Build object
@@ -38,15 +36,15 @@ void TimeVarying::DoValidate(shared_ptr<Model> model) {
 void TimeVarying::DoBuild(shared_ptr<Model> model) {
   // If user supplied
   if (time_varying_label_ == "")
-    time_varying_label_ = label_; // if no explicit time-varying-label given try the report label
-   timevarying_ = model->managers()->time_varying()->GetTimeVarying(time_varying_label_);
-   if (!timevarying_) {
+    time_varying_label_ = label_;  // if no explicit time-varying-label given try the report label
+  timevarying_ = model->managers()->time_varying()->GetTimeVarying(time_varying_label_);
+  if (!timevarying_) {
 #ifndef TESTMODE
-      LOG_WARNING() << "The report for " << PARAM_TIME_VARYING << " with label '" << time_varying_label_ << "' was requested. This " << PARAM_TIME_VARYING
-                    << " was not found in the input configuration file and the report will not be generated";
+    LOG_WARNING() << "The " << PARAM_TIME_VARYING << " report with label '" << time_varying_label_ << "' was requested. This " << PARAM_TIME_VARYING
+                  << " was not found in the input configuration file and the report will not be generated";
 #endif
-      is_valid_ = false;
-   }
+    is_valid_ = false;
+  }
 }
 
 /**
@@ -54,7 +52,7 @@ void TimeVarying::DoBuild(shared_ptr<Model> model) {
  */
 void TimeVarying::DoExecute(shared_ptr<Model> model) {
   LOG_TRACE();
-  // single valied time-varying report value
+  // single valid time-varying report value
   if (is_valid_) {
     cache_ << ReportHeader(type_, time_varying_label_, format_);
     LOG_FINEST() << "Reporting for @time_varying block " << time_varying_label_;

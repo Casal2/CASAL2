@@ -86,6 +86,7 @@ type constant_rate
 categories immature.male mature.male immature.female mature.female
 M 0.065 0.065 0.045 0.045
 relative_m_by_age One One One One
+time_step_proportions 1.0
 
 @transition transition
 type category_by_age

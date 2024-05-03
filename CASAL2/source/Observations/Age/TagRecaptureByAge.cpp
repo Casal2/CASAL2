@@ -34,28 +34,26 @@ namespace age {
 TagRecaptureByAge::TagRecaptureByAge(shared_ptr<Model> model) : Observation(model) {
   recaptures_table_ = new parameters::Table(PARAM_RECAPTURED);
   scanned_table_    = new parameters::Table(PARAM_SCANNED);
-
+  // clang-format off
   parameters_.Bind<unsigned>(PARAM_MIN_AGE, &min_age_, "The minimum age", "");
   parameters_.Bind<unsigned>(PARAM_MAX_AGE, &max_age_, "The maximum age", "");
   parameters_.Bind<bool>(PARAM_PLUS_GROUP, &plus_group_, "Is the maximum age the age plus group?", "", true);
   parameters_.Bind<unsigned>(PARAM_YEARS, &years_, "The years for which there are observations", "");
-  parameters_.Bind<string>(PARAM_TAGGED_CATEGORIES, &target_category_labels_,"The categories of tagged individuals for the observation", "");
-  parameters_.Bind<string>(PARAM_SELECTIVITIES, &selectivity_labels_, "The labels of the selectivities", "", true);
+  parameters_.Bind<string>(PARAM_SELECTIVITIES, &selectivity_labels_, "The labels of the selectivities of the scanned categories", "", true);
+  parameters_.Bind<string>(PARAM_TAGGED_CATEGORIES, &tagged_category_labels_, "The categories of tagged individuals", "");
+  parameters_.Bind<string>(PARAM_TAGGED_SELECTIVITIES, &tagged_selectivity_labels_, "The labels of the selectivities of the tagged categories ", "");
   parameters_.Bind<string>(PARAM_TIME_STEP, &time_step_label_, "The label of the time step that the observation occurs in", "");
-  parameters_.Bind<string>(PARAM_TAGGED_SELECTIVITIES, &target_selectivity_labels_, "The categories of tagged individuals for the observation", "");
-  // TODO:  is tolerance missing?
-  parameters_.Bind<Double>(PARAM_PROCESS_ERRORS, &process_error_values_, "The process error", "", true);
-  parameters_.Bind<double>(PARAM_DETECTION_PARAMETER, &detection_, "The probability of detecting a recaptured individual", "")->set_range(0.0, 1.0);
+  parameters_.Bind<Double>(PARAM_DETECTION_PARAMETER, &detection_, "The probability of detecting a recaptured individual", "")->set_range(0.0, 1.0);
+  parameters_.Bind<Double>(PARAM_DISPERSION, &dispersion_, "The overdispersion parameter (phi)  ", "", true)->set_lower_bound(0.0);
   parameters_.BindTable(PARAM_RECAPTURED, recaptures_table_, "The table of observed recaptured individuals in each age class", "", false);
   parameters_.BindTable(PARAM_SCANNED, scanned_table_, "The table of observed scanned individuals in each age class", "", false);
-  parameters_
-      .Bind<Double>(PARAM_TIME_STEP_PROPORTION, &time_step_proportion_, "The proportion through the mortality block of the time step when the observation is evaluated", "",
-                    Double(0.5))
-      ->set_range(0.0, 1.0);
+  parameters_.Bind<Double>(PARAM_TIME_STEP_PROPORTION, &time_step_proportion_, "The proportion through the mortality block of the time step when the observation is evaluated", "", Double(0.5))->set_range(0.0, 1.0);
+  // clang-format on
+
+  RegisterAsAddressable(PARAM_DETECTION_PARAMETER, &detection_);
 
   mean_proportion_method_ = true;
-  // Don't ever make detection_ addressable or estimable. At line 427 it is multiplied to an observation which needs to remain a constant
-  // if you make this estimatble we will break the auto-diff stack.
+
   allowed_likelihood_types_.push_back(PARAM_BINOMIAL);
 }
 
@@ -67,99 +65,93 @@ void TagRecaptureByAge::DoValidate() {
   auto     categories                 = model_->categories();
   for (const string& category_label : category_labels_) expected_selectivity_count += categories->GetNumberOfCategoriesDefined(category_label);
 
+  for (auto year : years_) {
+    if ((year < model_->start_year()) || (year > model_->final_year()))
+      LOG_ERROR_P(PARAM_YEARS) << "Years cannot be less than start_year (" << model_->start_year() << "), or greater than final_year (" << model_->final_year() << ")";
+  }
+
   if (category_labels_.size() != selectivity_labels_.size())
-    LOG_ERROR_P(PARAM_CATEGORIES) << ": Number of categories(" << category_labels_.size() << ") does not match the number of " PARAM_SELECTIVITIES << "("
+    LOG_ERROR_P(PARAM_CATEGORIES) << ": Number of categories (" << category_labels_.size() << ") does not match the number of " PARAM_SELECTIVITIES << " ("
                                   << selectivity_labels_.size() << ")";
-  if (target_category_labels_.size() != target_selectivity_labels_.size())
-    LOG_ERROR_P(PARAM_TARGET_CATEGORIES) << ": Number of selectivities provided (" << target_selectivity_labels_.size()
-                                         << ") is not valid. Specify either the number of category collections (" << target_category_labels_.size() << ") or "
-                                         << "the number of total categories (" << expected_selectivity_count << ")";
+
+  if (tagged_category_labels_.size() != tagged_selectivity_labels_.size())
+    LOG_ERROR_P(PARAM_TAGGED_CATEGORIES) << ": Number of tagged categories (" << tagged_category_labels_.size() << ") does not match the number of " PARAM_TAGGED_SELECTIVITIES
+                                         << " (" << tagged_selectivity_labels_.size() << ")";
 
   age_spread_ = (max_age_ - min_age_) + 1;
-
   map<unsigned, vector<double>> recaptures_by_year;
   map<unsigned, vector<double>> scanned_by_year;
 
-  for (auto year : years_) {
-    if ((year < model_->start_year()) || (year > model_->final_year()))
-      LOG_ERROR_P(PARAM_YEARS) << "Years cannot be less than start_year (" << model_->start_year() << "), or greater than final_year (" << model_->final_year() << ").";
-  }
-
-  /**
-   * Do some simple checks
-   */
+  // Do some simple checks
   if (min_age_ < model_->min_age())
     LOG_ERROR_P(PARAM_MIN_AGE) << ": min_age (" << min_age_ << ") is less than the model's min_age (" << model_->min_age() << ")";
   if (max_age_ > model_->max_age())
     LOG_ERROR_P(PARAM_MAX_AGE) << ": max_age (" << max_age_ << ") is greater than the model's max_age (" << model_->max_age() << ")";
   if (detection_ < 0.0 || detection_ > 1.0)
-    LOG_ERROR_P(PARAM_DETECTION_PARAMETER) << ": detection probability must be between 0.0 and 1.0";
+    LOG_ERROR_P(PARAM_DETECTION_PARAMETER) << ": detection probability must be between 0.0 and 1.0 (inclusive)";
   if (delta_ < 0.0)
     LOG_ERROR_P(PARAM_DELTA) << ": delta (" << delta_ << ") cannot be less than 0.0";
 
-  /**
-   * Validate the number of recaptures provided matches age spread * category_labels * years
-   * This is because we'll have 1 set of recaptures per category collection provided.
-   * categories male+female male = 2 collections
-   */
+  // Validate the number of recaptures provided matches age spread* category_labels* years
+  //  This is because we'll have 1 set of recaptures per category collection provided.
+  //  categories male+female male = 2 collections
   unsigned                obs_expected    = age_spread_ * category_labels_.size() + 1;
-  vector<vector<string>>& recpatures_data = recaptures_table_->data();
-  if (recpatures_data.size() != years_.size()) {
-    LOG_ERROR_P(PARAM_RECAPTURED) << " has " << recpatures_data.size() << " rows defined, but " << years_.size() << " should match the number of years provided";
+  vector<vector<string>>& recaptures_data = recaptures_table_->data();
+
+  if (recaptures_data.size() != years_.size()) {
+    LOG_ERROR_P(PARAM_RECAPTURED) << "has " << recaptures_data.size() << " rows defined, but " << years_.size() << " should match the number of years provided";
   }
 
-  for (vector<string>& recaptures_data_line : recpatures_data) {
+  for (vector<string>& recaptures_data_line : recaptures_data) {
     unsigned year = 0;
 
     if (recaptures_data_line.size() != obs_expected) {
-      LOG_ERROR_P(PARAM_RECAPTURED) << " has " << recaptures_data_line.size() << " values defined, but " << obs_expected
+      LOG_ERROR_P(PARAM_RECAPTURED) << "has " << recaptures_data_line.size() << " values defined, but " << obs_expected
                                     << " should match the age spread * categories + 1 (for year)";
       return;
     }
 
     if (!utilities::To<unsigned>(recaptures_data_line[0], year)) {
-      LOG_ERROR_P(PARAM_RECAPTURED) << " value " << recaptures_data_line[0] << " could not be converted to an unsigned integer. It should be the year for this line";
+      LOG_ERROR_P(PARAM_RECAPTURED) << "value " << recaptures_data_line[0] << " could not be converted to an unsigned integer. It should be the year for this line";
       return;
     }
 
     if (std::find(years_.begin(), years_.end(), year) == years_.end()) {
-      LOG_ERROR_P(PARAM_RECAPTURED) << " value " << year << " is not a valid year for this observation";
+      LOG_ERROR_P(PARAM_RECAPTURED) << "value " << year << " is not a valid year for this observation";
       return;
     }
 
     for (unsigned i = 1; i < recaptures_data_line.size(); ++i) {
       double value = 0.0;
       if (!utilities::To<double>(recaptures_data_line[i], value))
-        LOG_ERROR_P(PARAM_RECAPTURED) << " value (" << recaptures_data_line[i] << ") could not be converted to a Double";
+        LOG_ERROR_P(PARAM_RECAPTURED) << "value (" << recaptures_data_line[i] << ") could not be converted to a Double";
       recaptures_by_year[year].push_back(value);
     }
     if (recaptures_by_year[year].size() != obs_expected - 1)
       LOG_CODE_ERROR() << "obs_by_year_[year].size() (" << recaptures_by_year[year].size() << ") != obs_expected - 1 (" << obs_expected - 1 << ")";
   }
 
-  /**
-   * Build our scanned map
-   */
+  // Build our scanned map
   vector<vector<string>>& scanned_values_data = scanned_table_->data();
   if (scanned_values_data.size() != years_.size()) {
-    LOG_ERROR_P(PARAM_SCANNED) << " has " << scanned_values_data.size() << " rows defined, but" << years_.size() << " should match the number of years provided";
+    LOG_ERROR_P(PARAM_SCANNED) << "has " << scanned_values_data.size() << " rows defined, but" << years_.size() << " should match the number of years provided";
   }
 
   for (vector<string>& scanned_values_data_line : scanned_values_data) {
     unsigned year = 0;
 
     if (scanned_values_data_line.size() != 2 && scanned_values_data_line.size() != obs_expected) {
-      LOG_ERROR_P(PARAM_SCANNED) << " has " << scanned_values_data_line.size() << " values defined, but " << obs_expected
+      LOG_ERROR_P(PARAM_SCANNED) << "has " << scanned_values_data_line.size() << " values defined, but " << obs_expected
                                  << " should match the age spread * categories + 1 (for year)";
     } else if (!utilities::To<unsigned>(scanned_values_data_line[0], year)) {
-      LOG_ERROR_P(PARAM_SCANNED) << " value " << scanned_values_data_line[0] << " could not be converted to an unsigned integer. It should be the year for this line";
+      LOG_ERROR_P(PARAM_SCANNED) << "value " << scanned_values_data_line[0] << " could not be converted to an unsigned integer. It should be the year for this line";
     } else if (std::find(years_.begin(), years_.end(), year) == years_.end()) {
-      LOG_ERROR_P(PARAM_SCANNED) << " value " << year << " is not a valid year for this observation";
+      LOG_ERROR_P(PARAM_SCANNED) << "value " << year << " is not a valid year for this observation";
     } else {
       for (unsigned i = 1; i < scanned_values_data_line.size(); ++i) {
         double value = 0.0;
         if (!utilities::To<double>(scanned_values_data_line[i], value)) {
-          LOG_ERROR_P(PARAM_SCANNED) << " value (" << scanned_values_data_line[i] << ") could not be converted to a Double";
+          LOG_ERROR_P(PARAM_SCANNED) << "value (" << scanned_values_data_line[i] << ") could not be converted to a Double";
         } else if (likelihood_type_ == PARAM_MULTINOMIAL && value < 0.0) {
           LOG_ERROR_P(PARAM_ERROR_VALUES) << ": error_value (" << value << ") cannot be less than 0.0";
         }
@@ -199,7 +191,27 @@ void TagRecaptureByAge::DoValidate() {
         }
       }
     }
+  }
 
+  // validate and build dispersion (e.g. process_error)
+  for (Double dispersion : dispersion_) {
+    if (dispersion < 0.0)
+      LOG_ERROR_P(PARAM_DISPERSION) << ": dispersion (" << AS_DOUBLE(dispersion) << ") cannot be less than 0.0";
+  }
+  // if only one value supplied then assume its the same for all years
+  if (dispersion_.size() == 1) {
+    dispersion_.resize(years_.size(), dispersion_[0]);
+  }
+
+  if (dispersion_.size() != 0) {
+    if (dispersion_.size() != years_.size()) {
+      LOG_FATAL_P(PARAM_DISPERSION) << "Supply one value of dispersion that is used for every year, or a value of dispersion for each year. Values for " << dispersion_.size()
+                                    << " years were supplied, but " << years_.size() << " years are required";
+    }
+    dispersion_by_year_ = utilities::Map::create(years_, dispersion_);
+  } else {
+    Double dispersion_val = 1.0;
+    dispersion_by_year_   = utilities::Map::create(years_, dispersion_val);
   }
 }
 
@@ -209,8 +221,8 @@ void TagRecaptureByAge::DoValidate() {
 void TagRecaptureByAge::DoBuild() {
   partition_               = CombinedCategoriesPtr(new niwa::partition::accessors::CombinedCategories(model_, category_labels_));
   cached_partition_        = CachedCombinedCategoriesPtr(new niwa::partition::accessors::cached::CombinedCategories(model_, category_labels_));
-  target_partition_        = CombinedCategoriesPtr(new niwa::partition::accessors::CombinedCategories(model_, target_category_labels_));
-  target_cached_partition_ = CachedCombinedCategoriesPtr(new niwa::partition::accessors::cached::CombinedCategories(model_, target_category_labels_));
+  tagged_partition_        = CombinedCategoriesPtr(new niwa::partition::accessors::CombinedCategories(model_, tagged_category_labels_));
+  tagged_cached_partition_ = CachedCombinedCategoriesPtr(new niwa::partition::accessors::cached::CombinedCategories(model_, tagged_category_labels_));
 
   if (ageing_error_label_ != "") {
     LOG_CODE_ERROR() << "ageing error has not been implemented for the tag recapture at age observation";
@@ -231,17 +243,17 @@ void TagRecaptureByAge::DoBuild() {
     selectivities_.assign(category_labels_.size(), val_sel);
   }
 
-  for (string label : target_selectivity_labels_) {
+  for (string label : tagged_selectivity_labels_) {
     auto selectivity = model_->managers()->selectivity()->GetSelectivity(label);
     if (!selectivity) {
-      LOG_ERROR_P(PARAM_TARGET_SELECTIVITIES) << ": Selectivity label " << label << " does not exist.";
+      LOG_ERROR_P(PARAM_TAGGED_SELECTIVITIES) << ": Selectivity label " << label << " does not exist.";
     } else
-      target_selectivities_.push_back(selectivity);
+      tagged_selectivities_.push_back(selectivity);
   }
 
-  if (target_selectivities_.size() == 1 && category_labels_.size() != 1) {
-    auto val_t = target_selectivities_[0];
-    target_selectivities_.assign(category_labels_.size(), val_t);
+  if (tagged_selectivities_.size() == 1 && category_labels_.size() != 1) {
+    auto val_t = tagged_selectivities_[0];
+    tagged_selectivities_.assign(category_labels_.size(), val_t);
   }
 
   if (time_step_proportion_ < 0.0 || time_step_proportion_ > 1.0)
@@ -257,15 +269,14 @@ void TagRecaptureByAge::DoBuild() {
 }
 
 /**
- * This method is called at the start of the targeted
- * time step for this observation.
+ * This method is called at the start of the targeted time step for this observation.
  *
  * Build the cache for the partition
  * structure to use with any interpolation
  */
 void TagRecaptureByAge::PreExecute() {
   cached_partition_->BuildCache();
-  target_cached_partition_->BuildCache();
+  tagged_cached_partition_->BuildCache();
 
   if (cached_partition_->Size() != scanned_[model_->current_year()].size()) {
     LOG_CODE_ERROR() << "cached_partition_->Size() != scanned_[model->current_year()].size()";
@@ -287,11 +298,11 @@ void TagRecaptureByAge::Execute() {
    */
   auto cached_partition_iter        = cached_partition_->Begin();
   auto partition_iter               = partition_->Begin();  // vector<vector<partition::Category> >
-  auto target_cached_partition_iter = target_cached_partition_->Begin();
-  auto target_partition_iter        = target_partition_->Begin();  // vector<vector<partition::Category> >
+  auto tagged_cached_partition_iter = tagged_cached_partition_->Begin();
+  auto tagged_partition_iter        = tagged_partition_->Begin();  // vector<vector<partition::Category> >
 
   vector<Double> age_results(age_spread_);
-  vector<Double> target_age_results(age_spread_);
+  vector<Double> tagged_age_results(age_spread_);
 
   /**
    * Loop through the provided categories. Each provided category (combination) will have a list of observations
@@ -305,7 +316,7 @@ void TagRecaptureByAge::Execute() {
     Double final_value        = 0.0;
 
     std::fill(age_results.begin(), age_results.end(), 0.0);
-    std::fill(target_age_results.begin(), target_age_results.end(), 0.0);
+    std::fill(tagged_age_results.begin(), tagged_age_results.end(), 0.0);
 
     /**
      * Loop through the 2 combined categories if they are supplied, building up the
@@ -357,21 +368,21 @@ void TagRecaptureByAge::Execute() {
     }
 
     /**
-     * Loop through the target combined categories building up the
-     * target age results
+     * Loop through the tagged combined categories building up the
+     * tagged age results
      */
-    auto target_category_iter        = target_partition_iter->begin();
-    auto target_cached_category_iter = target_cached_partition_iter->begin();
-    for (; target_category_iter != target_partition_iter->end(); ++target_cached_category_iter, ++target_category_iter) {
-      for (unsigned data_offset = 0; data_offset < (*target_category_iter)->data_.size(); ++data_offset) {
+    auto tagged_category_iter        = tagged_partition_iter->begin();
+    auto tagged_cached_category_iter = tagged_cached_partition_iter->begin();
+    for (; tagged_category_iter != tagged_partition_iter->end(); ++tagged_cached_category_iter, ++tagged_category_iter) {
+      for (unsigned data_offset = 0; data_offset < (*tagged_category_iter)->data_.size(); ++data_offset) {
         // Check and skip ages we don't care about.
-        if ((*target_category_iter)->min_age_ + data_offset < min_age_)
+        if ((*tagged_category_iter)->min_age_ + data_offset < min_age_)
           continue;
-        if ((*target_category_iter)->min_age_ + data_offset > max_age_ && !plus_group_)
+        if ((*tagged_category_iter)->min_age_ + data_offset > max_age_ && !plus_group_)
           break;
 
-        unsigned age_offset = ((*target_category_iter)->min_age_ + data_offset) - min_age_;
-        unsigned age        = ((*target_category_iter)->min_age_ + data_offset);
+        unsigned age_offset = ((*tagged_category_iter)->min_age_ + data_offset) - min_age_;
+        unsigned age        = ((*tagged_category_iter)->min_age_ + data_offset);
         if (min_age_ + age_offset > max_age_)
           age_offset = age_spread_ - 1;
         if (age < min_age_)
@@ -379,9 +390,9 @@ void TagRecaptureByAge::Execute() {
         if (age > max_age_)
           break;
 
-        selectivity_result = target_selectivities_[category_offset]->GetAgeResult(age, (*target_category_iter)->age_length_);
-        start_value        = (*target_cached_category_iter)->cached_data_[data_offset];
-        end_value          = (*target_category_iter)->data_[data_offset];
+        selectivity_result = tagged_selectivities_[category_offset]->GetAgeResult(age, (*tagged_category_iter)->age_length_);
+        start_value        = (*tagged_cached_category_iter)->cached_data_[data_offset];
+        end_value          = (*tagged_category_iter)->data_[data_offset];
         final_value        = 0.0;
 
         if (mean_proportion_method_)
@@ -390,14 +401,14 @@ void TagRecaptureByAge::Execute() {
           final_value = fabs(start_value - end_value) * proportion_of_time_;
 
         LOG_FINE() << "----------";
-        LOG_FINE() << "Category2:" << (*target_category_iter)->name_;
+        LOG_FINE() << "Category2:" << (*tagged_category_iter)->name_;
         LOG_FINE() << "age: " << age;
         LOG_FINE() << "selectivity_result: " << selectivity_result;
         LOG_FINE() << "start_value: " << start_value << " / end_value: " << end_value;
         LOG_FINE() << "final_value: " << final_value;
         LOG_FINE() << "final_value * selectivity: " << (Double)(final_value * selectivity_result);
-        target_age_results[age_offset] += final_value * selectivity_result;
-        LOG_FINE() << "category2 becomes: " << target_age_results[age_offset];
+        tagged_age_results[age_offset] += final_value * selectivity_result;
+        LOG_FINE() << "category2 becomes: " << tagged_age_results[age_offset];
       }
     }
 
@@ -410,19 +421,19 @@ void TagRecaptureByAge::Execute() {
       Double expected = 0.0;
       double observed = 0.0;
       if (age_results[i] != 0.0)
-        expected = target_age_results[i] / age_results[i];
+        expected = detection_ * tagged_age_results[i] / age_results[i];
       if (scanned_[model_->current_year()][category_labels_[category_offset]][i] == 0.0)
         observed = 0.0;
       else
-        observed = (1.0 / detection_ * recaptures_[model_->current_year()][category_labels_[category_offset]][i])
-                   / scanned_[model_->current_year()][category_labels_[category_offset]][i];
+        observed = (recaptures_[model_->current_year()][category_labels_[category_offset]][i]) / scanned_[model_->current_year()][category_labels_[category_offset]][i];
 
       LOG_MEDIUM() << "Comparison for age " << min_age_ + i << ": expected = " << expected << " observed = " << observed
                    << " error = " << scanned_[model_->current_year()][category_labels_[category_offset]][i]
                    << " recaptures = " << recaptures_[model_->current_year()][category_labels_[category_offset]][i];
 
-      SaveComparison(target_category_labels_[category_offset], min_age_ + i, 0, expected, observed, process_errors_by_year_[model_->current_year()],
-                     scanned_[model_->current_year()][category_labels_[category_offset]][i], 0.0, delta_, 0.0);
+      // process_error is not used here, and the dispersion is applied to the final likelihood value below
+      SaveComparison(tagged_category_labels_[category_offset], min_age_ + i, 0, expected, observed, 0.0, scanned_[model_->current_year()][category_labels_[category_offset]][i],
+                     0.0, delta_, 0.0);
     }
   }
 }
@@ -442,7 +453,6 @@ void TagRecaptureByAge::CalculateScore() {
     likelihood_->SimulateObserved(comparisons_);
   } else {
     likelihood_->GetScores(comparisons_);
-
     for (unsigned year : years_) {
       scores_[year] = likelihood_->GetInitialScore(comparisons_, year);
       LOG_FINEST() << "-- Observation neglogLikelihood calculation " << label_;
@@ -451,6 +461,8 @@ void TagRecaptureByAge::CalculateScore() {
         LOG_FINEST() << "[" << year << "] + neglogLikelihood: " << comparison.score_;
         scores_[year] += comparison.score_;
       }
+      // Add the dispersion factor to the likelihood score
+      scores_[year] /= dispersion_by_year_[year];
     }
 
     LOG_FINEST() << "Finished calculating neglogLikelihood for = " << label_;

@@ -1,0 +1,142 @@
+
+[INFO] Setting the random number seed to 20
+[INFO] Estimable parameters were set from the input configuration files
+[WARNING] At line 54 in Observation.csl2 the table obs : The sum of the values for year 1993 was 0.9998 and do not sum to 1.0
+[WARNING] At line 54 in Observation.csl2 the table obs : The sum of the values for year 1994 was 1.0001 and do not sum to 1.0
+[WARNING] At line 54 in Observation.csl2 the table obs : The sum of the values for year 1995 was 1.0001 and do not sum to 1.0
+[WARNING] At line 54 in Observation.csl2 the table obs : The sum of the values for year 1996 was 1.0002 and do not sum to 1.0
+[WARNING] At line 54 in Observation.csl2 the table obs : The sum of the values for year 1998 was 1.0001 and do not sum to 1.0
+[WARNING] At line 54 in Observation.csl2 the table obs : The sum of the values for year 2000 was 0.9998 and do not sum to 1.0
+[WARNING] At line 54 in Observation.csl2 the table obs : The sum of the values for year 2001 was 1.0001 and do not sum to 1.0
+[WARNING] At line 54 in Observation.csl2 the table obs : The sum of the values for year 2002 was 0.9997 and do not sum to 1.0
+[WARNING] At line 54 in Observation.csl2 the table obs : The sum of the values for year 2004 was 1.0001 and do not sum to 1.0
+[WARNING] At line 54 in Observation.csl2 the table obs : The sum of the values for year 2007 was 1.0002 and do not sum to 1.0
+[WARNING] At line 54 in Observation.csl2 the table obs : The sum of the values for year 2009 was 0.9999 and do not sum to 1.0
+[WARNING] At line 54 in Observation.csl2 the table obs : The sum of the values for year 2010 was 1.0002 and do not sum to 1.0
+[WARNING] At line 54 in Observation.csl2 the table obs : The sum of the values for year 2011 was 1.0001 and do not sum to 1.0
+[WARNING] At line 54 in Observation.csl2 the table obs : The sum of the values for year 2013 was 1.0003 and do not sum to 1.0
+[WARNING] At line 54 in Observation.csl2 the table obs : The sum of the values for year 2014 was 1.0001 and do not sum to 1.0
+[WARNING] At line 125 in Observation.csl2 the table obs : The sum of the values for year 1992 was 0.9998 and do not sum to 1.0
+[WARNING] At line 125 in Observation.csl2 the table obs : The sum of the values for year 1994 was 1.0002 and do not sum to 1.0
+[WARNING] At line 125 in Observation.csl2 the table obs : The sum of the values for year 1995 was 1.0002 and do not sum to 1.0
+[WARNING] At line 125 in Observation.csl2 the table obs : The sum of the values for year 1996 was 0.9998 and do not sum to 1.0
+[WARNING] At line 125 in Observation.csl2 the table obs : The sum of the values for year 1997 was 0.9998 and do not sum to 1.0
+[WARNING] At line 125 in Observation.csl2 the table obs : The sum of the values for year 2000 was 0.9997 and do not sum to 1.0
+[WARNING] At line 125 in Observation.csl2 the table obs : The sum of the values for year 2001 was 0.9999 and do not sum to 1.0
+[WARNING] At line 125 in Observation.csl2 the table obs : The sum of the values for year 2003 was 0.9998 and do not sum to 1.0
+[WARNING] At line 125 in Observation.csl2 the table obs : The sum of the values for year 2005 was 0.9999 and do not sum to 1.0
+[WARNING] At line 125 in Observation.csl2 the table obs : The sum of the values for year 2006 was 0.9999 and do not sum to 1.0
+[WARNING] At line 125 in Observation.csl2 the table obs : The sum of the values for year 2008 was 1.0002 and do not sum to 1.0
+[WARNING] At line 125 in Observation.csl2 the table obs : The sum of the values for year 2009 was 1.0001 and do not sum to 1.0
+[WARNING] At line 125 in Observation.csl2 the table obs : The sum of the values for year 2010 was 0.9998 and do not sum to 1.0
+[WARNING] At line 125 in Observation.csl2 the table obs : The sum of the values for year 2011 was 0.9998 and do not sum to 1.0
+[WARNING] At line 125 in Observation.csl2 the table obs : The sum of the values for year 2012 was 0.9999 and do not sum to 1.0
+[WARNING] At line 125 in Observation.csl2 the table obs : The sum of the values for year 2013 was 0.9999 and do not sum to 1.0
+[WARNING] At line 190 in Observation.csl2 the table obs : The sum of the values for year 2002 was 0.9999 and do not sum to 1.0
+[WARNING] At line 190 in Observation.csl2 the table obs : The sum of the values for year 2004 was 1.0002 and do not sum to 1.0
+[WARNING] At line 190 in Observation.csl2 the table obs : The sum of the values for year 2005 was 0.9999 and do not sum to 1.0
+[WARNING] At line 190 in Observation.csl2 the table obs : The sum of the values for year 2006 was 1.0004 and do not sum to 1.0
+[WARNING] At line 190 in Observation.csl2 the table obs : The sum of the values for year 2007 was 1.0001 and do not sum to 1.0
+[WARNING] At line 190 in Observation.csl2 the table obs : The sum of the values for year 2008 was 0.9998 and do not sum to 1.0
+[WARNING] obs sum total (0.9999) for year (1995) doesn't sum to 1.0
+[WARNING] obs sum total (0.9999) for year (1996) doesn't sum to 1.0
+[WARNING] obs sum total (1.0003) for year (1997) doesn't sum to 1.0
+[WARNING] obs sum total (0.9999) for year (1998) doesn't sum to 1.0
+[WARNING] obs sum total (0.9997) for year (2000) doesn't sum to 1.0
+[WARNING] obs sum total (0.9997) for year (2001) doesn't sum to 1.0
+[INFO] The likelihood for the observation 'Tangaroa_propn_at_age_Jan' is multinomial. Normalised residuals can only be calculated for the lognormal, lognormal_with_Q, and normal likelihoods
+[INFO] The likelihood for the observation 'trawl_propn_at_age' is multinomial. Normalised residuals can only be calculated for the lognormal, lognormal_with_Q, and normal likelihoods
+[INFO] The likelihood for the observation 'longline_propn_at_length' is multinomial. Normalised residuals can only be calculated for the lognormal, lognormal_with_Q, and normal likelihoods
+[INFO] The likelihood for the observation 'longline_propn_at_age' is multinomial. Normalised residuals can only be calculated for the lognormal, lognormal_with_Q, and normal likelihoods
+[INFO] Initiating point estimate run mode
+[INFO] Estimation_phase 1
+[INFO] Estimation with the adolc minimiser
+[INFO] Convergence check value = 1.4945. Convergence tolerance = 1e-06 objective score 2077.2
+[INFO] Convergence check value = 0.429776. Convergence tolerance = 1e-06 objective score 1891.31
+[INFO] Convergence check value = 0.183285. Convergence tolerance = 1e-06 objective score 1844.54
+[INFO] Convergence check value = 0.160112. Convergence tolerance = 1e-06 objective score 1834.03
+[INFO] Convergence check value = 0.113345. Convergence tolerance = 1e-06 objective score 1824.04
+[INFO] Convergence check value = 0.0505673. Convergence tolerance = 1e-06 objective score 1817.34
+[INFO] Convergence check value = 0.0527831. Convergence tolerance = 1e-06 objective score 1811.94
+[INFO] Convergence check value = 0.0560179. Convergence tolerance = 1e-06 objective score 1808.6
+[INFO] Convergence check value = 0.060549. Convergence tolerance = 1e-06 objective score 1805.58
+[INFO] Convergence check value = 0.0635176. Convergence tolerance = 1e-06 objective score 1803.18
+[INFO] Convergence check value = 0.0652175. Convergence tolerance = 1e-06 objective score 1800.82
+[INFO] Convergence check value = 0.0664582. Convergence tolerance = 1e-06 objective score 1798.96
+[INFO] Convergence check value = 0.0671392. Convergence tolerance = 1e-06 objective score 1796.87
+[INFO] Convergence check value = 0.0633442. Convergence tolerance = 1e-06 objective score 1795.14
+[INFO] Convergence check value = 0.0528092. Convergence tolerance = 1e-06 objective score 1793.69
+[INFO] Convergence check value = 0.0385085. Convergence tolerance = 1e-06 objective score 1792.47
+[INFO] Convergence check value = 0.0253512. Convergence tolerance = 1e-06 objective score 1791.66
+[INFO] Convergence check value = 0.0267985. Convergence tolerance = 1e-06 objective score 1790.97
+[INFO] Convergence check value = 0.0394703. Convergence tolerance = 1e-06 objective score 1790.41
+[INFO] Convergence check value = 0.029387. Convergence tolerance = 1e-06 objective score 1789.72
+[INFO] Convergence check value = 0.0224349. Convergence tolerance = 1e-06 objective score 1789.24
+[INFO] Convergence check value = 0.0162304. Convergence tolerance = 1e-06 objective score 1789.04
+[INFO] Convergence check value = 0.0149165. Convergence tolerance = 1e-06 objective score 1788.85
+[INFO] Convergence check value = 0.0132279. Convergence tolerance = 1e-06 objective score 1788.64
+[INFO] Convergence check value = 0.0146576. Convergence tolerance = 1e-06 objective score 1788.45
+[INFO] Convergence check value = 0.026306. Convergence tolerance = 1e-06 objective score 1788.12
+[INFO] Convergence check value = 0.0192476. Convergence tolerance = 1e-06 objective score 1787.84
+[INFO] Convergence check value = 0.0247915. Convergence tolerance = 1e-06 objective score 1787.51
+[INFO] Convergence check value = 0.0324777. Convergence tolerance = 1e-06 objective score 1787.02
+[INFO] Convergence check value = 0.0268112. Convergence tolerance = 1e-06 objective score 1786.5
+[INFO] Convergence check value = 0.0205655. Convergence tolerance = 1e-06 objective score 1785.67
+[INFO] Convergence check value = 0.0231928. Convergence tolerance = 1e-06 objective score 1785.3
+[INFO] Convergence check value = 0.020569. Convergence tolerance = 1e-06 objective score 1784.93
+[INFO] Convergence check value = 0.013826. Convergence tolerance = 1e-06 objective score 1784.71
+[INFO] Convergence check value = 0.0101528. Convergence tolerance = 1e-06 objective score 1784.56
+[INFO] Convergence check value = 0.00867478. Convergence tolerance = 1e-06 objective score 1784.43
+[INFO] Convergence check value = 0.00994327. Convergence tolerance = 1e-06 objective score 1784.36
+[INFO] Convergence check value = 0.010995. Convergence tolerance = 1e-06 objective score 1784.28
+[INFO] Convergence check value = 0.0120847. Convergence tolerance = 1e-06 objective score 1784.17
+[INFO] Convergence check value = 0.0154649. Convergence tolerance = 1e-06 objective score 1784.08
+[INFO] Convergence check value = 0.018976. Convergence tolerance = 1e-06 objective score 1783.86
+[INFO] Convergence check value = 0.0165717. Convergence tolerance = 1e-06 objective score 1783.6
+[INFO] Convergence check value = 0.0167802. Convergence tolerance = 1e-06 objective score 1783.42
+[INFO] Convergence check value = 0.0166763. Convergence tolerance = 1e-06 objective score 1783.3
+[INFO] Convergence check value = 0.0125306. Convergence tolerance = 1e-06 objective score 1783.18
+[INFO] Convergence check value = 0.00791206. Convergence tolerance = 1e-06 objective score 1783.12
+[INFO] Convergence check value = 0.00659483. Convergence tolerance = 1e-06 objective score 1783.07
+[INFO] Convergence check value = 0.00378802. Convergence tolerance = 1e-06 objective score 1783.05
+[INFO] Convergence check value = 0.00171479. Convergence tolerance = 1e-06 objective score 1783.04
+[INFO] Convergence check value = 0.00473803. Convergence tolerance = 1e-06 objective score 1783.04
+[INFO] Convergence check value = 0.00589752. Convergence tolerance = 1e-06 objective score 1783.03
+[INFO] Convergence check value = 0.0034105. Convergence tolerance = 1e-06 objective score 1783.01
+[INFO] Convergence check value = 0.00233177. Convergence tolerance = 1e-06 objective score 1782.99
+[INFO] Convergence check value = 0.0037744. Convergence tolerance = 1e-06 objective score 1782.98
+[INFO] Convergence check value = 0.00252537. Convergence tolerance = 1e-06 objective score 1782.96
+[INFO] Convergence check value = 0.00192322. Convergence tolerance = 1e-06 objective score 1782.96
+[INFO] Convergence check value = 0.000705448. Convergence tolerance = 1e-06 objective score 1782.95
+[INFO] Convergence check value = 0.000610738. Convergence tolerance = 1e-06 objective score 1782.95
+[INFO] Convergence check value = 0.000511166. Convergence tolerance = 1e-06 objective score 1782.95
+[INFO] Convergence check value = 0.000419399. Convergence tolerance = 1e-06 objective score 1782.95
+[INFO] Convergence check value = 0.000256061. Convergence tolerance = 1e-06 objective score 1782.95
+[INFO] Convergence check value = 0.000106199. Convergence tolerance = 1e-06 objective score 1782.95
+[INFO] Convergence check value = 0.000112177. Convergence tolerance = 1e-06 objective score 1782.95
+[INFO] Convergence check value = 0.000139959. Convergence tolerance = 1e-06 objective score 1782.95
+[INFO] Convergence check value = 0.000140246. Convergence tolerance = 1e-06 objective score 1782.95
+[INFO] Convergence check value = 5.86382e-05. Convergence tolerance = 1e-06 objective score 1782.95
+[INFO] Convergence check value = 4.52104e-05. Convergence tolerance = 1e-06 objective score 1782.95
+[INFO] Convergence check value = 5.43702e-05. Convergence tolerance = 1e-06 objective score 1782.95
+[INFO] Convergence check value = 9.98386e-05. Convergence tolerance = 1e-06 objective score 1782.95
+[INFO] Convergence check value = 0.000160817. Convergence tolerance = 1e-06 objective score 1782.95
+[INFO] Convergence check value = 0.000191663. Convergence tolerance = 1e-06 objective score 1782.95
+[INFO] Convergence check value = 0.000142856. Convergence tolerance = 1e-06 objective score 1782.95
+[INFO] Convergence check value = 4.14868e-05. Convergence tolerance = 1e-06 objective score 1782.95
+[INFO] Convergence check value = 2.69806e-05. Convergence tolerance = 1e-06 objective score 1782.95
+[INFO] Convergence check value = 3.72242e-05. Convergence tolerance = 1e-06 objective score 1782.95
+[INFO] Convergence check value = 3.85817e-05. Convergence tolerance = 1e-06 objective score 1782.95
+[INFO] Convergence check value = 2.28273e-05. Convergence tolerance = 1e-06 objective score 1782.95
+[INFO] Convergence check value = 3.95321e-06. Convergence tolerance = 1e-06 objective score 1782.95
+[INFO] Convergence check value = 4.31574e-06. Convergence tolerance = 1e-06 objective score 1782.95
+[INFO] Convergence check value = 5.25452e-06. Convergence tolerance = 1e-06 objective score 1782.95
+[INFO] Convergence check value = 5.49184e-06. Convergence tolerance = 1e-06 objective score 1782.95
+[INFO] Convergence check value = 7.0387e-06. Convergence tolerance = 1e-06 objective score 1782.95
+[INFO] Convergence check value = 4.74684e-06. Convergence tolerance = 1e-06 objective score 1782.95
+[INFO] Convergence check value = 1.55553e-06. Convergence tolerance = 1e-06 objective score 1782.95
+[INFO] Convergence check value = 1.13921e-07. Convergence tolerance = 1e-06 objective score 1782.95
+[WARNING] estimated parameter 'selectivity[chatTANSel_m].sigma_r' with value 200 was within 0.001 of the upper bound of 200
+[INFO] Assert Passed: The Assert with label 'obj' for the Objective Function had value 1782.95 and 1782.95 was expected.
+[INFO] Completed
+[INFO] Total elapsed time: 5 seconds

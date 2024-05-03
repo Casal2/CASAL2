@@ -1,0 +1,14 @@
+\section{Moderating code\label{sec:Maintaining}}
+
+When a pull request is received, the Development Team will check the functionality of the code, the syntax, documentation, and any optimisation code required to ensure it runs reasonably. The automated build system test system will report any broken unit-tests or test models. 
+
+When making a pull request, please ensure that the submitted changes:
+
+\begin{enumerate}
+	\item Have documented code to explain the code
+	\item Use appropriate LOG messages to assist with debugging
+	\item Update the \CNAME\ User Manual(s), as required
+	\item Include a unit test for the changes or additional functionality
+	\item Include a test case model that demonstrates the changes or additional functionality
+	\item Pass all the unit tests and the test cases from \texttt{doBuild modelrunner}
+\end{enumerate}

@@ -69,7 +69,7 @@ void CommandLineParser::Parse(int argc, char* argv[], RunParameters& options) {
     ("input,i", value<string>(), "Load free parameter values from [file]")
     ("input-force,I",  value<string>(), "Load free parameters from [file], and force overwriting of non-estimated addressable parameters")
     ("output,o", value<string>(), "Create a free parameter report and write to [file]")
-   // ("Output,O", value<string>(), "Append a free parameter report to the [file]")
+    ("Output,O", value<string>(), "Append a free parameter report to the [file]")
     ("seed,g", value<unsigned>(), "Set the random number seed [n]")
     ("query", value<string>(), "Query an object type to view its syntax description. Argument = [object_type.sub_type, e.g., process.recruitment_constant]")
     ("nostd", "Do not print the standard header report")
@@ -106,6 +106,7 @@ void CommandLineParser::Parse(int argc, char* argv[], RunParameters& options) {
   } else if (parameters.count("version")) {
     options.run_mode_ = RunMode::kVersion;
     cout << "Casal2 Version: v" << VERSION << endl;
+    cout << "Casal2 repos: " << SOURCE_REPOS << endl;
     cout << "Release ID: v" << VERSION_NUMBER << " " << SOURCE_CONTROL_VERSION << "" << endl;
     cout << "Copyright (c) 2017-" << SOURCE_CONTROL_YEAR << ", NIWA (www.niwa.co.nz)" << endl;
     cout << "Date: ";
@@ -158,11 +159,11 @@ void CommandLineParser::Parse(int argc, char* argv[], RunParameters& options) {
     options.free_parameter_output_file_        = parameters["output"].as<string>();
     options.free_parameter_write_mode_         = PARAM_OVERWRITE;
   }
-  //  if (parameters.count("Output")) {
-  //    options.create_free_parameter_output_file_ = true;
-  //    options.free_parameter_output_file_        = parameters["output"].as<string>();
-  //    options.free_parameter_write_mode_         = PARAM_APPEND;
-  //  }
+  if (parameters.count("Output")) {
+    options.create_free_parameter_output_file_ = true;
+    options.free_parameter_output_file_        = parameters["Output"].as<string>();
+    options.free_parameter_write_mode_         = PARAM_APPEND;
+  }
   if (parameters.count("single-step"))
     options.single_step_model_ = true;
   if (parameters.count("tabular"))

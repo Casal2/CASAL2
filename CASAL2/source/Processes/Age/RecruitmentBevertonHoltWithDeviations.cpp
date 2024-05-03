@@ -74,15 +74,16 @@ RecruitmentBevertonHoltWithDeviations::RecruitmentBevertonHoltWithDeviations(sha
  */
 void RecruitmentBevertonHoltWithDeviations::DoValidate() {
   LOG_TRACE();
-  if (parameters_.Get(PARAM_DEVIATION_YEARS)->has_been_defined()) 
+  if (parameters_.Get(PARAM_DEVIATION_YEARS)->has_been_defined())
     LOG_ERROR_P(PARAM_DEVIATION_YEARS) << PARAM_DEVIATION_YEARS << " is deprecated, refer to user manual for more information.";
-  
-  recruit_dev_years_ = model_->years(); // set to model years
+
+  recruit_dev_years_ = model_->years();  // set to model years
 
   if (!parameters_.Get(PARAM_AGE)->has_been_defined()) {
     age_ = model_->min_age();
   } else if (age_ != model_->min_age()) {
-    LOG_WARNING() << "The age supplied = " << age_ << ", but the model min_age = " << model_->min_age() << ".";
+    LOG_WARNING_P(PARAM_AGE) << "(" << age_ << ") is not equal to the model min_age (" << model_->min_age()
+                             << "). This is likely an error. Please check your input configuration files";
   }
 
   if (parameters_.Get(PARAM_R0)->has_been_defined() && parameters_.Get(PARAM_B0)->has_been_defined())
@@ -92,9 +93,9 @@ void RecruitmentBevertonHoltWithDeviations::DoValidate() {
     LOG_FATAL() << "Specify either R0 or B0 to initialise the model for Beverton-Holt recruitment";
 
   if (age_ < model_->min_age())
-    LOG_ERROR_P(PARAM_AGE) << " (" << age_ << ") cannot be less than the model's min_age (" << model_->min_age() << ")";
+    LOG_ERROR_P(PARAM_AGE) << "(" << age_ << ") cannot be less than the model's min_age (" << model_->min_age() << ")";
   if (age_ > model_->max_age())
-    LOG_ERROR_P(PARAM_AGE) << " (" << age_ << ") cannot be greater than the model's max_age (" << model_->max_age() << ")";
+    LOG_ERROR_P(PARAM_AGE) << "(" << age_ << ") cannot be greater than the model's max_age (" << model_->max_age() << ")";
 
   if (category_labels_.size() != proportions_.size())
     LOG_ERROR_P(PARAM_CATEGORIES) << "One proportion is required to be defined per category. There are " << category_labels_.size() << " categories and " << proportions_.size()
@@ -106,12 +107,11 @@ void RecruitmentBevertonHoltWithDeviations::DoValidate() {
   if (!math::IsOne(running_total))
     LOG_ERROR_P(PARAM_PROPORTIONS) << "The sum total is " << running_total << " which should be 1.0";
 
-  for(auto year = model_->start_year(); year <= model_->final_year(); ++year)
-    years_.push_back(year);
+  for (auto year = model_->start_year(); year <= model_->final_year(); ++year) years_.push_back(year);
 
   if (recruit_dev_values_.size() != years_.size()) {
-    LOG_ERROR_P(PARAM_DEVIATION_VALUES) << "There must be a recruitment deviation specified for all years between start and final. Expected " << years_.size() << ", but found " << recruit_dev_values_.size();
-
+    LOG_ERROR_P(PARAM_DEVIATION_VALUES) << "There must be a recruitment deviation specified for all years between start and final. Expected " << years_.size() << ", but found "
+                                        << recruit_dev_values_.size();
   }
 
   // initialise recruit devs
@@ -158,7 +158,7 @@ void RecruitmentBevertonHoltWithDeviations::DoBuild() {
   unsigned                recruitment_index                = std::numeric_limits<unsigned>::max();
   unsigned                derived_quantity_index           = std::numeric_limits<unsigned>::max();
   unsigned                derived_quantity_time_step_index = model_->managers()->time_step()->GetTimeStepIndex(derived_quantity_->time_step());
-  bool                    mortailty_block                  = false;
+  bool                    mortality_block                  = false;
 
   // loop through time steps
   for (auto time_step : ordered_time_steps) {
@@ -169,13 +169,13 @@ void RecruitmentBevertonHoltWithDeviations::DoBuild() {
           ageing_processes++;
         }
         if (process->process_type() == ProcessType::kMortality) {
-          mortailty_block        = true;
+          mortality_block        = true;
           derived_quantity_index = process_index;
         }
         process_index++;
       }
       LOG_FINEST() << "process_index = " << process_index;
-      if (!mortailty_block) {
+      if (!mortality_block) {
         process_index++;
         LOG_FINEST() << "Entering this loop?" << process_index;
         derived_quantity_index = process_index;
@@ -219,15 +219,14 @@ void RecruitmentBevertonHoltWithDeviations::DoBuild() {
     ssb_offset_ = temp_ssb_offset;
   }
 
-
-  spawn_event_years_.resize(model_->years().size(),0.0);
+  spawn_event_years_.resize(model_->years().size(), 0.0);
   for (unsigned year_iter = 0; year_iter < model_->years().size(); ++year_iter) {
     spawn_event_years_[year_iter] = model_->years()[year_iter] - ssb_offset_;
-    LOG_FINEST() << "ssb year = " << spawn_event_years_[year_iter]  << " for year = " << model_->years()[year_iter] ;
+    LOG_FINEST() << "ssb year = " << spawn_event_years_[year_iter] << " for year = " << model_->years()[year_iter];
   }
 
   // Check users haven't specified an @estimate block for both R0 and B0
-  if(IsAddressableUsedFor(PARAM_R0, addressable::kEstimate) & IsAddressableUsedFor(PARAM_B0, addressable::kEstimate))
+  if (IsAddressableUsedFor(PARAM_R0, addressable::kEstimate) & IsAddressableUsedFor(PARAM_B0, addressable::kEstimate))
     LOG_ERROR() << "Both R0 and B0 have an @estimate specified for recruitment process " << label_ << ". Only one of these parameters can be estimated.";
 
   // Pre allocate memory
@@ -282,7 +281,6 @@ void RecruitmentBevertonHoltWithDeviations::DoBuild() {
   recruitment_values_.resize(model_->years().size());
   ycs_values_.resize(model_->years().size());
 
-
   DoReset();
 }
 
@@ -318,7 +316,7 @@ void RecruitmentBevertonHoltWithDeviations::DoReset() {
     b0_ = derived_quantity_->GetLastValueFromInitialisation(phase_b0_);
 
   // Only rebuild in the reset if Bmax is estimated, otherwise it remains constant.
-  if (model_->managers()->estimate()->HasEstimate("process[" + label_ + "].b_max")) { // this check should be moved into the Build and set a flag
+  if (model_->managers()->estimate()->HasEstimate("process[" + label_ + "].b_max")) {  // this check should be moved into the Build and set a flag
     // Build Bias correction map by year 'bias_by_year_'
     for (auto year : recruit_dev_years_) {
       if (year <= year1_) {
@@ -346,11 +344,10 @@ void RecruitmentBevertonHoltWithDeviations::DoReset() {
  *
  */
 void RecruitmentBevertonHoltWithDeviations::DoExecute() {
-  unsigned current_year = model_->current_year();
-  std::pair<bool, int> this_year_iter  = niwa::utilities::findInVector(model_->years(), current_year);
-  year_counter_ = this_year_iter.second;
-  unsigned ssb_year     = current_year - ssb_offset_;
-
+  unsigned             current_year   = model_->current_year();
+  std::pair<bool, int> this_year_iter = niwa::utilities::findInVector(model_->years(), current_year);
+  year_counter_                       = this_year_iter.second;
+  unsigned ssb_year                   = current_year - ssb_offset_;
 
   Double amount_per = 0.0;
   if (model_->state() == State::kInitialise) {
@@ -404,10 +401,10 @@ void RecruitmentBevertonHoltWithDeviations::DoExecute() {
     Double true_ycs  = ycs * SR;
     amount_per       = r0_ * true_ycs;
 
-    true_ycs_values_[year_counter_] = true_ycs;
+    true_ycs_values_[year_counter_]    = true_ycs;
     recruitment_values_[year_counter_] = amount_per;
-    ssb_values_[year_counter_] = SSB;
-    ycs_values_[year_counter_] = ycs;
+    ssb_values_[year_counter_]         = SSB;
+    ycs_values_[year_counter_]         = ycs;
     LOG_FINEST() << "year = " << model_->current_year() << " SSB = " << SSB << " SR = " << SR << "; recruit_dev = " << recruit_dev_value_by_year_[current_year] << "; b0_ = " << b0_
                  << "; ssb_ratio = " << ssb_ratio << "; true_ycs = " << true_ycs << "; amount_per = " << amount_per;
   }
@@ -454,17 +451,17 @@ void RecruitmentBevertonHoltWithDeviations::FillReportCache(ostringstream& cache
   cache << "recruitment_multipliers: ";
   for (auto iter : ycs_values_) cache << AS_DOUBLE(iter) << " ";
   cache << "\nmodel_year: ";
-  for (auto iter : recruit_dev_value_by_year_) 
-    cache << iter.first << " ";
+  for (auto iter : recruit_dev_value_by_year_) cache << iter.first << " ";
   cache << "\nspawn_event_year: ";
-  for (auto iter : spawn_event_years_) 
-    cache << iter << " ";
+  for (auto iter : spawn_event_years_) cache << iter << " ";
   cache << "\ntrue_ycs: ";
   for (auto iter : true_ycs_values_) cache << AS_DOUBLE(iter) << " ";
   cache << "\nrecruits: ";
   for (auto iter : recruitment_values_) cache << AS_DOUBLE(iter) << " ";
   cache << "\nrecruit_event_SSB: ";
   for (auto iter : ssb_values_) cache << AS_DOUBLE(iter) << " ";
+  cache << "\nrecruit_event_SSB_percent: ";
+  for (auto iter : ssb_values_) cache << AS_DOUBLE(iter) / AS_DOUBLE(b0_) * 100.0 << " ";
   cache << REPORT_EOL;
 }
 

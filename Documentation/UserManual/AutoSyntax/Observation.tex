@@ -68,10 +68,6 @@
 \defRef{sec:Observation-AgeLength}
 \label{syntax:Observation-AgeLength}
 
-\defSub{year}{The year this observation occurs in.}
-\defType{Non-negative integer}
-\defDefault{No default}
-
 \defSub{time\_step}{The label of the time step that the observation occurs in}
 \defType{String}
 \defDefault{No default}
@@ -657,10 +653,6 @@
 \defRef{sec:Observation-TagRecaptureByAge}
 \label{syntax:Observation-TagRecaptureByAge}
 
-\defSub{min\_age}{The minimum age}
-\defType{Non-negative integer}
-\defDefault{No default}
-
 \defSub{max\_age}{The maximum age}
 \defType{Non-negative integer}
 \defDefault{No default}
@@ -673,27 +665,32 @@
 \defType{Vector of non-negative integers}
 \defDefault{No default}
 
-\defSub{tagged\_categories}{The categories of tagged individuals for the observation}
+\defSub{selectivities}{The labels of the selectivities of the scanned categories}
+\defType{Vector of strings}
+\defDefault{true}
+
+\defSub{tagged\_categories}{The categories of tagged individuals}
 \defType{Vector of strings}
 \defDefault{No default}
 
-\defSub{selectivities}{The labels of the selectivities}
+\defSub{tagged\_selectivities}{The labels of the selectivities of the tagged categories}
 \defType{Vector of strings}
-\defDefault{true}
+\defDefault{No default}
 
 \defSub{time\_step}{The label of the time step that the observation occurs in}
 \defType{String}
 \defDefault{No default}
 
-\defSub{tagged\_selectivities}{The categories of tagged individuals for the observation}
-\defType{Vector of strings}
-\defDefault{No default}
-
 \defSub{detection}{The probability of detecting a recaptured individual}
-\defType{Real number}
+\defType{Real number (estimable)}
 \defDefault{No default}
 \defLowerBound{0.0 (inclusive)}
 \defUpperBound{1.0 (inclusive)}
+
+\defSub{dispersion}{The overdispersion parameter (phi)}
+\defType{Vector of real numbers (estimable)}
+\defDefault{true}
+\defLowerBound{0.0 (inclusive)}
 
 \defSub{time\_step\_proportion}{The proportion through the mortality block of the time step when the observation is evaluated}
 \defType{Real number (estimable)}
@@ -737,10 +734,6 @@
 \defRef{sec:Observation-TagRecaptureByLength}
 \label{syntax:Observation-TagRecaptureByLength}
 
-\defSub{years}{The years for which there are observations}
-\defType{Vector of non-negative integers}
-\defDefault{No default}
-
 \defSub{time\_step}{The time step to execute in}
 \defType{String}
 \defDefault{No default}
@@ -764,8 +757,8 @@
 \defUpperBound{1.0 (inclusive)}
 
 \defSub{dispersion}{The overdispersion parameter (phi)}
-\defType{Real number (estimable)}
-\defDefault{1.0}
+\defType{Vector of real numbers (estimable)}
+\defDefault{true}
 \defLowerBound{0.0 (inclusive)}
 
 \defSub{time\_step\_proportion}{The proportion through the mortality block of the time step when the observation is evaluated}

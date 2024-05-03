@@ -42,7 +42,7 @@ public:
   void FillReportCache(ostringstream& cache) override final;
   void FillTabularReportCache(ostringstream& cache, bool first_run) override final;
   void ScalePartition();
-  bool has_partition_been_scaled() {return have_scaled_partition;};
+  bool has_partition_been_scaled() { return have_scaled_partition; };
 
   // accessor
   unsigned              ssb_offset() { return ssb_offset_; };
@@ -73,17 +73,17 @@ private:
   vector<Double>             true_ycs_values_;
   vector<Double>             recruitment_values_;
   bool                       have_scaled_partition = false;
-  DerivedQuantity*           derived_quantity_ = nullptr;
-  unsigned                   year_counter_     = 0;
+  DerivedQuantity*           derived_quantity_     = nullptr;
+  unsigned                   year_counter_         = 0;
   OrderedMap<string, Double> proportions_by_category_;
   bool                       standardise_recruitment_multipliers_ = true;
-  Double                     mean_ycs_ = 1.0;
+  Double                     mean_ycs_                            = 1.0;
   vector<unsigned>           years_;
   // deprecated
-  vector<unsigned>           ycs_years_;
-  vector<unsigned>           standardise_ycs_years_;
-  vector<Double>             ycs_values_;
-  bool                       project_standardised_ycs_ = true;
+  vector<unsigned> ycs_years_;
+  vector<unsigned> standardise_ycs_years_;
+  vector<Double>   ycs_values_;
+  bool             project_standardised_ycs_ = true;
 };
 
 } /* namespace age */

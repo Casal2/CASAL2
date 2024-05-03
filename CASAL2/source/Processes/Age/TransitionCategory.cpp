@@ -31,9 +31,12 @@ TransitionCategory::TransitionCategory(shared_ptr<Model> model) : Process(model)
   parameters_.Bind<string>(PARAM_TO, &to_category_names_, "The categories to transition to", "");
   parameters_.Bind<Double>(PARAM_PROPORTIONS, &proportions_, "The proportions to transition for each category", "")->set_range(0.0, 1.0);
   parameters_.Bind<string>(PARAM_SELECTIVITIES, &selectivity_names_, "The selectivities to apply to each proportion", "");
+  parameters_.Bind<bool>(PARAM_INCLUDE_IN_MORTALITY_BLOCK, &process_is_in_mortality_block_, "Is the process is in the mortality block", "", false);
 
-  RegisterAsAddressable(PARAM_PROPORTIONS, &proportions_by_category_); // reference is to-category label
+  // reference is to-category label
+  RegisterAsAddressable(PARAM_PROPORTIONS, &proportions_by_category_);
 
+  // this is changed in validate if process_is_in_mortality_block_ = true
   process_type_        = ProcessType::kTransition;
   partition_structure_ = PartitionType::kAge;
 }
@@ -52,6 +55,11 @@ TransitionCategory::TransitionCategory(shared_ptr<Model> model) : Process(model)
  */
 void TransitionCategory::DoValidate() {
   LOG_TRACE();
+
+  if (process_is_in_mortality_block_) {
+    LOG_MEDIUM() << "this process will be set to be inside the mortality process";
+    process_type_ = ProcessType::kMortality;
+  }
 
   if (selectivity_names_.size() == 1) {
     auto val_s = selectivity_names_[0];
@@ -96,13 +104,20 @@ void TransitionCategory::DoValidate() {
     }
   }
 
+  // Validate no categories are in both to_ and from_
   for (unsigned i = 0; i < to_category_names_.size(); ++i) {
-    proportions_by_category_[to_category_names_[i]] = proportions_[i];
-    LOG_FINE() << "i = " << i <<  " from  category = " <<  from_category_names_[i] << " to = " << to_category_names_[i] << " selectivity = " << selectivity_names_[i] << " prop = " <<  proportions_[i];
+    for (unsigned j = 0; j < from_category_names_.size(); ++j) {
+      if (to_category_names_[i] == from_category_names_[j]) {
+        LOG_ERROR_P(PARAM_TO) << ": A 'from' category (" << from_category_names_[j] << ") cannot be the same as a 'to' category (" << to_category_names_[i] << ")";
+      }
+    }
   }
 
-
-  
+  for (unsigned i = 0; i < to_category_names_.size(); ++i) {
+    proportions_by_category_[to_category_names_[i]] = proportions_[i];
+    LOG_FINE() << "i = " << i << " from  category = " << from_category_names_[i] << " to = " << to_category_names_[i] << " selectivity = " << selectivity_names_[i]
+               << " prop = " << proportions_[i];
+  }
 }
 
 /**
@@ -130,7 +145,7 @@ void TransitionCategory::DoBuild() {
                 << from_partition_.size() << " and 'To' " << to_partition_.size() << " categories to transition between";
   }
   abundance_to_move_categories_.resize(from_category_names_.size());
-  for(unsigned i = 0; i < from_category_names_.size(); i++) {
+  for (unsigned i = 0; i < from_category_names_.size(); i++) {
     abundance_to_move_categories_[i].resize(model_->age_spread(), 0.0);
   }
 }
@@ -141,33 +156,34 @@ void TransitionCategory::DoBuild() {
 void TransitionCategory::DoExecute() {
   LOG_TRACE();
 
-  auto   from_iter = from_partition_.begin();
-  auto   to_iter   = to_partition_.begin();
-  LOG_FINE() << "from_partition_.size(): " << from_partition_.size()
-               << "; to_partition_.size(): " << to_partition_.size();
+  auto from_iter = from_partition_.begin();
+  auto to_iter   = to_partition_.begin();
+  LOG_FINE() << "from_partition_.size(): " << from_partition_.size() << "; to_partition_.size(): " << to_partition_.size();
 
-  //calculate before we take it. a cateogry can be in multiple 'froms'
+  // calculate before we take it. a category can be in multiple 'froms'
   for (unsigned i = 0; from_iter != from_partition_.end() && to_iter != to_partition_.end(); ++from_iter, ++to_iter, ++i) {
     LOG_FINEST() << "category = " << (*from_iter)->name_ << " to category = " << (*to_iter)->name_ << " i = " << i << " prop = " << proportions_by_category_[(*to_iter)->name_];
     fill(abundance_to_move_categories_[i].begin(), abundance_to_move_categories_[i].end(), 0.0);
-    for (unsigned offset = 0; offset < (*from_iter)->data_.size(); ++offset) 
-      abundance_to_move_categories_[i][offset] = proportions_by_category_[(*to_iter)->name_] * selectivities_[i]->GetAgeResult(min_age_ + offset, (*from_iter)->age_length_) * (*from_iter)->data_[offset];
-    
+    for (unsigned offset = 0; offset < (*from_iter)->data_.size(); ++offset)
+      abundance_to_move_categories_[i][offset]
+          = proportions_by_category_[(*to_iter)->name_] * selectivities_[i]->GetAgeResult(min_age_ + offset, (*from_iter)->age_length_) * (*from_iter)->data_[offset];
   }
   from_iter = from_partition_.begin();
   to_iter   = to_partition_.begin();
-  //now we move it
+  // now we move it
   for (unsigned i = 0; from_iter != from_partition_.end() && to_iter != to_partition_.end(); ++from_iter, ++to_iter, ++i) {
     LOG_FINEST() << "category = " << (*from_iter)->name_ << " to category = " << (*to_iter)->name_ << " i = " << i << " prop = " << proportions_by_category_[(*to_iter)->name_];
     for (unsigned offset = 0; offset < (*from_iter)->data_.size(); ++offset) {
-      LOG_FINEST() << "before = " <<  (*from_iter)->data_[offset];
+      LOG_FINEST() << "before = " << (*from_iter)->data_[offset];
       (*from_iter)->data_[offset] -= abundance_to_move_categories_[i][offset];
       (*to_iter)->data_[offset] += abundance_to_move_categories_[i][offset];
-      LOG_FINEST() << "age-ndx - " << offset  <<  " Moving " << abundance_to_move_categories_[i][offset] << " number of individuals, from number " << (*from_iter)->data_[offset] << " to  = " << (*to_iter)->data_[offset];
+      LOG_FINEST() << "age-ndx: " << offset << " Moving " << abundance_to_move_categories_[i][offset] << " out of " << (*from_iter)->data_[offset] << " to "
+                   << (*to_iter)->data_[offset];
       if ((*from_iter)->data_[offset] < 0.0)
         LOG_FATAL() << "TransitionCategory rate caused a negative partition if ((*from_iter)->data_[offset] < 0.0) ";
     }
   }
+  proportions_by_year_[model_->current_year()] = proportions_by_category_;
 }
 
 /**
@@ -175,12 +191,26 @@ void TransitionCategory::DoExecute() {
  */
 void TransitionCategory::DoReset() {
   // reset proportions based on map
-  // Estiamting proportions_by_category_ but process report reports proportions_
+  // Estimating proportions_by_category_ but process report reports proportions_
   for (unsigned i = 0; i < to_category_names_.size(); ++i) {
     proportions_[i] = proportions_by_category_[to_category_names_[i]];
   }
 }
 
+void TransitionCategory::FillReportCache(ostringstream& cache) {
+  // print proportions by year and category
+  cache << "values_by_year " << REPORT_R_DATAFRAME << REPORT_EOL;
+  cache << "year ";
+  for (auto category_iter : proportions_by_category_) cache << category_iter.first << " ";
+  cache << REPORT_EOL;
+  for (auto year_iter : proportions_by_year_) {
+    cache << year_iter.first << " ";
+    for (auto category_iter : year_iter.second) {
+      cache << category_iter.second << " ";
+    }
+    cache << REPORT_EOL;
+  }
+}
 } /* namespace age */
 } /* namespace processes */
 } /* namespace niwa */

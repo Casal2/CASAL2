@@ -43,19 +43,18 @@ protected:
   void DoValidate() override final;
   void DoBuild() override final;
   void DoExecute() override final;
-  bool CheckConvergence();
+  bool CheckConvergence(unsigned year);
 
   // members
   unsigned             years_;
   vector<string>       insert_processes_;
   vector<string>       exclude_processes_;
   vector<TimeStep*>    time_steps_;
-  Double               lambda_;
-  vector<unsigned>     convergence_years_;
+  bool                 plus_group_;
   cached::Categories   cached_partition_;
   accessor::Categories partition_;
-  vector<length::RecruitmentBevertonHolt*>               recruitment_process_;
 
+  vector<length::RecruitmentBevertonHolt*> recruitment_process_;
 };
 
 }  // namespace length

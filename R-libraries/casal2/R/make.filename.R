@@ -11,4 +11,3 @@ make.filename <- function(file, path = "") {
   filename <- paste(path, file, sep = "")
   return(filename)
 }
-

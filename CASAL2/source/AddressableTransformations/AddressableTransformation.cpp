@@ -29,7 +29,7 @@ namespace utils = niwa::utilities;
  *
  */
 AddressableTransformation::AddressableTransformation(shared_ptr<Model> model) : model_(model) {
-  parameters_.Bind<string>(PARAM_LABEL, &label_, "Label for the transformation block", "");
+  parameters_.Bind<string>(PARAM_LABEL, &label_, "Label of the transformation", "");
   parameters_.Bind<string>(PARAM_TYPE, &type_, "The type of transformation", "");
   parameters_.Bind<string>(PARAM_PARAMETERS, &parameter_labels_, "The parameters used in the transformation", "");
   parameters_.Bind<bool>(PARAM_PRIOR_APPLIES_TO_RESTORED_PARAMETERS, &prior_applies_to_restored_parameters_,
@@ -52,7 +52,7 @@ void AddressableTransformation::Validate() {
   string error = "";
   for (auto param : parameter_labels_) {
     if (!model_->objects().VerifyAddressableForUse(param, addressable::kTransformation, error)) {
-      LOG_FATAL_P(PARAM_PARAMETERS) << "The parameter " << param << " could not be verified for use in an @parameter_transformation block. Error: " << error;
+      LOG_FATAL_Q(PARAM_PARAMETERS) << "the parameter " << param << " could not be verified for use in an @parameter_transformation block. Error: " << error;
     }
   }
   vector_and_u_map_indicies_.resize(parameter_labels_.size());
@@ -68,7 +68,7 @@ void AddressableTransformation::Validate() {
   unsigned          param_counter             = 0;
   addressable::Type previous_addressable_type = addressable::kSingle;
   unsigned          previous_indicies         = 0;
-  n_params_                          = 0;
+  n_params_                                   = 0;
   for (auto param : parameter_labels_) {
     string new_parameter = param;
 
@@ -79,7 +79,7 @@ void AddressableTransformation::Validate() {
     if (index != "") {
       indexes = utilities::String::explode(index);
       if (index != "" && indexes.size() == 0) {
-        LOG_FATAL_P(PARAM_PARAMETER) << " could not be split up to search for indexes because the format was invalid. "
+        LOG_FATAL_P(PARAM_PARAMETER) << "could not be split up to search for indexes because the format was invalid. "
                                      << "Check the indices. Only the operators ',' and ':' (range) are supported";
       }
       new_parameter = new_parameter.substr(0, new_parameter.find('{'));
@@ -97,7 +97,6 @@ void AddressableTransformation::Validate() {
     transformed value in the -i file";
     */
     addressable::Type addressable_type = target->GetAddressableType(parameter);
-    
 
     if (param_counter == 0) {
       previous_addressable_type = addressable_type;
@@ -247,10 +246,10 @@ void AddressableTransformation::set_single_values(vector<Double> values) {
 }
 
 /**
- * Change a single value to mulitple maps
+ * Change a single value to multiple maps
  *
  * @param values The value to assign to the addressable
- * assuemes each index of values relates to each index in parameter_label
+ * assumes each index of values relates to each index in parameter_label
  */
 void AddressableTransformation::set_single_values_for_multiple_maps(vector<Double> values) {
   LOG_FINE();
@@ -270,16 +269,18 @@ void AddressableTransformation::set_single_values_for_multiple_maps(vector<Doubl
 void AddressableTransformation::set_single_values_for_multiple_string_maps(vector<Double> values) {
   LOG_FINE();
   if (values.size() != addressable_string_maps_.size())
-    LOG_CODE_ERROR() << "values.size() != addressable_string_maps_.size(). values.size()  = " << values.size() << " addressable_string_maps_.size()  = " << addressable_string_maps_.size();
+    LOG_CODE_ERROR() << "values.size() != addressable_string_maps_.size(). values.size()  = " << values.size()
+                     << " addressable_string_maps_.size()  = " << addressable_string_maps_.size();
   for (unsigned param_ndx = 0; param_ndx < values.size(); ++param_ndx) {
     if (string_map_indicies_[param_ndx].size() != 1)
       LOG_CODE_ERROR() << "string_map_indicies_[param_ndx].size() != 1";
-    LOG_FINE() << "ndx  =  " << string_map_indicies_[param_ndx][0] << " previous value= " << (*addressable_string_maps_[param_ndx])[string_map_indicies_[param_ndx][0]] << "setting value = " << values[param_ndx];
+    LOG_FINE() << "ndx  =  " << string_map_indicies_[param_ndx][0] << " previous value= " << (*addressable_string_maps_[param_ndx])[string_map_indicies_[param_ndx][0]]
+               << "setting value = " << values[param_ndx];
     (*addressable_string_maps_[param_ndx])[string_map_indicies_[param_ndx][0]] = values[param_ndx];
   }
 }
 /**
- * Change a single value to mulitple vectors
+ * Change a single value to multiple vectors
  *
  * @param values The value to assign to the addressable. Assumes each index of values relates to each index in parameter_label
  */
@@ -340,12 +341,17 @@ void AddressableTransformation::Restore() {
  */
 void AddressableTransformation::Verify(shared_ptr<Model> model) {
   LOG_TRACE();
-  // Check users haven't specified @estiamte block for the parameter used in @parameter_transformation
-  for(unsigned i = 0; i < target_objects_.size(); ++i) {
-    if(target_objects_[i]->IsAddressableUsedFor(parameter_lookup_for_verify_[i], addressable::kEstimate))
-      LOG_FATAL_P(PARAM_PARAMETERS) << "There is an @estimate block for " << parameter_lookup_for_verify_[i] << " this is not allowed for parameters with a @parameter_transformation block";
-    if(target_objects_[i]->IsAddressableUsedFor(parameter_lookup_for_verify_[i], addressable::kProfile) & (model_->run_mode() == RunMode::kProfiling))
-      LOG_FATAL_P(PARAM_PARAMETERS) << "foung an @profile block for " << parameter_lookup_for_verify_[i] << ". You cannot have a @parameter_transformation and a @profile block for the same parameter.";
+  // Check users haven't specified @estimate block for the parameter used in @parameter_transformation
+  for (unsigned i = 0; i < target_objects_.size(); ++i) {
+    if (target_objects_[i]->IsAddressableUsedFor(parameter_lookup_for_verify_[i], addressable::kEstimate))
+      // TODO: This needs to check vector parameters, as it should be allowed to use a transformation on some
+      // TODO:   of the elements of a vector, while estimating and not transforming others (i.e., YCS parameters
+      // TODO:   with the simplex method)
+      LOG_VERIFY_P(PARAM_PARAMETERS) << "There is an @estimate block for " << parameter_lookup_for_verify_[i]
+                                     << " this is not allowed for parameters with a @parameter_transformation block";
+    if (target_objects_[i]->IsAddressableUsedFor(parameter_lookup_for_verify_[i], addressable::kProfile) & (model_->run_mode() == RunMode::kProfiling))
+      LOG_FATAL_P(PARAM_PARAMETERS) << "found an @profile block for " << parameter_lookup_for_verify_[i]
+                                    << ". You cannot have a @parameter_transformation and a @profile block for the same parameter.";
   }
 }
 

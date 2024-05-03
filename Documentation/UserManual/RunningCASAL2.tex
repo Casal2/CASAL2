@@ -55,7 +55,7 @@ and where \emph{task} must be one of the following (\textbf{[]} indicates a seco
 \begin{description}
 \item [\texttt{-h [-{}-help]}] Display help (this page)
 \item [\texttt{-l [-{}-licence]}] Display the reference for the software license (GPL v2)
-\item [\texttt{-v [-{}-version]}] Display the \CNAME\ version number
+\item [\texttt{-v [-{}-version]}] Display the \CNAME\ version number and version details (including the location of the GitHub repository from which the source code was compiled)
 
 \item [\texttt{-r [-{}-run]}] \emph{Run} the model once using the parameter values in the \config, or optionally with the free parameter values from the file specified with argument \texttt{-i} or \texttt{-I}.
 \item [\texttt{-e [-{}-estimate]}] Do a point \emph{estimate} using the values in the \config\ as the starting point for the parameters to be estimated, or optionally with the free parameter values from the file specified with argument \texttt{-i} or \texttt{-I}.
@@ -75,6 +75,7 @@ The following optional arguments\index{Optional command line arguments} [\emph{o
 \item [\texttt{-i [-{}-input] \emph{filename}}] \emph{Input} one or more sets of free (estimated) parameter values from \texttt{\emph{filename}} (see Section \ref{sec:Report} for details about the format of \texttt{\emph{filename}}).
 \item [\texttt{-I [-{}-input-force] \emph{filename}}] \emph{Input} one or more sets of parameter values from \texttt{\emph{filename}}. This contains both the free parameters and also force the \emph{overwrite} addressable (non-estimated) values in the \config\ (see Section \ref{sec:Report} for details about the format of \texttt{\emph{filename}})
 \item [\texttt{-o [-{}-output] \emph{filename}}] \emph{Output} a report of the free (estimated) parameter values in a format suitable for \texttt{-i \emph{filename}} (see Section \ref{sec:Report} for details about the format of \texttt{\emph{filename}})
+\item [\texttt{-O [-{}-Output] \emph{filename}}] \emph{Output} and append a report of the free (estimated) parameter values in a format suitable for \texttt{-i \emph{filename}} (see Section \ref{sec:Report} for details about the format of \texttt{\emph{filename}})
 \item [\texttt{-g [-{}-seed] \emph{seed}}] Initialise the random number \emph{generator} with \texttt{\emph{seed}}, a positive (long) integer value (note, if \texttt{-g} is not specified, then \CNAME\ will  generate a random number seed based on the computer clock time)
 \item [\texttt{-L [-{}-loglevel] \emph{arg}}] Set the level for information or logging messages from \CNAME. Valid options are (from more verbose to less verbose) trace, finest, fine, medium, info, important, and warning. The default is 'info' (see Section \ref{sec:TroubleShooting-logging} for more information).
 \item [\texttt{-t [-{}-tabular]}] Print \command{report} in tabular format (see Section \ref{sec:Report} for more information).
@@ -239,11 +240,19 @@ This sets up a process block using the \textit{mortality\_instantaneous} process
 
 Next we specify the values for natural mortality (\textit{m}), an argument for this process, to 0.17 and specify that fisheries acts on all categories. Note there are two values for natural mortality, one for each category. The parameters \textit{m} can be estimated, if required. The command block fragment:
 
+\ifAgeBased 
 {\small{\begin{verbatim}
-m 0.17 0.17   # natural mortality  for each category
-relative_m_by_age One One # natural mortality multiplier
-categories *  # fishing acts on all categories ("*" shorthand for male female)
+			m 0.17 0.17   # natural mortality  for each category
+			relative_m_by_age One One # natural mortality multiplier
+			categories *  # fishing acts on all categories ("*" shorthand for male female)
 \end{verbatim}}}
+\else 
+{\small{\begin{verbatim}
+			m 0.17 0.17   # natural mortality  for each category
+			relative_m_by_length One One # natural mortality multiplier
+			categories *  # fishing acts on all categories ("*" shorthand for male female)
+\end{verbatim}}}
+\fi
 
 Catches are supplied via a \textit{table} format using three columns: one for year and one for each of the two fisheries, which take the labels \textit{line} and \textit{pot}. Column names are on the first line of the table and these columns can be in any order,
 
@@ -257,7 +266,7 @@ year line pot       #names columns so can identity catch for each fishery
 end_table           # end of table marker
 \end{verbatim}}}
 
-Other information required is supplied in the methods table which has a fixed number of columns (again these can be in any order), one for each piece of information needed to specify a fishery. The method column defines the fishery name which is used in the catch table and also in other observations like age composition from that fishery. The categories that the fishery operates on (all in this case, but it could be just males for one and females for the other) are in the category column, the fishing selectivity to be used is given as a selectivity block name which is define somewhere else in the files, $U_max$ is the maximum exploitation rate that is allowed in any year, then the time step the fishing operates in, and lastly the block name of a penalty function that is used to penalise estimable parameter values that result in the supplied catch not being caught. Again, the penalty block is define elsewhere in the files. After the row with the column names, there is one row for each fishery:
+Other information required is supplied in the methods table which has a fixed number of columns (again these can be in any order), one for each piece of information needed to specify a fishery. The method column defines the fishery name which is used in the catch table and also in other observations like \ifAgeBased age \else length \fi \ composition from that fishery. The categories that the fishery operates on (all in this case, but it could be just males for one and females for the other) are in the category column, the fishing selectivity to be used is given as a selectivity block name which is define somewhere else in the files, $U_max$ is the maximum exploitation rate that is allowed in any year, then the time step the fishing operates in, and lastly the block name of a penalty function that is used to penalise estimable parameter values that result in the supplied catch not being caught. Again, the penalty block is define elsewhere in the files. After the row with the column names, there is one row for each fishery:
 
 {\small{\begin{verbatim}
 table method        # supply arguments and name selectivity etc
@@ -308,17 +317,18 @@ Single-stepping means \CNAME\ can 'pause' after each year in the annual cycle du
 
 %This enables \CNAME\ to implement models for management simulations or scenarios that require feedback and can be used, for example, in operational management procedures (OMPs). The single-stepping process can be automated using \R, so that \CNAME\ may be used with \R\ to update input harvest values (e.g., catches from a fishery in a fisheries model) to evaluate a particular harvest control rule.
 
-\subsection{\I{Logging and Verifying Models}}\label{sec:LogandVerify}\index{Logging and Verifying Models}
+\subsection{\I{Logging and verifying Models}}\label{sec:LogandVerify}\index{Logging and Verifying Models}
 
-\CNAME\ has a  number of information, warning, and error message outputs. This option is enabled using the \subcommand{--loglevel} or \subcommand{-L} command line option. See Section~\ref{sec:TroubleShooting-logging} for details on logging. 
+\CNAME\ has a  number of standard information, warning, and error message outputs. Additional logging and debugging information is available using the \subcommand{--loglevel} or \subcommand{-L} command line option. See Section~\ref{sec:TroubleShooting-logging} for details on logging. 
 
-\CNAME\ also applies sanity checks on model configurations. These can be bypassed using the command line option \subcommand{--verifylevel} or \subcommand{-V}. These sanity checks are based on expected model structures, i.e., \CNAME\ verifies models have an ageing process. Currently only a few sanity checks are implemented.
+\CNAME\ also applies sanity checks on model configurations. These can be bypassed using the command line option \subcommand{--verifylevel} or \subcommand{-V}. These sanity checks are based on expected model structures, i.e., in age-based models \CNAME\ verifies models have an ageing process. Currently only a few sanity checks are implemented.
 
-\subsection{\I{Validating models across versions}}\label{sec:Assert}\index{Asserts}\index{Unit tests}
+\subsection{\I{Validating models between different versions of Casal2}}\label{sec:Assert}\index{Asserts}\index{Unit tests}
 
-\CNAME\ has a number of built-in capabilities to validate and verify the code across versions. Unit tests of the \CNAME\ code are carried out at build time, using the \href{https://github.com/google/googletest}{Google Test and Mock} unit testing and mocking framework. The unit test framework aims to cover a significant proportion of the key functionality within the \CNAME\ code base. The unit test code\index{Unit tests} for \CNAME\ is available as a part of the source code.
+\CNAME\ can validate or check addressables parameters for testing and validation using the \command{assert} command. Asserts check the value of a specific addressable (for example, an observation, parameter, or the objective function) against a user defined predefined value. See Section \ref{syntax:Assert} for more information.
 
-\CNAME\ can also validate or check certain addressables parameters as a part of testing and validation with the assert command. Asserts check the value of a specific addressable (for example, observations, parameters, or the objective function) with a predefined value. Asserts are one aspect of the internal and system tests \CNAME\ has to ensure consistency across versions and revisions (see Section \ref{syntax:Assert})
+Asserts are one of a number of the internal and system tests used by \CNAME\ to ensure consistency across versions and revisions. \CNAME\ also uses unit tests and post-compile model validations to verify the source code. See Appendix \ref{sec:buildrules} for more information. 
+
 
 \subsection{\CNAME\ exit status values\index{Exit status value}}
 

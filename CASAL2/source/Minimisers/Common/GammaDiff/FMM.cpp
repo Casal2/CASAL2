@@ -376,9 +376,7 @@ void FMM::fMin(vector<double>& Candidates, double& Score, vector<double>& Gradie
       dCurrentTolerance = fmax(dCurrentTolerance, fabs(pGradient[i]) * fmax(1, fabs(pPreviousCandidates[i])) / fabs(dPreviousScore2));
     }
 
-    // if (!(pConfig->getQuietMode())) {
-    LOG_INFO() << CONVERGENCE_CHECK << (double)dCurrentTolerance << ". " << CONVERGENCE_THRESHOLD << (double)dGradTol;
-    //}
+    LOG_INFO() << "Convergence check: current value is " << (double)dCurrentTolerance << " and convergence tolerance is " << (double)dGradTol;
 
     if (dCurrentTolerance <= dGradTol) {
       iRet = -1;  // convergence!

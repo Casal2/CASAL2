@@ -5,7 +5,7 @@
 #'
 #' @author Craig Marsh
 #' @param tab_object casal2TAB object you want to burn-in
-#' @param Row number to burn in from, note this is not the iteration but the row that corresponds to your iteration that you want to burn-in from. if keep > 1 then the iteration and row will be different
+#' @param Row number to burn in from. Note this is not the iteration but the row that corresponds to your iteration that you want to burn-in from. if keep > 1 then the iteration and row will be different
 #' @param verbose print extra info.
 #' @return a 'casal2TAB' object which has been manipulated.
 #' @export
@@ -22,7 +22,9 @@
     if (Row >= nrow(this_list$values)) {
       stop(paste0("Row = ", Row, ", which is larger than the number of rows in the casl2TAB object('", nrow(this_list$values), "). The Row value is the ith sample after Casal2 has thinned the sample"))
     }
-    this_list$values <- this_list$values[Row:nrow(this_list$values),]
+    names <- names(this_list$values)
+    this_list$values <- as.data.frame(this_list$values[Row:nrow(this_list$values),])
+    colnames(this_list$values) <- names
 	if(verbose)
 	  print(paste0("rows remaining after burn-in = ", nrow(this_list$values)))
     ## try and store it back in to the original object.

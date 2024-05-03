@@ -12,17 +12,19 @@
 // headers
 #include "Factory.h"
 
-#include "Common/AverageDifference.h"
-#include "Common/Inverse.h"
-#include "Common/Log.h"
-#include "Common/Logistic.h"
-#include "Common/LogSum.h"
-#include "Common/Orthogonal.h"
-#include "Common/Simplex.h"
-#include "Common/SumToOne.h"
-#include "Manager.h"
 #include "../Model/Managers.h"
 #include "../Model/Model.h"
+#include "Common/AverageDifference.h"
+#include "Common/Difference.h"
+#include "Common/Inverse.h"
+#include "Common/Log.h"
+#include "Common/LogSum.h"
+#include "Common/Logistic.h"
+#include "Common/Orthogonal.h"
+#include "Common/Simplex.h"
+#include "Common/SquareRoot.h"
+#include "Common/SumToOne.h"
+#include "Manager.h"
 // namespaces
 namespace niwa {
 namespace addressabletransformations {
@@ -53,8 +55,12 @@ AddressableTransformation* Factory::Create(shared_ptr<Model> model, const string
       result = new Simplex(model);
     else if (sub_type == PARAM_AVERAGE_DIFFERENCE)
       result = new AverageDifference(model);
+    else if (sub_type == PARAM_DIFFERENCE)
+      result = new Difference(model);
     else if (sub_type == PARAM_SUM_TO_ONE)
       result = new SumToOne(model);
+    else if (sub_type == PARAM_SQUARE_ROOT)
+      result = new SquareRoot(model);
 
     if (result)
       model->managers()->addressable_transformation()->AddObject(result);

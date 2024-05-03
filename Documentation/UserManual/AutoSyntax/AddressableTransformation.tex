@@ -2,7 +2,7 @@
 \defRef{sec:AddressableTransformation}
 \label{syntax:AddressableTransformation}
 
-\defSub{label}{Label for the transformation block}
+\defSub{label}{Label of the transformation}
 \defType{String}
 \defDefault{No default}
 
@@ -24,6 +24,15 @@
 \label{syntax:AddressableTransformation-AverageDifference}
 
 The Average\_Difference type has no additional subcommands.
+\subsubsection{Addressable\_Transformation of type Difference}
+\commandlabsubarg{Addressable\_Transformation}{type}{Difference}.
+\defRef{sec:AddressableTransformation-Difference}
+\label{syntax:AddressableTransformation-Difference}
+
+\defSub{difference\_parameter}{The difference between the parameters}
+\defType{Real number (estimable)}
+\defDefault{false}
+
 \subsubsection{Addressable\_Transformation of type Inverse}
 \commandlabsubarg{Addressable\_Transformation}{type}{Inverse}.
 \defRef{sec:AddressableTransformation-Inverse}
@@ -66,10 +75,16 @@ The Orthogonal type has no additional subcommands.
 \defRef{sec:AddressableTransformation-Simplex}
 \label{syntax:AddressableTransformation-Simplex}
 
-\defSub{sum\_to\_one}{if true parameter in natural space will sum = 1, otherwise they will sum = length(parameter)}
+\defSub{sum\_to\_one}{if true, then the parameter vector in natural space will sum to 1, otherwise it will sum to a value equal to length(parameter)}
 \defType{Boolean}
 \defDefault{true}
 
+\subsubsection{Addressable\_Transformation of type Square\_Root}
+\commandlabsubarg{Addressable\_Transformation}{type}{Square\_Root}.
+\defRef{sec:AddressableTransformation-SquareRoot}
+\label{syntax:AddressableTransformation-SquareRoot}
+
+The Square\_Root type has no additional subcommands.
 \subsubsection{Addressable\_Transformation of type Sum\_To\_One}
 \commandlabsubarg{Addressable\_Transformation}{type}{Sum\_To\_One}.
 \defRef{sec:AddressableTransformation-SumToOne}

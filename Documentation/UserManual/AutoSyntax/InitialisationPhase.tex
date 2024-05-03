@@ -37,10 +37,6 @@
 \defRef{sec:InitialisationPhase-Iterative}
 \label{syntax:InitialisationPhase-Iterative}
 
-\defSub{years}{The number of iterations (years) over which to execute this initialisation phase}
-\defType{Non-negative integer}
-\defDefault{No default}
-
 \defSub{insert\_processes}{The processes in the annual cycle to be include in this initialisation phase}
 \defType{Vector of strings}
 \defDefault{true}
@@ -52,10 +48,15 @@
 \defSub{convergence\_years}{The iteration (year) when the test for convergence (lambda) is evaluated}
 \defType{Vector of non-negative integers}
 \defDefault{true}
+\defLowerBound{2 (inclusive)}
 
 \defSub{lambda}{The maximum value of the absolute sum of differences (lambda) between the partition at year-1 and year that indicates successful convergence}
 \defType{Real number (estimable)}
-\defDefault{0.0}
+\defDefault{1e-10}
+
+\defSub{plus\_group}{Indicates if the convergence check applies only to the plus\_group}
+\defType{Boolean}
+\defDefault{false}
 
 \subsubsection{Initialisation\_Phase of type State\_Category\_By\_Age}
 \commandlabsubarg{Initialisation\_Phase}{type}{State\_Category\_By\_Age}.

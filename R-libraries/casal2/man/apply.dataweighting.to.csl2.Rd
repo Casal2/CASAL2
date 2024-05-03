@@ -2,7 +2,7 @@
 % Please edit documentation in R/apply.dataweighting.to.csl2.R
 \name{apply.dataweighting.to.csl2}
 \alias{apply.dataweighting.to.csl2}
-\title{apply.dataweighting.to.csl2 reads in your observation.csl2 file and applys a reweighting factor and saves as a new .csl2 file.}
+\title{apply.dataweighting.to.csl2 reads in your observation.csl2 file and applies a reweighting factor and saves as a new .csl2 file.}
 \usage{
 apply.dataweighting.to.csl2(
   Path = "",
@@ -30,7 +30,7 @@ apply.dataweighting.to.csl2(
 a file named 'Observation_out_filename.out' in the path directory
 }
 \description{
-This function reads in your observation.csl2 file and applys a reweighting factor and saves as a new .csl2 file, pretty much just trying to 
+This function reads in your observation.csl2 file and apples a reweighting factor and saves as a new .csl2 file, pretty much just trying to
 automate the dataweighting process. The problem with this method, is that it strips out all the comments from the original observation.csl2 file.
 }
 \author{

@@ -93,11 +93,11 @@ void Maturation::DoBuild() {
   }
 
   // check there is a year for all model years
-  for(auto this_year : model_->years()) {
-    if(find(years_.begin(), years_.end(), this_year) == years_.end())
-      LOG_WARNING() << "At " << location() << " the model year " << this_year << " was not found in " << PARAM_YEARS << " this is suggest an error";
+  for (auto this_year : model_->years()) {
+    if (find(years_.begin(), years_.end(), this_year) == years_.end())
+      LOG_WARNING() << "At " << location() << " the model year " << this_year << " was not found in " << PARAM_YEARS
+                    << ". This is potentially an error. Please check the input configuration files";
   }
-
 }
 
 /**

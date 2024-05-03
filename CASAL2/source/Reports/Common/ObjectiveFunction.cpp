@@ -24,10 +24,11 @@ namespace reports {
  */
 ObjectiveFunction::ObjectiveFunction() {
   model_state_ = State::kIterationComplete;
-  run_mode_    = (RunMode::Type)(RunMode::kEstimation | RunMode::kBasic | RunMode::kProjection | RunMode::kProfiling);
+  run_mode_    = (RunMode::Type)(RunMode::kEstimation | RunMode::kBasic | RunMode::kProfiling);
 }
 
 /**
+ *
  * Execute the report
  */
 void ObjectiveFunction::DoExecute(shared_ptr<Model> model) {
@@ -58,26 +59,24 @@ void ObjectiveFunction::DoPrepareTabular(shared_ptr<Model> model) {
       LOG_CODE_ERROR() << "model_ == nullptr";
     cache_ << ReportHeader(type_, label_, format_);
     cache_ << "values " << REPORT_R_DATAFRAME << REPORT_EOL;
-
   }
 }
-
 
 void ObjectiveFunction::DoExecuteTabular(shared_ptr<Model> model) {
   if (model->is_primary_thread_model()) {
     if (model == nullptr)
       LOG_CODE_ERROR() << "model_ == nullptr";
-    ::niwa::ObjectiveFunction& obj_function = model->objective_function();
-    const vector<objective::Score>& score_list = obj_function.score_list();
-    if(first_run_) {
+    ::niwa::ObjectiveFunction&      obj_function = model->objective_function();
+    const vector<objective::Score>& score_list   = obj_function.score_list();
+    if (first_run_) {
       first_run_ = false;
       for (objective::Score score : score_list) {
-        cache_ << PARAM_OBJECTIVE_FUNCTION << "[" <<  score.label_ << "] ";
+        cache_ << PARAM_OBJECTIVE_FUNCTION << "[" << score.label_ << "] ";
       }
       cache_ << REPORT_EOL;
     }
     for (objective::Score score : score_list) {
-      cache_ << AS_DOUBLE(score.score_) << " ";  
+      cache_ << AS_DOUBLE(score.score_) << " ";
     }
     cache_ << REPORT_EOL;
   }

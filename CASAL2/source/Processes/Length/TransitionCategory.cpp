@@ -31,9 +31,11 @@ TransitionCategory::TransitionCategory(shared_ptr<Model> model) : Process(model)
   parameters_.Bind<string>(PARAM_TO, &to_category_names_, "The categories to transition to", "");
   parameters_.Bind<Double>(PARAM_PROPORTIONS, &proportions_, "The proportions to transition for each category", "")->set_range(0.0, 1.0);
   parameters_.Bind<string>(PARAM_SELECTIVITIES, &selectivity_names_, "The selectivities to apply to each proportion", "");
+  parameters_.Bind<bool>(PARAM_INCLUDE_IN_MORTALITY_BLOCK, &process_is_in_mortality_block_, "Is the process is in the mortality block", "", false);
 
   RegisterAsAddressable(PARAM_PROPORTIONS, &proportions_by_category_);
 
+  // this is changed in validate if process_is_in_mortality_block_ = true
   process_type_        = ProcessType::kTransition;
   partition_structure_ = PartitionType::kLength;
 }
@@ -51,6 +53,11 @@ TransitionCategory::TransitionCategory(shared_ptr<Model> model) : Process(model)
  * - Check all proportions are between 0.0 and 1.0
  */
 void TransitionCategory::DoValidate() {
+  if (process_is_in_mortality_block_) {
+    LOG_MEDIUM() << "this process will be set to be inside the mortality process";
+    process_type_ = ProcessType::kMortality;
+  }
+
   LOG_TRACE();
 
   if (selectivity_names_.size() == 1) {
@@ -80,6 +87,15 @@ void TransitionCategory::DoValidate() {
   if (proportions_.size() != selectivity_names_.size() && proportions_.size() != 1) {
     LOG_ERROR_P(PARAM_SELECTIVITIES) << ": the number of selectivities provided does not match the number of proportions provided. "
                                      << " proportions size is " << proportions_.size() << " but number of selectivities is " << selectivity_names_.size();
+  }
+
+  // Validate no categories are in both to_ and from_
+  for (unsigned i = 0; i < to_category_names_.size(); ++i) {
+    for (unsigned j = 0; j < from_category_names_.size(); ++j) {
+      if (to_category_names_[i] == from_category_names_[j]) {
+        LOG_ERROR_P(PARAM_TO) << ": A 'from' category (" << from_category_names_[j] << ") cannot be the same as a 'to' category (" << to_category_names_[i] << ")";
+      }
+    }
   }
 
   for (unsigned i = 0; i < to_category_names_.size(); ++i) {
@@ -131,13 +147,14 @@ void TransitionCategory::DoExecute() {
 
   // calculate before we take it. a category can be in multiple 'froms'
   for (unsigned i = 0; from_iter != from_partition_.end() && to_iter != to_partition_.end(); ++from_iter, ++to_iter, ++i) {
-    //LOG_FINEST() << "category = " << (*from_iter)->name_ << " to category = " << (*to_iter)->name_ << " i = " << i << " prop = " << proportions_by_category_[(*to_iter)->name_];
+    // LOG_FINEST() << "category = " << (*from_iter)->name_ << " to category = " << (*to_iter)->name_ << " i = " << i << " prop = " << proportions_by_category_[(*to_iter)->name_];
     fill(abundance_to_move_categories_[i].begin(), abundance_to_move_categories_[i].end(), 0.0);
     for (unsigned offset = 0; offset < (*from_iter)->data_.size(); ++offset) {
       abundance_to_move_categories_[i][offset] = proportions_by_category_[(*to_iter)->name_] * selectivities_[i]->GetLengthResult(offset) * (*from_iter)->data_[offset];
-      //LOG_FINEST() << "offset " << offset << "  Nage " << (*from_iter)->data_[offset] << " selectivity = " << selectivities_[i]->GetLengthResult(offset) << " prop = " << proportions_by_category_[(*to_iter)->name_];
+      // LOG_FINEST() << "offset " << offset << "  Nage " << (*from_iter)->data_[offset] << " selectivity = " << selectivities_[i]->GetLengthResult(offset) << " prop = " <<
+      // proportions_by_category_[(*to_iter)->name_];
     }
-   }
+  }
   from_iter = from_partition_.begin();
   to_iter   = to_partition_.begin();
   // now we move it
@@ -147,8 +164,8 @@ void TransitionCategory::DoExecute() {
       LOG_FINEST() << "before = " << (*from_iter)->data_[offset];
       (*from_iter)->data_[offset] -= abundance_to_move_categories_[i][offset];
       (*to_iter)->data_[offset] += abundance_to_move_categories_[i][offset];
-      LOG_FINEST() << "length-ndx - " << offset << " Moving " << abundance_to_move_categories_[i][offset] << " number of individuals, from number " << (*from_iter)->data_[offset]
-                   << " to  = " << (*to_iter)->data_[offset];
+      LOG_FINEST() << "length-ndx: " << offset << " Moving " << abundance_to_move_categories_[i][offset] << " out of " << (*from_iter)->data_[offset] << " to "
+                   << (*to_iter)->data_[offset];
       if ((*from_iter)->data_[offset] < 0.0)
         LOG_FATAL() << "TransitionCategory rate caused a negative partition if ((*from_iter)->data_[offset] < 0.0) ";
     }
@@ -159,24 +176,20 @@ void TransitionCategory::DoExecute() {
 /**
  * Reset the maturation rates
  */
-void TransitionCategory::DoReset() {
-  
-}
-
+void TransitionCategory::DoReset() {}
 
 /**
  * Fill the report cache
  */
 void TransitionCategory::FillReportCache(ostringstream& cache) {
   // print proportions by year and category
-  cache << "values_by_year" << REPORT_R_DATAFRAME << REPORT_EOL;
+  cache << "values_by_year " << REPORT_R_DATAFRAME << REPORT_EOL;
   cache << "year ";
-  for(auto category_iter : proportions_by_category_)
-    cache << category_iter.first << " ";    
+  for (auto category_iter : proportions_by_category_) cache << category_iter.first << " ";
   cache << REPORT_EOL;
-  for(auto year_iter : proportions_by_year_) {
+  for (auto year_iter : proportions_by_year_) {
     cache << year_iter.first << " ";
-    for(auto category_iter : year_iter.second) {
+    for (auto category_iter : year_iter.second) {
       cache << category_iter.second << " ";
     }
     cache << REPORT_EOL;

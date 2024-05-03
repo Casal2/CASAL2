@@ -43,8 +43,8 @@ void Profile::DoBuild(shared_ptr<Model> model) {
   profile_ = model->managers()->profile()->GetProfile();
   if (!profile_) {
 #ifndef TESTMODE
-    LOG_WARNING() << "The report for " << PARAM_PROFILE << " was requested. There are no @" << PARAM_PROFILE
-                  << " blocks found in the input configuration file. The report will not be generated";
+    LOG_WARNING_Q(PARAM_PROFILE) << "the report for " << PARAM_PROFILE << " was requested. There are no @" << PARAM_PROFILE
+                                 << " blocks found in the input configuration file. The report will not be generated";
 #endif
     is_valid_ = false;
   }
@@ -63,12 +63,12 @@ void Profile::DoExecute(shared_ptr<Model> model) {
   cache_ << "profile: " << profile_->label() << REPORT_EOL;
   cache_ << "parameter: " << profile_->parameter() << REPORT_EOL;
   vector<string> same_params = profile_->same_parameters();
-  if(same_params.size() >= 1) {
+  if (same_params.size() >= 1) {
     cache_ << "same_parameter: ";
-    for(auto same : same_params) {
+    for (auto same : same_params) {
       cache_ << same << " ";
     }
-    cache_  << REPORT_EOL;
+    cache_ << REPORT_EOL;
   }
   cache_ << "values: ";
   for (auto value : values) {

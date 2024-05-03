@@ -94,7 +94,6 @@ void Manager::Validate(shared_ptr<Model> model) {
  */
 void Manager::Build() {
   LOG_CODE_ERROR() << "This method is not supported";
-
 }
 
 /**
@@ -109,20 +108,22 @@ void Manager::Build(shared_ptr<Model> model) {
   vector<string> param_labels_to_check;
   vector<string> param_locations;
   for (auto estimate : objects_) {
-    LOG_FINE() << "checking estimate with param " << estimate->parameter() ;
-    // check parameter 
+    LOG_FINE() << "checking estimate with param " << estimate->parameter();
+    // check parameter
     auto iter = find(param_labels_to_check.begin(), param_labels_to_check.end(), estimate->parameter());
-    if(iter !=  param_labels_to_check.end()) {
-      LOG_ERROR() << estimate->location() << ": this @estimate has parameter " << estimate->parameter() << ". This was found in @estimate block at " << param_locations[distance(param_labels_to_check.begin(), iter)];
+    if (iter != param_labels_to_check.end()) {
+      LOG_ERROR() << estimate->location() << ": this @estimate has parameter " << estimate->parameter() << ". This was found in @estimate block at "
+                  << param_locations[distance(param_labels_to_check.begin(), iter)];
     }
     param_labels_to_check.push_back(estimate->parameter());
     param_locations.push_back(estimate->location());
-    for(auto same_param : estimate->same_labels()) {
-      LOG_FINE() << "checking same param " << same_param ;
+    for (auto same_param : estimate->same_labels()) {
+      LOG_FINE() << "checking same param " << same_param;
       auto same_iter = find(param_labels_to_check.begin(), param_labels_to_check.end(), same_param);
 
-      if(same_iter !=  param_labels_to_check.end()) {
-        LOG_ERROR() << estimate->location() << ": this @estimate has 'same' parameter " << same_param << ". This was found in @estimate block at " << param_locations[distance(param_labels_to_check.begin(), same_iter)];
+      if (same_iter != param_labels_to_check.end()) {
+        LOG_ERROR() << estimate->location() << ": this @estimate has 'same' parameter " << same_param << ". This was found in @estimate block at "
+                    << param_locations[distance(param_labels_to_check.begin(), same_iter)];
       }
       param_labels_to_check.push_back(same_param);
       param_locations.push_back(estimate->location());
@@ -151,7 +152,7 @@ void Manager::Build(shared_ptr<Model> model) {
   if (model->is_primary_thread_model() && model->global_configuration().create_free_parameter_output_file()) {
     string free_parameter_file_name  = model->global_configuration().get_free_parameter_output_file();
     string free_parameter_write_mode = model->global_configuration().free_parameter_write_mode();
-    LOG_IMPORTANT() << "Setting '" << free_parameter_file_name << "' as the output file for the free parameters";
+    LOG_IMPORTANT() << "Setting '" << free_parameter_file_name << "' as the output file for the free parameters using " << free_parameter_write_mode;
     model->managers()->report()->Pause();
     reports::EstimateValue* report = new reports::EstimateValue();
     report->set_block_type(PARAM_REPORT);
@@ -208,7 +209,7 @@ unsigned Manager::GetIsEstimatedCount() {
 }
 /**
  * Iterate over all active estimated estimates and set the value to initial value
- * This is used in by the profile class, to reset starting values inbetween profile iterations
+ * This is used in by the profile class, to reset starting values in-between profile iterations
  * Craig Marsh encountered behaviour, where if one profile step would go into a funny space, the rest would
  * do strange stuff because of the odd starting values.
  *
@@ -237,7 +238,7 @@ vector<Estimate*> Manager::GetIsEstimated() {
 /**
  * Get a vector of pointers to the estimates in the objective function
  *
- * @return The vector of enables estimates
+ * @return The vector of enabled estimates
  */
 vector<Estimate*> Manager::GetInObjectiveFunction() {
   vector<Estimate*> result;

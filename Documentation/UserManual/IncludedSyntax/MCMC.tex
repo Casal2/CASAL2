@@ -36,6 +36,11 @@
 \defLowerBound{0.0 (inclusive)}
 \defValue{If zero, then the MCMC starts at the point estimate (i.e., the MPD). Otherwise a random (multivariate normal) jump from the point estimate with \subcommand{start} used as the standard deviation multiplier}
 
+\defSub{adjust\_parameters\_at\_bounds}{Adjust the start point for parameters at bounds}
+\defType{Boolean}
+\defDefault{false}
+\defValue{If true, then the MCMC will adjust the start point of any parameters at a bound to a random uniform location between the lower and upper bound}
+
 \defSub{keep}{The spacing between recorded values in the MCMC}
 \defType{Non-negative integer}
 \defDefault{1}

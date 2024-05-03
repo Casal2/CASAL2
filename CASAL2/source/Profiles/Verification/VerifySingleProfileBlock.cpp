@@ -1,7 +1,7 @@
 /**
  * @file VerifySingleProfileBlock.cpp
  * @author C.Marsh
- * @brief Verify only a sinlge @profile block has been supplied
+ * @brief Verify only a single @profile block has been supplied
  * @version 0.1
  * @date 2021-11-09
  *
@@ -26,15 +26,15 @@ void VerifySingleProfileBlock(shared_ptr<Model> model) {
   if (model->run_mode() == RunMode::kProfiling) {
     LOG_FINE() << "verifying profile class";
     auto profile_blocks = model->managers()->profile()->objects();
-    if(profile_blocks.size() > 0) {
+    if (profile_blocks.size() > 0) {
       LOG_FINE() << "Found a profile block";
       vector<string> labels_;
-      unsigned profile_block_count = 0;
+      unsigned       profile_block_count = 0;
       for (auto* profile : profile_blocks) {
         labels_.push_back(profile->label());
         profile_block_count++;
       }
-      if(profile_block_count > 1) {
+      if (profile_block_count > 1) {
         LOG_VERIFY() << "Found " << profile_block_count << " @profile blocks. Casal2 can only be run with one profile block.";
       }
     } else {
@@ -43,4 +43,4 @@ void VerifySingleProfileBlock(shared_ptr<Model> model) {
   }
 }
 
-}  // namespace niwa::reports::verification
+}  // namespace niwa::profiles::verification

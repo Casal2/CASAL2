@@ -8,4 +8,3 @@ remove.last.words <- function(string, words = 1) {
   to.drop <- length(temp) - (0:(words - 1))
   paste(unlist(temp[-to.drop]), collapse = " ")
 }
-

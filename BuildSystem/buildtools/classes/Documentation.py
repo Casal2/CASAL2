@@ -623,7 +623,7 @@ class Latex:
         for i in range(0, 3):
             if Globals.operating_system_ != "windows":
                 ########################################################################
-                # WINDOWS - Age based models
+                # LINUX - Age based models
                 ########################################################################
                 # Create CASAL2_Age.aux
                 if os.system('pdflatex --interaction=nonstopmode CASAL2_Age') != EX_OK:
@@ -640,7 +640,7 @@ class Latex:
                     return False
             else:
                 ########################################################################
-                # LINUX - Age based models
+                # WINDOWS - Age based models
                 ########################################################################
                 if os.system('pdflatex.exe --enable-installer CASAL2_Age') != EX_OK:
                     return Globals.PrintError('pdflatex failed')
@@ -654,7 +654,7 @@ class Latex:
         for i in range(0, 3):
             if Globals.operating_system_ != "windows":
                 ########################################################################
-                # WINDOWS - Length based models
+                # LINUX - Length based models
                 ########################################################################
                 # Create CASAL2_Length.aux
                 if os.system('pdflatex --interaction=nonstopmode CASAL2_Length') != EX_OK:
@@ -671,7 +671,7 @@ class Latex:
                     return False
             else:
                 ########################################################################
-                # LINUX - Length based models
+                # WINDOWS - Length based models
                 ########################################################################
                 if os.system('pdflatex.exe --enable-installer CASAL2_Length') != EX_OK:
                     return Globals.PrintError('pdflatex failed')
@@ -682,4 +682,27 @@ class Latex:
                 if os.system('makeindex.exe CASAL2_Length') != EX_OK:
                     return Globals.PrintError('makeindex failed')
             print('-- Built the Casal2_Length User Manual')
+
+        print('-- Building Contributors Guide documentation')
+        cwd = os.path.normpath(os.getcwd())
+        os.chdir('../../Documentation/ContributorsGuide/')
+        for i in range(0, 3):
+            if Globals.operating_system_ != "windows":
+                ########################################################################
+                # LINUX
+                ########################################################################
+                # Create ContributorsGuide.aux
+                if os.system('pdflatex --interaction=nonstopmode ContributorsGuide') != EX_OK:
+                    return False
+                if not os.path.exists('ContributorsGuide.pdf'):
+                    return False
+            else:
+                ########################################################################
+                # WINDOWS
+                ########################################################################
+                if os.system('pdflatex.exe --enable-installer ContributorsGuide') != EX_OK:
+                    return Globals.PrintError('pdflatex failed')
+                if not os.path.exists('ContributorsGuide.pdf'):
+                    return False
+                print('-- Built the Casal2 Contributors Guide')
         return True

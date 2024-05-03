@@ -31,7 +31,7 @@ Partition::Partition() {
   model_state_ = State::kExecute;
   skip_tags_   = true;
 
-  parameters_.Bind<string>(PARAM_TIME_STEP, &time_step_, "Time Step label", "", "");
+  parameters_.Bind<string>(PARAM_TIME_STEP, &time_step_, "Time Step label", "");
   parameters_.Bind<unsigned>(PARAM_YEARS, &years_, "Years", "", true);
 }
 
@@ -46,10 +46,7 @@ void Partition::DoValidate(shared_ptr<Model> model) {
 void Partition::DoExecute(shared_ptr<Model> model) {
   LOG_TRACE();
   // First, figure out the lowest and highest ages/length
-
-
   niwa::partition::accessors::All all_view(model);
-
 
   // Print the header
   cache_ << ReportHeader(type_, label_, format_);
@@ -57,20 +54,18 @@ void Partition::DoExecute(shared_ptr<Model> model) {
   cache_ << "time_step: " << time_step_ << REPORT_EOL;
   cache_ << "values " << REPORT_R_DATAFRAME_ROW_LABELS << REPORT_EOL;
   cache_ << "category";
-  if(model->partition_type() == PartitionType::kAge) {
-    for (unsigned i = model->min_age(); i <= model->max_age(); ++i) 
-      cache_ << " " << i;
+  if (model->partition_type() == PartitionType::kAge) {
+    for (unsigned i = model->min_age(); i <= model->max_age(); ++i) cache_ << " " << i;
     cache_ << REPORT_EOL;
   } else if (model->partition_type() == PartitionType::kLength) {
-    for (auto len_bin : model->length_bin_mid_points()) 
-      cache_ << " " << len_bin;
+    for (auto len_bin : model->length_bin_mid_points()) cache_ << " " << len_bin;
     cache_ << REPORT_EOL;
   }
 
   for (auto iterator : all_view) {
     cache_ << iterator->name_;
     for (auto value : iterator->data_) {
-        cache_ << " " << std::fixed << AS_DOUBLE(value);
+      cache_ << " " << std::fixed << AS_DOUBLE(value);
     }
     cache_ << REPORT_EOL;
   }

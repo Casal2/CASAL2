@@ -13,12 +13,11 @@
 
 #include <iomanip>
 
-#include "../../AddressableTransformations/Manager.h"
 #include "../../AddressableTransformations/AddressableTransformation.h"
+#include "../../AddressableTransformations/Manager.h"
 #include "../../Model/Model.h"
 #include "../../Model/Objects.h"
 #include "../../Utilities/To.h"
-#include "../../Model/Model.h"
 // namespaces
 namespace niwa {
 namespace reports {
@@ -37,12 +36,12 @@ AddressableTransformation::AddressableTransformation() {
 void AddressableTransformation::DoBuild(shared_ptr<Model> model) {
   LOG_FINE() << "here";
   transformation_ = model->managers()->addressable_transformation()->GetAddressableTransformation(addressable_label_);
-  if(!transformation_) {
-    #ifndef TESTMODE
-    //LOG_ERROR_P(PARAM_PARAMETER_TRANSFORMATION) << " Could not find @" << PARAM_PARAMETER_TRANSFORMATION << " labelled " << addressable_label_;
-    LOG_WARNING() << "The report for " << PARAM_PARAMETER_TRANSFORMATION << " with label '" << addressable_label_ << "' was requested. This " << PARAM_PARAMETER_TRANSFORMATION
+  if (!transformation_) {
+#ifndef TESTMODE
+    // LOG_ERROR_P(PARAM_PARAMETER_TRANSFORMATION) << "Could not find @" << PARAM_PARAMETER_TRANSFORMATION << " labelled " << addressable_label_;
+    LOG_WARNING() << "The " << PARAM_PARAMETER_TRANSFORMATION << " report with label '" << addressable_label_ << "' was requested. This " << PARAM_PARAMETER_TRANSFORMATION
                   << " was not found in the input configuration file and the report will not be generated";
-    #endif
+#endif
     is_valid_ = false;
   }
 }
@@ -53,9 +52,9 @@ void AddressableTransformation::DoBuild(shared_ptr<Model> model) {
 void AddressableTransformation::DoExecute(shared_ptr<Model> model) {
   LOG_FINE();
   // Print the EstimableTransformation
-  if(!print_all_transformations_)
+  if (!print_all_transformations_)
     transformation_ = model->managers()->addressable_transformation()->GetAddressableTransformation(addressable_label_);
-  if(!transformation_)
+  if (!transformation_)
     LOG_CODE_ERROR() << "(!transformation_): " << addressable_label_;
   cache_ << ReportHeader(type_, label_, format_);
   cache_ << "transformation_type: " << transformation_->type() << REPORT_EOL;
@@ -63,9 +62,7 @@ void AddressableTransformation::DoExecute(shared_ptr<Model> model) {
   ready_for_writing_ = true;
 }
 
-void AddressableTransformation::DoPrepareTabular(shared_ptr<Model> model) {
-
-}
+void AddressableTransformation::DoPrepareTabular(shared_ptr<Model> model) {}
 
 void AddressableTransformation::DoExecuteTabular(shared_ptr<Model> model) {
   LOG_FINE() << "here";

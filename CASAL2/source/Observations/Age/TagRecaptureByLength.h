@@ -46,21 +46,18 @@ public:
 
 protected:
   // Members
-  vector<unsigned>      years_;
-  string                time_step_label_ = "";
-  Double                detection_;
-  Double                despersion_ = 1.0;
-  vector<Double>        process_error_values_;
-  map<unsigned, Double> process_errors_by_year_;
-  vector<double>        length_bins_;
-  bool                  length_plus_ = false;
-  string                ageing_error_label_;
-  parameters::Table*    recaptures_table_ = nullptr;
-  parameters::Table*    scanned_table_    = nullptr;
-  Double                time_step_proportion_;
-  unsigned              number_bins_;
-  bool                  using_model_length_bins = true;
-  vector<int>           map_local_length_bins_to_global_length_bins_;
+  vector<unsigned>   years_;
+  string             time_step_label_ = "";
+  Double             detection_;
+  vector<double>     length_bins_;
+  bool               length_plus_ = false;
+  string             ageing_error_label_;
+  parameters::Table* recaptures_table_ = nullptr;
+  parameters::Table* scanned_table_    = nullptr;
+  Double             time_step_proportion_;
+  unsigned           number_bins_;
+  bool               using_model_length_bins = true;
+  vector<int>        map_local_length_bins_to_global_length_bins_;
 
   // Category members
   vector<string>         tagged_category_labels_;
@@ -81,10 +78,10 @@ protected:
   //
   vector<Double>         length_results_;
   vector<Double>         tagged_length_results_;
-  vector<vector<Double>>         numbers_at_length_;
-  vector<vector<Double>>         tagged_cached_numbers_at_length_;
-  vector<vector<Double>>         cached_numbers_at_length_;
-  vector<vector<Double>>         tagged_numbers_at_length_;
+  vector<vector<Double>> numbers_at_length_;
+  vector<vector<Double>> tagged_cached_numbers_at_length_;
+  vector<vector<Double>> cached_numbers_at_length_;
+  vector<vector<Double>> tagged_numbers_at_length_;
 
   map<unsigned, map<string, vector<double>>> recaptures_;
   map<unsigned, map<string, vector<double>>> scanned_;

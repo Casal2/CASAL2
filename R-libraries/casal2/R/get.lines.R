@@ -39,4 +39,3 @@ get.lines <- function(lines, from = -1, to = -1, contains = "", starts.with = ""
   }
   return(result)
 }
-

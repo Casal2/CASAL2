@@ -58,15 +58,15 @@ TransitionCategoryByAge::~TransitionCategoryByAge() {
  */
 void TransitionCategoryByAge::DoValidate() {
   if (from_category_labels_.size() != to_category_labels_.size()) {
-    LOG_ERROR_P(PARAM_TO) << " the number of 'to' categories (" << to_category_labels_.size() << ") does not match the number of 'from' categories ("
-                          << from_category_labels_.size() << ")";
+    LOG_ERROR_P(PARAM_TO) << "the number of 'to' categories (" << to_category_labels_.size() << ") does not match the number of 'from' categories (" << from_category_labels_.size()
+                          << ")";
   }
   if (u_max_ <= 0.0 || u_max_ > 1.0)
-    LOG_ERROR_P(PARAM_U_MAX) << " (" << u_max_ << ") must be greater than 0.0 and less than or equal to 1.0";
+    LOG_ERROR_P(PARAM_U_MAX) << "(" << u_max_ << ") must be greater than 0.0 and less than or equal to 1.0";
   if (min_age_ < model_->min_age())
-    LOG_ERROR_P(PARAM_MIN_AGE) << " (" << min_age_ << ") is less than the model's minimum age (" << model_->min_age() << ")";
+    LOG_ERROR_P(PARAM_MIN_AGE) << "(" << min_age_ << ") is less than the model's minimum age (" << model_->min_age() << ")";
   if (max_age_ > model_->max_age())
-    LOG_ERROR_P(PARAM_MAX_AGE) << " (" << max_age_ << ") is greater than the model's maximum age (" << model_->max_age() << ")";
+    LOG_ERROR_P(PARAM_MAX_AGE) << "(" << max_age_ << ") is greater than the model's maximum age (" << model_->max_age() << ")";
 
   unsigned age_spread = (max_age_ - min_age_) + 1;
 
@@ -93,13 +93,21 @@ void TransitionCategoryByAge::DoValidate() {
   Double                 n_value = 0.0;
   for (auto iter : data) {
     if (!utilities::To<unsigned>(iter[0], year))
-      LOG_ERROR_P(PARAM_N) << " value (" << iter[0] << ") could not be converted to an unsigned integer";
+      LOG_ERROR_P(PARAM_N) << "value (" << iter[0] << ") could not be converted to an unsigned integer";
     for (unsigned i = 1; i < iter.size(); ++i) {
       if (!utilities::To<Double>(iter[i], n_value))
-        LOG_ERROR_P(PARAM_N) << " value (" << iter[i] << ") could not be converted to a Double.";
+        LOG_ERROR_P(PARAM_N) << "value (" << iter[i] << ") could not be converted to a Double.";
       if (n_[year].size() == 0)
         n_[year].resize(age_spread, 0.0);
       n_[year][i - 1] = n_value;
+    }
+  }
+  // Validate no categories are in both to_ and from_
+  for (unsigned i = 0; i < to_category_labels_.size(); ++i) {
+    for (unsigned j = 0; j < from_category_labels_.size(); ++j) {
+      if (to_category_labels_[i] == from_category_labels_[j]) {
+        LOG_ERROR_P(PARAM_TO) << ": A 'from' category (" << from_category_labels_[j] << ") cannot be the same as a 'to' category (" << to_category_labels_[i] << ")";
+      }
     }
   }
 }

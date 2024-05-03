@@ -1,0 +1,647 @@
+
+[INFO] Setting the random number seed to 20
+[WARNING] in @process 2001Tags_shelf you have specified compatibility_option = casal this is not recommended unless you validating for backwards compatibility reasons
+[INFO] Estimable parameters were set from the input configuration files
+[WARNING] At line 12 in observations.csl2 the table obs : The sum of the values for year 1999 was 1 and do not sum to 1.0
+[WARNING] At line 12 in observations.csl2 the table obs : The sum of the values for year 2000 was 0.999999 and do not sum to 1.0
+[WARNING] At line 12 in observations.csl2 the table obs : The sum of the values for year 2001 was 1 and do not sum to 1.0
+[WARNING] At line 12 in observations.csl2 the table obs : The sum of the values for year 2002 was 1 and do not sum to 1.0
+[WARNING] At line 12 in observations.csl2 the table obs : The sum of the values for year 2003 was 1 and do not sum to 1.0
+[WARNING] At line 12 in observations.csl2 the table obs : The sum of the values for year 2004 was 0.999999 and do not sum to 1.0
+[WARNING] At line 12 in observations.csl2 the table obs : The sum of the values for year 2005 was 1 and do not sum to 1.0
+[WARNING] At line 12 in observations.csl2 the table obs : The sum of the values for year 2006 was 1 and do not sum to 1.0
+[WARNING] At line 12 in observations.csl2 the table obs : The sum of the values for year 2007 was 1 and do not sum to 1.0
+[WARNING] At line 12 in observations.csl2 the table obs : The sum of the values for year 2008 was 1 and do not sum to 1.0
+[WARNING] At line 12 in observations.csl2 the table obs : The sum of the values for year 2009 was 1 and do not sum to 1.0
+[WARNING] At line 12 in observations.csl2 the table obs : The sum of the values for year 2010 was 1 and do not sum to 1.0
+[WARNING] At line 12 in observations.csl2 the table obs : The sum of the values for year 2011 was 1 and do not sum to 1.0
+[WARNING] At line 12 in observations.csl2 the table obs : The sum of the values for year 2012 was 1 and do not sum to 1.0
+[WARNING] At line 12 in observations.csl2 the table obs : The sum of the values for year 2013 was 1 and do not sum to 1.0
+[WARNING] At line 12 in observations.csl2 the table obs : The sum of the values for year 2014 was 1 and do not sum to 1.0
+[WARNING] At line 12 in observations.csl2 the table obs : The sum of the values for year 2015 was 1 and do not sum to 1.0
+[WARNING] At line 64 in observations.csl2 the table obs : The sum of the values for year 1998 was 1 and do not sum to 1.0
+[WARNING] At line 64 in observations.csl2 the table obs : The sum of the values for year 1999 was 1 and do not sum to 1.0
+[WARNING] At line 64 in observations.csl2 the table obs : The sum of the values for year 2000 was 0.999999 and do not sum to 1.0
+[WARNING] At line 64 in observations.csl2 the table obs : The sum of the values for year 2001 was 1 and do not sum to 1.0
+[WARNING] At line 64 in observations.csl2 the table obs : The sum of the values for year 2002 was 1 and do not sum to 1.0
+[WARNING] At line 64 in observations.csl2 the table obs : The sum of the values for year 2003 was 1 and do not sum to 1.0
+[WARNING] At line 64 in observations.csl2 the table obs : The sum of the values for year 2004 was 1 and do not sum to 1.0
+[WARNING] At line 64 in observations.csl2 the table obs : The sum of the values for year 2005 was 1 and do not sum to 1.0
+[WARNING] At line 64 in observations.csl2 the table obs : The sum of the values for year 2006 was 1 and do not sum to 1.0
+[WARNING] At line 64 in observations.csl2 the table obs : The sum of the values for year 2007 was 1 and do not sum to 1.0
+[WARNING] At line 64 in observations.csl2 the table obs : The sum of the values for year 2008 was 1 and do not sum to 1.0
+[WARNING] At line 64 in observations.csl2 the table obs : The sum of the values for year 2009 was 1 and do not sum to 1.0
+[WARNING] At line 64 in observations.csl2 the table obs : The sum of the values for year 2010 was 1 and do not sum to 1.0
+[WARNING] At line 64 in observations.csl2 the table obs : The sum of the values for year 2011 was 1 and do not sum to 1.0
+[WARNING] At line 64 in observations.csl2 the table obs : The sum of the values for year 2012 was 1 and do not sum to 1.0
+[WARNING] At line 64 in observations.csl2 the table obs : The sum of the values for year 2013 was 1 and do not sum to 1.0
+[WARNING] At line 64 in observations.csl2 the table obs : The sum of the values for year 2014 was 1 and do not sum to 1.0
+[WARNING] At line 64 in observations.csl2 the table obs : The sum of the values for year 2015 was 1 and do not sum to 1.0
+[WARNING] At line 120 in observations.csl2 the table obs : The sum of the values for year 1998 was 1 and do not sum to 1.0
+[WARNING] At line 120 in observations.csl2 the table obs : The sum of the values for year 1999 was 1 and do not sum to 1.0
+[WARNING] At line 120 in observations.csl2 the table obs : The sum of the values for year 2001 was 1 and do not sum to 1.0
+[WARNING] At line 120 in observations.csl2 the table obs : The sum of the values for year 2002 was 1 and do not sum to 1.0
+[WARNING] At line 120 in observations.csl2 the table obs : The sum of the values for year 2003 was 1 and do not sum to 1.0
+[WARNING] At line 120 in observations.csl2 the table obs : The sum of the values for year 2004 was 1 and do not sum to 1.0
+[WARNING] At line 120 in observations.csl2 the table obs : The sum of the values for year 2005 was 1 and do not sum to 1.0
+[WARNING] At line 120 in observations.csl2 the table obs : The sum of the values for year 2006 was 1 and do not sum to 1.0
+[WARNING] At line 120 in observations.csl2 the table obs : The sum of the values for year 2007 was 1 and do not sum to 1.0
+[WARNING] At line 120 in observations.csl2 the table obs : The sum of the values for year 2008 was 1 and do not sum to 1.0
+[WARNING] At line 120 in observations.csl2 the table obs : The sum of the values for year 2009 was 1 and do not sum to 1.0
+[WARNING] At line 120 in observations.csl2 the table obs : The sum of the values for year 2010 was 1 and do not sum to 1.0
+[WARNING] At line 120 in observations.csl2 the table obs : The sum of the values for year 2011 was 1 and do not sum to 1.0
+[WARNING] At line 120 in observations.csl2 the table obs : The sum of the values for year 2012 was 1 and do not sum to 1.0
+[WARNING] At line 120 in observations.csl2 the table obs : The sum of the values for year 2013 was 1 and do not sum to 1.0
+[WARNING] At line 120 in observations.csl2 the table obs : The sum of the values for year 2014 was 1 and do not sum to 1.0
+[WARNING] Estimates were removed because of matching lower and upper bounds. Originally had 33 estimates, now have 16
+resizing from 40000 to 44000
+resizing from 44000 to 48400
+resizing from 48400 to 53240
+resizing from 53240 to 58564
+resizing from 58564 to 64420
+resizing from 64420 to 70862
+resizing from 70862 to 77948
+resizing from 77948 to 85742
+resizing from 85742 to 94316
+resizing from 94316 to 103747
+resizing from 103747 to 114121
+resizing from 114121 to 125533
+resizing from 125533 to 138086
+resizing from 138086 to 151894
+resizing from 151894 to 167083
+resizing from 167083 to 183791
+resizing from 183791 to 202170
+resizing from 202170 to 222387
+resizing from 222387 to 244625
+resizing from 244625 to 269087
+resizing from 269087 to 295995
+[WARNING] The categories t2001, t2002, t2003, t2004, t2005, t2006, t2007, t2008, t2009, t2010, t2011, t2012, t2013, t2014 were not used in @process[type=recruitment]. This may be expected for models that have categories that are not used at the beginning of the model e.g. tagged categories.
+[INFO] Initiating point estimate run mode
+[WARNING] At line 279 in population.csl2 the parameter 'compatibility_option' : Using the 'casal' compatibility option. Note this is provided for backwards compatibility with CASAL - the recommended compatibility option is 'casal2'
+resizing from 295995 to 325594
+[INFO] Estimation_phase 1
+[INFO] Estimation with the betadiff minimiser
+about to evaluate function with x = 8 4 10 8 4 10 8 4 100 1 1 1 1 1 1 1 
+[WARNING] At line 279 in population.csl2 the parameter 'compatibility_option' : Using the 'casal' compatibility option. Note this is provided for backwards compatibility with CASAL - the recommended compatibility option is 'casal2'
+finished objective call: f = 3217.49
+about to evaluate gradient with x = 8 4 10 8 4 10 8 4 100 1 1 1 1 1 1 1 
+transformed = -0.506497 -0.681648 -0.828488 -0.506497 -0.681648 -0.828488 -0.506497 -0.681648 -0.412221 -0.872526 -0.872526 -0.872526 -0.872526 -0.872526 -0.872526 -0.872526 
+finished gradient call: status = 0 g = -2567.51 1579.5 -1983.37 -2233.89 1001.05 -3250.83 -2607.83 1725.99 -49.5081 -20.6962 1.65214 70.7961 157.62 108.597 19.8402 -173.785 
+about to do fmin call with x = 8 4 10 8 4 10 8 4 100 1 1 1 1 1 1 1  f = 3217.49 g = -2567.51 1579.5 -1983.37 -2233.89 1001.05 -3250.83 -2607.83 1725.99 -49.5081 -20.6962 1.65214 70.7961 157.62 108.597 19.8402 -173.785 
+Convergence check: current value is 1.01036 and threshold is 0.0002
+done fmin call
+ireturn = 0
+about to evaluate function with x = 36.33 1.89454 168.922 32.623 1.00158 320.814 36.7604 2.42361 104.853 1.10298 0.991995 0.685607 0.380491 0.541841 0.905973 2.019 
+[WARNING] At line 279 in population.csl2 the parameter 'compatibility_option' : Using the 'casal' compatibility option. Note this is provided for backwards compatibility with CASAL - the recommended compatibility option is 'casal2'
+finished objective call: f = 39568.4
+about to do fmin call with x = 36.33 1.89454 168.922 32.623 1.00158 320.814 36.7604 2.42361 104.853 1.10298 0.991995 0.685607 0.380491 0.541841 0.905973 2.019  f = 39568.4 g = -2567.51 1579.5 -1983.37 -2233.89 1001.05 -3250.83 -2607.83 1725.99 -49.5081 -20.6962 1.65214 70.7961 157.62 108.597 19.8402 -173.785 
+done fmin call
+ireturn = 0
+about to evaluate function with x = 10.9166 2.96123 19.8769 10.5154 3.31743 27.998 10.9655 2.87555 100.607 1.01271 0.998989 0.957129 0.905824 0.93462 0.987892 1.10918 
+[WARNING] At line 279 in population.csl2 the parameter 'compatibility_option' : Using the 'casal' compatibility option. Note this is provided for backwards compatibility with CASAL - the recommended compatibility option is 'casal2'
+finished objective call: f = 2272.87
+about to do fmin call with x = 10.9166 2.96123 19.8769 10.5154 3.31743 27.998 10.9655 2.87555 100.607 1.01271 0.998989 0.957129 0.905824 0.93462 0.987892 1.10918  f = 2272.87 g = -2567.51 1579.5 -1983.37 -2233.89 1001.05 -3250.83 -2607.83 1725.99 -49.5081 -20.6962 1.65214 70.7961 157.62 108.597 19.8402 -173.785 
+done fmin call
+ireturn = 1
+about to evaluate gradient with x = 10.9166 2.96123 19.8769 10.5154 3.31743 27.998 10.9655 2.87555 100.607 1.01271 0.998989 0.957129 0.905824 0.93462 0.987892 1.10918 
+transformed = -0.405888 -0.743542 -0.750769 -0.418961 -0.720875 -0.701103 -0.404308 -0.749282 -0.410281 -0.871715 -0.872591 -0.8753 -0.878703 -0.876782 -0.873304 -0.865716 
+finished gradient call: status = 0 g = 1833.06 -988.805 371.479 -1067.71 743.986 29.1113 -3719.05 2139.15 -21.8241 47.8566 47.3298 62.6138 66.9623 31.2033 -21.5587 -63.8098 
+about to do fmin call with x = 10.9166 2.96123 19.8769 10.5154 3.31743 27.998 10.9655 2.87555 100.607 1.01271 0.998989 0.957129 0.905824 0.93462 0.987892 1.10918  f = 2272.87 g = 1833.06 -988.805 371.479 -1067.71 743.986 29.1113 -3719.05 2139.15 -21.8241 47.8566 47.3298 62.6138 66.9623 31.2033 -21.5587 -63.8098 
+Convergence check: current value is 1.63628 and threshold is 0.0002
+done fmin call
+ireturn = 0
+about to evaluate function with x = 5.83073 3.93872 82.9844 42.9942 2.778 249.848 37.0829 25.5517 106.867 0.790079 0.714807 0.43164 0.218753 0.463968 1.05852 2.4093 
+[WARNING] At line 279 in population.csl2 the parameter 'compatibility_option' : Using the 'casal' compatibility option. Note this is provided for backwards compatibility with CASAL - the recommended compatibility option is 'casal2'
+finished objective call: f = 167052
+about to do fmin call with x = 5.83073 3.93872 82.9844 42.9942 2.778 249.848 37.0829 25.5517 106.867 0.790079 0.714807 0.43164 0.218753 0.463968 1.05852 2.4093  f = 167052 g = 1833.06 -988.805 371.479 -1067.71 743.986 29.1113 -3719.05 2139.15 -21.8241 47.8566 47.3298 62.6138 66.9623 31.2033 -21.5587 -63.8098 
+done fmin call
+ireturn = 0
+about to evaluate function with x = 10.3433 3.05053 24.3213 13.4806 2.53852 41.717 18.104 1.47461 101.227 0.989214 0.968453 0.895349 0.816131 0.880262 0.994846 1.21708 
+[WARNING] At line 279 in population.csl2 the parameter 'compatibility_option' : Using the 'casal' compatibility option. Note this is provided for backwards compatibility with CASAL - the recommended compatibility option is 'casal2'
+finished objective call: f = 1840.93
+about to do fmin call with x = 10.3433 3.05053 24.3213 13.4806 2.53852 41.717 18.104 1.47461 101.227 0.989214 0.968453 0.895349 0.816131 0.880262 0.994846 1.21708  f = 1840.93 g = 1833.06 -988.805 371.479 -1067.71 743.986 29.1113 -3719.05 2139.15 -21.8241 47.8566 47.3298 62.6138 66.9623 31.2033 -21.5587 -63.8098 
+done fmin call
+ireturn = 1
+about to evaluate gradient with x = 10.3433 3.05053 24.3213 13.4806 2.53852 41.717 18.104 1.47461 101.227 0.989214 0.968453 0.895349 0.816131 0.880262 0.994846 1.21708 
+transformed = -0.424634 -0.737686 -0.722554 -0.326437 -0.77319 -0.631159 -0.195226 -0.874488 -0.408306 -0.873219 -0.874562 -0.879409 -0.884889 -0.880433 -0.872857 -0.859305 
+finished gradient call: status = 0 g = 662.591 -98.6256 220.737 3210.87 -3097.21 67.0958 3270.21 -1143.46 15.4426 -141.747 -89.8233 -12.8343 52.3823 92.9267 115.124 136.285 
+about to do fmin call with x = 10.3433 3.05053 24.3213 13.4806 2.53852 41.717 18.104 1.47461 101.227 0.989214 0.968453 0.895349 0.816131 0.880262 0.994846 1.21708  f = 1840.93 g = 662.591 -98.6256 220.737 3210.87 -3097.21 67.0958 3270.21 -1143.46 15.4426 -141.747 -89.8233 -12.8343 52.3823 92.9267 115.124 136.285 
+Convergence check: current value is 1.77639 and threshold is 0.0002
+done fmin call
+ireturn = 0
+about to evaluate function with x = 7.03166 3.2492 34.6249 6.61886 9.73865 92.9051 19.8663 1.02307 102.184 1.28693 1.10673 0.768542 0.503734 0.561726 0.754482 1.16618 
+[WARNING] At line 279 in population.csl2 the parameter 'compatibility_option' : Using the 'casal' compatibility option. Note this is provided for backwards compatibility with CASAL - the recommended compatibility option is 'casal2'
+finished objective call: f = 2672.83
+about to do fmin call with x = 7.03166 3.2492 34.6249 6.61886 9.73865 92.9051 19.8663 1.02307 102.184 1.28693 1.10673 0.768542 0.503734 0.561726 0.754482 1.16618  f = 2672.83 g = 662.591 -98.6256 220.737 3210.87 -3097.21 67.0958 3270.21 -1143.46 15.4426 -141.747 -89.8233 -12.8343 52.3823 92.9267 115.124 136.285 
+done fmin call
+ireturn = 0
+about to evaluate function with x = 9.21466 3.11347 27.442 11.0493 4.26449 56.2381 18.6668 1.17556 101.534 1.08075 1.01193 0.853516 0.707516 0.770086 0.913946 1.20059 
+[WARNING] At line 279 in population.csl2 the parameter 'compatibility_option' : Using the 'casal' compatibility option. Note this is provided for backwards compatibility with CASAL - the recommended compatibility option is 'casal2'
+finished objective call: f = 1918.31
+about to do fmin call with x = 9.21466 3.11347 27.442 11.0493 4.26449 56.2381 18.6668 1.17556 101.534 1.08075 1.01193 0.853516 0.707516 0.770086 0.913946 1.20059  f = 1918.31 g = 662.591 -98.6256 220.737 3210.87 -3097.21 67.0958 3270.21 -1143.46 15.4426 -141.747 -89.8233 -12.8343 52.3823 92.9267 115.124 136.285 
+done fmin call
+ireturn = 0
+about to evaluate function with x = 9.89968 3.07479 25.5073 12.5177 3.13408 47.1029 18.3214 1.34168 101.346 1.02417 0.98517 0.879038 0.773174 0.836747 0.963127 1.21068 
+[WARNING] At line 279 in population.csl2 the parameter 'compatibility_option' : Using the 'casal' compatibility option. Note this is provided for backwards compatibility with CASAL - the recommended compatibility option is 'casal2'
+finished objective call: f = 1764.61
+about to do fmin call with x = 9.89968 3.07479 25.5073 12.5177 3.13408 47.1029 18.3214 1.34168 101.346 1.02417 0.98517 0.879038 0.773174 0.836747 0.963127 1.21068  f = 1764.61 g = 662.591 -98.6256 220.737 3210.87 -3097.21 67.0958 3270.21 -1143.46 15.4426 -141.747 -89.8233 -12.8343 52.3823 92.9267 115.124 136.285 
+done fmin call
+ireturn = 1
+about to evaluate gradient with x = 9.89968 3.07479 25.5073 12.5177 3.13408 47.1029 18.3214 1.34168 101.346 1.02417 0.98517 0.879038 0.773174 0.836747 0.963127 1.21068 
+transformed = -0.439441 -0.736116 -0.71547 -0.355533 -0.732316 -0.606767 -0.189311 -0.893554 -0.407927 -0.870988 -0.873479 -0.880517 -0.887971 -0.883438 -0.874909 -0.859677 
+finished gradient call: status = 0 g = -23.6329 395.964 187.858 400.996 -544.862 31.1195 4150.31 -1163.09 16.3941 -106.134 -65.4315 -3.93529 53.7623 84.9247 95.5263 103.116 
+about to do fmin call with x = 9.89968 3.07479 25.5073 12.5177 3.13408 47.1029 18.3214 1.34168 101.346 1.02417 0.98517 0.879038 0.773174 0.836747 0.963127 1.21068  f = 1764.61 g = -23.6329 395.964 187.858 400.996 -544.862 31.1195 4150.31 -1163.09 16.3941 -106.134 -65.4315 -3.93529 53.7623 84.9247 95.5263 103.116 
+Convergence check: current value is 2.35197 and threshold is 0.0002
+done fmin call
+ireturn = 0
+about to evaluate function with x = 3.37992 3.28434 20.0337 14.1356 5.50877 90.7313 4.85501 1.05873 101.915 1.55053 1.21349 0.667316 0.305651 0.337152 0.548196 0.976968 
+[WARNING] At line 279 in population.csl2 the parameter 'compatibility_option' : Using the 'casal' compatibility option. Note this is provided for backwards compatibility with CASAL - the recommended compatibility option is 'casal2'
+finished objective call: f = 3314.48
+about to do fmin call with x = 3.37992 3.28434 20.0337 14.1356 5.50877 90.7313 4.85501 1.05873 101.915 1.55053 1.21349 0.667316 0.305651 0.337152 0.548196 0.976968  f = 3314.48 g = -23.6329 395.964 187.858 400.996 -544.862 31.1195 4150.31 -1163.09 16.3941 -106.134 -65.4315 -3.93529 53.7623 84.9247 95.5263 103.116 
+done fmin call
+ireturn = 0
+about to evaluate function with x = 7.82973 3.12926 23.996 12.9386 3.68193 57.432 14.1054 1.13412 101.496 1.15289 1.04325 0.820242 0.628907 0.683037 0.842194 1.14648 
+[WARNING] At line 279 in population.csl2 the parameter 'compatibility_option' : Using the 'casal' compatibility option. Note this is provided for backwards compatibility with CASAL - the recommended compatibility option is 'casal2'
+finished objective call: f = 1778.33
+about to do fmin call with x = 7.82973 3.12926 23.996 12.9386 3.68193 57.432 14.1054 1.13412 101.496 1.15289 1.04325 0.820242 0.628907 0.683037 0.842194 1.14648  f = 1778.33 g = -23.6329 395.964 187.858 400.996 -544.862 31.1195 4150.31 -1163.09 16.3941 -106.134 -65.4315 -3.93529 53.7623 84.9247 95.5263 103.116 
+done fmin call
+ireturn = 0
+about to evaluate function with x = 8.92195 3.09971 24.8078 12.7103 3.37822 51.73 16.3459 1.23461 101.415 1.08233 1.01163 0.851795 0.705106 0.764258 0.90661 1.18099 
+[WARNING] At line 279 in population.csl2 the parameter 'compatibility_option' : Using the 'casal' compatibility option. Note this is provided for backwards compatibility with CASAL - the recommended compatibility option is 'casal2'
+finished objective call: f = 1665.62
+about to do fmin call with x = 8.92195 3.09971 24.8078 12.7103 3.37822 51.73 16.3459 1.23461 101.415 1.08233 1.01163 0.851795 0.705106 0.764258 0.90661 1.18099  f = 1665.62 g = -23.6329 395.964 187.858 400.996 -544.862 31.1195 4150.31 -1163.09 16.3941 -106.134 -65.4315 -3.93529 53.7623 84.9247 95.5263 103.116 
+done fmin call
+ireturn = 1
+about to evaluate gradient with x = 8.92195 3.09971 24.8078 12.7103 3.37822 51.73 16.3459 1.23461 101.415 1.08233 1.01163 0.851795 0.705106 0.764258 0.90661 1.18099 
+transformed = -0.473142 -0.734513 -0.719628 -0.34965 -0.717176 -0.586818 -0.243778 -0.911827 -0.407707 -0.867359 -0.871784 -0.88239 -0.893035 -0.888621 -0.87865 -0.861417 
+finished gradient call: status = 0 g = -1157.77 1098.65 130.757 211.791 -322.98 28.034 654.588 -236.627 11.7929 -66.6451 -25.9084 10.8096 48.5226 69.3559 71.4582 62.5155 
+about to do fmin call with x = 8.92195 3.09971 24.8078 12.7103 3.37822 51.73 16.3459 1.23461 101.415 1.08233 1.01163 0.851795 0.705106 0.764258 0.90661 1.18099  f = 1665.62 g = -1157.77 1098.65 130.757 211.791 -322.98 28.034 654.588 -236.627 11.7929 -66.6451 -25.9084 10.8096 48.5226 69.3559 71.4582 62.5155 
+Convergence check: current value is 0.695095 and threshold is 0.0002
+done fmin call
+ireturn = 0
+about to evaluate function with x = 11.008 1.15042 5.91361 12.2249 4.3524 27.445 13.9675 1.02847 100.314 1.41277 1.10054 0.741337 0.469278 0.459758 0.595749 0.835949 
+[WARNING] At line 279 in population.csl2 the parameter 'compatibility_option' : Using the 'casal' compatibility option. Note this is provided for backwards compatibility with CASAL - the recommended compatibility option is 'casal2'
+finished objective call: f = 2459.6
+about to do fmin call with x = 11.008 1.15042 5.91361 12.2249 4.3524 27.445 13.9675 1.02847 100.314 1.41277 1.10054 0.741337 0.469278 0.459758 0.595749 0.835949  f = 2459.6 g = -1157.77 1098.65 130.757 211.791 -322.98 28.034 654.588 -236.627 11.7929 -66.6451 -25.9084 10.8096 48.5226 69.3559 71.4582 62.5155 
+done fmin call
+ireturn = 0
+about to evaluate function with x = 9.24525 2.63741 20.8372 12.6316 3.52463 47.3348 15.9547 1.18795 101.237 1.13266 1.02571 0.833474 0.66387 0.709995 0.852132 1.12139 
+[WARNING] At line 279 in population.csl2 the parameter 'compatibility_option' : Using the 'casal' compatibility option. Note this is provided for backwards compatibility with CASAL - the recommended compatibility option is 'casal2'
+finished objective call: f = 1621.09
+about to do fmin call with x = 9.24525 2.63741 20.8372 12.6316 3.52463 47.3348 15.9547 1.18795 101.237 1.13266 1.02571 0.833474 0.66387 0.709995 0.852132 1.12139  f = 1621.09 g = -1157.77 1098.65 130.757 211.791 -322.98 28.034 654.588 -236.627 11.7929 -66.6451 -25.9084 10.8096 48.5226 69.3559 71.4582 62.5155 
+done fmin call
+ireturn = 1
+about to evaluate gradient with x = 9.24525 2.63741 20.8372 12.6316 3.52463 47.3348 15.9547 1.18795 101.237 1.13266 1.02571 0.833474 0.66387 0.709995 0.852132 1.12139 
+transformed = -0.461825 -0.765933 -0.744424 -0.352051 -0.70845 -0.605746 -0.254777 -0.921093 -0.408273 -0.864296 -0.870891 -0.883667 -0.896222 -0.892663 -0.882367 -0.864976 
+finished gradient call: status = 0 g = -228.483 435.76 208.933 -43.4824 -64.5715 33.0043 203.326 -114.915 10.9196 -56.5644 -29.6215 -1.03651 34.7851 61.5186 75.6252 84.0229 
+about to do fmin call with x = 9.24525 2.63741 20.8372 12.6316 3.52463 47.3348 15.9547 1.18795 101.237 1.13266 1.02571 0.833474 0.66387 0.709995 0.852132 1.12139  f = 1621.09 g = -228.483 435.76 208.933 -43.4824 -64.5715 33.0043 203.326 -114.915 10.9196 -56.5644 -29.6215 -1.03651 34.7851 61.5186 75.6252 84.0229 
+Convergence check: current value is 0.268807 and threshold is 0.0002
+done fmin call
+ireturn = 0
+about to evaluate function with x = 8.34088 1.65912 10.4767 13.3723 4.01563 50.1125 15.8853 1.26791 100.051 1.53223 1.23883 0.852803 0.500092 0.419789 0.459407 0.610661 
+[WARNING] At line 279 in population.csl2 the parameter 'compatibility_option' : Using the 'casal' compatibility option. Note this is provided for backwards compatibility with CASAL - the recommended compatibility option is 'casal2'
+finished objective call: f = 1607.82
+about to do fmin call with x = 8.34088 1.65912 10.4767 13.3723 4.01563 50.1125 15.8853 1.26791 100.051 1.53223 1.23883 0.852803 0.500092 0.419789 0.459407 0.610661  f = 1607.82 g = -228.483 435.76 208.933 -43.4824 -64.5715 33.0043 203.326 -114.915 10.9196 -56.5644 -29.6215 -1.03651 34.7851 61.5186 75.6252 84.0229 
+done fmin call
+ireturn = 1
+about to evaluate gradient with x = 8.34088 1.65912 10.4767 13.3723 4.01563 50.1125 15.8853 1.26791 100.051 1.53223 1.23883 0.852803 0.500092 0.419789 0.459407 0.610661 
+transformed = -0.493965 -0.851997 -0.823976 -0.329671 -0.680802 -0.593695 -0.256734 -0.905767 -0.412059 -0.84204 -0.858047 -0.882321 -0.909975 -0.917546 -0.913728 -0.900483 
+finished gradient call: status = 0 g = -202.646 -8.78041 -873.019 -73.168 55.3245 28.3147 -86.0984 -83.0248 10.5987 87.2058 57.5872 -3.61374 -28.2865 -32.9153 -18.5635 3.16713 
+about to do fmin call with x = 8.34088 1.65912 10.4767 13.3723 4.01563 50.1125 15.8853 1.26791 100.051 1.53223 1.23883 0.852803 0.500092 0.419789 0.459407 0.610661  f = 1607.82 g = -202.646 -8.78041 -873.019 -73.168 55.3245 28.3147 -86.0984 -83.0248 10.5987 87.2058 57.5872 -3.61374 -28.2865 -32.9153 -18.5635 3.16713 
+Convergence check: current value is 0.542982 and threshold is 0.0002
+done fmin call
+ireturn = 0
+about to evaluate function with x = 8.13344 1.61741 20.0469 13.5036 4.01375 41.835 16.1204 1.3753 99.2146 1.39882 1.14984 0.865385 0.517751 0.414454 0.414926 0.498167 
+[WARNING] At line 279 in population.csl2 the parameter 'compatibility_option' : Using the 'casal' compatibility option. Note this is provided for backwards compatibility with CASAL - the recommended compatibility option is 'casal2'
+finished objective call: f = 1595.45
+about to do fmin call with x = 8.13344 1.61741 20.0469 13.5036 4.01375 41.835 16.1204 1.3753 99.2146 1.39882 1.14984 0.865385 0.517751 0.414454 0.414926 0.498167  f = 1595.45 g = -202.646 -8.78041 -873.019 -73.168 55.3245 28.3147 -86.0984 -83.0248 10.5987 87.2058 57.5872 -3.61374 -28.2865 -32.9153 -18.5635 3.16713 
+done fmin call
+ireturn = 1
+about to evaluate gradient with x = 8.13344 1.61741 20.0469 13.5036 4.01375 41.835 16.1204 1.3753 99.2146 1.39882 1.14984 0.865385 0.517751 0.414454 0.414926 0.498167 
+transformed = -0.501562 -0.856776 -0.749635 -0.325751 -0.680904 -0.63061 -0.250109 -0.888428 -0.414737 -0.849112 -0.863266 -0.881452 -0.908393 -0.918073 -0.918026 -0.910149 
+finished gradient call: status = 0 g = 138.277 -37.869 183.147 -15.7713 -2.00813 42.8502 26.7933 -137.733 11.1853 52.9899 53.6539 10.6529 -11.6933 -20.7332 -11.3379 11.2157 
+about to do fmin call with x = 8.13344 1.61741 20.0469 13.5036 4.01375 41.835 16.1204 1.3753 99.2146 1.39882 1.14984 0.865385 0.517751 0.414454 0.414926 0.498167  f = 1595.45 g = 138.277 -37.869 183.147 -15.7713 -2.00813 42.8502 26.7933 -137.733 11.1853 52.9899 53.6539 10.6529 -11.6933 -20.7332 -11.3379 11.2157 
+Convergence check: current value is 0.114793 and threshold is 0.0002
+done fmin call
+ireturn = 0
+about to evaluate function with x = 7.98414 1.54627 19.1424 13.7399 4.07782 41.2004 16.4646 1.67301 98.0907 1.09124 0.880666 0.82162 0.557723 0.476677 0.443481 0.456363 
+[WARNING] At line 279 in population.csl2 the parameter 'compatibility_option' : Using the 'casal' compatibility option. Note this is provided for backwards compatibility with CASAL - the recommended compatibility option is 'casal2'
+finished objective call: f = 1586.38
+about to do fmin call with x = 7.98414 1.54627 19.1424 13.7399 4.07782 41.2004 16.4646 1.67301 98.0907 1.09124 0.880666 0.82162 0.557723 0.476677 0.443481 0.456363  f = 1586.38 g = 138.277 -37.869 183.147 -15.7713 -2.00813 42.8502 26.7933 -137.733 11.1853 52.9899 53.6539 10.6529 -11.6933 -20.7332 -11.3379 11.2157 
+done fmin call
+ireturn = 1
+about to evaluate gradient with x = 7.98414 1.54627 19.1424 13.7399 4.07782 41.2004 16.4646 1.67301 98.0907 1.09124 0.880666 0.82162 0.557723 0.476677 0.443481 0.456363 
+transformed = -0.507086 -0.865312 -0.755727 -0.318728 -0.677456 -0.633574 -0.240456 -0.850438 -0.418351 -0.866812 -0.880406 -0.884501 -0.90491 -0.912115 -0.915242 -0.914015 
+finished gradient call: status = 0 g = 45.4606 -8.49535 165.867 83.299 -74.6556 45.9476 -124.669 -157.771 11.3294 7.58664 24.989 21.9934 23.3399 15.9576 12.0066 20.9829 
+about to do fmin call with x = 7.98414 1.54627 19.1424 13.7399 4.07782 41.2004 16.4646 1.67301 98.0907 1.09124 0.880666 0.82162 0.557723 0.476677 0.443481 0.456363  f = 1586.38 g = 45.4606 -8.49535 165.867 83.299 -74.6556 45.9476 -124.669 -157.771 11.3294 7.58664 24.989 21.9934 23.3399 15.9576 12.0066 20.9829 
+Convergence check: current value is 0.104557 and threshold is 0.0002
+done fmin call
+ireturn = 0
+about to evaluate function with x = 2.15277 36.3455 125.899 47.1653 24.2369 481.83 21.4366 3.07611 457.946 93.1983 82.0188 84.8238 87.8139 10.5474 99.9979 29.5302 
+[WARNING] At line 279 in population.csl2 the parameter 'compatibility_option' : Using the 'casal' compatibility option. Note this is provided for backwards compatibility with CASAL - the recommended compatibility option is 'casal2'
+finished objective call: f = 1.43382e+08
+about to do fmin call with x = 2.15277 36.3455 125.899 47.1653 24.2369 481.83 21.4366 3.07611 457.946 93.1983 82.0188 84.8238 87.8139 10.5474 99.9979 29.5302  f = 1.43382e+08 g = 45.4606 -8.49535 165.867 83.299 -74.6556 45.9476 -124.669 -157.771 11.3294 7.58664 24.989 21.9934 23.3399 15.9576 12.0066 20.9829 
+done fmin call
+ireturn = 0
+about to evaluate function with x = 1.12074 9.57644 19.5247 34.6646 10.8999 4.40763 44.6921 14.0967 25.7536 68.8828 68.1587 1.32805 6.60772 15.8428 4.61659 3.79098 
+[WARNING] At line 279 in population.csl2 the parameter 'compatibility_option' : Using the 'casal' compatibility option. Note this is provided for backwards compatibility with CASAL - the recommended compatibility option is 'casal2'
+finished objective call: f = 526834
+about to do fmin call with x = 1.12074 9.57644 19.5247 34.6646 10.8999 4.40763 44.6921 14.0967 25.7536 68.8828 68.1587 1.32805 6.60772 15.8428 4.61659 3.79098  f = 526834 g = 45.4606 -8.49535 165.867 83.299 -74.6556 45.9476 -124.669 -157.771 11.3294 7.58664 24.989 21.9934 23.3399 15.9576 12.0066 20.9829 
+done fmin call
+ireturn = 0
+about to evaluate function with x = 6.8687 1.13258 12.632 15.6835 4.60321 35.8082 19.4402 7.26107 89.084 0.00241176 0.0168421 0.491538 0.867302 1.05932 0.6648 0.17053 
+[WARNING] At line 279 in population.csl2 the parameter 'compatibility_option' : Using the 'casal' compatibility option. Note this is provided for backwards compatibility with CASAL - the recommended compatibility option is 'casal2'
+finished objective call: f = 2059.1
+about to do fmin call with x = 6.8687 1.13258 12.632 15.6835 4.60321 35.8082 19.4402 7.26107 89.084 0.00241176 0.0168421 0.491538 0.867302 1.05932 0.6648 0.17053  f = 2059.1 g = 45.4606 -8.49535 165.867 83.299 -74.6556 45.9476 -124.669 -157.771 11.3294 7.58664 24.989 21.9934 23.3399 15.9576 12.0066 20.9829 
+done fmin call
+ireturn = 0
+about to evaluate function with x = 7.75257 1.44037 17.7171 14.125 4.18069 40.0841 17.0545 2.362 96.247 0.684174 0.524904 0.748292 0.614712 0.575802 0.484538 0.387607 
+[WARNING] At line 279 in population.csl2 the parameter 'compatibility_option' : Using the 'casal' compatibility option. Note this is provided for backwards compatibility with CASAL - the recommended compatibility option is 'casal2'
+finished objective call: f = 1578.01
+about to do fmin call with x = 7.75257 1.44037 17.7171 14.125 4.18069 40.0841 17.0545 2.362 96.247 0.684174 0.524904 0.748292 0.614712 0.575802 0.484538 0.387607  f = 1578.01 g = 45.4606 -8.49535 165.867 83.299 -74.6556 45.9476 -124.669 -157.771 11.3294 7.58664 24.989 21.9934 23.3399 15.9576 12.0066 20.9829 
+done fmin call
+ireturn = 1
+about to evaluate gradient with x = 7.75257 1.44037 17.7171 14.125 4.18069 40.0841 17.0545 2.362 96.247 0.684174 0.524904 0.748292 0.614712 0.575802 0.484538 0.387607 
+transformed = -0.515752 -0.879114 -0.765634 -0.307377 -0.67199 -0.63884 -0.224049 -0.786728 -0.424315 -0.89464 -0.90776 -0.889795 -0.900152 -0.903375 -0.911391 -0.920781 
+finished gradient call: status = 0 g = -120.811 40.5815 121.219 258.735 -204.982 51.8268 -725.078 135.972 10.6919 -111.815 -60.6698 26.4888 89.9031 87.0349 55.6379 37.2381 
+about to do fmin call with x = 7.75257 1.44037 17.7171 14.125 4.18069 40.0841 17.0545 2.362 96.247 0.684174 0.524904 0.748292 0.614712 0.575802 0.484538 0.387607  f = 1578.01 g = -120.811 40.5815 121.219 258.735 -204.982 51.8268 -725.078 135.972 10.6919 -111.815 -60.6698 26.4888 89.9031 87.0349 55.6379 37.2381 
+Convergence check: current value is 0.459489 and threshold is 0.0002
+done fmin call
+ireturn = 0
+about to evaluate function with x = 7.75164 1.43271 16.2606 14.1953 4.25255 40.6389 17.1592 2.28939 95.2043 0.689323 0.490562 0.733284 0.57277 0.563511 0.478861 0.350981 
+[WARNING] At line 279 in population.csl2 the parameter 'compatibility_option' : Using the 'casal' compatibility option. Note this is provided for backwards compatibility with CASAL - the recommended compatibility option is 'casal2'
+finished objective call: f = 1574.48
+about to do fmin call with x = 7.75164 1.43271 16.2606 14.1953 4.25255 40.6389 17.1592 2.28939 95.2043 0.689323 0.490562 0.733284 0.57277 0.563511 0.478861 0.350981  f = 1574.48 g = -120.811 40.5815 121.219 258.735 -204.982 51.8268 -725.078 135.972 10.6919 -111.815 -60.6698 26.4888 89.9031 87.0349 55.6379 37.2381 
+done fmin call
+ireturn = 1
+about to evaluate gradient with x = 7.75164 1.43271 16.2606 14.1953 4.25255 40.6389 17.1592 2.28939 95.2043 0.689323 0.490562 0.733284 0.57277 0.563511 0.478861 0.350981 
+transformed = -0.515787 -0.880174 -0.776187 -0.305317 -0.66822 -0.636214 -0.221153 -0.792543 -0.427707 -0.894243 -0.91084 -0.89091 -0.903631 -0.904416 -0.911913 -0.924632 
+finished gradient call: status = 0 g = -168.068 47.4641 51.8239 219.133 -157.892 49.3058 -439.645 -27.1161 11.6475 -102.187 -57.9809 24.7309 85.2038 85.7207 53.6188 29.812 
+about to do fmin call with x = 7.75164 1.43271 16.2606 14.1953 4.25255 40.6389 17.1592 2.28939 95.2043 0.689323 0.490562 0.733284 0.57277 0.563511 0.478861 0.350981  f = 1574.48 g = -168.068 47.4641 51.8239 219.133 -157.892 49.3058 -439.645 -27.1161 11.6475 -102.187 -57.9809 24.7309 85.2038 85.7207 53.6188 29.812 
+Convergence check: current value is 0.279232 and threshold is 0.0002
+done fmin call
+ireturn = 0
+about to evaluate function with x = 7.76925 1.41059 13.2627 14.4541 4.38376 40.1392 17.5767 2.50047 91.6415 0.601409 0.350731 0.710804 0.500787 0.55513 0.476418 0.265492 
+[WARNING] At line 279 in population.csl2 the parameter 'compatibility_option' : Using the 'casal' compatibility option. Note this is provided for backwards compatibility with CASAL - the recommended compatibility option is 'casal2'
+finished objective call: f = 1572.21
+about to do fmin call with x = 7.76925 1.41059 13.2627 14.4541 4.38376 40.1392 17.5767 2.50047 91.6415 0.601409 0.350731 0.710804 0.500787 0.55513 0.476418 0.265492  f = 1572.21 g = -168.068 47.4641 51.8239 219.133 -157.892 49.3058 -439.645 -27.1161 11.6475 -102.187 -57.9809 24.7309 85.2038 85.7207 53.6188 29.812 
+done fmin call
+ireturn = 1
+about to evaluate gradient with x = 7.76925 1.41059 13.2627 14.4541 4.38376 40.1392 17.5767 2.50047 91.6415 0.601409 0.350731 0.710804 0.500787 0.55513 0.476418 0.265492 
+transformed = -0.515124 -0.883286 -0.799577 -0.29776 -0.661435 -0.638578 -0.209653 -0.776041 -0.439408 -0.901242 -0.924659 -0.892602 -0.909912 -0.905132 -0.912139 -0.93449 
+finished gradient call: status = 0 g = -249.176 43.0125 -258.905 252.121 -164.941 50.2287 -321.505 -66.4936 13.1857 -130.504 -87.4773 20.957 94.8825 103.419 62.4518 17.1813 
+about to do fmin call with x = 7.76925 1.41059 13.2627 14.4541 4.38376 40.1392 17.5767 2.50047 91.6415 0.601409 0.350731 0.710804 0.500787 0.55513 0.476418 0.265492  f = 1572.21 g = -249.176 43.0125 -258.905 252.121 -164.941 50.2287 -321.505 -66.4936 13.1857 -130.504 -87.4773 20.957 94.8825 103.419 62.4518 17.1813 
+Convergence check: current value is 0.204492 and threshold is 0.0002
+done fmin call
+ireturn = 0
+about to evaluate function with x = 7.76029 1.41194 14.253 14.4507 4.37345 38.2991 17.5868 2.47389 90.0851 0.668324 0.375873 0.733971 0.461911 0.510813 0.45502 0.256483 
+[WARNING] At line 279 in population.csl2 the parameter 'compatibility_option' : Using the 'casal' compatibility option. Note this is provided for backwards compatibility with CASAL - the recommended compatibility option is 'casal2'
+finished objective call: f = 1568.86
+about to do fmin call with x = 7.76029 1.41194 14.253 14.4507 4.37345 38.2991 17.5868 2.47389 90.0851 0.668324 0.375873 0.733971 0.461911 0.510813 0.45502 0.256483  f = 1568.86 g = -249.176 43.0125 -258.905 252.121 -164.941 50.2287 -321.505 -66.4936 13.1857 -130.504 -87.4773 20.957 94.8825 103.419 62.4518 17.1813 
+done fmin call
+ireturn = 1
+about to evaluate gradient with x = 7.76029 1.41194 14.253 14.4507 4.37345 38.2991 17.5868 2.47389 90.0851 0.668324 0.375873 0.733971 0.461911 0.510813 0.45502 0.256483 
+transformed = -0.515461 -0.883094 -0.791571 -0.29786 -0.661964 -0.647407 -0.209374 -0.778054 -0.444576 -0.895873 -0.921994 -0.890859 -0.913492 -0.909011 -0.914142 -0.935616 
+finished gradient call: status = 0 g = -213.741 40.4214 -124.285 252.688 -169.98 55.3232 -251.897 -110.05 13.9673 -94.97 -61.1924 27.6389 77.0432 83.0082 50.747 11.1659 
+about to do fmin call with x = 7.76029 1.41194 14.253 14.4507 4.37345 38.2991 17.5868 2.47389 90.0851 0.668324 0.375873 0.733971 0.461911 0.510813 0.45502 0.256483  f = 1568.86 g = -213.741 40.4214 -124.285 252.688 -169.98 55.3232 -251.897 -110.05 13.9673 -94.97 -61.1924 27.6389 77.0432 83.0082 50.747 11.1659 
+Convergence check: current value is 0.161065 and threshold is 0.0002
+done fmin call
+ireturn = 0
+about to evaluate function with x = 7.82511 1.42311 16.113 14.5809 4.41087 29.2479 18.1261 2.76588 79.3192 0.757494 0.304242 0.736249 0.292099 0.365195 0.386543 0.2004 
+[WARNING] At line 279 in population.csl2 the parameter 'compatibility_option' : Using the 'casal' compatibility option. Note this is provided for backwards compatibility with CASAL - the recommended compatibility option is 'casal2'
+finished objective call: f = 1557.18
+about to do fmin call with x = 7.82511 1.42311 16.113 14.5809 4.41087 29.2479 18.1261 2.76588 79.3192 0.757494 0.304242 0.736249 0.292099 0.365195 0.386543 0.2004  f = 1557.18 g = -213.741 40.4214 -124.285 252.688 -169.98 55.3232 -251.897 -110.05 13.9673 -94.97 -61.1924 27.6389 77.0432 83.0082 50.747 11.1659 
+done fmin call
+ireturn = 1
+about to evaluate gradient with x = 7.82511 1.42311 16.113 14.5809 4.41087 29.2479 18.1261 2.76588 79.3192 0.757494 0.304242 0.736249 0.292099 0.365195 0.386543 0.2004 
+transformed = -0.513024 -0.881515 -0.777284 -0.294073 -0.660048 -0.694129 -0.194625 -0.756815 -0.481353 -0.889117 -0.92985 -0.890689 -0.93127 -0.923115 -0.920891 -0.943125 
+finished gradient call: status = 0 g = -19.0842 -18.3093 45.8478 264.278 -179.316 92.0076 -147.469 -124.428 19.8671 -27.9869 -34.2306 28.453 26.7868 37.217 30.6677 -5.63586 
+about to do fmin call with x = 7.82511 1.42311 16.113 14.5809 4.41087 29.2479 18.1261 2.76588 79.3192 0.757494 0.304242 0.736249 0.292099 0.365195 0.386543 0.2004  f = 1557.18 g = -19.0842 -18.3093 45.8478 264.278 -179.316 92.0076 -147.469 -124.428 19.8671 -27.9869 -34.2306 28.453 26.7868 37.217 30.6677 -5.63586 
+Convergence check: current value is 0.169716 and threshold is 0.0002
+done fmin call
+ireturn = 0
+about to evaluate function with x = 7.67052 1.33804 22.0611 14.9337 4.55486 6.09631 20.5324 4.52419 42.3002 0.818483 0.112699 0.63952 0.0155776 0.0644961 0.1611 0.0822593 
+[WARNING] At line 279 in population.csl2 the parameter 'compatibility_option' : Using the 'casal' compatibility option. Note this is provided for backwards compatibility with CASAL - the recommended compatibility option is 'casal2'
+finished objective call: f = 1581.91
+about to do fmin call with x = 7.67052 1.33804 22.0611 14.9337 4.55486 6.09631 20.5324 4.52419 42.3002 0.818483 0.112699 0.63952 0.0155776 0.0644961 0.1611 0.0822593  f = 1581.91 g = -19.0842 -18.3093 45.8478 264.278 -179.316 92.0076 -147.469 -124.428 19.8671 -27.9869 -34.2306 28.453 26.7868 37.217 30.6677 -5.63586 
+done fmin call
+ireturn = 0
+about to evaluate function with x = 7.77668 1.39553 17.8684 14.6908 4.45554 20.0833 18.8705 3.25362 66.6796 0.776287 0.234391 0.705318 0.168142 0.244825 0.305707 0.157918 
+[WARNING] At line 279 in population.csl2 the parameter 'compatibility_option' : Using the 'casal' compatibility option. Note this is provided for backwards compatibility with CASAL - the recommended compatibility option is 'casal2'
+finished objective call: f = 1545.79
+about to do fmin call with x = 7.77668 1.39553 17.8684 14.6908 4.45554 20.0833 18.8705 3.25362 66.6796 0.776287 0.234391 0.705318 0.168142 0.244825 0.305707 0.157918  f = 1545.79 g = -19.0842 -18.3093 45.8478 264.278 -179.316 92.0076 -147.469 -124.428 19.8671 -27.9869 -34.2306 28.453 26.7868 37.217 30.6677 -5.63586 
+done fmin call
+ireturn = 1
+about to evaluate gradient with x = 7.77668 1.39553 17.8684 14.6908 4.45554 20.0833 18.8705 3.25362 66.6796 0.776287 0.234391 0.705318 0.168142 0.244825 0.305707 0.157918 
+transformed = -0.514844 -0.885452 -0.764563 -0.290889 -0.657775 -0.749392 -0.17444 -0.724806 -0.527286 -0.887745 -0.938465 -0.893019 -0.947931 -0.937103 -0.929681 -0.94955 
+finished gradient call: status = 0 g = -1.02329 -24.2199 114.172 215.35 -134.449 149.764 -194.098 22.9578 30.9478 40.289 -19.8927 22.3197 -36.061 -24.7925 -6.59514 -32.5211 
+about to do fmin call with x = 7.77668 1.39553 17.8684 14.6908 4.45554 20.0833 18.8705 3.25362 66.6796 0.776287 0.234391 0.705318 0.168142 0.244825 0.305707 0.157918  f = 1545.79 g = -1.02329 -24.2199 114.172 215.35 -134.449 149.764 -194.098 22.9578 30.9478 40.289 -19.8927 22.3197 -36.061 -24.7925 -6.59514 -32.5211 
+Convergence check: current value is 0.139314 and threshold is 0.0002
+done fmin call
+ireturn = 0
+about to evaluate function with x = 8.64705 1.51592 29.7051 14.7276 4.48662 8.75193 23.9707 7.09713 6.85895 0.612033 0.0580509 0.428872 0.0627713 0.00513752 0.0363547 0.0786564 
+[WARNING] At line 279 in population.csl2 the parameter 'compatibility_option' : Using the 'casal' compatibility option. Note this is provided for backwards compatibility with CASAL - the recommended compatibility option is 'casal2'
+finished objective call: f = 4284.58
+about to do fmin call with x = 8.64705 1.51592 29.7051 14.7276 4.48662 8.75193 23.9707 7.09713 6.85895 0.612033 0.0580509 0.428872 0.0627713 0.00513752 0.0363547 0.0786564  f = 4284.58 g = -1.02329 -24.2199 114.172 215.35 -134.449 149.764 -194.098 22.9578 30.9478 40.289 -19.8927 22.3197 -36.061 -24.7925 -6.59514 -32.5211 
+done fmin call
+ireturn = 0
+about to evaluate function with x = 7.86175 1.40686 18.917 14.6945 4.45864 14.4056 19.3709 3.55921 58.0738 0.758989 0.211397 0.674609 0.118735 0.192858 0.266875 0.148752 
+[WARNING] At line 279 in population.csl2 the parameter 'compatibility_option' : Using the 'casal' compatibility option. Note this is provided for backwards compatibility with CASAL - the recommended compatibility option is 'casal2'
+finished objective call: f = 1538.88
+about to do fmin call with x = 7.86175 1.40686 18.917 14.6945 4.45864 14.4056 19.3709 3.55921 58.0738 0.758989 0.211397 0.674609 0.118735 0.192858 0.266875 0.148752  f = 1538.88 g = -1.02329 -24.2199 114.172 215.35 -134.449 149.764 -194.098 22.9578 30.9478 40.289 -19.8927 22.3197 -36.061 -24.7925 -6.59514 -32.5211 
+done fmin call
+ireturn = 1
+about to evaluate gradient with x = 7.86175 1.40686 18.917 14.6945 4.45864 14.4056 19.3709 3.55921 58.0738 0.758989 0.211397 0.674609 0.118735 0.192858 0.266875 0.148752 
+transformed = -0.511651 -0.883819 -0.757268 -0.290782 -0.657618 -0.790364 -0.160972 -0.706424 -0.560734 -0.889007 -0.941577 -0.895382 -0.956303 -0.944212 -0.934318 -0.951046 
+finished gradient call: status = 0 g = 180.73 -88.5932 156.219 98.4608 -51.7277 144.99 -163.503 102.231 44.2306 71.6693 -16.3418 13.9609 -78.0588 -62.9437 -27.387 -40.1788 
+about to do fmin call with x = 7.86175 1.40686 18.917 14.6945 4.45864 14.4056 19.3709 3.55921 58.0738 0.758989 0.211397 0.674609 0.118735 0.192858 0.266875 0.148752  f = 1538.88 g = 180.73 -88.5932 156.219 98.4608 -51.7277 144.99 -163.503 102.231 44.2306 71.6693 -16.3418 13.9609 -78.0588 -62.9437 -27.387 -40.1788 
+Convergence check: current value is 0.117443 and threshold is 0.0002
+done fmin call
+ireturn = 0
+about to evaluate function with x = 7.86335 1.40333 21.1269 14.6877 4.45761 5.13698 20.6484 4.31412 36.9402 0.711444 0.308596 0.536169 0.0905486 0.138586 0.199173 0.177588 
+[WARNING] At line 279 in population.csl2 the parameter 'compatibility_option' : Using the 'casal' compatibility option. Note this is provided for backwards compatibility with CASAL - the recommended compatibility option is 'casal2'
+finished objective call: f = 1586
+about to do fmin call with x = 7.86335 1.40333 21.1269 14.6877 4.45761 5.13698 20.6484 4.31412 36.9402 0.711444 0.308596 0.536169 0.0905486 0.138586 0.199173 0.177588  f = 1586 g = 180.73 -88.5932 156.219 98.4608 -51.7277 144.99 -163.503 102.231 44.2306 71.6693 -16.3418 13.9609 -78.0588 -62.9437 -27.387 -40.1788 
+done fmin call
+ireturn = 0
+about to evaluate function with x = 7.86195 1.4064 19.1936 14.6936 4.45851 12.9267 19.5339 3.65093 55.1213 0.752804 0.22284 0.655964 0.114904 0.185393 0.257635 0.152308 
+[WARNING] At line 279 in population.csl2 the parameter 'compatibility_option' : Using the 'casal' compatibility option. Note this is provided for backwards compatibility with CASAL - the recommended compatibility option is 'casal2'
+finished objective call: f = 1537.05
+about to do fmin call with x = 7.86195 1.4064 19.1936 14.6936 4.45851 12.9267 19.5339 3.65093 55.1213 0.752804 0.22284 0.655964 0.114904 0.185393 0.257635 0.152308  f = 1537.05 g = 180.73 -88.5932 156.219 98.4608 -51.7277 144.99 -163.503 102.231 44.2306 71.6693 -16.3418 13.9609 -78.0588 -62.9437 -27.387 -40.1788 
+done fmin call
+ireturn = 1
+about to evaluate gradient with x = 7.86195 1.4064 19.1936 14.6936 4.45851 12.9267 19.5339 3.65093 55.1213 0.752804 0.22284 0.655964 0.114904 0.185393 0.257635 0.152308 
+transformed = -0.511643 -0.883884 -0.755379 -0.290807 -0.657624 -0.802365 -0.156601 -0.701113 -0.572706 -0.889462 -0.940008 -0.896844 -0.95702 -0.945309 -0.935471 -0.95046 
+finished gradient call: status = 0 g = 186.317 -90.1654 162.477 43.0955 -18.703 110.332 -136.359 114.195 50.5051 80.4852 -9.68502 9.9342 -85.4033 -71.2799 -33.4425 -40.5083 
+about to do fmin call with x = 7.86195 1.4064 19.1936 14.6936 4.45851 12.9267 19.5339 3.65093 55.1213 0.752804 0.22284 0.655964 0.114904 0.185393 0.257635 0.152308  f = 1537.05 g = 186.317 -90.1654 162.477 43.0955 -18.703 110.332 -136.359 114.195 50.5051 80.4852 -9.68502 9.9342 -85.4033 -71.2799 -33.4425 -40.5083 
+Convergence check: current value is 0.121218 and threshold is 0.0002
+done fmin call
+ireturn = 0
+about to evaluate function with x = 7.9995 1.4805 19.1149 14.6753 4.45059 9.19778 20.2014 3.97976 41.551 0.657906 0.354015 0.551409 0.162545 0.211635 0.256121 0.222445 
+[WARNING] At line 279 in population.csl2 the parameter 'compatibility_option' : Using the 'casal' compatibility option. Note this is provided for backwards compatibility with CASAL - the recommended compatibility option is 'casal2'
+finished objective call: f = 1532.89
+about to do fmin call with x = 7.9995 1.4805 19.1149 14.6753 4.45059 9.19778 20.2014 3.97976 41.551 0.657906 0.354015 0.551409 0.162545 0.211635 0.256121 0.222445  f = 1532.89 g = 186.317 -90.1654 162.477 43.0955 -18.703 110.332 -136.359 114.195 50.5051 80.4852 -9.68502 9.9342 -85.4033 -71.2799 -33.4425 -40.5083 
+done fmin call
+ireturn = 1
+about to evaluate gradient with x = 7.9995 1.4805 19.1149 14.6753 4.45059 9.19778 20.2014 3.97976 41.551 0.657906 0.354015 0.551409 0.162545 0.211635 0.256121 0.222445 
+transformed = -0.506515 -0.873709 -0.755915 -0.291339 -0.658026 -0.836354 -0.138777 -0.682747 -0.631934 -0.89669 -0.924305 -0.905452 -0.948811 -0.941544 -0.935662 -0.940062 
+finished gradient call: status = 0 g = 263.876 -112.975 181.566 -213.245 102.914 -215.511 61.6018 73.1873 99.3386 49.1546 15.0255 6.6713 -53.9325 -44.9478 -15.9059 -5.37595 
+about to do fmin call with x = 7.9995 1.4805 19.1149 14.6753 4.45059 9.19778 20.2014 3.97976 41.551 0.657906 0.354015 0.551409 0.162545 0.211635 0.256121 0.222445  f = 1532.89 g = 263.876 -112.975 181.566 -213.245 102.914 -215.511 61.6018 73.1873 99.3386 49.1546 15.0255 6.6713 -53.9325 -44.9478 -15.9059 -5.37595 
+Convergence check: current value is 0.172143 and threshold is 0.0002
+done fmin call
+ireturn = 0
+about to evaluate function with x = 8.04841 1.56672 17.5348 14.6621 4.45755 10.3435 20.4447 4.03651 33.6249 0.598231 0.493148 0.44664 0.234083 0.253262 0.259164 0.297075 
+[WARNING] At line 279 in population.csl2 the parameter 'compatibility_option' : Using the 'casal' compatibility option. Note this is provided for backwards compatibility with CASAL - the recommended compatibility option is 'casal2'
+finished objective call: f = 1524.96
+about to do fmin call with x = 8.04841 1.56672 17.5348 14.6621 4.45755 10.3435 20.4447 4.03651 33.6249 0.598231 0.493148 0.44664 0.234083 0.253262 0.259164 0.297075  f = 1524.96 g = 263.876 -112.975 181.566 -213.245 102.914 -215.511 61.6018 73.1873 99.3386 49.1546 15.0255 6.6713 -53.9325 -44.9478 -15.9059 -5.37595 
+done fmin call
+ireturn = 1
+about to evaluate gradient with x = 8.04841 1.56672 17.5348 14.6621 4.45755 10.3435 20.4447 4.03651 33.6249 0.598231 0.493148 0.44664 0.234083 0.253262 0.259164 0.297075 
+transformed = -0.504702 -0.862805 -0.766929 -0.29172 -0.657673 -0.825225 -0.132309 -0.679675 -0.670781 -0.901504 -0.910604 -0.91494 -0.938505 -0.936023 -0.935279 -0.930685 
+finished gradient call: status = 0 g = 52.8723 -16.7744 136.91 -123.626 72.3958 -61.2054 213.738 -30.7821 156.851 20.2846 25.6922 -4.16453 -26.5993 -15.9309 -2.31598 16.6539 
+about to do fmin call with x = 8.04841 1.56672 17.5348 14.6621 4.45755 10.3435 20.4447 4.03651 33.6249 0.598231 0.493148 0.44664 0.234083 0.253262 0.259164 0.297075  f = 1524.96 g = 52.8723 -16.7744 136.91 -123.626 72.3958 -61.2054 213.738 -30.7821 156.851 20.2846 25.6922 -4.16453 -26.5993 -15.9309 -2.31598 16.6539 
+Convergence check: current value is 0.14016 and threshold is 0.0002
+done fmin call
+ireturn = 0
+about to evaluate function with x = 9.61286 4.95363 1.04528 15.0085 4.86094 23.5068 26.8859 6.45757 147.77 0.00942579 7.6438 0.65491 3.93146 1.39196 0.15789 3.04178 
+[WARNING] At line 279 in population.csl2 the parameter 'compatibility_option' : Using the 'casal' compatibility option. Note this is provided for backwards compatibility with CASAL - the recommended compatibility option is 'casal2'
+finished objective call: f = 58582.3
+about to do fmin call with x = 9.61286 4.95363 1.04528 15.0085 4.86094 23.5068 26.8859 6.45757 147.77 0.00942579 7.6438 0.65491 3.93146 1.39196 0.15789 3.04178  f = 58582.3 g = 52.8723 -16.7744 136.91 -123.626 72.3958 -61.2054 213.738 -30.7821 156.851 20.2846 25.6922 -4.16453 -26.5993 -15.9309 -2.31598 16.6539 
+done fmin call
+ireturn = 0
+about to evaluate function with x = 8.19907 1.77112 14.576 14.6966 4.49697 11.4099 21.0803 4.24941 16.1932 0.497764 0.830446 0.271469 0.402738 0.326043 0.24791 0.44288 
+[WARNING] At line 279 in population.csl2 the parameter 'compatibility_option' : Using the 'casal' compatibility option. Note this is provided for backwards compatibility with CASAL - the recommended compatibility option is 'casal2'
+finished objective call: f = 1498.68
+about to do fmin call with x = 8.19907 1.77112 14.576 14.6966 4.49697 11.4099 21.0803 4.24941 16.1932 0.497764 0.830446 0.271469 0.402738 0.326043 0.24791 0.44288  f = 1498.68 g = 52.8723 -16.7744 136.91 -123.626 72.3958 -61.2054 213.738 -30.7821 156.851 20.2846 25.6922 -4.16453 -26.5993 -15.9309 -2.31598 16.6539 
+done fmin call
+ireturn = 1
+about to evaluate gradient with x = 8.19907 1.77112 14.576 14.6966 4.49697 11.4099 21.0803 4.24941 16.1932 0.497764 0.830446 0.271469 0.402738 0.326043 0.24791 0.44288 
+transformed = -0.499149 -0.839853 -0.789023 -0.29072 -0.655678 -0.815454 -0.115475 -0.668384 -0.776687 -0.910185 -0.88388 -0.933753 -0.919244 -0.92737 -0.936706 -0.9153 
+finished gradient call: status = 0 g = -372.533 209.149 -53.7609 -62.3747 61.0235 55.6014 327.047 -64.1935 474.157 -19.868 45.2376 -20.3367 2.06341 7.99094 -5.27769 26.435 
+about to do fmin call with x = 8.19907 1.77112 14.576 14.6966 4.49697 11.4099 21.0803 4.24941 16.1932 0.497764 0.830446 0.271469 0.402738 0.326043 0.24791 0.44288  f = 1498.68 g = -372.533 209.149 -53.7609 -62.3747 61.0235 55.6014 327.047 -64.1935 474.157 -19.868 45.2376 -20.3367 2.06341 7.99094 -5.27769 26.435 
+Convergence check: current value is 0.316383 and threshold is 0.0002
+done fmin call
+ireturn = 0
+about to evaluate function with x = 11.8517 13.7322 24.8145 15.3907 5.41329 47.2209 35.9427 11.0077 482.797 0.750597 29.5581 8.2 15.6168 4.50438 0.0848363 12.0485 
+[WARNING] At line 279 in population.csl2 the parameter 'compatibility_option' : Using the 'casal' compatibility option. Note this is provided for backwards compatibility with CASAL - the recommended compatibility option is 'casal2'
+finished objective call: f = 525723
+about to do fmin call with x = 11.8517 13.7322 24.8145 15.3907 5.41329 47.2209 35.9427 11.0077 482.797 0.750597 29.5581 8.2 15.6168 4.50438 0.0848363 12.0485  f = 525723 g = -372.533 209.149 -53.7609 -62.3747 61.0235 55.6014 327.047 -64.1935 474.157 -19.868 45.2376 -20.3367 2.06341 7.99094 -5.27769 26.435 
+done fmin call
+ireturn = 0
+about to evaluate function with x = 8.53743 2.34893 9.01862 14.7656 4.5842 13.8822 22.5861 4.77611 1.15995 0.301192 1.93609 0.0326333 0.952651 0.528931 0.227741 0.906803 
+[WARNING] At line 279 in population.csl2 the parameter 'compatibility_option' : Using the 'casal' compatibility option. Note this is provided for backwards compatibility with CASAL - the recommended compatibility option is 'casal2'
+finished objective call: f = 1929.23
+about to do fmin call with x = 8.53743 2.34893 9.01862 14.7656 4.5842 13.8822 22.5861 4.77611 1.15995 0.301192 1.93609 0.0326333 0.952651 0.528931 0.227741 0.906803  f = 1929.23 g = -372.533 209.149 -53.7609 -62.3747 61.0235 55.6014 327.047 -64.1935 474.157 -19.868 45.2376 -20.3367 2.06341 7.99094 -5.27769 26.435 
+done fmin call
+ireturn = 0
+about to evaluate function with x = 8.28039 1.89656 13.1004 14.7133 4.51799 11.9848 21.4435 4.37356 9.20667 0.44568 1.05626 0.192201 0.514559 0.370684 0.242949 0.540162 
+[WARNING] At line 279 in population.csl2 the parameter 'compatibility_option' : Using the 'casal' compatibility option. Note this is provided for backwards compatibility with CASAL - the recommended compatibility option is 'casal2'
+finished objective call: f = 1479.84
+about to do fmin call with x = 8.28039 1.89656 13.1004 14.7133 4.51799 11.9848 21.4435 4.37356 9.20667 0.44568 1.05626 0.192201 0.514559 0.370684 0.242949 0.540162  f = 1479.84 g = -372.533 209.149 -53.7609 -62.3747 61.0235 55.6014 327.047 -64.1935 474.157 -19.868 45.2376 -20.3367 2.06341 7.99094 -5.27769 26.435 
+done fmin call
+ireturn = 1
+about to evaluate gradient with x = 8.28039 1.89656 13.1004 14.7133 4.51799 11.9848 21.4435 4.37356 9.20667 0.44568 1.05626 0.192201 0.514559 0.370684 0.242949 0.540162 
+transformed = -0.496171 -0.827243 -0.800919 -0.290237 -0.654619 -0.81039 -0.105894 -0.661958 -0.836265 -0.915031 -0.868974 -0.944308 -0.908677 -0.922537 -0.937346 -0.906424 
+finished gradient call: status = 0 g = -652.696 369.775 -254.187 -25.9822 56.7967 135.577 -37.9587 125.195 233.566 -36.3142 54.017 -32.9318 12.5843 12.3365 -11.7748 22.3678 
+about to do fmin call with x = 8.28039 1.89656 13.1004 14.7133 4.51799 11.9848 21.4435 4.37356 9.20667 0.44568 1.05626 0.192201 0.514559 0.370684 0.242949 0.540162  f = 1479.84 g = -652.696 369.775 -254.187 -25.9822 56.7967 135.577 -37.9587 125.195 233.566 -36.3142 54.017 -32.9318 12.5843 12.3365 -11.7748 22.3678 
+Convergence check: current value is 0.441059 and threshold is 0.0002
+done fmin call
+ireturn = 0
+about to evaluate function with x = 8.34142 1.81808 13.4792 14.7532 4.56011 11.2957 21.6056 4.17534 5.03435 0.486201 0.941091 0.186584 0.549528 0.375864 0.249528 0.515374 
+[WARNING] At line 279 in population.csl2 the parameter 'compatibility_option' : Using the 'casal' compatibility option. Note this is provided for backwards compatibility with CASAL - the recommended compatibility option is 'casal2'
+finished objective call: f = 1499.86
+about to do fmin call with x = 8.34142 1.81808 13.4792 14.7532 4.56011 11.2957 21.6056 4.17534 5.03435 0.486201 0.941091 0.186584 0.549528 0.375864 0.249528 0.515374  f = 1499.86 g = -652.696 369.775 -254.187 -25.9822 56.7967 135.577 -37.9587 125.195 233.566 -36.3142 54.017 -32.9318 12.5843 12.3365 -11.7748 22.3678 
+done fmin call
+ireturn = 0
+about to evaluate function with x = 8.29535 1.87697 13.1928 14.7231 4.52831 11.8137 21.4833 4.3244 8.04891 0.455461 1.02739 0.190815 0.523034 0.371952 0.244555 0.534025 
+[WARNING] At line 279 in population.csl2 the parameter 'compatibility_option' : Using the 'casal' compatibility option. Note this is provided for backwards compatibility with CASAL - the recommended compatibility option is 'casal2'
+finished objective call: f = 1476.59
+about to do fmin call with x = 8.29535 1.87697 13.1928 14.7231 4.52831 11.8137 21.4833 4.3244 8.04891 0.455461 1.02739 0.190815 0.523034 0.371952 0.244555 0.534025  f = 1476.59 g = -652.696 369.775 -254.187 -25.9822 56.7967 135.577 -37.9587 125.195 233.566 -36.3142 54.017 -32.9318 12.5843 12.3365 -11.7748 22.3678 
+done fmin call
+ireturn = 1
+about to evaluate gradient with x = 8.29535 1.87697 13.1928 14.7231 4.52831 11.8137 21.4833 4.3244 8.04891 0.455461 1.02739 0.190815 0.523034 0.371952 0.244555 0.534025 
+transformed = -0.495625 -0.829152 -0.800154 -0.289954 -0.6541 -0.811883 -0.104846 -0.664489 -0.848313 -0.914101 -0.870785 -0.94451 -0.907925 -0.922404 -0.937138 -0.906959 
+finished gradient call: status = 0 g = -565.287 320.911 -226.434 -38.088 69.6838 138.793 -110.338 78.1549 -13.9149 -36.941 45.3205 -34.8035 17.1062 17.1071 -8.16878 26.6881 
+about to do fmin call with x = 8.29535 1.87697 13.1928 14.7231 4.52831 11.8137 21.4833 4.3244 8.04891 0.455461 1.02739 0.190815 0.523034 0.371952 0.244555 0.534025  f = 1476.59 g = -565.287 320.911 -226.434 -38.088 69.6838 138.793 -110.338 78.1549 -13.9149 -36.941 45.3205 -34.8035 17.1062 17.1071 -8.16878 26.6881 
+Convergence check: current value is 0.382833 and threshold is 0.0002
+done fmin call
+ireturn = 0
+about to evaluate function with x = 8.27165 1.64159 14.907 14.9137 4.59233 10.3953 21.3426 4.12107 8.34455 0.571541 0.634169 0.309278 0.467743 0.338572 0.266875 0.336958 
+[WARNING] At line 279 in population.csl2 the parameter 'compatibility_option' : Using the 'casal' compatibility option. Note this is provided for backwards compatibility with CASAL - the recommended compatibility option is 'casal2'
+finished objective call: f = 1470.16
+about to do fmin call with x = 8.27165 1.64159 14.907 14.9137 4.59233 10.3953 21.3426 4.12107 8.34455 0.571541 0.634169 0.309278 0.467743 0.338572 0.266875 0.336958  f = 1470.16 g = -565.287 320.911 -226.434 -38.088 69.6838 138.793 -110.338 78.1549 -13.9149 -36.941 45.3205 -34.8035 17.1062 17.1071 -8.16878 26.6881 
+done fmin call
+ireturn = 1
+about to evaluate gradient with x = 8.27165 1.64159 14.907 14.9137 4.59233 10.3953 21.3426 4.12107 8.34455 0.571541 0.634169 0.309278 0.467743 0.338572 0.266875 0.336958 
+transformed = -0.49649 -0.853986 -0.786443 -0.284451 -0.650896 -0.824738 -0.108553 -0.675148 -0.845149 -0.903735 -0.898578 -0.929269 -0.912946 -0.925982 -0.934318 -0.926159 
+finished gradient call: status = 0 g = 205.27 -92.7563 32.5528 -74.4845 81.1847 56.9648 212.215 -222.845 100.988 -27.3031 -11.0355 -20.908 43.7243 39.6808 14.4411 30.7738 
+about to do fmin call with x = 8.27165 1.64159 14.907 14.9137 4.59233 10.3953 21.3426 4.12107 8.34455 0.571541 0.634169 0.309278 0.467743 0.338572 0.266875 0.336958  f = 1470.16 g = 205.27 -92.7563 32.5528 -74.4845 81.1847 56.9648 212.215 -222.845 100.988 -27.3031 -11.0355 -20.908 43.7243 39.6808 14.4411 30.7738 
+Convergence check: current value is 0.151579 and threshold is 0.0002
+done fmin call
+ireturn = 0
+about to evaluate function with x = 7.98668 1.51829 15.833 15.1869 4.65031 9.2713 21.6258 4.41229 7.6056 0.583402 0.567937 0.393123 0.395471 0.305602 0.282735 0.25995 
+[WARNING] At line 279 in population.csl2 the parameter 'compatibility_option' : Using the 'casal' compatibility option. Note this is provided for backwards compatibility with CASAL - the recommended compatibility option is 'casal2'
+finished objective call: f = 1468.57
+about to do fmin call with x = 7.98668 1.51829 15.833 15.1869 4.65031 9.2713 21.6258 4.41229 7.6056 0.583402 0.567937 0.393123 0.395471 0.305602 0.282735 0.25995  f = 1468.57 g = 205.27 -92.7563 32.5528 -74.4845 81.1847 56.9648 212.215 -222.845 100.988 -27.3031 -11.0355 -20.908 43.7243 39.6808 14.4411 30.7738 
+done fmin call
+ireturn = 1
+about to evaluate gradient with x = 7.98668 1.51829 15.833 15.1869 4.65031 9.2713 21.6258 4.41229 7.6056 0.583402 0.567937 0.393123 0.395471 0.305602 0.282735 0.25995 
+transformed = -0.506991 -0.86882 -0.779377 -0.276601 -0.648016 -0.835618 -0.101092 -0.659976 -0.853182 -0.902737 -0.90404 -0.920217 -0.919979 -0.929693 -0.932386 -0.93518 
+finished gradient call: status = 0 g = -6.54399 -11.7729 50.4532 -20.4474 12.4843 -13.3833 -193.805 157.534 -98.7963 -5.77349 10.5506 -3.17089 27.4199 18.416 2.47888 1.16526 
+about to do fmin call with x = 7.98668 1.51829 15.833 15.1869 4.65031 9.2713 21.6258 4.41229 7.6056 0.583402 0.567937 0.393123 0.395471 0.305602 0.282735 0.25995  f = 1468.57 g = -6.54399 -11.7729 50.4532 -20.4474 12.4843 -13.3833 -193.805 157.534 -98.7963 -5.77349 10.5506 -3.17089 27.4199 18.416 2.47888 1.16526 
+Convergence check: current value is 0.131968 and threshold is 0.0002
+done fmin call
+ireturn = 0
+about to evaluate function with x = 8.03078 1.54804 15.2852 15.1964 4.64974 9.30162 21.5837 4.30049 7.82803 0.602107 0.532777 0.416164 0.310605 0.253016 0.274801 0.247 
+[WARNING] At line 279 in population.csl2 the parameter 'compatibility_option' : Using the 'casal' compatibility option. Note this is provided for backwards compatibility with CASAL - the recommended compatibility option is 'casal2'
+finished objective call: f = 1467.87
+about to do fmin call with x = 8.03078 1.54804 15.2852 15.1964 4.64974 9.30162 21.5837 4.30049 7.82803 0.602107 0.532777 0.416164 0.310605 0.253016 0.274801 0.247  f = 1467.87 g = -6.54399 -11.7729 50.4532 -20.4474 12.4843 -13.3833 -193.805 157.534 -98.7963 -5.77349 10.5506 -3.17089 27.4199 18.416 2.47888 1.16526 
+done fmin call
+ireturn = 1
+about to evaluate gradient with x = 8.03078 1.54804 15.2852 15.1964 4.64974 9.30162 21.5837 4.30049 7.82803 0.602107 0.532777 0.416164 0.310605 0.253016 0.274801 0.247 
+transformed = -0.505355 -0.865094 -0.78353 -0.276329 -0.648044 -0.835315 -0.102201 -0.665727 -0.850719 -0.901185 -0.907069 -0.917904 -0.929117 -0.936055 -0.933346 -0.936823 
+finished gradient call: status = 0 g = -47.7337 4.76659 8.19554 -17.8817 6.11179 -13.454 46.1441 -52.757 7.25661 22.6479 28.0663 -3.10677 -4.59833 -11.3919 -7.91625 -4.67601 
+about to do fmin call with x = 8.03078 1.54804 15.2852 15.1964 4.64974 9.30162 21.5837 4.30049 7.82803 0.602107 0.532777 0.416164 0.310605 0.253016 0.274801 0.247  f = 1467.87 g = -47.7337 4.76659 8.19554 -17.8817 6.11179 -13.454 46.1441 -52.757 7.25661 22.6479 28.0663 -3.10677 -4.59833 -11.3919 -7.91625 -4.67601 
+Convergence check: current value is 0.0359413 and threshold is 0.0002
+done fmin call
+ireturn = 0
+about to evaluate function with x = 8.14651 1.60225 15.0029 15.2269 4.66061 9.46577 21.6149 4.33128 7.87728 0.563791 0.465438 0.428897 0.295343 0.258451 0.28649 0.253656 
+[WARNING] At line 279 in population.csl2 the parameter 'compatibility_option' : Using the 'casal' compatibility option. Note this is provided for backwards compatibility with CASAL - the recommended compatibility option is 'casal2'
+finished objective call: f = 1467.61
+about to do fmin call with x = 8.14651 1.60225 15.0029 15.2269 4.66061 9.46577 21.6149 4.33128 7.87728 0.563791 0.465438 0.428897 0.295343 0.258451 0.28649 0.253656  f = 1467.61 g = -47.7337 4.76659 8.19554 -17.8817 6.11179 -13.454 46.1441 -52.757 7.25661 22.6479 28.0663 -3.10677 -4.59833 -11.3919 -7.91625 -4.67601 
+done fmin call
+ireturn = 1
+about to evaluate gradient with x = 8.14651 1.60225 15.0029 15.2269 4.66061 9.46577 21.6149 4.33128 7.87728 0.563791 0.465438 0.428897 0.295343 0.258451 0.28649 0.253656 
+transformed = -0.50108 -0.858553 -0.785701 -0.275457 -0.647507 -0.833686 -0.10138 -0.664134 -0.85018 -0.904392 -0.913161 -0.916653 -0.930888 -0.935368 -0.931936 -0.935973 
+finished gradient call: status = 0 g = 39.6101 -24.0894 8.11727 14.0857 -10.1695 16.3437 35.0454 -27.9023 25.7777 -2.47571 4.48112 0.472162 6.8831 5.34891 10.6181 10.0444 
+about to do fmin call with x = 8.14651 1.60225 15.0029 15.2269 4.66061 9.46577 21.6149 4.33128 7.87728 0.563791 0.465438 0.428897 0.295343 0.258451 0.28649 0.253656  f = 1467.61 g = 39.6101 -24.0894 8.11727 14.0857 -10.1695 16.3437 35.0454 -27.9023 25.7777 -2.47571 4.48112 0.472162 6.8831 5.34891 10.6181 10.0444 
+Convergence check: current value is 0.0269895 and threshold is 0.0002
+done fmin call
+ireturn = 0
+about to evaluate function with x = 8.15208 1.61223 14.974 15.275 4.68318 9.33467 21.6569 4.35601 7.77039 0.550598 0.420097 0.435721 0.271979 0.250651 0.270154 0.233202 
+[WARNING] At line 279 in population.csl2 the parameter 'compatibility_option' : Using the 'casal' compatibility option. Note this is provided for backwards compatibility with CASAL - the recommended compatibility option is 'casal2'
+finished objective call: f = 1467.51
+about to do fmin call with x = 8.15208 1.61223 14.974 15.275 4.68318 9.33467 21.6569 4.35601 7.77039 0.550598 0.420097 0.435721 0.271979 0.250651 0.270154 0.233202  f = 1467.51 g = 39.6101 -24.0894 8.11727 14.0857 -10.1695 16.3437 35.0454 -27.9023 25.7777 -2.47571 4.48112 0.472162 6.8831 5.34891 10.6181 10.0444 
+done fmin call
+ireturn = 1
+about to evaluate gradient with x = 8.15208 1.61223 14.974 15.275 4.68318 9.33467 21.6569 4.35601 7.77039 0.550598 0.420097 0.435721 0.271979 0.250651 0.270154 0.233202 
+transformed = -0.500875 -0.857381 -0.785924 -0.274081 -0.646393 -0.834986 -0.100275 -0.66286 -0.851354 -0.905521 -0.917515 -0.91599 -0.93369 -0.936356 -0.933914 -0.938622 
+finished gradient call: status = 0 g = 15.8378 -11.9323 3.8329 12.524 -8.04782 7.37313 16.5487 -11.1051 4.78231 -1.63599 1.08616 3.97722 4.79621 3.36119 6.29916 3.94343 
+about to do fmin call with x = 8.15208 1.61223 14.974 15.275 4.68318 9.33467 21.6569 4.35601 7.77039 0.550598 0.420097 0.435721 0.271979 0.250651 0.270154 0.233202  f = 1467.51 g = 15.8378 -11.9323 3.8329 12.524 -8.04782 7.37313 16.5487 -11.1051 4.78231 -1.63599 1.08616 3.97722 4.79621 3.36119 6.29916 3.94343 
+Convergence check: current value is 0.0112768 and threshold is 0.0002
+done fmin call
+ireturn = 0
+about to evaluate function with x = 8.17161 1.63231 14.9243 15.285 4.69036 9.28277 21.6686 4.36411 7.7447 0.534939 0.389411 0.419958 0.252012 0.245515 0.251338 0.222691 
+[WARNING] At line 279 in population.csl2 the parameter 'compatibility_option' : Using the 'casal' compatibility option. Note this is provided for backwards compatibility with CASAL - the recommended compatibility option is 'casal2'
+finished objective call: f = 1467.47
+about to do fmin call with x = 8.17161 1.63231 14.9243 15.285 4.69036 9.28277 21.6686 4.36411 7.7447 0.534939 0.389411 0.419958 0.252012 0.245515 0.251338 0.222691  f = 1467.47 g = 15.8378 -11.9323 3.8329 12.524 -8.04782 7.37313 16.5487 -11.1051 4.78231 -1.63599 1.08616 3.97722 4.79621 3.36119 6.29916 3.94343 
+done fmin call
+ireturn = 1
+about to evaluate gradient with x = 8.17161 1.63231 14.9243 15.285 4.69036 9.28277 21.6686 4.36411 7.7447 0.534939 0.389411 0.419958 0.252012 0.245515 0.251338 0.222691 
+transformed = -0.500157 -0.855051 -0.786308 -0.273793 -0.646039 -0.835504 -0.0999677 -0.662443 -0.851637 -0.906879 -0.920596 -0.917529 -0.936182 -0.937014 -0.936268 -0.940028 
+finished gradient call: status = 0 g = -8.968 2.63782 -0.400136 6.84753 -3.24543 1.4754 9.89202 -4.14547 -0.137905 1.69954 -1.63749 1.27193 0.518194 2.60526 2.51507 1.21746 
+about to do fmin call with x = 8.17161 1.63231 14.9243 15.285 4.69036 9.28277 21.6686 4.36411 7.7447 0.534939 0.389411 0.419958 0.252012 0.245515 0.251338 0.222691  f = 1467.47 g = -8.968 2.63782 -0.400136 6.84753 -3.24543 1.4754 9.89202 -4.14547 -0.137905 1.69954 -1.63749 1.27193 0.518194 2.60526 2.51507 1.21746 
+Convergence check: current value is 0.00674086 and threshold is 0.0002
+done fmin call
+ireturn = 0
+about to evaluate function with x = 8.18574 1.64113 14.9041 15.2697 4.68422 9.2965 21.6564 4.35886 7.75693 0.52017 0.388455 0.41241 0.249775 0.240445 0.241105 0.218444 
+[WARNING] At line 279 in population.csl2 the parameter 'compatibility_option' : Using the 'casal' compatibility option. Note this is provided for backwards compatibility with CASAL - the recommended compatibility option is 'casal2'
+finished objective call: f = 1467.46
+about to do fmin call with x = 8.18574 1.64113 14.9041 15.2697 4.68422 9.2965 21.6564 4.35886 7.75693 0.52017 0.388455 0.41241 0.249775 0.240445 0.241105 0.218444  f = 1467.46 g = -8.968 2.63782 -0.400136 6.84753 -3.24543 1.4754 9.89202 -4.14547 -0.137905 1.69954 -1.63749 1.27193 0.518194 2.60526 2.51507 1.21746 
+done fmin call
+ireturn = 1
+about to evaluate gradient with x = 8.18574 1.64113 14.9041 15.2697 4.68422 9.2965 21.6564 4.35886 7.75693 0.52017 0.388455 0.41241 0.249775 0.240445 0.241105 0.218444 
+transformed = -0.499638 -0.854039 -0.786465 -0.274233 -0.646342 -0.835367 -0.100289 -0.662713 -0.851502 -0.908179 -0.920694 -0.918276 -0.936467 -0.937671 -0.937585 -0.940606 
+finished gradient call: status = 0 g = -8.4206 4.01103 -0.307117 3.25783 -1.1811 0.67252 6.61041 -3.05641 -0.867932 -0.722338 0.0345586 3.26247 1.0601 0.839239 -1.13707 -0.629762 
+about to do fmin call with x = 8.18574 1.64113 14.9041 15.2697 4.68422 9.2965 21.6564 4.35886 7.75693 0.52017 0.388455 0.41241 0.249775 0.240445 0.241105 0.218444  f = 1467.46 g = -8.4206 4.01103 -0.307117 3.25783 -1.1811 0.67252 6.61041 -3.05641 -0.867932 -0.722338 0.0345586 3.26247 1.0601 0.839239 -1.13707 -0.629762 
+Convergence check: current value is 0.0057382 and threshold is 0.0002
+done fmin call
+ireturn = 0
+about to evaluate function with x = 8.19545 1.64607 14.8999 15.2486 4.67472 9.31379 21.6374 4.35117 7.78038 0.513409 0.388831 0.396156 0.247746 0.237002 0.238899 0.217861 
+[WARNING] At line 279 in population.csl2 the parameter 'compatibility_option' : Using the 'casal' compatibility option. Note this is provided for backwards compatibility with CASAL - the recommended compatibility option is 'casal2'
+finished objective call: f = 1467.46
+about to do fmin call with x = 8.19545 1.64607 14.8999 15.2486 4.67472 9.31379 21.6374 4.35117 7.78038 0.513409 0.388831 0.396156 0.247746 0.237002 0.238899 0.217861  f = 1467.46 g = -8.4206 4.01103 -0.307117 3.25783 -1.1811 0.67252 6.61041 -3.05641 -0.867932 -0.722338 0.0345586 3.26247 1.0601 0.839239 -1.13707 -0.629762 
+done fmin call
+ireturn = 1
+about to evaluate gradient with x = 8.19545 1.64607 14.8999 15.2486 4.67472 9.31379 21.6374 4.35117 7.78038 0.513409 0.388831 0.396156 0.247746 0.237002 0.238899 0.217861 
+transformed = -0.499281 -0.853475 -0.786498 -0.274835 -0.64681 -0.835194 -0.100787 -0.663109 -0.851244 -0.908779 -0.920656 -0.919909 -0.936727 -0.938121 -0.937873 -0.940686 
+finished gradient call: status = 0 g = -2.46477 2.16055 1.10809 -0.00523268 0.145037 -0.318738 1.49979 -0.73145 -0.679167 1.00381 0.151593 -0.919259 -0.73123 0.506553 -0.574866 0.28684 
+about to do fmin call with x = 8.19545 1.64607 14.8999 15.2486 4.67472 9.31379 21.6374 4.35117 7.78038 0.513409 0.388831 0.396156 0.247746 0.237002 0.238899 0.217861  f = 1467.46 g = -2.46477 2.16055 1.10809 -0.00523268 0.145037 -0.318738 1.49979 -0.73145 -0.679167 1.00381 0.151593 -0.919259 -0.73123 0.506553 -0.574866 0.28684 
+Convergence check: current value is 0.00167962 and threshold is 0.0002
+done fmin call
+ireturn = 0
+about to evaluate function with x = 8.19312 1.64331 14.8976 15.2462 4.67354 9.32137 21.634 4.35002 7.78859 0.512661 0.389676 0.397807 0.248993 0.235337 0.240547 0.216927 
+[WARNING] At line 279 in population.csl2 the parameter 'compatibility_option' : Using the 'casal' compatibility option. Note this is provided for backwards compatibility with CASAL - the recommended compatibility option is 'casal2'
+finished objective call: f = 1467.46
+about to do fmin call with x = 8.19312 1.64331 14.8976 15.2462 4.67354 9.32137 21.634 4.35002 7.78859 0.512661 0.389676 0.397807 0.248993 0.235337 0.240547 0.216927  f = 1467.46 g = -2.46477 2.16055 1.10809 -0.00523268 0.145037 -0.318738 1.49979 -0.73145 -0.679167 1.00381 0.151593 -0.919259 -0.73123 0.506553 -0.574866 0.28684 
+done fmin call
+ireturn = 1
+about to evaluate gradient with x = 8.19312 1.64331 14.8976 15.2462 4.67354 9.32137 21.634 4.35002 7.78859 0.512661 0.389676 0.397807 0.248993 0.235337 0.240547 0.216927 
+transformed = -0.499367 -0.85379 -0.786515 -0.274904 -0.646868 -0.835119 -0.100877 -0.663168 -0.851153 -0.908846 -0.920569 -0.919742 -0.936568 -0.93834 -0.937658 -0.940814 
+finished gradient call: status = 0 g = 0.88339 0.0353047 0.934744 0.263683 -0.0950419 0.325155 0.977627 -0.189908 0.522023 0.208115 0.391596 0.0369503 -0.15264 -0.0954005 -0.366898 -0.0784134 
+about to do fmin call with x = 8.19312 1.64331 14.8976 15.2462 4.67354 9.32137 21.634 4.35002 7.78859 0.512661 0.389676 0.397807 0.248993 0.235337 0.240547 0.216927  f = 1467.46 g = 0.88339 0.0353047 0.934744 0.263683 -0.0950419 0.325155 0.977627 -0.189908 0.522023 0.208115 0.391596 0.0369503 -0.15264 -0.0954005 -0.366898 -0.0784134 
+Convergence check: current value is 0.000666205 and threshold is 0.0002
+done fmin call
+ireturn = 0
+about to evaluate function with x = 8.19148 1.64213 14.8941 15.2449 4.67306 9.32318 21.6334 4.34978 7.78816 0.512598 0.389064 0.397894 0.249103 0.234842 0.241298 0.216761 
+[WARNING] At line 279 in population.csl2 the parameter 'compatibility_option' : Using the 'casal' compatibility option. Note this is provided for backwards compatibility with CASAL - the recommended compatibility option is 'casal2'
+finished objective call: f = 1467.46
+about to do fmin call with x = 8.19148 1.64213 14.8941 15.2449 4.67306 9.32318 21.6334 4.34978 7.78816 0.512598 0.389064 0.397894 0.249103 0.234842 0.241298 0.216761  f = 1467.46 g = 0.88339 0.0353047 0.934744 0.263683 -0.0950419 0.325155 0.977627 -0.189908 0.522023 0.208115 0.391596 0.0369503 -0.15264 -0.0954005 -0.366898 -0.0784134 
+done fmin call
+ireturn = 1
+about to evaluate gradient with x = 8.19148 1.64213 14.8941 15.2449 4.67306 9.32318 21.6334 4.34978 7.78816 0.512598 0.389064 0.397894 0.249103 0.234842 0.241298 0.216761 
+transformed = -0.499427 -0.853925 -0.786542 -0.27494 -0.646892 -0.835101 -0.100893 -0.66318 -0.851158 -0.908852 -0.920632 -0.919733 -0.936553 -0.938405 -0.93756 -0.940836 
+finished gradient call: status = 0 g = 0.920863 -0.256561 0.469302 0.0616016 0.0563831 0.372336 0.514356 -0.00882764 0.115118 0.147711 0.182506 0.0179064 -0.0771885 -0.149414 -0.0712474 -0.0482807 
+about to do fmin call with x = 8.19148 1.64213 14.8941 15.2449 4.67306 9.32318 21.6334 4.34978 7.78816 0.512598 0.389064 0.397894 0.249103 0.234842 0.241298 0.216761  f = 1467.46 g = 0.920863 -0.256561 0.469302 0.0616016 0.0563831 0.372336 0.514356 -0.00882764 0.115118 0.147711 0.182506 0.0179064 -0.0771885 -0.149414 -0.0712474 -0.0482807 
+Convergence check: current value is 0.000627523 and threshold is 0.0002
+done fmin call
+ireturn = 0
+about to evaluate function with x = 8.19033 1.64148 14.8921 15.2438 4.6726 9.3233 21.6329 4.34962 7.78861 0.512323 0.388571 0.397713 0.249019 0.234696 0.241366 0.216686 
+[WARNING] At line 279 in population.csl2 the parameter 'compatibility_option' : Using the 'casal' compatibility option. Note this is provided for backwards compatibility with CASAL - the recommended compatibility option is 'casal2'
+finished objective call: f = 1467.46
+about to do fmin call with x = 8.19033 1.64148 14.8921 15.2438 4.6726 9.3233 21.6329 4.34962 7.78861 0.512323 0.388571 0.397713 0.249019 0.234696 0.241366 0.216686  f = 1467.46 g = 0.920863 -0.256561 0.469302 0.0616016 0.0563831 0.372336 0.514356 -0.00882764 0.115118 0.147711 0.182506 0.0179064 -0.0771885 -0.149414 -0.0712474 -0.0482807 
+done fmin call
+ireturn = 1
+about to evaluate gradient with x = 8.19033 1.64148 14.8921 15.2438 4.6726 9.3233 21.6329 4.34962 7.78861 0.512323 0.388571 0.397713 0.249019 0.234696 0.241366 0.216686 
+transformed = -0.499469 -0.854 -0.786558 -0.274972 -0.646915 -0.835099 -0.100906 -0.663188 -0.851153 -0.908876 -0.920682 -0.919751 -0.936564 -0.938425 -0.937551 -0.940847 
+finished gradient call: status = 0 g = 0.396071 -0.168297 0.134757 -0.242448 0.222345 0.195411 0.263511 0.142115 0.0500232 0.112372 0.0569011 -0.0242365 -0.0473688 -0.122053 0.000915552 -0.0443399 
+about to do fmin call with x = 8.19033 1.64148 14.8921 15.2438 4.6726 9.3233 21.6329 4.34962 7.78861 0.512323 0.388571 0.397713 0.249019 0.234696 0.241366 0.216686  f = 1467.46 g = 0.396071 -0.168297 0.134757 -0.242448 0.222345 0.195411 0.263511 0.142115 0.0500232 0.112372 0.0569011 -0.0242365 -0.0473688 -0.122053 0.000915552 -0.0443399 
+Convergence check: current value is 0.000269903 and threshold is 0.0002
+done fmin call
+ireturn = 0
+about to evaluate function with x = 8.19004 1.64133 14.8914 15.2436 4.67247 9.32286 21.6326 4.34943 7.78875 0.512175 0.388444 0.397666 0.24892 0.234758 0.241251 0.216734 
+[WARNING] At line 279 in population.csl2 the parameter 'compatibility_option' : Using the 'casal' compatibility option. Note this is provided for backwards compatibility with CASAL - the recommended compatibility option is 'casal2'
+finished objective call: f = 1467.46
+about to do fmin call with x = 8.19004 1.64133 14.8914 15.2436 4.67247 9.32286 21.6326 4.34943 7.78875 0.512175 0.388444 0.397666 0.24892 0.234758 0.241251 0.216734  f = 1467.46 g = 0.396071 -0.168297 0.134757 -0.242448 0.222345 0.195411 0.263511 0.142115 0.0500232 0.112372 0.0569011 -0.0242365 -0.0473688 -0.122053 0.000915552 -0.0443399 
+done fmin call
+ireturn = 1
+about to evaluate gradient with x = 8.19004 1.64133 14.8914 15.2436 4.67247 9.32286 21.6326 4.34943 7.78875 0.512175 0.388444 0.397666 0.24892 0.234758 0.241251 0.216734 
+transformed = -0.49948 -0.854016 -0.786564 -0.274979 -0.646921 -0.835104 -0.100915 -0.663198 -0.851151 -0.90889 -0.920696 -0.919756 -0.936577 -0.938416 -0.937566 -0.94084 
+finished gradient call: status = 0 g = 0.203947 -0.115366 0.0290863 -0.307828 0.232628 0.105535 0.231914 0.0875807 -0.00944765 0.0742882 0.0258813 -0.0277145 -0.0484528 -0.0796052 -0.00808878 -0.0206864 
+about to do fmin call with x = 8.19004 1.64133 14.8914 15.2436 4.67247 9.32286 21.6326 4.34943 7.78875 0.512175 0.388444 0.397666 0.24892 0.234758 0.241251 0.216734  f = 1467.46 g = 0.203947 -0.115366 0.0290863 -0.307828 0.232628 0.105535 0.231914 0.0875807 -0.00944765 0.0742882 0.0258813 -0.0277145 -0.0484528 -0.0796052 -0.00808878 -0.0206864 
+Convergence check: current value is 0.00020977 and threshold is 0.0002
+done fmin call
+ireturn = 0
+about to evaluate function with x = 8.18982 1.64122 14.891 15.2438 4.6725 9.32189 21.632 4.34911 7.7894 0.512069 0.388368 0.397659 0.248827 0.234889 0.241089 0.216798 
+[WARNING] At line 279 in population.csl2 the parameter 'compatibility_option' : Using the 'casal' compatibility option. Note this is provided for backwards compatibility with CASAL - the recommended compatibility option is 'casal2'
+finished objective call: f = 1467.46
+about to do fmin call with x = 8.18982 1.64122 14.891 15.2438 4.6725 9.32189 21.632 4.34911 7.7894 0.512069 0.388368 0.397659 0.248827 0.234889 0.241089 0.216798  f = 1467.46 g = 0.203947 -0.115366 0.0290863 -0.307828 0.232628 0.105535 0.231914 0.0875807 -0.00944765 0.0742882 0.0258813 -0.0277145 -0.0484528 -0.0796052 -0.00808878 -0.0206864 
+done fmin call
+ireturn = 1
+about to evaluate gradient with x = 8.18982 1.64122 14.891 15.2438 4.6725 9.32189 21.632 4.34911 7.7894 0.512069 0.388368 0.397659 0.248827 0.234889 0.241089 0.216798 
+transformed = -0.499488 -0.854029 -0.786567 -0.274974 -0.64692 -0.835113 -0.100931 -0.663215 -0.851144 -0.908899 -0.920703 -0.919757 -0.936589 -0.938399 -0.937587 -0.940831 
+finished gradient call: status = 0 g = 0.056357 -0.0714438 -0.0370846 -0.278932 0.182059 0.0248314 0.18576 0.0330258 -0.00146642 0.0353169 0.00378629 -0.0239446 -0.0461579 -0.0203103 -0.0351521 0.0021659 
+about to do fmin call with x = 8.18982 1.64122 14.891 15.2438 4.6725 9.32189 21.632 4.34911 7.7894 0.512069 0.388368 0.397659 0.248827 0.234889 0.241089 0.216798  f = 1467.46 g = 0.056357 -0.0714438 -0.0370846 -0.278932 0.182059 0.0248314 0.18576 0.0330258 -0.00146642 0.0353169 0.00378629 -0.0239446 -0.0461579 -0.0203103 -0.0351521 0.0021659 
+Convergence check: current value is 0.000190078 and threshold is 0.0002
+fmm: have converged: t = 0.000190078 f = 1467.46
+x = -0.499488 -0.854029 -0.786567 -0.274974 -0.64692 -0.835113 -0.100931 -0.663215 -0.851144 -0.908899 -0.920703 -0.919757 -0.936589 -0.938399 -0.937587 -0.940831 
+g = 0.056357 -0.0714438 -0.0370846 -0.278932 0.182059 0.0248314 0.18576 0.0330258 -0.00146642 0.0353169 0.00378629 -0.0239446 -0.0461579 -0.0203103 -0.0351521 0.0021659 
+done fmin call
+ireturn = -1
+finished main minimiser loop
+Successful convergence in optimise
+[WARNING] At line 279 in population.csl2 the parameter 'compatibility_option' : Using the 'casal' compatibility option. Note this is provided for backwards compatibility with CASAL - the recommended compatibility option is 'casal2'
+[WARNING] At line 279 in population.csl2 the parameter 'compatibility_option' : Using the 'casal' compatibility option. Note this is provided for backwards compatibility with CASAL - the recommended compatibility option is 'casal2'
+[INFO] Assert Passed: The Assert with label 'obj' for the Objective Function had value 1467.46 and 1467.46 was expected.
+[INFO] Completed
+[INFO] Total elapsed time: 20 seconds

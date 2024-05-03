@@ -9,7 +9,7 @@ burn.in.tabular(tab_object, Row, verbose = F)
 \arguments{
 \item{tab_object}{casal2TAB object you want to burn-in}
 
-\item{Row}{number to burn in from, note this is not the iteration but the row that corresponds to your iteration that you want to burn-in from. if keep > 1 then the iteration and row will be different}
+\item{Row}{number to burn in from. Note this is not the iteration but the row that corresponds to your iteration that you want to burn-in from. if keep > 1 then the iteration and row will be different}
 
 \item{verbose}{print extra info.}
 }

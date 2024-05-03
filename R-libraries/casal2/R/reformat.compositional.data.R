@@ -11,7 +11,7 @@
 #' @export
 #'
 
-reformat.compositional.data = function(model, report_label) {
+reformat.compositional.data <- function(model, report_label) {
   ## check report label exists
   if (!report_label %in% names(model)) {
     stop(paste0("The report label '", report_label, "' was not found. The report labels available are ", paste(names(model), collapse = ", ")))
@@ -30,7 +30,7 @@ reformat.compositional.data = function(model, report_label) {
     muliple_iterations_in_a_report <- TRUE
     N_runs <- length(this_report)
 
-    if (this_report$'1'$type != "observation") {
+    if (this_report$"1"$type != "observation") {
       stop(paste0("The report label '", report_label, "' is not an observation. Please check that the correct report label was specified."))
     }
   }
@@ -45,7 +45,7 @@ reformat.compositional.data = function(model, report_label) {
   categories <- unique(this_ob[, "category"])
 
   print(paste0("n_bins = ", n_bins, " n_category = ", n_category, " n years ", n_years))
-  #print(head(this_ob))
+  # print(head(this_ob))
 
   like <- matrix(this_ob[, "neglogLike"], byrow = T, ncol = n_bins * n_category, nrow = n_years)
   obs <- matrix(this_ob[, "observed"], byrow = T, ncol = n_bins * n_category, nrow = n_years)

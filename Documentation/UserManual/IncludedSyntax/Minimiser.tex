@@ -69,13 +69,13 @@
 \defLowerBound{0.0 (exclusive)}
 
 \subsubsection{Minimiser of type DESolver}
-\commandlabsubarg{minimiser}{type}{DESolver}.
+\commandlabsubarg{minimiser}{type}{de\_solver}.
 \defRef{sec:Minimiser-DESolver}
 \label{syntax:Minimiser-DESolver}
 
 \defSub{population\_size}{The number of candidate solutions to have in the population}
 \defType{Non-negative integer}
-\defDefault{No default}
+\defDefault{25}
 \defLowerBound{1 (inclusive)}
 
 \defSub{crossover\_probability}{The minimiser's crossover probability}
@@ -89,7 +89,7 @@
 \defDefault{0.02}
 
 \defSub{max\_generations}{The maximum number of iterations to run}
-\defType{Non-negative integer}
+\defType{1000}
 \defDefault{No default}
 
 \defSub{tolerance}{The total variance between the population and best candidate before acceptance}

@@ -1,0 +1,24 @@
+{
+    "InternalPDFViewer": {
+        "Embedded": true,
+        "File": "CASAL2_Length.pdf"
+    },
+    "Session": {
+        "Bookmarks": [
+        ],
+        "CurrentFile": "CASAL2_Age.tex",
+        "FileVersion": 1,
+        "Files": [
+            {
+                "Col": 0,
+                "EditorGroup": 0,
+                "FileName": "CASAL2_Age.tex",
+                "FirstLine": 0,
+                "FoldedLines": "",
+                "Line": 0
+            }
+        ],
+        "MasterFile": "",
+        "VerticalSplit": false
+    }
+}

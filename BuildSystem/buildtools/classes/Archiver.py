@@ -114,7 +114,9 @@ class Archiver:
     print("-- Binaries copied")
     subprocess.call('cp ../Documentation/UserManual/CASAL2_Age.pdf Casal2/Casal2_Age.pdf', shell=True)
     subprocess.call('cp ../Documentation/UserManual/CASAL2_Length.pdf Casal2/Casal2_Length.pdf', shell=True)
+    subprocess.call('cp ../Documentation/ContributorsGuide/ContributorsGuide.pdf Casal2/Casal2_Contributors_Guide.pdf', shell=True)
     subprocess.call('cp ../Documentation/UserManual/CASAL2.xml Casal2/CASAL2.xml', shell=True)
+    subprocess.call('cp ../Documentation/UserManual/CASAL2-dark.xml Casal2/CASAL2-dark.xml', shell=True)
     subprocess.call('cp ../Documentation/UserManual/Notepad++_syntax_highlighter.readme Casal2/Notepad++_syntax_highlighter.readme', shell=True)
     subprocess.call('cp ../Documentation/UserManual/CASAL2.syn Casal2/CASAL2.syn', shell=True)
     subprocess.call('cp ../Documentation/UserManual/TextPad_syntax_highlighter.readme Casal2/TextPad_syntax_highlighter.readme', shell=True)
@@ -127,11 +129,17 @@ class Archiver:
     subprocess.call('cp -r ../LICENSE Casal2/LICENSE', shell=True)
     print("-- license copied")
     ## deal with R libraries
-    subprocess.call('cp ../R-libraries/Casal2_' + Globals.Casal2_version_number + '.tar.gz Casal2/R-Libraries/Casal2.tar.gz', shell=True)
+    command1 = 'cp ../R-libraries/Casal2_' + Globals.Casal2_version_number + '* Casal2/R-Libraries/.'
+    command2 = 'cp ../../r4Casal2/r4Casal2_* Casal2/R-Libraries/.'
+    print("-- " + command1)
+    subprocess.call(command1, shell=True)
+    print("-- " + command2)
+    subprocess.call(command2, shell=True)
     print("-- R libraries copied")
 
     if Globals.operating_system_ == "windows":
-      subprocess.call("zip -r Casal2.zip CASAL2/*", shell=True)
+      subprocess.call("zip -r Casal2.zip Casal2/*", shell=True)
+      subprocess.call("mv Casal2.zip Casal2/.", shell=True)
     else:
       subprocess.call('tar cvf Casal2.tar Casal2/', shell=True)
       subprocess.call('gzip Casal2.tar', shell=True)

@@ -107,7 +107,6 @@
 \defType{String}
 \defDefault{No default}
 \else
-% Two column version
 \subsubsection{Report of type Growth Increment model}
 \commandlabsubarg{report}{type}{growth\_increment}.
 \defRef{sec:Report-GrowthIncrement}
@@ -125,9 +124,9 @@
 \defSub{growth\_increment}{The growth-increment label}
 \defType{String}
 \defDefault{No default}
-\fi % end if
+\fi
 
-
+\ifAgeBased
 \subsubsection{Report of type Ageing Error Matrix}
 \commandlabsubarg{report}{type}{Ageing\_Error\_Matrix}.
 \defRef{sec:Report-AgeingErrorMatrix}
@@ -136,6 +135,7 @@
 \defSub{ageing\_error}{The ageing error label}
 \defType{String}
 \defDefault{No default}
+\fi
 
 \subsubsection{Report of type Catchability}
 \commandlabsubarg{report}{type}{Catchability}.
@@ -221,19 +221,17 @@ The Estimation\_Result report has no additional subcommands.
 
 The Hessian\_Matrix report has no additional subcommands.
 
+\subsubsection{Report of type Initialisation}
+\commandlabsubarg{report}{type}{Initialisation}.
+\defRef{sec:Report-Initialisation}
+\label{syntax:Report-Initialisation}
+
+The Initialisation report has no additional subcommands.
+
 \subsubsection{Report of type Initialisation\_Partition}
 \commandlabsubarg{report}{type}{Initialisation\_Partition}.
 \defRef{sec:Report-InitialisationPartition}
 \label{syntax:Report-InitialisationPartition}
-
-The Initialisation\_Partition report has no additional subcommands.
-
-\subsubsection{Report of type Initialisation Partition Mean Weight}
-\commandlabsubarg{report}{type}{Initialisation\_Partition\_Mean\_Weight}.
-\defRef{sec:Report-InitialisationPartitionMeanWeight}
-\label{syntax:Report-InitialisationPartitionMeanWeight}
-
-The Initialisation\_Partition\_Mean\_Weight report has no additional subcommands.
 
 \subsubsection{Report of type MCMC Covariance}
 \commandlabsubarg{report}{type}{MCMC\_Covariance}.
@@ -320,7 +318,7 @@ The Output\_Parameters report has no additional subcommands.
 
 \subsubsection{Report of Parameter transformations}
 \commandlabsubarg{report}{type}{parameter\_transformation}.
-\defRef{sec:Report-ParameterTransformation}
+\defRef{sec:Report-ParameterTransformations}
 \label{syntax:Report-ParameterTransformation}
 
 \defSub{parameter\_transformation}{label of parameter transformation block}
@@ -417,7 +415,7 @@ The Random\_Number\_Seed type has no additional subcommands.
 \defSub{time\_step}{Time step label}
 \defType{String}
 \defDefault{No default}
-\defNote{This should not matter because time-varying is an annual construct so time-varied selectivity should not change between time steps. Needed to print the values.}
+\defNote{This should not matter, but is required in order to identify the time step for each year when values are printed.}
 
 \subsubsection{Report of type Simulated Observation}
 \commandlabsubarg{report}{type}{Simulated\_Observation}.

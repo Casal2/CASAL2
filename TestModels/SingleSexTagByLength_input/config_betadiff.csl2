@@ -1,0 +1,9 @@
+!include "population.csl2"
+!include "observations.csl2"
+!include "estimation.csl2"
+!include "report.csl2"
+
+@assert obj
+type objective_function
+value 1467.46
+tolerance 0.01

@@ -26,16 +26,17 @@
 \defSub{exclude\_processes}{The processes in the annual cycle to be excluded from this initialisation phase}
 \defType{Vector of strings that are process labels to exclude}
 
-
 \defSub{convergence\_years}{The iteration (year) when the test for convergence ($\lambda$) is evaluated}
 \defType{Vector of non-negative integers}
 \defDefault{true}
 
-\defSub{lambda}{The maximum value of the absolute sum of differences (lambda) between the partition at year-1 and year that indicates successful convergence}
+\defSub{lambda}{The maximum value of the proportional summed difference between the partition at year and year+1 that indicates successful convergence}
 \defType{Real number}
-\defDefault{0.0}
+\defDefault{1e-10}
 
-
+\defSub{plus\_group}{Indicates if the convergence check applies only to the plus\_group of the partition}
+\defType{boolean}
+\defDefault{false}
 
 \ifAgeBased
 \subsubsection{Initialisation Phase of type Cinitial}
@@ -66,7 +67,6 @@
 \defSub{exclude\_processes}{Specifies the processes in the annual cycle that should be excluded from this initialisation phase}
 \defType{Vector of strings}
 \defDefault{true}
-
 
 \subsubsection{Initialisation Phase of type State\_Category\_By\_Age}
 \commandlabsubarg{initialisation\_phase}{type}{State\_Category\_By\_Age}.

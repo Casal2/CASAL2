@@ -5,7 +5,7 @@
  * @date 27/01/2015
  * @section LICENSE
  *
- * Copyright NIWA Science ©2014 - www.niwa.co.nz
+ * Copyright NIWA Science ï¿½2014 - www.niwa.co.nz
  *
  * @section DESCRIPTION
  *
@@ -37,6 +37,8 @@ public:
   bool         IsTimeVaryingTarget(const string& label);
   TimeVarying* GetTimeVarying(const string& label);
   unsigned     GetTimeVaryingCount();
+  void         RestoreOriginalValue();
+
 
 protected:
   // methods

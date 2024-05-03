@@ -104,7 +104,7 @@ DeltaDiff applies the same minimiser as Numerical Differences, expect that it us
 
 \subsubsection{\I{The differential evolution minimiser}}\label{sec:Minimiser-DESolver}
 
-The differential evolution minimiser is a simple population-based, stochastic function minimizer, but is claimed to be quite powerful in solving minimisation problems. It is a method of mathematical optimization of multidimensional functions and belongs to the class of evolution strategy optimizers.
+The differential evolution minimiser (\argument{de\_solver}) is a simple population-based, stochastic function minimizer, but is claimed to be quite powerful in solving minimisation problems. It is a method of mathematical optimization of multidimensional functions and belongs to the class of evolution strategy optimizers.
 
 Initially, the procedure randomly generates and evaluates a number of solution vectors (the population size), each with $p$ parameters. Then, for each generation (iteration), the algorithm creates a candidate solution for each existing solution by random mutation and uniform crossover. The random mutation generates a new solution by multiplying the difference between two randomly selected solution vectors by some scale factor, then adding the result to a third vector. Then an element-wise crossover takes place with probability $P_{cr}$, to generate a potential candidate solution. If this is better than the initial solution vector, it replaces it, otherwise the original solution is retained. The algorithm terminates after either a predefined number of generations (\argument{max\_generations}) or when the maximum difference between the scaled individual parameters from the candidate solutions from all populations is less than some predefined amount \argument{tolerance}.
 
@@ -113,7 +113,7 @@ The differential evolution minimiser can be good at finding global minimums in s
 There is no proof of convergence for the differential evolution solver, but several papers have found it to be an efficient method of solving multidimensional problems. Some results suggest that it can often find a better minima and may be faster or longer (depending on the actual model specification) at finding a solution when compared with the numerical differences minimiser. Comparisons with automatic differentiation minimisers or other more sophisticated algorithms have not been made.
 
 {\small{\begin{verbatim}
-		@minimiser DE_solver
+		@minimiser DESolver
 		type de_solver
 		tolerance 1e-6
 		iterations 2500
@@ -212,7 +212,7 @@ To run a \CNAME\ you will need to supply the following reports
 
 \subsection{\I{Bayesian estimation}}\label{sec:MCMC}\label{sec:MCMC-RandomWalkMetropolisHastings}
 
-\CNAME\ can use \I{Markov chain Monte Carlo (MCMC)}\index{MCMC} functionality to generate a sample from the posterior distribution of the estimated parameters with command \texttt{\cname\ -m} and output the sampled values to a file, optionally keeping only every $n$th set of values.
+\CNAME\ can use \I{Markov chain Monte Carlo (MCMC)}\index{MCMC} functionality to generate a sample from the posterior distribution of the estimated parameters with command \texttt{\cname\ -m} or \texttt{\cname\ -M MPD\_file} and output the sampled values, optionally keeping only every $n$th set of values.
 
 As \CNAME\ has no post-processing capabilities. \CNAME\ cannot produce MCMC convergence diagnostics. To calculate these diagnostics, use a package such as \href{http://www.public-health.uiowa.edu/boa}{BOA}, plot/summarize the posterior distributions of the output quantities, and/or use a general-purpose statistical package such as \href{http://www.r-project.org}{\R}.
 
@@ -220,7 +220,7 @@ Bayesian methodology\index{Bayesian estimation} and MCMC are both large and comp
 
 This section briefly describes the MCMC algorithms used in \CNAME. See Section \ref{syntax:MCMC} for the \CNAME\ commands used in an MCMC Bayesian analysis.
 
-\CNAME\ implements two methods for MCMC. The first is a straightforward implementation of the random walk Metropolis-Hastings algorithm \citep{823,143}. The Metropolis-Hastings algorithm attempts to draw a sample from a Bayesian posterior distribution, and calculates the posterior density $\pi$, scaled by an unknown constant. The algorithm generates a 'chain' or sequence of values. Typically the beginning of the chain is discarded (the burn-in period) and every $N$th element of the remainder is taken as the posterior sample. The second is Hamiltonian Monte Carlo. This uses similar subcommands as the random walk Metropolis-Hastings algorithm. In both cases, the chain is produced by taking an initial point $x_0$ and repeatedly applying the following rule, where $x_i$ is the current point:
+\CNAME\ implements two methods for MCMC. The first is a straightforward implementation of the random walk Metropolis-Hastings algorithm\index{MCMC: Metopolis-Hastings} \citep{823,143}. The Metropolis-Hastings algorithm attempts to draw a sample from a Bayesian posterior distribution, and calculates the posterior density $\pi$, scaled by an unknown constant. The algorithm generates a 'chain' or sequence of values. Typically the beginning of the chain is discarded (the burn-in period) and every $N$th element of the remainder is taken as the posterior sample. The second is Hamiltonian Monte Carlo. This uses similar subcommands as the random walk Metropolis-Hastings algorithm. In both cases, the chain is produced by taking an initial point $x_0$ and repeatedly applying the following rule, where $x_i$ is the current point:
 
 \begin{enumerate}
 \item Draw a candidate step s from a proposal distribution J, which should be symmetric i.e., $J(-s)=J(s)$
@@ -228,19 +228,15 @@ This section briefly describes the MCMC algorithms used in \CNAME. See Section \
 \item Let $x_{i+1}=x_i+s$ with probability $r$, or $x_i$ with probability $1-r$
 \end{enumerate}
 
-An initial point estimate is produced before the chain starts, which is done so as to calculate the approximate covariance matrix of the estimated parameters (as the inverse Hessian), and may also be used as the starting point of the chain.
+An initial point estimate is produced before the chain starts (although can alternatively be supplied from a previous estimation run), which is done so as to calculate the approximate covariance matrix of the estimated parameters (as the inverse Hessian), and may also be used as the starting point of the chain.
 
 The starting point of the point estimate minimiser can be specified using the command \texttt{\cname\ -i}. Don't start it too close to the actual estimate (either by using \texttt{\cname\ -i}, or by changing the initial parameter values in \config) as it takes a few iterations to determine a reasonable approximation to the Hessian.
 
-There are currently two options for the starting point of the MCMC:
+There are currently three options for the starting point of the MCMC. It can be from either the MPD, an estimate supplied in a \texttt{-i} file, or from a random 'jump' from the point estimate. In the later case, it is generated from a multivariate normal distribution, centred on the start point, with covariance equal to the inverse Hessian multiplied by a user-specified constant (using the subcommand \subcommand{start}). This may be useful if the chain gets `stuck' at the point estimate, or if you wish to generate multiple chains from for later MCMC diagnostic tests. 
 
-\begin{itemize}
-\item Start from the point estimate; or
-%\item Start from a random point near the point estimate (the point is generated from a multivariate normal distribution, centred on the point estimate, with covariance equal to the inverse Hessian multiplied by a user-specified constant). This may be useful if the chain gets `stuck' at the point estimate, or if you wish to generate multiple chains from  for later MCMC diagnostic tests.
-\item Restart a chain given a covariance matrix and a previous starting point.
-\end{itemize}
+Note that if a number of parameters are at bounds at the start point, then a random jump from this point may fail to find a suitable candidate that is within bounds. A total of 10~000 attempts are made before the algorithm exits with an error. The subcommand  {\subcommand{adjust\_parameters\_at\_bounds}} can be used to identify these parameters and set their start point at a random uniformly generated point between the lower and upper bounds.
 
-The chain moves in natural space, i.e., no transformations are applied to the estimated parameters. The default proposal distribution is a multivariate Student's $t$ distribution centred on the current point, with covariance matrix equal to a matrix based on the approximate covariance produced by the minimiser, multiplied by a step size factor.
+The chain moves in natural space, i.e., no transformations are applied to the estimated parameters. The default proposal distribution is a either  a multivariate normal or a multivariate Student's $t$ distribution centred on the current point, with covariance matrix equal to a matrix based on the approximate covariance produced by the minimiser, multiplied by a step size factor.
 
 The following steps define how the initial covariance matrix of the proposal distribution is calculated:
 
@@ -304,7 +300,7 @@ where \texttt{Objective\_file\_name} is the file name for the objective function
 
 The posterior sample can be used for (projections (Section \ref{sec:Project})) or simulations (see Section \ref{sec:Simulate}) with the values supplied with the command \texttt{\cname\ -i \emph{file} --t}.
 
-A multivariate Student's $t$ distribution is used as an alternative to the multivariate normal proposal distribution. If you request multivariate Student's $t$ proposals, change the degrees of freedom from the default of 4. As the degrees of freedom decreases, the $t$ distribution becomes more heavy tailed. This may lead to better convergence properties. Note the default is the multivariate Student's $t$.
+A multivariate Student's $t$ distribution can be used as an alternative to the multivariate normal proposal distribution. If you request multivariate Student's $t$ proposals, you can change the degrees of freedom from the default of 4. As the degrees of freedom decreases, the $t$ distribution becomes more heavy tailed. This may lead to better convergence properties. Note the default is the multivariate Student's $t$.
 
 Given a posterior (sub)sample, \CNAME\ can calculate a list of output quantities for each sample point (see Section~\ref{sec:Report} specifically tabular report). These quantities can be output to a file (with the command \texttt{\cname\ -r --tabular}) and read into an external software package where the posterior distributions can be plotted and/or summarised.
 
@@ -457,20 +453,27 @@ Penalty = (log(X_1) - log(X_2))^2
 
 where, for example, $X_1$ is observed catch biomass and $X_2$ is the estimated catch biomass. Penalties are usually applied in situations when numbers or weight are known. Another example is for tagging, where the number of individuals that were tagged in a given year is known, so a penalty can be used to restrict the model to estimate reasonable values for the numbers of tagged individuals in that year.
 
-\subsection{Additional Priors\label{sec:AdditionalPriors}}
+\subsection{Additional priors\label{sec:AdditionalPriors}}
 
 Additional priors can be thought of as the inverse of penalties \TODO{please rephrase}. For CASAL models, most of the legacy \command{penalty} blocks have now been implemented as \command{additional\_prior} blocks. They restrict parameters in user-defined spaces \TODO{please rephrase}.
 
 The types of additional priors available in \CNAME\ are \texttt{vector\_smoothing}, \texttt{vector\_averaging}, \texttt{uniform\_log}, \texttt{lognormal}, \texttt{element\_difference}, and \texttt{Beta}:
 
 \begin{itemize}
-	\item \texttt{vector\_average}\label{sec:AdditionalPrior-VectorAverage}
+	\item \texttt{vector\_smoothing}\label{sec:AdditionalPrior-VectorSmoothing}
 
 	This prior can be applied to a vector parameter. Sum of squares of $r^{th}$ differences, optionally on a log scale. This encourages the vector to be like a polynomial of degree $(r-1)$. A range of the vector to be "smoothed" can be specified (and if not, the smoother is applied to the entire vector). However, this restriction must be specified by an index of the vector and must be between 1 and the length of the vector, inclusive.
 
-	\item \texttt{vector\_smoothing}\label{sec:AdditionalPrior-VectorSmoothing}
+	\item \texttt{vector\_average}\label{sec:AdditionalPrior-VectorAverage}
 
-	This prior can be applied to a vector parameter. Square of (mean(vector)-k), or of (mean(log(vector))-l), or of (log(mean(vector)/m)). Restricts the vector to average arithmetically to k or m, or geometrically to exp(l). Typically used for YCS with k=1 or m=1 or l=0, to restrict the YCS to centre on 1. Optionally, indices can be chosen or excluded outside a given set of bounds.
+	This prior can be applied to a vector parameter, $v$, with the value of the prior $P$ being one of three options: 
+	\begin{enumerate} 
+		\item $P=(\text{mean}(v)-k)^2$, e.g., using \commandlabsubarg{vector\_average}{method}{k}, or
+		\item $P=\text{mean}(log(v))-k$, e.g., using \commandlabsubarg{vector\_average}{method}{l}, or
+		\item $P=log(\text{mean}(v)/k)$, e.g., using \commandlabsubarg{vector\_average}{method}{m}. 
+	\end{enumerate}
+
+	The vector\_average additional prior restricts the vector to average arithmetically with \subcommand{method=k} or \subcommand{method=m}, or geometrically to $exp(k)$ when \subcommand{method=m}. Typically used with $k=1$ with \subcommand{method=k} or \subcommand{method=l}, or $k=0$ with \subcommand{method=m}, to restrict the recruitment\_multipliers to centre on $1$. Optionally, indices can be chosen or excluded outside a given set of bounds.
 
 	\item\texttt{lognormal} with mean $\mu$ and c.v. $c$\label{sec:AdditionalPrior-LogNormal}
 
@@ -533,7 +536,7 @@ There are a range of parameters and derived values that additional priors can be
 
 This list may be useful for users who are trying to apply the equivalent CASAL penalties in a \CNAME\ model.
 
-\subsection{\I{Parameter Transformations}\label{sec:Transformation}}
+\subsection{\I{Parameter transformations}\label{sec:Transformation}}
 \CNAME\ has multiple methods to transform a parameter into a different \enquote{space}. Transformations are implemented to try and achieve \enquote{better} model optimisation. Complex population models can have highly correlated parameters so transforming them is a method of addressing confounded parameters, and \enquote{help} the minimisers find a \enquote{global} solution faster. To read more about transformations and get a better understanding of why they are used, see \cite{gilks1995markov}, specifically chapter 6.
 
 
@@ -556,12 +559,14 @@ The available parameter transformations are,
 \begin{enumerate}
 	\item log (Univariate transformation) Section~\ref{subsec:Transformation-types} - \ref{sec:Transformation-Log}
 	\item inverse (Univariate transformation) Section~\ref{subsec:Transformation-types} - \ref{sec:Transformation-Inverse}
+	\item difference (Bivariate transformation) Section~\ref{subsec:Transformation-types} - \ref{sec:Transformation-Difference}
 	\item average difference (Bivariate transformation) Section~\ref{subsec:Transformation-types} - \ref{sec:Transformation-AverageDifference}
 	\item log sum (Bivariate transformation) Section~\ref{subsec:Transformation-types} - \ref{sec:Transformation-LogSum}	
 	\item Orthogonal (Bivariate transformation) Section~\ref{subsec:Transformation-types} - \ref{sec:Transformation-Orthogonal}
 	\item Logistic (Univariate transformation) Section~\ref{subsec:Transformation-types} - \ref{sec:Transformation-Logistic}
 	\item Sum to one (Bivariate transformation) Section~\ref{subsec:Transformation-types} - \ref{sec:Transformation-SumToOne}
 	\item Simplex (Multivariate transformation) Section~\ref{subsec:Transformation-types} - \ref{sec:Transformation-Simplex}	
+	\item Square root (Univariate transformation) Section~\ref{subsec:Transformation-types} - \ref{sec:Transformation-Sqrt}	
 \end{enumerate}
 
 To see the parameters that can be used in \command{estimate} block for each estimable transformation see the \subcommand{estimable parameter} description in Section~\ref{subsec:Transformation-types}.
@@ -591,7 +596,7 @@ In equation~\ref{eq:jacobian} the term $p_X(f^{-1}(y)) = p_X(X)$ and in a Bayesi
 \subsubsection{Transformation types}\label{subsec:Transformation-types}
 \begin{enumerate}
 \item \subcommand{type} \subcommand{log} : natural logarithm transformation\\
-\subcommand{jacobian known = true}\\
+\subcommand{Jacobian defined = true}\\
 \subcommand{estimable parameter = log\_parameter}\\
 $Y = log(X)$\\
 $f() = log()$\\
@@ -612,9 +617,8 @@ lower_bound 1
 upper_bound 25
 \end{verbatim}}}
 
-
 \item \subcommand{inverse}\\
-\subcommand{jacobian known = true}\\
+\subcommand{Jacobian defined = true}\\
 \subcommand{estimable parameter = inverse\_parameter}\\
 $Y = X^{-1}$
 \[
@@ -633,16 +637,37 @@ log \begin{vmatrix} \frac{\partial}{\partial y} \frac{1}{y} \end{vmatrix} = log 
 		upper_bound 1
 		\end{verbatim}}}
 	
+\item \subcommand{difference} : two parameters $X_1$ and $X_2$ are transformed to $X_1$ and $X_1 - d$, where $d$ is the difference between the original parameters.\\
+\subcommand{Jacobian defined = true}\\
+\subcommand{estimable parameter = difference\_parameter}\\
+$Y_1 = X_1$\\
+$Y_2 = X_1 - d$\\
+Restore transformations\\
+$X_1 = Y_1$\\
+$X_2 = X_1 - d$\\
+\label{sec:Transformation-Difference}
+{\small{\begin{verbatim}
+			@parameter_transformation diff
+			type difference
+			parameters process[InstantMortality].m{male} process[InstantMortality].m{female}
+			difference_parameter 0.05
+			
+			@estimate diff_m
+			type uniform
+			parameter parameter_transformation[diff].difference_parameter
+			lower_bound -0.5
+			upper_bound 0.5		
+\end{verbatim}}}
+
 \item \subcommand{average\_difference} : two parameters $X_1$ and $X_2$ are transformed to $Y_1$ and $Y_2$, where $Y_1$ is the average of the original parameters and $Y_2$ is the difference between the mean and each parameter.\\
-\subcommand{jacobian known = false}\\
+\subcommand{Jacobian defined = false}\\
 \subcommand{estimable parameter = average\_parameter, difference\_parameter}\\
 $Y_1 = \frac{X_1 + X_2}{2}$\\
-$Y_2 =  (Y_1 - X_2)2 $\\
+$Y_2 =  (Y_1 - X_2)^2 $\\
 Restore transformations\\
 $X_1 = Y_1 + 0.5Y_2$\\
 $X_2 = X_1 - 0.5Y_2$\\
-$\begin{vmatrix} \frac{\partial}{\partial y} f^{-1}(y) \end{vmatrix}$ Hasn't been assessed (i.e it could exist) \TODO{?????}\\
-\label{sec:Transformation-AverageDifference}
+$\begin{vmatrix} \frac{\partial}{\partial y} f^{-1}(y) \end{vmatrix}$ Hasn't been assessed (i.e it could exist) \label{sec:Transformation-AverageDifference}
 {\small{\begin{verbatim}
 		@parameter_transformation avg_diff
 		type average_difference
@@ -662,7 +687,7 @@ $\begin{vmatrix} \frac{\partial}{\partial y} f^{-1}(y) \end{vmatrix}$ Hasn't bee
 \end{verbatim}}}
 	
 \item \subcommand{log\_sum} : two parameters $X_1$ and $X_2$ are transformed to $Y_1$ and $Y_2$, where $Y_1$ is the natural logarithm of the sum of $X_1$ and $X_2$. $Y_2$ describes the proportion of the sum with respect to $X_1$\\
-\subcommand{jacobian known = false}\\
+\subcommand{Jacobian defined = false}\\
 \subcommand{estimable parameter = log\_total\_parameter, total\_proportion\_parameter}\\
 $Y_1 = ln(X_1 + X_2)$\\
 $Y_2 = X_1 / (X_1 + X_2)$\\
@@ -690,7 +715,7 @@ $\begin{vmatrix} \frac{\partial}{\partial y} f^{-1}(y) \end{vmatrix}$ Hasn't bee
 		\end{verbatim}}}
 	
 \item \subcommand{orthogonal} : two parameters $X_1$ and $X_2$ are transformed to $Y_1$ and $Y_2$, where $Y_1$ is the multiplication of $X_1$ and $X_2$. $Y_2$ is the division of $X_1$ and $X_2$\\
-\subcommand{jacobian defined = true}\\
+\subcommand{Jacobian defined = true}\\
 \subcommand{estimable parameter = product\_parameter, quotient\_parameter}\\
 $Y_1 = X_1 X_2$\\
 $Y_2 = X_1 / X_2$\\
@@ -719,7 +744,7 @@ $\begin{vmatrix} \frac{\partial}{\partial y} f^{-1}(y) \end{vmatrix} = 2Y_2$\\\\
 \end{verbatim}}}
 
 \item \subcommand{type} \subcommand{logistic} : logistic transformation\\
-\subcommand{jacobian known = true}\\
+\subcommand{Jacobian defined = true}\\
 \subcommand{estimable parameter = logistic\_parameter}\\
 $Y = logit(\frac{X - lb}{ub - lb})$\\
 $f^{-1}() = lb +(ub - lb)  logit^{-1}()$
@@ -742,7 +767,7 @@ $f^{-1}() = lb +(ub - lb)  logit^{-1}()$
 		\end{verbatim}}}
 	
 \item \subcommand{SumToOne} : given two parameters $X_1$ and $X_2$ that have the constraint $\sum_{i = 1}^2X_i$, estimate $X_1$ only given $X_2 = 1 - X_1$\\
-\subcommand{jacobian defined = false}\\
+\subcommand{Jacobian defined = false}\\
 \label{sec:Transformation-SumToOne}
 {\small{\begin{verbatim}
 			@parameter_transformation total_r0
@@ -763,9 +788,9 @@ $f^{-1}() = lb +(ub - lb)  logit^{-1}()$
 \end{verbatim}}}
 
 % useful reference for the simplex https://mc-stan.org/docs/2_27/reference-manual/simplex-transform-section.html#fn15
-\item \subcommand{simplex} : given the vector of parameters $\boldmath{X} = (X_1, \dots, X_n)$ which either has the constraint $\sum_{i = 1}^n X_i = 1$ or $\sum_{i = 1}^n X_i = n$. Then the simplex is a suitable transformation. It translates to a new vector parameter \(\boldmath{Y} = (Y_1, \dots, Y_{n - 1})\) which has unconstrained parameter space i.e \(Y_i \in (-\infty, \infty)\). Note that the calculation of the Jacobian for the simplex is still experimental and may not be suitable in all circumstances.\\
+\item \subcommand{simplex} : given the vector of parameters $\mathbf{X} = (X_1, \dots, X_n)$ which either has the constraint $\sum_{i = 1}^n X_i = 1$ or $\sum_{i = 1}^n X_i = n$. Then the simplex is a suitable transformation. It translates to a new vector parameter \(\mathbf{Y} = (Y_1, \dots, Y_{n - 1})\) which has unconstrained parameter space i.e \(Y_i \in (-\infty, \infty)\). Note that the calculation of the Jacobian for the simplex is still experimental and may not be suitable in all circumstances.\\
 
-This transformation follows the implementation in stan, where an intermediate variable \(Z_i\) is used. The transformation going from $\boldmath{X}$ to $\boldmath{Y}$ follows\\
+This transformation follows the implementation in stan, where an intermediate variable \(Z_i\) is used. The transformation going from $\mathbf{X}$ to $\mathbf{Y}$ follows\\
 \[
 Z_i = \frac{X_i}{1 - \sum_{j = 1}^{i - 1}X_j}
 \]
@@ -773,7 +798,7 @@ and
 \[
 Y_i = logit(Z_i) - log\left(\frac{1}{n -i}\right)
 \]
-The inverse transformation going from $\boldmath{Y}$ to $\boldmath{X}$ follows
+The inverse transformation going from $\mathbf{Y}$ to $\mathbf{X}$ follows
 \[
 Z_i = logit^{-1}\left(Y_i +  log\left(\frac{1}{n -i}\right)\right)
 \]
@@ -782,11 +807,11 @@ and
 	X_i &= \left( \sum_{j = 1}^{i - 1}X_j\right)Z_i & \text{ for } i < n\\
 	X_n &= 1 - \sum_{i = 1}^{n - 1} X_i & \text{ for } i = n
 \end{align*}
-The jacobian for the density is evaluated as follows,
+The Jacobian for the density is evaluated as follows,
 \begin{align*}
 |det \ J| = \prod_{i = 1}^{n - 1} Z_i \left(1 - Z_i\right) \left(1 - \sum_{j = 1}^{i - 1}X_j\right)
 \end{align*}
-\subcommand{jacobian defined = true}\\
+\subcommand{Jacobian defined = true}\\
 \subcommand{estimable parameter = simplex}\\
 \label{sec:Transformation-Simplex}
 {\small{\begin{verbatim}
@@ -803,6 +828,29 @@ The jacobian for the density is evaluated as follows,
 		upper_bound 10
 
 		\end{verbatim}}}	
+	\item \subcommand{type} \subcommand{sqrt} : square root transformation\\
+	\subcommand{Jacobian defined = true}\\
+	\subcommand{estimable parameter = sqrt\_parameter}\\
+	$Y = sqrt(X)$\\
+	$f() = sqrt()$\\
+	$f^{-1}(x) = x * x$
+	\[
+	log \begin{vmatrix} \frac{\partial}{\partial y}  (y^2) \end{vmatrix} = sqrt \begin{vmatrix}  (y^2) \end{vmatrix} = sqrt(x)
+	\]
+	\label{sec:Transformation-Sqrt}
+	{\small{\begin{verbatim}
+				@parameter_transformation sqrt_R0
+				type sqrt
+				parameters process[Recruitment].r0
+				
+				@estimate sqrt_R0
+				type uniform
+				parameter parameter_transformation[sqrt_r0].sqrt_parameter
+				lower_bound 1
+				upper_bound 25
+	\end{verbatim}}}
+	
+	
 \end{enumerate}
 
 
@@ -815,23 +863,25 @@ If users want to force other parameters in the system to be the same as an estim
 		
 		@parameter_transformation avg_diff_spawn
 		type average_difference
-		parameters process[InstantMortality].m{male.spawn} process[InstantMortality].m{female.spawn}
+		parameters process[InstantMortality].m{male.spawn} 
+		           process[InstantMortality].m{female.spawn}
 		
 		@parameter_transformation avg_diff_non_spawn
 		type average_difference
-		parameters process[InstantMortality].m{male.nonspawn} process[InstantMortality].m{female.nonspawn}
+		parameters process[InstantMortality].m{male.nonspawn} 
+		           process[InstantMortality].m{female.nonspawn}
 		
 		@estimate avg_m
 		type uniform
 		parameter parameter_transformation[avg_diff_spawn].average_parameter
-		same  parameter_transformation[avg_diff_non_spawn].average_parameter
+		same parameter_transformation[avg_diff_non_spawn].average_parameter
 		lower_bound 0.01
 		upper_bound 1
 		
 		@estimate diff_m
 		type uniform
 		parameter parameter_transformation[avg_diff_spawn].difference_parameter
-		same  parameter_transformation[avg_diff_non_spawn].average_parameter
+		same parameter_transformation[avg_diff_non_spawn].average_parameter
 		lower_bound -0.5
 		upper_bound 0.5		
 \end{verbatim}}}

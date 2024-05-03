@@ -56,7 +56,7 @@ void Partition::DoBuild() {
   model_->Subscribe(State::kFinalise, this);  // Note this compares the partition at the end of the model run, i.e., the final state
 
   if (!model_->categories()->IsValid(category_label_))
-    LOG_FATAL_P(PARAM_CATEGORY) << " category " << category_label_ << " is not a valid category";
+    LOG_FATAL_P(PARAM_CATEGORY) << "category " << category_label_ << " is not a valid category";
 }
 
 /**

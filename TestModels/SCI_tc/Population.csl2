@@ -31,7 +31,7 @@ processes Instantaneous_Mortality tag_1996_3_male tag_1996_3_female
 #
 @categories 
 format tag.sex
-names untagged.male 1997_1.male 1996_2.male 1996_3.male untagged.female 1997_1.female 1996_2.female 1996_3.female
+names untagged.male t1997_1.male t1996_2.male t1996_3.male untagged.female t1997_1.female t1996_2.female t1996_3.female
 growth_increment male_growth*4 female_growth*4
 
 
@@ -128,7 +128,7 @@ categories *
 type tagging
 years 1996
 from untagged.male
-to 1996_2.male
+to t1996_2.male
 initial_mortality 0
 u_max 0.99
 selectivities [type=constant; c=1]
@@ -143,7 +143,7 @@ end_table
 type tagging
 years 1996
 from untagged.female
-to 1996_2.female
+to t1996_2.female
 initial_mortality 0
 u_max 0.99
 selectivities [type=constant; c=1]
@@ -158,7 +158,7 @@ end_table
 type tagging
 years 1996
 from untagged.male
-to 1996_3.male
+to t1996_3.male
 initial_mortality 0
 u_max 0.99
 selectivities [type=constant; c=1]
@@ -173,7 +173,7 @@ end_table
 type tagging
 years 1996
 from untagged.female
-to 1996_3.female
+to t1996_3.female
 initial_mortality 0
 u_max 0.99
 selectivities [type=constant; c=1]
@@ -189,7 +189,7 @@ end_table
 type tagging
 years 1997
 from untagged.male
-to 1997_1.male
+to t1997_1.male
 initial_mortality 0
 u_max 0.99
 selectivities [type=constant; c=1]
@@ -204,7 +204,7 @@ end_table
 type tagging
 years 1997
 from untagged.female
-to 1997_1.female
+to t1997_1.female
 initial_mortality 0
 u_max 0.99
 selectivities [type=constant; c=1]

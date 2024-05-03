@@ -262,9 +262,9 @@ void Abundance::CalculateScore() {
   LOG_FINEST() << "Calculating neglogLikelihood for observation = " << label_;
 
   if (model_->run_mode() == RunMode::kSimulation) {
-    // Check if we have a nusiance q or a free q
+    // Check if we have a nuisance q or a free q
     if (catchability_->type() == PARAM_NUISANCE) {
-      if(  calculate_nuisance_q_ ) {
+      if (calculate_nuisance_q_) {
         nuisance_catchability_->CalculateQ(comparisons_, likelihood_type_);
 
         // Log out the new q
@@ -286,7 +286,7 @@ void Abundance::CalculateScore() {
     /**
      * Convert the expected_values
      */
-    // Check if we have a nusiance q or a free q
+    // Check if we have a nuisance q or a free q
     if (catchability_->type() == PARAM_NUISANCE) {
       nuisance_catchability_->CalculateQ(comparisons_, likelihood_type_);
 

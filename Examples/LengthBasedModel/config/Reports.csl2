@@ -18,6 +18,9 @@ time_step Oct-Jan
 @report init_part
 type initialisation_partition
 
+@report init
+type initialisation
+
 @report obj
 type objective_function
 

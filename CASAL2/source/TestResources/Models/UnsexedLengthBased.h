@@ -22,7 +22,7 @@ namespace models {
  *
  */
 const std::string length_based_unsexed_basic =
-R"(
+    R"(
     @model
     type length
     start_year 1986 
@@ -71,6 +71,7 @@ R"(
     relative_m_by_length One
     time_step_proportions 1
     categories uni
+    time_step_proportions 1.0
 
     @process growth
     type growth

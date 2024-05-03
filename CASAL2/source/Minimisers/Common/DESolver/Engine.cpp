@@ -34,7 +34,7 @@ namespace math = niwa::utilities::math;
  *
  * @param vector_size The size of our vectors with candidate bounds
  * @param population_size The starting population size
- * @param tolerance The tolerance threshold before convergance
+ * @param tolerance The tolerance threshold before convergence
  */
 Engine::Engine(unsigned vector_size, unsigned population_size, double tolerance) {
   vector_size_     = vector_size;

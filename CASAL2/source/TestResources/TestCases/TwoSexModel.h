@@ -48,7 +48,6 @@ length_weight no_length_weight
 @length_weight no_length_weight
 type none
 
-
 @initialisation_phase iphase1
 years 200
 exclude_processes Fishing
@@ -79,6 +78,7 @@ type constant_rate
 categories *
 M 0.065 0.065 0.065 0.065
 relative_m_by_age One One One One
+time_step_proportions 1.0
 
 @mortality Fishing
 type event

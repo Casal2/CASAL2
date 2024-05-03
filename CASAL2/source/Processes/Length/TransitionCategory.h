@@ -58,6 +58,7 @@ private:
   map<unsigned, OrderedMap<string, Double>> proportions_by_year_; // n_years x n_categories
   // unsigned                   min_age_ = model_->min_age();
   vector<vector<Double>> abundance_to_move_categories_;
+  bool                       process_is_in_mortality_block_ = false;
 };
 
 } /* namespace length */

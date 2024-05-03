@@ -16,8 +16,8 @@
  * - Supports caching of values so they can be interpolated
  *
  */
-#ifndef SOURCE_PARTITION_AACCESSOR_H_
-#define SOURCE_PARTITION_AACCESSOR_H_
+#ifndef SOURCE_PARTITION_ACCESSOR_H_
+#define SOURCE_PARTITION_ACCESSOR_H_
 
 // headers
 #include <vector>
@@ -78,4 +78,4 @@ protected:
 
 }  // namespace partition
 }  // namespace niwa
-#endif /* SOURCE_PARTITION_AACCESSOR_H_ */
+#endif /* SOURCE_PARTITION_ACCESSOR_H_ */

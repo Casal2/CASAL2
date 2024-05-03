@@ -14,6 +14,7 @@
 
 #include <boost/lexical_cast.hpp>
 #include <boost/tokenizer.hpp>
+#include <iostream>
 
 #include "../AddressableTransformations/Manager.h"
 #include "../AgeLengths/Manager.h"
@@ -32,7 +33,6 @@
 #include "../TimeVarying/Manager.h"
 #include "../Utilities/String.h"
 #include "../Utilities/To.h"
-
 // namespaces
 namespace niwa {
 
@@ -77,12 +77,12 @@ bool Objects::VerifyAddressableForUse(const string& parameter_absolute_name, add
   }
 
   if (!object->HasAddressable(parameter)) {
-    error = parameter + " is not a valid addressable on " + type + "." + label;
+    error = parameter + " is not a valid addressable on " + type + "[" + label + "]";
     return false;
   }
 
   if (!object->HasAddressableUsage(parameter, usage)) {
-    error = parameter + " on " + type + "." + label + " cannot be used for this purpose due to usage restrictions";
+    error = parameter + " on " + type + "[" + label + "] cannot be used for this purpose due to usage restrictions";
     return false;
   }
   LOG_FINE() << "set addressable for parameter = " << parameter << " = " << usage;
@@ -91,7 +91,6 @@ bool Objects::VerifyAddressableForUse(const string& parameter_absolute_name, add
 
   return true;
 }
-
 
 /**
  * This method will locate an object and ask it if it is being used for usage
@@ -106,7 +105,7 @@ bool Objects::IsParameterUsedFor(const string& parameter_absolute_name, addressa
   string label     = "";
   string parameter = "";
   string index     = "";
-  string error            = "";
+  string error     = "";
 
   ostringstream str;
 
@@ -188,7 +187,7 @@ vector<Double*>* Objects::GetAddressables(const string& addressable_absolute_nam
 }
 
 /**
- * This method searchs the model for the specific addressable and
+ * This method searches the model for the specific addressable and
  * returns a pointer to it if it exists.
  *
  * @param parameter_absolute_name The absolute parameter name, e.g., 'process[recruitment].r0'
@@ -286,14 +285,14 @@ base::Object* Objects::FindObjectOrNull(const string& parameter_absolute_name) {
     result = model_->managers()->growth_increment()->GetGrowthIncrement(label);
 
   } else {
-    LOG_FATAL() << "Currently the type " << type << " is not registered for addressable finding, first please check you have spelt it correctly, if you are "
-                << "confident you have it may not be coded to find addressable, please add it the class to FindObject() "
-                << "in Model/Objects.cpp by contacting the development team";
+    if (type.substr(0, 1) == "@") {
+      LOG_FATAL() << "The specified type '" << type << "' was not found as a valid addressable parameter name. Did you forget to remove the '@' symbol?";
+    } else {
+      LOG_FATAL() << "The specified type '" << type << "' was not found as a valid addressable parameter name. Please check you have spelt it correctly";
+    }
   }
-
   return result;
 }
-
 /**
  * This method finds the object and returns an Object pointer to it.
  *
@@ -305,7 +304,7 @@ base::Object* Objects::FindObject(const string& parameter_absolute_name) {
 
   if (!result) {
     LOG_CODE_ERROR() << "Parameter absolute " << parameter_absolute_name << " was not found. "
-                     << "Please check that VerfiyAddressableForUse() was called prior to any model_.objects() methods";
+                     << "Please check that VerifyAddressableForUse() was called prior to any model_.objects() methods";
   }
 
   return result;
@@ -377,7 +376,7 @@ void Objects::ExplodeString(const string& parameter_absolute_name, string& type,
 
   if (token_list.size() == 1) {
     addressable = utilities::ToLowercase(token_list[0]);
-  } else if(token_list.size() == 2) {
+  } else if (token_list.size() == 2) {
     addressable = utilities::ToLowercase(token_list[0]);
     index       = token_list[1];
   }

@@ -40,8 +40,6 @@ VonBertalanffy::VonBertalanffy(shared_ptr<Model> model) : AgeLength(model) {
   parameters_.Bind<Double>(PARAM_LINF, &linf_, "The $L_{infinity}$ parameter", "")->set_lower_bound(0.0);
   parameters_.Bind<Double>(PARAM_K, &k_, "The $k$ parameter", "")->set_lower_bound(0.0);
   parameters_.Bind<Double>(PARAM_T0, &t0_, "The $t_0$ parameter", "");
-  //  parameters_.Bind<bool>(PARAM_BY_LENGTH, &by_length_, "Specifies if the linear interpolation of CV's is a linear function of mean length at age. Default is just by age", "",
-  //  true);
 
   RegisterAsAddressable(PARAM_LINF, &linf_);
   RegisterAsAddressable(PARAM_K, &k_);
@@ -57,22 +55,20 @@ void VonBertalanffy::DoBuild() {
   if (!length_weight_)
     LOG_ERROR_P(PARAM_LENGTH_WEIGHT) << "Length-weight label '" << length_weight_label_ << "' was not found";
 
-  // Cv by length are we estiamteing mean growth params
-  if((!IsAddressableUsedFor(PARAM_LINF, addressable::kEstimate) & !IsAddressableUsedFor(PARAM_K, addressable::kEstimate) & !IsAddressableUsedFor(PARAM_T0, addressable::kEstimate)) & 
-     (!IsAddressableUsedFor(PARAM_LINF, addressable::kInputRun) & !IsAddressableUsedFor(PARAM_K, addressable::kInputRun) & !IsAddressableUsedFor(PARAM_T0, addressable::kInputRun))) {
+  // Cv by length are we estimating mean growth params
+  if ((!IsAddressableUsedFor(PARAM_LINF, addressable::kEstimate) & !IsAddressableUsedFor(PARAM_K, addressable::kEstimate) & !IsAddressableUsedFor(PARAM_T0, addressable::kEstimate))
+      & (!IsAddressableUsedFor(PARAM_LINF, addressable::kInputRun) & !IsAddressableUsedFor(PARAM_K, addressable::kInputRun)
+         & !IsAddressableUsedFor(PARAM_T0, addressable::kInputRun))) {
     change_mean_length_params_ = false;
   }
 
   LOG_FINE() << "update CV in reset call = " << change_mean_length_params_;
 }
 
-
 /**
  * If time Varied we need to rebuild the cache
  */
 void VonBertalanffy::DoReset() {}
-
-
 
 /**
  * This is responsible for returning the correct mean length
@@ -83,10 +79,10 @@ Double VonBertalanffy::calculate_mean_length(unsigned year, unsigned time_step, 
   if ((-k_ * ((age + proportion) - t0_)) > 10)
     LOG_ERROR_P(PARAM_K) << "-k*(age-t0) is larger than 10. Please check the k and t0 parameters are sensible";
 
-  Double size = linf_ * (1 - exp(-k_ * ((age + proportion) - t0_))); //TODO could cache this exp call for all age and proportions
+  Double size = linf_ * (1 - exp(-k_ * ((age + proportion) - t0_)));  // TODO could cache this exp call for all age and proportions
   if (size < 0.0)
     return 0.0;
-  //LOG_FINEST() << "age " << age << " size = " << size;
+  // LOG_FINEST() << "age " << age << " size = " << size;
   return size;
 }
 } /* namespace agelengths */

@@ -142,9 +142,23 @@ void Manager::Build(shared_ptr<Model> model) {
 
   LOG_FINEST() << "objects_.size(): " << objects_.size();
   for (auto report : objects_) {
-    if ((RunMode::Type)(report->run_mode() & run_mode) == run_mode)
+    if ((RunMode::Type)(report->run_mode() & run_mode) == run_mode) {
       if (report->is_valid())
         report->Build(model);
+    } else {
+      // Some reports such as selectivity by year and partition.
+      // which are time-step specific reports only wanted to be executed 
+      // at the end of the estimation run. For this reason we 
+      // we flag as not being estimated for run mode 
+      if(report->type() == PARAM_SELECTIVITY_BY_YEAR) {
+        report->Build(model);
+      } else if (report->type() == PARAM_PARTITION) {
+        report->Build(model);
+      } else {
+        // invalid run-mode so flag report as not valid
+        report->set_is_valid(false);
+      }
+    }
   }
 
   // move any objects from the internal vector to the objects vector
@@ -170,6 +184,9 @@ void Manager::Build(shared_ptr<Model> model) {
   [[maybe_unused]] bool exists_simulation_report = false;  // during non-test modes
 
   for (auto report : objects_) {
+    if(!report->is_valid())
+      continue;
+
     if ((RunMode::Type)(report->run_mode() & RunMode::kInvalid) == RunMode::kInvalid)
       LOG_CODE_ERROR() << "Report: " << report->label() << " has not been properly configured to have a run mode";
 

@@ -74,7 +74,11 @@ void GammaDiff::Execute() {
   gammadiff::Engine clGammaDiff;
   clGammaDiff.optimise_finite_differences(call_back, start_values, lower_bounds, upper_bounds, status, max_iterations_, max_evaluations_, gradient_tolerance_, hessian_, 1,
                                           step_size_);
-
+  LOG_MEDIUM() << "start values now ";
+  for (unsigned j = 0; j < start_values.size(); ++j) {
+    LOG_MEDIUM() << " start value " << start_values[j];
+    estimated_values_.push_back(start_values[j]);
+  }
   // Note C.M
   // The convergence check is done at GammaDiff/Engine.cpp line 212
   // But the convergence_ gets + 2 at line 302.

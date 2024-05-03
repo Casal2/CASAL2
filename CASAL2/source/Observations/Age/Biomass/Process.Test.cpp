@@ -11,11 +11,12 @@
 #ifdef TESTMODE
 
 // Headers
+#include "Process.h"
+
 #include <iostream>
 
 #include "ObjectiveFunction/ObjectiveFunction.h"
 #include "Observations/Manager.h"
-#include "Process.h"
 #include "TestResources/TestFixtures/InternalEmptyModel.h"
 
 // Namespaces
@@ -81,7 +82,8 @@ standardise_years 1975:2001
 type constant_rate
 categories male female
 relative_m_by_age [type=constant; c=1] halfm.one
-m 0.10 0.10
+m 0.20 0.20
+time_step_proportions 0.5 0.5
 
 @mortality fishing
 type event_biomass

@@ -1,0 +1,41 @@
+@assert obj
+type objective_function
+value 682.978401796
+
+@report obj
+type objective_function
+
+@report default
+type default
+processes false
+observations false
+derived_quantities true
+selectivities false 
+
+/*
+@report partition_step1
+type partition
+time_step step1
+
+@report age_length_step1
+type age_length
+age_length age_size
+time_step step1
+
+@report age_length_step2
+type age_length
+age_length age_size
+time_step step2
+*/
+
+@report estimate_value
+type estimate_value
+
+@report multisel_sel
+type selectivity
+selectivity multi_eastFSel
+
+@report multisel_by_year
+type selectivity_by_year
+selectivity multi_eastFSel
+time_step step2

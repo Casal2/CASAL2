@@ -27,6 +27,7 @@ Exogenous::Exogenous(shared_ptr<Model> model) : TimeVarying(model) {
   parameters_.Bind<Double>(PARAM_EXOGENOUS_VARIABLE, &exogenous_, "The values of exogenous variable for each year", "");
 
   RegisterAsAddressable(PARAM_A, &a_);
+  RegisterAsAddressable(PARAM_EXOGENOUS_VARIABLE, &exogenous_);
 }
 
 /**
@@ -34,8 +35,7 @@ Exogenous::Exogenous(shared_ptr<Model> model) : TimeVarying(model) {
  */
 void Exogenous::DoValidate() {
   if (years_.size() != exogenous_.size())
-    LOG_ERROR_P(PARAM_YEARS) << " provided (" << years_.size() << ") does not match the number of values provided (" << exogenous_.size() << ")";
-
+    LOG_ERROR_P(PARAM_YEARS) << "provided (" << years_.size() << ") does not match the number of values provided (" << exogenous_.size() << ")";
 }
 
 /**
@@ -45,11 +45,10 @@ void Exogenous::DoValidate() {
 void Exogenous::DoBuild() {
   // Check that the parameter is of type scalar
   if (model_->objects().GetAddressableType(parameter_) != addressable::kSingle)
-    LOG_ERROR_P(PARAM_PARAMETER) << "Parameter must be a scalar. Other addressable types not supported";
+    LOG_ERROR_Q(PARAM_PARAMETER) << ": parameter '" << parameter_ << "'must be a scalar. Other addressable types not supported";
   // calculate mean;
   Double total = 0.0;
-  for (Double value : exogenous_) 
-    total += value;
+  for (Double value : exogenous_) total += value;
   mean_value_ = total / exogenous_.size();
   LOG_FINE() << "mean = " << mean_value_;
   // create values
@@ -63,11 +62,11 @@ void Exogenous::DoBuild() {
 void Exogenous::DoReset() {
   // Add this to the Reset so that if a, is estimated the model can actually update the model.
 
-  Double* value   = model_->objects().GetAddressable(parameter_);
+  Double* value = model_->objects().GetAddressable(parameter_);
   LOG_FINEST() << " Parameter value = " << (*value) << " a " << a_;
   for (unsigned year : years_) {
     parameter_by_year_[year] = (*value) + (a_ * (values_by_year_[year] - mean_value_));
-    LOG_FINEST( ) << " year = " << year << " " << values_by_year_[year] << " a_ " << a_ << " mean value = " << mean_value_ << " new param = " << parameter_by_year_[year];
+    LOG_FINEST() << " year = " << year << " " << values_by_year_[year] << " a_ " << a_ << " mean value = " << mean_value_ << " new param = " << parameter_by_year_[year];
   }
 }
 

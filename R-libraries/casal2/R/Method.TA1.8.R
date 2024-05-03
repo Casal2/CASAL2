@@ -9,7 +9,7 @@
 #' @param ylim The y-axis limits for the illustrative plot
 #' @param xlim The x-axis limits for the illustrative plot
 #'
-#' @return Outputs a mutiplier, w, so that N2y = w x N1y, where N1y and N2y are the stage-1 and stage-2 multinomial sample sizes for the data set in year y.
+#' @return Outputs a multiplier, w, so that N2y = w x N1y, where N1y and N2y are the stage-1 and stage-2 multinomial sample sizes for the data set in year y.
 #'
 #' @note Method TA1.8 is described in Appendix A of the following paper Francis, R.I.C.C. (2011). Data weighting in statistical fisheries stock assessment models.
 #' Canadian Journal of Fisheries and Aquatic Sciences 68: 1124-1138. (With corrections to the equation in Francis R.I.C.C. (2011) Corrigendum: Data weighting in statistical fisheries stock assessment models.
@@ -34,10 +34,10 @@ Method.TA1.8 <- function(model, observation_labels, plot.it = F, xlim = NULL, yl
     this_report <- get(observation_labels[i], model)
 
     if (all(names(this_report) != "type")) {
-      if(length(names(this_report)) != 1) {
+      if (length(names(this_report)) != 1) {
         stop("This function cannot parse multiple outputs in the same output file")
       } else {
-        this_report = this_report[[1]]
+        this_report <- this_report[[1]]
       }
     }
 
@@ -128,11 +128,13 @@ Method.TA1.8 <- function(model, observation_labels, plot.it = F, xlim = NULL, yl
     first_char <- regexpr("\\[", dimnames(Obs)[[2]], fixed = F, useBytes = F)
     second_char <- regexpr("]", dimnames(Obs)[[2]], fixed = F, useBytes = F)
     aa <- as.numeric(substr(dimnames(Obs)[[2]], start = first_char + 1, stop = second_char - 1))
-    ##aa <- as.numeric(strsplit(dimnames(Obs)[[2]],split = "\\["), nchar(dimnames(Obs)[[2]])))
-    My <- cbind(Obs = apply(Obs, 1, function(x) sum(aa * x)),
-                  Exp = apply(Exp, 1, function(x) sum(aa * x)))
+    ## aa <- as.numeric(strsplit(dimnames(Obs)[[2]],split = "\\["), nchar(dimnames(Obs)[[2]])))
+    My <- cbind(
+      Obs = apply(Obs, 1, function(x) sum(aa * x)),
+      Exp = apply(Exp, 1, function(x) sum(aa * x))
+    )
     Ry <- c(Ry, My[, "Obs"] - My[, "Exp"])
-    Sy <- c(Sy, sqrt(apply(Exp, 1, function(x) sum(x * aa ^ 2)) - My[, "Exp"] ^ 2))
+    Sy <- c(Sy, sqrt(apply(Exp, 1, function(x) sum(x * aa^2)) - My[, "Exp"]^2))
   }
 
   wj <- 1 / var(Ry * sqrt(Nassumed) / Sy, na.rm = T)

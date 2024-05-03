@@ -10,12 +10,13 @@
 #ifdef TESTMODE
 
 // Headers
+#include "TimeStep.h"
+
 #include <iostream>
 
 #include "ObjectiveFunction/ObjectiveFunction.h"
 #include "Observations/Manager.h"
 #include "TestResources/TestFixtures/InternalEmptyModel.h"
-#include "TimeStep.h"
 
 // Namespaces
 namespace niwa {
@@ -81,6 +82,7 @@ type constant_rate
 categories male female
 relative_m_by_age [type=constant; c=1] halfm.one
 m 0.10 0.10
+time_step_proportions 1.0
 
 @mortality fishing
 type event_biomass
