@@ -32,7 +32,7 @@ public:
   explicit Constant(shared_ptr<Model> model);
   virtual ~Constant() = default;
   void   DoValidate() override final;
-  Double GetAgeResult(unsigned age, AgeLength* age_length) override final;
+  Double GetAgeResult(unsigned age, AgeLength* age_length) override;
   Double GetLengthResult(unsigned length_bin) override final;
 
   Double get_value(Double value) override final;

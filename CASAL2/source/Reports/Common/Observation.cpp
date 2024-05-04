@@ -112,7 +112,7 @@ void Observation::DoExecute(shared_ptr<Model> model) {
     LOG_FINEST() << "calculating Pearsons residuals for observation " << label_ << " with likelihood type " << observation_->likelihood();
     // reporting pearsons residuals
     cache_ << "year category age length observed expected residual error_value process_error adjusted_error neglogLike pearsons_residuals" << REPORT_EOL;
-    Double resid;
+    Double resid = 0.0;
     for (auto iter = comparisons.begin(); iter != comparisons.end(); ++iter) {
       for (obs::Comparison comparison : iter->second) {
         if (observation_->likelihood() == PARAM_BINOMIAL) {
@@ -142,7 +142,7 @@ void Observation::DoExecute(shared_ptr<Model> model) {
     LOG_FINEST() << "calculating normalised residuals for observation " << label_ << " with likelihood type " << observation_->likelihood();
     // reporting normalised residuals
     cache_ << "year category age length observed expected residual error_value process_error adjusted_error neglogLike normalised_residuals\n";
-    Double resid;
+    Double resid = 0.0;
     for (auto iter = comparisons.begin(); iter != comparisons.end(); ++iter) {
       for (obs::Comparison comparison : iter->second) {
         if (observation_->likelihood() == PARAM_LOGNORMAL) {
@@ -163,7 +163,7 @@ void Observation::DoExecute(shared_ptr<Model> model) {
   } else if (normalised_resids_ && pearson_resids_) {
     LOG_FINEST() << "calculating normalised and Pearsons residuals for observation " << label_ << " with likelihood type " << observation_->likelihood();
     // report both normalised residuals and pearsons residuals
-    Double pearson_resid, normalised_resid;
+    Double pearson_resid = 0.0, normalised_resid = 0.0;
     cache_ << "year category age length observed expected residual error_value process_error adjusted_error neglogLike pearsons_residuals normalised_residuals\n";
     for (auto iter = comparisons.begin(); iter != comparisons.end(); ++iter) {
       for (obs::Comparison comparison : iter->second) {
@@ -371,7 +371,7 @@ void Observation::DoExecuteTabular(shared_ptr<Model> model) {
 
   if (pearson_resids_) {
     // Generate labels for the pearsons resids
-    Double resid;
+    Double resid = 0.0;
     for (auto iter = comparisons.begin(); iter != comparisons.end(); ++iter) {
       for (obs::Comparison comparison : iter->second) {
         if (observation_->likelihood() == PARAM_BINOMIAL) {
@@ -398,7 +398,7 @@ void Observation::DoExecuteTabular(shared_ptr<Model> model) {
 
   if (normalised_resids_) {
     // Generate labels for the normalised resids
-    Double resid;
+    Double resid = 0.0;
     for (auto iter = comparisons.begin(); iter != comparisons.end(); ++iter) {
       for (obs::Comparison comparison : iter->second) {
         if (observation_->likelihood() == PARAM_LOGNORMAL) {

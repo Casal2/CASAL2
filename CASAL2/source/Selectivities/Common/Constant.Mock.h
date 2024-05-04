@@ -26,7 +26,7 @@ class MockConstant : public selectivities::Constant {
 public:
   MockConstant(shared_ptr<Model> model) : selectivities::Constant(model) {}
   virtual ~MockConstant() = default;
-  MOCK_CONST_METHOD2(GetAgeResult, double(unsigned age, AgeLength* age_length));
+  MOCK_METHOD2(GetAgeResult, double(unsigned age, AgeLength* age_length));
 };
 
 } /* namespace selectivities */
