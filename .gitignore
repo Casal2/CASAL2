@@ -46,6 +46,7 @@ BuildSystem/*.log
 BuildSystem/CMakeCache.txt
 BuildSystem/Casal2
 CASAL2/Build
+build
 R-libraries/Version.R
 CASAL2/.settings
 TestModels/ORH3B/sim/*
@@ -269,4 +270,4 @@ TestModels/SBW/estimate_adolc.err
 TestModels/mcmc_start_mpd_mcmc_fixed/samples.2
 TestModels/mcmc_start_mpd_mcmc_fixed/objectives.2
 Documentation/ContributorsGuide/ContributorsGuide.synctex.gz
-CASAL2/source/Projects/Project.h
+
