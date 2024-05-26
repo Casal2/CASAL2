@@ -5,7 +5,7 @@ on:
       - master # age_length_redesign_202109
 jobs: 
  Compile-Casal2-Setup:
-    runs-on: windows-2019
+    runs-on: windows-2022
     timeout-minutes: 180
     steps:
       - uses: actions/checkout@v2
@@ -84,6 +84,9 @@ jobs:
 
       - name: Run Windows model runner
         continue-on-error: false
+        run: |
+          cd BuildSystem
+          ./doBuild.bat modelrunner
 
       - name: Build installer iss file
         run: |
