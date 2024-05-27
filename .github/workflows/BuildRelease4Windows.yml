@@ -16,7 +16,7 @@ jobs:
       - name: Checkout r4Casal2
         uses: actions/checkout@v2
         with:
-          repository: NIWAFisheriesModelliner/r4Casal2
+          repository: NIWAFisheriesModelling/r4Casal2
           path: r4Casal2
 
       - uses: actions/setup-python@v2.2.2
