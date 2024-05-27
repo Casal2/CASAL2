@@ -8,7 +8,16 @@ jobs:
     runs-on: windows-2022
     timeout-minutes: 180
     steps:
-      - uses: actions/checkout@v2
+      - name: Checkout Casal2
+        uses: actions/checkout@v2
+        with:
+          path: casal2
+
+      - name: Checkout r4Casal2
+        uses: actions/checkout@v2
+        with:
+          repository: NIWAFisheriesModelliner/r4Casal2
+          path: r4Casal2
 
       - uses: actions/setup-python@v2.2.2
         with:
