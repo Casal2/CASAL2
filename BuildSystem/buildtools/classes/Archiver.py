@@ -130,7 +130,7 @@ class Archiver:
     print("-- license copied")
     ## deal with R libraries
     command1 = 'cp ../R-libraries/Casal2_' + Globals.Casal2_version_number + '* Casal2/R-Libraries/.'
-    command2 = 'cp ../../r4Casal2/r4Casal2_* Casal2/R-Libraries/.'
+    command2 = 'cp ../r4Casal2/r4Casal2_* Casal2/R-Libraries/.'
     print("-- " + command1)
     subprocess.call(command1, shell=True)
     print("-- " + command2)
