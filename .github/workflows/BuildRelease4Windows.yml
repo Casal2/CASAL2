@@ -10,8 +10,6 @@ jobs:
     steps:
       - name: Checkout Casal2
         uses: actions/checkout@v2
-        with:
-          path: casal2
 
       - name: Checkout r4Casal2
         uses: actions/checkout@v2
