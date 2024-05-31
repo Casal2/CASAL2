@@ -97,8 +97,8 @@
 [INFO] Convergence check value = 0.000229058. Convergence tolerance = 1e-06 objective score 684.287
 [INFO] Convergence check value = 0.000203522. Convergence tolerance = 1e-06 objective score 684.287
 [INFO] Convergence check value = 3.56098e-05. Convergence tolerance = 1e-06 objective score 684.287
-[INFO] Convergence check value = 9.86461e-06. Convergence tolerance = 1e-06 objective score 684.287
-[INFO] Convergence check value = 1.8376e-05. Convergence tolerance = 1e-06 objective score 684.287
+[INFO] Convergence check value = 9.8646e-06. Convergence tolerance = 1e-06 objective score 684.287
+[INFO] Convergence check value = 1.83759e-05. Convergence tolerance = 1e-06 objective score 684.287
 [INFO] Convergence check value = 7.70025e-06. Convergence tolerance = 1e-06 objective score 684.287
 [INFO] Convergence check value = 1.14829e-05. Convergence tolerance = 1e-06 objective score 684.287
 [INFO] Convergence check value = 3.52833e-06. Convergence tolerance = 1e-06 objective score 684.287
@@ -107,4 +107,5 @@
 [WARNING] estimated parameter 'process[Recruitment].recruitment_multipliers{2012}' with value 3 was within 0.001 of the upper bound of 3
 [INFO] Assert Passed: The Assert with label 'obj' for the Objective Function had value 684.287 and 684.287 was expected.
 [INFO] Completed
-[INFO] Total elapsed time: 2 seconds
+[INFO] Total CPU time: -53.8572 hours
+[INFO] Total elapsed time: 1 second

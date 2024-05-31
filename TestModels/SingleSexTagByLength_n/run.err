@@ -1,5 +1,5 @@
 
-[INFO] Setting the random number seed to 72969
+[INFO] Setting the random number seed to 18089
 [WARNING] in @process 2001Tags_shelf you have specified compatibility_option = casal this is not recommended unless you validating for backwards compatibility reasons
 [INFO] Estimable parameters were set from the free parameter file: pars.out
 [WARNING] At line 12 in observations.csl2 the table obs : The sum of the values for year 1999 was 1 and do not sum to 1.0
@@ -60,4 +60,5 @@
 [WARNING] At line 278 in population.csl2 the parameter 'compatibility_option' : Using the 'casal' compatibility option. Note this is provided for backwards compatibility with CASAL - the recommended compatibility option is 'casal2'
 [INFO] Assert Passed: The Assert with label 'obj' for the Objective Function had value 1482.97 and 1482.97 was expected.
 [INFO] Completed
+[INFO] Total CPU time: -3.90915e+08 hours
 [INFO] Total elapsed time: 1 seconds

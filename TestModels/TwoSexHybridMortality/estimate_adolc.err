@@ -139,4 +139,5 @@
 [WARNING] estimated parameter 'selectivity[chatTANSel_m].sigma_r' with value 200 was within 0.001 of the upper bound of 200
 [INFO] Assert Passed: The Assert with label 'obj' for the Objective Function had value 1782.95 and 1782.95 was expected.
 [INFO] Completed
-[INFO] Total elapsed time: 5 seconds
+[INFO] Total CPU time: -20.5968 hours
+[INFO] Total elapsed time: 6 seconds

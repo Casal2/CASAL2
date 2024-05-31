@@ -1,10 +1,12 @@
-Casal2 (https://github.com/alistairdunn1/CASAL2)
-Call: C:\Projects\Software\CASAL2\BuildSystem/Casal2/casal2.exe -e -g 20 -c config_betadiff.csl2 
-Date: Thu Aug 24 22:30:53 2023
+Environment: User=Casal2 (git@github.com:casal2/casal2)
+Call: /opt/casal2/casal2/BuildSystem/Casal2/casal2 -e -g 20 -c config_betadiff.csl2 
+Date: Sun May 26 22:13:44 2024
 Seed: 20
-Version: v23.08 (2023-08-24)
-Copyright (c) 2017-2023, NIWA (www.niwa.co.nz)
-Environment: User=alist Machine=QUIET-5950X OS=Windows_NT PID=14260
+Version: v24.05 (2024-05-26)
+Copyright (c) 2017-2024, NIWA (www.niwa.co.nz)
+root
+ Machine=thoth (Linux 6.8.8-1-default x86_64)
+ PID=24207
 
 
 *selectivity_by_year[multisel_by_year]

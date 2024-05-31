@@ -1,10 +1,12 @@
-Casal2 (https://github.com/alistairdunn1/CASAL2)
-Call: C:\Projects\Software\CASAL2\BuildSystem/Casal2/casal2.exe -f 100 -i free.dat -g 20 -c config_projections.csl2 -t 
-Date: Tue Sep 05 22:24:00 2023
+Environment: User=Casal2 (git@github.com:casal2/casal2)
+Call: /opt/casal2/casal2/BuildSystem/Casal2/casal2 -f 100 -i free.dat -g 20 -c config_projections.csl2 -t 
+Date: Sun May 26 22:19:32 2024
 Seed: 20
-Version: v23.09 (2023-09-05)
-Copyright (c) 2017-2023, NIWA (www.niwa.co.nz)
-Environment: User=alist Machine=QUIET-5950X OS=Windows_NT PID=29528
+Version: v24.05 (2024-05-26)
+Copyright (c) 2017-2024, NIWA (www.niwa.co.nz)
+root
+ Machine=thoth (Linux 6.8.8-1-default x86_64)
+ PID=24766
 
 
 *project[test_project]

@@ -43,7 +43,7 @@ Categories::Categories(shared_ptr<Model> model) : model_(model) {
   parameters_.Bind<string>(PARAM_NAMES, &names_, "The names of the categories", "");
   // Years commented out due to GitHub Issue: https://github.com/NIWAFisheriesModelling/CASAL2/issues/367
   // parameters_.Bind<string>(PARAM_YEARS, &years_, "The years that individual categories will be activated (if different from the model for these categories)", "", true);
-  parameters_.Bind<string>(PARAM_AGE_LENGTHS, &age_length_labels_, "The age-length relationship labels for each category", "")->set_partition_type(PartitionType::kAge);
+  parameters_.Bind<string>(PARAM_AGE_LENGTHS, &age_length_labels_, "The age-length relationship labels for each category", "", true)->set_partition_type(PartitionType::kAge);
   parameters_.Bind<string>(PARAM_GROWTH_INCREMENT, &growth_increment_labels_, "The growth increment model label for each category", "")->set_partition_type(PartitionType::kLength);
   // parameters_.Bind<string>(PARAM_AGE_WEIGHT, &age_weight_labels_, "The age-weight relationships labels for each category", "", true)->set_partition_type(PartitionType::kAge);
 }
@@ -89,7 +89,7 @@ void Categories::Validate() {
     }
     */
     // get the age sizes
-    if (age_length_labels_.size() != names_.size())
+    if (age_length_labels_.size() != 0 && age_length_labels_.size() != names_.size())
       LOG_ERROR_P(PARAM_AGE_LENGTHS) << " number of age-length labels (" << age_length_labels_.size() << " were specified) must be the same as the number of categories ("
                                      << names_.size() << ")";
 

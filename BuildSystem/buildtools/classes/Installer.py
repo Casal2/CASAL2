@@ -171,4 +171,5 @@ class Installer:
     if not os.path.exists("Casal2"):
       os.makedirs("Casal2")
     subprocess.call('"C:\\Program Files (x86)\\Inno Setup 6\\ISCC.exe" /OCasal2\\ config.iss', shell=True)
+    return True
 

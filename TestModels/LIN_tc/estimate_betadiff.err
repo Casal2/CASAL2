@@ -912,4 +912,5 @@ finished main minimiser loop
 Successful convergence in optimise
 [INFO] Assert Passed: The Assert with label 'ObjectiveFunction' for the Objective Function had value 2296.97 and 2296.97 was expected.
 [INFO] Completed
+[INFO] Total CPU time: -89.2414 hours
 [INFO] Total elapsed time: 2 seconds
