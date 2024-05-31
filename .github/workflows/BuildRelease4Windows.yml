@@ -20,11 +20,11 @@ jobs:
       - name: Build third-party library - adolc
         run: |
           pwd
-          ls -la
+          dir
           cd ..          
           pwd
-          ls -la
+          dir
           cd ..          
           pwd
-          ls -la
+          dir
                     
