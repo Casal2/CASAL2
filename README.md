@@ -1,6 +1,6 @@
 [![Casal2 Windows release build](https://github.com/NIWAFisheriesModelling/CASAL2/actions/workflows/BuildRelease4Windows.yml/badge.svg)](https://github.com/NIWAFisheriesModelling/CASAL2/actions/workflows/BuildRelease4Windows.yml) ![Validation Pass](https://github.com/NIWAFisheriesModelling/CASAL2/actions/workflows/Casal2_testsuite_modelrunner_archive.yml/badge.svg)
 
-[![Known Issues](https://snyk.io/test/github/casal2/casal2/badge.svg)]
+[![Known Issues](https://snyk.io/test/github/casal2/casal2/badge.svg)](https://snyk.io/test/github/casal2/casal2)
 
 Casal2
 ======
