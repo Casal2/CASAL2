@@ -102,7 +102,7 @@ class Documentation:
     ###########################################################################
     def load_translations(self):
         print('--> Loading translations')
-        file = fileinput.FileInput('../CASAL2/source/Translations/English_UK.h')
+        file = fileinput.FileInput('../CASAL2/source/Translations/English_UK.h', encoding="utf-8")
         if not file:
             return Globals.PrintError('Failed to open the English_UK.h for translation loading')
         for line in file:
