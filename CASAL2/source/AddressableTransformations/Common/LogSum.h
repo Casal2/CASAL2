@@ -5,7 +5,7 @@
  * @date Jul 8, 2017
  * @section LICENSE
  *
- * Copyright NIWA Science �2017 - www.niwa.co.nz
+ * Copyright Casal2 Project 2024 - https://github.com/Casal2/
  *
  * @section
  * This transformation takes two parameters (x1 and x2) and estimates y1 = log(x1 + x2) and p1 where x1 = exp(y1)*p1 and x2 = exp(y1)* (1 - p1)

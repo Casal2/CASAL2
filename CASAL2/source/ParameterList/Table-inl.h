@@ -5,7 +5,7 @@
  * @date 12/10/2018
  * @section LICENSE
  *
- * Copyright NIWA Science ©2018 - www.niwa.co.nz
+ * Copyright Casal2 Project 2024 - https://github.com/Casal2/ï¿½2018 - www.niwa.co.nz
  *
  */
 #ifndef SOURCE_PARAMETERLIST_TABLE_INL_H_

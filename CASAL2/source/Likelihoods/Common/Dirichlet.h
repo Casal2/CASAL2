@@ -2,7 +2,7 @@
 // Name        : Dirichlet.h
 // Author      : C.Marsh
 // Date        : 21/07/2015
-// Copyright   : Copyright NIWA Science ©2009 - www.niwa.co.nz
+// Copyright   : Copyright Casal2 Project 2024 - https://github.com/Casal2/ï¿½2009 - www.niwa.co.nz
 // Description :
 //============================================================================
 

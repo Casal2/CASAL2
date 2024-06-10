@@ -5,7 +5,7 @@
  * @date 8/10/2015
  * @section LICENSE
  *
- * Copyright NIWA Science 2017 - www.niwa.co.nz
+ * Copyright Casal2 Project 2024 - https://github.com/Casal2/
  *
  * @section This Observation is the at age maturation class, where users can give proportions mature at age to help estimate maturity ogives
  *

@@ -6,7 +6,7 @@
  * @date 2022
  * @section LICENSE
  *
- * Copyright NIWA Science 2022 - www.niwa.co.nz
+ * Copyright Casal2 Project 2024 - https://github.com/Casal2/
  *
  * $Date: 2008-03-04 16:33:32 +1300 (Tue, 04 Mar 2008) $
  */

@@ -6,7 +6,7 @@
  * @section LICENSE
  * @description
  * This class applies an exponential mortality rate to all partition members defined by the user.
- * Copyright NIWA Science �2017 - www.niwa.co.nz
+ * Copyright Casal2 Project 2024 - https://github.com/Casal2/
  *
  *
  */

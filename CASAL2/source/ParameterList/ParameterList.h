@@ -5,7 +5,7 @@
  * @date 20/02/2012
  * @section LICENSE
  *
- * Copyright NIWA Science �2011 - www.niwa.co.nz
+ * Copyright Casal2 Project 2024 - https://github.com/Casal2/
  *
  * @section DESCRIPTION
  *

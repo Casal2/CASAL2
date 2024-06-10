@@ -4,7 +4,7 @@
  * @date 14/01/2020
  * @section LICENSE
  *
- * Copyright Scott Rasmussen (Zaita) �2020 - https://www.zaita.com
+ * Copyright Scott Rasmussen (Zaita) (c)2020 - https://www.zaita.com
  *
  * @description
  * This class is a unified accessor for our partition. It has been designed to replace

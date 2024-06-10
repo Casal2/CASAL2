@@ -102,7 +102,7 @@ class Documentation:
     ###########################################################################
     def load_translations(self):
         print('--> Loading translations')
-        file = fileinput.FileInput('../CASAL2/source/Translations/English_UK.h', encoding="utf-8")
+        file = fileinput.FileInput('../CASAL2/source/Translations/English_UK.h')
         if not file:
             return Globals.PrintError('Failed to open the English_UK.h for translation loading')
         for line in file:
@@ -152,7 +152,7 @@ class ClassLoader:
                 # checks if it has children in Common, Age, or Length folders
                 file_list = os.listdir(casal2_src_folder + folder + '/')
                 for file in file_list:
-                    if file.startswith(folder[:-3]) and file.endswith('.h') and not file.endswith('-inl.h'):
+                    if file.startswith(folder[:-3]) and file.endswith('.h') and not file.endswith('-inl.h') and not file.endswith(".Mock.h"):
                         print('    Loading top-level parent class from file "' + file + '"')
                         parent_class_.name_ = file.replace('.h', '')
                         if not VariableLoader().Load('../CASAL2/source/' + folder + '/' + file, parent_class_):

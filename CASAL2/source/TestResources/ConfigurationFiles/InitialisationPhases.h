@@ -4,7 +4,7 @@
  * @date 30/08/2013
  * @section LICENSE
  *
- * Copyright NIWA Science ©2013 - www.niwa.co.nz
+ * Copyright Casal2 Project 2024 - https://github.com/Casal2/ï¿½2013 - www.niwa.co.nz
  *
  */
 #ifndef TESTFIXTURES_CONFIGURATION_INITIALISATIONPHASES_H_

@@ -5,7 +5,7 @@
  * @date 8/10/2015
  * @section LICENSE
  *
- * Copyright NIWA Science �2015 - www.niwa.co.nz
+ * Copyright Casal2 Project 2024 - https://github.com/Casal2/
  *
  * @section This Observation describes the Proportion change from each age class.
  *    This is usually associated with TransitionCategory processes (i.e Migration)

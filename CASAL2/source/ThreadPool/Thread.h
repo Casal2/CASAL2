@@ -4,7 +4,7 @@
  * @date 14/10/2019
  * @section LICENSE
  *
- * Copyright NIWA Science ©2019 - www.niwa.co.nz
+ * Copyright Casal2 Project 2024 - https://github.com/Casal2/ï¿½2019 - www.niwa.co.nz
  */
 #ifndef SOURCE_THREADPOOL_THREAD_H_
 #define SOURCE_THREADPOOL_THREAD_H_

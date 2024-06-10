@@ -2,7 +2,7 @@
 // Name        : DirichletMultinomial.h
 // Author      : C.Marsh
 // Date        : 11/05/22
-// Copyright   : Copyright NIWA Science 2020 - www.niwa.co.nz
+// Copyright   : Copyright Casal2 Project 2024 - https://github.com/Casal2/
 // Description :
 //============================================================================
 

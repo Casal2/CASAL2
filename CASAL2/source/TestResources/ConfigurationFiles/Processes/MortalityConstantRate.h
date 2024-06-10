@@ -4,7 +4,7 @@
  * @date 23/08/2013
  * @section LICENSE
  *
- * Copyright NIWA Science �2013 - www.niwa.co.nz
+ * Copyright Casal2 Project 2024 - https://github.com/Casal2/
  *
  */
 #ifndef TESTRESOURCES_CONFIGURATION_MORTALITY_CONSTANT_RATE_H_

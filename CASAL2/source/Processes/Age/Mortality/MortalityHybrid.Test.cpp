@@ -5,7 +5,7 @@
  * @date 2022
  * @section LICENSE
  *
- * Copyright NIWA Science 2022 - www.niwa.co.nz
+ * Copyright Casal2 Project 2024 - https://github.com/Casal2/
  * This test will run Casal2 -r
  * and compare SSBs derived. These SSBs were corroborated by SS equivalent model which is appended at the end of this file.
  * If re-running the SS models. Run them with "ss -stopph 0 -nohess > run.log" this is equivalent to -r in Casal2
