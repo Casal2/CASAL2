@@ -1,4 +1,5 @@
 [![Casal2 Windows release build](https://github.com/NIWAFisheriesModelling/CASAL2/actions/workflows/BuildRelease4Windows.yml/badge.svg)](https://github.com/NIWAFisheriesModelling/CASAL2/actions/workflows/BuildRelease4Windows.yml)
+
 ![Validation Pass](https://github.com/NIWAFisheriesModelling/CASAL2/actions/workflows/Casal2_testsuite_modelrunner_archive.yml/badge.svg)
 
 Casal2
@@ -10,12 +11,8 @@ This repository contains the required libraries and source code to compile and r
 
 ## Releases
 
-The most recent production version of Casal2 is available [here](https://github.com/NIWAFisheriesModelling/CASAL2/releases/tag/v22.08). The production version has been checked by comparing the 7 sets of Test Case MPD and MCMC results with CASAL and generating [Test Case reports](https://github.com/NIWAFisheriesModelling/Casal2-supporting-information/tree/main/TestCases/primary). We anticipate production versions being released once or twice a year, with validation of new key functionality and fixes.
+The most recent production version of Casal2 is available [here](https://github.com/Casal2/CASAL2/releases). 
 
-The most recent development version of Casal2 is available [here](https://github.com/NIWAFisheriesModelling/CASAL2/releases/tag/dev.2207). The development version may include updates to the Test Cases reports, and may not have undergone the same level of testing as the production versions. The development versions will made available more frequently than the production versions, as fixes and other updates are made between production releases.
+## Community
 
-## Auxiliary resources
-
-An R package that will help post processing Casal2 models can be found here [r4Casal2](https://github.com/NIWAFisheriesModelling/r4Casal2). It has a publicly hosted book [found here](https://niwafisheriesmodelling.github.io/r4Casal2/) which demonstrates functionality of the r4Casal2 R package.
-
-For more information about Casal2 contact the Casal2 Development Team at email:casal2@niwa.co.nz
+Casal2 has a dedicated Slack server available [here](https://join.slack.com/t/casal2workspace/shared_invite/zt-2ko29a60h-jJpdINxi4OSb~tVNe0nRrQ). You're free to join the Slack community and ask questions or provide feedback.
