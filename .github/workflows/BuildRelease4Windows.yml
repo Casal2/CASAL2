@@ -2,7 +2,7 @@ name: Casal2 build Windows install
 on:
   push:
     branches:
-      - master # age_length_redesign_202109
+      - xmaster # age_length_redesign_202109
 jobs: 
  Compile-Casal2-Setup:
     runs-on: windows-2022
