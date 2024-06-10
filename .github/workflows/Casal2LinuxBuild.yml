@@ -1,4 +1,4 @@
-name: Casal2 validate test suite
+name: Casal2 Linux Build
 on:
   push:
     branches:

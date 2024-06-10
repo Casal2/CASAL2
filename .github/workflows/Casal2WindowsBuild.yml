@@ -1,4 +1,4 @@
-name: Casal2 build Windows install
+name: Casal2 Windows Build
 on:
   push:
     branches:
