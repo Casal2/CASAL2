@@ -195,6 +195,66 @@ time_step step_two
 The following is the complete input configuration file.
 
 ```none
+@model
+start_year 1994
+final_year 2008
+min_age 1
+max_age 50
+age_plus t
+initialisation_phases iphase1
+time_steps step_one step_two
 
+@categories
+format stage.sex
+names immature.male mature.male immature.female mature.female
 
+@initialisation_phase iphase1
+years 200
+
+@time_step step_one
+processes recruitment maturation mortality
+
+@time_step step_two
+processes ageing
+
+@process recruitment
+type recruitment_constant
+r0 999999
+categories stage=immature
+proportions 0.5 0.5
+age 1
+
+@process maturation
+type transition_category
+from stage=immature
+to stage=mature
+proportions 1.0 1.0
+selectivities maturation_sel maturation_sel
+
+@process mortality
+type mortality_constant_rate
+categories *
+m 0.065 0.065 0.065 0.065
+relative_m_by_age One One One One
+time_step_proportions 1.0 
+
+@process ageing
+type ageing
+categories *
+
+@selectivity One
+type constant
+c 1
+
+@selectivity maturation_sel
+type logistic_producing
+L 5
+H 30
+a50 8
+ato95 3
+
+@report partition
+type partition
+years 2008
+time_step step_two
 ```
