@@ -40,15 +40,15 @@ class Version:
 		utc_time   = local_time.astimezone(pytz.utc)
 
 		temp1 = str(subprocess.check_output('git config --get remote.origin.url', shell = True))
-		Globals.Git_repos = temp1[2:][:-7]
+		print(f'temp1: {temp1}')
+		Globals.Git_repos = temp1[2:][:-3]
+		print(f'Git_repos: {Globals.Git_repos}')
 		temp2 = str(subprocess.check_output('git branch --show-current', shell = True))
 		temp2 = temp2[2:][:-3]
-		if temp2.lower() =="master" or temp2.lower() == "main":
-			temp2 = ""
-		else:
-			temp2 = ":" + temp2
+		temp2 = ":" + temp2
 		Globals.Git_repos = Globals.Git_repos + temp2
-
+		print(f'Git_repos: {Globals.Git_repos}')
+  
 		# Define version as YY.MM
 		Globals.Casal2_version_number = utc_time.strftime('%y') + "." + utc_time.strftime('%m')
 
