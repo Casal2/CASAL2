@@ -1,10 +1,14 @@
 # Writing Your First Model
-Below, we will cover writing your first complete model in Casal2. We will be writing a "Two Sex" model where the population has two defined sexes (male and female), some basic processes. 
+Below, we will cover writing your first complete model in Casal2. We will be writing a "Two Sex" model. The population has two defined sexes (male and female) and the model has some basic processes for recruitment/breeding, ageing and mortality/death.
 
-By the end of this process, you will have a model that can do a basic execution using Casal2. Adding to this model and introducing estimates and observations will be done int he next section `intermediate concepts`.
+By the end of this process, you will have a model that can do a basic execution using Casal2. Adding to this model and introducing estimates and observations will be done in the next section `intermediate concepts`.
 
-## Creating your configuration file
-Assuming that you have followed the installation instructions and have Casal2 working, you will need to create your configuration file. Create a file named `config.csl2` in the current directory. This file should be a basic text file with UTF-8 encoding. Line endings can be either Windows or Linux.
+## Creating your input configuration file
+Casal2 is not a model, but a framework that allows you to specify the model you would like to build and run. Casal2 will load your model definition from input configuration files and build an in-memory representation to execute.
+
+All models in Casal2 are defined in input configuration files using a model definition language. You can see specifics of the Casal2 model definition language defined in the [](/configuration_file_syntax) page.
+
+Assuming that you have followed the installation instructions and have Casal2 working, you will need to create your initial input configuration file. Create a file named `config.csl2` in the current directory. This file should be a basic text file with UTF-8 encoding. Line endings can be either Windows or Linux. By default, Casal2 will load the file `config.csl2` as the entry point to your model definition. For small models, you can keep everything in a single file, but for larger files it is recommended to use multiple files.
 
 ## Specifying the Model object
 The first block that must be defined in every configuration is the `@model` block. This defines the key attributes for our model. 
@@ -185,4 +189,12 @@ Model outputs in Casal2 are defined using `reports`. We'll quickly add a `partit
 type partition
 years 2008
 time_step step_two
+```
+
+## The final model input configuration file
+The following is the complete input configuration file.
+
+```none
+
+
 ```
