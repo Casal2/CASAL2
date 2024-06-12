@@ -1111,11 +1111,11 @@ For example, to specify a simple spawning migration of mature males from a weste
 
 The above example can be thought of as defining a two by two movement matrix as follows
 \[
- \kbordermatrix{
+\begin{bmatrix}
 	& R1 & R2 & \\
 	R1 & 0.7 & 0.3  \\
-	R2 & 0.4  & 0.6
-}
+	R2 & 0.4  & 0.6 
+\end{bmatrix}
 \]
 
 \CNAME\ will check that each unique \subcommand{from} category will have proportions sum to one across all \subcommand{to} categories for that unique \subcommand{from} category. This means users need to define the proportion of fish that stay in the \subcommand{from} category.
