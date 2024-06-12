@@ -16,7 +16,7 @@ Casal2 is an open source development and contributions to
 the package are encouraged. 
 
 The source code for Casal2 is available at 
-https://github.com/NIWAFisheriesModelling/CASAL2
+https://github.com/Casal2/CASAL2
 
 
 License
