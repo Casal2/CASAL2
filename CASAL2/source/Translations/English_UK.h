@@ -303,6 +303,7 @@
 #define PARAM_EVENT_MORTALITY                     "event_mortality"
 #define PARAM_EXCLUDE_PROCESSES                   "exclude_processes"
 #define PARAM_EXPECTED_VALUE                      "expected_value"
+#define PARAM_EXPLOITATION_RATES                  "exploitation_rates"
 #define PARAM_EXPONENTIAL                         "exponential"
 #define PARAM_EXOGENOUS_VARIABLE                  "exogenous_variable"
 #define PARAM_EXOGENOUS                           "exogenous"

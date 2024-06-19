@@ -35,6 +35,7 @@ TransitionCategoryByAge::TransitionCategoryByAge(shared_ptr<Model> model) : Proc
   partition_structure_ = PartitionType::kAge;
 
   n_table_ = new parameters::Table(PARAM_N);
+  n_table_->set_required_columns({PARAM_YEAR}, true);
 
   parameters_.Bind<string>(PARAM_FROM, &from_category_labels_, "The categories to transition from", "");
   parameters_.Bind<string>(PARAM_TO, &to_category_labels_, "The categories to transition to", "");

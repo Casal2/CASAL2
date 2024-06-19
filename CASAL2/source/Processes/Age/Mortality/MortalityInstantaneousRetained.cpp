@@ -51,6 +51,10 @@ MortalityInstantaneousRetained::MortalityInstantaneousRetained(shared_ptr<Model>
   catches_table_ = new parameters::Table(PARAM_CATCHES);
   method_table_  = new parameters::Table(PARAM_METHOD);
 
+  catches_table_->set_required_columns({PARAM_YEAR}, true);
+  method_table_->set_required_columns({PARAM_METHOD, PARAM_CATEGORY, PARAM_SELECTIVITY, PARAM_TIME_STEP, PARAM_U_MAX, PARAM_PENALTY, PARAM_RETAINED_SELECTIVITY, PARAM_DISCARD_MORTALITY_SELECTIVITY}, true);
+  method_table_->set_optional_columns({PARAM_AGE_WEIGHT_LABEL});
+
   parameters_.Bind<string>(PARAM_CATEGORIES, &category_labels_, "The categories for instantaneous mortality", "");
   parameters_.BindTable(PARAM_CATCHES, catches_table_, "The table of removals (catch) data", "", true, false);
   parameters_.BindTable(PARAM_METHOD, method_table_, "The table of method of removal data", "", true, false);
@@ -97,9 +101,6 @@ void MortalityInstantaneousRetained::DoValidate() {
   map<string, map<unsigned, Double>> fishery_year_catch;
   auto                               columns = catches_table_->columns();
 
-  // TODO Need to catch if key column headers are missing for example year
-  if (std::find(columns.begin(), columns.end(), PARAM_YEAR) == columns.end())
-    LOG_ERROR_P(PARAM_CATCHES) << "The required column " << PARAM_YEAR << " was not found.";
   unsigned year_index = std::find(columns.begin(), columns.end(), PARAM_YEAR) - columns.begin();
   LOG_FINEST() << "The year_index for fisheries table is: " << year_index;
 

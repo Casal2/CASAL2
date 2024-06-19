@@ -51,8 +51,8 @@ MortalityInstantaneous::MortalityInstantaneous(shared_ptr<Model> model) : Proces
 
   catches_table_ = new parameters::Table(PARAM_CATCHES);
   method_table_  = new parameters::Table(PARAM_METHOD);
-  // catches_table_->set_required_columns({"years"}, allow_others = true)
-  // method_table_->set_required_columns({"x", "x", "x,"});
+  catches_table_->set_required_columns({PARAM_YEAR}, true);
+  method_table_->set_required_columns({PARAM_METHOD, PARAM_CATEGORY, PARAM_SELECTIVITY, PARAM_TIME_STEP, PARAM_U_MAX, PARAM_PENALTY});
 
   parameters_.Bind<string>(PARAM_CATEGORIES, &category_labels_, "The categories for instantaneous mortality", "");
   parameters_.BindTable(PARAM_CATCHES, catches_table_, "The table of removals (catch) data", "", true, false);
