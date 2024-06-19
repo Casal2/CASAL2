@@ -37,21 +37,13 @@ Nuisance::Nuisance(shared_ptr<Model> model) : Catchability(model) {
   parameters_.Bind<Double>(PARAM_LOWER_BOUND, &lower_bound_, "The upper bound for nuisance catchability", "");
   parameters_.Bind<Double>(PARAM_UPPER_BOUND, &upper_bound_, "The lower bound for nuisance catchability", "");
 
-  RegisterAsAddressable(PARAM_Q, &q_, addressable::kAll);
+  RegisterAsAddressable(PARAM_Q, &q_, addressable::kLookup);
 }
 
 /**
  * Validate the objects
  */
 void Nuisance::DoBuild() {
-  // TODO: Fix this. Building dynamic parameter feels horrible.
-  if (IsAddressableUsedFor(PARAM_Q, addressable::kEstimate)) 
-      LOG_ERROR_P(PARAM_Q) <<"Has an @esimate block, this is not allowed. We suggest adding an @additional_prior for this nuisance parameter";
-  
-
-  /**
-   *  Build the objects
-   */
   LOG_TRACE();
 
   // This was the first path that I went down, the second was going down an additional prior.
