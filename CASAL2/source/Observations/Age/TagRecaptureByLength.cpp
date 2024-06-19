@@ -356,7 +356,8 @@ void TagRecaptureByLength::DoValidate() {
   }
   // if only one value supplied then assume its the same for all years
   if (dispersion_.size() == 1) {
-    dispersion_.resize(years_.size(), dispersion_[0]);
+    Double temp = dispersion_[0];
+    dispersion_.resize(years_.size(), temp);
   }
 
   if (dispersion_.size() != 0) {

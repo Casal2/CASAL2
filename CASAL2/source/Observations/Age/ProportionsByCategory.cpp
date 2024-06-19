@@ -98,7 +98,8 @@ void ProportionsByCategory::DoValidate() {
 
   // if only one value supplied then assume its the same for all years
   if (process_error_values_.size() == 1) {
-    process_error_values_.resize(years_.size(), process_error_values_[0]);
+    Double temp = process_error_values_[0];
+    process_error_values_.resize(years_.size(), temp);
   }
 
   if (process_error_values_.size() != 0) {

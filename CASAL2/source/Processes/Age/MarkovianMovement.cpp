@@ -71,8 +71,10 @@ void MarkovianMovement::DoValidate() {
   }
 
   // Allow a one to many relationship between proportions and number of categories.
-  if (proportions_.size() == 1)
-    proportions_.resize(to_category_names_.size(), proportions_[0]);
+  if (proportions_.size() == 1) {
+    Double temp = proportions_[0];
+    proportions_.resize(to_category_names_.size(), temp);
+  }
 
   // Validate the to category and proportions vectors are the same size
   if (to_category_names_.size() != proportions_.size()) {

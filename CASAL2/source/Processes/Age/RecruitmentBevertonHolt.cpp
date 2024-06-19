@@ -115,6 +115,12 @@ void RecruitmentBevertonHolt::DoValidate() {
 
   for (auto year = model_->start_year(); year <= model_->final_year(); ++year) years_.push_back(year);
 
+  if (recruitment_multipliers_.size() == 1) {
+    Double temp = recruitment_multipliers_[0];
+    recruitment_multipliers_.resize(years_.size(), temp);
+  }
+
+
   if (recruitment_multipliers_.size() != years_.size()) {
     LOG_FATAL_P(PARAM_RECRUITMENT_MULTIPLIERS) << "There are " << years_.size() << " model years and " << recruitment_multipliers_.size() << " " << PARAM_RECRUITMENT_MULTIPLIERS
                                                << " defined. These inputs must be of equal length.";
