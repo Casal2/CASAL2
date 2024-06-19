@@ -111,5 +111,6 @@ private:
 #define LOG_FATAL_Q(parameter) LOG_FOR(logger::Severity::kFatal) r.stream() << this->parameters_.quiet_location(parameter)
 // Code errors that require a developer to fix
 #define LOG_CODE_ERROR() LOG_FOR(logger::Severity::kCodeError) r.stream()
+#define LOG_CODE_ERROR_P(parameter) LOG_FOR(logger::Severity::kCodeError) r.stream() << this->parameters_.location(parameter)
 
 #endif /* SOURCE_LOGGING_LOGGING_H_ */
