@@ -23,6 +23,7 @@
 // headers
 #include <ctime>
 #include <string>
+#include <vector>
 
 #include "../Translations/Translations.h"
 #include "../Utilities/RunMode.h"
@@ -31,13 +32,14 @@
 namespace niwa {
 namespace utilities {
 using std::string;
+using std::vector;
 
 // structs
 struct RunParameters {
   // top level options
   RunMode::Type run_mode_             = RunMode::kInvalid;
   string        model_type_           = "";
-  string        config_file_          = "config.csl2";
+  vector<string> config_file_         = {"config.csl2"};
   string        log_level_            = "information";
   bool          continue_pass_verify_ = false;  // Skip verify halting execution if warnings are produced
 

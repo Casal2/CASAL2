@@ -50,21 +50,25 @@ bool Loader::LoadFromDiskToMemory(GlobalConfiguration& global_config, const stri
     /**
      * Open our first configuration file and start loading it
      */
-    string config_file = global_config.config_file();
-    if (override_file_name != "")
-      config_file = override_file_name;
+    vector<string> config_files = global_config.config_file();
+    if (override_file_name != "") {
+      config_files.clear();
+      config_files.push_back(override_file_name);
+    }
 
-    File file(*this);
-    if (!file.OpenFile(config_file))
-      LOG_FATAL() << "Failed to open the input configuration file: " << config_file << ". Please check that the file exists";
+    for (const string& config_file : config_files) {
+      File file(*this);
+      if (!file.OpenFile(config_file))
+        LOG_FATAL() << "Failed to open the input configuration file: " << config_file << ". Please check that the file exists";
 
-    file.LoadIntoMemory();
+      file.LoadIntoMemory();
 
-    LOG_FINE() << "file_lines_.size() == " << file_lines_.size();
-    if (file_lines_.size() == 0)
-      LOG_FATAL() << "The input configuration file " << config_file << " is empty. Please check the file";
+      LOG_FINE() << "file_lines_.size() == " << file_lines_.size();
+      if (file_lines_.size() == 0)
+        LOG_FATAL() << "The input configuration file " << config_file << " is empty. Please check the file";
+    }
   } else {
-    LOG_FINEST() << "Skipping the load file for input configuration file: " << global_config.config_file();
+    LOG_FINEST() << "Skipping the load file for input configuration file";
   }
 
   // Create block objects in memory and find minimiser type

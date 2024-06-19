@@ -42,12 +42,13 @@ And, on some Microsoft Windows systems (e.g., Windows 10), you can redirect to b
 
 \CNAME\ is called using:
 
-\texttt{\cname\ [-c \emph{config\_file}] [\emph{task}] [\emph{options}]}
+\texttt{\cname\ [-c \emph{config\_file_1} \emph{config\_file_2} \emph{config\_file_N}] [\emph{task}] [\emph{options}]}
 
 where
 
 \begin{description}
-  \item [\texttt{-c \emph{config\_file}}] Define the \config for \CNAME\ (if this argument is omitted, the default \config\ is \texttt{config.csl2})
+  \item [\texttt{-c \emph{config\_file}}] Define the \config for \CNAME\ (if this argument is omitted, the default \config\ is \texttt{config.csl2}).
+  \CNAME\ supports one or many configuration files. The first file specified must start with @model, subsequent files will be treated the same as an include from the end of the previous file.
 \end{description}
 
 and where \emph{task} must be one of the following (\textbf{[]} indicates a secondary label to call the task, e.g. \textbf{\texttt{-h}} will execute the same task as \textbf{\texttt{-{}-help}}),

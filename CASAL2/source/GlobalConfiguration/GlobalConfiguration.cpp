@@ -42,8 +42,7 @@ void GlobalConfiguration::Clear() {
  */
 void GlobalConfiguration::ParseOptions() {
   LOG_TRACE();
-
-  LOG_INFO() << "Setting the random number seed to " << options_.random_number_seed_;
+  // LOG_INFO() << "Setting the random number seed to " << options_.random_number_seed_;
   // if (options_.output_ != "") {
   //   auto model = model();
   //   auto report = reports::Factory::Create(model, PARAM_REPORT, PARAM_OUTPUT_PARAMETERS);

@@ -56,7 +56,7 @@ public:
   void          set_standard_header(const string& header) { standard_header_ = header; }
   const string& standard_header() const { return standard_header_; }
   unsigned      random_seed() { return options_.random_number_seed_; }
-  string        config_file() { return options_.config_file_; }
+  vector<string>& config_file() { return options_.config_file_; }
   bool          disable_all_reports() const { return options_.disable_all_reports_; }
 
   unsigned simulation_candidates() const { return options_.simulation_candidates_; }
