@@ -15,11 +15,14 @@
 #include "../../InitialisationPhases/Manager.h"
 #include "../../TimeSteps/Manager.h"
 #include "../../AgeLengths/AgeLength.h"
+#include "../../Utilities/Math.h"
+
 // namespaces
 namespace niwa {
 namespace derivedquantities {
 namespace age {
 
+namespace math = utilities::math;
 /**
  * Default constructor
  */
@@ -142,7 +145,7 @@ void Biomass::Execute() {
     if (time_step_proportion_ == 0.0) {
       b0_value = cache_value_;
       initialisation_values_[initialisation_phase].push_back(b0_value);
-    } else if (time_step_proportion_ == 1.0) {
+    } else if (math::IsOne(time_step_proportion_)) {
       b0_value = value;
       initialisation_values_[initialisation_phase].push_back(b0_value);
     } else if (mean_proportion_method_) {
@@ -175,7 +178,7 @@ void Biomass::Execute() {
 
     if (time_step_proportion_ == 0.0)
       values_[model_->current_year()] = cache_value_;
-    else if (time_step_proportion_ == 1.0)
+    else if (math::IsOne(time_step_proportion_))
       values_[model_->current_year()] = value;
     if (mean_proportion_method_)
       values_[model_->current_year()] = cache_value_ + ((value - cache_value_) * time_step_proportion_);
