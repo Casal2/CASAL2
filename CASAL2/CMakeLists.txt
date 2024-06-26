@@ -89,7 +89,7 @@ MESSAGE("-- Compiler Options: ${COMPILE_OPTIONS}")
 # Now we want to see if we're building an auto-diff library or something of that nature.
 # BUILD PARAMETERS
 IF (ADOLC)
- SET(COMPILE_OPTIONS "${COMPILE_OPTIONS} -Wno-free-nonheap-object-DUSE_AUTODIFF -DUSE_ADOLC")
+ SET(COMPILE_OPTIONS "${COMPILE_OPTIONS} -Wno-free-nonheap-object -DUSE_AUTODIFF -DUSE_ADOLC")
  SET(specialLibraries "-l:libadolc.a")
 ELSEIF (BETADIFF)
  SET(COMPILE_OPTIONS "${COMPILE_OPTIONS} -DUSE_AUTODIFF -DUSE_BETADIFF")
