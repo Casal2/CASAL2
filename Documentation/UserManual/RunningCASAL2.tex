@@ -1,10 +1,10 @@
 \section{Running \CNAME\label{sec:RunningCasal2}\index{Running \CNAME}}
 
-\CNAME\ is run from a console window (i.e., the command line) on \I{Microsoft Windows} or from a terminal window on \I{Linux}. \CNAME\ uses information from input data files -{}- the \emph{\config\index{Input configuration file}}\ being the input file that is supplied to \CNAME.
+\CNAME\ is run from a console window (i.e., the command line) on \I{Microsoft Windows} or from a terminal window on \I{Linux}. \CNAME\ uses information from input data files -{}- the \emph{\config\index{Input configuration file}}\ being the input files that are supplied to \CNAME.
 
 The \config\ is required and defines the model structure, processes, observations, parameters (both the fixed parameters and the parameters to be estimated)\index{Estimable parameters}, and the requested reports (outputs).
 
-By convention, the name of the \config\ ends with the suffix \texttt{.csl2}. However, any suffix is acceptable. The default name for the \config\ is \emph{config.csl2} and if used it does not have to be specified as one of the command line arguments to to \CNAME. Note that the \config\ can include other files so the specification can be split into parts, e.g., files for specifying information on the 'population', 'estimation', 'observation', and 'reports'.
+By convention, the name of the \config\ ends with the suffix \texttt{.csl2}. However, any suffix is acceptable. The default name for the initial \config\ is \emph{config.csl2} and if used it does not have to be specified as one of the command line arguments to to \CNAME. Note that the \config\ can include other files so the specification can be split into parts, e.g., files for specifying information on the 'population', 'estimation', 'observation', and 'reports'.
 
 Command line arguments\index{Command line arguments} are used to specify the actions or \emph{tasks}\index{Tasks} of \CNAME, e.g., to run a model with a set of parameter values, to estimate parameter values (either point estimates or MCMC), to project quantities, or to simulate observations.For example, \texttt{-r} is the \emph{run} mode, \texttt{-e} is the \emph{estimation} mode, and \texttt{-m} is the \emph{MCMC} mode. The \emph{command line arguments} are described in Section \ref{sec:CommandLineArguments}.
 
@@ -42,13 +42,13 @@ And, on some Microsoft Windows systems (e.g., Windows 10), you can redirect to b
 
 \CNAME\ is called using:
 
-\texttt{\cname\ [-c \emph{config\_file_1} \emph{config\_file_2} \emph{config\_file_N}] [\emph{task}] [\emph{options}]}
+\texttt{\cname\ [-c \emph{config\_file\_1} \emph{config\_file\_2} \emph{config\_file\_N}] [\emph{task}] [\emph{options}]}
 
 where
 
 \begin{description}
-  \item [\texttt{-c \emph{config\_file}}] Define the \config for \CNAME\ (if this argument is omitted, the default \config\ is \texttt{config.csl2}).
-  \CNAME\ supports one or many configuration files. The first file specified must start with @model, subsequent files will be treated the same as an include from the end of the previous file.
+  \item [\texttt{-c \emph{config\_file\_1 config\_file\_N}}] Define the \config for \CNAME\ (if this argument is omitted, the default \config\ is \texttt{config.csl2}).
+  \CNAME\ supports one or many configuration files. The first file specified must start with @model definition, subsequent files will be treated the same as an include from the end of the previous file.
 \end{description}
 
 and where \emph{task} must be one of the following (\textbf{[]} indicates a secondary label to call the task, e.g. \textbf{\texttt{-h}} will execute the same task as \textbf{\texttt{-{}-help}}),
