@@ -1,13 +1,13 @@
 # Configuration File Syntax
-Casal2 uses a human readable model definition language (MDL) to define models. Models are specified in text files using either Windows or Unix line endings and UTF-8 encoding. By default, Casal2 will load a `config.csl2` file from the current directory when executed.
+Casal2 uses a human readable model definition language (MDL) to define models. Models are specified in text files using either Windows or Unix line endings and UTF-8 encoding. By default, Casal2 will load a `config.csl2` file from the current directory when executed. You can override the loaded configuration file with the `-c` command line parameter.
 
-The `config.csl2` file is expected to be the entry point for your model definition.
+The first provided input configuration file is expected to be the entry point for your model definition.
 
 The Casal2 MDL is derived from the Spatial Population Model (SPM) one, but enhanced to make writing complex models easier. There is no direct link between Casal and Casal2 with respect to the configuration syntax.
 
-Casal2's MDL uses a `block`, `parameter` and `command` notation. All lines within the configuration files must be either a block, parameter or command. 
+Casal2's MDL uses a `block`, `parameter` and `command` notation. Everything in the configuration files must be either a block, parameter, command, or a comment.
 
-An example of a defined object (e.g., a process) in Casal2 would look like:
+An example object (e.g., a process) in Casal2 would look like:
 ```none
 @block block_label
 parameter value
@@ -15,17 +15,17 @@ parameter value1 value2
 ```
 
 Some general notes about writing configuration files:
-1. Whitespace can be used mostly-freely. Tabs and spaces are both accepted
-2. A block ends only at the beginning of a new block or end of the final configuration file
-3. You can include another file from anywhere
-4. Included files are placed inline, so you can continue a block in a new file
-5. The configuration files support inline declarations of objects
+1. Whitespace can be used mostly-freely. Tabs and spaces are both accepted.
+2. A block ends only at the beginning of a new block or end of the final configuration file.
+3. You can include another file from anywhere.
+4. Included files are placed inline, so you can continue a block in a new file.
+5. The configuration files support inline declarations of objects.
 
 ## Basic Concepts
 ### The block
 The block is a collection of parameters that define a single object within your model.
 
-Your model is created by having many blocks that define how the model is to be built. All objects with Casal2 are presented through blocks in the configuration file. Examples of some common blocks are:
+Your model is created by having many blocks that define how the model is to be built. All objects in Casal2 are presented through blocks in the configuration file. Examples of some common blocks are:
 ```none
 @model
 @categories
@@ -37,10 +37,10 @@ Your model is created by having many blocks that define how the model is to be b
 @selectivity label
 ```
 
-Blocks may or may not require a label depending on their function. As a general rule, a block requires a label if you can specify more than one of that block type. You can only specify one `@model` block for your model, therefore it does not require a label. As you can specify many `@process` objects in your model, they do require a label.
+Blocks may or may not require a label depending on their function. As a general rule, a block requires a label if you can define more than one instance of that block type. You can only specify one `@model` block for your model, therefore it does not require a label. As you can specify many `@process` objects in your model, they do require a label.
 
 ### The parameter
-Following a block definition, the parameters for that object are specified. Parameters are specified one per line with the first value on the line being the name of the parameter you wish to define.
+Following a block definition, the parameters for that object are specified. Parameters are specified one per line with the first value on the line being the name of the parameter you wish to define. There is no required order for the definition of the parameters, but convention is to place the `type` parameter directly after the `@block` definition where it needs one.
 
 Example parameters would be:
 ```none
@@ -78,7 +78,7 @@ Type ageing
 ## Advanced Concepts
 
 ### Addressables
-Within Casal2 many parameters are registered as `addressable`. This is a mechanism by which Casal2 makes the parameter addressable from a configuration file. Put simply, it allows you to use the reference a parameter on another block and use it. This is most commonly used for defining which parameters in the model will be estimated (free parameters).
+Within Casal2 many parameters are registered as `addressable`. This is a mechanism by which Casal2 makes the parameter addressable to other objects in the model. Put simply, it allows you to reference a parameter on another block and use it. This is most commonly used for defining which parameters in the model will be estimated (free parameters).
 
 The syntax for an addressable is `block[label].parameter(index)` where index is optional for addressing lists/vectors or maps.
 
@@ -93,7 +93,7 @@ parameter process[recruitment_constant].r0
 ```
 
 ### Inline Declarations
-Inline declarations allow you to define an entire object in a single configuration line. This is useful for defining an object that will only be used by one other object. Casal2 will create an object in memory with an addressable label for use by the model.
+Inline declarations allow you to define an entire object in a single line. This is useful for defining an object that will only be used by one other object. Casal2 will create an object in memory with an addressable label for use by the model.
 
 An example of an inline declaration is:
 ```none
@@ -189,7 +189,7 @@ names male,female.immature,mature #With list specifier
 
 @categories
 format sex.stage
-#Without list specifier
+# Without list specifier
 names male.immature male.mature female.immature female.mature
 ```
 
@@ -199,5 +199,5 @@ Some observation blocks allow the joining of multiple categories into a single c
 ```none
 @observation
 type joinable
-categories male+female female # will show as 2 collections to observation
+categories male+female female # will show as 2 collections to an observation
 ```

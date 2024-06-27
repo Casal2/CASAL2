@@ -18,7 +18,7 @@ Contents
   installation
   configuration_file_syntax  
   writing_your_first_model
-  more_advanced_concepts
+  solving_your_first_model
   example_models  
 
 Indices and tables
