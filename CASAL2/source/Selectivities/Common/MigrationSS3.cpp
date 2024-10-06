@@ -41,7 +41,7 @@ MigrationSS3::MigrationSS3(shared_ptr<Model> model) : Selectivity(model) {
   RegisterAsAddressable(PARAM_ALT_RATE_UPPER_SWITCH, &alt_rate_upper_switch_);
   RegisterAsAddressable(PARAM_ALT_RATE_LOWER, &alt_rate_lower_);
   RegisterAsAddressable(PARAM_ALT_RATE_UPPER, &alt_rate_upper_);
-  allowed_length_based_in_age_based_model_ = true;
+  allowed_length_based_in_age_based_model_ = false;
 
 }
 
