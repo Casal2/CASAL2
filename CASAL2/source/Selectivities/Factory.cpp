@@ -30,7 +30,7 @@
 #include "../Selectivities/Common/CompoundAll.h"
 #include "../Selectivities/Common/DoubleNormalPlateau.h"
 #include "../Selectivities/Common/DoubleNormalSS3.h"
-// #include "../Selectivities/Common/MigrationSS3.h"
+#include "../Selectivities/Common/MigrationSS3.h"
 #include "../Selectivities/Common/Increasing.h"
 #include "../Selectivities/Common/InverseLogistic.h"
 #include "../Selectivities/Common/MultiSelectivity.h"
@@ -77,8 +77,8 @@ Selectivity* Factory::Create(shared_ptr<Model> model, const string& object_type,
       result = new DoubleNormalPlateau(model);
     else if (sub_type == PARAM_DOUBLE_NORMAL_SS3)
       result = new DoubleNormalSS3(model);
-//    else if (sub_type == PARAM_MIGRATION_SS3)
-//      result = new MigrationSS3(model);
+    else if (sub_type == PARAM_MIGRATION_SS3)
+      result = new MigrationSS3(model);
     else if (sub_type == PARAM_INCREASING)
       result = new Increasing(model);
     else if (sub_type == PARAM_INVERSE_LOGISTIC)
