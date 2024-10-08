@@ -349,18 +349,20 @@ void ProportionsAtLength::Execute() {
    */
   auto cached_partition_iter = cached_partition_->Begin();
   auto partition_iter        = partition_->Begin();  // vector<vector<partition::Category> >
+
   /**
    * Loop through the provided categories. Each provided category (combination) will have a list of observations
    * with it. We need to build a vector of proportions for each length using that combination and then
    * compare it to the observations.
    */
   for (unsigned category_offset = 0; category_offset < category_labels_.size(); ++category_offset, ++partition_iter, ++cached_partition_iter) {
-    LOG_FINEST() << "category: " << category_labels_[category_offset];
+    LOG_FINE() << "Combined category label: " << category_labels_[category_offset];
     std::fill(expected_values_.begin(), expected_values_.end(), 0.0);
 
     Double start_value = 0.0;
     Double end_value   = 0.0;
     Double final_value = 0.0;
+	Double category_index = 0.0;
 
     /**
      * Loop through the 2 combined categories building up the
@@ -369,6 +371,8 @@ void ProportionsAtLength::Execute() {
     auto category_iter        = partition_iter->begin();
     auto cached_category_iter = cached_partition_iter->begin();
     for (; category_iter != partition_iter->end(); ++cached_category_iter, ++category_iter) {
+		
+      LOG_FINE() << "category_index = " << category_index;
       LOG_FINE() << "this category = " << (*category_iter)->name_;
       // Numbers at age
       LOG_FINE() << "numbers at age pre - post mortality";
@@ -376,19 +380,19 @@ void ProportionsAtLength::Execute() {
         LOG_FINE() << (*category_iter)->data_[age_ndx] << " " << (*category_iter)->cached_data_[age_ndx];
       }
 
-      LOG_FINEST() << "Selectivity for " << category_labels_[category_offset] << " selectivity " << selectivities_[category_offset]->label();
-      // clear these temporay vectors
+      LOG_FINE() << "Selectivity for " << (*category_iter)->name_ << " is " << selectivities_[category_index]->label();
+      // clear these temporary vectors
       std::fill(cached_numbers_at_length_.begin(), cached_numbers_at_length_.end(), 0.0);
       std::fill(numbers_at_length_.begin(), numbers_at_length_.end(), 0.0);
       // Now convert numbers at age to numbers at length using the categories age-length transition matrix
       if (using_model_length_bins) {
-        (*category_iter)->age_length_->populate_numbers_at_length((*category_iter)->data_, numbers_at_length_, selectivities_[category_offset]);
-        (*category_iter)->age_length_->populate_numbers_at_length((*category_iter)->cached_data_, cached_numbers_at_length_, selectivities_[category_offset]);
+        (*category_iter)->age_length_->populate_numbers_at_length((*category_iter)->data_, numbers_at_length_, selectivities_[category_index]);
+        (*category_iter)->age_length_->populate_numbers_at_length((*category_iter)->cached_data_, cached_numbers_at_length_, selectivities_[category_index]);
       } else {
         (*category_iter)
-            ->age_length_->populate_numbers_at_length((*category_iter)->data_, numbers_at_length_, selectivities_[category_offset], map_local_length_bins_to_global_length_bins_);
+            ->age_length_->populate_numbers_at_length((*category_iter)->data_, numbers_at_length_, selectivities_[category_index], map_local_length_bins_to_global_length_bins_);
         (*category_iter)
-            ->age_length_->populate_numbers_at_length((*category_iter)->cached_data_, cached_numbers_at_length_, selectivities_[category_offset],
+            ->age_length_->populate_numbers_at_length((*category_iter)->cached_data_, cached_numbers_at_length_, selectivities_[category_index],
                                                       map_local_length_bins_to_global_length_bins_);
       }
 
@@ -406,10 +410,13 @@ void ProportionsAtLength::Execute() {
 
         LOG_FINE() << "----------";
         LOG_FINE() << "Category: " << (*category_iter)->name_ << " at length " << length_bins_[length_offset];
-        LOG_FINE() << "Selectivity: " << selectivities_[category_offset]->label();
+        LOG_FINE() << "Selectivity: " << selectivities_[category_index]->label();
         LOG_FINE() << "start_value: " << start_value << "; end_value: " << end_value << "; final_value: " << final_value;
         LOG_FINE() << "expected_value becomes: " << expected_values_[length_offset];
       }
+	  
+    ++category_index; // add one to category_index
+
     }
 
     if (expected_values_.size() != proportions_[model_->current_year()][category_labels_[category_offset]].size())
@@ -423,6 +430,7 @@ void ProportionsAtLength::Execute() {
       SaveComparison(category_labels_[category_offset], 0, length_bins_[i], expected_values_[i], proportions_[model_->current_year()][category_labels_[category_offset]][i],
                      process_errors_by_year_[model_->current_year()], error_values_[model_->current_year()][category_labels_[category_offset]][i], 0.0, delta_, 0.0);
     }
+	
   }
 }
 
