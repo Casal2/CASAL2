@@ -1,6 +1,4 @@
 
-[INFO] Setting the random number seed to 20
-[INFO] Estimable parameters were set from the input configuration files
 [WARNING] At line 47 in Observation.csl2 the table obs : The sum of the values for year 1990 was 0.9999 and do not sum to 1.0
 [WARNING] At line 47 in Observation.csl2 the table obs : The sum of the values for year 1993 was 0.9998 and do not sum to 1.0
 [WARNING] At line 47 in Observation.csl2 the table obs : The sum of the values for year 1994 was 0.9999 and do not sum to 1.0
@@ -912,5 +910,4 @@ finished main minimiser loop
 Successful convergence in optimise
 [INFO] Assert Passed: The Assert with label 'ObjectiveFunction' for the Objective Function had value 2296.97 and 2296.97 was expected.
 [INFO] Completed
-[INFO] Total CPU time: -89.2414 hours
-[INFO] Total elapsed time: 2 seconds
+[INFO] Total elapsed time: 3 seconds

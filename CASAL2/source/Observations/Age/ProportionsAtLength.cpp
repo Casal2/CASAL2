@@ -319,8 +319,8 @@ void ProportionsAtLength::DoBuild() {
 // I *think* this is duplicating the selectivity over all categories, if only one is given in the observation block 
   LOG_FINE() << "category_counter = " << category_counter;
   LOG_FINE() << "Listing categories (combined?):";
-  for (unsigned category_index = 0; category_index < category_labels_.size(); ++category_index) {
-    LOG_FINE() << "Combined category " << category_index << " = " << category_labels_[category_index];
+  for (unsigned combined_category_index = 0; combined_category_index < category_labels_.size(); ++combined_category_index) {
+    LOG_FINE() << "Combined category " << combined_category_index << " = " << category_labels_[combined_category_index];
   }
   LOG_FINE() << "Number of categories: " << category_labels_.size();
 //  if (selectivities_.size() == 1 && category_labels_.size() != 1) {
@@ -380,7 +380,7 @@ void ProportionsAtLength::Execute() {
     Double start_value = 0.0;
     Double end_value   = 0.0;
     Double final_value = 0.0;
-	Double category_index = 0.0;
+	unsigned category_index = 0;
 
     /**
      * Loop through the 2 combined categories building up the
