@@ -299,21 +299,39 @@ void ProportionsAtLength::DoBuild() {
   cached_partition_ = CachedCombinedCategoriesPtr(new niwa::partition::accessors::cached::CombinedCategories(model_, category_labels_));
   // flag age-length to Build age-length matrix
   auto partition_iter = partition_->Begin();
+  unsigned category_counter = 0;
   for (unsigned category_offset = 0; category_offset < category_labels_.size(); ++category_offset, ++partition_iter) {
     auto category_iter = partition_iter->begin();
-    for (; category_iter != partition_iter->end(); ++category_iter) (*category_iter)->age_length_->BuildAgeLengthMatrixForTheseYears(years_);
+    for (; category_iter != partition_iter->end(); ++category_iter) {
+		LOG_FINE() << "(*category_iter)->name_ = " << (*category_iter)->name_;
+		(*category_iter)->age_length_->BuildAgeLengthMatrixForTheseYears(years_);
+		++category_counter; // add one to category_counter
+	}
   }
   // Build Selectivity pointers
   for (string label : selectivity_labels_) {
     Selectivity* selectivity = model_->managers()->selectivity()->GetSelectivity(label);
     if (!selectivity)
       LOG_ERROR_P(PARAM_SELECTIVITIES) << ": Selectivity label " << label << " was not found.";
-    selectivities_.push_back(selectivity);
+	selectivities_.push_back(selectivity);
   }
 
-  if (selectivities_.size() == 1 && category_labels_.size() != 1) {
+// I *think* this is duplicating the selectivity over all categories, if only one is given in the observation block 
+  LOG_FINE() << "category_counter = " << category_counter;
+  LOG_FINE() << "Listing categories (combined?):";
+  for (unsigned category_index = 0; category_index < category_labels_.size(); ++category_index) {
+    LOG_FINE() << "Combined category " << category_index << " = " << category_labels_[category_index];
+  }
+  LOG_FINE() << "Number of categories: " << category_labels_.size();
+//  if (selectivities_.size() == 1 && category_labels_.size() != 1) {
+  if (selectivities_.size() == 1 && category_counter != 1) { // Samik - trying to fix duplicating selectivity
+    LOG_FINE() << "Going into selectivity repeat loop";	  
     auto val_sel = selectivities_[0];
-    selectivities_.assign(category_labels_.size(), val_sel);
+    selectivities_.assign(category_counter, val_sel);
+  }
+  LOG_FINE() << "Listing selectivities:";
+  for (unsigned selectivity_index = 0; selectivity_index < selectivities_.size(); ++selectivity_index) {
+    LOG_FINE() << "Selectivity " << selectivity_index << " = " << selectivities_[selectivity_index]->label();
   }
 
   expected_values_.resize(number_bins_, 0.0);
