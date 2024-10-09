@@ -1,12 +1,10 @@
-Environment: User=Casal2 (git@github.com:casal2/casal2)
-Call: /opt/casal2/casal2/BuildSystem/Casal2/casal2 -e -g 20 -c config_betadiff.csl2 
-Date: Sun May 26 22:13:44 2024
+Casal2 (git@github.com:SamikDatta/CASAL2.git:fix_capped_selectivity)
+Call: C:\Users\dattas\Documents\CASAL2\BuildSystem/Casal2/casal2.exe -e -g 20 -c config_betadiff.csl2 
+Date: Wed Oct 09 12:47:24 2024
 Seed: 20
-Version: v24.05 (2024-05-26)
+Version: v24.10 (2024-10-08)
 Copyright (c) 2017-2024, NIWA (www.niwa.co.nz)
-root
- Machine=thoth (Linux 6.8.8-1-default x86_64)
- PID=24207
+Environment: User=dattas Machine=NIWA-1022446 OS=Windows_NT PID=6520
 
 
 *selectivity_by_year[multisel_by_year]
@@ -51,7 +49,6 @@ Values {vector}
 28 0.999999
 29 1
 30 1
-
 *selectivity_by_year[multisel_by_year]
 selectivity: multi_eastFSel
 year: 1976
@@ -94,7 +91,6 @@ Values {vector}
 28 0.999999
 29 1
 30 1
-
 *selectivity_by_year[multisel_by_year]
 selectivity: multi_eastFSel
 year: 1977
@@ -180,7 +176,6 @@ Values {vector}
 28 0.999999
 29 1
 30 1
-
 *selectivity_by_year[multisel_by_year]
 selectivity: multi_eastFSel
 year: 1979
@@ -223,7 +218,6 @@ Values {vector}
 28 0.999999
 29 1
 30 1
-
 *selectivity_by_year[multisel_by_year]
 selectivity: multi_eastFSel
 year: 1980
@@ -266,7 +260,6 @@ Values {vector}
 28 0.999999
 29 1
 30 1
-
 *selectivity_by_year[multisel_by_year]
 selectivity: multi_eastFSel
 year: 1981
@@ -352,7 +345,6 @@ Values {vector}
 28 0.999999
 29 1
 30 1
-
 *selectivity_by_year[multisel_by_year]
 selectivity: multi_eastFSel
 year: 1983
@@ -395,7 +387,6 @@ Values {vector}
 28 0.999999
 29 1
 30 1
-
 *selectivity_by_year[multisel_by_year]
 selectivity: multi_eastFSel
 year: 1984
@@ -481,7 +472,6 @@ Values {vector}
 28 0.999999
 29 1
 30 1
-
 *selectivity_by_year[multisel_by_year]
 selectivity: multi_eastFSel
 year: 1986
@@ -524,7 +514,6 @@ Values {vector}
 28 0.999999
 29 1
 30 1
-
 *selectivity_by_year[multisel_by_year]
 selectivity: multi_eastFSel
 year: 1987
@@ -567,7 +556,6 @@ Values {vector}
 28 0.999999
 29 1
 30 1
-
 *selectivity_by_year[multisel_by_year]
 selectivity: multi_eastFSel
 year: 1988
@@ -1863,8 +1851,6 @@ values {vector}
 
 *info[messages_encountered]
 Values {string}
-Setting the random number seed to 20
-Estimable parameters were set from the input configuration files
 Creating default report for derived quantity biomass_t1
 Initiating point estimate run mode
 Estimation_phase 1

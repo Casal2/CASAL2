@@ -1,5 +1,4 @@
 
-[INFO] Setting the random number seed to 20
 [INFO] Estimable parameters were set from the free parameter file: free.dat
 [WARNING] At line 49 in Observation.csl2 the table obs : The sum of the values for year 1990 was 0.9999 and do not sum to 1.0
 [WARNING] At line 49 in Observation.csl2 the table obs : The sum of the values for year 1993 was 1.0001 and do not sum to 1.0
@@ -40,5 +39,4 @@
 [INFO] Creating default report for projections __projections__
 [INFO] Initiating projection run mode
 [INFO] Completed
-[INFO] Total CPU time: -96.3998 hours
-[INFO] Total elapsed time: 1 seconds
+[INFO] Total elapsed time: 1 second

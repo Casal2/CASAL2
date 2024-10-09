@@ -1,12 +1,10 @@
-Environment: User=Casal2 (git@github.com:casal2/casal2)
-Call: /opt/casal2/casal2/BuildSystem/Casal2/casal2 -f 100 -i free.dat -g 20 -c config_projections.csl2 -t 
-Date: Sun May 26 22:19:32 2024
+Casal2 (git@github.com:SamikDatta/CASAL2.git:fix_capped_selectivity)
+Call: C:\Users\dattas\Documents\CASAL2\BuildSystem/Casal2/casal2.exe -f 100 -i free.dat -g 20 -c config_projections.csl2 -t 
+Date: Wed Oct 09 12:58:29 2024
 Seed: 20
-Version: v24.05 (2024-05-26)
+Version: v24.10 (2024-10-08)
 Copyright (c) 2017-2024, NIWA (www.niwa.co.nz)
-root
- Machine=thoth (Linux 6.8.8-1-default x86_64)
- PID=24766
+Environment: User=dattas Machine=NIWA-1022446 OS=Windows_NT PID=17872
 
 
 *project[test_project]
@@ -543,7 +541,6 @@ project[Recruitment].1975 project[Recruitment].1976 project[Recruitment].1977 pr
 
 *info[messages_encountered]
 Values {string}
-Setting the random number seed to 20
 Estimable parameters were set from the free parameter file: free.dat
 Creating default report for derived quantity biomass_t1
 Creating default report for process Recruitment
