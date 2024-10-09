@@ -3051,4 +3051,4 @@ Successful convergence in optimise
 [WARNING] estimated parameter 'catchability[CPUEq].q' with value 2.53574e-05 was within 0.001 of the lower bound of 1e-08
 [INFO] Assert Passed: The Assert with label 'ObjectiveFunction' for the Objective Function had value 709.014 and 709.014 was expected.
 [INFO] Completed
-[INFO] Total elapsed time: 5 seconds
+[INFO] Total elapsed time: 6 seconds

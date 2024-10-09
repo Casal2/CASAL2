@@ -1158,4 +1158,4 @@ finished main minimiser loop
 Successful convergence in optimise
 [INFO] Assert Passed: The Assert with label 'ObjectiveFunction' for the Objective Function had value 241.012 and 241.012 was expected.
 [INFO] Completed
-[INFO] Total elapsed time: 3.4 minutes
+[INFO] Total elapsed time: 3.583 minutes

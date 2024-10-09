@@ -402,4 +402,4 @@
 [WARNING] estimated parameter 'process[Recruitment].recruitment_multipliers{2012}' with value 3 was within 0.001 of the upper bound of 3
 [INFO] Assert Passed: The Assert with label 'obj' for the Objective Function had value 684.287 and 684.287 was expected.
 [INFO] Completed
-[INFO] Total elapsed time: 7 seconds
+[INFO] Total elapsed time: 6 seconds

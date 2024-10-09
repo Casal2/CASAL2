@@ -4349,4 +4349,4 @@ Successful convergence in optimise
 [WARNING] estimated parameter 'observation[TangaroaAcousticMature].process_error' with value 0.0001 was within 0.001 of the lower bound of 0.0001
 [INFO] Assert Passed: The Assert with label 'ObjectiveFunction' for the Objective Function had value 962.721 and 962.721 was expected.
 [INFO] Completed
-[INFO] Total elapsed time: 18 seconds
+[INFO] Total elapsed time: 15 seconds

@@ -1,10 +1,10 @@
-Casal2 (git@github.com:NIWAFisheriesModelling/CASAL2.git:add_mig_ss3)
+Casal2 (git@github.com:SamikDatta/CASAL2.git:fix_capped_selectivity)
 Call: C:\Users\dattas\Documents\CASAL2\BuildSystem/Casal2/casal2.exe -e -g 20 -c config_betadiff.csl2 
-Date: Mon Oct 07 14:34:52 2024
+Date: Wed Oct 09 12:49:15 2024
 Seed: 20
-Version: v24.10 (2024-10-02)
+Version: v24.10 (2024-10-08)
 Copyright (c) 2017-2024, NIWA (www.niwa.co.nz)
-Environment: User=dattas Machine=NIWA-1022446 OS=Windows_NT PID=15976
+Environment: User=dattas Machine=NIWA-1022446 OS=Windows_NT PID=8196
 
 
 *partition[state1]

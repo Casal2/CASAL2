@@ -1,10 +1,10 @@
-Casal2 (git@github.com:NIWAFisheriesModelling/CASAL2.git:add_mig_ss3)
+Casal2 (git@github.com:SamikDatta/CASAL2.git:fix_capped_selectivity)
 Call: C:\Users\dattas\Documents\CASAL2\BuildSystem/Casal2/casal2.exe -e -g 20 -c config_betadiff.csl2 
-Date: Mon Oct 07 14:34:08 2024
+Date: Wed Oct 09 12:47:24 2024
 Seed: 20
-Version: v24.10 (2024-10-02)
+Version: v24.10 (2024-10-08)
 Copyright (c) 2017-2024, NIWA (www.niwa.co.nz)
-Environment: User=dattas Machine=NIWA-1022446 OS=Windows_NT PID=19656
+Environment: User=dattas Machine=NIWA-1022446 OS=Windows_NT PID=6520
 
 
 *selectivity_by_year[multisel_by_year]
@@ -91,7 +91,6 @@ Values {vector}
 28 0.999999
 29 1
 30 1
-
 *selectivity_by_year[multisel_by_year]
 selectivity: multi_eastFSel
 year: 1977
@@ -134,6 +133,7 @@ Values {vector}
 28 0.999999
 29 1
 30 1
+
 *selectivity_by_year[multisel_by_year]
 selectivity: multi_eastFSel
 year: 1978
@@ -176,7 +176,6 @@ Values {vector}
 28 0.999999
 29 1
 30 1
-
 *selectivity_by_year[multisel_by_year]
 selectivity: multi_eastFSel
 year: 1979
@@ -219,7 +218,6 @@ Values {vector}
 28 0.999999
 29 1
 30 1
-
 *selectivity_by_year[multisel_by_year]
 selectivity: multi_eastFSel
 year: 1980
@@ -262,7 +260,6 @@ Values {vector}
 28 0.999999
 29 1
 30 1
-
 *selectivity_by_year[multisel_by_year]
 selectivity: multi_eastFSel
 year: 1981
@@ -305,6 +302,7 @@ Values {vector}
 28 0.999999
 29 1
 30 1
+
 *selectivity_by_year[multisel_by_year]
 selectivity: multi_eastFSel
 year: 1982
@@ -347,7 +345,6 @@ Values {vector}
 28 0.999999
 29 1
 30 1
-
 *selectivity_by_year[multisel_by_year]
 selectivity: multi_eastFSel
 year: 1983
@@ -390,7 +387,6 @@ Values {vector}
 28 0.999999
 29 1
 30 1
-
 *selectivity_by_year[multisel_by_year]
 selectivity: multi_eastFSel
 year: 1984
@@ -433,6 +429,7 @@ Values {vector}
 28 0.999999
 29 1
 30 1
+
 *selectivity_by_year[multisel_by_year]
 selectivity: multi_eastFSel
 year: 1985
@@ -475,7 +472,6 @@ Values {vector}
 28 0.999999
 29 1
 30 1
-
 *selectivity_by_year[multisel_by_year]
 selectivity: multi_eastFSel
 year: 1986
@@ -560,7 +556,6 @@ Values {vector}
 28 0.999999
 29 1
 30 1
-
 *selectivity_by_year[multisel_by_year]
 selectivity: multi_eastFSel
 year: 1988

@@ -642,4 +642,4 @@ Successful convergence in optimise
 [WARNING] At line 278 in population.csl2 the parameter 'compatibility_option' : Using the 'casal' compatibility option. Note this is provided for backwards compatibility with CASAL - the recommended compatibility option is 'casal2'
 [INFO] Assert Passed: The Assert with label 'obj' for the Objective Function had value 1467.46 and 1467.46 was expected.
 [INFO] Completed
-[INFO] Total elapsed time: 26 seconds
+[INFO] Total elapsed time: 28 seconds
