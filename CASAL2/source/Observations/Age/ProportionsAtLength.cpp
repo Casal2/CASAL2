@@ -303,18 +303,18 @@ void ProportionsAtLength::DoBuild() {
   for (unsigned category_offset = 0; category_offset < category_labels_.size(); ++category_offset, ++partition_iter) {
     auto category_iter = partition_iter->begin();
     for (; category_iter != partition_iter->end(); ++category_iter) {
-		LOG_FINE() << "(*category_iter)->name_ = " << (*category_iter)->name_;
-		(*category_iter)->age_length_->BuildAgeLengthMatrixForTheseYears(years_);
-		++category_counter; // add one to category_counter
-	}
+			LOG_FINE() << "(*category_iter)->name_ = " << (*category_iter)->name_;
+			(*category_iter)->age_length_->BuildAgeLengthMatrixForTheseYears(years_);
+			++category_counter; // add one to category_counter
+		}
   }
   // Build Selectivity pointers
   for (string label : selectivity_labels_) {
     Selectivity* selectivity = model_->managers()->selectivity()->GetSelectivity(label);
     if (!selectivity)
       LOG_ERROR_P(PARAM_SELECTIVITIES) << ": Selectivity label " << label << " was not found.";
-	selectivities_.push_back(selectivity);
-  }
+			selectivities_.push_back(selectivity);
+		}
 
 // I *think* this is duplicating the selectivity over all categories, if only one is given in the observation block 
   LOG_FINE() << "category_counter = " << category_counter;
@@ -380,7 +380,7 @@ void ProportionsAtLength::Execute() {
     Double start_value = 0.0;
     Double end_value   = 0.0;
     Double final_value = 0.0;
-	unsigned category_index = 0;
+		unsigned category_index = 0;
 
     /**
      * Loop through the 2 combined categories building up the
@@ -448,7 +448,6 @@ void ProportionsAtLength::Execute() {
       SaveComparison(category_labels_[category_offset], 0, length_bins_[i], expected_values_[i], proportions_[model_->current_year()][category_labels_[category_offset]][i],
                      process_errors_by_year_[model_->current_year()], error_values_[model_->current_year()][category_labels_[category_offset]][i], 0.0, delta_, 0.0);
     }
-	
   }
 }
 
