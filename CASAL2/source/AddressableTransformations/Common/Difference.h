@@ -17,8 +17,7 @@
 #include "../AddressableTransformation.h"
 
 // namespaces
-namespace niwa {
-namespace addressabletransformations {
+namespace niwa::addressabletransformations {
 
 // classes
 class Difference : public AddressableTransformation {
@@ -47,7 +46,6 @@ private:
   unsigned number_of_parameters_;
 };
 
-} /* namespace addressabletransformations */
-} /* namespace niwa */
+} /* namespace niwa::addressabletransformations */
 
 #endif /* SOURCE_ESTIMATETRANSFORMATIONS_CHILDREN_DIFFERENCE_H_ */
