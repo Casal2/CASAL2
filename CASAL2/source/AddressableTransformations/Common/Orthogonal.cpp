@@ -34,19 +34,17 @@ Orthogonal::Orthogonal(shared_ptr<Model> model) : AddressableTransformation(mode
  * Validate
  */
 void Orthogonal::DoValidate() {
-  if (parameter_labels_.size() > 2) {  // could be one
+  if (parameter_labels_.size() != 2) {  // could be one
     LOG_ERROR_P(PARAM_PARAMETERS) << "the " << type_ << " transformation can only transform 2 parameters at a time. You supplied " << parameter_labels_.size() << " parmaters";
   }
-  restored_values_.resize(parameter_labels_.size(), 0.0);
-
-  LOG_FINE() << "check values";
-  for (unsigned i = 0; i < parameter_labels_.size(); ++i) {
-    LOG_FINE() << parameter_labels_[i] << " value = " << init_values_[i];
+  if (init_values_[0] <= 0) {
+    LOG_ERROR_P(PARAM_PARAMETERS) << "the " << type_ << " first value must be positive. Provided value was: " << init_values_[0];
   }
-  product_parameter_  = init_values_[0] * init_values_[1];
-  quotient_parameter_ = init_values_[0] / init_values_[1];
-  restored_values_[0] = sqrt(product_parameter_ * quotient_parameter_);
-  restored_values_[1] = sqrt(product_parameter_ / quotient_parameter_);
+
+  restored_values_.resize(parameter_labels_.size(), 0.0);
+  orthogonalTransform(init_values_[0], init_values_[1], quotient_parameter_, product_parameter_);
+  inverseOrthogonalTransform(quotient_parameter_, product_parameter_, restored_values_[0], restored_values_[1]);
+
   for (unsigned i = 0; i < parameter_labels_.size(); ++i) {
     if (fabs(restored_values_[i] - init_values_[i]) > 1e-5)
       LOG_CODE_ERROR() << "restored_values_[i] !=  init_values_[i]. restored value = " << restored_values_[i] << " init value = " << init_values_[i];
@@ -66,8 +64,8 @@ void Orthogonal::DoBuild() {}
  *  Restore estimate
  */
 void Orthogonal::DoRestore() {
-  restored_values_[0] = sqrt(product_parameter_ * quotient_parameter_);
-  restored_values_[1] = sqrt(product_parameter_ / quotient_parameter_);
+  inverseOrthogonalTransform(quotient_parameter_, product_parameter_, restored_values_[0], restored_values_[1]);
+
   LOG_FINE() << restored_values_[0] << " " << restored_values_[1];
   (this->*restore_function_)(restored_values_);
 }
@@ -77,7 +75,6 @@ void Orthogonal::DoRestore() {
  * @return log(Jacobian) if transformed with Jacobian, otherwise 0.0
  */
 Double Orthogonal::GetScore() {
-  // -ln(J) = 0.0
   jacobian_ = 0.0;
   return jacobian_;
 }
