@@ -17,8 +17,7 @@
 #include "../../Model/Objects.h"
 
 // namespaces
-namespace niwa {
-namespace addressabletransformations {
+namespace niwa::addressabletransformations {
 
 /**
  * Default constructor
@@ -31,15 +30,10 @@ AverageDifference::AverageDifference(shared_ptr<Model> model) : AddressableTrans
  * Validate objects
  */
 void AverageDifference::DoValidate() {
-  if (parameter_labels_.size() > 2) {  // could be one
+  if (parameter_labels_.size() != 2) {  // Must be two
     LOG_ERROR_P(PARAM_PARAMETERS) << "The average difference transformation can only transform 2 parameters at a time. You supplied " << parameter_labels_.size() << " parmaters";
   }
   restored_values_.resize(2, 0.0);
-  // if -i use given values average_parameter_ and difference_parameter_ and restore.
-  restored_values_[0] = average_parameter_ + (difference_parameter_ / 2.0);
-  restored_values_[1] = average_parameter_ - (difference_parameter_ / 2.0);
-
-  // else use config addressables and calculate average_parameter_ and difference_parameter_
   Double total = 0;
   for (unsigned i = 0; i < parameter_labels_.size(); ++i) {
     LOG_FINE() << parameter_labels_[i] << " value = " << init_values_[i];
@@ -127,5 +121,5 @@ void AverageDifference::FillTabularReportCache(ostringstream& cache, bool first_
   }
   cache << average_parameter_ << " " << difference_parameter_ << " " << restored_values_[0] << " " << restored_values_[1] << " " << jacobian_ << REPORT_EOL;
 }
-} /* namespace addressabletransformations */
-} /* namespace niwa */
+
+} /* namespace niwa::addressabletransformations */

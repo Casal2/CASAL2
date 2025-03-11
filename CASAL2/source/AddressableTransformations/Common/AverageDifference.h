@@ -18,8 +18,7 @@
 #include "../AddressableTransformation.h"
 
 // namespaces
-namespace niwa {
-namespace addressabletransformations {
+namespace niwa::addressabletransformations {
 
 // classes
 class AverageDifference : public AddressableTransformation {
@@ -27,26 +26,26 @@ public:
   AverageDifference() = delete;
   explicit AverageDifference(shared_ptr<Model> model);
   virtual ~AverageDifference() = default;
-  Double           GetScore() override final;
-  void             FillReportCache(ostringstream& cache) override final;
-  void             FillTabularReportCache(ostringstream& cache, bool first_run) override final;
+  Double GetScore() override final;
+  void   FillReportCache(ostringstream& cache) override final;
+  void   FillTabularReportCache(ostringstream& cache, bool first_run) override final;
 
-  void             PrepareForObjectiveFunction() override final;
-  void             RestoreForObjectiveFunction() override final;
+  void PrepareForObjectiveFunction() override final;
+  void RestoreForObjectiveFunction() override final;
+
 protected:
   // methods
   void DoValidate() override final;
   void DoBuild() override final;
   void DoRestore() override final;
+
 private:
   // members
-  Double          average_parameter_;
-  Double          difference_parameter_;
-  unsigned        number_of_parameters_;
-
+  Double   average_parameter_;
+  Double   difference_parameter_;
+  unsigned number_of_parameters_;
 };
 
-} /* namespace addressabletransformations */
-} /* namespace niwa */
+} /* namespace niwa::addressabletransformations */
 
 #endif /* SOURCE_ESTIMATETRANSFORMATIONS_CHILDREN_AVERAGEDIFFERENCE_H_ */
