@@ -3,7 +3,7 @@ import sys
 import os.path
 import subprocess
 import fileinput
-import distutils
+# import distutils
 
 sys.path.insert(0, "buildtools/classes")
 EX_OK = getattr(os, "EX_OK", 0)
