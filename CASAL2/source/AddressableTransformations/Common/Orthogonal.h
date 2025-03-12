@@ -28,7 +28,7 @@ inline void orthogonalTransform(const Double& x1, const Double& x2, Double& y1, 
 
 // Function to recover original x1 and x2
 inline void inverseOrthogonalTransform(const Double& y1, const Double& y2, Double& x1, Double& x2) {
-  x2 = std::sqrt(std::abs(y2) / std::abs(y1));  // Ensure we get the magnitude
+  x2 = sqrt(fabs(y2) / fabs(y1));  // Ensure we get the magnitude
   if (y2 < 0)
     x2 = -x2;  // Adjust sign
   x1 = y1 * x2;
