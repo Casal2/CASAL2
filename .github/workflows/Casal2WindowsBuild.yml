@@ -87,6 +87,12 @@ jobs:
           cd BuildSystem
           ./doBuild.bat modelrunner
 
+      - name: Run Unit Tests from frontend application
+        continue-on-error: false
+        run: |
+          cd BuildSystem/Casal2
+          ./casal2 --unittest
+
       - name: Build installer iss file
         run: |
           cd BuildSystem
