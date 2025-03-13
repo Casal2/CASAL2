@@ -2,9 +2,9 @@ name: Casal2 Windows Build
 on:
   push:
     branches:
-      - master # age_length_redesign_202109
+      - master
 jobs: 
- Compile-Casal2-Setup:
+  Compile-Casal2-Windows:
     runs-on: windows-2022
     timeout-minutes: 180
     steps:
@@ -72,15 +72,6 @@ jobs:
           ./doBuild.bat archive true
         shell: bash
 
-      - name: Archive Windows build
-        continue-on-error: true
-        uses: actions/upload-artifact@v4
-        with:
-          name: Casal2-Windows-build
-          path: BuildSystem/Casal2
-          retention-days: 1
-          overwrite: true
-
       - name: Run Windows model runner
         continue-on-error: false
         run: |
@@ -97,4 +88,13 @@ jobs:
         run: |
           cd BuildSystem
           ./doBuild.bat installer    
+
+      - name: Archive Windows build
+        continue-on-error: true
+        uses: actions/upload-artifact@v4
+        with:
+          name: Casal2-Windows-build
+          path: BuildSystem/Casal2
+          retention-days: 1
+          overwrite: true          
      
