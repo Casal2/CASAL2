@@ -33,8 +33,8 @@ public:
   virtual ~CompoundLeft() = default;
   void DoValidate() override final;
 
-  Double get_value(Double value)  override final; 
-  Double get_value(unsigned value)  override final; 
+  Double get_value(Double value) override final;
+  Double get_value(unsigned value) override final;
 
 private:
   // Members
@@ -43,8 +43,6 @@ private:
   Double amin_;
   Double leftmu_;
   Double sd_;
-  Double alpha_;
-
 };
 
 } /* namespace selectivities */

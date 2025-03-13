@@ -33,16 +33,14 @@ public:
   virtual ~CompoundAll() = default;
   void DoValidate() override final;
 
-  Double get_value(Double value)  override final; 
-  Double get_value(unsigned value)  override final; 
+  Double get_value(Double value) override final;
+  Double get_value(unsigned value) override final;
 
 private:
   // Members
   Double a50_;
   Double a_to95_;
   Double amin_;
-  Double alpha_;
-
 };
 
 } /* namespace selectivities */

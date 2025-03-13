@@ -33,8 +33,8 @@ public:
   virtual ~CompoundMiddle() = default;
   void DoValidate() override final;
 
-  Double get_value(Double value)  override final; 
-  Double get_value(unsigned value)  override final; 
+  Double get_value(Double value) override final;
+  Double get_value(unsigned value) override final;
 
 private:
   // Members
@@ -44,8 +44,6 @@ private:
   Double leftmu_;
   Double to_rightmu_;
   Double sd_;
-  Double alpha_;
-
 };
 
 } /* namespace selectivities */
