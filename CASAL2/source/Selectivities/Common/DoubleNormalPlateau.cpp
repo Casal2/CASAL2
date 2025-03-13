@@ -49,7 +49,7 @@ DoubleNormalPlateau::DoubleNormalPlateau(shared_ptr<Model> model) : Selectivity(
  * rules for the model.
  */
 void DoubleNormalPlateau::DoValidate() {
-  if (beta_ > model_->max_age())
+  if (model_->partition_type() == PartitionType::kAge && beta_ > model_->max_age())
     LOG_ERROR_P(PARAM_BETA) << ": beta (" << AS_DOUBLE(beta_) << ") cannot be greater than the model maximum age";
 }
 
