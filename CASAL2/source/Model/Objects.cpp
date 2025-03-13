@@ -249,6 +249,9 @@ base::Object* Objects::FindObjectOrNull(const string& parameter_absolute_name) {
   if (type == PARAM_PROCESS) {
     result = model_->managers()->process()->GetProcess(label);
 
+  } else if (type == PARAM_PARAMETER_TRANSFORMATION) {
+    result = model_->managers()->addressable_transformation()->GetAddressableTransformation(label);
+
   } else if (type == PARAM_DERIVED_QUANTITY) {
     result = model_->managers()->derived_quantity()->GetDerivedQuantity(label);
 
