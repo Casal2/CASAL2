@@ -33,7 +33,7 @@ class Manager : public niwa::base::Manager<niwa::selectivities::Manager, niwa::S
 
 public:
   // methods
-  virtual ~Manager() noexcept(true){};
+  virtual ~Manager() noexcept(true) {};
   Selectivity* GetSelectivity(const string& label);
 
 protected:
