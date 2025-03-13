@@ -1,6 +1,5 @@
 import os
 import shutil
-from distutils import dir_util
 
 import Globals
 
@@ -40,7 +39,7 @@ class Builder:
     # Move our headers and libraries
     print('-- Moving headers and libraries')
     os.chdir('ADOL-C/')
-    dir_util.copy_tree('include/' + headers, Globals.target_include_path_ + '/adolc/')
+    shutil.copytree('include/' + headers, Globals.target_include_path_ + '/adolc/', dirs_exist_ok=True)
     shutil.copy('.libs/' + library, Globals.target_special_lib_path_)
 
     return True

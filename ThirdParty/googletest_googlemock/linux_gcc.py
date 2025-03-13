@@ -1,6 +1,5 @@
 import os
 import shutil
-from distutils import dir_util
 
 import Globals
 
@@ -54,7 +53,7 @@ class Builder:
     shutil.copy('libgmock.a', Globals.target_release_lib_path_ + '/02libgmock.a')
     shutil.copy('gtest/libgtest.a', Globals.target_debug_lib_path_ + '/01libgtest.a')
     shutil.copy('gtest/libgtest.a', Globals.target_release_lib_path_ + '/01libgtest.a')
-    dir_util.copy_tree('include/', Globals.target_include_path_)
-    dir_util.copy_tree('../googletest/include/', Globals.target_include_path_)
+    shutil.copytree('include/', Globals.target_include_path_, dirs_exist_ok=True)
+    shutil.copytree('../googletest/include/', Globals.target_include_path_, dirs_exist_ok=True)
     
     return True

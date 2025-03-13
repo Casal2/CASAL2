@@ -1,7 +1,6 @@
 import os
 import os.path
 import shutil
-from distutils import dir_util
 
 import Globals
 
@@ -44,7 +43,7 @@ class Builder:
               
     # Move our headers and libraries
     print('-- Moving headers and libraries')
-    dir_util.copy_tree('boost', Globals.target_include_path_ + '/boost/')
+    shutil.copytree('boost', Globals.target_include_path_ + '/boost/', dirs_exist_ok=True)
     for library in libraries:
       shutil.copy('stage/lib/' + library, Globals.target_debug_lib_path_)
       shutil.copy('stage/lib/' + library, Globals.target_release_lib_path_)

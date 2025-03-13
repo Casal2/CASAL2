@@ -3,7 +3,6 @@ import sys
 import os.path
 import subprocess
 import fileinput
-# import distutils
 
 sys.path.insert(0, "buildtools/classes")
 EX_OK = getattr(os, "EX_OK", 0)
@@ -27,9 +26,9 @@ Get the build information from the user
 def start():
 	cli = CommandLineInterface()
 	if not cli.parse():
-  		cli.print_usage()
-  		return False
-      
+			cli.print_usage()
+			return True
+
 	print("*************************************************************************")
 	print("*************************************************************************")
 	print(f"--> Starting {Globals.build_target_} Build")
@@ -93,7 +92,8 @@ def start():
 			return Globals.PrintError('Building linux .deb under Windows is not supported')
 		deb_builder = DebBuilder()
 		return deb_builder.start(build_parameters)
-	return False # Default return from this, we didn't find a run mode
+	
+	return True # Default return from this, we didn't find a run mode
   
 ###
 # This is the entry point in to our build system

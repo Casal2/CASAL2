@@ -53,12 +53,12 @@ class SystemInfo:
     if Globals.operating_system_ == "windows":
       Globals.cmd_path_      = self.find_exe_path('cmd.exe')
       Globals.python_cmd_    = "python"
-      Globals.gfortran_path_ = self.find_exe_path('gfortran.exe')
+      # Globals.gfortran_path_ = self.find_exe_path('gfortran.exe')
       Globals.latex_path_    = self.find_exe_path('bibtex.exe')
       Globals.git_path_      = self.find_exe_path('git.exe')    
     else:
       Globals.python_cmd_    = "python3"
-      Globals.gfortran_path_ = self.find_exe_path('gfortran')
+      # Globals.gfortran_path_ = self.find_exe_path('gfortran')
       Globals.latex_path_    = self.find_exe_path('bibtex')
       Globals.git_path_      = self.find_exe_path('git')    
       if self.find_exe_path('unzip') == '':
