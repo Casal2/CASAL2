@@ -41,6 +41,9 @@ Double Bernoulli::AdjustErrorValue(const Double process_error, const Double erro
 void Bernoulli::GetScores(map<unsigned, vector<observations::Comparison> >& comparisons) {
   for (auto year_iterator = comparisons.begin(); year_iterator != comparisons.end(); ++year_iterator) {
     for (observations::Comparison& comparison : year_iterator->second) {
+      if (comparison.expected_ < 0.0 || comparison.expected_ > 1.0) {
+        LOG_FATAL() << "Expected value in Bernoulli was invalid. We got " << comparison.expected_ << "but expected 0 < expected < 1";
+      }
       Double error_value = AdjustErrorValue(comparison.process_error_, comparison.error_value_);
       if (math::IsOne(comparison.observed_)) {
         Double score               = log(math::ZeroFun(comparison.expected_, comparison.delta_));

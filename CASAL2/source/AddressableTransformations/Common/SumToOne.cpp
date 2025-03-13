@@ -28,7 +28,7 @@ SumToOne::SumToOne(shared_ptr<Model> model) : AddressableTransformation(model) {
  */
 void SumToOne::DoValidate() {
   restored_values_.resize(parameter_labels_.size(), 0.0);
-  if (parameter_labels_.size() > 2) {  // could be one
+  if (parameter_labels_.size() != 2) {  // could be one
     LOG_ERROR_P(PARAM_PARAMETERS) << "the " << type_ << " transformation can only transform 2 parameters at a time. You supplied " << parameter_labels_.size() << " paramaters";
   }
   LOG_FINE() << "check values";

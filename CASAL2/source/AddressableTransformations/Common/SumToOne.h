@@ -21,6 +21,16 @@
 namespace niwa {
 namespace addressabletransformations {
 
+// Function to apply the orthogonal transformation
+inline void sumToOneTransform(Double& x1, Double& x2) {
+  x2 = 1.0 - x1;
+}
+
+// Function to recover original x1 and x2
+inline void inverseSumToOneTransform(Double& x1, Double& x2) {
+  x2 = 1.0 - x1;
+}
+
 /**
  *
  */
@@ -30,11 +40,12 @@ public:
   SumToOne() = delete;
   explicit SumToOne(shared_ptr<Model> model);
   virtual ~SumToOne() = default;
-  Double           GetScore() override final;
-  void             FillReportCache(ostringstream& cache) override final;
-  void             FillTabularReportCache(ostringstream& cache, bool first_run) override final;
-  void             PrepareForObjectiveFunction() override final;
-  void             RestoreForObjectiveFunction() override final;
+  Double GetScore() override final;
+  void   FillReportCache(ostringstream& cache) override final;
+  void   FillTabularReportCache(ostringstream& cache, bool first_run) override final;
+  void   PrepareForObjectiveFunction() override final;
+  void   RestoreForObjectiveFunction() override final;
+
 protected:
   // methods
   void DoValidate() override final;
