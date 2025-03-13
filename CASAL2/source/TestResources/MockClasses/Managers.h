@@ -29,9 +29,10 @@ namespace niwa {
 class MockManagers : public niwa::Managers {
 public:
   MockManagers() = delete;
-  MockManagers(shared_ptr<Model> model) : Managers(model){};
+  MockManagers(shared_ptr<Model> model) : Managers(model) {};
   MOCK_METHOD0(time_step, timesteps::Manager*());
   MOCK_METHOD0(length_weight, lengthweights::Manager*());
+  MOCK_METHOD0(selectivity, selectivities::Manager*());
 };
 
 typedef std::shared_ptr<MockManagers> MockManagersPtr;
