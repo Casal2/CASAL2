@@ -22,8 +22,7 @@
 #include "../../Utilities/To.h"
 
 // Namespaces
-namespace niwa {
-namespace testfixtures {
+namespace niwa::testfixtures {
 
 /**
  *
@@ -56,8 +55,8 @@ void BasicModel::SetUp() {
   categories->set_block_type(PARAM_CATEGORIES);
   categories->parameters().Add(PARAM_FORMAT, "stage.sex", __FILE__, __LINE__);
   categories->parameters().Add(PARAM_NAMES, {"immature.male", "mature.male", "immature.female", "mature.female"}, __FILE__, __LINE__);
-  categories->parameters().Add(PARAM_AGE_LENGTHS, {"no_age_length","no_age_length","no_age_length","no_age_length"}, __FILE__, __LINE__);
-  
+  categories->parameters().Add(PARAM_AGE_LENGTHS, {"no_age_length", "no_age_length", "no_age_length", "no_age_length"}, __FILE__, __LINE__);
+
   base::Object* age_length_object = model_->factory().CreateObject(PARAM_AGE_LENGTH, PARAM_NONE);
   if (age_length_object == nullptr)
     LOG_CODE_ERROR() << "age_length_object == nullptr";
@@ -79,7 +78,51 @@ void BasicModel::SetUp() {
   object->parameters().Add(PARAM_C, "1", __FILE__, __LINE__);
 }
 
-} /* namespace testfixtures */
-} /* namespace niwa */
+/**
+ * Add a simple process.ageing
+ */
+void BasicModel::add_process_ageing(const string& file, const unsigned& line, const vector<string> categories) {
+  base::Object* process = model_->factory().CreateObject(PARAM_AGEING, "");
+  process->parameters().Add(PARAM_LABEL, "ageing", __FILE__, __LINE__);
+  process->parameters().Add(PARAM_CATEGORIES, categories, __FILE__, __LINE__);
+}
+
+/**
+ * Add a simple process.recruitment_constant
+ */
+void BasicModel::add_process_recruitment_constant(const string& file, const unsigned& line) {
+  vector<string> recruitment_categories = {"immature.male", "immature.female"};
+  vector<string> proportions            = {"0.6", "0.4"};
+
+  base::Object* process = model_->factory().CreateObject(PARAM_RECRUITMENT, PARAM_CONSTANT);
+  process->parameters().Add(PARAM_LABEL, "recruitment", file, line);
+  process->parameters().Add(PARAM_TYPE, "constant", file, line);
+  process->parameters().Add(PARAM_CATEGORIES, recruitment_categories, file, line);
+  process->parameters().Add(PARAM_PROPORTIONS, proportions, file, line);
+  process->parameters().Add(PARAM_R0, "100000", file, line);
+  process->parameters().Add(PARAM_AGE, "1", file, line);
+}
+
+/**
+ * Add a simple selectivity.logistic
+ */
+void BasicModel::add_selectivity_logistic(const string& file, const unsigned& line) {
+  base::Object* selectivity = model_->factory().CreateObject(PARAM_SELECTIVITY, PARAM_LOGISTIC);
+  selectivity->parameters().Add(PARAM_LABEL, "logistic", __FILE__, __LINE__);
+  selectivity->parameters().Add(PARAM_TYPE, "logistic", __FILE__, __LINE__);
+  selectivity->parameters().Add(PARAM_A50, "8", __FILE__, __LINE__);
+  selectivity->parameters().Add(PARAM_ATO95, "3", __FILE__, __LINE__);
+}
+
+/**
+ *
+ */
+void BasicModel::add_time_step(const string& file, const unsigned& line, vector<string> processes) {
+  base::Object* time_step = model_->factory().CreateObject(PARAM_TIME_STEP, "");
+  time_step->parameters().Add(PARAM_LABEL, "step_one", __FILE__, __LINE__);
+  time_step->parameters().Add(PARAM_PROCESSES, processes, __FILE__, __LINE__);
+}
+
+}  // namespace niwa::testfixtures
 
 #endif /* TESTMODE */

@@ -27,6 +27,7 @@ class Model;
 
 namespace testfixtures {
 using std::string;
+using std::vector;
 
 /**
  * Class Definition
@@ -34,9 +35,15 @@ using std::string;
 class BasicModel : public testfixtures::Base {
 public:
   // Setup and TearDown Methods
-  BasicModel(){};
-  virtual ~BasicModel(){};
+  BasicModel() {};
+  virtual ~BasicModel() {};
   void SetUp() override final;
+
+  // Helper Functions
+  void add_process_ageing(const string& file, const unsigned& line, const vector<string> categories = {"immature.male", "immature.female"});
+  void add_process_recruitment_constant(const string& file, const unsigned& line);
+  void add_selectivity_logistic(const string& file, const unsigned& line);
+  void add_time_step(const string& file, const unsigned& line, vector<string> processes);
 };
 
 } /* namespace testfixtures */
