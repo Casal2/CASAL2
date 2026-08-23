@@ -9,7 +9,7 @@
  */
 #ifdef TESTMODE
 
-#include "MortalityConstantRate.h"
+#include "MortalityConstantRemovalRate.h"
 
 #include <gmock/gmock.h>
 #include <gtest/gtest.h>

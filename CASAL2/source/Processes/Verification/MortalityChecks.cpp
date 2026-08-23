@@ -12,8 +12,7 @@
 // headers
 #include "../Age/Mortality/MortalityHybrid.h"
 #include "../Age/Mortality/MortalityInstantaneousRetained.h"
-#include "../Common/Mortality/MortalityConstantExploitation.h"
-#include "../Common/Mortality/MortalityConstantRate.h"
+#include "../Common/Mortality/MortalityConstantRemovalRate.h"
 #include "../Common/Mortality/MortalityInstantaneous.h"
 #include "../Manager.h"
 #include "../Process.h"
@@ -36,10 +35,10 @@ void AllCategoriesHaveAnM(shared_ptr<Model> model) {
     auto process_list = model->managers()->process()->objects();
     for (auto* process : process_list) {
       if (process->process_type() == ProcessType::kMortality) {
-        if (process->type() == PARAM_MORTALITY_CONSTANT_RATE) {
-          common::MortalityConstantRate* mortality = dynamic_cast<common::MortalityConstantRate*>(process);
+        if (process->type() == PARAM_MORTALITY_CONSTANT_RATE || process->type() == PARAM_MORTALITY_CONSTANT_EXPLOITATION) {
+          common::MortalityConstantRemovalRate* mortality = dynamic_cast<common::MortalityConstantRemovalRate*>(process);
           if (!mortality)
-            LOG_CODE_ERROR() << "!mortality with auto* mortality = dynamic_cast<age::MortalityConstantRate*>(process)";
+            LOG_CODE_ERROR() << "!mortality with auto* mortality = dynamic_cast<common::MortalityConstantRemovalRate*>(process)";
 
           for (auto label : mortality->category_labels()) category_count[label]++;
 
@@ -67,14 +66,6 @@ void AllCategoriesHaveAnM(shared_ptr<Model> model) {
           for (auto label : mortality->category_labels()) {
             category_count[label]++;
           }
-        } else if (process->type() == PARAM_MORTALITY_CONSTANT_EXPLOITATION) {
-          common::MortalityConstantExploitation* mortality = dynamic_cast<common::MortalityConstantExploitation*>(process);
-          if (!mortality)
-            LOG_CODE_ERROR() << "!mortality with auto* mortality = dynamic_cast<common::MortalityConstantExploitation*>(process)";
-
-          for (auto label : mortality->category_labels()) {
-            category_count[label]++;
-          }
         }
       }
     }
@@ -82,10 +73,10 @@ void AllCategoriesHaveAnM(shared_ptr<Model> model) {
     auto process_list = model->managers()->process()->objects();
     for (auto* process : process_list) {
       if (process->process_type() == ProcessType::kMortality) {
-        if (process->type() == PARAM_MORTALITY_CONSTANT_RATE) {
-          common::MortalityConstantRate* mortality = dynamic_cast<common::MortalityConstantRate*>(process);
+        if (process->type() == PARAM_MORTALITY_CONSTANT_RATE || process->type() == PARAM_MORTALITY_CONSTANT_EXPLOITATION) {
+          common::MortalityConstantRemovalRate* mortality = dynamic_cast<common::MortalityConstantRemovalRate*>(process);
           if (!mortality)
-            LOG_CODE_ERROR() << "!mortality with auto* mortality = dynamic_cast<length::MortalityConstantRate*>(process)";
+            LOG_CODE_ERROR() << "!mortality with auto* mortality = dynamic_cast<common::MortalityConstantRemovalRate*>(process)";
 
           for (auto label : mortality->category_labels()) category_count[label]++;
 
@@ -93,14 +84,6 @@ void AllCategoriesHaveAnM(shared_ptr<Model> model) {
           common::MortalityInstantaneous* mortality = dynamic_cast<common::MortalityInstantaneous*>(process);
           if (!mortality)
             LOG_CODE_ERROR() << "!mortality with auto* mortality = dynamic_cast<common::MortalityInstantaneous*>(process)";
-
-          for (auto label : mortality->category_labels()) {
-            category_count[label]++;
-          }
-        } else if (process->type() == PARAM_MORTALITY_CONSTANT_EXPLOITATION) {
-          common::MortalityConstantExploitation* mortality = dynamic_cast<common::MortalityConstantExploitation*>(process);
-          if (!mortality)
-            LOG_CODE_ERROR() << "!mortality with auto* mortality = dynamic_cast<common::MortalityConstantExploitation*>(process)";
 
           for (auto label : mortality->category_labels()) {
             category_count[label]++;

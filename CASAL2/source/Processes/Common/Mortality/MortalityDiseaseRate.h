@@ -16,18 +16,16 @@
 #define COMMON_MORTALITYDISEASERATE_H_
 
 // Headers
-#include "../../../Partition/Accessors/Categories.h"
-#include "../../../Processes/Process.h"
 #include "../../../Utilities/Types.h"
+#include "MortalityRateBase.h"
 
 // namespaces
 namespace niwa::processes::common {
-namespace accessor = niwa::partition::accessors;
 using utilities::OrderedMap;
 /**
  * Class Definition
  */
-class MortalityDiseaseRate : public niwa::Process {
+class MortalityDiseaseRate : public niwa::processes::common::MortalityRateBase {
 public:
   // Methods
   MortalityDiseaseRate(shared_ptr<Model> model);
@@ -43,14 +41,10 @@ public:
 
 private:
   // Members
-  vector<string>                 category_labels_;
   vector<Double>                 dm_input_;
   OrderedMap<string, Double>     dm_;
   map<unsigned, Double>          year_effect_by_year_;
   vector<Double>                 year_effect_input_;
-  vector<string>                 selectivity_names_;
-  accessor::Categories           partition_;
-  vector<Selectivity*>           selectivities_;
   vector<unsigned>               process_years_;
   vector<vector<vector<Double>>> results_;  // year x category x age classes
 };

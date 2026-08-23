@@ -16,6 +16,7 @@
 #include "../../../Categories/Categories.h"
 #include "../../../Selectivities/Manager.h"
 #include "../../../TimeSteps/Manager.h"
+#include "MortalityRateFormulas.h"
 
 // Namespaces
 namespace niwa::processes::common {
@@ -23,7 +24,7 @@ namespace niwa::processes::common {
 /**
  * Default constructor
  */
-MortalityDiseaseRate::MortalityDiseaseRate(shared_ptr<Model> model) : Process(model), partition_(model) {
+MortalityDiseaseRate::MortalityDiseaseRate(shared_ptr<Model> model) : MortalityRateBase(model) {
   LOG_TRACE();
   process_type_        = ProcessType::kMortality;
   partition_structure_ = PartitionType::kAge | PartitionType::kLength;
@@ -40,12 +41,6 @@ MortalityDiseaseRate::MortalityDiseaseRate(shared_ptr<Model> model) : Process(mo
 
 /**
  * Validate the Mortality Disease Rate process
- *
- * - Validate the required parameters
- * - Assign the label from the parameters
- * - Assign and validate remaining parameters
- * - Duplicate 'm' and 'selectivities' if only one value specified
- * - Check the categories are real
  */
 void MortalityDiseaseRate::DoValidate() {
   parameters_.ValidateVector(PARAM_DISEASE_MORTALITY_RATE)
@@ -71,12 +66,7 @@ void MortalityDiseaseRate::DoValidate() {
 void MortalityDiseaseRate::DoBuild() {
   LOG_FINE() << "MortalityDiseaseRate::DoBuild()";
   partition_.Init(category_labels_);
-  for (string label : selectivity_names_) {
-    Selectivity* selectivity = model()->managers()->selectivity()->GetSelectivity(label);
-    if (!selectivity)
-      LOG_ERROR_P(PARAM_SELECTIVITIES) << ": The selectivity with label " << label << " was not found.";
-    selectivities_.push_back(selectivity);
-  }
+  selectivities_ = ResolveSelectivities(model(), parameters(), selectivity_names_, PARAM_SELECTIVITIES, ": The selectivity with label ");
 
   results_.resize(process_years_.size());
   vector<unsigned> category_bin_counts;
@@ -122,7 +112,7 @@ void MortalityDiseaseRate::DoExecute() {
         for (Double& data : category->data_) {
           Double selectivity_value
               = (process_profile_ == ProcessProfile::kAge) ? selectivities_[i]->GetAgeResult(category->min_age_ + j, category->age_length_) : selectivities_[i]->GetLengthResult(j);
-          amount = data * (1 - exp(-selectivity_value * dm * year_effect_by_year_[year]));
+          amount = CalculateRemoval(RemovalFormulation::kExponentialDecay, data, dm, selectivity_value, year_effect_by_year_[year]);
           if (i >= results_[year_ndx].size() || j >= results_[year_ndx][i].size()) {
             LOG_CODE_ERROR() << "Results index out of range for year index " << year_ndx << ", category index " << i << ", bin index " << j;
           } else {

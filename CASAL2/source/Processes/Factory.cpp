@@ -35,8 +35,7 @@
 #include "../Processes/Age/TagLossEmpirical.h"
 #include "../Processes/Age/TransitionCategoryByAge.h"
 #include "../Processes/Common/LoadPartition.h"
-#include "../Processes/Common/Mortality/MortalityConstantExploitation.h"
-#include "../Processes/Common/Mortality/MortalityConstantRate.h"
+#include "../Processes/Common/Mortality/MortalityConstantRemovalRate.h"
 #include "../Processes/Common/Mortality/MortalityDiseaseRate.h"
 #include "../Processes/Common/Mortality/MortalityInstantaneous.h"
 #include "../Processes/Common/Nop.h"
@@ -98,13 +97,13 @@ Process* Factory::Create(shared_ptr<Model> model, const string& object_type, con
       else if (sub == PARAM_MATURATION)
         result = new age::Maturation(model);
       else if (sub == PARAM_MORTALITY_CONSTANT_RATE)
-        result = new common::MortalityConstantRate(model);
+        result = new common::MortalityConstantRemovalRate(model, common::RemovalFormulation::kExponentialDecay);
       else if (sub == PARAM_SURVIVAL_CONSTANT_RATE)
         result = new age::SurvivalConstantRate(model);
       else if (sub == PARAM_MORTALITY_DISEASE_RATE)
         result = new common::MortalityDiseaseRate(model);
       else if (sub == PARAM_MORTALITY_CONSTANT_EXPLOITATION)
-        result = new common::MortalityConstantExploitation(model);
+        result = new common::MortalityConstantRemovalRate(model, common::RemovalFormulation::kExploitationRate);
       else if (sub == PARAM_MORTALITY_INITIALISATION_EVENT)
         result = new age::MortalityInitialisationEvent(model);
       else if (sub == PARAM_MORTALITY_INITIALISATION_EVENT_BIOMSS)
@@ -150,9 +149,9 @@ Process* Factory::Create(shared_ptr<Model> model, const string& object_type, con
       if (sub == PARAM_GROWTH)
         result = new length::Growth(model);
       else if (sub == PARAM_MORTALITY_CONSTANT_RATE)
-        result = new common::MortalityConstantRate(model);
+        result = new common::MortalityConstantRemovalRate(model, common::RemovalFormulation::kExponentialDecay);
       else if (sub == PARAM_MORTALITY_CONSTANT_EXPLOITATION)
-        result = new common::MortalityConstantExploitation(model);
+        result = new common::MortalityConstantRemovalRate(model, common::RemovalFormulation::kExploitationRate);
       else if (sub == PARAM_RECRUITMENT_CONSTANT)
         result = new common::RecruitmentConstant(model);
       else if (sub == PARAM_RECRUITMENT_BEVERTON_HOLT)

@@ -14,6 +14,7 @@
 #include <numeric>
 
 #include "Categories/Categories.h"
+#include "Processes/Common/Mortality/MortalityRateFormulas.h"
 #include "Selectivities/Manager.h"
 #include "Selectivities/Selectivity.h"
 #include "TimeSteps/Manager.h"
@@ -27,7 +28,7 @@ namespace age {
 /**
  * Default Constructor
  */
-SurvivalConstantRate::SurvivalConstantRate(shared_ptr<Model> model) : Process(model), partition_(model) {
+SurvivalConstantRate::SurvivalConstantRate(shared_ptr<Model> model) : MortalityRateBase(model) {
   LOG_TRACE();
   process_type_        = ProcessType::kMortality;
   partition_structure_ = PartitionType::kAge;
@@ -71,41 +72,14 @@ void SurvivalConstantRate::DoValidate() {
 void SurvivalConstantRate::DoBuild() {
   partition_.Init(category_labels_);
 
-  for (string label : selectivity_names_) {
-    Selectivity* selectivity = model()->managers()->selectivity()->GetSelectivity(label);
-    if (!selectivity)
-      LOG_ERROR_P(PARAM_SELECTIVITIES) << ": Selectivity label " << label << " was not found.";
-
-    selectivities_.push_back(selectivity);
-  }
+  selectivities_ = ResolveSelectivities(model(), parameters(), selectivity_names_, PARAM_SELECTIVITIES, ": Selectivity label ");
 
   /**
    * Organise our time step ratios. Each time step can
    * apply a different ratio of S so here we want to verify
    * we have enough and re-scale them to 1.0
    */
-  vector<TimeStep*> time_steps = model()->managers()->time_step()->ordered_time_steps();
-  LOG_FINEST() << "time_steps.size(): " << time_steps.size();
-  vector<unsigned> active_time_steps;
-  for (unsigned i = 0; i < time_steps.size(); ++i) {
-    if (time_steps[i]->HasProcess(label_))
-      active_time_steps.push_back(i);
-  }
-
-  if (ratios_.size() == 0) {
-    for (unsigned i : active_time_steps) time_step_ratios_[i] = 1.0;
-  } else {
-    if (ratios_.size() != active_time_steps.size())
-      LOG_ERROR_P(PARAM_TIME_STEP_PROPORTIONS) << "length (" << ratios_.size() << ") does not match the number of time steps this process has been assigned to ("
-                                               << active_time_steps.size() << ")";
-
-    for (auto value : ratios_) {
-      if (value <= 0.0 || value > 1.0)
-        LOG_ERROR_P(PARAM_TIME_STEP_PROPORTIONS) << "value (" << value << ") must be between 0.0 (exclusive) and 1.0 (inclusive)";
-    }
-
-    for (unsigned i = 0; i < ratios_.size(); ++i) time_step_ratios_[active_time_steps[i]] = ratios_[i];
-  }
+  time_step_ratios_ = BuildTimeStepRatios(model(), parameters(), label_, ratios_, "length (", true, "value (", ") must be between 0.0 (exclusive) and 1.0 (inclusive)");
 }
 
 /**
@@ -120,30 +94,19 @@ void SurvivalConstantRate::DoExecute() {
   LOG_FINEST() << "Ratios.size() " << time_step_ratios_.size() << " : time_step: " << time_step << "; ratio: " << time_step_ratios_[time_step];
   Double ratio = time_step_ratios_[time_step];
 
-  // StoreForReport("year", model_->current_year());
+  // The removal loop needs a per-category rate map; survival's rate is (1.0 - s), not s
+  // directly, so build the transformed map once here (O(categories), not O(cells)) and hand it
+  // to the same shared loop MortalityConstantRemovalRate uses.
+  OrderedMap<string, Double> survival_rate;
+  for (auto& entry : s_) survival_rate[entry.first] = 1.0 - entry.second;
 
-  unsigned i = 0;
-  for (auto category : partition_) {
-    Double s = s_[category->name_];
-
-    unsigned j = 0;
-    LOG_FINEST() << "category " << category->name_ << "; min_age: " << category->min_age_ << "; ratio: " << ratio;
-    // StoreForReport(category->name_ + " ratio", ratio);
-    for (Double& data : category->data_) {
-      data -= data * (1.0 - exp(-selectivities_[i]->GetAgeResult(category->min_age_ + j, category->age_length_) * ((1.0 - s) * ratio)));
-      ++j;
-    }
-
-    ++i;
-  }
+  common::MortalityRateBase::ApplyRemovalLoop(partition_, process_profile_, common::RemovalFormulation::kSurvivalExponentialDecay, survival_rate, selectivities_, ratio);
 }
 
 /**
  * Reset the Survival Process
  */
-void SurvivalConstantRate::DoReset() {
-  survival_rates_.clear();
-}
+void SurvivalConstantRate::DoReset() {}
 
 } /* namespace age */
 } /* namespace processes */

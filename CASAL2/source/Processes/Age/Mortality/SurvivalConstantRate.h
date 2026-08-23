@@ -17,21 +17,18 @@
 #define SURVIVALCONSTANTRATE_H_
 
 // Headers
-#include "Partition/Accessors/Categories.h"
-#include "Processes/Process.h"
+#include "Processes/Common/Mortality/MortalityRateBase.h"
 #include "Utilities/Types.h"
 
 // namespaces
 namespace niwa {
-class Selectivity;  // Forward declare Selectivity class
 namespace processes {
 namespace age {
-namespace accessor = niwa::partition::accessors;
 using utilities::OrderedMap;
 /**
  * Class Definition
  */
-class SurvivalConstantRate : public niwa::Process {
+class SurvivalConstantRate : public niwa::processes::common::MortalityRateBase {
 public:
   // Methods
   SurvivalConstantRate(shared_ptr<Model> model);
@@ -45,15 +42,10 @@ public:
 
 private:
   // Members
-  vector<string>             category_labels_;
   vector<Double>             s_input_;
   OrderedMap<string, Double> s_;
   vector<double>             ratios_;
   map<unsigned, double>      time_step_ratios_;
-  vector<vector<Double>>     survival_rates_;
-  vector<string>             selectivity_names_;
-  accessor::Categories       partition_;
-  vector<Selectivity*>       selectivities_;
 };
 
 } /* namespace age */
