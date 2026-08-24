@@ -152,7 +152,7 @@ void AgeLength::DoBuild() {
   string current_age_length_label = "";
   for (unsigned category_offset = 0; category_offset < category_labels_.size(); ++category_offset, ++partition_iter) {
     auto category_iter = partition_iter->begin();
-    for (unsigned cached_counter = 0; category_iter != partition_iter->end(); ++category_iter, ++cached_counter) {
+    for (; category_iter != partition_iter->end(); ++category_iter) {
       if (find(split_numerator_categories_.begin(), split_numerator_categories_.end(), (*category_iter)->name_) == split_numerator_categories_.end()) {
         vector_of_cached_categories_in_numerator_.push_back(false);
       } else {

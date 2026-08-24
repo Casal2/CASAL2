@@ -777,7 +777,6 @@ void MortalityInstantaneous::DoExecute() {
           }
         }
       } else {
-        unsigned category_offset = 0;
         for (auto& categories : partition_) {
           for (auto& fishery_category : fishery_categories_) {
             if (fishery_category.category_label_ == categories->name_ && fisheries_[fishery_category.fishery_label_].time_step_index_ == time_step_index) {
@@ -789,7 +788,6 @@ void MortalityInstantaneous::DoExecute() {
               }
             }
           }
-          category_offset++;
         }
       }
     }

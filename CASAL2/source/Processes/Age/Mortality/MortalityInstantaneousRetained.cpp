@@ -729,7 +729,6 @@ void MortalityInstantaneousRetained::DoExecute() {
     if (find(process_years_.begin(), process_years_.end(), year) != process_years_.end()) {
       // only calculate observed fits for years the process exists for
       unsigned age_spread      = model()->age_spread();
-      unsigned category_offset = 0;
       for (auto& categories : partition_) {
         for (auto& fishery_category : fishery_categories_) {
           if (fishery_category.category_label_ == categories->name_ && fisheries_[fishery_category.fishery_label_].time_step_index_ == time_step_index) {
@@ -761,7 +760,6 @@ void MortalityInstantaneousRetained::DoExecute() {
             }
           }
         }
-        category_offset++;
       }
 
       // Record discard mortality per year
@@ -803,7 +801,6 @@ void MortalityInstantaneousRetained::DoExecute() {
   /**
    * Remove the stock now using the exploitation rate
    */
-  unsigned category_ndx = 0;
   for (auto& category : categories_) {
     LOG_MEDIUM() << "category " << category.category_label_ << " used in time step " << time_step_index << ": " << category.used_in_current_timestep_;
 
@@ -824,7 +821,6 @@ void MortalityInstantaneousRetained::DoExecute() {
       }
       // removals_by_category_age_[category_ndx][i] -= category.category_->data_[i]; // minus what was left thus keeping the difference
     }
-    ++category_ndx;
   }
   // removals_by_year_category_age_[model_->current_year()] = removals_by_category_age_;
 }

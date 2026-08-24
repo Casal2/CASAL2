@@ -661,13 +661,13 @@ void Loader::FindActiveMinimiserType() {
   vector<string> split_string;
 
   // Hold information about each minimiser
-  typedef struct {
+  struct MinimiserDefinition {
     string   name_        = "<<unknown>>";
     string   type_        = "";
     bool     active_      = true;
     string   file_name_   = "";
     unsigned line_number_ = 0;
-  } MinimiserDefinition;
+  };
   vector<MinimiserDefinition> minimisers;
 
   for (auto block_vector : blocks_) {

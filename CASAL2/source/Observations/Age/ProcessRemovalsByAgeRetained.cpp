@@ -211,7 +211,6 @@ void ProcessRemovalsByAgeRetained::Execute() {
       auto category_iter = partition_iter->begin();
       for (; category_iter != partition_iter->end(); ++category_iter) {
         // Go through all the fisheries and accumulate the expectation whilst also applying ageing error
-        unsigned method_offset = 0;
         for (string fishery : method_) {
           // This should get caught in the DoBuild now.
           if (Retained_at_age.find(year) == Retained_at_age.end() || Retained_at_age[year].find(fishery) == Retained_at_age[year].end()
@@ -260,8 +259,6 @@ void ProcessRemovalsByAgeRetained::Execute() {
 
           // Accumulate the expectations if they come form multiple fisheries
           for (unsigned i = 0; i < expected_values.size(); ++i) accumulated_expected_values[i] += expected_values[i];
-
-          method_offset++;
         }
       }
 

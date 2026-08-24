@@ -390,12 +390,10 @@ void RecruitmentBevertonHoltWithDeviations::DoExecute() {
                  << "; b0_ = " << b0_ << "; ssb_ratio = " << ssb_ratio << "; true_ycs = " << true_ycs << "; amount_per = " << amount_per;
   }
 
-  unsigned i = 0;
   for (auto category : partition_) {
     LOG_FINEST() << category->name_ << "; age: " << age_ << "; category->min_age_: " << category->min_age_ << " recruits = " << amount_per << ", proportion of recruits "
                  << proportions_by_category_[category->name_];
     category->data_[age_ - category->min_age_] += amount_per * proportions_by_category_[category->name_];
-    ++i;
   }
 }
 

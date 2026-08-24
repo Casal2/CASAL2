@@ -75,12 +75,10 @@ void Cinitial::DoValidate() {
     if (check_combined) {
       vector<string> split_category_labels;
       boost::split(split_category_labels, row_label, boost::is_any_of("+"));
-      unsigned category_iter = 0;
       for (const string& split_category_label : split_category_labels) {
         if (!current_model->categories()->IsValid(split_category_label)) {
           LOG_FATAL_P(PARAM_N) << ": The category " << split_category_label << " is not a valid category.";
         }
-        ++category_iter;
       }
     } else {
       if (!current_model->categories()->IsValid(row_label))

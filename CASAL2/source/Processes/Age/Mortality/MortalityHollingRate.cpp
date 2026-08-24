@@ -246,7 +246,6 @@ void MortalityHollingRate::DoExecute() {
      */
     unsigned current_year       = model()->current_year();
     Double   Mortality          = 0;
-    Double   SumMortality       = 0;
     Double   Vulnerable         = 0;
     Double   PredatorVulnerable = 0;
     unsigned prey_offset        = 0;
@@ -337,7 +336,6 @@ void MortalityHollingRate::DoExecute() {
         LOG_FINEST() << "Number of individuals removed from this process = " << Current;
         // remove abundance
         prey_categories->data_[i] -= Current;
-        SumMortality += Current;
       }
       ++prey_offset;
     }

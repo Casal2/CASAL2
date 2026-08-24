@@ -135,7 +135,6 @@ void MortalityPreySuitability::DoExecute() {
     Double TotalPreyVulnerable     = 0;
     Double TotalPreyAvailability   = 0;
     Double TotalPredatorVulnerable = 0;
-    Double SumMortality            = 0.0;
 
     map<string, Double> Vulnerable_by_Prey;
     map<string, Double> Exploitation_by_Prey;
@@ -223,7 +222,6 @@ void MortalityPreySuitability::DoExecute() {
 
           // remove abundance
           (*category_iter)->data_[data_offset] -= Current;
-          SumMortality += Current;
         }
       }
     }

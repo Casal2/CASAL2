@@ -490,12 +490,10 @@ void RecruitmentBevertonHolt::DoExecute() {
   // Distribute recruits to partition
   if (process_profile_ == ProcessProfile::kAge) {
     // Age-specific: put recruits into specific age bin
-    unsigned i = 0;
     for (auto category : partition_) {
       LOG_FINEST() << category->name_ << "; age: " << age_ << "; category->min_age_: " << category->min_age_ << " recruits = " << amount_per << ", proportion of recruits "
                    << proportions_by_category_[category->name_];
       category->data_[age_ - category->min_age_] += amount_per * proportions_by_category_[category->name_];
-      ++i;
     }
   } else {
     // Length-specific: distribute across length bins

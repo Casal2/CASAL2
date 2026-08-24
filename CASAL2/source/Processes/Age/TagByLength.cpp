@@ -348,8 +348,7 @@ void TagByLength::DoExecute() {
 
     // Populate age-length matrix across all categories
     LOG_FINE() << "numbers_at_age_and_length_.size() = " << numbers_at_age_and_length_.size() << " numbers_at_age_and_length_[0].size() " << numbers_at_age_and_length_[0].size();
-    unsigned from_category_iter = 0;
-    for (; from_iter != from_partition_.end(); from_iter++, from_category_iter++) {
+    for (; from_iter != from_partition_.end(); from_iter++) {
       LOG_FINE() << "population numbers at age and length = " << (*from_iter)->name_;
       (*from_iter)->age_length_->populate_age_length_matrix((*from_iter)->data_, numbers_at_age_and_length_, selectivities_[(*from_iter)->name_]);
     }
@@ -376,10 +375,9 @@ void TagByLength::DoExecute() {
     //   LOG_FINE() << tag_to_fish_by_age_[age_ndx];
 
     // vulnerable age
-    from_iter          = from_partition_.begin();
-    from_category_iter = 0;
+    from_iter = from_partition_.begin();
 
-    for (; from_iter != from_partition_.end(); from_iter++, from_category_iter++) {
+    for (; from_iter != from_partition_.end(); from_iter++) {
       for (unsigned age_ndx = 0; age_ndx < (*from_iter)->data_.size(); ++age_ndx) vulnerable_fish_by_age_[age_ndx] += (*from_iter)->data_[age_ndx];
     }
     LOG_FINE() << "vulnerable to tag";

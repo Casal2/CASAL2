@@ -193,7 +193,7 @@ void Abundance::Execute() {
     auto category_iter        = partition_iter->begin();
     auto cached_category_iter = cached_partition_iter->begin();
 
-    for (unsigned category_offset = 0; category_iter != partition_iter->end(); ++category_offset, ++cached_category_iter, ++category_iter, ++selectivity_index) {
+    for (; category_iter != partition_iter->end(); ++cached_category_iter, ++category_iter, ++selectivity_index) {
       assert(selectivity_index < selectivities_.size());
 
       for (unsigned data_offset = 0; data_offset < (*category_iter)->data_.size(); ++data_offset) {

@@ -258,7 +258,6 @@ void Creator::HandleSameParameter() {
       switch (target->GetAddressableType(parameter)) {
         case addressable::kVector: {
           vector<Double>* temp   = target->GetAddressableVector(parameter);
-          unsigned        offset = 0;
           for (string string_index : indexes) {
             unsigned u_index = 0;
             if (!utils::To<string, unsigned>(string_index, u_index))
@@ -268,7 +267,6 @@ void Creator::HandleSameParameter() {
 
             labels.push_back(new_parameter + "{" + string_index + "}");
             targets.push_back(&(*temp)[u_index - 1]);
-            offset++;
           }
         } break;
         case addressable::kUnsignedMap: {
@@ -291,14 +289,12 @@ void Creator::HandleSameParameter() {
         } break;
         case addressable::kStringMap: {
           utils::OrderedMap<string, Double>* temp   = target->GetAddressableSMap(parameter);
-          unsigned                           offset = 0;
           for (string index : indexes) {
             if (temp->find(index) == temp->end())
               LOG_FATAL_P(PARAM_PARAMETER) << "value " << index << " was not found in the objects registered";
 
             labels.push_back(new_parameter + "{" + index + "}");
             targets.push_back(&(*temp)[index]);
-            offset++;
           }
         } break;
         default:
@@ -323,21 +319,17 @@ void Creator::HandleSameParameter() {
         }
         case addressable::kUnsignedMap: {
           map<unsigned, Double>* temps  = target->GetAddressableUMap(parameter);
-          unsigned               offset = 0;
           for (auto iter : (*temps)) {
             labels.push_back(new_parameter + "{" + utilities::ToInline<unsigned, string>(iter.first) + "}");
             targets.push_back(&(*temps)[iter.first]);
-            offset++;
           }
           break;
         }
         case addressable::kStringMap: {
           utils::OrderedMap<string, Double>* temps  = target->GetAddressableSMap(parameter);
-          unsigned                           offset = 0;
           for (auto iter : (*temps)) {
             labels.push_back(new_parameter + "{" + iter.first + "}");
             targets.push_back(&(*temps)[iter.first]);
-            offset++;
           }
           break;
         }

@@ -36,7 +36,6 @@ void GrowthIncrementConsistentWithGrowthProcess(shared_ptr<Model> model) {
   map<string, unsigned> category_count;
   map<string, unsigned> category_in_growth;
   vector<string>        all_categories = model->categories()->category_names();
-  unsigned              time_step_ndx  = 0;
   for (auto time_step : ordered_time_steps) {
     for (auto process : time_step->processes()) {
       if (process->process_type() == ProcessType::kGrowth) {
@@ -50,7 +49,6 @@ void GrowthIncrementConsistentWithGrowthProcess(shared_ptr<Model> model) {
         }
       }
     }
-    time_step_ndx++;
   }
   // check all categories are in at least one growth process.
   for (auto state_category : all_categories) {

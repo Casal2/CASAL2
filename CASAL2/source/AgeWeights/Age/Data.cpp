@@ -98,11 +98,10 @@ void Data::DoBuild() {
 
   vector<vector<string>>& data = data_table_->data();
   vector<Double>          total_weight(model()->age_spread(), 0.0);
-  Double                  number_of_years = 0.0;
   for (vector<string> row : data) {
-    if (row.size() != columns.size())
+    if (row.size() != columns.size()) {
       LOG_CODE_ERROR() << "row.size() != columns.size()";
-    number_of_years += 1;
+    }
     if ((columns.size() - 1) != model()->age_spread())
       LOG_FATAL_P(PARAM_DATA) << "An age must be specified for every age in the model. " << columns.size() - 1 << " ages were specified, and there are " << model()->age_spread()
                               << " ages";
