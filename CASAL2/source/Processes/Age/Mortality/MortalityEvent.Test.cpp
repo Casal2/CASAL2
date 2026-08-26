@@ -15,7 +15,7 @@
 #include <iostream>
 
 #include "Model/Factory.h"
-#include "MortalityEvent.h"
+#include "MortalityEventRemoval.h"
 #include "Partition/Partition.h"
 #include "TestResources/TestFixtures/BasicModel.h"
 #include "TimeSteps/Manager.h"

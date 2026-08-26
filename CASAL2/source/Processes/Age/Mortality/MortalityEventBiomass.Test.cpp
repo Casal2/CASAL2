@@ -9,7 +9,7 @@
  */
 #ifdef TESTMODE
 
-#include "MortalityEventBiomass.h"
+#include "MortalityEventRemoval.h"
 
 #include <gmock/gmock.h>
 #include <gtest/gtest.h>

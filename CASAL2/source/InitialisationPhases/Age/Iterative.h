@@ -18,9 +18,9 @@
 #include "../../InitialisationPhases/InitialisationPhase.h"
 #include "../../Partition/Accessors/Cached/Categories.h"
 #include "../../Partition/Accessors/Categories.h"
-#include "../../Processes/Age/RecruitmentBevertonHoltWithDeviations.h"
-#include "../../Processes/Age/RecruitmentRicker.h"
 #include "../../Processes/Common/Recruitment/RecruitmentBevertonHolt.h"
+#include "../../Processes/Common/Recruitment/RecruitmentBevertonHoltWithDeviations.h"
+#include "../../Processes/Common/Recruitment/RecruitmentRicker.h"
 
 // namespaces
 namespace niwa {
@@ -29,9 +29,9 @@ namespace initialisationphases {
 namespace age {
 namespace cached   = partition::accessors::cached;
 namespace accessor = partition::accessors;
-using processes::age::RecruitmentBevertonHoltWithDeviations;
-using processes::age::RecruitmentRicker;
 using processes::common::RecruitmentBevertonHolt;
+using processes::common::RecruitmentBevertonHoltWithDeviations;
+using processes::common::RecruitmentRicker;
 /**
  *
  */

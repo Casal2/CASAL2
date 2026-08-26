@@ -21,8 +21,8 @@
 #include "../../Model/Managers.h"
 #include "../../Model/Model.h"
 #include "../../Partition/Accessors/Categories.h"
-#include "../../Processes/Age/RecruitmentBevertonHoltWithDeviations.h"
-#include "../../Processes/Age/RecruitmentRicker.h"
+#include "../../Processes/Common/Recruitment/RecruitmentBevertonHoltWithDeviations.h"
+#include "../../Processes/Common/Recruitment/RecruitmentRicker.h"
 #include "../../Processes/Common/Recruitment/RecruitmentBevertonHolt.h"
 #include "../../TimeSteps/Manager.h"
 

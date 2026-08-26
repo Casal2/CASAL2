@@ -1,7 +1,7 @@
 /**
- * @file RecruitmentBevertonHoltWithDeviations.Test.cpp
- * @author  Scott Rasmussen (scott.rasmussen@zaita.com)
- * @date 2025/03/25
+ * @file RecruitmentRicker.Test.cpp
+ * @author  A Dunn
+ * @date June 2023
  * @section LICENSE
  *
  * Copyright Casal2 Project 2025 - https://github.com/Casal2/
@@ -25,7 +25,7 @@
 #include "TestResources/TestFixtures/InternalEmptyModel.h"
 #include "TimeSteps/Manager.h"
 
-namespace niwa::processes::age {
+namespace niwa::processes::common {
 using niwa::testfixtures::InternalEmptyModel;
 using std::cout;
 using std::endl;
@@ -33,17 +33,17 @@ using std::endl;
 const string model_definition =
     R"(
 @model
-start_year 1994 
+start_year 1994
 final_year 2012
 projection_final_year 2016
 min_age 1
 max_age 12
 base_weight_units tonnes
 age_plus true
-initialisation_phases iphase1 iphase2 
+initialisation_phases iphase1 iphase2
 time_steps step_one step_two
 
-@categories 
+@categories
 format stage.sex
 names immature,mature.male,female
 age_lengths age_length_male*2 age_length_female*2
@@ -76,8 +76,8 @@ years 200
 @initialisation_phase iphase2
 years 1
 
-@time_step step_one 
-processes Recruitment 
+@time_step step_one
+processes Recruitment
 
 @time_step step_two
 processes Ageing
@@ -86,10 +86,10 @@ processes Ageing
 type recruitment_ricker
 categories immature.male immature.female
 proportions 0.6 0.4
-b0 5973.9         
+b0 5973.9
 steepness 0.5792984
 ssb SSB
-age 1     
+age 1
 recruitment_multipliers 0.0935823574532 0.454148603651 0.143755692424 0.979662527968 1.70885246646 0.207878584523 0.142998000652 0.448480496158 1.25142717617 0.621050539438 0.0732265269830 0.0247523483886 0.137793954591 0.199439856167 0.701101119095 0.613584736138 0.103102553946 0.101487357908 0.412014325737
 standardise_years 1994 1995 1996 1997
 
@@ -305,5 +305,5 @@ TEST_F(InternalEmptyModel, Processes_Recruitment_Ricker_Simplex_AutoDetectsStand
     EXPECT_NEAR(expected_immature_female[i], immature_female.data_[i], 1e-10) << "Mismatch in immature.female at index " << i;
 }
 
-}  // namespace niwa::processes::age
+}  // namespace niwa::processes::common
 #endif  // TESTMODE

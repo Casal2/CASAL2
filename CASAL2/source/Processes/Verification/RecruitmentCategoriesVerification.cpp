@@ -13,10 +13,10 @@
 #include "../../Categories/Categories.h"
 #include "../../InitialisationPhases/Manager.h"
 #include "../../Model/Model.h"
-#include "../Age/RecruitmentBevertonHoltWithDeviations.h"
-#include "../Age/RecruitmentRicker.h"
 #include "../Common/Recruitment/RecruitmentBevertonHolt.h"
+#include "../Common/Recruitment/RecruitmentBevertonHoltWithDeviations.h"
 #include "../Common/Recruitment/RecruitmentConstant.h"
+#include "../Common/Recruitment/RecruitmentRicker.h"
 #include "../Manager.h"
 #include "../Process.h"
 
@@ -55,18 +55,18 @@ void RecruitmentCategoriesVerification(shared_ptr<Model> model) {
             category_count[label]++;
           }
         } else if (process->type() == PARAM_RECRUITMENT_BEVERTON_HOLT_WITH_DEVIATIONS) {
-          age::RecruitmentBevertonHoltWithDeviations* recruitment = dynamic_cast<age::RecruitmentBevertonHoltWithDeviations*>(process);
+          common::RecruitmentBevertonHoltWithDeviations* recruitment = dynamic_cast<common::RecruitmentBevertonHoltWithDeviations*>(process);
           if (!recruitment)
-            LOG_CODE_ERROR() << "!rec with auto* rec = dynamic_cast<age::RecruitmentBevertonHolt*>(process)";
+            LOG_CODE_ERROR() << "!rec with auto* rec = dynamic_cast<common::RecruitmentBevertonHoltWithDeviations*>(process)";
 
           for (auto label : recruitment->category_labels()) {
             category_in_recruitment_that_scale[label]++;
             category_count[label]++;
           }
         } else if (process->type() == PARAM_RECRUITMENT_RICKER) {
-          age::RecruitmentRicker* recruitment = dynamic_cast<age::RecruitmentRicker*>(process);
+          common::RecruitmentRicker* recruitment = dynamic_cast<common::RecruitmentRicker*>(process);
           if (!recruitment)
-            LOG_CODE_ERROR() << "!rec with auto* rec = dynamic_cast<age::RecruitmentRicker*>(process)";
+            LOG_CODE_ERROR() << "!rec with auto* rec = dynamic_cast<common::RecruitmentRicker*>(process)";
 
           for (auto label : recruitment->category_labels()) {
             category_in_recruitment_that_scale[label]++;

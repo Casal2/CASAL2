@@ -18,8 +18,7 @@
 #include "../Processes/Age/Ageing.h"
 #include "../Processes/Age/MarkovianMovement.h"
 #include "../Processes/Age/Maturation.h"
-#include "../Processes/Age/Mortality/MortalityEvent.h"
-#include "../Processes/Age/Mortality/MortalityEventBiomass.h"
+#include "../Processes/Age/Mortality/MortalityEventRemoval.h"
 #include "../Processes/Age/Mortality/MortalityHollingRate.h"
 #include "../Processes/Age/Mortality/MortalityHybrid.h"
 #include "../Processes/Age/Mortality/MortalityInitialisationBaranov.h"
@@ -28,8 +27,6 @@
 #include "../Processes/Age/Mortality/MortalityInstantaneousRetained.h"
 #include "../Processes/Age/Mortality/MortalityPreySuitability.h"
 #include "../Processes/Age/Mortality/SurvivalConstantRate.h"
-#include "../Processes/Age/RecruitmentBevertonHoltWithDeviations.h"
-#include "../Processes/Age/RecruitmentRicker.h"
 #include "../Processes/Age/TagByLength.h"
 #include "../Processes/Age/TagLoss.h"
 #include "../Processes/Age/TagLossEmpirical.h"
@@ -40,7 +37,9 @@
 #include "../Processes/Common/Mortality/MortalityInstantaneous.h"
 #include "../Processes/Common/Nop.h"
 #include "../Processes/Common/Recruitment/RecruitmentBevertonHolt.h"
+#include "../Processes/Common/Recruitment/RecruitmentBevertonHoltWithDeviations.h"
 #include "../Processes/Common/Recruitment/RecruitmentConstant.h"
+#include "../Processes/Common/Recruitment/RecruitmentRicker.h"
 #include "../Processes/Common/Tagging.h"
 #include "../Processes/Common/TransitionCategory.h"
 #include "../Processes/Length/Growth.h"
@@ -89,11 +88,11 @@ Process* Factory::Create(shared_ptr<Model> model, const string& object_type, con
       else if (sub == PARAM_RECRUITMENT_BEVERTON_HOLT)
         result = new common::RecruitmentBevertonHolt(model);
       else if (sub == PARAM_RECRUITMENT_BEVERTON_HOLT_WITH_DEVIATIONS)
-        result = new age::RecruitmentBevertonHoltWithDeviations(model);
+        result = new common::RecruitmentBevertonHoltWithDeviations(model);
       else if (sub == PARAM_RECRUITMENT_CONSTANT)
         result = new common::RecruitmentConstant(model);
       else if (sub == PARAM_RECRUITMENT_RICKER)
-        result = new age::RecruitmentRicker(model);
+        result = new common::RecruitmentRicker(model);
       else if (sub == PARAM_MATURATION)
         result = new age::Maturation(model);
       else if (sub == PARAM_MORTALITY_CONSTANT_RATE)
@@ -111,11 +110,11 @@ Process* Factory::Create(shared_ptr<Model> model, const string& object_type, con
       else if (sub == PARAM_MORTALITY_INITIALISATION_BARANOV)
         result = new age::MortalityInitialisationBaranov(model);
       else if (sub == PARAM_MORTALITY_EVENT)
-        result = new age::MortalityEvent(model);
+        result = new age::MortalityEventRemoval(model, age::RemovalUnit::kNumbers);
       else if (sub == PARAM_MORTALITY_HYBRID)
         result = new age::MortalityHybrid(model);
       else if (sub == PARAM_MORTALITY_EVENT_BIOMASS)
-        result = new age::MortalityEventBiomass(model);
+        result = new age::MortalityEventRemoval(model, age::RemovalUnit::kBiomass);
       else if (sub == PARAM_MORTALITY_INSTANTANEOUS)
         result = new common::MortalityInstantaneous(model);
       else if (sub == PARAM_MORTALITY_INSTANTANEOUS_RETAINED)
