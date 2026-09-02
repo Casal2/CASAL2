@@ -16,6 +16,7 @@
 
 #include "../../Model/Model.h"
 #include "../../ObjectiveFunction/ObjectiveFunction.h"
+#include "Utilities/String.h"
 
 // namespaces
 namespace niwa {
@@ -32,7 +33,7 @@ namespace asserts {
  * Note: The constructor is parsed to generate LaTeX for the documentation.
  */
 ObjectiveFunction::ObjectiveFunction(shared_ptr<Model> model) : Assert(model) {
-  parameters_.Bind<Double>(PARAM_VALUE, &value_, "Expected value of the objective function", "");
+  parameters_.Bind<Double>(PARAM_VALUE, &values_, "Expected value(s) of the objective function", "");
 }
 
 /**
@@ -51,14 +52,22 @@ void ObjectiveFunction::Execute() {
   std::streamsize          prec = std::cout.precision();
   std::cout.precision(12);
 
-  if (error_type_ == PARAM_ERROR && !utilities::math::IsBasicallyEqual(AS_DOUBLE(value_), AS_DOUBLE(obj.score()), tol_)) {
-    LOG_ERROR() << "Assert Failure: The Assert with label '" << label_ << "' for the Objective Function had value " << obj.score() << " and " << value_
-                << " was expected. The difference was " << fabs(AS_DOUBLE(value_) - AS_DOUBLE(obj.score()));
-  } else if (!utilities::math::IsBasicallyEqual(AS_DOUBLE(value_), AS_DOUBLE(obj.score()), tol_)) {
-    LOG_WARNING() << "Assert Failure: The Assert with label '" << label_ << "' for the Objective Function had value " << obj.score() << " and " << value_
-                  << " was expected. The difference was " << fabs(AS_DOUBLE(value_) - AS_DOUBLE(obj.score()));
-  } else {
-    LOG_INFO() << "Assert Passed: The Assert with label '" << label_ << "' for the Objective Function had value " << obj.score() << " and " << value_ << " was expected.";
+  bool assert_passed = false;
+  for (auto& value_ : values_) {
+    if (utilities::math::IsBasicallyEqual(AS_DOUBLE(value_), AS_DOUBLE(obj.score()), tol_)) {
+      LOG_INFO() << "Assert Passed: The Assert with label '" << label_ << "' for the Objective Function had value " << obj.score() << " and " << value_ << " was expected.";
+      assert_passed = true;
+      break;
+    }
+  }
+
+  if (!assert_passed) {
+    string values_str = utilities::String::join(values_, ", ");
+    if (error_type_ == PARAM_ERROR) {
+      LOG_ERROR() << "Assert Failure: The Assert with label '" << label_ << "' for the Objective Function had value " << obj.score() << " and none of the expected values were matched. The expected values were: " << values_str;
+    } else {
+      LOG_WARNING() << "Assert Failure: The Assert with label '" << label_ << "' for the Objective Function had value " << obj.score() << " and none of the expected values were matched. The expected values were: " << values_str;      
+    }
   }
 
   std::cout.precision(prec);

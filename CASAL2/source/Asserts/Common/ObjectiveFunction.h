@@ -16,6 +16,8 @@
 // headers
 #include "../../Asserts/Assert.h"
 
+#include <vector>
+
 // namespaces
 namespace niwa {
 namespace asserts {
@@ -35,7 +37,7 @@ protected:
 
 private:
   // members
-  Double value_;
+  std::vector<Double> values_;
 };
 
 } /* namespace asserts */
