@@ -5,7 +5,7 @@
 
 @assert ObjectiveFunction
 type objective_function
-value 929.01854
+value 929.01854 929.193589
 error_type error
 
 @minimiser gammdiff
