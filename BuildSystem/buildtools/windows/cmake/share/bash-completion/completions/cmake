@@ -2,14 +2,22 @@
 
 _cmake()
 {
-    local cur prev words cword split=false
-    if type -t _init_completion >/dev/null; then
-        _init_completion -n = || return
+    local is_old_completion=false
+    local is_init_completion=false
+
+    local cur prev words cword split was_split
+    if type -t _comp_initialize >/dev/null; then
+        _comp_initialize -s || return
+    elif type -t _init_completion >/dev/null; then
+        _init_completion -s || return
+        is_init_completion=true
     else
         # manual initialization for older bash completion versions
         COMPREPLY=()
         cur="${COMP_WORDS[COMP_CWORD]}"
         prev="${COMP_WORDS[COMP_CWORD-1]}"
+        is_old_completion=true
+        split=false
     fi
 
     # Workaround for options like -DCMAKE_BUILD_TYPE=Release
@@ -89,14 +97,24 @@ _cmake()
             ;;
     esac
 
-    _split_longopt && split=true
+    if $is_old_completion; then
+        _split_longopt && split=true
+    fi
 
     case "$prev" in
         -C|-P|--graphviz|--system-information)
             _filedir
             return
             ;;
-        --build|--install|--open)
+        --build)
+            # Seed the reply with non-directory arguments that we know are
+            # allowed to follow --build. _filedir will then prepend any valid
+            # directory matches to these.
+            COMPREPLY=( $( compgen -W "--preset --list-presets" -- "$cur" ) )
+            _filedir -d
+            return
+            ;;
+        --install|--open)
             _filedir -d
             return
             ;;
@@ -149,11 +167,69 @@ _cmake()
                 2>/dev/null | grep -v "^cmake version " )' -- "$cur" ) )
             return
             ;;
+        --list-presets)
+            local IFS=$'\n'
+            local quoted
+            printf -v quoted %q "$cur"
+
+            if [[ ! "${IFS}${COMP_WORDS[*]}${IFS}" =~ "${IFS}--build${IFS}" ]]; then
+                COMPREPLY=(
+                    $( compgen -W "configure${IFS}build${IFS}package${IFS}test${IFS}workflow${IFS}all" -- "$quoted" )
+                  )
+            fi
+            return
+            ;;
+         --preset)
+            local IFS=$'\n'
+            local quoted
+            printf -v quoted %q "$cur"
+
+            local preset_type
+            if [[ "${IFS}${COMP_WORDS[*]}${IFS}" =~ "${IFS}--workflow${IFS}" ]]; then
+                preset_type="workflow"
+            elif [[ "${IFS}${COMP_WORDS[*]}${IFS}" =~ "${IFS}--build${IFS}" ]]; then
+                preset_type="build"
+            else
+                preset_type="configure"
+            fi
+
+            local presets=$( cmake --list-presets="$preset_type" 2>/dev/null |
+                grep -o "^  \".*\"" | sed \
+                -e "s/^  //g" \
+                -e "s/\"//g" \
+                -e 's/ /\\\\ /g' )
+            COMPREPLY=( $( compgen -W "$presets" -- "$quoted" ) )
+            return
+            ;;
+        --workflow)
+            local quoted
+            printf -v quoted %q "$cur"
+            # Options allowed right after `--workflow`
+            local workflow_options='--preset --list-presets --fresh'
+
+            if [[ "$cur" == -* ]]; then
+                COMPREPLY=( $( compgen -W "$workflow_options" -- "$quoted" ) )
+            else
+                local presets=$( cmake --list-presets=workflow 2>/dev/null |
+                    grep -o "^  \".*\"" | sed \
+                    -e "s/^  //g" \
+                    -e "s/\"//g" \
+                    -e 's/ /\\\\ /g' )
+                COMPREPLY=( $( compgen -W "$presets $workflow_options" -- "$quoted" ) )
+            fi
+            return
+            ;;
     esac
 
-    $split && return
+    if  ($is_old_completion || $is_init_completion); then
+        $split && return
+    else
+        [[ $was_split ]] && return
+    fi
 
     if [[ "$cur" == -* ]]; then
+        # FIXME(#26100): `cmake --help` is missing some options and does not
+        # have any mode-specific options like `cmake --build`'s `--config`.
         COMPREPLY=( $(compgen -W '$( _parse_help "$1" --help )' -- ${cur}) )
         [[ $COMPREPLY == *= ]] && compopt -o nospace
         [[ $COMPREPLY ]] && return
