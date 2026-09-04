@@ -1,4 +1,4 @@
-cmake_minimum_required(VERSION 3.5)
+cmake_minimum_required(VERSION 3.30)
 project(CASAL2)
 
 # Variables
@@ -53,7 +53,7 @@ ADD_EXECUTABLE(${EXE_NAME} ${sourceFiles} )
 
 SET_TARGET_PROPERTIES(${EXE_NAME} PROPERTIES COMPILE_FLAGS ${COMPILE_OPTIONS} LINK_FLAGS ${LINK_OPTIONS})
 IF(WIN32)
-  ADD_DEPENDENCIES(${EXE_NAME} version icon)
+  ADD_DEPENDENCIES(${EXE_NAME} icon)
 ELSE(WIN32)
   TARGET_LINK_LIBRARIES(${EXE_NAME} ${thirdPartyLibraries})
 ENDIF(WIN32)

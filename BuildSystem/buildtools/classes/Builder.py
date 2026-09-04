@@ -76,6 +76,8 @@ class MainCode:
 
         build_string += ' ../../../../CASAL2/'
 
+        if subprocess.call("cmake --version", shell=True) != EX_OK:
+            return Globals.PrintError("Failed to execute cmake successfully to rebuild the make files")
         print("--> CMake command: " + build_string)
         if subprocess.call(build_string, shell=True) != EX_OK:
             return Globals.PrintError("Failed to execute cmake successfully to rebuild the make files")
