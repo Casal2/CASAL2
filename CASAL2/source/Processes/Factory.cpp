@@ -22,8 +22,7 @@
 #include "../Processes/Age/Mortality/MortalityHollingRate.h"
 #include "../Processes/Age/Mortality/MortalityHybrid.h"
 #include "../Processes/Age/Mortality/MortalityInitialisationBaranov.h"
-#include "../Processes/Age/Mortality/MortalityInitialisationEvent.h"
-#include "../Processes/Age/Mortality/MortalityInitialisationEventBiomass.h"
+#include "../Processes/Age/Mortality/MortalityInitialisationEventRemoval.h"
 #include "../Processes/Age/Mortality/MortalityInstantaneousRetained.h"
 #include "../Processes/Age/Mortality/MortalityPreySuitability.h"
 #include "../Processes/Age/Mortality/SurvivalConstantRate.h"
@@ -104,9 +103,9 @@ Process* Factory::Create(shared_ptr<Model> model, const string& object_type, con
       else if (sub == PARAM_MORTALITY_CONSTANT_EXPLOITATION)
         result = new common::MortalityConstantRemovalRate(model, common::RemovalFormulation::kExploitationRate);
       else if (sub == PARAM_MORTALITY_INITIALISATION_EVENT)
-        result = new age::MortalityInitialisationEvent(model);
+        result = new age::MortalityInitialisationEventRemoval(model, age::RemovalUnit::kNumbers);
       else if (sub == PARAM_MORTALITY_INITIALISATION_EVENT_BIOMSS)
-        result = new age::MortalityInitialisationEventBiomass(model);
+        result = new age::MortalityInitialisationEventRemoval(model, age::RemovalUnit::kBiomass);
       else if (sub == PARAM_MORTALITY_INITIALISATION_BARANOV)
         result = new age::MortalityInitialisationBaranov(model);
       else if (sub == PARAM_MORTALITY_EVENT)

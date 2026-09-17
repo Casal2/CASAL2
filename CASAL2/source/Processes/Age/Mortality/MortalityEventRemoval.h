@@ -43,10 +43,20 @@ namespace accessor = niwa::partition::accessors;
 
 /**
  * Which quantity the catch/u_max/vulnerable-stock calculation is expressed in.
+ *
+ * Shared by MortalityEventRemoval and MortalityInitialisationEventRemoval -- the two classes make
+ * the same numbers-vs-biomass distinction, so they share one enum rather than declaring two with
+ * identical meaning.
  */
 enum class RemovalUnit {
-  kNumbers,  // MortalityEventRemoval (mortality_event) -- vulnerable stock summed as numbers-at-age
-  kBiomass,  // MortalityEventRemoval (mortality_event_biomass) -- vulnerable stock weighted by mean-weight-at-age
+  // vulnerable stock summed as numbers-at-age
+  //   MortalityEventRemoval (mortality_event)
+  //   MortalityInitialisationEventRemoval (mortality_initialisation_event)
+  kNumbers,
+  // vulnerable stock weighted by mean-weight-at-age
+  //   MortalityEventRemoval (mortality_event_biomass)
+  //   MortalityInitialisationEventRemoval (mortality_initialisation_event_biomass)
+  kBiomass,
 };
 
 /**

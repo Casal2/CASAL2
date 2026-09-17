@@ -9,7 +9,7 @@
  */
 #ifdef TESTMODE
 
-#include "MortalityInitialisationEvent.h"
+#include "MortalityInitialisationEventRemoval.h"
 
 #include <gmock/gmock.h>
 #include <gtest/gtest.h>
@@ -66,6 +66,66 @@ ato95 5.25
 type logistic
 a50 16.92
 ato95 7.68
+
+@selectivity one
+type constant
+c 1
+)";
+
+/**
+ * As above, but with a real age-length and length-weight relationship so that mean-weight-at-age
+ * is NOT 1.0. Identical to test_case_mortality_initialisation_event_weighted in
+ * MortalityInitialisationEventBiomass.Test.cpp -- see the comment there for why it exists.
+ */
+const std::string test_case_mortality_initialisation_event_weighted =
+    R"(
+@model
+start_year 2000
+final_year 2002
+min_age 1
+max_age 5
+base_weight_units kgs
+age_plus f
+initialisation_phases iphase
+time_steps step_one
+
+@categories
+format sex
+names male female
+age_lengths vb_age_length*2
+
+@age_length vb_age_length
+type von_bertalanffy
+by_length true
+linf 55.7
+k 0.14
+t0 -0.82
+cv_first 0.1
+cv_last 0.1
+length_weight weight_basic
+
+@length_weight weight_basic
+type basic
+units kgs
+a 0.007289
+b 3.2055
+
+@initialisation_phase iphase
+type iterative
+years 2
+
+@time_step step_one
+processes ageing recruitment mortality
+
+@ageing ageing
+categories *
+
+@recruitment recruitment
+type constant
+categories *
+proportions 0.6 0.4
+r0 100000
+age 1
 
 @selectivity one
 type constant
@@ -138,6 +198,46 @@ TEST_F(InternalEmptyModel, Process_MortalityInitialisationEvent_Across_Categorie
   EXPECT_NEAR(40000, female.data_[2], 1e-5);
   EXPECT_NEAR(39888.691117852039, female.data_[3], 1e-5);
   EXPECT_NEAR(39667.308882147961, female.data_[4], 1e-5);
+}
+
+/**
+ * Numbers-based vulnerability, run against the age-varying mean-weight config.
+ *
+ * Companion to Process_MortalityInitialisationEventBiomass_WeightedVulnerability in
+ * MortalityInitialisationEventBiomass.Test.cpp. Same config, same catch, different process type --
+ * the expected values in the two tests must differ, which is what proves the mean-weight weighting
+ * is actually being exercised.
+ */
+TEST_F(InternalEmptyModel, Process_MortalityInitialisationEvent_WeightedVulnerability) {
+  const string morality_process = R"(
+    @mortality mortality
+    type initialisation_event
+    categories male
+    catch 555
+    U_max 0.9
+    selectivities one
+  )";
+
+  AddConfigurationLine(test_case_mortality_initialisation_event_weighted, __FILE__, 24);
+  AddConfigurationLine(morality_process, __FILE__, __LINE__);
+  LoadConfiguration();
+
+  model_->Start(RunMode::kBasic);
+
+  // Note data_[3] and data_[4]: these differ from the biomass companion test, which is the point.
+  partition::Category& male = model_->partition().category("male");
+  EXPECT_NEAR(60000, male.data_[0], 1e-5);
+  EXPECT_NEAR(60000, male.data_[1], 1e-5);
+  EXPECT_NEAR(60000, male.data_[2], 1e-5);
+  EXPECT_NEAR(59721.210599020473, male.data_[3], 1e-5);
+  EXPECT_NEAR(59168.789400979527, male.data_[4], 1e-5);
+
+  partition::Category& female = model_->partition().category("female");
+  EXPECT_NEAR(40000, female.data_[0], 1e-5);
+  EXPECT_NEAR(40000, female.data_[1], 1e-5);
+  EXPECT_NEAR(40000, female.data_[2], 1e-5);
+  EXPECT_NEAR(40000, female.data_[3], 1e-5);
+  EXPECT_NEAR(40000, female.data_[4], 1e-5);
 }
 
 }  // namespace niwa::processes::age
