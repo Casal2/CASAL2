@@ -930,7 +930,7 @@ This process applies a single catch value for all iterations within the initiali
 
 This process should be used in conjunction with the \texttt{insert\_processes} command in the \command{initialisation\_phase} block.
 
-Example syntax where the \texttt{initialisation\_mortality\_event} has been specified in the initialisation phase \texttt{Predation\_state} but not in the annual cycle:
+Example syntax where the \texttt{mortality\_initialisation\_event} has been specified in the initialisation phase \texttt{Predation\_state} but not in the annual cycle:
 
 {\small{\begin{verbatim}
 initialisation_phases Equilibrium_state Predation_state
@@ -944,7 +944,7 @@ type iterative
 insert_processes Oct_Nov()=predation_Initialisation
 
 @process predation_Initialisation
-type initialisation_mortality_event
+type mortality_initialisation_event
 categories male.HOKI female.HOKI
 catch 90000
 selectivities Hakesl Hakesl
