@@ -22,11 +22,14 @@
 #include "Penalties/Manager.h"
 #include "Selectivities/Manager.h"
 #include "TimeSteps/Manager.h"
+#include "Utilities/Math.h"
 
 // namespaces
 namespace niwa {
 namespace processes {
 namespace age {
+
+namespace math = niwa::utilities::math;
 
 /**
  * Default constructor
@@ -296,6 +299,17 @@ void TagByLength::DoBuild() {
   for (unsigned year_ndx = 0; year_ndx < years_.size(); ++year_ndx) {
     proportion_by_length_[year_ndx].resize(n_length_bins_, 0.0);
     for (unsigned length_ndx = 0; length_ndx < n_length_bins_; ++length_ndx) tagged_fish_by_year_[year_ndx] += numbers_[years_[year_ndx]][length_ndx];
+
+    // Without this the division below is 0/0, which silently fills proportion_by_length_ with NaN
+    if (math::IsZero(tagged_fish_by_year_[year_ndx])) {
+      if (numbers_table_->row_count() != 0)
+        LOG_FATAL_P(PARAM_NUMBERS) << "The numbers to tag in year " << years_[year_ndx] << " sum to zero, so no proportions by length can be calculated for that year."
+                                   << " Remove that year from " << PARAM_YEARS << ", or supply numbers to tag for it.";
+      else
+        LOG_FATAL_P(PARAM_N) << "The number to tag in year " << years_[year_ndx] << " is zero, so no proportions by length can be calculated for that year."
+                             << " Remove that year from " << PARAM_YEARS << ", or supply a number to tag for it.";
+    }
+
     for (unsigned length_ndx = 0; length_ndx < n_length_bins_; ++length_ndx)
       proportion_by_length_[year_ndx][length_ndx] = numbers_[years_[year_ndx]][length_ndx] / tagged_fish_by_year_[year_ndx];
   }
@@ -362,6 +376,19 @@ void TagByLength::DoExecute() {
       for (unsigned age_ndx = 0; age_ndx < model()->age_spread(); ++age_ndx) sum_age += numbers_at_age_and_length_[age_ndx][length_ndx];
 
       LOG_FINE() << "length = " << length_ndx << " sum_age " << sum_age;
+
+      // No fish of any age reach this length bin. Dividing by sum_age would give NaN, and because the
+      // result is accumulated with += the NaN would then poison every age, even for a zero proportion.
+      if (math::IsZero(sum_age)) {
+        if (proportion_by_length_[year_ndx][length_ndx] > 0.0)
+          LOG_FATAL() << location() << ": in year " << current_year << " the length bin starting at " << length_bins[length_ndx] << " has a tag release proportion of "
+                      << AS_DOUBLE(proportion_by_length_[year_ndx][length_ndx]) << ", but no fish of any age can reach that length bin under the age-length relationship."
+                      << " Set the proportion for that length bin to zero, or change the length bins or the age-length relationship so that the bin can be reached.";
+
+        LOG_FINE() << "no fish reach length bin " << length_ndx << ", it contributes nothing";
+        continue;
+      }
+
       for (unsigned age_ndx = 0; age_ndx < model()->age_spread(); ++age_ndx)
         exploitation_by_age_[age_ndx] += proportion_by_length_[year_ndx][length_ndx] * (numbers_at_age_and_length_[age_ndx][length_ndx] / sum_age);
     }
@@ -386,6 +413,18 @@ void TagByLength::DoExecute() {
 
     // check there is enough fish to tag by age
     for (unsigned age_ndx = 0; age_ndx < model()->age_spread(); ++age_ndx) {
+      // There are no fish of this age to tag. This has to be handled before the comparison below,
+      // which would zero tag_to_fish_by_age_ and leave the exploitation calculation as 0/0 = NaN.
+      if (math::IsZero(vulnerable_fish_by_age_[age_ndx])) {
+        if (penalty_ && tag_to_fish_by_age_[age_ndx] > 0.0)
+          penalty_->Trigger(tag_to_fish_by_age_[age_ndx], 0.0);
+
+        LOG_FINE() << "no fish of age " << age_ndx + min_age_ << " are available to tag";
+        tag_to_fish_by_age_[age_ndx]        = 0.0;
+        final_exploitation_by_age_[age_ndx] = 0.0;
+        continue;
+      }
+
       // comment from CASAL: we will not be able to tag as many fish as we designated - this should be rare
       if (vulnerable_fish_by_age_[age_ndx] <= tag_to_fish_by_age_[age_ndx]) {
         tag_to_fish_by_age_[age_ndx] = u_max_ * vulnerable_fish_by_age_[age_ndx];
@@ -457,6 +496,19 @@ void TagByLength::DoExecute() {
         for (unsigned age_ndx = 0; age_ndx < model()->age_spread(); ++age_ndx)
           temp_sum_age += selected_numbers_at_age_and_length_by_category_[from_category_iter][age_ndx][length_ndx];
       }
+      // No fish of any age or category reach this length bin. Dividing by temp_sum_age would give NaN,
+      // and because the result is accumulated with += the NaN would then poison every age of every
+      // category - even for a zero proportion, since 0 * NaN is NaN. See Github issue #442.
+      if (math::IsZero(temp_sum_age)) {
+        if (proportion_by_length_[year_ndx][length_ndx] > 0.0)
+          LOG_FATAL() << location() << ": in year " << current_year << " the length bin starting at " << length_bins[length_ndx] << " has a tag release proportion of "
+                      << AS_DOUBLE(proportion_by_length_[year_ndx][length_ndx]) << ", but no fish of any age can reach that length bin under the age-length relationship."
+                      << " Set the proportion for that length bin to zero, or change the length bins or the age-length relationship so that the bin can be reached.";
+
+        LOG_FINE() << "no fish reach length bin " << length_ndx << ", it contributes nothing";
+        continue;
+      }
+
       from_category_iter = 0;
       from_iter          = from_partition_.begin();
       for (; from_iter != from_partition_.end(); from_iter++, from_category_iter++) {
@@ -487,6 +539,18 @@ void TagByLength::DoExecute() {
       LOG_FINE() << "category = " << (*from_iter)->name_;
       for (unsigned age_ndx = 0; age_ndx < model()->age_spread(); ++age_ndx) {
         LOG_FINE() << "age = " << age_ndx;
+
+        // There are no fish of this age in this category to tag, so none can be moved. Without this
+        // the exploitation rate below is 0/0 = NaN, which is then written back into the partition.
+        if (math::IsZero((*from_iter)->data_[age_ndx])) {
+          if (penalty_ && tag_to_fish_by_category_age_[from_category_iter][age_ndx] > 0.0)
+            penalty_->Trigger(tag_to_fish_by_category_age_[from_category_iter][age_ndx], 0.0);
+
+          LOG_FINE() << "no fish of age " << age_ndx + (*from_iter)->min_age_ << " are available to tag in category " << (*from_iter)->name_;
+          exploitation_by_age_category_[from_category_iter][age_ndx] = 0.0;
+          continue;
+        }
+
         exploitation_by_age_category_[from_category_iter][age_ndx] = tag_to_fish_by_category_age_[from_category_iter][age_ndx] / (*from_iter)->data_[age_ndx];
         if (exploitation_by_age_category_[from_category_iter][age_ndx] > u_max_) {
           exploitation_by_age_category_[from_category_iter][age_ndx] = u_max_;

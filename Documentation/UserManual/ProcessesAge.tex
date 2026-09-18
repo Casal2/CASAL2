@@ -1292,6 +1292,8 @@ Note this is where the \subcommand{compatibility\_switch} differ, the \subcomman
 
 $$ T_{a,l}= \frac{V_{a,l}}{\sum_a V_{a,l}} {p}_l$$
 
+A length bin may lie outside the range that the age-length relationship can produce, for example a length bin above the asymptotic length of a von Bertalanffy growth curve. No fish of any age reach such a bin, so $\sum_a V_{a,l} = 0$ and $T_{a,l}$ is undefined. In that case $T_{a,l}$ is defined to be zero, so the bin contributes nothing to the tag releases. Supplying a non-zero ${p}_l$ for such a length bin is an error and Casal2 will report it and stop, because the requested tag releases cannot be allocated to any age.
+
 and final tag-release by age are
 
 $$ M_{a} = \sum_l T_{a,l}M  $$
@@ -1299,6 +1301,8 @@ $$ M_{a} = \sum_l T_{a,l}M  $$
 An age-based maximum transition rate is calculated to stop tagging more fish than are available in the population, in this case the penalty is flagged, see below.
 
 $$ u_{a} = \frac{ M_{a} }{ N_{a}}  $$
+
+If there are no fish of age \(a\) in the partition (\(N_{a} = 0\)) then no fish of that age can be tagged, and $u_{a}$ is defined to be zero. If tag releases had been allocated to that age (\(M_{a} > 0\)) then the penalty is flagged.
 
 $$
 u_{a} =
