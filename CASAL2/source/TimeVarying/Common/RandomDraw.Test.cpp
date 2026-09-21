@@ -1,5 +1,5 @@
 /**
- * @file RandomDraw.Test..cpp
+ * @file RandomDraw.Test.cpp
  * @author  Scott Rasmussen (scott.rasmussen@zaita.com)
  * @date 2025/04/16
  * @section LICENSE
