@@ -28,7 +28,6 @@
 #include "../Processes/Age/Mortality/SurvivalConstantRate.h"
 #include "../Processes/Age/TagByLength.h"
 #include "../Processes/Age/TagLoss.h"
-#include "../Processes/Age/TagLossEmpirical.h"
 #include "../Processes/Age/TransitionCategoryByAge.h"
 #include "../Processes/Common/LoadPartition.h"
 #include "../Processes/Common/Mortality/MortalityConstantRemovalRate.h"
@@ -131,9 +130,9 @@ Process* Factory::Create(shared_ptr<Model> model, const string& object_type, con
       else if (sub == PARAM_TAG_BY_LENGTH)
         result = new age::TagByLength(model);
       else if (sub == PARAM_TAG_LOSS)
-        result = new age::TagLoss(model);
+        result = new age::TagLoss(model, age::TagLossRateSource::kSingle);
       else if (sub == PARAM_TAG_LOSS_EMPIRICAL)
-        result = new age::TagLossEmpirical(model);
+        result = new age::TagLoss(model, age::TagLossRateSource::kEmpirical);
       else if (sub == PARAM_TRANSITION_CATEGORY)
         result = new common::TransitionCategory(model);
       else if (sub == PARAM_TRANSITION_CATEGORY_BY_AGE)
