@@ -9,7 +9,8 @@
  * @section DESCRIPTION
  *
  * Consolidated Beverton-Holt recruitment implementation for both Age and
- * Length partitioned models.
+ * Length partitioned models, and the Ricker recruitment implementation (Age only).
+ * See the header for the behaviours normalised when Ricker was folded in.
  */
 
 // headers
@@ -38,8 +39,10 @@ namespace math = niwa::utilities::math;
 
 /**
  * Default constructor
+ *
+ * @param sr_curve The stock-recruit curve: kBevertonHolt (recruitment_beverton_holt) or kRicker (recruitment_ricker)
  */
-RecruitmentBevertonHolt::RecruitmentBevertonHolt(shared_ptr<Model> model) : RecruitmentStockRecruit(model) {
+RecruitmentBevertonHolt::RecruitmentBevertonHolt(shared_ptr<Model> model, SRCurve sr_curve) : RecruitmentStockRecruit(model), sr_curve_(sr_curve) {
   LOG_TRACE();
 
   // clang-format off
@@ -85,7 +88,7 @@ RecruitmentBevertonHolt::RecruitmentBevertonHolt(shared_ptr<Model> model) : Recr
 
   phase_b0_            = 0;
   process_type_        = ProcessType::kRecruitment;
-  partition_structure_ = PartitionType::kAge | PartitionType::kLength;
+  partition_structure_ = sr_curve_ == SRCurve::kRicker ? PartitionType::kAge : PartitionType::kAge | PartitionType::kLength;
 }
 
 /**
@@ -97,7 +100,12 @@ void RecruitmentBevertonHolt::DoValidate() {
   ValidateCategoriesProportionsAndCore();
 
   parameters_.Validate(PARAM_STEEPNESS)->GreaterThanOrEqualTo(0.2)->LessThanOrEqualTo(1.0);
-  parameters_.ValidateVector(PARAM_STANDARDISE_YEARS)->IsModelYear()->IsInIncreasingOrder()->DefaultToModelYearsOnly();
+  // Ricker does not standardise when standardise_years is omitted (unless a simplex is detected in
+  // DoReset), so only Beverton-Holt defaults standardise_years to all model years.
+  if (sr_curve_ == SRCurve::kBevertonHolt)
+    parameters_.ValidateVector(PARAM_STANDARDISE_YEARS)->IsModelYear()->IsInIncreasingOrder()->DefaultToModelYearsOnly();
+  else
+    parameters_.ValidateVector(PARAM_STANDARDISE_YEARS)->IsModelYear()->IsInIncreasingOrder();
 
   if (process_profile_ == ProcessProfile::kAge) {
     ValidateAndWarnAge();
@@ -133,7 +141,7 @@ void RecruitmentBevertonHolt::DoBuild() {
     ComputeTimeStepIndices(ageing_index, derived_quantity_index, recruitment_index, ageing_processes);
 
     if ((ageing_processes > 1) & !parameters_.Get(PARAM_SSB_OFFSET)->has_been_defined()) {
-      LOG_ERROR_P(PARAM_LABEL) << "For the Beverton-Holt recruitment process, " << PARAM_SSB_OFFSET
+      LOG_ERROR_P(PARAM_LABEL) << "For the " << curve_name() << " recruitment process, " << PARAM_SSB_OFFSET
                                << " can only be derived when there is only one ageing process in the annual cycle. " << ageing_processes
                                << " ageing processes were specified. Manually set the " << PARAM_SSB_OFFSET;
     }
@@ -142,25 +150,7 @@ void RecruitmentBevertonHolt::DoBuild() {
       if (ageing_index == std::numeric_limits<unsigned>::max())
         LOG_ERROR() << location() << " could not calculate the " << PARAM_SSB_OFFSET << " because there is no ageing process";
 
-      unsigned temp_ssb_offset = 0;
-      if ((recruitment_index < ageing_index) && (ageing_index < derived_quantity_index))
-        temp_ssb_offset = age_ + 1;
-      else if (derived_quantity_index < ageing_index && ageing_index < recruitment_index)
-        temp_ssb_offset = age_ - 1;
-      else
-        temp_ssb_offset = age_;
-
-      LOG_FINEST() << PARAM_SSB_OFFSET << " calculated to be = " << temp_ssb_offset << "; recruitment index = " << recruitment_index << "; ageing index = " << ageing_index
-                   << "; derived_quantity index = " << derived_quantity_index;
-      // Check if the user has supplied the expected value for the model.
-      if (parameters_.Get(PARAM_SSB_OFFSET)->has_been_defined()) {
-        if (temp_ssb_offset != ssb_offset_) {
-          LOG_WARNING() << "The " << PARAM_SSB_OFFSET << " specified (" << ssb_offset_ << ") is different from what Casal2 calculated (" << temp_ssb_offset
-                        << "). This value should be manually set only under certain conditions. See the User Manual on this process for more information.";
-        }
-      } else {
-        ssb_offset_ = temp_ssb_offset;
-      }
+      ApplyDerivedSsbOffset(ageing_index, derived_quantity_index, recruitment_index);
     }
   }
 
@@ -295,10 +285,26 @@ void RecruitmentBevertonHolt::DoReset() {
 }
 
 /**
- * The Beverton-Holt stock-recruit curve.
+ * The stock-recruit curve. Each expression keeps the operator grouping of its original
+ * implementation so results are bit-for-bit unchanged.
  */
 Double RecruitmentBevertonHolt::CalculateSR(Double ssb_ratio) {
-  return ssb_ratio / (1.0 - ((5.0 * steepness_ - 1.0) / (4.0 * steepness_)) * (1.0 - ssb_ratio));
+  switch (sr_curve_) {
+    case SRCurve::kBevertonHolt:
+      return ssb_ratio / (1.0 - ((5.0 * steepness_ - 1.0) / (4.0 * steepness_)) * (1.0 - ssb_ratio));
+    case SRCurve::kRicker:
+      return ssb_ratio * pow((1 / (5 * steepness_)), (1.25 * (ssb_ratio - 1)));
+  }
+
+  LOG_CODE_ERROR() << "Unhandled SRCurve in CalculateSR()";
+  return 0.0;
+}
+
+/**
+ * The stock-recruit curve name, for user-facing messages.
+ */
+string RecruitmentBevertonHolt::curve_name() const {
+  return sr_curve_ == SRCurve::kRicker ? "Ricker" : "Beverton-Holt";
 }
 
 /**

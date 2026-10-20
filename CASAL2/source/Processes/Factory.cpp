@@ -37,7 +37,6 @@
 #include "../Processes/Common/Recruitment/RecruitmentBevertonHolt.h"
 #include "../Processes/Common/Recruitment/RecruitmentBevertonHoltWithDeviations.h"
 #include "../Processes/Common/Recruitment/RecruitmentConstant.h"
-#include "../Processes/Common/Recruitment/RecruitmentRicker.h"
 #include "../Processes/Common/Tagging.h"
 #include "../Processes/Common/TransitionCategory.h"
 #include "../Processes/Length/Growth.h"
@@ -90,7 +89,7 @@ Process* Factory::Create(shared_ptr<Model> model, const string& object_type, con
       else if (sub == PARAM_RECRUITMENT_CONSTANT)
         result = new common::RecruitmentConstant(model);
       else if (sub == PARAM_RECRUITMENT_RICKER)
-        result = new common::RecruitmentRicker(model);
+        result = new common::RecruitmentBevertonHolt(model, common::RecruitmentBevertonHolt::SRCurve::kRicker);
       else if (sub == PARAM_MATURATION)
         result = new age::Maturation(model);
       else if (sub == PARAM_MORTALITY_CONSTANT_RATE)

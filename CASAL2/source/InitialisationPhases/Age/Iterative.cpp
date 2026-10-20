@@ -18,9 +18,7 @@
 #include "../../Categories/Categories.h"
 #include "../../DerivedQuantities/Manager.h"
 #include "../../Partition/Accessors/Categories.h"
-#include "../../Processes/Common/Recruitment/RecruitmentBevertonHoltWithDeviations.h"
-#include "../../Processes/Common/Recruitment/RecruitmentRicker.h"
-#include "../../Processes/Common/Recruitment/RecruitmentBevertonHolt.h"
+#include "../../Processes/Common/Recruitment/RecruitmentStockRecruit.h"
 #include "../../Processes/Manager.h"
 #include "../../TimeSteps/Factory.h"
 #include "../../TimeSteps/Manager.h"
@@ -136,28 +134,17 @@ void Iterative::DoBuild() {
   partition_.Init(categories);
   cached_partition_.Init(categories);
 
-  // Find any BH_recruitment process in the annual cycle
-  unsigned i = 0;
+  // Find any stock-recruit (Beverton-Holt, Beverton-Holt with deviations, Ricker) recruitment process in the annual cycle
   for (auto time_step : current_model->managers()->time_step()->ordered_time_steps()) {
     for (auto process : time_step->processes()) {
-      if (process->process_type() == ProcessType::kRecruitment && process->type() == PARAM_RECRUITMENT_BEVERTON_HOLT) {
-        LOG_FINEST() << "Found a BevertonHolt process";
-        recruitment_process_.push_back(dynamic_cast<RecruitmentBevertonHolt*>(process));
-        if (!recruitment_process_[i])
-          LOG_CODE_ERROR() << "BevertonHolt Recruitment exists but dynamic cast pointer cannot be made, if (!recruitment) ";
-        i++;
-      } else if (process->process_type() == ProcessType::kRecruitment && process->type() == PARAM_RECRUITMENT_BEVERTON_HOLT_WITH_DEVIATIONS) {
-        LOG_FINEST() << "Found a BevertonHolt process";
-        recruitment_process_with_devs_.push_back(dynamic_cast<RecruitmentBevertonHoltWithDeviations*>(process));
-        if (!recruitment_process_with_devs_[i])
-          LOG_CODE_ERROR() << "BevertonHolt Recruitment with deviations exists but dynamic cast pointer cannot be made, if (!recruitment) ";
-        i++;
-      } else if (process->process_type() == ProcessType::kRecruitment && process->type() == PARAM_RECRUITMENT_RICKER) {
-        LOG_FINEST() << "Found a Ricker process";
-        recruitment_ricker_process_.push_back(dynamic_cast<RecruitmentRicker*>(process));
-        if (!recruitment_ricker_process_[i])
-          LOG_CODE_ERROR() << "Ricker Recruitment exists but dynamic cast pointer cannot be made, if (!recruitment) ";
-        i++;
+      if (process->process_type() == ProcessType::kRecruitment
+          && (process->type() == PARAM_RECRUITMENT_BEVERTON_HOLT || process->type() == PARAM_RECRUITMENT_BEVERTON_HOLT_WITH_DEVIATIONS
+              || process->type() == PARAM_RECRUITMENT_RICKER)) {
+        LOG_FINEST() << "Found a stock-recruit recruitment process of type " << process->type();
+        auto* recruitment = dynamic_cast<RecruitmentStockRecruit*>(process);
+        if (!recruitment)
+          LOG_CODE_ERROR() << "Stock-recruit recruitment exists but dynamic cast pointer cannot be made, if (!recruitment) ";
+        recruitment_processes_.push_back(recruitment);
       }
     }
   }
@@ -200,30 +187,15 @@ void Iterative::DoExecute() {
     LOG_FINE() << label_ << " ran for '" << counter_years << "' years.";
   }
 
-  LOG_FINE() << "Number of Beverton-Holt recruitment processes in annual cycle = " << recruitment_process_.size();
-  LOG_FINE() << "Number of Beverton-Holt recruitment processes with deviations in annual cycle = " << recruitment_process_with_devs_.size() << " and partition has not been scaled";
+  LOG_FINE() << "Number of stock-recruit recruitment processes in annual cycle = " << recruitment_processes_.size();
 
   // We are at Equilibrium state here
   // Check if we have B0 initialised or R0 initialised recruitment
   bool B0_initial_recruitment = false;
-  for (auto recruitment_process : recruitment_process_) {
+  for (auto recruitment_process : recruitment_processes_) {
     if (recruitment_process->b0_initialised() & !recruitment_process->has_partition_been_scaled()) {
-      LOG_FINE() << PARAM_B0 << " has been defined for process labelled " << recruitment_process->label();
+      LOG_FINE() << PARAM_B0 << " has been defined for process labelled " << recruitment_process->label() << " and partition has not been scaled";
       recruitment_process->ScalePartition();
-      B0_initial_recruitment = true;
-    }
-  }
-  for (auto recruitment_process_with_devs : recruitment_process_with_devs_) {
-    if (recruitment_process_with_devs->b0_initialised() & !recruitment_process_with_devs->has_partition_been_scaled()) {
-      LOG_FINE() << PARAM_B0 << " has been defined for process labelled " << recruitment_process_with_devs->label() << " and partition has not been scaled";
-      recruitment_process_with_devs->ScalePartition();
-      B0_initial_recruitment = true;
-    }
-  }
-  for (auto recruitment_ricker_process : recruitment_ricker_process_) {
-    if (recruitment_ricker_process->b0_initialised() & !recruitment_ricker_process->has_partition_been_scaled()) {
-      LOG_FINE() << PARAM_B0 << " has been defined for process labelled " << recruitment_ricker_process->label();
-      recruitment_ricker_process->ScalePartition();
       B0_initial_recruitment = true;
     }
   }

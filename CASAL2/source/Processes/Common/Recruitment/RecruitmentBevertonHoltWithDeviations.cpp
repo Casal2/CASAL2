@@ -112,25 +112,7 @@ void RecruitmentBevertonHoltWithDeviations::DoBuild() {
   if (ageing_index == std::numeric_limits<unsigned>::max())
     LOG_ERROR() << location() << " could not calculate the ssb_offset because there is no ageing process defined";
 
-  unsigned temp_ssb_offset = 0;
-  if (recruitment_index < ageing_index && ageing_index < derived_quantity_index)
-    temp_ssb_offset = age_ + 1;
-  else if (derived_quantity_index < ageing_index && ageing_index < recruitment_index)
-    temp_ssb_offset = age_ - 1;
-  else
-    temp_ssb_offset = age_;
-
-  LOG_FINEST() << "SSB offset calculated to be = " << temp_ssb_offset << "; recruitment index = " << recruitment_index << "; ageing index = " << ageing_index
-               << "; derived_quantity index = " << derived_quantity_index;
-  if (parameters_.Get(PARAM_SSB_OFFSET)->has_been_defined()) {
-    // Check if the user has supplied the expected value for the model.
-    if (temp_ssb_offset != ssb_offset_) {
-      LOG_WARNING() << "The " << PARAM_SSB_OFFSET << " specified (" << ssb_offset_ << ") is different from what Casal2 calculated (" << temp_ssb_offset
-                    << "). This value should be manually set only under certain conditions. See the User Manual on this process for more information.";
-    }
-  } else {
-    ssb_offset_ = temp_ssb_offset;
-  }
+  ApplyDerivedSsbOffset(ageing_index, derived_quantity_index, recruitment_index);
 
   BuildSpawnEventYears();
   ValidateR0B0NotBothEstimated();

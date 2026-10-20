@@ -18,9 +18,7 @@
 #include "../../InitialisationPhases/InitialisationPhase.h"
 #include "../../Partition/Accessors/Cached/Categories.h"
 #include "../../Partition/Accessors/Categories.h"
-#include "../../Processes/Common/Recruitment/RecruitmentBevertonHolt.h"
-#include "../../Processes/Common/Recruitment/RecruitmentBevertonHoltWithDeviations.h"
-#include "../../Processes/Common/Recruitment/RecruitmentRicker.h"
+#include "../../Processes/Common/Recruitment/RecruitmentStockRecruit.h"
 
 // namespaces
 namespace niwa {
@@ -29,9 +27,7 @@ namespace initialisationphases {
 namespace age {
 namespace cached   = partition::accessors::cached;
 namespace accessor = partition::accessors;
-using processes::common::RecruitmentBevertonHolt;
-using processes::common::RecruitmentBevertonHoltWithDeviations;
-using processes::common::RecruitmentRicker;
+using processes::common::RecruitmentStockRecruit;
 /**
  *
  */
@@ -57,9 +53,7 @@ protected:
   cached::Categories   cached_partition_;
   accessor::Categories partition_;
 
-  vector<RecruitmentBevertonHolt*>               recruitment_process_;
-  vector<RecruitmentRicker*>                     recruitment_ricker_process_;
-  vector<RecruitmentBevertonHoltWithDeviations*> recruitment_process_with_devs_;
+  vector<RecruitmentStockRecruit*> recruitment_processes_;  // beverton_holt, beverton_holt_with_deviations and ricker
 };
 
 }  // namespace age

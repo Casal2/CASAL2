@@ -305,5 +305,55 @@ TEST_F(InternalEmptyModel, Processes_Recruitment_Ricker_Simplex_AutoDetectsStand
     EXPECT_NEAR(expected_immature_female[i], immature_female.data_[i], 1e-10) << "Mismatch in immature.female at index " << i;
 }
 
+/**
+ * No-standardisation test.
+ * Identical model to Processes_Recruitment_Ricker except there is no standardise_years and no
+ * simplex. Ricker must then apply the raw recruitment_multipliers (no Haist standardisation),
+ * unlike recruitment_beverton_holt, which defaults standardise_years to all model years.
+ * Expected values were captured from the pre-merge RecruitmentRicker implementation.
+ */
+TEST_F(InternalEmptyModel, Processes_Recruitment_Ricker_NoStandardiseYears) {
+  string      definition = model_definition;
+  const string std_line  = "standardise_years 1994 1995 1996 1997\n";
+  definition.erase(definition.find(std_line), std_line.size());
+  AddConfigurationLine(definition, __FILE__, 33);
+  LoadConfiguration();
+
+  model_->Start(RunMode::kBasic);
+
+  partition::Category& immature_male   = model_->partition().category("immature.male");
+  partition::Category& immature_female = model_->partition().category("immature.female");
+
+  vector<double> expected_immature_male   = {0.0,
+                                             3643.558261037251668,
+                                             898.333223920738988,
+                                             913.658091394002781,
+                                             5444.079504656480822,
+                                             6228.148622027324564,
+                                             1773.966601833656568,
+                                             1227.447611051868989,
+                                             220.807414013721285,
+                                             654.037408289987866,
+                                             5552.971634111353524,
+                                             1888668.788973009447};
+  vector<double> expected_immature_female = {0.0,
+                                             2429.038840691501264,
+                                             598.888815947159287,
+                                             609.105394262668483,
+                                             3629.386336437654336,
+                                             4152.099081351550012,
+                                             1182.644401222437864,
+                                             818.298407367912660,
+                                             147.204942675814181,
+                                             436.024938859991948,
+                                             3701.981089407569470,
+                                             1259112.525982011575};
+
+  for (size_t i = 0; i < expected_immature_male.size(); ++i) EXPECT_NEAR(expected_immature_male[i], immature_male.data_[i], 1e-10) << "Mismatch in immature.male at index " << i;
+
+  for (size_t i = 0; i < expected_immature_female.size(); ++i)
+    EXPECT_NEAR(expected_immature_female[i], immature_female.data_[i], 1e-10) << "Mismatch in immature.female at index " << i;
+}
+
 }  // namespace niwa::processes::common
 #endif  // TESTMODE

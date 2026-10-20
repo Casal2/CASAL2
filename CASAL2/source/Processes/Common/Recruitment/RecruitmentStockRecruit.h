@@ -62,6 +62,7 @@ protected:
   void ValidateAndWarnAge();
   void ResolveB0AndDerivedQuantity();
   void ComputeTimeStepIndices(unsigned& ageing_index, unsigned& derived_quantity_index, unsigned& recruitment_index, unsigned& ageing_processes);
+  void ApplyDerivedSsbOffset(unsigned ageing_index, unsigned derived_quantity_index, unsigned recruitment_index);
   void BuildSpawnEventYears();
   void ValidateR0B0NotBothEstimated();
   void ResizeYearlyCaches();

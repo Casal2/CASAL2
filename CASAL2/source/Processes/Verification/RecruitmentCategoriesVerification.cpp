@@ -14,9 +14,8 @@
 #include "../../InitialisationPhases/Manager.h"
 #include "../../Model/Model.h"
 #include "../Common/Recruitment/RecruitmentBevertonHolt.h"
-#include "../Common/Recruitment/RecruitmentBevertonHoltWithDeviations.h"
 #include "../Common/Recruitment/RecruitmentConstant.h"
-#include "../Common/Recruitment/RecruitmentRicker.h"
+#include "../Common/Recruitment/RecruitmentStockRecruit.h"
 #include "../Manager.h"
 #include "../Process.h"
 
@@ -45,28 +44,11 @@ void RecruitmentCategoriesVerification(shared_ptr<Model> model) {
 
           for (auto label : recruitment->category_labels()) category_count[label]++;
 
-        } else if (process->type() == PARAM_RECRUITMENT_BEVERTON_HOLT) {
-          common::RecruitmentBevertonHolt* recruitment = dynamic_cast<common::RecruitmentBevertonHolt*>(process);
+        } else if (process->type() == PARAM_RECRUITMENT_BEVERTON_HOLT || process->type() == PARAM_RECRUITMENT_BEVERTON_HOLT_WITH_DEVIATIONS
+                   || process->type() == PARAM_RECRUITMENT_RICKER) {
+          common::RecruitmentStockRecruit* recruitment = dynamic_cast<common::RecruitmentStockRecruit*>(process);
           if (!recruitment)
-            LOG_CODE_ERROR() << "!rec with auto* rec = dynamic_cast<common::RecruitmentBevertonHolt*>(process)";
-
-          for (auto label : recruitment->category_labels()) {
-            category_in_recruitment_that_scale[label]++;
-            category_count[label]++;
-          }
-        } else if (process->type() == PARAM_RECRUITMENT_BEVERTON_HOLT_WITH_DEVIATIONS) {
-          common::RecruitmentBevertonHoltWithDeviations* recruitment = dynamic_cast<common::RecruitmentBevertonHoltWithDeviations*>(process);
-          if (!recruitment)
-            LOG_CODE_ERROR() << "!rec with auto* rec = dynamic_cast<common::RecruitmentBevertonHoltWithDeviations*>(process)";
-
-          for (auto label : recruitment->category_labels()) {
-            category_in_recruitment_that_scale[label]++;
-            category_count[label]++;
-          }
-        } else if (process->type() == PARAM_RECRUITMENT_RICKER) {
-          common::RecruitmentRicker* recruitment = dynamic_cast<common::RecruitmentRicker*>(process);
-          if (!recruitment)
-            LOG_CODE_ERROR() << "!rec with auto* rec = dynamic_cast<common::RecruitmentRicker*>(process)";
+            LOG_CODE_ERROR() << "!rec with auto* rec = dynamic_cast<common::RecruitmentStockRecruit*>(process)";
 
           for (auto label : recruitment->category_labels()) {
             category_in_recruitment_that_scale[label]++;

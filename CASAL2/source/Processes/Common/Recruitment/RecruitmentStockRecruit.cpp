@@ -32,8 +32,7 @@ RecruitmentStockRecruit::RecruitmentStockRecruit(shared_ptr<Model> model) : Proc
 
 /**
  * Shared validation: R0/B0 either-or, proportions, ssb_offset, proportions_by_category_ map.
- * Steepness validation is left to each subclass because the binding mechanism differs
- * (Ricker validates via a constructor-bound range, the others via an explicit Validate() call).
+ * Steepness validation is left to each subclass.
  */
 void RecruitmentStockRecruit::ValidateCategoriesProportionsAndCore() {
   for (auto year = model()->start_year(); year <= model()->final_year(); ++year) years_.push_back(year);
@@ -84,8 +83,8 @@ void RecruitmentStockRecruit::ResolveB0AndDerivedQuantity() {
 /**
  * Walk the ordered time steps to locate the ageing, mortality/derived-quantity, and
  * recruitment process indices used to auto-derive ssb_offset_. Identical across all three
- * stock-recruit children; each child applies its own guard/error logic to the results
- * because that logic genuinely differs between them.
+ * stock-recruit children. Each child applies its own guard/error logic to the results
+ * (because that logic genuinely differs between them) and then calls ApplyDerivedSsbOffset().
  */
 void RecruitmentStockRecruit::ComputeTimeStepIndices(unsigned& ageing_index, unsigned& derived_quantity_index, unsigned& recruitment_index, unsigned& ageing_processes) {
   ageing_index            = std::numeric_limits<unsigned>::max();
@@ -132,6 +131,32 @@ void RecruitmentStockRecruit::ComputeTimeStepIndices(unsigned& ageing_index, uns
   }
 
   recruitment_index = model()->managers()->time_step()->GetProcessIndex(label_);
+}
+
+/**
+ * Derive the expected ssb_offset from the indices returned by ComputeTimeStepIndices(). If the
+ * user supplied an ssb_offset, warn when it differs from the derived value; otherwise adopt it.
+ */
+void RecruitmentStockRecruit::ApplyDerivedSsbOffset(unsigned ageing_index, unsigned derived_quantity_index, unsigned recruitment_index) {
+  unsigned temp_ssb_offset = 0;
+  if ((recruitment_index < ageing_index) && (ageing_index < derived_quantity_index))
+    temp_ssb_offset = age_ + 1;
+  else if (derived_quantity_index < ageing_index && ageing_index < recruitment_index)
+    temp_ssb_offset = age_ - 1;
+  else
+    temp_ssb_offset = age_;
+
+  LOG_FINEST() << PARAM_SSB_OFFSET << " calculated to be = " << temp_ssb_offset << "; recruitment index = " << recruitment_index << "; ageing index = " << ageing_index
+               << "; derived_quantity index = " << derived_quantity_index;
+  // Check if the user has supplied the expected value for the model.
+  if (parameters_.Get(PARAM_SSB_OFFSET)->has_been_defined()) {
+    if (temp_ssb_offset != ssb_offset_) {
+      LOG_WARNING() << "The " << PARAM_SSB_OFFSET << " specified (" << ssb_offset_ << ") is different from what Casal2 calculated (" << temp_ssb_offset
+                    << "). This value should be manually set only under certain conditions. See the User Manual on this process for more information.";
+    }
+  } else {
+    ssb_offset_ = temp_ssb_offset;
+  }
 }
 
 /**
@@ -324,9 +349,9 @@ void RecruitmentStockRecruit::AppendCoreReportFields(ostringstream& cache) const
 }
 
 /**
- * Shared tabular report cache body used unchanged by RecruitmentBevertonHolt and
- * RecruitmentRicker (identical column layout, taking the multiplier maps as parameters since
- * those maps live in the subclasses, not the base). RecruitmentBevertonHoltWithDeviations does
+ * Shared tabular report cache body used by RecruitmentBevertonHolt (both SR curves; taking the
+ * multiplier maps as parameters since those maps live in the subclass, not the base).
+ * RecruitmentBevertonHoltWithDeviations does
  * not call this - its column set differs materially (no SSB_offset column, different casing).
  */
 void RecruitmentStockRecruit::FillMultiplierTabularReportCache(ostringstream& cache, bool first_run,
