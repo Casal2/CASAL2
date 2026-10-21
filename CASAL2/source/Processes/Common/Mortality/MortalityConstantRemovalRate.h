@@ -10,13 +10,22 @@
  * @section DESCRIPTION
  *
  * This class is a constant annual removal-rate process. Every year this process is executed
- * fish will be killed off at a constant rate. It serves two user-facing process types --
- * mortality_constant_rate (an instantaneous-rate/exponential-decay formulation, m) and
- * mortality_constant_exploitation (a direct exploitation-rate formulation, u) -- which share
- * every line of code except the bound parameter name/description and the one-line formula
- * (RemovalFormulation, see MortalityRateFormulas.h). Factory.cpp picks which formulation an
- * instance uses via the constructor argument; everything else about the two process types is
- * identical.
+ * fish will be killed off at a constant rate. It serves three user-facing process types:
+ *  - mortality_constant_rate (an instantaneous-rate/exponential-decay formulation, m)
+ *  - mortality_constant_exploitation (a direct exploitation-rate formulation, u)
+ *  - survival_constant_rate (a survival rate s, removed as exponential decay at rate 1 - s;
+ *    Age only, formerly age::SurvivalConstantRate)
+ * They share every line of code except what RemovalFormulationSpec holds (bound parameter
+ * name/description, time step proportion rules, error text, the 1 - s transform) and the
+ * one-line formula (RemovalFormulation, see MortalityRateFormulas.h). Factory.cpp picks which
+ * formulation an instance uses via the constructor argument.
+ *
+ * Normalisations made when survival_constant_rate was folded in (TBM-2):
+ *  - it now reports years/total_removals (its reports were previously empty);
+ *  - it now accepts relative_m_by_age/relative_m_by_length as aliases for selectivities;
+ *  - its categories and time_step_proportions descriptions use this class's text;
+ *  - a removal observation naming it now fails with "type ... is not allowed" rather than
+ *    "Could not find process", because it is now an age::Mortality.
  *
  * $Date: 2008-03-04 16:33:32 +1300 (Tue, 04 Mar 2008) $
  */

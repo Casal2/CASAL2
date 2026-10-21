@@ -8,7 +8,7 @@
  *
  * Shared state and helper logic for the "constant removal rate" family of processes that
  * iterate a partition applying a per-category rate derived from a selectivity:
- * MortalityDiseaseRate and age::SurvivalConstantRate inherit this class directly.
+ * MortalityDiseaseRate and age::TagLoss inherit this class directly.
  *
  * MortalityConstantRemovalRate shares the same helper logic (via the static methods below) but
  * cannot inherit from this class, because it must remain dynamic_cast-able to
@@ -50,8 +50,8 @@ public:
                                                             bool first_run);
 
   // Runs the shared "iterate categories, iterate cells, resolve selectivity, apply the removal
-  // formula, subtract, accumulate" loop shared by MortalityConstantRemovalRate and
-  // age::SurvivalConstantRate. Not used by MortalityDiseaseRate (year-gated, stores per-cell
+  // formula, subtract, accumulate" loop used by MortalityConstantRemovalRate (all three of its
+  // formulations) and age::TagLoss. Not used by MortalityDiseaseRate (year-gated, stores per-cell
   // results, so keeps its own loop). Returns the total amount removed.
   static Double ApplyRemovalLoop(accessor::Categories& partition, ProcessProfile process_profile, RemovalFormulation formulation, OrderedMap<string, Double>& rate_by_category,
                                   const vector<niwa::Selectivity*>& selectivities, Double multiplier);

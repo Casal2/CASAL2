@@ -25,7 +25,6 @@
 #include "../Processes/Age/Mortality/MortalityInitialisationEventRemoval.h"
 #include "../Processes/Age/Mortality/MortalityInstantaneousRetained.h"
 #include "../Processes/Age/Mortality/MortalityPreySuitability.h"
-#include "../Processes/Age/Mortality/SurvivalConstantRate.h"
 #include "../Processes/Age/TagByLength.h"
 #include "../Processes/Age/TagLoss.h"
 #include "../Processes/Age/TransitionCategoryByAge.h"
@@ -95,7 +94,7 @@ Process* Factory::Create(shared_ptr<Model> model, const string& object_type, con
       else if (sub == PARAM_MORTALITY_CONSTANT_RATE)
         result = new common::MortalityConstantRemovalRate(model, common::RemovalFormulation::kExponentialDecay);
       else if (sub == PARAM_SURVIVAL_CONSTANT_RATE)
-        result = new age::SurvivalConstantRate(model);
+        result = new common::MortalityConstantRemovalRate(model, common::RemovalFormulation::kSurvivalExponentialDecay);
       else if (sub == PARAM_MORTALITY_DISEASE_RATE)
         result = new common::MortalityDiseaseRate(model);
       else if (sub == PARAM_MORTALITY_CONSTANT_EXPLOITATION)

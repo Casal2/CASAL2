@@ -36,7 +36,10 @@ MortalityConstantRemovalRate::MortalityConstantRemovalRate(shared_ptr<Model> mod
   LOG_TRACE();
   parameters_.Bind<string>(PARAM_CATEGORIES, &category_labels_, "The list of category labels")->flag_is_category();
   parameters_.Bind<Double>(spec_.rate_parameter_name, &m_input_, spec_.rate_parameter_description);
-  parameters_.Bind<double>(PARAM_TIME_STEP_PROPORTIONS, &ratios_, "The time step proportions for the removal rate");
+  auto time_step_proportions = parameters_.Bind<double>(PARAM_TIME_STEP_PROPORTIONS, &ratios_, "The time step proportions for the removal rate", "",
+                                                        spec_.time_step_proportions_optional);
+  if (spec_.time_step_exclusive_lower_bound)
+    time_step_proportions->set_range(0.0, 1.0, false, true);
   parameters_.Bind<string>(PARAM_SELECTIVITIES, &selectivity_names_, spec_.selectivities_description)->set_alias_labels(spec_.selectivity_alias_labels);
 
   RegisterAsAddressable(spec_.rate_parameter_name, &m_);
@@ -66,8 +69,8 @@ void MortalityConstantRemovalRate::DoValidate() {
 void MortalityConstantRemovalRate::DoBuild() {
   partition_.Init(category_labels_);
   selectivities_    = MortalityRateBase::ResolveSelectivities(model(), parameters(), selectivity_names_, spec_.selectivity_error_param, spec_.selectivity_error_prefix);
-  time_step_ratios_ = MortalityRateBase::BuildTimeStepRatios(model(), parameters(), label_, ratios_, spec_.time_step_size_mismatch_prefix, false, "Time step proportion values (",
-                                                             ") must be between 0.0 and 1.0 (inclusive) and sum to one");
+  time_step_ratios_ = MortalityRateBase::BuildTimeStepRatios(model(), parameters(), label_, ratios_, spec_.time_step_size_mismatch_prefix, spec_.time_step_exclusive_lower_bound,
+                                                             spec_.time_step_bound_error_prefix, spec_.time_step_bound_error_suffix);
   unsigned n_years  = model()->years().size();
   total_removals_by_year_.reserve(n_years);
 }
@@ -80,7 +83,15 @@ void MortalityConstantRemovalRate::DoExecute() {
   unsigned time_step = model()->managers()->time_step()->current_time_step();
   LOG_FINEST() << "Ratios.size() " << time_step_ratios_.size() << " : time_step: " << time_step << "; ratio: " << time_step_ratios_[time_step];
   double ratio = time_step_ratios_[time_step];
-  total_removals_by_year_.push_back(MortalityRateBase::ApplyRemovalLoop(partition_, process_profile_, formulation_, m_, selectivities_, ratio));
+  if (spec_.rate_is_survival) {
+    // survival's removal rate is (1.0 - s), not s directly. s is addressable (estimable), so
+    // build the transformed map here on every execution (O(categories), not O(cells)).
+    OrderedMap<string, Double> survival_rate;
+    for (auto& entry : m_) survival_rate[entry.first] = 1.0 - entry.second;
+    total_removals_by_year_.push_back(MortalityRateBase::ApplyRemovalLoop(partition_, process_profile_, formulation_, survival_rate, selectivities_, ratio));
+  } else {
+    total_removals_by_year_.push_back(MortalityRateBase::ApplyRemovalLoop(partition_, process_profile_, formulation_, m_, selectivities_, ratio));
+  }
 }
 
 /**

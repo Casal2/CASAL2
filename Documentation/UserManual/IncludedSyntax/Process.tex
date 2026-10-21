@@ -802,7 +802,7 @@ The null\_process type has no additional subcommands. Note that this process doe
 \defRef{sec:Process-SurvivalConstantRate}
 \label{syntax:Process-SurvivalConstantRate}
 
-\defSub{categories}{The list of categories}
+\defSub{categories}{The list of category labels}
 \defType{Vector of strings}
 \defDefault{No default}
 
@@ -812,16 +812,17 @@ The null\_process type has no additional subcommands. Note that this process doe
 \defLowerBound{0.0 (inclusive)}
 \defUpperBound{1.0 (inclusive)}
 
-\defSub{time\_step\_proportions}{The time step proportions for the survival rate $S$}
+\defSub{time\_step\_proportions}{The time step proportions for the removal rate}
 \defType{Vector of real numbers}
 \defDefault{true}
-\defLowerBound{0.0 (inclusive)}
+\defLowerBound{0.0 (exclusive)}
 \defUpperBound{1.0 (inclusive)}
-\defNote{The proportions must be specified to sum to 1.0. Proportions with value 0 will result in a warning}
+\defNote{The proportions must sum to 1.0, and the number of values must equal the number of time steps this process is assigned to. A proportion of 0.0 is an error. If omitted, the survival rate is applied in full in each time step the process is assigned to}
 
 \defSub{selectivities}{The selectivity labels for each category}
 \defType{Vector of strings}
 \defDefault{No default}
+\defNote{\subcommand{relative\_m\_by\_age} or \subcommand{relative\_m\_by\_length} may be used in place of \subcommand{selectivities}}
 
 \subsubsection{Process of type tag by age}
 \commandlabsubarg{process}{type}{Tag\_By\_Age}

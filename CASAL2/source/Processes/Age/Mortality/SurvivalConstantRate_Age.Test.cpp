@@ -21,10 +21,12 @@
 #include "Selectivities/Manager.h"
 #include "Selectivities/Selectivity.h"
 #include "TestResources/TestFixtures/BasicModel.h"
+#include "TestResources/TestFixtures/InternalEmptyModel.h"
 #include "TimeSteps/Manager.h"
 
 namespace niwa::processes::age {
 using niwa::testfixtures::BasicModel;
+using niwa::testfixtures::InternalEmptyModel;
 using std::cout;
 using std::endl;
 
@@ -114,6 +116,162 @@ TEST_F(BasicModel, Processes_Mortality_Survival_Rate) {
   // Mature should still be 0 because we had no maturation
   for (unsigned i = 0; i < mature_male.data_.size(); ++i) EXPECT_DOUBLE_EQ(0.0, mature_male.data_[i]) << " where i = " << i << "; age = " << i + mature_male.min_age_;
   for (unsigned i = 0; i < mature_female.data_.size(); ++i) EXPECT_DOUBLE_EQ(0.0, mature_female.data_[i]) << " where i = " << i << "; age = " << i + mature_female.min_age_;
+}
+
+/**
+ * The test above uses a single s, a single time step and time_step_proportions of 1.0, so it
+ * cannot detect a mix-up in per-category rate lookup, the selectivity index, or time step
+ * proportions other than 1.0. The base below uses two categories with different s and
+ * selectivities, and splits survival across two time steps.
+ */
+const std::string test_cases_process_survival_two_categories =
+    R"(
+@model
+start_year 2000
+final_year 2002
+min_age 1
+max_age 5
+base_weight_units kgs
+initialisation_phases iphase1
+time_steps step_one step_two
+
+@categories
+format sex
+names male female
+age_lengths no_age_length no_age_length
+
+@age_length no_age_length
+type none
+length_weight [type=none]
+
+@initialisation_phase iphase1
+years 2
+
+@time_step step_one
+processes ageing recruitment survival
+
+@time_step step_two
+processes survival
+
+@ageing ageing
+categories *
+
+@Recruitment recruitment
+type constant
+categories male female
+proportions 0.5 0.5
+R0 100000
+age 1
+)";
+
+/*
+ * Two categories, differing s, logistic vs constant selectivity, split time steps
+ */
+TEST_F(InternalEmptyModel, Processes_Mortality_Survival_Rate_TwoTimeSteps_PerCategoryS) {
+  const string survival = R"(
+    @process survival
+    type survival_constant_rate
+    categories male female
+    s 0.8 0.9
+    time_step_proportions 0.4 0.6
+    selectivities [type=logistic; a50=2; ato95=1] [type=constant; c=0.5]
+  )";
+
+  AddConfigurationLine(test_cases_process_survival_two_categories, __FILE__, 128);
+  AddConfigurationLine(survival, __FILE__, 171);
+  LoadConfiguration();
+
+  model_->Start(RunMode::kBasic);
+
+  vector<double> expected_male   = {49502.491687458401, 44791.706764826413, 37040.91103408589, 30343.292605534407, 24843.711101682555};
+  vector<double> expected_female = {47561.471225035697, 45241.870901797978, 43035.398821252886, 40936.537653899089, 38940.039153570237};
+  partition::Category& male   = model_->partition().category("male");
+  partition::Category& female = model_->partition().category("female");
+  for (unsigned i = 0; i < expected_male.size(); ++i) {
+    EXPECT_DOUBLE_EQ(expected_male[i], male.data_[i]) << " age index " << i;
+    EXPECT_DOUBLE_EQ(expected_female[i], female.data_[i]) << " age index " << i;
+  }
+}
+
+/*
+ * time_step_proportions is optional for survival_constant_rate; omitted, each assigned time
+ * step applies the full rate (ratio 1.0)
+ */
+TEST_F(InternalEmptyModel, Processes_Mortality_Survival_Rate_NoTimeStepProportions) {
+  const string survival = R"(
+    @process survival
+    type survival_constant_rate
+    categories male female
+    s 0.8 0.9
+    selectivities [type=logistic; a50=2; ato95=1] [type=constant; c=0.5]
+  )";
+
+  AddConfigurationLine(test_cases_process_survival_two_categories, __FILE__, 128);
+  AddConfigurationLine(survival, __FILE__, 201);
+  LoadConfiguration();
+
+  model_->Start(RunMode::kBasic);
+
+  vector<double> expected_male   = {49009.933665337776, 40125.939898123936, 27440.581804701327, 18414.308122901592, 12344.199626077312};
+  vector<double> expected_female = {45241.870901797978, 40936.537653899097, 37040.911034085904, 33516.002301781977, 30326.532985631682};
+  partition::Category& male   = model_->partition().category("male");
+  partition::Category& female = model_->partition().category("female");
+  for (unsigned i = 0; i < expected_male.size(); ++i) {
+    EXPECT_DOUBLE_EQ(expected_male[i], male.data_[i]) << " age index " << i;
+    EXPECT_DOUBLE_EQ(expected_female[i], female.data_[i]) << " age index " << i;
+  }
+}
+
+/*
+ * survival_constant_rate's time_step_proportions have an exclusive lower bound of 0.0
+ * (mortality_constant_rate accepts 0.0)
+ */
+TEST_F(InternalEmptyModel, Processes_Mortality_Survival_Rate_ZeroTimeStepProportion_Errors) {
+  const string survival = R"(
+    @process survival
+    type survival_constant_rate
+    categories male female
+    s 0.8 0.9
+    time_step_proportions 0.0 1.0
+    selectivities [type=logistic; a50=2; ato95=1] [type=constant; c=0.5]
+  )";
+
+  AddConfigurationLine(test_cases_process_survival_two_categories, __FILE__, 128);
+  AddConfigurationLine(survival, __FILE__, 230);
+  LoadConfiguration();
+  EXPECT_THROW(model_->Start(RunMode::kBasic), std::string);
+}
+
+
+/*
+ * survival_constant_rate accepts relative_m_by_age as an alias for selectivities (added when it
+ * was folded into MortalityConstantRemovalRate, matching mortality_constant_rate); the result must
+ * be identical to Processes_Mortality_Survival_Rate_TwoTimeSteps_PerCategoryS
+ */
+TEST_F(InternalEmptyModel, Processes_Mortality_Survival_Rate_RelativeMByAgeAlias) {
+  const string survival = R"(
+    @process survival
+    type survival_constant_rate
+    categories male female
+    s 0.8 0.9
+    time_step_proportions 0.4 0.6
+    relative_m_by_age [type=logistic; a50=2; ato95=1] [type=constant; c=0.5]
+  )";
+
+  AddConfigurationLine(test_cases_process_survival_two_categories, __FILE__, 128);
+  AddConfigurationLine(survival, __FILE__, 252);
+  LoadConfiguration();
+
+  model_->Start(RunMode::kBasic);
+
+  vector<double> expected_male   = {49502.491687458401, 44791.706764826413, 37040.91103408589, 30343.292605534407, 24843.711101682555};
+  vector<double> expected_female = {47561.471225035697, 45241.870901797978, 43035.398821252886, 40936.537653899089, 38940.039153570237};
+  partition::Category& male   = model_->partition().category("male");
+  partition::Category& female = model_->partition().category("female");
+  for (unsigned i = 0; i < expected_male.size(); ++i) {
+    EXPECT_DOUBLE_EQ(expected_male[i], male.data_[i]) << " age index " << i;
+    EXPECT_DOUBLE_EQ(expected_female[i], female.data_[i]) << " age index " << i;
+  }
 }
 
 }  // namespace niwa::processes::age

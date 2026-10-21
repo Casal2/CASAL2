@@ -285,6 +285,37 @@ TEST_F(InternalEmptyModel, Observation_Process_Removals_By_Age_for_fishery_Singl
   EXPECT_DOUBLE_EQ(6.5432962807430544, comparisons[year][4].score_);
 }
 
+
+/**
+ * A removal observation that names a non-fishery mortality process (here survival_constant_rate)
+ * as its mortality_process must fail with a fatal error rather than reach the process's
+ * catch-at accessors.
+ */
+TEST_F(InternalEmptyModel, Observation_Process_Removals_By_Age_SurvivalProcess_NotAllowed) {
+  string config = test_cases_observation_process_removals_by_age_single;
+  const string step1 = "processes Recruitment instant_mort\n";
+  config.replace(config.find(step1), step1.size(), "processes Recruitment instant_mort survival\n");
+  config.replace(config.find("mortality_process instant_mort"), string("mortality_process instant_mort").size(), "mortality_process survival");
+
+  const string survival = R"(
+    @process survival
+    type survival_constant_rate
+    categories stock
+    s 0.9
+    selectivities [type=constant; c=1]
+  )";
+
+  AddConfigurationLine(config, __FILE__, 31);
+  AddConfigurationLine(survival, __FILE__, 300);
+  LoadConfiguration();
+  try {
+    model_->Start(RunMode::kBasic);
+    FAIL() << "expected a fatal error";
+  } catch (const string& message) {
+    EXPECT_THAT(message, ::testing::HasSubstr("survival"));
+  }
+}
+
 }  // namespace age
 } /* namespace niwa */
 

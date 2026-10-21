@@ -8,8 +8,9 @@
  *
  * niwa::processes::age::Mortality exists to give fishery/catch-at-age mortality processes a
  * common base the manager can retrieve them by (see age::Mortality's own doc comment). A
- * handful of non-fishery-based mortality processes -- MortalityConstantRemovalRate (both its
- * mortality_constant_rate and mortality_constant_exploitation formulations) -- derive from it
+ * handful of non-fishery-based mortality processes -- MortalityConstantRemovalRate (its
+ * mortality_constant_rate, mortality_constant_exploitation and survival_constant_rate
+ * formulations), MortalityEventRemoval, MortalityInitialisationEventRemoval -- derive from it
  * anyway purely so that removal observations naming them as a mortality_process can be
  * dynamic_cast<age::Mortality*> (see Processes/Manager.cpp::GetAgeBasedMortalityProcess()) and
  * fail with the correct diagnostic rather than "process not found".

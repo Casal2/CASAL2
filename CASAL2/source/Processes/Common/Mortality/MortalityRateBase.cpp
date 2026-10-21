@@ -52,7 +52,7 @@ vector<niwa::Selectivity*> MortalityRateBase::ResolveSelectivities(shared_ptr<Mo
  * @param process_label The calling process's own label (to find which time steps it's assigned to)
  * @param ratios_input The user-provided time_step_proportions values (may be empty)
  * @param size_mismatch_prefix Text preceding the input size in the size-mismatch error message
- * @param exclusive_lower_bound Whether 0.0 itself is out of range (SurvivalConstantRate) or not
+ * @param exclusive_lower_bound Whether 0.0 itself is out of range (survival_constant_rate) or not
  * @param bound_error_prefix Text preceding the offending value in the out-of-range error message
  * @param bound_error_suffix Text following the offending value in the out-of-range error message
  * @return A map of time step index to ratio
