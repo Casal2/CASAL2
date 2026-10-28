@@ -14,6 +14,9 @@
 #include <gmock/gmock.h>
 #include <gtest/gtest.h>
 
+#include "Model/Managers.h"
+#include "Penalties/Manager.h"
+#include "Processes/Manager.h"
 #include "TestResources/TestFixtures/InternalEmptyModel.h"
 
 namespace niwa::processes::age {
@@ -250,6 +253,101 @@ TEST_F(InternalEmptyModel, Process_MortalityInitialisationEventBiomass_WeightedV
   EXPECT_NEAR(40000, female.data_[2], 1e-5);
   EXPECT_NEAR(40000, female.data_[3], 1e-5);
   EXPECT_NEAR(40000, female.data_[4], 1e-5);
+}
+
+/**
+ * Catch far exceeds the (mean-weight-weighted, for biomass) vulnerable stock, so u_max binds.
+ * Exercises the u_max cap and the penalty trigger, which no other test in this file reaches.
+ * Expected values were captured from the pre-TBM-3 code.
+ */
+TEST_F(InternalEmptyModel, Process_MortalityInitialisationEventBiomass_UMaxCap_Penalty) {
+  const string config = R"(
+@model
+start_year 2000
+final_year 2002
+min_age 1
+max_age 5
+base_weight_units kgs
+age_plus f
+initialisation_phases iphase
+time_steps step_one
+
+@categories
+format sex
+names male female
+age_lengths vb_age_length*2
+
+@age_length vb_age_length
+type von_bertalanffy
+by_length true
+linf 55.7
+k 0.14
+t0 -0.82
+cv_first 0.1
+cv_last 0.1
+length_weight weight_basic
+
+@length_weight weight_basic
+type basic
+units kgs
+a 0.007289
+b 3.2055
+
+@initialisation_phase iphase
+type iterative
+years 2
+
+@time_step step_one
+processes ageing recruitment mortality
+
+@ageing ageing
+categories *
+
+@recruitment recruitment
+type constant
+categories *
+proportions 0.6 0.4
+r0 100000
+age 1
+
+@selectivity one
+type constant
+c 1
+
+@penalty event_penalty
+type process
+log_scale false
+multiplier 1
+
+@mortality mortality
+type initialisation_event_biomass
+categories male female
+catch 5000000
+U_max 0.5
+selectivities one one
+penalty event_penalty
+)";
+
+  AddConfigurationLine(config, __FILE__, __LINE__);
+  LoadConfiguration();
+
+  model_->Start(RunMode::kBasic);
+
+  partition::Category& male = model_->partition().category("male");
+  EXPECT_DOUBLE_EQ(60000, male.data_[0]);
+  EXPECT_DOUBLE_EQ(60000, male.data_[1]);
+  EXPECT_DOUBLE_EQ(60000, male.data_[2]);
+  EXPECT_DOUBLE_EQ(30000, male.data_[3]);
+  EXPECT_DOUBLE_EQ(15000, male.data_[4]);
+
+  partition::Category& female = model_->partition().category("female");
+  EXPECT_DOUBLE_EQ(40000, female.data_[0]);
+  EXPECT_DOUBLE_EQ(20000, female.data_[3]);
+  EXPECT_DOUBLE_EQ(10000, female.data_[4]);
+
+  Penalty* penalty = model_->managers()->penalty()->GetPenalty("event_penalty");
+  ASSERT_NE(penalty, nullptr);
+  EXPECT_DOUBLE_EQ(16959691242760.963, AS_DOUBLE(penalty->GetScore()));
 }
 
 }  // namespace niwa::processes::age

@@ -10,13 +10,7 @@
 // Headers
 #include "MortalityEventRemoval.h"
 
-#include "AgeLengths/AgeLength.h"
-#include "Categories/Categories.h"
-#include "Penalties/Manager.h"
-#include "Selectivities/Manager.h"
-#include "TimeSteps/Manager.h"
 #include "Utilities/Map.h"
-#include "Utilities/Math.h"
 
 // Namespaces
 namespace niwa::processes::age {
@@ -25,11 +19,11 @@ namespace niwa::processes::age {
  * Default constructor
  *
  * @param unit Whether this instance's catch/u_max/vulnerable-stock quantity is expressed as
- *   numbers-at-age or biomass -- see RemovalUnit in MortalityEventRemoval.h. Supplied by
+ *   numbers-at-age or biomass -- see RemovalUnit in MortalityEventRemovalBase.h. Supplied by
  *   Factory.cpp at construction time.
  */
 MortalityEventRemoval::MortalityEventRemoval(shared_ptr<Model> model, RemovalUnit unit) :
-    MortalityFisheryAccessorStub(model, "MortalityEventRemoval"), unit_(unit), partition_(model) {
+    MortalityEventRemovalBase(model, "MortalityEventRemoval", unit) {
   parameters_.Bind<string>(PARAM_CATEGORIES, &category_labels_, "The categories")->flag_is_category();
   parameters_.Bind<unsigned>(PARAM_YEARS, &years_, "The years in which to apply the mortality process");
   parameters_.Bind<Double>(PARAM_CATCHES, &catches_, "The catches (numbers or biomass, depending on process type) to apply for each year");
@@ -38,9 +32,6 @@ MortalityEventRemoval::MortalityEventRemoval(shared_ptr<Model> model, RemovalUni
   parameters_.Bind<string>(PARAM_PENALTY, &penalty_label_, "The label of the penalty to apply if the total number of removals cannot be taken")->set_default_value("");
 
   RegisterAsAddressable(PARAM_CATCHES, &catch_years_);
-
-  process_type_        = ProcessType::kMortality;
-  partition_structure_ = PartitionType::kAge;
 }
 
 /**
@@ -66,25 +57,10 @@ void MortalityEventRemoval::DoValidate() {
 
 /**
  * Build the runtime relationships required
- * - Build partition reference
+ * - Build partition, selectivity and penalty references (shared, see MortalityEventRemovalBase)
  */
 void MortalityEventRemoval::DoBuild() {
-  partition_.Init(category_labels_);
-
-  for (string label : selectivity_labels_) {
-    Selectivity* selectivity = model()->managers()->selectivity()->GetSelectivity(label);
-    if (!selectivity)
-      LOG_ERROR_P(PARAM_SELECTIVITIES) << ": Selectivity label " << label << " was not found.";
-
-    selectivities_.push_back(selectivity);
-  }
-
-  if (penalty_label_ != "") {
-    penalty_ = model()->managers()->penalty()->GetProcessPenalty(penalty_label_);
-    if (!penalty_) {
-      LOG_ERROR_P(PARAM_PENALTY) << ": Penalty label " << penalty_label_ << " was not found.";
-    }
-  }
+  BuildPartitionSelectivitiesAndPenalty();
 
   // Pre allocate memory
   exploitation_by_year_.reserve(years_.size());
@@ -114,47 +90,13 @@ void MortalityEventRemoval::DoExecute() {
   if (model()->state() == State::kInitialise)
     return;
 
-  unsigned time_step_index = model()->managers()->time_step()->current_time_step();
-
   /**
-   * Work out how much of the stock is vulnerable. The per-age numbers-at-age vulnerability is
-   * always cached into vulnerable_ for reuse in the removal loop below -- for kBiomass, the sum
-   * used as the exploitation-rate denominator is additionally weighted by mean-weight-at-age, but
-   * the cached per-cell value stays numbers-based, since the removal step itself is always
-   * numbers * exploitation for both units (matching both original classes' removal formula).
+   * Work out the exploitation rate to remove (catch/vulnerable), capped at u_max
    */
-  Double   vulnerable = 0.0;
-  unsigned i          = 0;
-  for (auto categories : partition_) {
-    unsigned j = 0;
-    for (Double& data : categories->data_) {
-      Double numbers_vulnerable                                 = data * selectivities_[i]->GetAgeResult(categories->min_age_ + j, categories->age_length_);
-      vulnerable_[categories->name_][categories->min_age_ + j] = numbers_vulnerable;
-
-      vulnerable += (unit_ == RemovalUnit::kBiomass) ? numbers_vulnerable * categories->age_length_->mean_weight(time_step_index, categories->min_age_ + j) : numbers_vulnerable;
-      ++j;
-    }
-
-    ++i;
-  }
-
-  /**
-   * Work out the exploitation rate to remove (catch/vulnerable)
-   */
-  LOG_FINEST() << "vulnerable = " << vulnerable << " catch = " << catch_years_[current_year];
-  Double exploitation = catch_years_[current_year] / utilities::math::ZeroFun(vulnerable);
-
-  if (exploitation > u_max_) {
-    exploitation = u_max_;
-    actual_catches_.push_back(vulnerable * u_max_);
-    exploitation_by_year_.push_back(exploitation);
-    if (penalty_)
-      penalty_->Trigger(catch_years_[current_year], vulnerable * u_max_);
-
-  } else {
-    actual_catches_.push_back(catch_years_[current_year]);
-    exploitation_by_year_.push_back(exploitation);
-  }
+  CatchExploitation result       = CalculateExploitation(catch_years_[current_year]);
+  Double            exploitation = result.exploitation;
+  actual_catches_.push_back(result.actual_catch);
+  exploitation_by_year_.push_back(exploitation);
 
   // Normalized: mortality_event zeroed exploitation after this LOG_CODE_ERROR (an unreachable
   // "should never happen" path); mortality_event_biomass did not. Unified since the path is
@@ -165,18 +107,7 @@ void MortalityEventRemoval::DoExecute() {
   }
   LOG_FINEST() << "year: " << current_year << "; exploitation: " << AS_DOUBLE(exploitation);
 
-  /**
-   * Remove the stock now. The amount to remove is the cached numbers-at-age vulnerability times
-   * the exploitation rate.
-   */
-  for (auto categories : partition_) {
-    unsigned offset = 0;
-    for (Double& data : categories->data_) {
-      Double removals = vulnerable_[categories->name_][categories->min_age_ + offset] * exploitation;
-      data -= removals;
-      ++offset;
-    }
-  }
+  RemoveAtExploitation(exploitation);
 }
 
 /**

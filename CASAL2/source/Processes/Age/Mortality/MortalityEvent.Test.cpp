@@ -15,9 +15,13 @@
 #include <iostream>
 
 #include "Model/Factory.h"
+#include "Model/Managers.h"
 #include "MortalityEventRemoval.h"
 #include "Partition/Partition.h"
+#include "Penalties/Manager.h"
+#include "Processes/Manager.h"
 #include "TestResources/TestFixtures/BasicModel.h"
+#include "TestResources/TestFixtures/InternalEmptyModel.h"
 #include "TimeSteps/Manager.h"
 
 // Namespaces
@@ -26,6 +30,7 @@ namespace processes {
 namespace age {
 
 using niwa::testfixtures::BasicModel;
+using niwa::testfixtures::InternalEmptyModel;
 using std::cout;
 using std::endl;
 
@@ -134,6 +139,93 @@ TEST_F(BasicModel, Processes_Mortality_Event_No_Penalty) {
   // Mature should still be 0 because we had no maturation
   for (unsigned i = 0; i < mature_male.data_.size(); ++i) EXPECT_DOUBLE_EQ(0.0, mature_male.data_[i]) << " where i = " << i << "; age = " << i + mature_male.min_age_;
   for (unsigned i = 0; i < mature_female.data_.size(); ++i) EXPECT_DOUBLE_EQ(0.0, mature_female.data_[i]) << " where i = " << i << "; age = " << i + mature_female.min_age_;
+}
+
+
+/**
+ * Catch far exceeds the vulnerable stock, so u_max binds in every year. Exercises the u_max cap,
+ * the penalty trigger and the actual_catches/exploitation_rate report values -- none of which the
+ * test above reaches. Expected values were captured from the pre-TBM-3 code.
+ */
+const std::string test_case_mortality_event_u_max =
+    R"(
+@model
+start_year 2000
+final_year 2002
+min_age 1
+max_age 5
+base_weight_units kgs
+age_plus f
+time_steps step_one
+
+@categories
+format sex
+names male female
+age_lengths no_age_length*2
+
+@age_length no_age_length
+type none
+length_weight [type=none]
+
+@time_step step_one
+processes ageing recruitment mortality
+
+@ageing ageing
+categories *
+
+@recruitment recruitment
+type constant
+categories *
+proportions 0.6 0.4
+r0 100000
+age 1
+
+@selectivity one
+type constant
+c 1
+
+@penalty event_penalty
+type process
+log_scale false
+multiplier 1
+
+@mortality mortality
+type event
+categories male female
+years 2000 2001 2002
+catches 1000000 50000 1000000
+U_max 0.5
+selectivities one one
+penalty event_penalty
+)";
+
+TEST_F(InternalEmptyModel, Processes_Mortality_Event_UMaxCap_Penalty) {
+  AddConfigurationLine(test_case_mortality_event_u_max, __FILE__, __LINE__);
+  LoadConfiguration();
+
+  model_->Start(RunMode::kBasic);
+
+  partition::Category& male = model_->partition().category("male");
+  EXPECT_DOUBLE_EQ(30000, male.data_[0]);
+  EXPECT_DOUBLE_EQ(20000, male.data_[1]);
+  EXPECT_DOUBLE_EQ(10000, male.data_[2]);
+  EXPECT_DOUBLE_EQ(0.0, male.data_[3]);
+  EXPECT_DOUBLE_EQ(0.0, male.data_[4]);
+
+  partition::Category& female = model_->partition().category("female");
+  EXPECT_DOUBLE_EQ(20000, female.data_[0]);
+  EXPECT_DOUBLE_EQ(13333.333333333334, female.data_[1]);
+  EXPECT_DOUBLE_EQ(6666.666666666667, female.data_[2]);
+
+  Penalty* penalty = model_->managers()->penalty()->GetPenalty("event_penalty");
+  ASSERT_NE(penalty, nullptr);
+  EXPECT_DOUBLE_EQ(1712500000000, AS_DOUBLE(penalty->GetScore()));
+
+  Process* process = model_->managers()->process()->GetProcess("mortality");
+  ASSERT_NE(process, nullptr);
+  ostringstream report;
+  process->FillReportCache(report);
+  EXPECT_EQ("years: 2000 2001 2002 \nactual_catches: 50000 50000 100000 \nexploitation_rate: 0.5 0.333333 0.5 \n", report.str());
 }
 
 } /* namespace age */

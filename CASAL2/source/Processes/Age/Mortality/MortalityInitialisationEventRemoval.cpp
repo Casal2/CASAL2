@@ -10,13 +10,6 @@
 // Headers
 #include "MortalityInitialisationEventRemoval.h"
 
-#include "AgeLengths/AgeLength.h"
-#include "Categories/Categories.h"
-#include "Penalties/Manager.h"
-#include "Selectivities/Manager.h"
-#include "TimeSteps/Manager.h"
-#include "Utilities/Math.h"
-
 // Namespaces
 namespace niwa::processes::age {
 
@@ -24,24 +17,21 @@ namespace niwa::processes::age {
  * Default constructor
  *
  * @param unit Whether this instance's catch/u_max/vulnerable-stock quantity is expressed as
- *   numbers-at-age or biomass -- see RemovalUnit in MortalityEventRemoval.h. Supplied by
+ *   numbers-at-age or biomass -- see RemovalUnit in MortalityEventRemovalBase.h. Supplied by
  *   Factory.cpp at construction time.
  *
  * The two pre-merge classes bound an identical parameter set -- same names, same order, same
  * descriptions -- so there is nothing here that depends on unit_.
  */
 MortalityInitialisationEventRemoval::MortalityInitialisationEventRemoval(shared_ptr<Model> model, RemovalUnit unit) :
-    MortalityFisheryAccessorStub(model, "MortalityInitialisationEventRemoval"), unit_(unit), partition_(model) {
+    MortalityEventRemovalBase(model, "MortalityInitialisationEventRemoval", unit) {
   parameters_.Bind<string>(PARAM_CATEGORIES, &category_labels_, "The categories")->flag_is_category();
   parameters_.Bind<Double>(PARAM_CATCH, &catch_, "The amount of removals (catches) to apply for each year");
   parameters_.Bind<double>(PARAM_U_MAX, &u_max_, "The maximum exploitation rate ($U_{max}$)")->set_default_value(0.99);
-  parameters_.Bind<string>(PARAM_SELECTIVITIES, &selectivity_names_, "The list of selectivities");
-  parameters_.Bind<string>(PARAM_PENALTY, &penalty_name_, "The label of the penalty to apply if the total amount of removals cannot be taken")->set_default_value("");
+  parameters_.Bind<string>(PARAM_SELECTIVITIES, &selectivity_labels_, "The list of selectivities");
+  parameters_.Bind<string>(PARAM_PENALTY, &penalty_label_, "The label of the penalty to apply if the total amount of removals cannot be taken")->set_default_value("");
 
   RegisterAsAddressable(PARAM_CATCH, &catch_);
-
-  process_type_        = ProcessType::kMortality;
-  partition_structure_ = PartitionType::kAge;
 }
 
 /**
@@ -66,25 +56,10 @@ void MortalityInitialisationEventRemoval::DoValidate() {
 
 /**
  * Build the runtime relationships required
- * - Build partition reference
+ * - Build partition, selectivity and penalty references (shared, see MortalityEventRemovalBase)
  */
 void MortalityInitialisationEventRemoval::DoBuild() {
-  partition_.Init(category_labels_);
-
-  for (string label : selectivity_names_) {
-    Selectivity* selectivity = model()->managers()->selectivity()->GetSelectivity(label);
-    if (!selectivity)
-      LOG_ERROR_P(PARAM_SELECTIVITIES) << ": Selectivity label " << label << " was not found.";
-
-    selectivities_.push_back(selectivity);
-  }
-
-  if (penalty_name_ != "") {
-    penalty_ = model()->managers()->penalty()->GetProcessPenalty(penalty_name_);
-    if (!penalty_) {
-      LOG_ERROR_P(PARAM_PENALTY) << ": Penalty label " << penalty_name_ << " was not found.";
-    }
-  }
+  BuildPartitionSelectivitiesAndPenalty();
 }
 
 /**
@@ -97,64 +72,22 @@ void MortalityInitialisationEventRemoval::DoExecute() {
   if (model()->state() != State::kInitialise)
     return;
 
-  unsigned time_step_index = model()->managers()->time_step()->current_time_step();
-
   /**
-   * Work out how much of the stock is vulnerable. The per-age numbers-at-age vulnerability is
-   * always cached into vulnerable_ for reuse in the removal loop below -- for kBiomass, the sum
-   * used as the exploitation-rate denominator is additionally weighted by mean-weight-at-age, but
-   * the cached per-cell value stays numbers-based, since the removal step itself is always
-   * numbers * exploitation for both units (matching both original classes' removal formula).
+   * Work out the exploitation rate to remove (catch/vulnerable), capped at u_max
    */
-  Double   vulnerable = 0.0;
-  unsigned i          = 0;
-  for (auto categories : partition_) {
-    unsigned j = 0;
-    for (Double& data : categories->data_) {
-      Double numbers_vulnerable                                = data * selectivities_[i]->GetAgeResult(categories->min_age_ + j, categories->age_length_);
-      vulnerable_[categories->name_][categories->min_age_ + j] = numbers_vulnerable;
-
-      vulnerable += (unit_ == RemovalUnit::kBiomass) ? numbers_vulnerable * categories->age_length_->mean_weight(time_step_index, categories->min_age_ + j) : numbers_vulnerable;
-      ++j;
-    }
-
-    ++i;
-  }
-
-  /**
-   * Work out the exploitation rate to remove (catch/vulnerable)
-   */
-  Double exploitation = 0;
-  LOG_FINEST() << "vulnerable = " << vulnerable << " catch = " << catch_;
-  exploitation = catch_ / utilities::math::ZeroFun(vulnerable);
-  if (exploitation > u_max_) {
-    exploitation = u_max_;
-    if (penalty_)
-      penalty_->Trigger(catch_, vulnerable * u_max_);
-
-  } else if (exploitation < 0.0) {
+  Double exploitation = CalculateExploitation(catch_).exploitation;
+  if (exploitation < 0.0)
     exploitation = 0.0;
-  }
   LOG_FINEST() << "; exploitation: " << AS_DOUBLE(exploitation);
 
   /**
-   * Remove the stock now. The amount to remove is the cached numbers-at-age vulnerability times
-   * the exploitation rate.
-   *
-   * The pre-merge mortality_initialisation_event_biomass recomputed the selectivity here instead
-   * of reading its cache -- it had to, because its cache held biomass while the removal must be in
-   * numbers. Since the cache above is now always numbers-based, both process types can share this
-   * one loop: cached_numbers_vulnerable * exploitation == data * selectivity * exploitation, with
-   * the same operator grouping, so this is bit-for-bit identical to both originals.
+   * Remove the stock now. The pre-merge mortality_initialisation_event_biomass recomputed the
+   * selectivity here instead of reading the vulnerability cache -- it had to, because its cache
+   * held biomass while the removal must be in numbers. The cache is now always numbers-based, so
+   * cached_numbers_vulnerable * exploitation == data * selectivity * exploitation, with the same
+   * operator grouping, and the shared removal loop is bit-for-bit identical to both originals.
    */
-  for (auto categories : partition_) {
-    unsigned offset = 0;
-    for (Double& data : categories->data_) {
-      Double removals = vulnerable_[categories->name_][categories->min_age_ + offset] * exploitation;
-      data -= removals;
-      ++offset;
-    }
-  }
+  RemoveAtExploitation(exploitation);
 }
 
 }  // namespace niwa::processes::age

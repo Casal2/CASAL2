@@ -18,8 +18,10 @@
  * (see DoExecute()). Factory.cpp picks which unit an instance uses via the constructor argument;
  * everything else about the two process types is identical.
  *
- * This is the initialisation-phase counterpart of MortalityEventRemoval, and reuses that class's
- * RemovalUnit enum rather than declaring a second one with the same meaning.
+ * This is the initialisation-phase counterpart of MortalityEventRemoval. The two share the
+ * RemovalUnit enum, the vulnerable-stock sum, the u_max cap/penalty and the removal loop through
+ * MortalityEventRemovalBase (TBM-3). This class keeps the scalar catch, the
+ * run-only-during-initialisation guard and its (empty) reporting.
  *
  * Consolidated from the formerly-separate MortalityInitialisationEvent and
  * MortalityInitialisationEventBiomass classes. Both previously carried an `init_iteration_`
@@ -39,20 +41,15 @@
 #define PROCESSES_AGE_MORTALITYINITIALISATIONEVENTREMOVAL_H_
 
 // Headers
-#include "Partition/Accessors/Categories.h"
-#include "Penalties/Common/Process.h"
-#include "Processes/Age/Mortality/MortalityEventRemoval.h"
-#include "Processes/Age/Mortality/MortalityFisheryAccessorStub.h"
-#include "Selectivities/Selectivity.h"
+#include "Processes/Age/Mortality/MortalityEventRemovalBase.h"
 
 // namespaces
 namespace niwa::processes::age {
-namespace accessor = niwa::partition::accessors;
 
 /**
  * Class Definition
  */
-class MortalityInitialisationEventRemoval : public niwa::processes::age::MortalityFisheryAccessorStub {
+class MortalityInitialisationEventRemoval : public niwa::processes::age::MortalityEventRemovalBase {
 public:
   // Methods
   MortalityInitialisationEventRemoval(shared_ptr<Model> model, RemovalUnit unit);
@@ -66,15 +63,7 @@ public:
 
 private:
   // Members
-  RemovalUnit                        unit_;
-  Double                             catch_;
-  double                             u_max_;
-  vector<string>                     selectivity_names_;
-  vector<Selectivity*>               selectivities_;
-  string                             penalty_name_;
-  penalties::Process*                penalty_ = nullptr;
-  accessor::Categories               partition_;
-  map<string, map<unsigned, Double>> vulnerable_;
+  Double catch_;
 };
 
 }  // namespace niwa::processes::age

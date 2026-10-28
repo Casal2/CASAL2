@@ -27,42 +27,25 @@
  * mortality_event_biomass configurations can differ from the pre-merge class in the edge cases
  * those asymmetries covered (initialisation-phase removals, out-of-order years, u_max of exactly
  * 0 or 1). It is not a pure refactor.
+ *
+ * The vulnerable-stock sum, the u_max cap/penalty and the removal loop are shared with
+ * MortalityInitialisationEventRemoval through MortalityEventRemovalBase (TBM-3). This class keeps
+ * the per-year catch map, the skip-during-initialisation guard and the actual_catches /
+ * exploitation_rate reporting.
  */
 #ifndef PROCESSES_AGE_MORTALITYEVENTREMOVAL_H_
 #define PROCESSES_AGE_MORTALITYEVENTREMOVAL_H_
 
 // Headers
-#include "Partition/Accessors/Categories.h"
-#include "Penalties/Common/Process.h"
-#include "Processes/Age/Mortality/MortalityFisheryAccessorStub.h"
-#include "Selectivities/Selectivity.h"
+#include "Processes/Age/Mortality/MortalityEventRemovalBase.h"
 
 // namespaces
 namespace niwa::processes::age {
-namespace accessor = niwa::partition::accessors;
-
-/**
- * Which quantity the catch/u_max/vulnerable-stock calculation is expressed in.
- *
- * Shared by MortalityEventRemoval and MortalityInitialisationEventRemoval -- the two classes make
- * the same numbers-vs-biomass distinction, so they share one enum rather than declaring two with
- * identical meaning.
- */
-enum class RemovalUnit {
-  // vulnerable stock summed as numbers-at-age
-  //   MortalityEventRemoval (mortality_event)
-  //   MortalityInitialisationEventRemoval (mortality_initialisation_event)
-  kNumbers,
-  // vulnerable stock weighted by mean-weight-at-age
-  //   MortalityEventRemoval (mortality_event_biomass)
-  //   MortalityInitialisationEventRemoval (mortality_initialisation_event_biomass)
-  kBiomass,
-};
 
 /**
  * Class Definition
  */
-class MortalityEventRemoval : public niwa::processes::age::MortalityFisheryAccessorStub {
+class MortalityEventRemoval : public niwa::processes::age::MortalityEventRemovalBase {
 public:
   // Methods
   MortalityEventRemoval(shared_ptr<Model> model, RemovalUnit unit);
@@ -76,19 +59,11 @@ public:
 
 private:
   // Members
-  RemovalUnit                        unit_;
-  vector<unsigned>                   years_;
-  vector<Double>                     catches_;
-  map<unsigned, Double>              catch_years_;
-  double                             u_max_ = 0;
-  vector<string>                     selectivity_labels_;
-  vector<Selectivity*>               selectivities_;
-  string                             penalty_label_ = "";
-  penalties::Process*                penalty_       = nullptr;
-  accessor::Categories                partition_;
-  vector<Double>                      exploitation_by_year_;
-  vector<Double>                     actual_catches_;
-  map<string, map<unsigned, Double>> vulnerable_;
+  vector<unsigned>      years_;
+  vector<Double>        catches_;
+  map<unsigned, Double> catch_years_;
+  vector<Double>        exploitation_by_year_;
+  vector<Double>        actual_catches_;
 };
 
 }  // namespace niwa::processes::age
