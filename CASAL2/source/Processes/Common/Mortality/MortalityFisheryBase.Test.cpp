@@ -530,6 +530,41 @@ TEST_F(FisheryTableResults, Processes_Mortality_FisheryBase_Hybrid_AnnualDuratio
 }
 
 /**
+ * A time step with a proportion of M and no fishery applies none of that M, which has to stop the
+ * model. Verify messages aren't built at the unit test log level, and throw when they are.
+ */
+class FisheryTableVerify : public InternalEmptyModel {
+protected:
+  std::string VerifyMessage(const std::string& process) {
+    AddConfigurationLine(fishery_base_model, __FILE__, 41);
+    AddConfigurationLine(process, __FILE__, 1);
+    LoadConfiguration();
+
+    const logger::Severity log_level = Logging::current_log_level_;
+    Logging::Instance().SetLogLevel(PARAM_IMPORTANT);
+    std::string message = "";
+    try {
+      model_->Start(RunMode::kBasic);
+    } catch (const std::string& thrown) {
+      message = thrown;
+    }
+    Logging::current_log_level_ = log_level;
+    return message;
+  }
+};
+
+TEST_F(FisheryTableVerify, Processes_Mortality_FisheryBase_Hybrid_TimeStepWithoutFishery_Verifies) {
+  std::string message = VerifyMessage(hybrid_process);
+  EXPECT_NE(std::string::npos, message.find("time step step2 has a proportion of 0.4 of M but no fishery")) << message;
+}
+
+TEST_F(FisheryTableVerify, Processes_Mortality_FisheryBase_Hybrid_ZeroProportionWithoutFishery_DoesNotVerify) {
+  std::string message = VerifyMessage(Replaced(hybrid_process, "time_step_proportions 0.6 0.4", "time_step_proportions 1 0"));
+  // Processes verify first, so reaching this later check means the process passed
+  EXPECT_NE(std::string::npos, message.find("no ageing processes have been defined")) << message;
+}
+
+/**
  * One way of breaking a table: applied to process, this must fail with a message containing expected
  */
 struct FisheryErrorCase {

@@ -167,6 +167,31 @@ void MortalityHybrid::DoBuild() {
 }
 
 /**
+ * A time step without a fishery has an annual duration of zero in DoExecute(), so Z = 0 there and
+ * its proportion of M is never applied. Stop the model unless the user chooses to carry on.
+ *
+ * @param model The model
+ */
+void MortalityHybrid::DoVerify(shared_ptr<Model> model) {
+  vector<TimeStep*> time_steps = model->managers()->time_step()->ordered_time_steps();
+  for (auto& ratio_iter : time_step_ratios_) {
+    if (ratio_iter.second <= 0.0)
+      continue;
+
+    bool has_fishery = false;
+    for (auto& fishery_iter : fisheries_) {
+      if (fishery_iter.second.time_step_index_ == ratio_iter.first)
+        has_fishery = true;
+    }
+
+    if (!has_fishery)
+      LOG_VERIFY_P(PARAM_TIME_STEP_PROPORTIONS) << "time step " << time_steps[ratio_iter.first]->label() << " has a proportion of " << ratio_iter.second << " of M but no fishery in the "
+                                                << PARAM_METHOD << " table. " << PARAM_MORTALITY_HYBRID << " does not apply M in a time step without a fishery, so this M is not applied."
+                                                << " Use --verifylevel warning to run anyway";
+  }
+}
+
+/**
  * Execute this process
  */
 void MortalityHybrid::DoExecute() {

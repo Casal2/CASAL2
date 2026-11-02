@@ -824,6 +824,8 @@ Total catch is the summed over categories and age for a time-step and fishery as
 
 where \(\bar{w}_{t,a,c}\) is the mean weight, abundance can be derived by flagging \subcommand{biomass false}, where mean weight is omitted from above calculation. If users assign a penalty in the \subcommand{method} table, then the penalty is flagged each time-step and for each fishery, which calculates the difference between \(\widehat{C}_{t,f}\) and \(C^{obs}_{f,t}\), to ensure the catch observed is taken. This makes the assumption that catch is known without error, which may differ from other assessment packages.
 
+Natural mortality is not applied in a time step that has no fishery, so any time step with a non-zero \subcommand{time\_step\_proportions} value must have a fishery. Otherwise \CNAME\ stops with a verify message, which can be bypassed with \texttt{-{}-verifylevel warning}.
+
 The following is an excerpt of the input files. However, see Section~\ref{syntax:Process-MortalityHybrid} for details and descriptions on the subcommands.
 
 {\small{\begin{verbatim}

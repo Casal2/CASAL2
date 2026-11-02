@@ -248,18 +248,20 @@ class ModelRunner:
                 if folder == model_name:
                     threadCommand = []
                     checkForFile = []
+                    # This model has a mortality_hybrid time step with M but no fishery, which stops at Verify
+                    verify_option = " -V warning" if model_name == "TwoSexHybridMortality" else ""
 
                     if exec_type == "betadiff":
                         threadCommand.append(
-                            f"{exe_path} -e -g 20 -c config_betadiff.csl2 > estimate_betadiff.log 2> estimate_betadiff.err"
+                            f"{exe_path} -e -g 20{verify_option} -c config_betadiff.csl2 > estimate_betadiff.log 2> estimate_betadiff.err"
                         )
                     if exec_type == "gammadiff":
                         threadCommand.append(
-                            f"{exe_path} -e -g 20 -c config_gammadiff.csl2 > estimate_gammadiff.log 2> estimate_gammadiff.err"
+                            f"{exe_path} -e -g 20{verify_option} -c config_gammadiff.csl2 > estimate_gammadiff.log 2> estimate_gammadiff.err"
                         )
                     if exec_type == "adolc":
                         threadCommand.append(
-                            f"{exe_path} -e -g 20 --config config_adolc.csl2 > estimate_adolc.log 2> estimate_adolc.err"
+                            f"{exe_path} -e -g 20{verify_option} --config config_adolc.csl2 > estimate_adolc.log 2> estimate_adolc.err"
                         )
                     if exec_type == "resume_mcmc_from_mpd":
                         threadCommand.append(

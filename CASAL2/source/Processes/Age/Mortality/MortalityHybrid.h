@@ -37,6 +37,8 @@ public:
   void FillTabularReportCache(ostringstream& cache, bool first_run) override final;
 
 protected:
+  void DoVerify(shared_ptr<Model> model) override final;
+
   // Method table columns specific to this process
   void ParseFisheryColumns(const MethodRow& row, FisheryData& fishery) override final;
   void CheckRepeatedFishery(const MethodRow& row, const FisheryData& stored, const FisheryData& repeat, unsigned first_row) override final;
