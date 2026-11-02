@@ -13,6 +13,8 @@
 // headers
 #include "RandomWalkMetropolisHastings.h"
 
+#include <cmath>
+
 #include "../../Estimates/Manager.h"
 #include "../../Minimisers/Manager.h"
 #include "../../Model/Model.h"
@@ -86,7 +88,9 @@ void RandomWalkMetropolisHastings::DoExecute(shared_ptr<ThreadPool> thread_pool)
       proposed_score = obj_function.score();
 
       Double ratio = 1.0;
-      if (proposed_score >= current_score) {
+      if (!std::isfinite(proposed_score)) {
+        ratio = 0.0;  // a NaN score fails the comparison below, and must not be accepted
+      } else if (proposed_score >= current_score) {
         ratio = exp(current_score - proposed_score);
       }
 

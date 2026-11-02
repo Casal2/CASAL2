@@ -93,20 +93,22 @@
 \commandlabsubarg{mcmc}{type}{Hamiltonian}
 \label{syntax:MCMC-HamiltonianMonteCarlo}
 
+The \argument{length}, \argument{keep} and \argument{burn\_in} subcommands have the same meaning as for the random walk Metropolis Hastings. The \argument{step\_size}, \argument{adapt\_stepsize\_at}, \argument{adapt\_covariance\_matrix\_at}, \argument{proposal\_distribution} and \argument{df} subcommands are not used, and a warning is given if they are set. An estimate that starts at a bound cannot be moved by this method and is an error. Set \argument{start} greater than zero and \argument{adjust\_parameters\_at\_bounds} to true to start it away from the bound.
+
 \defSub{leapfrog\_steps}{Number of leapfrog steps}
 \defType{Non-negative integer}
-\defDefault{1}
+\defDefault{10}
 \defLowerBound{0 (exclusive)}
 
 \defSub{leapfrog\_delta}{Amount to leapfrog per step}
 \defType{Real number}
-\defDefault{1e-7}
+\defDefault{0.01}
 \defLowerBound{0 (exclusive)}
 
 \defSub{gradient\_step\_size}{Step-size to use when calculating gradient}
 \defType{Real number}
-\defDefault{1e-7}
-\defLowerBound{1e-13 (inclusive)}
+\defDefault{1e-6}
+\defLowerBound{1e-13 (exclusive)}
 
 \subsubsection{MCMC of type random walk Metropolis Hastings}
 \commandlabsubarg{mcmc}{type}{Random\_Walk}

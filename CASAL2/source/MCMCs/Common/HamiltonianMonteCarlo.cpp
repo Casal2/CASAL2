@@ -13,7 +13,9 @@
 // headers
 #include "HamiltonianMonteCarlo.h"
 
-#include <boost/numeric/ublas/blas.hpp>
+#include <algorithm>
+#include <cmath>
+#include <limits>
 
 #include "../../Estimates/Manager.h"
 #include "../../Minimisers/Manager.h"
@@ -23,17 +25,16 @@
 #include "../../Utilities/Gradient.h"
 #include "../../Utilities/Math.h"
 #include "../../Utilities/RandomNumberGenerator.h"
-#include "../../Utilities/Vector.h"
 
 // namespaces
 namespace niwa::mcmcs {
 
-namespace math  = niwa::utilities::math;
-namespace ublas = boost::numeric::ublas;
+namespace math = niwa::utilities::math;
 using math::PI;
-using niwa::utilities::Vector_Add;
-using niwa::utilities::Vector_Debug;
-using niwa::utilities::Vector_Scale;
+
+// A parameter scaled beyond this is within ~3e-7 of a bound (as a fraction of its range). Finite difference
+// gradients and leapfrog steps cannot move it from there
+constexpr double kMaxStartingScaledValue = 1e6;
 
 /**
  * @brief norm2. Return cumulative squard values of
@@ -77,7 +78,7 @@ double HamiltonianMonteCarlo::logDensity(const std::vector<double>& x, const std
     y[i] = sum / cov_l[i][i];
   }
 
-  double result = constant - log_det - 0.5 * norm2(y);
+  double result = constant - 0.5 * log_det - 0.5 * norm2(y);
   return result;
 }
 
@@ -92,28 +93,6 @@ double HamiltonianMonteCarlo::logDensity(const std::vector<double>& x, const std
  */
 double HamiltonianMonteCarlo::computeKineticEnergy(const std::vector<double>& momentum) {
   return 0.5 * norm2(momentum);
-}
-
-/**
- * @brief Compute the potential energy (negative log posterior)
- *
- * In HMC, potential energy U(q) corresponds to the negative log posterior.
- * For optimization problems, this is the objective function score.
- * This method sets the estimate values and evaluates the model.
- *
- * @param position The position vector q (parameter values)
- * @return double The potential energy value (objective score)
- */
-double HamiltonianMonteCarlo::computePotentialEnergy(const std::vector<double>& position) {
-  // Set estimate values to the given position
-  for (unsigned i = 0; i < position.size(); ++i) {
-    estimates_[i]->set_value(position[i]);
-  }
-
-  // Run model iteration and get objective score
-  model()->FullIteration();
-  model()->objective_function().CalculateScore();
-  return model()->objective_function().score();
 }
 
 /**
@@ -169,12 +148,20 @@ void HamiltonianMonteCarlo::leapfrogFullPositionStep(std::vector<double>& positi
  * The acceptance probability for HMC is: alpha = min(1, exp(-deltaH))
  * where deltaH = H_proposed - H_current
  *
+ * A non-finite deltaH is a divergent trajectory and is never accepted. This must be
+ * checked explicitly as std::min(1.0, NaN) returns 1.0.
+ *
  * @param H_current Current (initial) Hamiltonian
  * @param H_proposed Proposed (final) Hamiltonian
  * @return double Acceptance probability in range [0, 1]
  */
 double HamiltonianMonteCarlo::computeAcceptanceProbability(double H_current, double H_proposed) {
   double delta_H = H_proposed - H_current;
+  if (!std::isfinite(delta_H)) {
+    LOG_MEDIUM() << "Divergent trajectory (H_current: " << H_current << ", H_proposed: " << H_proposed << ")";
+    return 0.0;
+  }
+
   return std::min(1.0, std::exp(-delta_H));
 }
 
@@ -226,6 +213,56 @@ double HamiltonianMonteCarlo::computeLogJacobian(const std::vector<double>& posi
 }
 
 /**
+ * @brief Compute the gradient of computeLogJacobian() with respect to q*
+ *
+ * d/dq* [log(range/PI) - log(1 + q*^2)] = -2q* / (1 + q*^2)
+ *
+ * The potential energy is U* = U - log|J|, so this is subtracted from the gradient of U.
+ *
+ * @param position_unbounded Position in unbounded space q*
+ * @return std::vector<double> The gradient of the log Jacobian for each dimension
+ */
+std::vector<double> HamiltonianMonteCarlo::computeLogJacobianGradient(const std::vector<double>& position_unbounded) {
+  std::vector<double> gradient(position_unbounded.size(), 0.0);
+  for (size_t i = 0; i < position_unbounded.size(); ++i) {
+    double q_star = position_unbounded[i];
+    gradient[i]   = -2.0 * q_star / (1.0 + q_star * q_star);
+  }
+  return gradient;
+}
+
+/**
+ * @brief Set the elements of target that belong to an mcmc_fixed estimate to zero
+ *
+ * With no momentum and no gradient, those dimensions never move during leapfrog integration
+ *
+ * @param target Momentum or gradient vector (modified in place)
+ */
+void HamiltonianMonteCarlo::zeroFixedDimensions(std::vector<double>& target) {
+  for (size_t i = 0; i < target.size(); ++i) {
+    if (estimates_[i]->mcmc_fixed())
+      target[i] = 0.0;
+  }
+}
+
+/**
+ * @brief Check that every free estimate starts somewhere the sampler can move it from
+ *
+ * Near a bound the scaled value is so large that neither a leapfrog step nor the finite
+ * difference step changes it, so the estimate would silently stay at the bound.
+ *
+ * @param position_unbounded Starting position in unbounded space q*
+ */
+void HamiltonianMonteCarlo::checkStartingPosition(const std::vector<double>& position_unbounded) {
+  for (size_t i = 0; i < position_unbounded.size(); ++i) {
+    if (!estimates_[i]->mcmc_fixed() && !(std::abs(position_unbounded[i]) <= kMaxStartingScaledValue)) {
+      LOG_FATAL() << "The estimate " << estimates_[i]->parameter() << " is at (or outside) a bound, so the MCMC of type " << PARAM_HAMILTONIAN << " cannot move it. Set "
+                  << PARAM_START << " greater than zero and " << PARAM_PARAMETER_AT_BOUND << " to true to start it away from the bound";
+    }
+  }
+}
+
+/**
  * @brief Scale position values from bounded to unbounded space
  *
  * Uses arctan transformation to map [lower, upper] bounds to (-inf, inf)
@@ -267,250 +304,23 @@ void HamiltonianMonteCarlo::DoValidate() {
   parameters_.Validate(PARAM_LEAPFROG_STEPS)->GreaterThan(0u);
   parameters_.Validate(PARAM_LEAPFROG_DELTA)->GreaterThan(0.0);
   parameters_.Validate(PARAM_GRADIENT_STEP_SIZE)->GreaterThan(1e-13);
-}
 
-/**
- * @brief
- *
- */
-double scale(double value, double min, double max) {
-  double scaled = tan(((value - min) / (max - min) - 0.5) * PI);
-  return scaled;
-}
-
-double unscale(double value, double min, double max) {
-  double unscaled = ((atan(value) / PI) + 0.5) * (max - min) + min;
-  return unscaled;
-}
-
-/**
- * @brief Generate new candidates using the parent method then scale them so that
- * HMC can work entirely within scaled space when doing the leap frogs
- */
-void HamiltonianMonteCarlo::GeneratedNewScaledCandidates() {
-  GenerateNewCandidates();
-  for (unsigned i = 0; i < candidates_.size(); ++i) {
-    candidates_[i] = scale(candidates_[i], estimate_lower_bounds_[i], estimate_upper_bounds_[i]);
+  for (const char* parameter : {PARAM_STEP_SIZE, PARAM_ADAPT_STEPSIZE_AT, PARAM_ADAPT_COVARIANCE_AT, PARAM_PROPOSAL_DISTRIBUTION, PARAM_DF}) {
+    if (parameters_.Get(parameter)->has_been_defined())
+      LOG_WARNING() << parameters_.location(parameter) << " is not used by the MCMC of type " << PARAM_HAMILTONIAN << " and will be ignored";
   }
 }
 
 /**
- * @brief Execute the HMC algorithm in single-threaded mode
- *
- * This method implements the Hamiltonian Monte Carlo algorithm without
- * using a thread pool. It uses model()->FullIteration() directly for
- * model evaluations.
+ * @brief Execute the HMC algorithm using the thread pool for gradient calculations
  *
  * The algorithm works entirely in unbounded (transformed) space:
  * - Position q* is in unbounded space via tan transformation
  * - Momentum p is sampled fresh from N(0, I) each iteration
  * - Potential energy includes Jacobian correction for the transformation
- */
-void HamiltonianMonteCarlo::DoExecuteSingleThreaded() {
-  LOG_MEDIUM() << "Starting Hamiltonian Monte Carlo (Single Threaded)";
-  ObjectiveFunction&                obj_function = model()->objective_function();
-  utilities::RandomNumberGenerator& rng          = utilities::RandomNumberGenerator::Instance();
-
-  vector<double> gradient(candidates_.size(), 0);
-
-  // Initialize estimate bounds
-  estimate_lower_bounds_.resize(estimates_.size(), 0.0);
-  estimate_upper_bounds_.resize(estimates_.size(), 0.0);
-  for (unsigned i = 0; i < estimates_.size(); ++i) {
-    estimate_lower_bounds_[i] = estimates_[i]->lower_bound();
-    estimate_upper_bounds_[i] = estimates_[i]->upper_bound();
-  }
-
-  // Lambda to run a model iteration and return the objective score
-  auto run_model = [this]() {
-    model()->FullIteration();
-    model()->objective_function().CalculateScore();
-    return model()->objective_function().score();
-  };
-
-  // Lambda to set estimate values (in bounded space) and run the model
-  auto quick_run = [this, &run_model](const vector<double>& candidate_values) {
-    for (unsigned i = 0; i < candidate_values.size(); ++i) {
-      estimates_[i]->set_value(candidate_values[i]);
-    }
-    return run_model();
-  };
-
-  // Lambda to compute potential energy in unbounded space (includes Jacobian correction)
-  // U*(q*) = U(h(q*)) - log|J| where h is the unscale transformation
-  auto compute_potential_unbounded = [this, &quick_run](const vector<double>& q_star) {
-    // Transform to bounded space
-    vector<double> q_bounded = q_star;
-    unscalePosition(q_bounded);
-
-    // Get objective score in bounded space
-    double U = quick_run(q_bounded);
-
-    // Subtract log Jacobian (we want to sample from the correct transformed distribution)
-    // The Jacobian correction accounts for the change of variables
-    double log_jacobian = computeLogJacobian(q_star);
-
-    // U* = U - log|J| (subtracting because we're working with negative log posterior)
-    return U - log_jacobian;
-  };
-
-  // Lambda to calculate the gradient of potential energy in unbounded space
-  auto calculate_gradient_unbounded = [this, &compute_potential_unbounded](const vector<double>& q_star, double current_potential) {
-    vector<double> grad(q_star.size(), 0.0);
-
-    for (unsigned i = 0; i < q_star.size(); ++i) {
-      vector<double> q_perturbed = q_star;
-
-      double step_size_temp = gradient_step_size_ * ((q_star[i] >= 0) ? 1.0 : -1.0);
-      q_perturbed[i] += step_size_temp;
-
-      double perturbed_potential = compute_potential_unbounded(q_perturbed);
-      grad[i]                    = (perturbed_potential - current_potential) / step_size_temp;
-    }
-
-    return grad;
-  };
-
-  // Initialize the first chain link if not resuming
-  if (chain_.empty()) {
-    mcmc::ChainLink initial_link{.iteration_                   = 0,
-                                 .mcmc_state_                  = PARAM_BURN_IN,
-                                 .score_                       = obj_function.score(),
-                                 .likelihood_                  = obj_function.likelihoods(),
-                                 .prior_                       = obj_function.priors(),
-                                 .penalty_                     = obj_function.penalties(),
-                                 .additional_priors_           = obj_function.additional_priors(),
-                                 .jacobians_                   = obj_function.jacobians(),
-                                 .acceptance_rate_             = 0,
-                                 .acceptance_rate_since_adapt_ = 0,
-                                 .step_size_                   = step_size_,
-                                 .values_                      = candidates_};
-    chain_.push_back(initial_link);
-  }
-
-  // Main MCMC loop
-  do {
-    /**
-     * @brief Hamiltonian Monte Carlo uses leapfrog integration to propose new states.
-     *
-     * The algorithm (working entirely in unbounded space):
-     * 1. Transform current position to unbounded space: q* = scale(q)
-     * 2. Sample fresh momentum p from N(0, I)
-     * 3. Perform L leapfrog steps:
-     *    a. p = p - (dt/2) * grad(U*)  [half momentum step]
-     *    b. q* = q* + dt * p           [full position step]
-     *    c. p = p - (dt/2) * grad(U*)  [half momentum step]
-     * 4. Accept/reject based on Hamiltonian change
-     * 5. Transform accepted position back to bounded space
-     *
-     * U* is the potential energy with Jacobian correction for the transformation.
-     */
-
-    // Get current position and transform to unbounded space
-    vector<double> q0_bounded = chain_.rbegin()->values_;
-    vector<double> q0_star    = q0_bounded;
-    scalePosition(q0_star);
-
-    // Working copies in unbounded space
-    vector<double> q_star = q0_star;
-
-    // Sample fresh momentum from N(0, I) - CRITICAL for correct HMC
-    vector<double> p  = sampleMomentum(estimates_.size());
-    vector<double> p0 = p;  // Store initial momentum for Hamiltonian calculation
-
-    // Compute initial potential energy (with Jacobian correction)
-    double U0 = compute_potential_unbounded(q0_star);
-
-    // Leapfrog integration (all in unbounded space)
-    for (unsigned step = 0; step < leapfrog_steps_; ++step) {
-      // Compute potential and gradient at current position
-      double current_potential = compute_potential_unbounded(q_star);
-      gradient                 = calculate_gradient_unbounded(q_star, current_potential);
-
-      // Half step for momentum: p = p - (dt/2) * grad(U*)
-      leapfrogHalfMomentumStep(p, gradient, leapfrog_delta_);
-
-      // Full step for position: q* = q* + dt * p
-      leapfrogFullPositionStep(q_star, p, leapfrog_delta_);
-
-      // Compute gradient at new position for second half step
-      current_potential = compute_potential_unbounded(q_star);
-      gradient          = calculate_gradient_unbounded(q_star, current_potential);
-
-      // Half step for momentum: p = p - (dt/2) * grad(U*)
-      leapfrogHalfMomentumStep(p, gradient, leapfrog_delta_);
-    }
-
-    // Calculate Hamiltonians for acceptance probability
-    double U = compute_potential_unbounded(q_star);
-
-    double K0 = computeKineticEnergy(p0);  // Initial kinetic energy
-    double K  = computeKineticEnergy(p);   // Proposed kinetic energy
-
-    double H0 = computeHamiltonian(U0, K0);  // Initial Hamiltonian
-    double H  = computeHamiltonian(U, K);    // Proposed Hamiltonian
-
-    // Metropolis acceptance criterion
-    double accept_prob = computeAcceptanceProbability(H0, H);
-    double rng_uniform = rng.uniform();
-
-    jumps_++;
-
-    double delta_H = H - H0;  // For logging purposes
-
-    // Transform proposed position back to bounded space for storage
-    vector<double> q_proposed = q_star;
-    unscalePosition(q_proposed);
-
-    if (rng_uniform < accept_prob) {
-      // Accept the proposed state
-      LOG_MEDIUM() << "Accepting Jump (iteration: " << jumps_ << ", accept_prob: " << accept_prob << ", rng: " << rng_uniform << ", delta_H: " << delta_H << ")";
-      successful_jumps_++;
-
-      // Update model with accepted values to get correct objective components
-      quick_run(q_proposed);
-
-      mcmc::ChainLink new_link{.iteration_                   = jumps_,
-                               .mcmc_state_                  = (jumps_ > burn_in_) ? PARAM_MCMC : PARAM_BURN_IN,
-                               .score_                       = obj_function.score(),
-                               .likelihood_                  = obj_function.likelihoods(),
-                               .prior_                       = obj_function.priors(),
-                               .penalty_                     = obj_function.penalties(),
-                               .additional_priors_           = obj_function.additional_priors(),
-                               .jacobians_                   = obj_function.jacobians(),
-                               .acceptance_rate_             = static_cast<double>(successful_jumps_) / static_cast<double>(jumps_),
-                               .acceptance_rate_since_adapt_ = 0,
-                               .step_size_                   = step_size_,
-                               .values_                      = q_proposed};
-      chain_.push_back(new_link);
-
-    } else {
-      // Reject the proposed state, keep the previous state
-      LOG_MEDIUM() << "Rejecting Jump (iteration: " << jumps_ << ", accept_prob: " << accept_prob << ", rng: " << rng_uniform << ", delta_H: " << delta_H << ")";
-
-      mcmc::ChainLink new_link  = *chain_.rbegin();
-      new_link.iteration_       = jumps_;
-      new_link.mcmc_state_      = (jumps_ > burn_in_) ? PARAM_MCMC : PARAM_BURN_IN;
-      new_link.acceptance_rate_ = static_cast<double>(successful_jumps_) / static_cast<double>(jumps_);
-      chain_.push_back(new_link);
-    }
-
-    // Report progress periodically
-    if (jumps_ % keep_ == 0) {
-      model()->managers()->report()->Execute(model(), State::kIterationComplete);
-    }
-
-  } while (chain_.size() < length_);
-}
-
-/**
- * @brief Execute the HMC algorithm using a threaded system
  *
- * This method implements HMC using a thread pool for parallel gradient computation.
- * The algorithm works entirely in unbounded (transformed) space:
- * - Position q* is in unbounded space via tan transformation
- * - Momentum p is sampled fresh from N(0, I) each iteration
- * - Potential energy includes Jacobian correction for the transformation
+ * As with the other MCMC types, length is the total number of iterations, and
+ * every keep'th iteration is stored in the chain and sent to the reports.
  *
  * @param thread_pool Pool of threads to use when computing gradients
  */
@@ -518,7 +328,6 @@ void HamiltonianMonteCarlo::DoExecute(shared_ptr<ThreadPool> thread_pool) {
   LOG_MEDIUM() << "Starting Hamiltonian Monte Carlo";
   ObjectiveFunction&                obj_function = model()->objective_function();
   utilities::RandomNumberGenerator& rng          = utilities::RandomNumberGenerator::Instance();
-  vector<double>                    gradient(candidates_.size(), 0);
 
   estimate_lower_bounds_.resize(estimates_.size(), 0.0);
   estimate_upper_bounds_.resize(estimates_.size(), 0.0);
@@ -527,95 +336,98 @@ void HamiltonianMonteCarlo::DoExecute(shared_ptr<ThreadPool> thread_pool) {
     estimate_upper_bounds_[i] = estimates_[i]->upper_bound();
   }
 
-  model()->FullIteration();
+  // The current state of the chain. This is not always the last link as keep can thin the chain
+  mcmc::ChainLink      current_link   = chain_.back();
+  const vector<double> start_values   = current_link.values_;
+  vector<double>       current_q_star = start_values;
+  scalePosition(current_q_star);
 
-  // Lambda to set estimate values (in bounded space) and run the model
-  auto quick_run = [this](const vector<double>& candidates) {
-    for (unsigned i = 0; i < candidates.size(); ++i) estimates_[i]->set_value(candidates[i]);
+  checkStartingPosition(current_q_star);
 
-    model()->FullIteration();
-    model()->objective_function().CalculateScore();
-    double score = model()->objective_function().score();
-    return score;
-  };
-
-  // Lambda to compute potential energy in unbounded space (includes Jacobian correction)
-  auto compute_potential_unbounded = [this, &quick_run](const vector<double>& q_star) {
-    // Transform to bounded space
+  // Set the estimates and run the model at q*, storing the results in link. The first model in the thread
+  // pool is model(), so the objective must be read here before the next gradient calculation overwrites it.
+  // Returns the potential energy in unbounded space, U* = U - log|J|
+  auto evaluate = [this, &obj_function, &start_values](const vector<double>& q_star, mcmc::ChainLink& link) {
     vector<double> q_bounded = q_star;
     unscalePosition(q_bounded);
+    for (unsigned i = 0; i < q_bounded.size(); ++i) {
+      if (estimates_[i]->mcmc_fixed())
+        q_bounded[i] = start_values[i];
+      estimates_[i]->set_value(q_bounded[i]);
+    }
 
-    // Get objective score in bounded space
-    double U = quick_run(q_bounded);
+    model()->FullIteration();
+    obj_function.CalculateScore();
 
-    // Subtract log Jacobian for the transformation
-    double log_jacobian = computeLogJacobian(q_star);
-    return U - log_jacobian;
+    link.score_             = obj_function.score();
+    link.likelihood_        = obj_function.likelihoods();
+    link.prior_             = obj_function.priors();
+    link.penalty_           = obj_function.penalties();
+    link.additional_priors_ = obj_function.additional_priors();
+    link.jacobians_         = obj_function.jacobians();
+    link.values_            = q_bounded;
+
+    return link.score_ - computeLogJacobian(q_star);
   };
 
-  do {
+  // Gradient of the potential energy in unbounded space. The thread pool returns raw objective
+  // scores so raw_score is the baseline and the Jacobian's gradient is applied afterwards.
+  auto calculate_gradient = [this, &thread_pool](const vector<double>& q_star, double raw_score) {
+    vector<double> gradient          = utilities::gradient::Calculate(thread_pool, q_star, estimate_lower_bounds_, estimate_upper_bounds_, gradient_step_size_, raw_score, true);
+    vector<double> jacobian_gradient = computeLogJacobianGradient(q_star);
+    for (size_t i = 0; i < gradient.size(); ++i) gradient[i] -= jacobian_gradient[i];
+    zeroFixedDimensions(gradient);
+    return gradient;
+  };
+
+  double current_potential = evaluate(current_q_star, current_link);
+  if (!std::isfinite(current_potential))
+    LOG_FATAL() << "The objective function score at the start of the MCMC is not finite (" << current_link.score_ << ")";
+  vector<double> current_gradient = calculate_gradient(current_q_star, current_link.score_);
+
+  while (jumps_ < length_) {
     /**
      * @brief Hamiltonian Monte Carlo uses leapfrog integration in unbounded space.
      *
      * The algorithm:
-     * 1. Transform current position to unbounded space: q* = scale(q)
-     * 2. Sample fresh momentum p from N(0, I)
-     * 3. Perform L leapfrog steps (all in unbounded space)
-     * 4. Accept/reject based on Hamiltonian change
-     * 5. Transform accepted position back to bounded space
+     * 1. Sample fresh momentum p from N(0, I)
+     * 2. Perform L leapfrog steps (all in unbounded space)
+     * 3. Accept/reject based on Hamiltonian change
+     *
+     * The gradient at the end of a step is the gradient at the start of the next, and the
+     * position, potential and gradient of an accepted proposal start the next iteration.
      */
-
-    // Get current position and transform to unbounded space
-    vector<double> q0_bounded = chain_.rbegin()->values_;
-    vector<double> q0_star    = q0_bounded;
-    scalePosition(q0_star);
-
-    // Working copy in unbounded space
-    vector<double> q_star = q0_star;
+    vector<double> q_star = current_q_star;
 
     // Sample fresh momentum from N(0, I) - CRITICAL for correct HMC
-    vector<double> p  = sampleMomentum(estimates_.size());
-    vector<double> p0 = p;
+    vector<double> p = sampleMomentum(estimates_.size());
+    zeroFixedDimensions(p);
+    double K0 = computeKineticEnergy(p);
 
-    // Compute initial potential energy (with Jacobian correction)
-    double U0 = compute_potential_unbounded(q0_star);
+    mcmc::ChainLink proposed_link      = current_link;
+    double          proposed_potential = std::numeric_limits<double>::infinity();
+    vector<double>  gradient           = current_gradient;
 
-    // Leapfrog integration (all in unbounded space)
     for (unsigned i = 0; i < leapfrog_steps_; ++i) {
-      // Transform to bounded space for gradient calculation (threaded gradient needs bounded values)
-      vector<double> q_bounded = q_star;
-      unscalePosition(q_bounded);
-
-      // Compute raw objective score (WITHOUT Jacobian correction) for gradient calculation
-      // The gradient calculator perturbs and runs models which return raw scores,
-      // so we must use a raw score as the baseline for consistent gradient computation
-      double raw_score = quick_run(q_bounded);
-      gradient         = utilities::gradient::Calculate(thread_pool, q_bounded, estimate_lower_bounds_, estimate_upper_bounds_, gradient_step_size_, raw_score, false);
-
-      // Half step for momentum
       leapfrogHalfMomentumStep(p, gradient, leapfrog_delta_);
-
-      // Full step for position (in unbounded space)
       leapfrogFullPositionStep(q_star, p, leapfrog_delta_);
 
-      // Transform again for second gradient
-      q_bounded = q_star;
-      unscalePosition(q_bounded);
-      raw_score = quick_run(q_bounded);
-      gradient  = utilities::gradient::Calculate(thread_pool, q_bounded, estimate_lower_bounds_, estimate_upper_bounds_, gradient_step_size_, raw_score, false);
+      // A divergent trajectory is rejected without giving the model non-finite parameters
+      if (!std::all_of(q_star.begin(), q_star.end(), [](double value) { return std::isfinite(value); })) {
+        proposed_potential = std::numeric_limits<double>::infinity();
+        break;
+      }
 
-      // Second half step for momentum
+      proposed_potential = evaluate(q_star, proposed_link);
+      if (!std::isfinite(proposed_potential))
+        break;
+
+      gradient = calculate_gradient(q_star, proposed_link.score_);
       leapfrogHalfMomentumStep(p, gradient, leapfrog_delta_);
     }
 
-    // Calculate Hamiltonians for acceptance probability
-    double U = compute_potential_unbounded(q_star);
-
-    double K0 = computeKineticEnergy(p0);
-    double K  = computeKineticEnergy(p);
-
-    double H0 = computeHamiltonian(U0, K0);
-    double H  = computeHamiltonian(U, K);
+    double H0 = computeHamiltonian(current_potential, K0);
+    double H  = computeHamiltonian(proposed_potential, computeKineticEnergy(p));
 
     // Metropolis acceptance criterion
     double accept_prob = computeAcceptanceProbability(H0, H);
@@ -623,47 +435,35 @@ void HamiltonianMonteCarlo::DoExecute(shared_ptr<ThreadPool> thread_pool) {
     double delta_H     = H - H0;
 
     jumps_++;
-
-    // Transform proposed position back to bounded space
-    vector<double> q_proposed = q_star;
-    unscalePosition(q_proposed);
+    jumps_since_adapt_++;
 
     // Check if we accept this jump
     if (rng_uniform < accept_prob) {
-      LOG_MEDIUM() << "Accepting Jump (accept_prob: " << accept_prob << ", rng: " << rng_uniform << ", delta_H: " << delta_H << ")" << endl;
+      LOG_MEDIUM() << "Accepting Jump (iteration: " << jumps_ << ", accept_prob: " << accept_prob << ", rng: " << rng_uniform << ", delta_H: " << delta_H << ")";
       successful_jumps_++;
+      successful_jumps_since_adapt_++;
 
-      // Update model with accepted values to get correct objective components
-      quick_run(q_proposed);
-
-      mcmc::ChainLink new_link{.iteration_                   = jumps_,
-                               .mcmc_state_                  = (jumps_ > burn_in_) ? PARAM_MCMC : PARAM_BURN_IN,
-                               .score_                       = obj_function.score(),
-                               .likelihood_                  = obj_function.likelihoods(),
-                               .prior_                       = obj_function.priors(),
-                               .penalty_                     = obj_function.penalties(),
-                               .additional_priors_           = obj_function.additional_priors(),
-                               .jacobians_                   = obj_function.jacobians(),
-                               .acceptance_rate_             = static_cast<double>(successful_jumps_) / static_cast<double>(jumps_),
-                               .acceptance_rate_since_adapt_ = 0,
-                               .step_size_                   = step_size_,
-                               .values_                      = q_proposed};
-      chain_.push_back(new_link);
+      current_link      = proposed_link;
+      current_q_star    = q_star;
+      current_potential = proposed_potential;
+      current_gradient  = gradient;
 
     } else {
-      LOG_MEDIUM() << "Rejecting Jump (accept_prob: " << accept_prob << ", rng: " << rng_uniform << ", delta_H: " << delta_H << ")" << endl;
-      // Copy the last chain accepted link to the end of the vector
-      auto temp             = *chain_.rbegin();
-      temp.iteration_       = jumps_;
-      temp.acceptance_rate_ = static_cast<double>(successful_jumps_) / static_cast<double>(jumps_);
-      if (jumps_ > burn_in_)
-        temp.mcmc_state_ = PARAM_MCMC;
-      else
-        temp.mcmc_state_ = PARAM_BURN_IN;
-      chain_.push_back(temp);
+      LOG_MEDIUM() << "Rejecting Jump (iteration: " << jumps_ << ", accept_prob: " << accept_prob << ", rng: " << rng_uniform << ", delta_H: " << delta_H << ")";
     }
 
-  } while (chain_.size() != length_);
+    if (jumps_ % keep_ == 0) {
+      mcmc_state_                               = (jumps_ > burn_in_) ? PARAM_MCMC : PARAM_BURN_IN;
+      current_link.iteration_                   = jumps_;
+      current_link.mcmc_state_                  = mcmc_state_;
+      current_link.acceptance_rate_             = double(successful_jumps_) / double(jumps_);
+      current_link.acceptance_rate_since_adapt_ = double(successful_jumps_since_adapt_) / double(jumps_since_adapt_);
+      current_link.step_size_                   = step_size_;
+
+      chain_.push_back(current_link);
+      model()->managers()->report()->Execute(model(), State::kIterationComplete);
+    }
+  }
 }
 
 }  // namespace niwa::mcmcs

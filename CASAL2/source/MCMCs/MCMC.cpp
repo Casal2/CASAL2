@@ -157,13 +157,17 @@ void MCMC::Execute(shared_ptr<ThreadPool> thread_pool) {
   // for (size_t i = 0; auto e : estimates_) candidates_[i++] = e->value(); // C++20
   for (unsigned i = 0; i < estimates_.size(); ++i) candidates_[i] = estimates_[i]->value();
 
+  // Hamiltonian only uses the covariance matrix to generate a random start
+  bool uses_covariance = type_ != PARAM_HAMILTONIAN || start_ > 0.0;
+
   if (!model()->global_configuration().resume_mcmc()) {
-    BuildCovarianceMatrix();
+    if (uses_covariance)
+      BuildCovarianceMatrix();
     successful_jumps_ = starting_iteration_;
   } else
     ResumeChain();
 
-  if (!DoCholeskyDecomposition())
+  if (uses_covariance && !DoCholeskyDecomposition())
     LOG_FATAL() << "Cholesky decomposition failed. Cannot continue MCMC";
 
   if (start_ > 0.0)

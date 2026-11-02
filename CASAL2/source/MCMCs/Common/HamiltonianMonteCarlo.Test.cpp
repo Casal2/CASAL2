@@ -19,14 +19,18 @@
 
 #include <iomanip>
 #include <iostream>
+#include <limits>
+#include <sstream>
 
 #include "../../DerivedQuantities/Manager.h"
+#include "../../Estimates/Manager.h"
 #include "../../MCMCs/MCMC.h"
 #include "../../MCMCs/Manager.h"
 #include "../../MPD/MPD.Mock.h"
 #include "../../Model/Managers.h"
 #include "../../Model/Model.h"
 #include "../../ObjectiveFunction/ObjectiveFunction.h"
+#include "../../Reports/Manager.h"
 #include "../../TestResources/MockClasses/Model.h"
 #include "../../TestResources/TestCases/CasalComplex1.h"
 #include "../../TestResources/TestCases/TwoSexModel.h"
@@ -75,6 +79,26 @@ public:
   // New method wrappers for momentum sampling and Jacobian
   std::vector<double> TestSampleMomentum(size_t size) { return this->sampleMomentum(size); }
   double              TestComputeLogJacobian(const std::vector<double>& position_unbounded) { return this->computeLogJacobian(position_unbounded); }
+  std::vector<double> TestComputeLogJacobianGradient(const std::vector<double>& position_unbounded) { return this->computeLogJacobianGradient(position_unbounded); }
+  void                TestZeroFixedDimensions(std::vector<double>& target) { this->zeroFixedDimensions(target); }
+  void                TestCheckStartingPosition(const std::vector<double>& position_unbounded) { this->checkStartingPosition(position_unbounded); }
+  void                SetEstimates(const std::vector<Estimate*>& estimates) { estimates_ = estimates; }
+};
+
+// Minimal estimate for testing the handling of mcmc_fixed
+class TestEstimate : public Estimate {
+public:
+  explicit TestEstimate(shared_ptr<Model> model) : Estimate(model) {}
+  void           DoValidate() override {}
+  Double         GetScore() override { return 0.0; }
+  vector<Double> GetPriorValues() override { return {}; }
+  vector<string> GetPriorLabels() override { return {}; }
+};
+
+// Reports only keep their output in a protected cache, which is left in place when reports aren't being printed
+class ReportCacheReader : public Report {
+public:
+  static string Read(Report& report) { return (report.*(&ReportCacheReader::cache_)).str(); }
 };
 
 std::unique_ptr<TestHamiltonianMonteCarlo> CreateHMCForTesting() {
@@ -112,7 +136,7 @@ TEST_F(HamiltonianMonteCarloThreadedModel, LogDensity_1D_StandardNormal) {
   double                           constant = -0.5 * std::log(2.0 * PI);  // -n/2 * log(2*pi) for n=1
 
   double result = hmc->TestLogDensity(x, mean, cov_l, log_det, constant);
-  // At mean, log density = constant - log_det - 0.5 * 0 = -0.5 * log(2*pi)
+  // At mean, log density = constant - 0.5 * log_det - 0.5 * 0 = -0.5 * log(2*pi)
   double expected = -0.5 * std::log(2.0 * PI);
   EXPECT_NEAR(result, expected, 1e-10);
 }
@@ -181,7 +205,7 @@ TEST_F(HamiltonianMonteCarloThreadedModel, LogDensity_2D_Correlated) {
 
   double result = hmc->TestLogDensity(x, mean, cov_l, log_det, constant);
   // At mean, Mahalanobis distance = 0
-  double expected = -std::log(2.0 * PI) - std::log(0.75);
+  double expected = -std::log(2.0 * PI) - 0.5 * std::log(0.75);
   EXPECT_NEAR(result, expected, 1e-10);
 }
 
@@ -216,7 +240,7 @@ TEST_F(HamiltonianMonteCarloThreadedModel, LogDensity_3D_Diagonal) {
   double result = hmc->TestLogDensity(x, mean, cov_l, log_det, constant);
   // Mahalanobis: (1-0)^2/4 + (1-0)^2/1 + (1-0)^2/9 = 0.25 + 1 + 0.111... = 1.361...
   double mahalanobis = 1.0 / 4.0 + 1.0 / 1.0 + 1.0 / 9.0;
-  double expected    = -1.5 * std::log(2.0 * PI) - std::log(36.0) - 0.5 * mahalanobis;
+  double expected    = -1.5 * std::log(2.0 * PI) - 0.5 * std::log(36.0) - 0.5 * mahalanobis;
   EXPECT_NEAR(result, expected, 1e-10);
 }
 
@@ -390,6 +414,24 @@ TEST_F(HamiltonianMonteCarloThreadedModel, AcceptanceProbability_LargeDifference
   double result   = hmc->TestComputeAcceptanceProbability(100.0, 150.0);
   double expected = std::exp(-50.0);
   EXPECT_NEAR(result, expected, 1e-30);
+}
+
+/**
+ * @brief Test that divergent trajectories are never accepted
+ *
+ * std::min(1.0, NaN) returns 1.0, so without a check these would always be accepted
+ */
+TEST_F(HamiltonianMonteCarloThreadedModel, AcceptanceProbability_NonFinite) {
+  auto hmc = CreateHMCForTesting();
+
+  double nan = std::numeric_limits<double>::quiet_NaN();
+  double inf = std::numeric_limits<double>::infinity();
+
+  EXPECT_DOUBLE_EQ(hmc->TestComputeAcceptanceProbability(100.0, nan), 0.0);
+  EXPECT_DOUBLE_EQ(hmc->TestComputeAcceptanceProbability(nan, 100.0), 0.0);
+  EXPECT_DOUBLE_EQ(hmc->TestComputeAcceptanceProbability(nan, nan), 0.0);
+  EXPECT_DOUBLE_EQ(hmc->TestComputeAcceptanceProbability(100.0, inf), 0.0);
+  EXPECT_DOUBLE_EQ(hmc->TestComputeAcceptanceProbability(inf, inf), 0.0);
 }
 
 // ============================================================================
@@ -851,6 +893,245 @@ TEST_F(HamiltonianMonteCarloThreadedModel, ComputeLogJacobian_EmptyInput) {
   std::vector<double> empty_q_star  = {};
   double              log_jac_empty = hmc->TestComputeLogJacobian(empty_q_star);
   EXPECT_DOUBLE_EQ(log_jac_empty, 0.0) << "Empty q* should give log Jacobian of 0";
+}
+
+/**
+ * @brief Test computeLogJacobianGradient against a central finite difference of computeLogJacobian
+ */
+TEST_F(HamiltonianMonteCarloThreadedModel, ComputeLogJacobianGradient_MatchesFiniteDifference) {
+  auto hmc = CreateHMCForTesting();
+
+  hmc->SetBounds({0.0, -5.0, 1.0, 0.0}, {1.0, 5.0, 100.0, 2.0});
+
+  std::vector<double> q_star   = {0.0, 0.5, -1.0, 25.0};
+  std::vector<double> gradient = hmc->TestComputeLogJacobianGradient(q_star);
+  ASSERT_EQ(gradient.size(), q_star.size());
+
+  double step = 1e-5;
+  for (size_t i = 0; i < q_star.size(); ++i) {
+    std::vector<double> above = q_star;
+    std::vector<double> below = q_star;
+    above[i] += step;
+    below[i] -= step;
+
+    double expected = (hmc->TestComputeLogJacobian(above) - hmc->TestComputeLogJacobian(below)) / (2.0 * step);
+    EXPECT_NEAR(gradient[i], expected, 1e-8) << "Dimension " << i;
+  }
+}
+
+/**
+ * @brief Only the dimensions of mcmc_fixed estimates are zeroed
+ */
+TEST_F(HamiltonianMonteCarloThreadedModel, ZeroFixedDimensions) {
+  auto mock_model = std::make_shared<NiceMock<MockModel>>();
+  auto hmc        = std::make_unique<TestHamiltonianMonteCarlo>(mock_model);
+
+  TestEstimate free_estimate(mock_model);
+  TestEstimate fixed_estimate(mock_model);
+  fixed_estimate.set_mcmc_fixed(true);
+  hmc->SetEstimates({&free_estimate, &fixed_estimate, &free_estimate});
+
+  std::vector<double> target = {1.0, 2.0, 3.0};
+  hmc->TestZeroFixedDimensions(target);
+
+  EXPECT_DOUBLE_EQ(target[0], 1.0);
+  EXPECT_DOUBLE_EQ(target[1], 0.0);
+  EXPECT_DOUBLE_EQ(target[2], 3.0);
+}
+
+/**
+ * @brief A free estimate at a bound can't be moved by the sampler, so it must not be started there.
+ * The scaled values are what scale() gives for values on the upper and lower bounds.
+ */
+TEST_F(HamiltonianMonteCarloThreadedModel, CheckStartingPosition) {
+  auto mock_model = std::make_shared<NiceMock<MockModel>>();
+  auto hmc        = std::make_unique<TestHamiltonianMonteCarlo>(mock_model);
+
+  TestEstimate estimate(mock_model);
+  hmc->SetEstimates({&estimate});
+
+  hmc->SetBounds({0.0}, {1.0});
+  std::vector<double> at_upper = {1.0};
+  std::vector<double> at_lower = {0.0};
+  hmc->TestScalePosition(at_upper);
+  hmc->TestScalePosition(at_lower);
+
+  EXPECT_NO_THROW(hmc->TestCheckStartingPosition({0.0}));
+  EXPECT_NO_THROW(hmc->TestCheckStartingPosition({-1000.0}));
+  EXPECT_THROW(hmc->TestCheckStartingPosition(at_upper), std::string);
+  EXPECT_THROW(hmc->TestCheckStartingPosition(at_lower), std::string);
+  EXPECT_THROW(hmc->TestCheckStartingPosition({std::numeric_limits<double>::quiet_NaN()}), std::string);
+
+  // An estimate that is mcmc_fixed doesn't need to move
+  estimate.set_mcmc_fixed(true);
+  EXPECT_NO_THROW(hmc->TestCheckStartingPosition(at_upper));
+}
+
+// ============================================================================
+// Full MCMC Runs
+// ============================================================================
+
+/**
+ * @brief The objective columns are the model's objective at the link's values, so
+ * a link's components must add up to its score even when the gradient runs on the
+ * first model in the thread pool have happened since it was evaluated.
+ */
+void ExpectLinkComponentsSumToScore(const mcmc::ChainLink& link) {
+  EXPECT_NEAR(link.score_, link.likelihood_ + link.prior_ + link.penalty_ + link.additional_priors_ + link.jacobians_, 1e-8);
+}
+
+TEST_F(HamiltonianMonteCarloThreadedModel, FullRun_LengthIsIterations) {
+  AddConfigurationLine(testcases::test_cases_two_sex_model_population, __FILE__, 27);
+
+  string mcmc_definition = R"(
+    @mcmc my_mcmc
+    type hamiltonian
+    length 25
+    keep 1
+    leapfrog_steps 2
+  )";
+
+  AddConfigurationLine(mcmc_definition, __FILE__, 71);
+  LoadConfiguration();
+
+  ASSERT_NO_THROW(runner_->GoWithRunMode(RunMode::kMCMC));
+  auto mcmc = runner_->model()->managers()->mcmc()->active_mcmc();
+  ASSERT_TRUE(mcmc != nullptr);
+
+  auto chain = mcmc->chain();
+  ASSERT_EQ(25u, chain.size());
+  EXPECT_EQ(25u, chain.back().iteration_);
+  for (const auto& link : chain) ExpectLinkComponentsSumToScore(link);
+}
+
+TEST_F(HamiltonianMonteCarloThreadedModel, FullRun_KeepThinsChain) {
+  AddConfigurationLine(testcases::test_cases_two_sex_model_population, __FILE__, 27);
+
+  string mcmc_definition = R"(
+    @mcmc my_mcmc
+    type hamiltonian
+    length 20
+    keep 5
+    burn_in 10
+    leapfrog_steps 2
+  )";
+
+  AddConfigurationLine(mcmc_definition, __FILE__, 71);
+  LoadConfiguration();
+
+  ASSERT_NO_THROW(runner_->GoWithRunMode(RunMode::kMCMC));
+  auto mcmc = runner_->model()->managers()->mcmc()->active_mcmc();
+  ASSERT_TRUE(mcmc != nullptr);
+
+  // The first link, then iterations 5, 10, 15 and 20
+  auto chain = mcmc->chain();
+  ASSERT_EQ(5u, chain.size());
+  for (unsigned i = 1; i < chain.size(); ++i) {
+    EXPECT_EQ(i * 5, chain[i].iteration_);
+    EXPECT_EQ(chain[i].iteration_ > 10 ? string(PARAM_MCMC) : string(PARAM_BURN_IN), chain[i].mcmc_state_);
+    EXPECT_DOUBLE_EQ(chain[i].acceptance_rate_, chain[i].acceptance_rate_since_adapt_);
+  }
+}
+
+TEST_F(HamiltonianMonteCarloThreadedModel, FullRun_ChainMoves) {
+  AddConfigurationLine(testcases::test_cases_two_sex_model_population, __FILE__, 27);
+
+  string mcmc_definition = R"(
+    @mcmc my_mcmc
+    type hamiltonian
+    length 15
+    keep 1
+    leapfrog_steps 3
+    leapfrog_delta 0.001
+  )";
+
+  AddConfigurationLine(mcmc_definition, __FILE__, 71);
+  LoadConfiguration();
+
+  ASSERT_NO_THROW(runner_->GoWithRunMode(RunMode::kMCMC));
+  auto mcmc = runner_->model()->managers()->mcmc()->active_mcmc();
+  ASSERT_TRUE(mcmc != nullptr);
+
+  auto chain = mcmc->chain();
+  ASSERT_EQ(15u, chain.size());
+  EXPECT_GT(chain.back().acceptance_rate_, 0.0);
+  for (size_t i = 0; i < chain[0].values_.size(); ++i) EXPECT_NE(chain[0].values_[i], chain.back().values_[i]) << "Estimate " << i;
+}
+
+TEST_F(HamiltonianMonteCarloThreadedModel, FullRun_ReportsEveryKeptLink) {
+  AddConfigurationLine(testcases::test_cases_two_sex_model_population, __FILE__, 27);
+
+  string mcmc_definition = R"(
+    @mcmc my_mcmc
+    type hamiltonian
+    length 12
+    keep 3
+    leapfrog_steps 1
+
+    @report samples
+    type mcmc_sample
+  )";
+
+  AddConfigurationLine(mcmc_definition, __FILE__, 71);
+  LoadConfiguration();
+
+  ASSERT_NO_THROW(runner_->GoWithRunMode(RunMode::kMCMC));
+  auto report = runner_->model()->managers()->report()->get("samples");
+  ASSERT_TRUE(report != nullptr);
+
+  auto mcmc = runner_->model()->managers()->mcmc()->active_mcmc();
+  ASSERT_EQ(5u, mcmc->chain().size());
+
+  // After the line of parameter names there is one line of values per kept link:
+  // the first link, then iterations 3, 6, 9 and 12
+  std::istringstream cache(ReportCacheReader::Read(*report));
+  string             line;
+  unsigned           sample_lines = 0;
+  bool               in_samples   = false;
+  while (std::getline(cache, line)) {
+    if (in_samples)
+      ++sample_lines;
+    else if (line.find("process[Recruitment].R0") != string::npos)
+      in_samples = true;
+  }
+  EXPECT_TRUE(in_samples);
+  EXPECT_EQ(5u, sample_lines);
+}
+
+TEST_F(HamiltonianMonteCarloThreadedModel, FullRun_McmcFixedDoesNotMove) {
+  string population = testcases::test_cases_two_sex_model_population;
+  string estimate   = "parameter selectivity[FishingSel].a50\n";
+  ASSERT_NE(population.find(estimate), string::npos);
+  population.replace(population.find(estimate), estimate.size(), estimate + "mcmc_fixed true\n");
+  AddConfigurationLine(population, __FILE__, 27);
+
+  string mcmc_definition = R"(
+    @mcmc my_mcmc
+    type hamiltonian
+    length 8
+    keep 1
+    leapfrog_steps 2
+    leapfrog_delta 0.001
+  )";
+
+  AddConfigurationLine(mcmc_definition, __FILE__, 71);
+  LoadConfiguration();
+
+  ASSERT_NO_THROW(runner_->GoWithRunMode(RunMode::kMCMC));
+  auto mcmc      = runner_->model()->managers()->mcmc()->active_mcmc();
+  auto estimates = runner_->model()->managers()->estimate()->GetIsEstimated();
+  ASSERT_TRUE(mcmc != nullptr);
+
+  unsigned fixed_count = 0;
+  auto     chain       = mcmc->chain();
+  ASSERT_EQ(8u, chain.size());
+  for (size_t i = 0; i < estimates.size(); ++i) {
+    if (!estimates[i]->mcmc_fixed())
+      continue;
+    ++fixed_count;
+    for (const auto& link : chain) EXPECT_DOUBLE_EQ(chain[0].values_[i], link.values_[i]);
+  }
+  EXPECT_EQ(1u, fixed_count);
 }
 
 }  // namespace niwa

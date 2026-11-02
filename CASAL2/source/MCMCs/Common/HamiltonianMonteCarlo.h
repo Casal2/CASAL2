@@ -29,14 +29,12 @@ public:
   // methods
   HamiltonianMonteCarlo(shared_ptr<Model> model);
   virtual ~HamiltonianMonteCarlo() = default;
-  void DoExecuteSingleThreaded();
   void DoExecute(shared_ptr<ThreadPool> thread_pool) final;
 
 protected:
   // methods
   void DoValidate() final;
   void DoBuild() final {};
-  void GeneratedNewScaledCandidates();
 
   /**
    * @brief Compute the squared Euclidean norm of a vector
@@ -73,18 +71,6 @@ protected:
   virtual double computeKineticEnergy(const std::vector<double>& momentum);
 
   /**
-   * @brief Compute the potential energy (negative log posterior)
-   *
-   * In HMC, potential energy U(q) corresponds to the negative log posterior.
-   * For optimization problems, this is the objective function score.
-   * This method is virtual to allow overriding with fixed values in tests.
-   *
-   * @param position The position vector q (parameter values)
-   * @return double The potential energy value (objective score)
-   */
-  virtual double computePotentialEnergy(const std::vector<double>& position);
-
-  /**
    * @brief Compute the total Hamiltonian (total energy)
    *
    * The Hamiltonian H(q,p) = U(q) + K(p) represents total energy
@@ -97,21 +83,13 @@ protected:
   virtual double computeHamiltonian(double potential_energy, double kinetic_energy);
 
   /**
-   * @brief Perform a single leapfrog integration step
+   * @brief Perform a half momentum update step of leapfrog integration
    *
-   * The leapfrog integrator is a symplectic integrator that preserves
-   * volume in phase space. Each step consists of:
-   *   1. Half step for momentum: p = p - (dt/2) * grad(U)
-   *   2. Full step for position: q = q + dt * p
-   *   3. Half step for momentum: p = p - (dt/2) * grad(U)
+   * Updates momentum using: p = p - (dt/2) * grad(U)
    *
-   * This method performs steps 1-3 with gradient computed at current position.
-   *
-   * @param position Position vector q (modified in place)
    * @param momentum Momentum vector p (modified in place)
    * @param gradient Gradient of potential energy at current position
-   * @param delta Time step size (leapfrog_delta_)
-   * @param is_first_half True if this is the first half-step (step 1), false for step 3
+   * @param delta Time step size (leapfrog_delta_), halved internally
    */
   virtual void leapfrogHalfMomentumStep(std::vector<double>& momentum, const std::vector<double>& gradient, double delta);
 
@@ -131,7 +109,7 @@ protected:
    * @brief Compute the Metropolis-Hastings acceptance probability
    *
    * The acceptance probability for HMC is: alpha = min(1, exp(-deltaH))
-   * where deltaH = H_proposed - H_current
+   * where deltaH = H_proposed - H_current. A non-finite deltaH gives 0.
    *
    * @param H_current Current (initial) Hamiltonian
    * @param H_proposed Proposed (final) Hamiltonian
@@ -165,6 +143,28 @@ protected:
    * @return double The log Jacobian correction (sum over all dimensions)
    */
   virtual double computeLogJacobian(const std::vector<double>& position_unbounded);
+
+  /**
+   * @brief Compute the gradient of computeLogJacobian() with respect to q*
+   *
+   * @param position_unbounded Position in unbounded space q*
+   * @return std::vector<double> -2q* / (1 + q*^2) for each dimension
+   */
+  virtual std::vector<double> computeLogJacobianGradient(const std::vector<double>& position_unbounded);
+
+  /**
+   * @brief Set the elements of target that belong to an mcmc_fixed estimate to zero
+   *
+   * @param target Momentum or gradient vector (modified in place)
+   */
+  virtual void zeroFixedDimensions(std::vector<double>& target);
+
+  /**
+   * @brief Check that every free estimate starts somewhere the sampler can move it from
+   *
+   * @param position_unbounded Starting position in unbounded space q*
+   */
+  virtual void checkStartingPosition(const std::vector<double>& position_unbounded);
 
   /**
    * @brief Scale position values from bounded to unbounded space
