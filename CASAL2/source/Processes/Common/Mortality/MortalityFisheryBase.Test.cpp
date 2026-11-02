@@ -22,6 +22,7 @@
 #include "Model/Managers.h"
 #include "Model/Model.h"
 #include "Partition/Partition.h"
+#include "Penalties/Manager.h"
 #include "Processes/Manager.h"
 #include "TestResources/TestFixtures/InternalEmptyLengthModel.h"
 #include "TestResources/TestFixtures/InternalEmptyModel.h"
@@ -338,7 +339,10 @@ protected:
     AddConfigurationLine(process, __FILE__, 1);
     LoadConfiguration();
     model_->Start(RunMode::kBasic);
+    return Describe();
+  }
 
+  std::string Describe() {
     ostringstream result;
     model_->managers()->process()->GetProcess("mort")->FillReportCache(result);
     result << std::setprecision(12);
@@ -348,6 +352,29 @@ protected:
       result << "\n";
     }
     return result.str();
+  }
+
+  double PenaltyScore() { return AS_DOUBLE(model_->managers()->penalty()->GetProcessPenalty("CatchPenalty")->GetScore()); }
+
+  /**
+   * The values on the report line starting with label
+   */
+  std::vector<double> ReportValues(const std::string& label) {
+    ostringstream report;
+    model_->managers()->process()->GetProcess("mort")->FillReportCache(report);
+    std::istringstream lines(report.str());
+    std::string        line;
+    while (std::getline(lines, line)) {
+      if (line.rfind(label + ":", 0) != 0)
+        continue;
+      std::istringstream  values(line.substr(label.size() + 1));
+      std::vector<double> result;
+      double              value = 0.0;
+      while (values >> value) result.push_back(value);
+      return result;
+    }
+    ADD_FAILURE() << "report has no line " << label;
+    return {};
   }
 };
 
@@ -397,6 +424,109 @@ TEST_F(FisheryTableResults, Processes_Mortality_FisheryBase_Discriminating_Insta
 
 TEST_F(FisheryTableResults, Processes_Mortality_FisheryBase_Discriminating_Instantaneous_AgeWeightColumn) {
   EXPECT_EQ(expected_instantaneous_age_weight, RunAndDescribe(WithAgeWeightColumn(instantaneous_process)));
+}
+
+/**
+ * actual_catches_ is built with += during DoExecute() and nothing outside DoExecute() clears it, so
+ * every model iteration used to add another year of catch. The penalty then compared the catch
+ * against a multiple of itself, and the objective depended on how often the model had run.
+ */
+TEST_F(FisheryTableResults, Processes_Mortality_FisheryBase_Hybrid_RepeatedIterations_DoNotChangeCatchOrPenalty) {
+  const std::string first_run     = RunAndDescribe(hybrid_process);
+  const double      first_penalty = PenaltyScore();
+
+  model_->FullIteration();
+  model_->FullIteration();
+
+  EXPECT_EQ(first_run, Describe());
+  EXPECT_NEAR(first_penalty, PenaltyScore(), 1e-9);
+}
+
+/**
+ * With fisheries in different time steps, each time step used to trigger the penalty and record F
+ * for every fishery, using a catch not yet taken or a vulnerability of zero.
+ */
+TEST_F(FisheryTableResults, Processes_Mortality_FisheryBase_Hybrid_FisheriesInTwoTimeSteps) {
+  RunAndDescribe(Replaced(hybrid_process, "Line   *        lineSel     1               step1     none", "Line   *        lineSel     1               step2     CatchPenalty"));
+
+  EXPECT_LT(PenaltyScore(), 1.0);
+  for (const char* label : {"f_by_year[Trawl]", "f_by_year[Line]"}) {
+    for (double f : ReportValues(label)) EXPECT_LT(f, 1.0) << label;
+  }
+  EXPECT_NEAR(5000.0, ReportValues("actual_catch[Line]")[0], 1.0);
+  EXPECT_NEAR(20000.0, ReportValues("actual_catch[Trawl]")[0], 1.0);
+}
+
+/**
+ * Years after final_year are not in process_years_, so the catch total for the year has to come
+ * from the (projected) catches rather than a table indexed by process year.
+ */
+TEST_F(FisheryTableResults, Processes_Mortality_FisheryBase_Hybrid_Projection_UsesProjectedCatch) {
+  const std::string project = R"(
+@project trawl_catch
+type constant
+parameter process[mort].method_Trawl
+years 2006:2007
+values 15000
+)";
+  std::string model = Replaced(fishery_base_model, "final_year 2005\n", "final_year 2005\nprojection_final_year 2007\n");
+  model             = Replaced(model, "2005 0.1 0.7 1.6 2.5 3.7 5.1 5.8 6.4 7.0 7.4\n",
+                               "2005 0.1 0.7 1.6 2.5 3.7 5.1 5.8 6.4 7.0 7.4\n2006 0.1 0.7 1.6 2.5 3.7 5.1 5.8 6.4 7.0 7.4\n2007 0.1 0.7 1.6 2.5 3.7 5.1 5.8 6.4 7.0 7.4\n");
+  AddConfigurationLine(model, __FILE__, 41);
+  AddConfigurationLine(hybrid_process, __FILE__, 1);
+  AddConfigurationLine(project, __FILE__, 1);
+  LoadConfiguration();
+  model_->Start(RunMode::kProjection);
+
+  std::vector<double> catches = ReportValues("actual_catch[Trawl]");
+  ASSERT_EQ(4u, catches.size());
+  EXPECT_NEAR(15000.0, catches[2], 1.0);
+  EXPECT_NEAR(15000.0, catches[3], 1.0);
+}
+
+/**
+ * A changed method_<label> has to reach the F tuning, which used a total cached in DoBuild()
+ */
+TEST_F(FisheryTableResults, Processes_Mortality_FisheryBase_Hybrid_TimeVaryingCatch_ReachesTuning) {
+  const std::string time_varying = R"(
+@time_varying trawl_catch
+type constant
+parameter process[mort].method_Trawl
+years 2003
+values 10000
+)";
+  AddConfigurationLine(fishery_base_model, __FILE__, 41);
+  AddConfigurationLine(hybrid_process, __FILE__, 1);
+  AddConfigurationLine(time_varying, __FILE__, 1);
+  LoadConfiguration();
+  model_->Start(RunMode::kBasic);
+
+  EXPECT_NEAR(10000.0, ReportValues("actual_catch[Trawl]")[0], 1.0);
+  EXPECT_NEAR(5000.0, ReportValues("actual_catch[Line]")[0], 1.0);
+}
+
+/**
+ * The warning is for a duration other than one, which is the usual value. Warnings aren't built at
+ * the unit test log level, and when they are built they throw, which is what is checked here.
+ */
+TEST_F(FisheryTableResults, Processes_Mortality_FisheryBase_Hybrid_AnnualDurationWarning_NamesTheValue) {
+  std::string process = Replaced(hybrid_process, "fishSel     1 ", "fishSel     0.5 ");
+  process             = Replaced(process, "lineSel     1 ", "lineSel     0.5 ");
+  AddConfigurationLine(fishery_base_model, __FILE__, 41);
+  AddConfigurationLine(process, __FILE__, 1);
+  LoadConfiguration();
+
+  const logger::Severity log_level = Logging::current_log_level_;
+  Logging::Instance().SetLogLevel(PARAM_WARNING);
+  std::string message = "";
+  try {
+    model_->Start(RunMode::kBasic);
+  } catch (const std::string& thrown) {
+    message = thrown;
+  }
+  Logging::current_log_level_ = log_level;
+
+  EXPECT_NE(std::string::npos, message.find("was 0.5, not one")) << message;
 }
 
 /**

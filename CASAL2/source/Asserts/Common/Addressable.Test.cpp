@@ -316,6 +316,27 @@ type derived_quantity
 /**
  *
  */
+/*
+ * An unknown time step is a configuration error. It used to be logged and then dereferenced.
+ */
+TEST_F(InternalEmptyModel, Asserts_Addressable_UnknownTimeStep) {
+  std::string config   = simple_model_fail;
+  size_t      position = config.find("@assert");
+  ASSERT_NE(std::string::npos, position);
+  position = config.find("time_step step_", position);
+  ASSERT_NE(std::string::npos, position);
+  config.replace(position, std::string("time_step step_one").size(), "time_step step_xxx");
+
+  AddConfigurationLine(config, __FILE__, 175);
+  LoadConfiguration();
+  try {
+    model_->Start(RunMode::kBasic);
+    FAIL() << "expected an error";
+  } catch (const std::string& message) {
+    EXPECT_NE(std::string::npos, message.find("time step label (step_xxx) was not found")) << message;
+  }
+}
+
 TEST_F(InternalEmptyModel, Asserts_Addressable_Throws_Exception) {
   AddConfigurationLine(simple_model_fail, __FILE__, 175);
   LoadConfiguration();

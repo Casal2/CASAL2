@@ -15,7 +15,9 @@
 
 #include <string>
 
+#include "Model/Managers.h"
 #include "Partition/Partition.h"
+#include "Processes/Manager.h"
 #include "TestResources/TestFixtures/InternalEmptyLengthModel.h"
 
 namespace niwa::processes::common {
@@ -131,6 +133,38 @@ TEST_F(InternalEmptyLengthModel, Processes_Tagging_Length) {
   EXPECT_NEAR(0, tagged.data_[2], 1e-5);
   EXPECT_NEAR(0, tagged.data_[3], 1e-5);
   EXPECT_NEAR(1.0, tagged.data_[4], 1e-5);
+}
+
+/*
+ * min_age and max_age are optional and only the Age profile gives them a value. The process report
+ * prints them, so on a Length model they must not hold whatever the parameter's default happened to be
+ */
+TEST_F(InternalEmptyLengthModel, Processes_Tagging_Length_UnsetAgesAreZero) {
+  const string tagging_process = R"(
+    @process tagging
+    type tagging
+    years 2000
+    from male
+    to tagged
+    initial_mortality 0
+    u_max 0.99
+    selectivities one
+    penalty none
+    n 1
+    table proportions
+    year 1    2	   3    4    5 	
+    2000 0	  0	   0    0    1 
+    end_table
+  )";
+
+  AddConfigurationLine(length_mortality_tagging_basic, __FILE__, 29);
+  AddConfigurationLine(tagging_process, __FILE__, 92);
+  LoadConfiguration();
+  model_->Start(RunMode::kBasic);
+
+  auto& parameters = model_->managers()->process()->GetProcess("tagging")->parameters();
+  EXPECT_EQ(vector<string>{"0"}, parameters.Get(PARAM_MIN_AGE)->current_values());
+  EXPECT_EQ(vector<string>{"0"}, parameters.Get(PARAM_MAX_AGE)->current_values());
 }
 
 /*

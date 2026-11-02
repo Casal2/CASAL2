@@ -42,11 +42,10 @@ protected:
   void CheckRepeatedFishery(const MethodRow& row, const FisheryData& stored, const FisheryData& repeat, unsigned first_row) override final;
 
 private:
-  bool                   is_catch_biomass_ = true;
-  vector<vector<Double>> total_catch_by_year_timestep_;
-  unsigned               F_iterations_;
-  Double                 max_F_;
-  vector<Double>         annual_duration_by_timestep_;
+  bool           is_catch_biomass_ = true;
+  unsigned       F_iterations_;
+  Double         max_F_;
+  vector<Double> annual_duration_by_timestep_;
 };
 
 } /* namespace age */

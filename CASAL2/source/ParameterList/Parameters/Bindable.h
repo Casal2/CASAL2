@@ -68,7 +68,7 @@ private:
 
   // members
   T*        target_ = nullptr;
-  T         default_value_;
+  T         default_value_{};  // Bind() assigns this to optional parameters that have no value
   vector<T> allowed_values_;
   Range     range_;
 };

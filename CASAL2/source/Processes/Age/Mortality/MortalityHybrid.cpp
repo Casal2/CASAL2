@@ -96,8 +96,8 @@ void MortalityHybrid::ParseFisheryColumns(const MethodRow& row, FisheryData& fis
   }
   if (fishery.annual_duration_ != 1) {
     LOG_WARNING()
-        << "The " << PARAM_ANNUAL_DURATION << " for fishery " << fishery.label_
-        << " was equal to one. This an uncommon assumption this warning is to check that you understand this assumptions. Disregard this warning if you are comfortable with making this assumption.";
+        << "The " << PARAM_ANNUAL_DURATION << " for fishery " << fishery.label_ << " was " << fishery.annual_duration_
+        << ", not one. This is an uncommon assumption and this warning is to check that you understand it. Disregard this warning if you are comfortable with making this assumption.";
   }
 }
 
@@ -139,23 +139,6 @@ void MortalityHybrid::DoBuild() {
   AllocateRemovals(model()->age_spread());
 
   const vector<TimeStep*> ordered_time_steps = model()->managers()->time_step()->ordered_time_steps();
-  total_catch_by_year_timestep_.resize(process_years_.size());
-  for (unsigned year_ndx = 0; year_ndx < process_years_.size(); ++year_ndx) total_catch_by_year_timestep_[year_ndx].resize(ordered_time_steps.size(), 0.0);
-
-  // populate total_catch_by_year_timestep_
-
-  unsigned year_iter = 0;
-  for (auto year : process_years_) {
-    for (unsigned time_step_iter = 0; time_step_iter < ordered_time_steps.size(); ++time_step_iter) {
-      for (auto& fishery_iter : fisheries_) {
-        auto& fishery = fishery_iter.second;
-        if (fishery.time_step_index_ != time_step_iter)
-          continue;
-        total_catch_by_year_timestep_[year_iter][time_step_iter] += fishery.catches_[year];
-      }
-    }
-    ++year_iter;
-  }
   // check fisheries in the same time-step have the same annual duration
   Double current_annual_value = 0.0;
   string last_fishery         = "";
@@ -193,7 +176,7 @@ void MortalityHybrid::DoExecute() {
   double               ratio           = time_step_ratios_[time_step_index];
   std::pair<bool, int> this_year_iter  = findInVector(process_years_, year);
   LOG_FINE() << "state = " << model()->state();
-  LOG_FINE() << "Year = " << year << " time-step = " << time_step_index << " found? = " << this_year_iter.first << " should = " << process_years_[this_year_iter.second];
+  LOG_FINE() << "Year = " << year << " time-step = " << time_step_index << " found? = " << this_year_iter.first;
   LOG_FINE() << "season duration = " << annual_duration_by_timestep_[time_step_index];
   Double selectivity_value = 0.0;
   // This is to do with M. so pre-allocate and only call the exp call once per category
@@ -274,9 +257,17 @@ void MortalityHybrid::DoExecute() {
           LOG_FINEST() << "Vulnerable biomass from category " << category->name_ << " contributing to fishery " << fishery_category.fishery_label_ << " = " << vulnerable;
         }
         LOG_FINE() << " total vulnerable = " << total_vulnerable;
+        // Total from the catches rather than cached at build, as @project and @time_varying change them
+        Double total_catch = 0.0;
+        for (auto& fishery_iter : fisheries_) {
+          if (fishery_iter.second.time_step_index_ == time_step_index)
+            total_catch += fishery_iter.second.catches_[year];
+        }
         // Start by doing a Pope's approximation
         for (auto& fishery_iter : fisheries_) {
-          auto& fishery            = fishery_iter.second;
+          auto& fishery = fishery_iter.second;
+          if (fishery.time_step_index_ != time_step_index)
+            continue;
           fishery.init_popes_rate_ = fishery.catches_[year] / (fishery.vulnerability_ + 0.1 * fishery.catches_[year]);  //  Pope's rate  robust A.1.22 of SS appendix
           fishery.steep_jointer_
               = 1.0 / (1.0 + exp(30.0 * (fishery.init_popes_rate_ - 0.95)));  // steep logistic joiner at harvest rate of 0.95 //steep logistic joiner at harvest rate of 0.95
@@ -339,9 +330,9 @@ void MortalityHybrid::DoExecute() {
               }
             }
           }
-          LOG_FINEST() << "interim tot catch = " << interim_tot_catch << " observed total catch = " << total_catch_by_year_timestep_[this_year_iter.second][time_step_index];
+          LOG_FINEST() << "interim tot catch = " << interim_tot_catch << " observed total catch = " << total_catch;
           // make Z adjustments
-          Double z_adjustment = total_catch_by_year_timestep_[this_year_iter.second][time_step_index] / (interim_tot_catch + 0.0001);
+          Double z_adjustment = total_catch / (interim_tot_catch + 0.0001);
           LOG_FINEST() << "Z adjustment = " << z_adjustment;
           // Update rates Z's with adjustment
           for (auto& category : categories_) {
@@ -382,7 +373,9 @@ void MortalityHybrid::DoExecute() {
           }
           // Update Pope's approximation
           for (auto& fishery_iter : fisheries_) {
-            auto& fishery          = fishery_iter.second;
+            auto& fishery = fishery_iter.second;
+            if (fishery.time_step_index_ != time_step_index)
+              continue;
             fishery.popes_rate_    = fishery.catches_[year] / (fishery.vulnerability_ + 0.0001);       //  Pope's rate  robust A.1.27 of SS appendix
             fishery.steep_jointer_ = 1.0 / (1.0 + exp(30.0 * (fishery.popes_rate_ - 0.95 * max_F_)));  // steep logistic joiner at harvest rate of 0.95 including F max
             fishery.init_F_        = fishery.steep_jointer_ * fishery.popes_rate_ + (1.0 - fishery.steep_jointer_) * max_F_;
@@ -412,7 +405,12 @@ void MortalityHybrid::DoExecute() {
           for (unsigned i = 0; i < category.category_->age_spread(); ++i)
             category.survivor_with_z_by_age_[i] = (1.0 - exp(-annual_duration_by_timestep_[time_step_index] * category.z_values_by_age_[i])) / category.z_values_by_age_[i];
         }
-        // Calculate Numbers at age and actual catch
+        // Calculate Numbers at age and actual catch. actual_catches_ is summed over categories below, so
+        // it starts from zero here: DoReset() isn't an option as time varying calls it during a run
+        for (auto& fishery_iter : fisheries_) {
+          if (fishery_iter.second.time_step_index_ == time_step_index)
+            fishery_iter.second.actual_catches_[year] = 0.0;
+        }
         for (auto& fishery_category : fishery_categories_) {
           partition::Category* category = fishery_category.category_.category_;
           // Don't enter if this fishery is not executed in this time-step.
@@ -440,17 +438,22 @@ void MortalityHybrid::DoExecute() {
           // Catch at age
           LOG_FINEST() << "Catch at age for year ndx = " << this_year_iter.second << " fishery ndx = " << fishery_category.fishery_.fishery_ndx_ << " category ndx "
                        << fishery_category.category_.category_ndx_;
-          for (unsigned i = 0; i < model()->age_spread(); ++i) {
-            unsigned age_offset = category->min_age_ - model()->min_age();
-            if (i < age_offset)
-              continue;
-            removals_by_year_fishery_category_[this_year_iter.second][fishery_category.fishery_.fishery_ndx_][fishery_category.category_.category_ndx_][i]
-                = fishery_category.fishery_.final_F_ * category->data_[i - age_offset] * fishery_category.selectivity_values_[i]
-                  * fishery_category.category_.survivor_with_z_by_age_[i];
+          // Years after final_year have no slot in removals_by_year_fishery_category_
+          if (this_year_iter.first) {
+            for (unsigned i = 0; i < model()->age_spread(); ++i) {
+              unsigned age_offset = category->min_age_ - model()->min_age();
+              if (i < age_offset)
+                continue;
+              removals_by_year_fishery_category_[this_year_iter.second][fishery_category.fishery_.fishery_ndx_][fishery_category.category_.category_ndx_][i]
+                  = fishery_category.fishery_.final_F_ * category->data_[i - age_offset] * fishery_category.selectivity_values_[i]
+                    * fishery_category.category_.survivor_with_z_by_age_[i];
+            }
           }
         }
         // Update Final F by year for each fishery for reporting
         for (auto& fishery_iter : fisheries_) {
+          if (fishery_iter.second.time_step_index_ != time_step_index)
+            continue;
           fishery_iter.second.F_by_year_[year] = fishery_iter.second.final_F_;
           LOG_FINE() << "save final F = " << fishery_iter.second.final_F_ << " fishery = " << fishery_iter.second.label_
                      << " reported value = " << fishery_iter.second.F_by_year_[year];
