@@ -31,7 +31,7 @@ class Dummy : public Minimiser {
 public:
   Dummy(shared_ptr<Model> model);
   virtual ~Dummy() = default;
-  void DoValidate() override final{};
+  void DoValidate() override final;
   void DoBuild() override final{};
   void DoReset() override final{};
   void Execute() override final;

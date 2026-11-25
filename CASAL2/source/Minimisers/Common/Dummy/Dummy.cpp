@@ -14,6 +14,8 @@
 // headers
 #include "Dummy.h"
 
+#include "../../../Utilities/To.h"
+
 // namespaces
 namespace niwa {
 namespace minimisers {
@@ -34,6 +36,23 @@ Dummy::Dummy(shared_ptr<Model> model) : Minimiser(model) {
    * Estimation runs.
    */
   parameters_.set_ignore_all_parameters();
+}
+
+/**
+ * Validate
+ *
+ * All parameters are ignored except 'active'. Without it, an inactive minimiser of
+ * another library's type (e.g. an inactive gammadiff block in an adolc run) would
+ * count as active and the run would fail with two active minimisers.
+ */
+void Dummy::DoValidate() {
+  auto active_parameter = parameters_.Get(PARAM_ACTIVE);
+  if (active_parameter == nullptr || active_parameter->values().size() != 1)
+    return;
+
+  bool active = true;
+  if (utilities::To<bool>(active_parameter->values()[0], active))
+    active_ = active;
 }
 
 /**

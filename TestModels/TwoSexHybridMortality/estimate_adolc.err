@@ -4,6 +4,7 @@
 [INFO] The likelihood for the observation 'trawl_propn_at_age' is multinomial. Normalised residuals can only be calculated for the lognormal, lognormal_with_Q, and normal likelihoods
 [INFO] The likelihood for the observation 'longline_propn_at_length' is multinomial. Normalised residuals can only be calculated for the lognormal, lognormal_with_Q, and normal likelihoods
 [INFO] The likelihood for the observation 'longline_propn_at_age' is multinomial. Normalised residuals can only be calculated for the lognormal, lognormal_with_Q, and normal likelihoods
+[VERIFY] At line 54 in population.csl2 the parameter 'time_step_proportions' time step step2 has a proportion of 0.1 of M but no fishery in the method table. mortality_hybrid does not apply M in a time step without a fishery, so this M is not applied. Use --verifylevel warning to run anyway
 [INFO] Initiating point estimate run mode
 [INFO] Estimation_phase 1
 [INFO] Estimation with the adolc minimiser
@@ -95,4 +96,5 @@
 [WARNING] estimated parameter 'selectivity[chatTANSel_m].sigma_r' with value 200 was within 1e-4 of the upper bound of 200. Note estimation errors can occur when a parameter is close to a bound. Changing the bound or using a parameter transformation may help to rectify this problem
 [INFO] Assert Passed: The Assert with label 'ObjectiveFunction' for the Objective Function had value 1782.95 and 1782.95 was expected.
 [INFO] Completed
-[INFO] Total elapsed time: 12 seconds
+[INFO] Total CPU time: 0.002 hours
+[INFO] Total elapsed time: 5 seconds

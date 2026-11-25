@@ -59,7 +59,7 @@ Minimiser* Factory::Create(shared_ptr<Model> model, const string& object_type, c
       result = new ADOLC(model);
     }
 #endif
-    else if (sub_type == PARAM_DE_SOLVER || sub_type == PARAM_GAMMADIFF || sub_type == PARAM_NUMERICAL_DIFFERENCES)
+    else if (sub_type == PARAM_DE_SOLVER || sub_type == PARAM_DELTADIFF || sub_type == PARAM_GAMMADIFF || sub_type == PARAM_NUMERICAL_DIFFERENCES)
       result = new Dummy(model);
     else if (sub_type == PARAM_BETADIFF || sub_type == PARAM_ADOLC)
       result = new Dummy(model);

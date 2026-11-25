@@ -12,6 +12,8 @@
 // headers
 #include "MPD.h"
 
+#include <limits>
+
 #include "../../Estimates/Manager.h"
 #include "../../Minimisers/Manager.h"
 #include "../../Model/Managers.h"
@@ -37,6 +39,9 @@ MPD::MPD() {
 void MPD::DoExecute(shared_ptr<Model> model) {
   cache_ << ReportHeader(type_, label_, format_);
 
+  // Full round-trip precision so -M starts from exactly the MPD written by -E
+  std::streamsize old_precision = cache_.precision(std::numeric_limits<double>::max_digits10);
+
   /**
    * Print our Estimate Values
    */
@@ -57,7 +62,7 @@ void MPD::DoExecute(shared_ptr<Model> model) {
     for (unsigned j = 0; j < covariance_matrix.size2(); ++j) cache_ << covariance_matrix(i, j) << " ";
     cache_ << REPORT_EOL;
   }
-
+  cache_.precision(old_precision);
 
   ready_for_writing_ = true;
 }

@@ -164,7 +164,7 @@ void BiomassIndex::Execute() {
   }
 
   if (catchability_) {
-    catchability_value_ = AS_DOUBLE(catchability_->q());
+    catchability_value_ = catchability_->q();
   } else {
     catchability_value_ = 1.0;
   }

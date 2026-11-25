@@ -239,13 +239,8 @@ double Engine::optimise_finite_differences(deltadiff::CallBack& objective, vecto
       double* dGradBoundP = new double[iVectorSize];
       for (int i = 0; i < iVectorSize; ++i) dGradBoundP[i] = 0.0;
 
-      for (int i = 0; i < iVectorSize; ++i) {
-        double dDiv    = ((vStartValues[i] - vLowerBounds[i]) / (vUpperBounds[i] - vLowerBounds[i]));
-        double dProd   = (2 * dDiv - 1) * (2 * dDiv - 1);
-        double dSqrt   = sqrt(math::ZeroFun(1 - dProd));
-        double dProd2  = (vUpperBounds[i] - vLowerBounds[i]) * dSqrt;
-        dGradBoundP[i] = (4 / 3.14159265) / dProd2;
-      }
+      // DeltaDiff minimises in tan space (see scaleValue), so back-transform with the tan derivative dy/dx
+      for (int i = 0; i < iVectorSize; ++i) dGradBoundP[i] = math::scale_tan_derivative(vStartValues[i], vLowerBounds[i], vUpperBounds[i]);
 
       for (int i = 0; i < iVectorSize; ++i) {
         if (dGradBoundP[i] != dGradBoundP[i])  // NaN

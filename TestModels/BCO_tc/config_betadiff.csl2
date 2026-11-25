@@ -5,6 +5,8 @@
 
 @assert ObjectiveFunction
 type objective_function
-value 241.012163
+## 241.012163 before NUTS Phase 1: an estimated cv_last alone was ignored by AgeLength::Build.
+## With it estimated, betadiff and gammadiff both reach 239.36461 (cv_last = 0.0614).
+value 239.36461
 error_type error
 
