@@ -42,7 +42,7 @@ protected:
   bool               use_age_weights_ = false;
   string             distribution_;
   string             catchability_label_;
-  double             catchability_value_    = 1.0;
+  Double             catchability_value_    = 1.0;
   Catchability*      catchability_          = nullptr;
   Nuisance*          nuisance_catchability_ = nullptr;
   bool               nuisance_q_            = false;

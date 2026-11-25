@@ -1,10 +1,12 @@
-Casal2 (https://github.com/alistairdunn1/CASAL2.git:master)
-Call: C:\Projects\Software\CASAL2-AD\BuildSystem/Casal2/casal2.exe -e -g 20 -c config_betadiff.csl2 
-Date: Fri Jun  5 09:21:06 2026
+Environment: User=Casal2 (git@github.com:casal2/casal2:feature/nuts-mcmc)
+Call: /home/zaita/Workspaces/casal2/casal2/BuildSystem/Casal2/casal2 -e -g 20 -c config_betadiff.csl2 
+Date: Wed Nov 25 21:09:48 2026
 Seed: 20
-Version: v26.06 (2026-06-02)
+Version: v26.11 (2026-11-02)
 Copyright (c) 2017-2026, NIWA (www.niwa.co.nz)
-Environment: User=alist Machine=QUIET-5950X OS=Windows_NT PID=7296
+zaita
+ Machine=anubis (Linux 7.3.3-1-cachyos x86_64)
+ PID=116459
 
 
 *selectivity_by_year[multisel_by_year]
@@ -307,6 +309,7 @@ Values {vector}
 28 0.999999
 29 1
 30 1
+
 *selectivity_by_year[multisel_by_year]
 selectivity: multi_eastFSel
 year: 1982

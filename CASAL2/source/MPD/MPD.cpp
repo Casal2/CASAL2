@@ -19,6 +19,7 @@
 #include <fstream>
 #include <functional>
 #include <iostream>
+#include <limits>
 #include <ostream>
 #include <vector>
 
@@ -200,6 +201,9 @@ void MPD::CreateMPD(shared_ptr<Model> master_model) {
     LOG_CODE_ERROR() << "No active minimiser found";
 
   ostringstream cache;
+  // Full round-trip precision: this text is the only way the MPD crosses from the
+  // minimiser's library to the MCMC library, so rounding here moves the chain start.
+  cache.precision(std::numeric_limits<double>::max_digits10);
   cache << "*mpd\n";
 
   /**

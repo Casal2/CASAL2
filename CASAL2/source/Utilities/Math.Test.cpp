@@ -16,7 +16,10 @@
 #include <gmock/gmock.h>
 #include <gtest/gtest.h>
 
+#include <boost/math/distributions/normal.hpp>
+#include <cmath>
 #include <iostream>
+#include <utility>
 
 // namespaces
 namespace niwa::utilities::math {
@@ -174,6 +177,55 @@ TEST(Math, chol_fail) {
 
 }
 */
+
+/**
+ * scale_tan_derivative must be dy/dx of math::scale (the tan transform)
+ */
+TEST(Math, ScaleTanDerivative_MatchesFiniteDifference) {
+  vector<std::pair<double, double>> bounds = {{0.0, 1.0}, {-5.0, 20.0}, {1000.0, 250000.0}, {0.01, 0.5}};
+  vector<double>                    fractions = {0.01, 0.2, 0.5, 0.73, 0.99};
+  for (auto [lower, upper] : bounds) {
+    for (double f : fractions) {
+      double x  = lower + f * (upper - lower);
+      double h  = 1e-6 * (upper - lower);
+      double fd = (AS_DOUBLE(scale(x + h, lower, upper)) - AS_DOUBLE(scale(x - h, lower, upper))) / (2.0 * h);
+      EXPECT_NEAR(fd, scale_tan_derivative(x, lower, upper), 1e-6 * std::fabs(fd)) << "x=" << x << " bounds=[" << lower << "," << upper << "]";
+    }
+  }
+  EXPECT_DOUBLE_EQ(0.0, scale_tan_derivative(3.0, 3.0, 3.0));
+}
+
+/**
+ * cody_erfc must agree with std::erfc to near machine precision over all three branches
+ */
+TEST(Math, CodyErfc_MatchesStdErfc) {
+  for (double x = -10.0; x <= 27.0; x += 0.0137) {
+    double expected = std::erfc(x);
+    double actual   = AS_DOUBLE(cody_erfc(x));
+    if (expected < 1e-300) {
+      EXPECT_NEAR(expected, actual, 1e-300) << "x=" << x;
+    } else {
+      EXPECT_NEAR(expected, actual, 1e-14 * expected) << "x=" << x;
+    }
+  }
+  // Branch boundaries
+  for (double x : {-4.0, -0.46875, 0.0, 0.46875, 4.0, 26.543}) EXPECT_NEAR(std::erfc(x), AS_DOUBLE(cody_erfc(x)), 1e-14 * std::erfc(x) + 1e-300) << "x=" << x;
+}
+
+/**
+ * normal_cdf must agree with the boost normal CDF it replaced in the normal ageing error
+ */
+TEST(Math, NormalCdf_MatchesBoost) {
+  vector<std::pair<double, double>> parameters = {{0.0, 1.0}, {5.0, 0.5}, {20.0, 2.4}, {3.0, 0.0003}};
+  for (auto [mu, sigma] : parameters) {
+    boost::math::normal dist(mu, sigma);
+    for (double z = -12.0; z <= 12.0; z += 0.25) {
+      double x        = mu + z * sigma;
+      double expected = boost::math::cdf(dist, x);
+      EXPECT_NEAR(expected, AS_DOUBLE(normal_cdf(x, mu, sigma)), 1e-14 * expected + 1e-300) << "x=" << x << " mu=" << mu << " sigma=" << sigma;
+    }
+  }
+}
 
 }  // namespace niwa::utilities::math
 #endif

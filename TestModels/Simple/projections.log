@@ -1,10 +1,12 @@
-Casal2 (https://github.com/alistairdunn1/CASAL2.git:master)
-Call: C:\Projects\Software\CASAL2-AD\BuildSystem/Casal2/casal2.exe -f 100 -i free.dat -g 20 -c config_projections.csl2 -t 
-Date: Fri Jun  5 09:12:40 2026
+Environment: User=Casal2 (git@github.com:casal2/casal2:feature/nuts-mcmc)
+Call: /home/zaita/Workspaces/casal2/casal2/BuildSystem/Casal2/casal2 -f 100 -i free.dat -g 20 -c config_projections.csl2 -t 
+Date: Wed Nov 25 21:06:26 2026
 Seed: 20
-Version: v26.06 (2026-06-02)
+Version: v26.11 (2026-11-02)
 Copyright (c) 2017-2026, NIWA (www.niwa.co.nz)
-Environment: User=alist Machine=QUIET-5950X OS=Windows_NT PID=10508
+zaita
+ Machine=anubis (Linux 7.3.3-1-cachyos x86_64)
+ PID=115947
 
 
 *project[test_project]

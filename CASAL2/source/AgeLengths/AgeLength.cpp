@@ -116,8 +116,10 @@ void AgeLength::Build() {
   LOG_FINE() << "@estimate cv_first = " << IsAddressableUsedFor(PARAM_CV_FIRST, addressable::kEstimate);
 
   // CV by length are we estimating mean growth params
-  if ((!IsAddressableUsedFor(PARAM_CV_FIRST, addressable::kEstimate) || !IsAddressableUsedFor(PARAM_CV_LAST, addressable::kEstimate))
-      & (!IsAddressableUsedFor(PARAM_CV_FIRST, addressable::kInputRun) || !IsAddressableUsedFor(PARAM_CV_LAST, addressable::kInputRun))) {
+  // The CVs only stay fixed if neither cv_first nor cv_last is estimated or changed by an input file.
+  // Previously this used || so estimating only cv_first (or only cv_last) left the CV table unchanged.
+  if (!IsAddressableUsedFor(PARAM_CV_FIRST, addressable::kEstimate) && !IsAddressableUsedFor(PARAM_CV_LAST, addressable::kEstimate)
+      && !IsAddressableUsedFor(PARAM_CV_FIRST, addressable::kInputRun) && !IsAddressableUsedFor(PARAM_CV_LAST, addressable::kInputRun)) {
     change_cvs_ = false;
   }
 

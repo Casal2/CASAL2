@@ -12,7 +12,7 @@
 // headers
 #include "Normal.h"
 
-#include <boost/math/distributions/normal.hpp>
+#include "../../Utilities/Math.h"
 
 // mamespaces
 namespace niwa {
@@ -31,8 +31,8 @@ Double NormalCDF(Double x, Double mu, Double sigma) {
   if (sigma <= 0.0)
     return (x < mu) ? 0.0 : 1.0;
 
-  boost::math::normal s(AS_DOUBLE(mu), AS_DOUBLE(sigma));
-  return cdf(s, AS_DOUBLE(x));
+  // AD-safe normal CDF (boost needs plain doubles, which broke the chain for an estimated cv)
+  return utilities::math::normal_cdf(x, mu, sigma);
 }
 
 /**

@@ -1,0 +1,25 @@
+## ADGradients: estimates parameters whose derivatives used to be dropped in autodiff builds
+## (normal ageing error cv, lognormal growth cv_first feeding a length-based selectivity).
+## adolc, betadiff and gammadiff must reach the same MPD. See design-docs/nuts-phase1-fixes.md
+!include "population.csl2"
+!include "Observation.csl2"
+!include "estimation.csl2"
+!include "report.csl2"
+
+## Reference MPD (all three minimisers agree): ageing_error cv 0.191214, growth cv_first 0.08638, objective 679.644.
+## Before the Phase 1 fixes adolc/betadiff stopped at the start values for both cvs (objective ~682.9),
+## so the tolerance is tight enough to fail on either chain break.
+@assert ObjectiveFunction
+type objective_function
+value 679.644
+tolerance 1e-3
+error_type error
+
+@minimiser betadiff
+type betadiff
+tolerance 1e-6
+iterations 2000
+active true
+
+
+

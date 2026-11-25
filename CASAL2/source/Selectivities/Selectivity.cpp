@@ -13,7 +13,6 @@
 // Headers
 #include "Selectivity.h"
 
-#include <boost/math/distributions/lognormal.hpp>
 #include <boost/math/distributions/normal.hpp>
 #include <cmath>
 
@@ -202,9 +201,11 @@ Double Selectivity::GetLengthBasedResult(unsigned age, AgeLength* age_length) {
     Double size  = 0.0;
     Double total = 0.0;
     LOG_FINEST() << "mu = " << mu << " sigma = " << sigma;
-    boost::math::lognormal dist{AS_DOUBLE(mu), AS_DOUBLE(sigma)};
+    // Lognormal quantile written as exp(mu + sigma * z_j), where z_j are the standard normal
+    // quantiles in quantiles_at_. This keeps the derivative with respect to the mean length and cv
+    // (a boost lognormal quantile needs plain doubles, which broke the chain in autodiff builds).
     for (unsigned j = 0; j < n_quant_; ++j) {
-      size = quantile(dist, AS_DOUBLE(quantiles_[j]));
+      size = exp(mu + sigma * quantiles_at_[j]);
       total += this->get_value(size);
       LOG_FINEST() << "size = " << size << " value = " << this->get_value(size) << " total = " << total;
     }

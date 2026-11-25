@@ -430,6 +430,11 @@ void Loader::ParseBlock(shared_ptr<Model> model, vector<FileLine>& block) {
         string line = boost::algorithm::join(values, " ");
         LOG_FINEST() << "Storing values: [" << parameter_type << "]: " << line;
       } else {
+        // Objects that ignore all parameters (e.g. Dummy minimisers) are never validated or
+        // populated, but they still keep the raw values of parameters they bound, so they can
+        // read a few of them themselves (a Dummy minimiser reads 'active').
+        if (object->parameters().Get(parameter_type) != nullptr)
+          object->parameters().Add(parameter_type, values, file_line.file_name_, file_line.line_number_);
         string line = boost::algorithm::join(values, " ");
         LOG_FINEST() << "Ignoring values: [" << parameter_type << "]: " << line;
       }

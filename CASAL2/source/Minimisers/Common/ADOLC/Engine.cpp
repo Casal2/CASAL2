@@ -257,11 +257,16 @@ Double Engine::optimise(adolc::CallBack& objective, vector<Double>& start_values
       for (unsigned i = 0; i < parameter_count; ++i) dGradBoundP[i] = 0.0;
 
       for (unsigned i = 0; i < parameter_count; ++i) {
-        double dDiv    = ((candidates[i].value() - lower_bounds[i]) / (upper_bounds[i] - lower_bounds[i]));
-        double dProd   = (2 * dDiv - 1) * (2 * dDiv - 1);
-        double dSqrt   = sqrt(math::ZeroFun(1 - dProd));
-        double dProd2  = (upper_bounds[i] - lower_bounds[i]) * dSqrt;
-        dGradBoundP[i] = ((4 / 3.14159265) / dProd2);
+        // dGradBoundP is dy/dx of the transform used during minimisation
+        if (use_tan_transform) {
+          dGradBoundP[i] = math::scale_tan_derivative(candidates[i].value(), lower_bounds[i], upper_bounds[i]);
+        } else {
+          double dDiv    = ((candidates[i].value() - lower_bounds[i]) / (upper_bounds[i] - lower_bounds[i]));
+          double dProd   = (2 * dDiv - 1) * (2 * dDiv - 1);
+          double dSqrt   = sqrt(math::ZeroFun(1 - dProd));
+          double dProd2  = (upper_bounds[i] - lower_bounds[i]) * dSqrt;
+          dGradBoundP[i] = ((4 / 3.14159265) / dProd2);
+        }
       }
 
       for (unsigned i = 0; i < parameter_count; ++i) {
