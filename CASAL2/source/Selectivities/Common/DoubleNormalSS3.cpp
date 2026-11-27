@@ -60,8 +60,8 @@ void DoubleNormalSS3::DoValidate() {
   parameters_.Validate(PARAM_PEAK)->GreaterThan(0.0);
   parameters_.Validate(PARAM_Y0)->GreaterThanOrEqualTo(-20.0)->LessThanOrEqualTo(0.0);
   parameters_.Validate(PARAM_Y1)->GreaterThanOrEqualTo(-20.0)->LessThanOrEqualTo(10.0);
-  parameters_.Validate(PARAM_ASCENDING)->GreaterThan(0.0);
-  parameters_.Validate(PARAM_DESCENDING)->GreaterThan(0.0);
+  parameters_.Validate(PARAM_ASCENDING);
+  parameters_.Validate(PARAM_DESCENDING);
   parameters_.Validate(PARAM_L)->GreaterThan(0.0);
   parameters_.Validate(PARAM_H)->GreaterThan(1.0);
   parameters_.Validate(PARAM_ALPHA)->GreaterThan(0.0);
